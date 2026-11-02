@@ -1,4 +1,4 @@
-# VASWEB – prechod na vlastnú doménu
+# WEBU – prechod na vlastnú doménu
 
 Aktuálna adresa GitHub Pages: https://martinamundova36-ux.github.io/Vasweb/
 
