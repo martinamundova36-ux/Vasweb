@@ -1,0 +1,44 @@
+name: "📝 Nový článok WEBU"
+description: "Pridaj článok do WEBU Journal bez programovania. Publikovať môže len vlastník repozitára."
+title: "[BLOG] "
+labels: ["blog-navrh"]
+body:
+  - type: markdown
+    attributes:
+      value: "Vyplň všetky povinné polia. Po odoslaní sa článok automaticky publikuje, ak formulár odošle vlastník repozitára a GitHub Actions sú zapnuté. Najprv sa publikuje slovenská verzia."
+  - type: input
+    id: nazov
+    attributes:
+      label: Názov článku
+      placeholder: "Ako si vybrať webstránku pre malú firmu"
+    validations:
+      required: true
+  - type: textarea
+    id: popis
+    attributes:
+      label: Krátky popis pre Google a blog
+      description: "Jedna až dve vety, ideálne do 160 znakov."
+    validations:
+      required: true
+  - type: input
+    id: kategoria
+    attributes:
+      label: Kategória
+      placeholder: "WEB & PODNIKANIE"
+    validations:
+      required: true
+  - type: input
+    id: obrazok
+    attributes:
+      label: URL obrázka (https://)
+      description: "Použi verejne dostupný obrázok, na ktorý máš práva. Ak nevyplníš, použije sa existujúci obrázok WEBU."
+    validations:
+      required: false
+  - type: textarea
+    id: obsah
+    attributes:
+      label: Text článku
+      description: "Píš obyčajný text. Odseky oddeľ prázdnym riadkom; podnadpisy začni ##."
+      placeholder: "Úvodný odsek...\n\n## Prvý podnadpis\n\nText..."
+    validations:
+      required: true
