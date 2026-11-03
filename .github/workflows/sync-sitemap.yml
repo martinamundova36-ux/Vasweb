@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - '*.html'
+      - '.github/scripts/audit_webu.py'
       - '.github/scripts/sync_sitemap.py'
       - '.github/workflows/sync-sitemap.yml'
   workflow_dispatch:
@@ -20,13 +21,15 @@ jobs:
         with:
           ref: main
           persist-credentials: true
+      - name: Odstrániť neplatné karty blogu a skontrolovať SEO
+        run: python3 .github/scripts/audit_webu.py
       - name: Zostaviť sitemap z aktuálnych stránok
         run: python3 .github/scripts/sync_sitemap.py
       - name: Uložiť sitemap iba ak sa zmenila
         run: |
           git config user.name "WEBU Sitemap Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml
+          git add sitemap.xml blog.html blog-en.html
           if ! git diff --cached --quiet; then
             git commit -m "Automatically synchronize WEBU sitemap"
             git pull --rebase origin main
