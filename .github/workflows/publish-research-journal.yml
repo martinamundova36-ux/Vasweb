@@ -1,8 +1,6 @@
 name: WEBU Journal - publikovanie SK a EN
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 6,7 * * *'
 permissions:
   contents: write
 concurrency:
@@ -10,6 +8,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   publish:
+    if: ${{ vars.WEBU_JOURNAL_PAID_PUBLISHING == 'enabled' }}
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
