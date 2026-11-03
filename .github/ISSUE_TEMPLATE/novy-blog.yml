@@ -1,7 +1,6 @@
 name: "📝 Nový článok WEBU"
 description: "Pridaj článok do WEBU Journal bez programovania. Publikovať môže len vlastník repozitára."
 title: "[BLOG] "
-labels: ["blog-navrh"]
 body:
   - type: markdown
     attributes:
