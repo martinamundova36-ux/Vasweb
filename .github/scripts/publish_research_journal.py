@@ -65,10 +65,10 @@ def model(article):
       "Return JSON object only with keys eligible (boolean), reason (string), sk and en (objects). "
       "Each language object must have title, description (max 160 chars), and sections array of objects heading and paragraphs "
       "(paragraphs array of strings). Minimum 5 sections. No fake citations. No markdown.")
-    response=fetch("https://api.openai.com/v1/responses",{
-      "model":"gpt-4.1-mini","instructions":instructions,
-      "input":json.dumps(article,ensure_ascii=False),"max_output_tokens":6500
-    },{"Authorization":"Bearer "+API,"Content-Type":"application/json"})
+    response=fetch("https://api.openai.com/v1/responses",
+      headers={"Authorization":"Bearer "+API,"Content-Type":"application/json"},
+      body={"model":"gpt-4.1-mini","instructions":instructions,
+            "input":json.dumps(article,ensure_ascii=False),"max_output_tokens":6500})
     raw="".join(p.get("text","") for item in response.get("output",[]) for p in item.get("content",[]) if p.get("type")=="output_text")
     return json.loads(raw.strip().removeprefix("```json").removesuffix("```").strip())
 
