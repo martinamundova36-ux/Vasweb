@@ -133,14 +133,20 @@ def publish(source,pair):
 
 def main():
     if not API:raise SystemExit("OPENAI_API_KEY missing; publishing disabled")
-    log={"date":str(TODAY),"found":0,"published":0,"rejected":[]}
-    items=research()
+    log={"date":str(TODAY),"found":0,"published":0,"published_dois":[],"rejected":[]}
+    previous=set()
+    for old in (ROOT/"journal-reports").glob("*.json") if (ROOT/"journal-reports").exists() else []:
+        try:previous.update(json.loads(old.read_text(encoding="utf-8")).get("published_dois",[]))
+        except (ValueError,OSError):pass
+    items=[item for item in research() if item["doi"] not in previous]
     log["found"]=len(items)
     for source in items:
         if log["published"]>=5:break
         try:
             pair=model(source)
-            if publish(source,pair):log["published"]+=1
+            if publish(source,pair):
+                log["published"]+=1
+                log["published_dois"].append(source["doi"])
         except Exception as exc:log["rejected"].append({"doi":source["doi"],"reason":str(exc)[:200]})
         time.sleep(0.3)
     import subprocess
