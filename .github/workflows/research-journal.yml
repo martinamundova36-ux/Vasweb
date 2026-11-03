@@ -1,0 +1,21 @@
+name: WEBU Journal - denne overovanie zahranicnych vyskumov
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: webu-research-daily
+  cancel-in-progress: false
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Overit aktualne vedecke zdroje a pripravit redakcny report
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/research_journal.py
