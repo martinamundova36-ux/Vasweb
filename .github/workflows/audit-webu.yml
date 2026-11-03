@@ -1,0 +1,26 @@
+name: WEBU kvalita blogu a SEO
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.html'
+      - 'language.js'
+      - '.github/scripts/audit_webu.py'
+      - '.github/workflows/audit-webu.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '20 6 * * *'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Kontrola odkazov, jazykov a SEO
+        run: python3 .github/scripts/audit_webu.py
+      - name: Kontrola dostupnosti verejnej stránky
+        shell: bash
+        run: |
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 40 --silent --show-error https://www.webu.sk/ -o /dev/null
+          curl --fail --location --retry 2 --connect-timeout 15 --max-time 40 --silent --show-error https://www.webu.sk/sitemap.xml -o /dev/null
