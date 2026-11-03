@@ -1,0 +1,26 @@
+name: WEBU automatické návrhy biznis článkov
+on:
+  workflow_dispatch:
+    inputs:
+      draft_count:
+        description: 'Počet návrhov (1 až 10)'
+        required: true
+        default: '10'
+        type: choice
+        options: ['1','2','5','10']
+  schedule:
+    - cron: '0 8 * * 1'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pripraviť návrhy článkov na kontrolu
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          DRAFT_COUNT: ${{ inputs.draft_count || '2' }}
+        run: python3 .github/scripts/draft_business_articles.py
