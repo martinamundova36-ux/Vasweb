@@ -2,7 +2,7 @@ name: WEBU Journal - denne overovanie zahranicnych vyskumov
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 6,7 * * *'
 permissions:
   contents: read
   issues: write
@@ -15,7 +15,17 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+      - name: Spustit iba o 08:00 Europe/Bratislava
+        id: clock
+        shell: bash
+        run: |
+          if [ "$(TZ=Europe/Bratislava date +%H)" = "08" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Overit aktualne vedecke zdroje a pripravit redakcny report
+        if: github.event_name == 'workflow_dispatch' || steps.clock.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 .github/scripts/research_journal.py
