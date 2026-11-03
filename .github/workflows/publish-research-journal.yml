@@ -27,6 +27,17 @@ jobs:
         with:
           ref: main
           persist-credentials: true
+      - name: Skontrolovat konfiguraciu OpenAI
+        if: steps.clock.outputs.run == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        shell: bash
+        run: |
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo '::error title=Missing OPENAI_API_KEY::Add OPENAI_API_KEY under Settings > Secrets and variables > Actions. No articles were published.'
+            exit 1
+          fi
+          echo 'OpenAI API key is configured (value hidden).'
       - name: Vyskum, SK a EN clanky, kontrola a publikovanie
         if: steps.clock.outputs.run == 'true'
         env:
