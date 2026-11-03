@@ -7,6 +7,7 @@ on:
       - '.github/scripts/audit_webu.py'
       - '.github/scripts/sync_sitemap.py'
       - '.github/scripts/link_journal_articles.py'
+      - '.github/scripts/seo_journal.py'
       - '.github/workflows/sync-sitemap.yml'
   workflow_dispatch:
 permissions:
@@ -26,6 +27,8 @@ jobs:
         run: python3 .github/scripts/audit_webu.py
       - name: Prepojit vsetky SK a EN clanky s relevantnym obsahom
         run: python3 .github/scripts/link_journal_articles.py
+      - name: SEO metadáta, JSON-LD, canonical, hreflang a kontrola odkazov
+        run: python3 .github/scripts/seo_journal.py
       - name: Zostaviť sitemap z aktuálnych stránok
         run: python3 .github/scripts/sync_sitemap.py
       - name: Uložiť sitemap iba ak sa zmenila
