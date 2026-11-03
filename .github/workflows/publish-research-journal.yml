@@ -1,0 +1,45 @@
+name: WEBU Journal - publikovanie SK a EN
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6,7 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: webu-journal-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Overit cas 08:00 Bratislava
+        id: clock
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$(TZ=Europe/Bratislava date +%H)" = "08" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.clock.outputs.run == 'true'
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Vyskum, SK a EN clanky, kontrola a publikovanie
+        if: steps.clock.outputs.run == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python3 .github/scripts/publish_research_journal.py
+      - name: Ulozit clanky a denny report
+        if: steps.clock.outputs.run == 'true'
+        run: |
+          git config user.name "WEBU Journal Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blog.html blog-en.html blog-journal-*.html sitemap.xml journal-reports/
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish verified-source WEBU Journal SK and EN articles"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
