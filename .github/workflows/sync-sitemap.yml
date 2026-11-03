@@ -8,6 +8,7 @@ on:
       - '.github/scripts/sync_sitemap.py'
       - '.github/scripts/link_journal_articles.py'
       - '.github/scripts/seo_journal.py'
+      - '.github/scripts/sync_favicon.py'
       - '.github/workflows/sync-sitemap.yml'
   workflow_dispatch:
 permissions:
@@ -29,13 +30,15 @@ jobs:
         run: python3 .github/scripts/link_journal_articles.py
       - name: SEO metadáta, JSON-LD, canonical, hreflang a kontrola odkazov
         run: python3 .github/scripts/seo_journal.py
+      - name: Zjednotit favicon na vsetkych strankach
+        run: python3 .github/scripts/sync_favicon.py
       - name: Zostaviť sitemap z aktuálnych stránok
         run: python3 .github/scripts/sync_sitemap.py
       - name: Uložiť sitemap iba ak sa zmenila
         run: |
           git config user.name "WEBU Sitemap Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml blog.html blog-en.html blog-*.html
+          git add sitemap.xml *.html
           if ! git diff --cached --quiet; then
             git commit -m "Automatically synchronize WEBU sitemap"
             git pull --rebase origin main
