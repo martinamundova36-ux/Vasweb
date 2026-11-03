@@ -38,25 +38,42 @@ def main():
     seen=set()
     selected=[]
     errors=[]
+    # Look first at the past 30 days, then 90 days, then one year.
+    # OpenAlex metadata alone is not evidence of study findings.
     for category,query in TOPICS:
-        try:
-            params=urllib.parse.urlencode({"search":query,"filter":"from_publication_date:"+(TODAY-datetime.timedelta(days=90)).isoformat()+",to_publication_date:"+TODAY.isoformat(),"sort":"publication_date:desc","per-page":8})
-            payload=get_json("https://api.openalex.org/works?"+params)
-            for work in payload.get("results",[]):
-                wid=work.get("id")
-                title=(work.get("title") or "").strip()
-                doi=work.get("doi")
-                pubdate=work.get("publication_date")
-                if not wid or not title or not doi or not pubdate or wid in seen:
-                    continue
-                authors=", ".join((a.get("author") or {}).get("display_name","") for a in work.get("authorships",[])[:4])
-                if not authors: continue
-                seen.add(wid)
-                selected.append({"category":category,"title":title,"authors":authors,"date":pubdate,"doi":doi,"openalex":wid,"type":work.get("type","unknown"),"peer_reviewed":"not verified"})
+        found=False
+        for days in (30,90,365):
+            if found:
                 break
-        except Exception as exc:
-            errors.append(category+": "+str(exc)[:200])
-        time.sleep(0.25)
+            try:
+                params=urllib.parse.urlencode({
+                    "search":query,
+                    "filter":"from_publication_date:"+(TODAY-datetime.timedelta(days=days)).isoformat()+",to_publication_date:"+TODAY.isoformat(),
+                    "sort":"publication_date:desc","per-page":15
+                })
+                payload=get_json("https://api.openalex.org/works?"+params)
+                for work in payload.get("results",[]):
+                    wid=work.get("id")
+                    title=(work.get("title") or "").strip()
+                    doi=work.get("doi")
+                    pubdate=work.get("publication_date")
+                    if not wid or not title or not doi or not pubdate or wid in seen:
+                        continue
+                    authors=", ".join((a.get("author") or {}).get("display_name","") for a in work.get("authorships",[])[:4])
+                    if not authors:
+                        continue
+                    seen.add(wid)
+                    selected.append({
+                        "category":category,"title":title,"authors":authors,
+                        "date":pubdate,"doi":doi,"openalex":wid,
+                        "type":work.get("type","unknown"),"lookback_days":days,
+                        "peer_reviewed":"not verified"
+                    })
+                    found=True
+                    break
+            except Exception as exc:
+                errors.append(category+" ("+str(days)+" days): "+str(exc)[:200])
+            time.sleep(0.2)
     if not selected:
         raise SystemExit("No verifiable research metadata found; no article published. Errors: "+"; ".join(errors))
     title="[WEBU VYSKUM] "+TODAY.isoformat()
@@ -71,6 +88,7 @@ def main():
             "- Autori: "+item["authors"],"- Datum: "+item["date"],
             "- DOI: "+item["doi"],"- OpenAlex: "+item["openalex"],
             "- Typ zaznamu: "+item["type"],
+            "- Okno vyhladavania: "+str(item["lookback_days"])+" dni",
             "- Status: metadata najdene; obsah a zavery neoverene"])
     if errors: lines.extend(["","## Chyby pri hladani"]+["- "+e for e in errors])
     lines.extend(["","## Publikovanie","ZABLOKOVANE: bez overenia primarneho textu, metodologie, vysledkov, SK/EN obsahu, SEO a licencie obrazka."])
