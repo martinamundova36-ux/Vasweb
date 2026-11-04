@@ -1,0 +1,282 @@
+{
+  "doi": "10.3389/fpsyg.2026.1980927",
+  "title": "Corporate sustainability and artificial intelligence-enabled workforce transformation: a dual-pathway model of employee capability, empowerment, anxiety, and job insecurity",
+  "authors": [
+    "Weijian Wu"
+  ],
+  "publisher": "Frontiers Media SA",
+  "venue": "Frontiers in Psychology",
+  "source_date": "2026-11-04",
+  "type": "journal-article",
+  "url": "https://doi.org/10.3389/fpsyg.2026.1980927",
+  "abstract_available": true,
+  "abstract_words": 328,
+  "selection_keywords": [
+    "artificial intelligence",
+    "organizational",
+    "productivity",
+    "workplace"
+  ],
+  "verified_at": "2026-11-04",
+  "full_text_reviewed": true,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-04",
+  "editorial": {
+    "status": "ready_for_owner_approval",
+    "version": 3,
+    "reviewed_at": "2026-11-04",
+    "reviewed_by": "Codex editorial review",
+    "source_url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1980927/full",
+    "source_scope": "Full-text comparison: 2.1 JD-R/SCT; 3.1–3.4 design, criteria, recruitment and measures; Tables 1, 2, 7, 10; 6.4 limitations; publisher bibliography",
+    "checks": {
+      "bibliography": true,
+      "source": true,
+      "claims": true,
+      "relevance": true,
+      "bilingual": true
+    },
+    "languages": {
+      "sk": {
+        "title": "AI vo firme: merajte prínosy aj obavy ľudí",
+        "description": "Ako vyhodnotiť zavádzanie AI vo firme: čo skúma nová štúdia, kde má limity a ako pripraviť malý pilot s kontrolou kvality.",
+        "lead": "Pri zavádzaní AI si položte dve samostatné otázky: pomáha nástroj zvládnuť prácu a rozumie tím tomu, čo sa mení? V redakčnom pohľade WEBU odporúčame sledovať obe oblasti. Samotný počet automatizovaných úloh ešte nie je dostatočným hodnotením projektu.",
+        "sections": [
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Weijian Wu (2026) analyzoval dotazníky od 530 zamestnancov v Číne. Išlo o prierezový sebavýpovedný výskum: údaje sa zbierali od februára do júna 2026, ale nešlo o opakované sledovanie tých istých ľudí v čase. Autor použil modelovanie štruktúrnych rovníc metódou parciálnych najmenších štvorcov (PLS-SEM).",
+              "Výber bol zámerný, podľa vopred stanovených kritérií, a nepravdepodobnostný. Zúčastniť sa mohli ľudia od 18 rokov zamestnaní v Číne, najmenej šesť mesiacov v súčasnej organizácii, so skúsenosťou s AI alebo automatizáciou pri práci a schopnosťou samostatne vyplniť dotazník. Nábor prebiehal online aj osobne v rôznych odvetviach. Z 600 distribuovaných dotazníkov sa vrátilo 580; po vyradení 50 nevyhovujúcich odpovedí zostalo 530 použiteľných prípadov. Rozmanitosť vzorky z nej nerobí reprezentatívny výber čínskych ani slovenských zamestnancov."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia: dve nepriame modelové cesty",
+            "paragraphs": [
+              "Tabuľka 10 uvádza dve nepriame modelové súvislosti. Rozvojová cesta vedie od integrácie AI cez schopnosť zamestnancov prispôsobiť sa transformácii práce a psychologické posilnenie k vnímanej firemnej udržateľnosti: β = 0,189 (95 % bootstrapový interval spoľahlivosti 0,141 až 0,243; p < 0,001). Psychologické posilnenie zahŕňa zmysluplnosť práce, kompetentnosť, autonómiu a vplyv.",
+              "Záťažová cesta vedie od integrácie AI cez úzkosť spojenú s AI a pracovnú neistotu k psychickej pohode: β = −0,151 (95 % interval −0,203 až −0,109; p < 0,001). Jej koncovou premennou je psychická pohoda, nie firemná udržateľnosť. Autor použil bootstrap s 5 000 opakovaniami.",
+              "Ide o štandardizované odhady nepriamych súvislostí v konkrétnom modeli. Nie sú to percentuálne účinky: nemožno z nich odvodiť zvýšenie udržateľnosti o 18,9 % ani zhoršenie pohody o 15,1 %. Štatistická významnosť nepotvrdzuje kauzalitu ani časové poradie navrhnutých krokov."
+            ]
+          },
+          {
+            "heading": "Prečo štúdia spája JD-R a SCT",
+            "paragraphs": [
+              "Teória pracovných nárokov a zdrojov (Job Demands–Resources, JD-R) rozlišuje nároky vyžadujúce úsilie a zdroje podporujúce zvládanie práce, učenie a rozvoj. V štúdii môže byť AI zdrojom pomoci aj nových nárokov. Sociálno-kognitívna teória (Social Cognitive Theory, SCT) zdôrazňuje vzájomné pôsobenie človeka, správania a prostredia vrátane presvedčenia o vlastnej účinnosti. Tieto rámce zdôvodňujú navrhnutý model; samy osebe nie sú dôkazom jeho príčinného pôsobenia."
+            ]
+          },
+          {
+            "heading": "Limity výskumu a merania",
+            "paragraphs": [
+              "Jednorazové sebahodnotenie nedokáže určiť, čo čomu predchádzalo, vylúčiť opačný smer súvislosti ani všetky alternatívne vysvetlenia. Odpovede od rovnakého človeka môžu podliehať skresleniu vnímania a spoločnej metódy merania. PLS-SEM tieto obmedzenia výskumného dizajnu neodstraňuje. Výsledky sa preto nedajú automaticky preniesť na každú firmu alebo krajinu.",
+              "Firemná udržateľnosť je tu hodnotená prostredníctvom odpovedí zamestnancov o ekonomických, environmentálnych a sociálnych praktikách organizácie. Nejde o nezávislý audit ESG, objektívne prevádzkové ukazovatele ani priame overenie skutočného výkonu udržateľnosti.",
+              "Autor posudzoval vnútornú konzistenciu, konvergentnú a diskriminačnú validitu vrátane alfa, kompozitnej reliability, AVE a HTMT. Časť položiek bola vytvorená alebo prispôsobená pre túto štúdiu. Takéto kontroly nenahrádzajú nezávislú validáciu v inej populácii a nepreukazujú objektívnu výkonnosť firmy."
+            ]
+          },
+          {
+            "heading": "Redakčný návrh WEBU: malý pilot namiesto veľkého sľubu",
+            "paragraphs": [
+              "Nasledujúci postup je vlastný redakčný návrh na overenie využiteľnosti nástroja. Štúdia tento pilot netestovala a nezaručuje jeho výsledok. Predstavme si firmu, ktorá chce použiť AI na prípravu odpovedí na bežné otázky zákazníkov."
+            ],
+            "items": [
+              "Vyberte jednu úlohu: napríklad návrh odpovede na otázku o službe. Určte, kto overí správnosť údajov pred odoslaním.",
+              "Spíšte hranice použitia: z akých schválených podkladov smie nástroj čerpať a kedy musí otázku prevziať človek.",
+              "Pred spustením zaznamenajte bežný čas vybavenia a druhy opráv. Počas pilotu počítajte aj čas potrebný na kontrolu a prepisovanie odpovedí.",
+              "Dohodnite si dátum vyhodnotenia. Prínos posudzujte podľa celkového času, vecných chýb a použiteľnosti výstupov; prah úspechu určte ešte pred testom.",
+              "Dajte tímu priestor opísať nejasnosti: ktoré kroky nevie overiť, čo potrebuje natrénovať a akú zodpovednosť nesie. Z odpovedí nerobte psychologickú diagnózu."
+            ]
+          },
+          {
+            "heading": "Ako o AI hovoriť na firemnom webe",
+            "paragraphs": [
+              "Opis služby by mal zodpovedať tomu, čo už firma skutočne poskytuje. Ak AI iba navrhuje odpoveď a človek ju kontroluje, uveďte tento postup zrozumiteľne. Vyhnite sa percentám úspory a sľubom nepretržitej dostupnosti, ktoré váš vlastný test neoveril.",
+              "Pre WEBU je užitočným výstupom pilotu konkrétne rozhodnutie: ponechať nástroj pre vybranú úlohu, upraviť postup alebo test zastaviť. Rovnaké rozhodnutie nemusí platiť pre všetky činnosti firmy."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Štúdia opisuje súbežné rozvojové a záťažové súvislosti zavádzania AI v konkrétnej vzorke. Pre firmu je primeraným ďalším krokom opatrne vyhodnotený pilot; jeho prínos a záťaž treba zmerať v jej vlastných podmienkach."
+            ]
+          },
+          {
+            "heading": "Rozsah redakčnej kontroly",
+            "paragraphs": [
+              "Overené boli DOI, autor, názov a dátum v Crossref a u vydavateľa; prečítané boli abstrakt, metodické časti, tabuľky hlavných výsledkov a limity dostupného plného textu. Neboli nezávisle prepočítané pôvodné dáta. V kontrolovaných záznamoch nebolo nájdené označenie retrakcie; absencia označenia nie je zárukou vedeckej platnosti."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "AI at work: measure benefits and employee concerns",
+        "description": "A practical look at workplace AI: what a new study examines, where its limits lie and how to plan a small pilot with quality checks.",
+        "lead": "When introducing AI, ask two separate questions: does the tool help people do the work, and does the team understand what is changing? WEBU recommends considering both. Counting automated tasks alone is not a sufficient assessment of the project.",
+        "sections": [
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "Weijian Wu (2026) analysed questionnaires from 530 employees in China. This was a cross-sectional, self-report study: data were collected between February and June 2026, but the same people were not followed repeatedly over time. The author used partial least squares structural equation modelling (PLS-SEM).",
+              "Sampling was purposive, criterion-based and non-probability. Eligible participants were at least 18, employed in China, had worked for their current organisation for at least six months, had workplace experience of AI or automation, and could complete the questionnaire independently. Recruitment was online and face to face across industries. Of 600 questionnaires distributed, 580 were returned; excluding 50 unsuitable responses left 530 usable cases. Diversity does not make this a representative sample of employees in China or Slovakia."
+            ],
+            "items": []
+          },
+          {
+            "heading": "Main findings: two indirect model pathways",
+            "paragraphs": [
+              "Table 10 reports two indirect model associations. The developmental pathway links AI integration through workforce transformation capability and psychological empowerment to perceived corporate sustainability: β = 0.189 (95% bootstrap confidence interval 0.141 to 0.243; p < 0.001). Psychological empowerment includes meaning, competence, autonomy and influence at work.",
+              "The strain pathway links AI integration through AI anxiety and job insecurity to psychological wellbeing: β = −0.151 (95% interval −0.203 to −0.109; p < 0.001). Its endpoint is psychological wellbeing, not corporate sustainability. The author used bootstrapping with 5,000 resamples.",
+              "These are standardised estimates of indirect associations within this particular model. They are not percentage effects: they do not imply an 18.9% increase in sustainability or a 15.1% decline in wellbeing. Statistical significance establishes neither causality nor the proposed temporal order."
+            ],
+            "items": []
+          },
+          {
+            "heading": "Why the study combines JD-R and SCT",
+            "paragraphs": [
+              "Job Demands–Resources (JD-R) theory distinguishes demands requiring effort from resources supporting work, learning and development. In the study, AI can represent both assistance and new demands. Social Cognitive Theory (SCT) emphasises reciprocal relationships between people, behaviour and the environment, including self-efficacy beliefs. These frameworks motivate the proposed model; they do not themselves establish its causal validity."
+            ],
+            "items": []
+          },
+          {
+            "heading": "Research and measurement limitations",
+            "paragraphs": [
+              "A one-time self-report cannot determine what preceded what, rule out reverse associations or exclude all alternative explanations. Answers from the same person may share perceptual and common-method biases. PLS-SEM does not remove these design limitations. Findings cannot automatically be transferred to every business or country.",
+              "Corporate sustainability was assessed through employee answers about economic, environmental and social organisational practices. It was not an independent ESG audit, a set of objective operational indicators or direct verification of actual sustainability performance.",
+              "The author assessed internal consistency, convergent validity and discriminant validity using measures including alpha, composite reliability, AVE and HTMT. Some items were developed or adapted for this study. These checks do not replace independent validation in another population or establish objective organisational performance."
+            ],
+            "items": []
+          },
+          {
+            "heading": "WEBU editorial proposal: a small pilot instead of a large promise",
+            "paragraphs": [
+              "The following process is our own editorial proposal for testing whether a tool is useful. The study did not test this pilot and does not guarantee its outcome. Consider a business planning to use AI to draft answers to routine customer questions."
+            ],
+            "items": [
+              "Choose one task, such as drafting an answer about a service. Specify who verifies the information before the answer is sent.",
+              "Define boundaries: which approved materials the tool may use and when a person must take over the question.",
+              "Before starting, record typical handling time and types of corrections. During the pilot, include the time spent checking and rewriting answers.",
+              "Agree on a review date. Evaluate total time, factual errors and usable outputs; define the success threshold before the test.",
+              "Give the team space to explain uncertainties: which steps they cannot verify, what training they need and which responsibilities they carry. Do not turn their answers into a psychological diagnosis."
+            ]
+          },
+          {
+            "heading": "How to describe AI on a business website",
+            "paragraphs": [
+              "The service description should match what the business actually provides. If AI only drafts a response and a person checks it, explain that process clearly. Avoid percentage savings and round-the-clock availability promises that your own test has not verified.",
+              "For WEBU, a useful pilot outcome is a concrete decision: retain the tool for the selected task, revise the process or stop the test. The same decision need not apply to every business activity."
+            ],
+            "items": []
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study describes coexisting developmental and strain-related associations in a particular sample. A carefully assessed pilot is a proportionate next step for a business; its benefits and burden need measurement in that business’s own setting."
+            ],
+            "items": []
+          },
+          {
+            "heading": "Scope of editorial review",
+            "paragraphs": [
+              "The DOI, author, title and date were checked against Crossref and the publisher. The abstract, methods sections, main results tables and limitations in the available full text were read. Original data were not independently reanalysed. No retraction flag was found in the checked records; an absent flag is not a guarantee of scientific validity."
+            ],
+            "items": []
+          }
+        ]
+      }
+    },
+    "content_sha256": "a5fe59114a53ff66ca1054eb426ffc0bf633fc0279d6a78c846065ae147f3a8c",
+    "review_level": "full_text_sections",
+    "scientific_review": {
+      "status": "completed_editorial_source_comparison",
+      "reviewed_by": "WEBU editorial revision with source comparison by Codex; owner explicitly requested this revision",
+      "reviewed_at": "2026-11-04",
+      "source_access": "full_text",
+      "source_url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1980927/full",
+      "methodology": {
+        "design": "cross-sectional self-report survey",
+        "sample": "530 employees in China; purposive criterion-based non-probability sampling",
+        "locator": "3.1–3.4; Table 1"
+      },
+      "statistics": [
+        {
+          "claim_id": "H9",
+          "estimate": "0.189",
+          "interval": [
+            "0.141",
+            "0.243"
+          ],
+          "endpoint": "employee-perceived corporate sustainability",
+          "locator": "Table 10",
+          "interpretation": "standardised indirect association, not percentage or causal effect"
+        },
+        {
+          "claim_id": "H10",
+          "estimate": "-0.151",
+          "interval": [
+            "-0.203",
+            "-0.109"
+          ],
+          "endpoint": "psychological wellbeing",
+          "locator": "Table 10",
+          "interpretation": "standardised indirect association, not percentage or causal effect"
+        }
+      ],
+      "causality": "Cross-sectional associations; temporal order and causal mediation not established.",
+      "limitations": "Non-probability Chinese sample, self-report/common-method bias, omitted variables and employee-perceived sustainability.",
+      "bilingual_alignment": "Both versions compared for same sample, coefficients, endpoints, uncertainty and editorial pilot.",
+      "editorial_separation": "Customer-communication pilot is WEBU proposal, not tested in Wu study.",
+      "integrity": {
+        "status": "checked_no_notice_found",
+        "checked_at": "2026-11-04",
+        "sources": [
+          "Crossref DOI metadata",
+          "publisher full-text article and notices"
+        ],
+        "scope": "No notice seen in checked records; this is not proof of scientific validity."
+      },
+      "unverified_claims": [],
+      "technical_test_scope": "Validates evidence fields and content hash only; no independent scientific peer review or data reanalysis.",
+      "content_sha256": "a5fe59114a53ff66ca1054eb426ffc0bf633fc0279d6a78c846065ae147f3a8c",
+      "source_quality": {
+        "decision": "accepted_with_limitations",
+        "rationale": "Publish only as a cautious source-attributed association study, with purposive sampling, self-report, noncausality and perceived sustainability disclosed; no business-effect guarantees. Original methods/results/limitations were compared in the prior revision.",
+        "concerns": [
+          "Cross-sectional purposive Chinese employee sample",
+          "Self-report/common-method and measurement limitations",
+          "No independent data reanalysis"
+        ]
+      }
+    },
+    "revision_history": [
+      {
+        "version": 1,
+        "content_sha256": "3a7b91022e5289a3edb271fa0f2f92d75a3cbd035e47bff89fa5832906113110",
+        "approved_by": "martinamundova36-ux",
+        "published_at": "2026-11-04"
+      },
+      {
+        "version": 2,
+        "content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38",
+        "modified_at": "2026-11-04"
+      }
+    ],
+    "references": [
+      {
+        "id": "wu",
+        "apa7": "Wu, W. (2026). Corporate sustainability and artificial intelligence-enabled workforce transformation: A dual-pathway model of employee capability, empowerment, anxiety, and job insecurity. Frontiers in Psychology, 17, Article 1980927.",
+        "url": "https://doi.org/10.3389/fpsyg.2026.1980927",
+        "kind": "research_article",
+        "access": "full_text",
+        "doi": "10.3389/fpsyg.2026.1980927",
+        "verified_at": "2026-11-04",
+        "locator": "Methods3.1–3.4; Tables2–5,7,10; limitations6.4"
+      }
+    ]
+  },
+  "approved_by": "martinamundova36-ux",
+  "approved_content_sha256": "a5fe59114a53ff66ca1054eb426ffc0bf633fc0279d6a78c846065ae147f3a8c",
+  "revision_authorization": "Owner requested full editorial revision of all existing articles on2026-11-04",
+  "modified_at": "2026-11-04",
+  "image_id": "ai-workplace",
+  "image_status": "licensed_catalog_assignment",
+  "test_only": true,
+  "notification_title": "TEST – AI vo firme: merajte prínosy aj obavy ľudí",
+  "notification_annotation": "Skúška e-mailového schvaľovania. Tento návrh nie je nový článok a nemôže sa publikovať. Po prijatí upozornenia potvrď jeho doručenie."
+}
