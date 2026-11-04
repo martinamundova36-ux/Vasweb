@@ -25,7 +25,7 @@ class Page(HTMLParser):
    asset=a.get('src') or (a.get('href') if tag=='link' and a.get('rel') in ('stylesheet','icon','shortcut icon') else '')
    if asset:self.links.append(asset)
   if tag=='script':
-   self.scripts.append(a.get('src',''))
+   self.scripts.append(urlsplit(a.get('src','')).path)
    if a.get('type')=='application/ld+json':self.in_json=True
  def handle_endtag(self,tag):
   if tag=='title':self.in_title=False

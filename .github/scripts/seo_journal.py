@@ -112,7 +112,7 @@ def main():
             else:warnings.append(p.name+": language pair has same language")
         s=s.replace("</head>",links+"</head>",1)
         s=social(s,tag(s,"title"),desc,url)
-        if '/journal-share.js' not in s:s=s.replace('</body>','<script src="/journal-share.js" defer></script></body>')
+        if '/journal-share.js' not in s:s=s.replace('</body>','<script src="/journal-share.js?v=20261104-seo2" defer></script></body>')
         if not meta(s,"description"):
             s=s.replace("</head>",'<meta name="description" content="'+html.escape(desc,quote=True)+'"></head>',1)
         if s!=p.read_text(encoding="utf-8"):
