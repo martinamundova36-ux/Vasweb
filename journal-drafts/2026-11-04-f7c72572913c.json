@@ -21,5 +21,26 @@
   "verified_at": "2026-11-04",
   "full_text_reviewed": false,
   "source": "Crossref REST API",
-  "content_kind": "bibliographic overview, not scientific analysis"
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "verification_followup": {
+    "checked_at": "2026-11-04",
+    "bibliography": "matches_crossref",
+    "integrity": "no_notice_found_in_crossref; absence is not a validity guarantee",
+    "publisher_url": "https://www.emerald.com/ijwbr/article/doi/10.1108/IJWBR-01-2026-0013/1406745/Uncorking-change-female-leadership-and-sustainable",
+    "source_access": [
+      {
+        "id": "2026-11-04-f7c72572913c",
+        "kind": "landing",
+        "url": "https://www.emerald.com/ijwbr/article/doi/10.1108/IJWBR-01-2026-0013/1406745/Uncorking-change-female-leadership-and-sustainable",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    ]
+  },
+  "scientific_review_status": "needs_full_text_review",
+  "publication_hold": true,
+  "image_status": "needs_image",
+  "editorial_triage": {
+    "status": "hold_full_text_unavailable",
+    "reason_sk": "Crossref bibliografia potvrdená, ale vydavateľ v tomto prostredí vrátil HTTP 403. Metodika a výsledky neboli overené v plnom texte; nevyvodzujú sa vedecké závery z abstraktu."
+  }
 }

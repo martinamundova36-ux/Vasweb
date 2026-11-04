@@ -20,5 +20,26 @@
   "full_text_reviewed": false,
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
-  "drafted_at": "2026-11-04"
+  "drafted_at": "2026-11-04",
+  "verification_followup": {
+    "checked_at": "2026-11-04",
+    "bibliography": "matches_crossref",
+    "integrity": "no_notice_found_in_crossref; absence is not a validity guarantee",
+    "publisher_url": "https://www.emerald.com/msar/article/doi/10.1108/MSAR-02-2026-0103/1406559/The-role-of-AI-adoption-in-the-relationship",
+    "source_access": [
+      {
+        "id": "2026-11-04-5b5dc38594ea",
+        "kind": "landing",
+        "url": "https://www.emerald.com/msar/article/doi/10.1108/MSAR-02-2026-0103/1406559/The-role-of-AI-adoption-in-the-relationship",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    ]
+  },
+  "scientific_review_status": "needs_full_text_review",
+  "publication_hold": true,
+  "image_status": "needs_image",
+  "editorial_triage": {
+    "status": "hold_full_text_unavailable",
+    "reason_sk": "Crossref bibliografia potvrdená, ale vydavateľ v tomto prostredí vrátil HTTP 403. Metodika a výsledky neboli overené v plnom texte; nevyvodzujú sa vedecké závery z abstraktu."
+  }
 }

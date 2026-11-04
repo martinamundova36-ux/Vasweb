@@ -20,5 +20,26 @@
   "full_text_reviewed": false,
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
-  "drafted_at": "2026-11-04"
+  "drafted_at": "2026-11-04",
+  "verification_followup": {
+    "checked_at": "2026-11-04",
+    "bibliography": "matches_crossref",
+    "integrity": "no_notice_found_in_crossref; absence is not a validity guarantee",
+    "publisher_url": "https://f1000research.com/articles/15-1839/v1",
+    "source_access": [
+      {
+        "id": "2026-11-04-ed72c295acd6",
+        "kind": "landing",
+        "url": "https://f1000research.com/articles/15-1839/v1",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    ]
+  },
+  "scientific_review_status": "needs_full_text_review",
+  "publication_hold": true,
+  "image_status": "needs_image",
+  "editorial_triage": {
+    "status": "deferred_topic_fit",
+    "reason_sk": "Primárne cirkevné vedenie a rodové usporiadanie v Južnej Afrike; priamy prínos pre klientov WEBU nebol doložený. Dve kľúčové slová nie sú odborné posúdenie relevantnosti."
+  }
 }

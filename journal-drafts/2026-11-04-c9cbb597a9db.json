@@ -18,8 +18,207 @@
     "e-commerce"
   ],
   "verified_at": "2026-11-04",
-  "full_text_reviewed": false,
+  "full_text_reviewed": true,
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
-  "drafted_at": "2026-11-04"
+  "drafted_at": "2026-11-04",
+  "verification_followup": {
+    "checked_at": "2026-11-04",
+    "bibliography": "matches_crossref",
+    "integrity": "no_notice_found_in_crossref; absence is not a validity guarantee",
+    "publisher_url": "https://locus.rivierapublishing.id/index.php/jl/article/view/6327",
+    "source_access": [
+      {
+        "id": "2026-11-04-c9cbb597a9db",
+        "kind": "landing",
+        "status": 200,
+        "url": "https://locus.rivierapublishing.id/index.php/jl/article/view/6327",
+        "content_type": "text/html; charset=utf-8",
+        "bytes": 70497,
+        "path": "/tmp/webu-2026-11-04-c9cbb597a9db-landing.html"
+      },
+      {
+        "id": "2026-11-04-c9cbb597a9db",
+        "kind": "fulltext",
+        "status": 200,
+        "url": "https://locus.rivierapublishing.id/index.php/jl/article/download/6327/2229",
+        "content_type": "application/pdf",
+        "bytes": 355755,
+        "path": "/tmp/webu-2026-11-04-c9cbb597a9db-fulltext.pdf"
+      }
+    ]
+  },
+  "scientific_review_status": "needs_source_quality_review",
+  "publication_hold": true,
+  "image_status": "needs_image",
+  "editorial_triage": {
+    "status": "hold_source_quality",
+    "reason_sk": "Dostupný plný text bol porovnaný. Autorom uvádzaná vysoká spoľahlivosť merania môže znamenať redundantné položky; časť citácií má neúplné bibliografické údaje. Návrh zatiaľ nie je odporúčaný na publikovanie."
+  },
+  "editorial": {
+    "version": 1,
+    "status": "needs_source_quality_review",
+    "reviewed_at": "2026-11-04",
+    "source_url": "https://locus.rivierapublishing.id/index.php/jl/article/download/6327/2229",
+    "source_scope": "METHOD pp9644–9646; Tables4/5 p9647, Tables7/8 p9648; CONCLUSION p9650; REFERENCES pp9650–9651",
+    "review_level": "full_text_sections",
+    "checks": {
+      "bibliography": true,
+      "source": true,
+      "claims": true,
+      "relevance": true,
+      "bilingual": true
+    },
+    "languages": {
+      "sk": {
+        "title": "Čo má e-shop vysvetliť pred doručením nábytku?",
+        "description": "Rozmery, podmienky doručenia a sledovanie zásielky: čo overiť na e-shope s nábytkom a prečo výskum nesľubuje menej vrátení.",
+        "lead": "Pri kúpe nábytku cez internet sa zákazník rozhoduje aj podľa toho, čo si dokáže predstaviť pred doručením. Zmestí sa skriňa do miestnosti? Kto ju vynesie? Čo sa stane pri poškodení? WEBU odporúča tieto otázky preveriť priamo na produktovej stránke a pri objednávke. Ide o náš redakčný návrh, nie o zaručený spôsob zníženia vrátení.",
+        "sections": [
+          {
+            "heading": "Čo skúmal dostupný zdroj",
+            "paragraphs": [
+              "Jonar, Purnomo a Mulyati (2026) analyzovali odpovede 301 zákazníkov z Indonézie, ktorí za predchádzajúcich 12 mesiacov kúpili nábytok online. Výber bol zámerný a nepravdepodobnostný: účastníci mali aspoň 17 rokov, bývali v Indonézii, tovar im bol doručený a vedeli si vybaviť skúsenosť s nákupom a dopravou. Z 302 odpovedí autori jednu vyradili.",
+              "Išlo o prierezový online dotazník so 46 položkami na päťbodovej škále, analyzovaný pomocou PLS-SEM v SmartPLS. Výsledná premenná bola dotazníkové hodnotenie rozhodnutia nevrátiť nábytok. Nešlo o experiment s úpravou e-shopu ani o nezávislé sledovanie následných skutočných vrátení."
+            ]
+          },
+          {
+            "heading": "Ako čítať zistenia bez marketingového sľubu",
+            "paragraphs": [
+              "Autori v tabuľke 7 uvádzajú kladnú modelovú súvislosť kvality záverečnej fázy doručenia s dôverou zákazníka: koeficient 0,662, p = 0,001. Táto hodnota nie je 66,2-percentný nárast dôvery. Prierezový dizajn nepreukazuje, že zlepšenie dopravy spôsobilo zmenu dôvery.",
+              "Priama súvislosť kvality produktových informácií s dôverou nebola pri zvolenej hladine štatisticky významná (p = 0,083). To neznamená, že kvalitný popis produktu nemá význam. Rovnako nemožno z hodnôt vysvetlenej variability modelu odvodiť percento ušetrených nákladov či pokles skutočných vrátení."
+            ]
+          },
+          {
+            "heading": "Prečo tento podklad zatiaľ nestačí na publikovanie",
+            "paragraphs": [
+              "Zámerný výber a spomienkové sebahodnotenie obmedzujú zovšeobecnenie aj presnosť merania. Odpovede od jedného človeka môžu zdieľať rovnaké skreslenia. Výsledky z Indonézie nemožno automaticky preniesť na slovenský e-shop.",
+              "Všetky hodnoty kompozitnej reliability v tabuľke 4 presahujú 0,95. Samotní autori upozorňujú na možnú podobnosť alebo nadbytočnosť položiek. V zozname literatúry navyše niektoré záznamy nemajú dostatočné bibliografické údaje na jednoznačné dohľadanie. Tieto výhrady nepreukazujú nepravdivosť dát, ale vyžadujú ďalšie redakčné posúdenie kvality. Tento text je pracovný návrh, nie schválený článok."
+            ]
+          },
+          {
+            "heading": "Vlastný návrh WEBU: prejdite jednu objednávku",
+            "paragraphs": [
+              "Nasledujúci postup nebol testovaný v citovanej štúdii. Môže slúžiť ako malý test zrozumiteľnosti e-shopu bez prísľubu konkrétneho výsledku."
+            ],
+            "items": [
+              "Vyberte jeden produkt a overte rozmery, materiál, spôsob montáže a to, čo je zahrnuté v cene.",
+              "Prejdite od košíka k doručeniu: je jasné, či služba zahŕňa výnos, montáž a dohodnutie termínu?",
+              "Skontrolujte, či zákazník rozumie stavu zásielky a vie, koho kontaktovať pri oneskorení.",
+              "Preverte zrozumiteľnosť postupu pri poškodení a vrátení. Cieľom je informovaná voľba, nie bránenie zákazníkovi využiť jeho práva.",
+              "Sledujte konkrétne nedorozumenia a typy otázok pred úpravou aj po nej. Zmenu miery vrátení vyhodnocujte zo skutočných údajov, nie z koeficientov cudzieho modelu."
+            ]
+          },
+          {
+            "heading": "Rozsah kontroly a ďalší krok",
+            "paragraphs": [
+              "DOI, autorov, názov a dátum sme porovnali s Crossref. V dostupnom PDF sme prečítali metódu, tabuľky a limity; pôvodné dáta sme neprepočítali. V metadátach Crossref nebolo oznámenie opravy či retrakcie, čo nie je zárukou vedeckej platnosti. Pred publikovaním zostáva otvorené posúdenie kvality zdroja, výber obrázka a obsahové schválenie."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "What should a furniture shop explain before delivery?",
+        "description": "Dimensions, delivery terms and shipment tracking: what to check on a furniture shop website, and why research cannot promise fewer returns.",
+        "lead": "When buying furniture online, customers also rely on what they can understand before delivery. Will the wardrobe fit? Who carries it upstairs? What happens if it arrives damaged? WEBU recommends checking these questions on the product page and during checkout. This is our editorial proposal, not a guaranteed way to reduce returns.",
+        "sections": [
+          {
+            "heading": "What the available source examined",
+            "paragraphs": [
+              "Jonar, Purnomo and Mulyati (2026) analysed answers from 301 customers in Indonesia who had bought furniture online within the previous 12 months. Sampling was purposive and non-probability: participants were at least 17, lived in Indonesia, had received delivered furniture and could recall their purchase and delivery experience. The authors excluded one of 302 responses.",
+              "This was a cross-sectional online questionnaire with 46 items on a five-point scale, analysed using PLS-SEM in SmartPLS. The outcome was a questionnaire-based assessment of the decision not to return furniture. It was neither a website intervention experiment nor an independent follow-up of subsequent actual returns."
+            ]
+          },
+          {
+            "heading": "Reading findings without a marketing promise",
+            "paragraphs": [
+              "In Table 7, the authors report a positive model association between last-mile service quality and customer trust: coefficient 0.662, p = 0.001. This is not a 66.2% increase in trust. The cross-sectional design does not establish that better delivery caused a change in trust.",
+              "The direct association between product information quality and trust was not statistically significant at the chosen threshold (p = 0.083). This does not mean that good product descriptions are unimportant. The variance explained by the model likewise cannot be converted into a percentage of cost savings or a reduction in actual returns."
+            ]
+          },
+          {
+            "heading": "Why this source is not yet sufficient for publication",
+            "paragraphs": [
+              "Purposive sampling and retrospective self-report limit generalisability and measurement accuracy. Answers from one person may share the same biases. Results from Indonesia cannot automatically be transferred to a Slovak online shop.",
+              "All composite reliability values in Table 4 exceed 0.95. The authors themselves note possible item similarity or redundancy. Some reference-list entries also lack sufficient bibliographic information for unambiguous retrieval. These concerns do not establish that the data are false, but they require further editorial quality assessment. This text is a working draft, not an approved article."
+            ]
+          },
+          {
+            "heading": "WEBU proposal: walk through one order",
+            "paragraphs": [
+              "The following process was not tested in the cited study. It can serve as a small website-comprehension test without a promised outcome."
+            ],
+            "items": [
+              "Choose one product and check dimensions, materials, assembly requirements and what the price includes.",
+              "Follow the journey from basket to delivery: is it clear whether the service includes carrying upstairs, assembly and scheduling?",
+              "Check whether customers can understand shipment status and identify whom to contact about a delay.",
+              "Review the clarity of damage and return procedures. The aim is informed choice, not preventing customers from exercising their rights.",
+              "Record specific misunderstandings and types of questions before and after changes. Assess any change in return rates using actual data, not coefficients from another study."
+            ]
+          },
+          {
+            "heading": "Review scope and next step",
+            "paragraphs": [
+              "We compared the DOI, authors, title and date with Crossref. We read the methods, tables and limitations in the available PDF; we did not reanalyse the original data. Crossref metadata contained no correction or retraction notice, which does not guarantee scientific validity. Source-quality assessment, image selection and content approval remain outstanding before publication."
+            ]
+          }
+        ]
+      }
+    },
+    "content_sha256": "3578373a206149e4dfcf5ca2aa0d09b17ada8eb5dc45d182a97ea500801207e3",
+    "scientific_review": {
+      "status": "completed_editorial_source_comparison",
+      "reviewed_by": "Codex assisted editorial source comparison; no independent peer review",
+      "reviewed_at": "2026-11-04",
+      "source_access": "full_text",
+      "source_url": "https://locus.rivierapublishing.id/index.php/jl/article/download/6327/2229",
+      "source_sha256": "680abcb5083967e5d9b4f883e427036cb983882cff0c88e4ea87ea521303c594",
+      "content_sha256": "3578373a206149e4dfcf5ca2aa0d09b17ada8eb5dc45d182a97ea500801207e3",
+      "methodology": {
+        "design": "cross-sectional online self-report survey; 46 items, five-point Likert; PLS-SEM",
+        "sample": "301 of302 responses; purposive, Indonesia, age17+, furniture purchase within12months, delivery/recall criteria",
+        "locator": "METHOD pp9644–9646"
+      },
+      "statistics": [
+        {
+          "claim_id": "H2",
+          "estimate": "0.662; p=0.001 as printed",
+          "endpoint": "Customer Trust",
+          "locator": "Table7 p9648, visually checked",
+          "interpretation": "model association; not percentage change or causal estimate"
+        },
+        {
+          "claim_id": "H1",
+          "estimate": "0.102; p=0.083",
+          "endpoint": "Customer Trust",
+          "locator": "Table7 p9648",
+          "interpretation": "not significant at0.05; does not prove no relationship"
+        }
+      ],
+      "causality": "No temporal/causal inference from the cross-sectional self-report design. Outcome is questionnaire-based, not independent actual-return follow-up.",
+      "limitations": "Purposive sample, retrospective self-report/common method, geographical transfer, composite reliability >0.95 and incomplete bibliographic entries.",
+      "bilingual_alignment": "SK/EN methods, result values, noncausal warnings, quality hold and editorial steps compared.",
+      "editorial_separation": "Website walk-through is own WEBU proposal, not an intervention tested in the study.",
+      "integrity": {
+        "status": "checked_no_notice_found",
+        "checked_at": "2026-11-04",
+        "sources": [
+          "Crossref DOI record",
+          "publisher landing and full PDF"
+        ],
+        "scope": "No notice seen in inspected material; no guarantee of scientific validity."
+      },
+      "unverified_claims": [],
+      "source_quality": {
+        "decision": "hold",
+        "rationale": "Before using this source for a public scientific article, resolve measurement redundancy and incomplete references or use a stronger corroborating source. No owner content approval has been given.",
+        "concerns": [
+          "Composite reliability 0.972–0.989, explicitly noted by authors as possible redundancy",
+          "Some reference entries omit venue/pages/DOI and cannot be unambiguously identified",
+          "No independent actual-return outcome data or longitudinal design"
+        ]
+      },
+      "technical_test_scope": "Checks evidence records and hashes, not scientific validity or reanalysis."
+    }
+  }
 }

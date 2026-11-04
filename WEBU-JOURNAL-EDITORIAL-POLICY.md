@@ -30,3 +30,9 @@ Plný text nedostupný, nevyriešené tvrdenie, oprava/retrakcia, neúplný záz
 ## Obrázky
 
 Existujúci publisher používa `journal-images.json` a `.github/scripts/journal_images.py`. Vyberá iba nepoužitú tematickú fotografiu zo schválenej knižnice, s overenou Pexels licenciou a pripravenými lokálnymi WebP/JPEG variantmi. Redaktor preverí tematickú vhodnosť. Ak knižnica nemá vhodný obrázok, návrh dostane `needs_image` a publikovanie sa zastaví. Nepoužíva sa náhodná externá URL ani platené API. Nové fotografie redaktor doplní do rovnakej knižnice, zaznamená licenciu/zdroj a pripraví varianty 640/1280 WebP a 1280 JPEG; technický test porovná rozmery deklarované v HTML a hashe súborov.
+
+## Kvalita zdroja sa posudzuje osobitne
+
+Platné DOI ani prečítaný plný text samy osebe nestačia na prijatie zdroja. Záznam `scientific_review.source_quality` musí obsahovať rozhodnutie `accepted`, `accepted_with_limitations` alebo `hold`, jeho zdôvodnenie a zoznam výhrad. `hold` aj chýbajúce rozhodnutie blokujú publikovanie, aj keby boli ostatné technické polia úplné. Kľúčové slová sú iba prvotný filter tém; nepreukazujú užitočnosť pre klientov WEBU.
+
+HTTP kontrola podporuje HTML, PDF a XML vedeckého zdroja. Pri PDF overí aj hlavičku `%PDF-`; to však neoveruje metodiku ani pravdivosť výsledkov. Redaktor musí obsah skutočne prečítať a zdokumentovať jeho kvalitu. Pri neprístupnom zdroji alebo nevyriešených výhradách sa neznižujú štandardy kvôli dennému počtu.

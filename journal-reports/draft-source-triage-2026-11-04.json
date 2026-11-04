@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-11-04",
+  "published_new_articles": 0,
+  "candidate_reviews": [
+    {
+      "id": "2026-11-04-c9cbb597a9db",
+      "doi": "10.58344/locus.v5i11.6327",
+      "status": "hold_source_quality",
+      "reason": "Dostupný plný text bol porovnaný. Autorom uvádzaná vysoká spoľahlivosť merania môže znamenať redundantné položky; časť citácií má neúplné bibliografické údaje. Návrh zatiaľ nie je odporúčaný na publikovanie."
+    },
+    {
+      "id": "2026-11-04-5b5dc38594ea",
+      "doi": "10.1108/msar-02-2026-0103",
+      "status": "hold_full_text_unavailable",
+      "reason": "Crossref bibliografia potvrdená, ale vydavateľ v tomto prostredí vrátil HTTP 403. Metodika a výsledky neboli overené v plnom texte; nevyvodzujú sa vedecké závery z abstraktu."
+    },
+    {
+      "id": "2026-11-04-ed72c295acd6",
+      "doi": "10.12688/f1000research.190127.1",
+      "status": "deferred_topic_fit",
+      "reason": "Primárne cirkevné vedenie a rodové usporiadanie v Južnej Afrike; priamy prínos pre klientov WEBU nebol doložený. Dve kľúčové slová nie sú odborné posúdenie relevantnosti."
+    },
+    {
+      "id": "2026-11-04-f7c72572913c",
+      "doi": "10.1108/ijwbr-01-2026-0013",
+      "status": "hold_full_text_unavailable",
+      "reason": "Crossref bibliografia potvrdená, ale vydavateľ v tomto prostredí vrátil HTTP 403. Metodika a výsledky neboli overené v plnom texte; nevyvodzujú sa vedecké závery z abstraktu."
+    }
+  ],
+  "best_available_candidate": "2026-11-04-c9cbb597a9db",
+  "candidate_status": "bilingual working draft, hold_source_quality; not submitted for production approval",
+  "google_index_requests": 0,
+  "paid_api_calls": 0
+}

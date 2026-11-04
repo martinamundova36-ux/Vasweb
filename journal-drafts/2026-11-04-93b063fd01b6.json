@@ -212,7 +212,16 @@
       },
       "unverified_claims": [],
       "technical_test_scope": "Validates evidence fields and content hash only; no independent scientific peer review or data reanalysis.",
-      "content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38"
+      "content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38",
+      "source_quality": {
+        "decision": "accepted_with_limitations",
+        "rationale": "Publish only as a cautious source-attributed association study, with purposive sampling, self-report, noncausality and perceived sustainability disclosed; no business-effect guarantees. Original methods/results/limitations were compared in the prior revision.",
+        "concerns": [
+          "Cross-sectional purposive Chinese employee sample",
+          "Self-report/common-method and measurement limitations",
+          "No independent data reanalysis"
+        ]
+      }
     },
     "revision_history": [
       {
@@ -231,5 +240,7 @@
     "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6-en.html"
   ],
   "revision_authorization": "Explicit owner request to correct the published SK/EN article on 2026-11-04",
-  "modified_at": "2026-11-04"
+  "modified_at": "2026-11-04",
+  "image_id": "ai-workplace",
+  "image_status": "licensed_catalog_assignment"
 }

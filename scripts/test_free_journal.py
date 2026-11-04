@@ -11,7 +11,7 @@ def rejected(call):
  except ValueError:return
  raise AssertionError('Unsafe publication input was accepted')
 def main():
- source=next(json.loads(p.read_text()) for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('editorial'))
+ source=next(json.loads(p.read_text()) for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('editorial') and json.loads(p.read_text()).get('published_at'))
  # Freeze the archived review fixture date; real publication still uses today.
  m.NOW=datetime.date.fromisoformat(source["editorial"]["reviewed_at"])
  m.validate_editorial(source)
@@ -21,8 +21,19 @@ def main():
   article['title']+=' TEST ONLY';article['description']+=' TEST ONLY'
  source['editorial']['content_sha256']=m.editorial_digest(source['editorial']['languages'])
  source['editorial']['scientific_review']['content_sha256']=source['editorial']['content_sha256']
- for mutate in [lambda x:x.pop('editorial'),lambda x:x['editorial'].pop('scientific_review'),lambda x:x['editorial']['scientific_review'].update(source_access='abstract_only'),lambda x:x['editorial']['scientific_review'].update(unverified_claims=['unknown effect']),lambda x:x['editorial']['scientific_review']['methodology'].pop('sample'),lambda x:x['editorial']['scientific_review']['integrity'].update(status='correction_requires_review'),lambda x:x['editorial']['languages'].pop('en'),lambda x:x['editorial']['checks'].update(claims=False),lambda x:x['editorial']['languages']['sk'].update(title='Changed after review')]:
+ for mutate in [lambda x:x.pop('editorial'),lambda x:x['editorial']['scientific_review'].pop('source_quality'),lambda x:x['editorial']['scientific_review']['source_quality'].update(decision='hold'),lambda x:x['editorial'].pop('scientific_review'),lambda x:x['editorial']['scientific_review'].update(source_access='abstract_only'),lambda x:x['editorial']['scientific_review'].update(unverified_claims=['unknown effect']),lambda x:x['editorial']['scientific_review']['methodology'].pop('sample'),lambda x:x['editorial']['scientific_review']['integrity'].update(status='correction_requires_review'),lambda x:x['editorial']['languages'].pop('en'),lambda x:x['editorial']['checks'].update(claims=False),lambda x:x['editorial']['languages']['sk'].update(title='Changed after review')]:
   bad=copy.deepcopy(source);mutate(bad);rejected(lambda:m.validate_editorial(bad))
+ from unittest.mock import patch
+ class Response:
+  def __init__(self,media,body=b'',status=200):self.headers={'Content-Type':media};self.body=body;self.status=status
+  def __enter__(self):return self
+  def __exit__(self,*args):pass
+  def read(self,n):return self.body[:n]
+ for media,body in [('text/html; charset=utf-8',b'<html>'),('application/pdf',b'%PDF-1.7'),('application/xml',b'<?xml')]:
+  with patch.object(m.urllib.request,'urlopen',return_value=Response(media,body)):
+   assert m.check_source_availability('https://example.invalid/source')==media.split(';')[0]
+ for response in [Response('application/pdf',b'<html>'),Response('application/octet-stream',b'data'),Response('text/html',b'',403)]:
+  with patch.object(m.urllib.request,'urlopen',return_value=response):rejected(lambda:m.check_source_availability('https://example.invalid/source'))
  record={'DOI':source['doi'],'title':[source['title']],'author':[{'family':n} for n in source['authors']],'publisher':source['publisher'],'container-title':[source['venue']],'published':{'date-parts':[[int(x) for x in source['source_date'].split('-')]]},'type':'journal-article'}
  m.verify(record,source)
  for notice in [{'relation':{'is-retracted-by':[{'id':'10.1234/retraction'}]}},{'updated-by':[{'type':'retraction'}]},{'update-to':[{'type':'expression_of_concern'}]},{'updated-by':[{'type':'correction'}]},{'relation':{'is-corrected-by':[{'id':'10.0000/fix'}]}}]:
@@ -48,5 +59,5 @@ def main():
   before={p.name:p.read_bytes() for p in test.glob('blog*.html')}
   rejected(lambda:m.publish(source))
   assert before=={p.name:p.read_bytes() for p in test.glob('blog*.html')}
- print('PASS: exact reviewed SK/EN text, source notices, changed/missing review, duplicate atomic preflight and publication pipeline')
+ print('PASS: exact reviewed SK/EN text, source-quality holds, HTML/PDF/XML availability and PDF signature, source notices, changed/missing review, duplicate atomic preflight and publication pipeline')
 if __name__=='__main__':main()

@@ -50,6 +50,15 @@ def publication_capacity(folder,limit):
 def identifier(source):return source['source_date']+'-'+hashlib.sha256(source['doi'].encode()).hexdigest()[:12]
 def editorial_digest(languages):
  return hashlib.sha256(json.dumps(languages,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def check_source_availability(url):
+ # HTTP/MIME availability only; this does not read or scientifically assess the source.
+ req=urllib.request.Request(url,headers={'User-Agent':'WEBU-Source-Availability/1.0 (https://www.webu.sk/)'})
+ with urllib.request.urlopen(req,timeout=30) as response:
+  media=response.headers.get('Content-Type','').split(';')[0].strip().lower()
+  if response.status!=200 or media not in ('text/html','application/xhtml+xml','application/pdf','application/xml','text/xml'):raise ValueError('Scientific source unavailable or unsupported; editorial review required')
+  if media=='application/pdf' and response.read(5)!=b'%PDF-':raise ValueError('Scientific PDF content does not match its declared type')
+ return media
+
 def validate_scientific_evidence(editorial):
  # This gate checks an accountable review record, never the truth of a study.
  review=editorial.get('scientific_review') or {}
@@ -59,6 +68,8 @@ def validate_scientific_evidence(editorial):
   if not review.get(field):raise ValueError('Scientific review evidence missing: '+field)
  if review.get('source_url')!=editorial.get('source_url'):raise ValueError('Reviewed scientific source changed')
  if review.get('content_sha256')!=editorial.get('content_sha256'):raise ValueError('Scientific review is not bound to this bilingual text')
+ quality=review.get('source_quality') or {}
+ if quality.get('decision') not in ('accepted','accepted_with_limitations') or not quality.get('rationale') or not isinstance(quality.get('concerns'),list):raise ValueError('Source quality is missing or on hold; editorial quality review required')
  if review.get('unverified_claims')!=[]:raise ValueError('Unverified findings require editorial resolution')
  if not all(review.get('methodology',{}).get(k) for k in ('design','sample','locator')):raise ValueError('Method/sample evidence missing')
  if not review.get('statistics') or any(not all(c.get(k) for k in ('claim_id','estimate','endpoint','locator','interpretation')) for c in review['statistics']):raise ValueError('Statistical claim evidence missing (or explain explicitly why no numerical claim is made)')
@@ -157,8 +168,7 @@ def main():
   if not publication_capacity(folder,config['target_studies_per_day']):raise SystemExit('Daily publication cap reached')
   editorial=validate_editorial(source)
   # Availability alone is not scientific verification. Evidence was compared by an editor.
-  with urllib.request.urlopen(urllib.request.Request(editorial['source_url'],headers={'User-Agent':'WEBU-Source-Availability/1.0 (https://www.webu.sk/)'}),timeout=30) as response:
-   if response.status!=200 or 'text/html' not in response.headers.get('Content-Type',''):raise ValueError('Scientific source unavailable; editorial review required')
+  check_source_availability(editorial['source_url'])
   drafted_at=source.get('drafted_at',source.get('verified_at'))
   source=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
   if not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:raise ValueError('Current source evidence or relevance is insufficient')
