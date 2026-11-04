@@ -16,7 +16,7 @@ if not issue:
     print("No research issue today; nothing to verify")
     raise SystemExit(0)
 body=issue["body"].split("\n## Automaticke overenie DOI / Crossref")[0]
-entries=re.findall(r"### (\\d+)\\. ([^\\n]+)[\\s\\S]*?- DOI: (https?://[^\\s]+)",body)
+entries=re.findall(r"### (\d+)\. ([^\n]+)[\s\S]*?- DOI: (https?://[^\s]+)",body)
 lines=["","## Automaticke overenie DOI / Crossref","","> Automaticky sa overuju iba bibliograficke metadata. Vysledky, metodika, recenzne konanie a interpretacia NIE SU overene.",""]
 for num,title,doi_url in entries:
     doi=doi_url.split("doi.org/")[-1]
