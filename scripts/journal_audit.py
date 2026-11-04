@@ -71,7 +71,7 @@ def check(path):
     return errors, warnings
 
 def main():
-    files = sorted(ROOT.glob("blog*.html"))
+    files = sorted(ROOT.glob("blog-*.html"))
     all_errors, all_warnings = [], []
     # Legacy articles receive a non-blocking backlog report. Newly edited
     # blog pages must pass the structural checks before merging.
@@ -83,7 +83,7 @@ def main():
         if result.returncode:
             print("ERROR: cannot determine pending articles:", result.stderr)
             return 2
-        changed = {line[3:] for line in result.stdout.splitlines() if len(line) >= 4 and line[3:].startswith("blog") and line[3:].endswith(".html")}
+        changed = {line[3:] for line in result.stdout.splitlines() if len(line) >= 4 and line[3:].startswith("blog-") and line[3:].endswith(".html")}
         if not changed:
             print("No new or changed blog HTML files; publication gate passed.")
             return 0
