@@ -17,6 +17,8 @@ jobs:
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
         run: python3 .github/scripts/publish_blog.py
+      - name: Povinná technická kontrola pred publikovaním
+        run: python3 scripts/journal_audit.py --publish-gate
       - name: Uložiť publikovaný článok
         run: |
           git config user.name "WEBU Blog Bot"
