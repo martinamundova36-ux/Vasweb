@@ -1,0 +1,539 @@
+{
+  "checked_at": "2026-11-04T10:54:58.919897+00:00",
+  "google_index_status": "not inspected",
+  "urls": [
+    {
+      "url": "https://www.webu.sk/",
+      "status": 200,
+      "final_url": "https://www.webu.sk/",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/index-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/index-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/robots.txt",
+      "status": 200,
+      "final_url": "https://www.webu.sk/robots.txt",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/sitemap.xml",
+      "status": 200,
+      "final_url": "https://www.webu.sk/sitemap.xml",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-5-chyb-na-webstranke.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-5-chyb-na-webstranke.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-5-website-mistakes-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-5-website-mistakes-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-cena.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-cena.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-customer-trust-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-customer-trust-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-dovera.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-dovera.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-dovera-v-digitalne-platby-2026-11-03-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-dovera-v-digitalne-platby-2026-11-03-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-dovera-v-digitalne-platby-2026-11-03.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-dovera-v-digitalne-platby-2026-11-03.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-osobnost-a-ai-konverzacia-2026-11-03-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-osobnost-a-ai-konverzacia-2026-11-03-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-osobnost-a-ai-konverzacia-2026-11-03.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-osobnost-a-ai-konverzacia-2026-11-03.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-podnikanie-v-nedostatku-2026-11-03-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-podnikanie-v-nedostatku-2026-11-03-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-podnikanie-v-nedostatku-2026-11-03.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-podnikanie-v-nedostatku-2026-11-03.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-testovanie-cien-2026-11-03-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-testovanie-cien-2026-11-03-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-testovanie-cien-2026-11-03.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-testovanie-cien-2026-11-03.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-udrzatelnost-a-data-2026-11-03-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-udrzatelnost-a-data-2026-11-03-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-udrzatelnost-a-data-2026-11-03.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-journal-udrzatelnost-a-data-2026-11-03.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-kolko-stoji-webstranka.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-kolko-stoji-webstranka.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-luxury-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-luxury-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-luxus.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-luxus.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-pricing-business-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-pricing-business-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-seo-websites-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-seo-websites-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-seo-webstranky.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-seo-webstranky.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-web.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-web.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-website-cost-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-website-cost-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/blog-website-roi-en.html",
+      "status": 200,
+      "final_url": "https://www.webu.sk/blog-website-roi-en.html",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/favicon.ico",
+      "status": 200,
+      "final_url": "https://www.webu.sk/favicon.ico",
+      "errors": [],
+      "sha256": "a9674f590211df5b9fe4ed8e7f95e9da790d09007ea76bcbeacd4aef70a26038"
+    },
+    {
+      "url": "https://www.webu.sk/favicon.svg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/favicon.svg",
+      "errors": [],
+      "sha256": "b25e17834c723b8f4c258215eb09c33208a776981b672a0505817df10bbded0a"
+    },
+    {
+      "url": "https://www.webu.sk/favicon-48.png",
+      "status": 200,
+      "final_url": "https://www.webu.sk/favicon-48.png",
+      "errors": [],
+      "sha256": "4cd52fbf82cb0025b4f80b28a4511a836f969bb12972baafc20c4b284c5586c8"
+    },
+    {
+      "url": "https://www.webu.sk/favicon-96.png",
+      "status": 200,
+      "final_url": "https://www.webu.sk/favicon-96.png",
+      "errors": [],
+      "sha256": "da30c01fdef6165d08842fabceba58c6db644299ab6c17ab0c0700620d566c5b"
+    },
+    {
+      "url": "https://www.webu.sk/favicon-192.png",
+      "status": 200,
+      "final_url": "https://www.webu.sk/favicon-192.png",
+      "errors": [],
+      "sha256": "5f4cd4b6085a6b77951046f143b2f1be0c1bde8afcce284c10d95f9853229fe4"
+    },
+    {
+      "url": "https://www.webu.sk/favicon-512.png",
+      "status": 200,
+      "final_url": "https://www.webu.sk/favicon-512.png",
+      "errors": [],
+      "sha256": "74b2625a9ad337e5b33da705325c994cc387329fc3b6bfc557287b6efc609804"
+    },
+    {
+      "url": "https://www.webu.sk/apple-touch-icon.png",
+      "status": 200,
+      "final_url": "https://www.webu.sk/apple-touch-icon.png",
+      "errors": [],
+      "sha256": "428e22406e39807d7d30023e8a1ae334d80c1207bcf5f92cec537378e48c4935"
+    },
+    {
+      "url": "https://www.webu.sk/journal-share.js",
+      "status": 200,
+      "final_url": "https://www.webu.sk/journal-share.js",
+      "errors": []
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-review-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-review-640.webp",
+      "errors": [],
+      "sha256": "f15f3098a657b4f5b8b6b6701698832e615b88ca27a0098672b74daf39fe82b3"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-review-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-review-1280.webp",
+      "errors": [],
+      "sha256": "851d6d4d937113ddc7c8162eb5454f734b2f7ec015ff21a4238b1eda21dd344e"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-review-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-review-social.jpg",
+      "errors": [],
+      "sha256": "f9825fde893e64877f547e2252439a79d5933b67c903b59a58f69b4b57fa0da5"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/service-pricing-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/service-pricing-640.webp",
+      "errors": [],
+      "sha256": "8697b2f8e980bc2011ccff7f9a3e74061b33192876e11ce6700ddf97e2a287e1"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/service-pricing-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/service-pricing-1280.webp",
+      "errors": [],
+      "sha256": "562d21787875552e352105282039d3bd8020253ba4eb09cc5c847ef2c1bbb769"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/service-pricing-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/service-pricing-social.jpg",
+      "errors": [],
+      "sha256": "960efd0f28defb43296aae85696aea71e35033b3e0234a4b406b4f2e26afa0f0"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/customer-trust-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/customer-trust-640.webp",
+      "errors": [],
+      "sha256": "574925a4cff865f9f1abf10056178d1f9092f67d122ddd2ec8f9b5b7b10115a6"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/customer-trust-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/customer-trust-1280.webp",
+      "errors": [],
+      "sha256": "25efa627e66dc04a910a0b4e66f890cf39a426ceef0b92f909ca3aa3b90a44b4"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/customer-trust-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/customer-trust-social.jpg",
+      "errors": [],
+      "sha256": "dea8aa5476b7716371446b60476b797798fe1353d833ebe9e042b0f8611b9049"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/digital-payments-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/digital-payments-640.webp",
+      "errors": [],
+      "sha256": "b3271226cd4aa195f390909b1211288f3ae07834c98dbfee1ea460b0f28a04cb"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/digital-payments-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/digital-payments-1280.webp",
+      "errors": [],
+      "sha256": "8f7e503d1b43524e2d497c9500801fdf97f62d1e664a4883fc4fadb3e6a98dae"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/digital-payments-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/digital-payments-social.jpg",
+      "errors": [],
+      "sha256": "afc11b201ad2f721c4dae3ed407b1cd8b055afbaf08e773e7b3b4b3311208b2a"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/ai-conversation-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/ai-conversation-640.webp",
+      "errors": [],
+      "sha256": "bd2edc594287fbe90715b6ed2aeec059bb10b18108181d33dff76611e87777b6"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/ai-conversation-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/ai-conversation-1280.webp",
+      "errors": [],
+      "sha256": "fe6378e3bb4ffee9286fcad03321f87ad0c9587f93c3250130b8db0fcecbbd8a"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/ai-conversation-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/ai-conversation-social.jpg",
+      "errors": [],
+      "sha256": "7b31b3a3e708542959460072baf9807b639a6fab17e4d63cede28f5f32ea80b8"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/resourceful-business-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/resourceful-business-640.webp",
+      "errors": [],
+      "sha256": "d9a09f25523e16013258a2badf771dc3b6f019855d383bd955b9c5925ea6cb34"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/resourceful-business-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/resourceful-business-1280.webp",
+      "errors": [],
+      "sha256": "5607c68164c02a826abd471e7b76ad652f3830d7cff16341f1dcfa517ce0d164"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/resourceful-business-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/resourceful-business-social.jpg",
+      "errors": [],
+      "sha256": "bc862ad0c2d0af2417dc7c2e3a1e805bc1d8b68698eafe8ab448b858db6a7ce0"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/ai-workplace-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/ai-workplace-640.webp",
+      "errors": [],
+      "sha256": "bec698e560124f106132f18c489c55d9a45486c6723998b6f3b945e8987eed59"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/ai-workplace-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/ai-workplace-1280.webp",
+      "errors": [],
+      "sha256": "7d5f14258957d7005cebe125c249bbedbc432362ea2397087e9eb42ea7257b0c"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/ai-workplace-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/ai-workplace-social.jpg",
+      "errors": [],
+      "sha256": "660629fd2771cef7120c1657d58e55c70627e352248c1429297084dfb93d2922"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/pricing-experiments-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/pricing-experiments-640.webp",
+      "errors": [],
+      "sha256": "6344e99f642558a7fec26a1f82f9f59046e356bac1416912008ccc691c22cf1f"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/pricing-experiments-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/pricing-experiments-1280.webp",
+      "errors": [],
+      "sha256": "f0a9c07426ad4978fc416ba94fc3c9cc655d5109a0fe02c0d8cb2dbf23e914eb"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/pricing-experiments-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/pricing-experiments-social.jpg",
+      "errors": [],
+      "sha256": "964744649c7459e7f87a29323d3c3a2bffa28468b957d580b97a1272b6dc0b06"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/research-data-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/research-data-640.webp",
+      "errors": [],
+      "sha256": "0eccc3a3e0bca9268c06a48f4786c73839ce1335b1bcb31d825f57ddb9833cdc"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/research-data-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/research-data-1280.webp",
+      "errors": [],
+      "sha256": "314db15548375c281b74e5077cfd2ee90a86c3c72f68652365161951eedb3e61"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/research-data-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/research-data-social.jpg",
+      "errors": [],
+      "sha256": "e6624a4de06ab00c0f8676e884f9eacae54f5113be5b01c6bbf2cb292bdbcd9b"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-budget-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-budget-640.webp",
+      "errors": [],
+      "sha256": "14b631cdb2898418b5c11883f998aef6a799447ad3b70e9a460a418194d0cbd2"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-budget-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-budget-1280.webp",
+      "errors": [],
+      "sha256": "362d34be313bc5ad7ff9d3930552c65f19adccc6d68c5dd9ea2479effe169edf"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-budget-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-budget-social.jpg",
+      "errors": [],
+      "sha256": "4f94952f7ffc2c201dca296a97a80b53f263b19bc0b5f06a9adeb70fa51842a3"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/premium-brand-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/premium-brand-640.webp",
+      "errors": [],
+      "sha256": "94c4b71212da8bcea9bda23daa4f2ac12baf4cbf346e9f4a28f5eacf79812ac2"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/premium-brand-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/premium-brand-1280.webp",
+      "errors": [],
+      "sha256": "b517c576c061e784f9b86ed2eb639fb49d4943d39519240faaae8210bf32aca6"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/premium-brand-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/premium-brand-social.jpg",
+      "errors": [],
+      "sha256": "85295b5a1d3ac17372165dad318d0fa49552756905c847a478b0dfe4dcc45083"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/search-visibility-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/search-visibility-640.webp",
+      "errors": [],
+      "sha256": "01eab0c0237028df79d48e0636436cec5cd60ba57a1ca9cb8c8fed0c3b8d19b4"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/search-visibility-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/search-visibility-1280.webp",
+      "errors": [],
+      "sha256": "7cb86997f4d1ae8e106d9fb190656716b6c7ea136db0eddabef2cd5491e31121"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/search-visibility-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/search-visibility-social.jpg",
+      "errors": [],
+      "sha256": "7611adf82ed76ef1c8774eb9e2a418aada7b2a8a62ae00740713bd1274e02e4f"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-results-640.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-results-640.webp",
+      "errors": [],
+      "sha256": "499437ca877973395970a7d74aa0a68b9e73fc22e4d923dd3569d9c959295ba7"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-results-1280.webp",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-results-1280.webp",
+      "errors": [],
+      "sha256": "57fde8272801192865095bc8bad7de32b5ab2daab0ba793ed57404cf9c765bc3"
+    },
+    {
+      "url": "https://www.webu.sk/assets/journal/website-results-social.jpg",
+      "status": 200,
+      "final_url": "https://www.webu.sk/assets/journal/website-results-social.jpg",
+      "errors": [],
+      "sha256": "c98a26c63966864b3ae7e34ddb4dbe769572cbe1c2de43f160f5b4b435edd218"
+    },
+    {
+      "url": "https://www.webu.sk/journal-images.css",
+      "status": 200,
+      "final_url": "https://www.webu.sk/journal-images.css",
+      "errors": [],
+      "sha256": "55a9f4d04a09b3b3e1999e4feaf436f92cb28dd614bc535fdcc65830d93b46b6"
+    }
+  ],
+  "pages_commit": "98246e96c76a4a998bfe3c3fbaa538901959b89e",
+  "pages_build_status": "success",
+  "pages_run_id": 41817099061,
+  "desktop_visual_check": "13 cards and 13 loaded images; two columns; no horizontal overflow; SK/EN article inspected; copy and Messenger fallback confirmation displayed",
+  "mobile_visual_check": "not performed: browser viewport/zoom controls unavailable; CSS breakpoints verified statically",
+  "scientific_peer_review": "not performed: source comparison and technical evidence gate only"
+}
