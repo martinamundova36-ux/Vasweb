@@ -352,6 +352,44 @@ def merge_approved_draft(sha):
         'merge', '--no-ff', '--no-commit', sha], cwd=ROOT, check=True)
 
 
+def commit_decision():
+    """Bounded optimistic retry when two different approved PRs update main.
+
+    Rebuild and revalidate on the fresh base, rather than silently merging stale
+    generated listings. A network/permission error on an unchanged base stops.
+    """
+    def git(*args, check=True):
+        return subprocess.run(['git', *args], cwd=ROOT, check=check,
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
+    if parse_decision(event, settings()['owner']) is None:
+        raise ValueError('An explicit owner decision is required before committing')
+    git('config', 'user.name', 'WEBU Journal Bot')
+    git('config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com')
+    for attempt in range(3):
+        base = git('rev-parse', 'HEAD').stdout.strip()
+        paths = ['journal-drafts', 'journal-reports', 'sitemap.xml', 'journal-images.json']
+        paths += [str(path.relative_to(ROOT)) for path in ROOT.glob('blog*.html')]
+        git('add', '--', *paths)
+        if git('diff', '--cached', '--quiet', check=False).returncode == 0:
+            return
+        git('commit', '-m', 'Merge and publish explicitly approved WEBU draft' if (ROOT / '.git/MERGE_HEAD').exists() else 'Record explicit WEBU owner decision')
+        committed = git('rev-parse', 'HEAD').stdout.strip()
+        if git('push', 'origin', 'HEAD:main', check=False).returncode == 0:
+            return
+        git('fetch', '--no-tags', 'origin', 'main')
+        # A push response can be lost even though GitHub accepted the commit.
+        if git('merge-base', '--is-ancestor', committed, 'origin/main', check=False).returncode == 0:
+            return
+        if git('rev-parse', 'origin/main').stdout.strip() == base or attempt == 2:
+            raise ValueError('Push failed or retry budget exhausted; no automatic unreviewed publication')
+        git('reset', '--hard', 'origin/main')
+        decide(event)  # Re-check the original owner's decision and exact reviewed version.
+        for script in ('seo_audit.py', 'journal_image_audit.py', 'journal_review_audit.py'):
+            subprocess.run([sys.executable, 'scripts/' + script], cwd=ROOT, check=True)
+        subprocess.run([sys.executable, 'scripts/journal_audit.py', '--publish-gate'], cwd=ROOT, check=True)
+
+
 def finish(number, success=True):
     event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
     if parse_decision(event, settings()['owner']) is None:
@@ -383,7 +421,7 @@ def finish(number, success=True):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--action', choices=['notify', 'notify-test', 'decide', 'finish'], required=True)
+    parser.add_argument('--action', choices=['notify', 'notify-test', 'decide', 'finish', 'commit-decision'], required=True)
     parser.add_argument('--pr-number', type=int)
     parser.add_argument('--failed', action='store_true')
     args = parser.parse_args()
@@ -391,6 +429,8 @@ def main():
         notify(args.action == 'notify-test')
     elif args.action == 'decide':
         decide(json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text()))
+    elif args.action == 'commit-decision':
+        commit_decision()
     elif args.pr_number:
         finish(args.pr_number, not args.failed)
 

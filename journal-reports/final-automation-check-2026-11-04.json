@@ -1,0 +1,76 @@
+{
+  "checked_at": "2026-11-04T16:07:08.310511+00:00",
+  "overall_status": "incomplete_not_five_automatically_written_articles",
+  "schedule": {
+    "cron": "0 8 * * *",
+    "timezone": "Europe/Bratislava",
+    "next_local": "2026-11-05T08:00:00+01:00",
+    "winter_summer_transition_tests": "passed",
+    "workflow_active_observed": true,
+    "future_scheduled_execution_observed": false,
+    "followup_check_local": "2026-11-05T08:20:00+01:00"
+  },
+  "generation": {
+    "mode": "bibliographic_candidates_only",
+    "daily_maximum": 5,
+    "automatic_full_articles": 0,
+    "new_ready_bilingual_articles": 0,
+    "legacy_unpublished_incomplete_candidates": 4,
+    "live_crossref_search": {
+      "verified_candidate_found": true,
+      "doi": "10.3390/occuphealth1040051",
+      "draft_written": false,
+      "full_text_reviewed": false
+    },
+    "missing": [
+      "Configured full-article writing process/provider",
+      "Documented editorial full-text and bilingual scientific review"
+    ],
+    "current_crossref_api_key_required": false,
+    "paid_ai_enabled": false
+  },
+  "approval": {
+    "test_pr": 3,
+    "test_only": true,
+    "never_merge_or_publish_test_pr": true,
+    "email_delivery": "confirmed by recipient and actual owner reply",
+    "owner_reply_comment": 6631801075,
+    "owner_reply_first_line": "Súhlasím",
+    "owner_login": "martinamundova36-ux",
+    "bot_acknowledgement": "https://github.com/martinamundova36-ux/Vasweb/pull/3#issuecomment-6635353556",
+    "bot_acknowledgement_observed": true,
+    "automated_pr_creation_permission": false,
+    "permission_requires_action_time_confirmation": "GitHub combined Allow GitHub Actions to create and approve pull requests setting"
+  },
+  "tests": {
+    "approval_regressions": 15,
+    "isolated_real_git_merge_and_competing_push_retry": "passed",
+    "existing_isolated_full_publication_sken_sitemap_image_seo_duplicate_gates": "passed",
+    "live_public_urls_checked": 5,
+    "public_urls_http_200": 5,
+    "test_fixture_publicly_published": false,
+    "seo_articles": 26,
+    "seo_sitemap_urls": 81,
+    "seo_errors": 0,
+    "image_and_editorial_record_errors": 0
+  },
+  "remote_execution": {
+    "code_commit_before_concurrency_fix": "3b42193a59082560c81fb15796fb674411f2f20c",
+    "ci_run": 41862810068,
+    "editorial_run": 41862810120,
+    "pages_run": 41862809771,
+    "actual_owner_reply_run": 41837847857,
+    "run_attempt": 2,
+    "last_observed_reported_run_state": "queued; do not claim completed deployment until terminal result is observed"
+  },
+  "costs": {
+    "new_subscription": false,
+    "paid_api_used": false,
+    "runner": "public-repository ubuntu-latest standard runner"
+  },
+  "limitations": [
+    "Cron configuration and DST validation do not prove a future 08:00 event",
+    "Technical validation does not establish scientific truth or comprehensive plagiarism clearance",
+    "The safe test does not constitute a new approved production article"
+  ]
+}

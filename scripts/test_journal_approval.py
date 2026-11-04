@@ -278,6 +278,56 @@ class ApprovalTests(unittest.TestCase):
             git('commit', '-qm', 'validated isolated publication fixture')
             self.assertIn(approved, git('show', '-s', '--format=%P').split())
 
+    def test_competing_main_push_rebuilds_without_losing_approved_parent(self):
+        import subprocess
+        original_run = subprocess.run
+        def git(*args, cwd=None):
+            return original_run(['git', *args], cwd=cwd or self.root, check=True,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True).stdout.strip()
+        with tempfile.TemporaryDirectory() as remote, tempfile.TemporaryDirectory() as competing:
+            git('init', '--bare', '-q', remote)
+            git('init', '-q', '-b', 'main')
+            git('config', 'user.name', 'Isolated Test')
+            git('config', 'user.email', 'test@example.invalid')
+            (self.root / 'journal-reports').mkdir()
+            (self.root / 'journal-reports/fixture.json').write_text('{}')
+            (self.root / 'journal-images.json').write_text('{}')
+            (self.root / 'sitemap.xml').write_text('<urlset/>')
+            path = self.root / 'journal-drafts' / (KEY + '.json')
+            path.write_text('{}')
+            git('add', '.')
+            git('commit', '-qm', 'baseline')
+            git('checkout', '-qb', 'approved-data')
+            path.write_text('{"fixture":true}')
+            git('commit', '-qam', 'approved fixture')
+            approved = git('rev-parse', 'HEAD')
+            git('checkout', '-q', 'main')
+            git('remote', 'add', 'origin', remote)
+            git('push', '-q', 'origin', 'main', 'approved-data')
+            git('clone', '-q', '-b', 'main', remote, competing)
+            git('config', 'user.name', 'Other Test', cwd=competing)
+            git('config', 'user.email', 'other@example.invalid', cwd=competing)
+            (Path(competing) / 'other.txt').write_text('concurrent production change')
+            git('add', 'other.txt', cwd=competing)
+            git('commit', '-qm', 'concurrent change', cwd=competing)
+            other_sha = git('rev-parse', 'HEAD', cwd=competing)
+            git('push', '-q', 'origin', 'main', cwd=competing)
+            approval.merge_approved_draft(approved)
+            event_file = self.root / '.git/event.json'
+            event_file.write_text(json.dumps(self.event()))
+            def run(args, **kwargs):
+                if args[0] == 'git':
+                    return original_run(args, **kwargs)
+                return subprocess.CompletedProcess(args, 0)  # SEO is covered separately by the real publication regressions.
+            with patch.dict(os.environ, {'GITHUB_EVENT_PATH': str(event_file)}), \
+                 patch.object(approval, 'decide', side_effect=lambda event: approval.merge_approved_draft(approved)) as rebuild, \
+                 patch.object(approval.subprocess, 'run', side_effect=run):
+                approval.commit_decision()
+                rebuild.assert_called_once()
+            self.assertIn(approved, git('show', '-s', '--format=%P').split())
+            self.assertEqual(git('merge-base', '--is-ancestor', other_sha, 'HEAD'), '')
+            self.assertTrue((self.root / 'other.txt').exists())
+
 
 if __name__ == '__main__':
     unittest.main()
