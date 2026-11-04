@@ -8,16 +8,30 @@ REPO=os.environ.get("GITHUB_REPOSITORY","")
 TOKEN=os.environ.get("GH_TOKEN","")
 TOPICS=[
  ("Podnikanie","entrepreneurship startups business strategy"),
- ("Financie","business finance financial decision making"),
+ ("Financie","ecommerce checkout pricing customer payments"),
  ("Psychologia zakaznikov","consumer behavior purchasing psychology"),
- ("Marketing","marketing advertising brand effectiveness"),
+ ("Marketing","digital marketing advertising conversion small business"),
  ("AI a technologie","artificial intelligence business productivity"),
  ("Manazment","leadership organizational psychology management"),
- ("Produktivita","decision making behavioral economics productivity"),
- ("Buducnost prace","future of work employment innovation"),
+ ("Produktivita","business productivity digital transformation"),
+ ("Buducnost prace","generative AI business customer service"),
  ("E-commerce","ecommerce digital commerce customer experience"),
- ("Vyskum a inovacie","business innovation economic research"),
+ ("Vyskum a inovacie","website user experience usability conversion"),
 ]
+CLIENT_KEYWORDS={"website":5,"usability":5,"conversion":6,"ecommerce":5,"e-commerce":5,"digital marketing":5,"seo":6,"customer trust":5,"customer experience":4,"small business":5,"pricing":4,"online booking":6,"appointment scheduling":6,"hospitality":3,"restaurant":3,"hotel":3,"business productivity":4,"digital transformation":4,"generative ai":3}
+EXCLUDE_KEYWORDS={"vaccine":-10,"vaccination":-10,"leprosy":-10,"intensive care":-10,"icu":-10,"clinical":-6,"patient":-6,"medical":-5,"urban transformation":-5,"bibliometric":-5,"stigma":-6}
+def relevance(work):
+    inv=work.get("abstract_inverted_index") or {}
+    words={position:word for word,positions in inv.items() for position in positions}
+    abstract=" ".join(words[p] for p in sorted(words)).lower()
+    title=(work.get("title") or "").lower()
+    content=title+" "+abstract
+    positive=[(k,v) for k,v in CLIENT_KEYWORDS.items() if k in content]
+    negative=[(k,v) for k,v in EXCLUDE_KEYWORDS.items() if k in content]
+    score=sum(v for _,v in positive)+sum(v for _,v in negative)
+    if len(abstract)<120:score-=8
+    return score,positive,negative,len(abstract)>=120
+
 def get_json(url, headers=None):
     req=urllib.request.Request(url,headers={"User-Agent":"WEBU-Journal-Research/1.0 (https://www.webu.sk/)","Accept":"application/json",**(headers or {})})
     with urllib.request.urlopen(req,timeout=25) as response:
@@ -62,25 +76,30 @@ def main():
                     authors=", ".join((a.get("author") or {}).get("display_name","") for a in work.get("authorships",[])[:4])
                     if not authors:
                         continue
+                    score,positive,negative,has_abstract=relevance(work)
+                    if not has_abstract or score<7 or not positive:
+                        continue
                     seen.add(wid)
                     selected.append({
                         "category":category,"title":title,"authors":authors,
                         "date":pubdate,"doi":doi,"openalex":wid,
                         "type":work.get("type","unknown"),"lookback_days":days,
-                        "peer_reviewed":"not verified"
+                        "peer_reviewed":"not verified", "score":score, "client_use":", ".join(k for k,_ in positive), "warnings":", ".join(k for k,_ in negative)
                     })
                     found=True
                     break
             except Exception as exc:
                 errors.append(category+" ("+str(days)+" days): "+str(exc)[:200])
             time.sleep(0.2)
+    selected.sort(key=lambda item:item["score"],reverse=True)
     if not selected:
         raise SystemExit("No verifiable research metadata found; no article published. Errors: "+"; ".join(errors))
     title="[WEBU VYSKUM] "+TODAY.isoformat()
     lines=["# WEBU Journal – denny prieskum zahranicnych studii", "",
        "**Stav:** len vyskumne podklady, NIE hotove clanky. Ziadne automaticke publikovanie.",
        "**Datum UTC:** "+TODAY.isoformat(),
-       "**Najdenych kandidatov:** "+str(len(selected)),
+       "**Najdenych relevantnych kandidatov:** "+str(len(selected)),
+       "**Filter:** dostupny abstrakt, uzitocnost pre klientov WEBU, skore aspon 7; bez automatickeho publikovania.",
        "**Metodologia, vzorka, vysledky, recenzne konanie, licencia obrazka:** NEOVERENE; vyzaduju plny text a redakcnu kontrolu.",
        "", "## Kandidati"]
     for i,item in enumerate(selected,1):
@@ -89,7 +108,10 @@ def main():
             "- DOI: "+item["doi"],"- OpenAlex: "+item["openalex"],
             "- Typ zaznamu: "+item["type"],
             "- Okno vyhladavania: "+str(item["lookback_days"])+" dni",
-            "- Status: metadata najdene; obsah a zavery neoverene"])
+            "- Skore uzitocnosti: "+str(item["score"]),
+            "- Vyuzitelnost pre klienta: "+item["client_use"],
+            "- Tematicke upozornenia: "+(item["warnings"] or "ziadne"),
+            "- Status: automaticky posudeny abstrakt; metodika a zavery neoverene"])
     if errors: lines.extend(["","## Chyby pri hladani"]+["- "+e for e in errors])
     lines.extend(["","## Publikovanie","ZABLOKOVANE: bez overenia primarneho textu, metodologie, vysledkov, SK/EN obsahu, SEO a licencie obrazka."])
     # One report per day, reruns are idempotent.
