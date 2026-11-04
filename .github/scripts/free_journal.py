@@ -171,6 +171,7 @@ def main():
  if args.action=='publish':
   if not args.draft_id or not re.fullmatch(r'\d{4}-\d{2}-\d{2}-[a-f0-9]{12}',args.draft_id):raise SystemExit('Select an exact draft ID')
   path=folder/(args.draft_id+'.json');source=json.loads(path.read_text())
+  if source.get('test_only'):raise SystemExit('Notification test fixtures can never be published')
   if source.get('published_at'):raise SystemExit('Draft already published')
   if not publication_capacity(folder,config['target_studies_per_day']):raise SystemExit('Daily publication cap reached')
   editorial=validate_editorial(source)

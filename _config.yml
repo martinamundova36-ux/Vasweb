@@ -5,4 +5,5 @@ exclude:
   - journal-config.json
   - scripts
   - WEBU-JOURNAL-EDITORIAL-POLICY.md
+  - WEBU-JOURNAL-APPROVAL.md
   - DOMAIN-MIGRATION.md

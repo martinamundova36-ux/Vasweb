@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - '.github/scripts/free_journal.py'
+      - '.github/scripts/journal_approval.py'
+      - 'scripts/test_journal_approval.py'
       - '.github/scripts/verify_free_deploy.py'
       - '.github/scripts/pages_api.py'
       - 'scripts/test_pages_api.py'
@@ -21,12 +23,14 @@ on:
       - 'journal-drafts/*.json'
   schedule:
     - cron: '35 7 * * *'
+  issue_comment:
+    types: [created]
   workflow_dispatch:
     inputs:
       action:
-        description: 'draft = bezplatný návrh; publish = moje schválenie vybraného redakčne overeného článku; deploy = iba obnoviť nasadenie'
+        description: 'draft = pripraviť návrhy a PR; publish = moje výslovné schválenie; deploy = obnova; notify-test = test e-mailu bez publikovania'
         type: choice
-        options: [draft, publish, deploy]
+        options: [draft, publish, deploy, notify-test]
         default: draft
         required: true
       draft_id:
@@ -34,8 +38,7 @@ on:
         type: string
         required: false
 permissions:
-  contents: write
-  pages: write
+  contents: read
 concurrency:
   group: webu-journal-publish
   cancel-in-progress: false
@@ -55,10 +58,14 @@ jobs:
       - run: python3 scripts/journal_image_audit.py
       - run: python3 scripts/journal_review_audit.py
       - run: python3 scripts/test_journal_review.py
+      - run: python3 scripts/test_journal_approval.py
   publish:
     needs: validate
-    if: github.event.repository.private == false && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner))
+    if: github.event.repository.private == false && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner && inputs.action != 'notify-test'))
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -108,3 +115,88 @@ jobs:
           echo '### WEBU Journal – bezplatný režim' >> "$GITHUB_STEP_SUMMARY"
           echo 'AI API: nepoužité. Návrhy nie sú článkami na webe. Publikovanie vyžaduje výslovnú voľbu publish vlastníkom.' >> "$GITHUB_STEP_SUMMARY"
           echo 'Záznamy: journal-drafts/ a journal-reports/ v repozitári.' >> "$GITHUB_STEP_SUMMARY"
+  notify:
+    needs: [validate, publish]
+    if: >-
+      always() && needs.validate.result == 'success' && github.event.repository.private == false &&
+      ((github.event_name == 'schedule' && needs.publish.result == 'success') ||
+       (github.event_name == 'push') ||
+       (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner &&
+        (inputs.action == 'notify-test' || (inputs.action == 'draft' && needs.publish.result == 'success'))))
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Samostatný PR a GitHub upozornenie bez plateného mailera
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTIFY_ACTION: ${{ inputs.action == 'notify-test' && 'notify-test' || 'notify' }}
+        run: python3 .github/scripts/journal_approval.py --action "$NOTIFY_ACTION"
+  decision:
+    needs: validate
+    if: >-
+      github.event_name == 'issue_comment' && github.event.issue.pull_request &&
+      github.event.comment.user.login == github.repository_owner &&
+      (startsWith(github.event.comment.body, 'SCHVALIT ') || startsWith(github.event.comment.body, 'SCHVÁLIŤ ') ||
+       startsWith(github.event.comment.body, 'UPRAVIT ') || startsWith(github.event.comment.body, 'UPRAVIŤ ') ||
+       startsWith(github.event.comment.body, 'ZAMIETNUT ') || startsWith(github.event.comment.body, 'ZAMIETNUŤ '))
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      pages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Overiť vlastníčku, presnú verziu a odborné podklady
+        id: decision
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/journal_approval.py --action decide
+      - name: Povinné kontroly schváleného článku
+        if: steps.decision.outputs.publish == 'true'
+        run: |
+          python3 scripts/seo_audit.py
+          python3 scripts/journal_image_audit.py
+          python3 scripts/journal_review_audit.py
+          python3 scripts/journal_audit.py --publish-gate
+      - name: Uložiť rozhodnutie a prípadné schválené publikovanie
+        if: steps.decision.outputs.action != ''
+        run: |
+          git config user.name "WEBU Journal Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add journal-drafts/ journal-reports/ blog*.html sitemap.xml journal-images.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record explicit WEBU owner decision"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Nasadiť iba výslovne schválený článok
+        if: steps.decision.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 .github/scripts/pages_api.py
+          python3 .github/scripts/verify_free_deploy.py
+      - name: Oznámiť skutočný výsledok rozhodnutia
+        if: always() && steps.decision.outputs.test_only != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+          DECISION_SUCCESS: ${{ job.status == 'success' && 'true' || 'false' }}
+        run: |
+          if [ "$DECISION_SUCCESS" = true ]; then
+            python3 .github/scripts/journal_approval.py --action finish --pr-number "$PR_NUMBER"
+          else
+            python3 .github/scripts/journal_approval.py --action finish --pr-number "$PR_NUMBER" --failed
+          fi
