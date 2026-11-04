@@ -29,3 +29,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 .github/scripts/research_journal.py
+
+      - name: Overit DOI a bibliografiu v Crossref
+        if: github.event_name == 'workflow_dispatch' || steps.clock.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/verify_research.py
