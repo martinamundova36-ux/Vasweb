@@ -27,7 +27,9 @@ class ApprovalTests(unittest.TestCase):
         (self.root / 'journal-drafts').mkdir()
         (self.root / 'journal-config.json').write_text(json.dumps({'approval_notifications': {
             'owner': OWNER, 'legacy_draft_ids': [], 'max_new_requests_per_day': 5}}))
-        self.env = patch.dict(os.environ, {'GITHUB_REPOSITORY': REPO, 'GITHUB_REPOSITORY_OWNER': OWNER})
+        self.env = patch.dict(os.environ, {'GITHUB_REPOSITORY': REPO, 'GITHUB_REPOSITORY_OWNER': OWNER,
+            'GITHUB_STEP_SUMMARY': str(self.root / 'test-summary.md'),
+            'GITHUB_OUTPUT': str(self.root / 'test-outputs.txt')})
         self.env.start()
         self.root_patch = patch.object(approval, 'ROOT', self.root)
         self.root_patch.start()
