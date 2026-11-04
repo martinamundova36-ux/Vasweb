@@ -80,6 +80,15 @@ class ApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Notification version is stale'):
             approval.decision_version(event, changed, data)
 
+    def test_natural_owner_agreement_and_quoted_email(self):
+        event = self.event()
+        for reply in ('Súhlasím', 'suhlasim', 'SÚHLASÍM'):
+            event['comment']['body'] = reply + '\r\n\r\nDňa st 4. 11. 2026 bot napísal:\r\n> quoted notification'
+            self.assertEqual(approval.parse_decision(event, OWNER), ('SCHVALIT', None))
+        for reply in ('Nesúhlasím', 'Zatiaľ nesúhlasím', 'Súhlasím?'):
+            event['comment']['body'] = reply
+            self.assertIsNone(approval.parse_decision(event, OWNER))
+
     def test_email_is_short_and_has_no_copyable_machine_command(self):
         import re
         message = approval.body(self.source, KEY, SHA)

@@ -235,10 +235,10 @@ def parse_decision(event, owner):
     if comment.get('user', {}).get('login') != owner or 'pull_request' not in event.get('issue', {}):
         raise ValueError('Only the named owner may decide on a pull request')
     lines = comment.get('body', '').strip().splitlines()
-    match = re.fullmatch(r'(SCHVALIT|SCHVÁLIŤ|UPRAVIT|UPRAVIŤ|ZAMIETNUT|ZAMIETNUŤ)(?: ([a-f0-9]{40}))?', lines[0].strip() if lines else '', re.I)
+    match = re.fullmatch(r'(SCHVALIT|SCHVÁLIŤ|SÚHLASÍM|SUHLASIM|UPRAVIT|UPRAVIŤ|ZAMIETNUT|ZAMIETNUŤ)(?: ([a-f0-9]{40}))?', lines[0].strip() if lines else '', re.I)
     if not match:
         return None
-    action = {'SCHVÁLIŤ': 'SCHVALIT', 'UPRAVIŤ': 'UPRAVIT', 'ZAMIETNUŤ': 'ZAMIETNUT'}.get(match[1].upper(), match[1].upper())
+    action = {'SCHVÁLIŤ': 'SCHVALIT', 'SÚHLASÍM': 'SCHVALIT', 'SUHLASIM': 'SCHVALIT', 'UPRAVIŤ': 'UPRAVIT', 'ZAMIETNUŤ': 'ZAMIETNUT'}.get(match[1].upper(), match[1].upper())
     return action, match[2]
 
 
