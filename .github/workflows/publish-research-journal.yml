@@ -37,6 +37,11 @@ on:
         description: 'Presné ID z journal-drafts/; povinné iba pre publish'
         type: string
         required: false
+      resend_notice:
+        description: 'Iba notify-test: výslovne poslať nový skrátený testovací e-mail'
+        type: boolean
+        default: false
+        required: false
 permissions:
   contents: read
 concurrency:
@@ -137,6 +142,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           NOTIFY_ACTION: ${{ inputs.action == 'notify-test' && 'notify-test' || 'notify' }}
+          RESEND_TEST_NOTICE: ${{ inputs.action == 'notify-test' && inputs.resend_notice && 'true' || 'false' }}
         run: python3 .github/scripts/journal_approval.py --action "$NOTIFY_ACTION"
   decision:
     needs: validate

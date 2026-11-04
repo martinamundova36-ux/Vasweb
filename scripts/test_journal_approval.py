@@ -90,6 +90,39 @@ class ApprovalTests(unittest.TestCase):
         self.assertIn('SCHVÁLIŤ · UPRAVIŤ · ZAMIETNUŤ', visible)
         self.assertLess(len(visible), 1000)
 
+    def test_explicit_resend_is_once_per_owner_run(self):
+        config_path = self.root / 'journal-config.json'
+        config = json.loads(config_path.read_text())
+        config['approval_notifications']['test_id'] = KEY
+        config_path.write_text(json.dumps(config))
+        original = json.loads((ROOT / 'journal-drafts/2026-11-04-93b063fd01b6.json').read_text())
+        (self.root / 'journal-drafts/2026-11-04-93b063fd01b6.json').write_text(json.dumps(original))
+        source = copy.deepcopy(original)
+        source.pop('published_at', None)
+        source.pop('published_urls', None)
+        source.update(test_only=True, notification_title='TEST – AI vo firme: merajte prínosy aj obavy ľudí',
+            notification_annotation='Skúška e-mailového schvaľovania. Tento návrh nie je nový článok a nemôže sa publikovať. Po prijatí upozornenia potvrď jeho doručenie.')
+        self.pr['body'] = approval.body(source, KEY, SHA)
+        self.pr['user']['login'] = OWNER
+        comments = [{'body': '<!-- webu-test-email-notice -->'}]
+        def pages(path):
+            return [self.pr] if path.startswith('pulls?') else comments
+        def post(path, method, payload):
+            comments.append(payload)
+        with patch.object(approval, 'paged', side_effect=pages), patch.object(approval, 'api', side_effect=post) as api:
+            approval.notify(test=True)
+            api.assert_not_called()
+            with patch.dict(os.environ, {'RESEND_TEST_NOTICE': 'true', 'GITHUB_EVENT_NAME': 'workflow_dispatch',
+                                         'GITHUB_ACTOR': OWNER, 'GITHUB_RUN_ID': '12345'}):
+                approval.notify(test=True)
+                approval.notify(test=True)
+                api.assert_called_once()
+                self.assertIn('resend 12345', comments[-1]['body'])
+            with patch.dict(os.environ, {'RESEND_TEST_NOTICE': 'true', 'GITHUB_EVENT_NAME': 'workflow_dispatch',
+                                         'GITHUB_ACTOR': 'other-account', 'GITHUB_RUN_ID': '12346'}):
+                with self.assertRaisesRegex(ValueError, 'explicit owner'):
+                    approval.notify(test=True)
+
     def test_unchanged_and_closed_requests_do_not_notify(self):
         (self.root / 'journal-drafts' / (KEY + '.json')).write_text(json.dumps(self.source))
         for state in ('open', 'closed'):

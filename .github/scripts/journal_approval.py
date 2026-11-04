@@ -198,6 +198,10 @@ def notify(test=False):
                     # Free fallback for a test PR opened through the owner's connector:
                     # a single bot comment is another person's activity, not self-activity.
                     marker = '<!-- webu-test-email-notice -->'
+                    if os.environ.get('RESEND_TEST_NOTICE') == 'true':
+                        if os.environ.get('GITHUB_EVENT_NAME') != 'workflow_dispatch' or os.environ.get('GITHUB_ACTOR') != config['owner'] or not os.environ.get('GITHUB_RUN_ID', '').isdigit():
+                            raise ValueError('Resending a test notice requires an explicit owner workflow dispatch')
+                        marker = '<!-- webu-test-email-notice resend ' + os.environ['GITHUB_RUN_ID'] + ' -->'
                     comments = paged('issues/' + str(previous['number']) + '/comments')
                     if not any(marker in c.get('body', '') for c in comments):
                         api('issues/' + str(previous['number']) + '/comments', 'POST', {'body': marker + '\n' + body(source, key, previous['head']['sha'])})
