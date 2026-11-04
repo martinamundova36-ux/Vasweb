@@ -12,7 +12,7 @@ for p in root.glob("*.html"):
     if not re.search(r"</head>",s,re.I):continue
     s=re.sub(r'<link\b[^>]*\brel=["\'](?:shortcut icon|icon)["\'][^>]*>',"",s,flags=re.I)
     s=re.sub(r'<link\b[^>]*\bhref=["\'][^"\']*favicon\.(?:svg|ico|png)["\'][^>]*>',"",s,flags=re.I)
-    s=re.sub(r"</head>",'<link rel="icon" type="image/svg+xml" href="/favicon.svg"></head>',s,count=1,flags=re.I)
+    s=re.sub(r"</head>",'<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="shortcut icon" href="/favicon.ico"></head>',s,count=1,flags=re.I)
     p.write_text(s,encoding="utf-8")
     count+=1
 print("WEBU favicon linked in",count,"HTML pages")
