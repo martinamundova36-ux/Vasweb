@@ -75,9 +75,19 @@ def main():
     all_errors, all_warnings = [], []
     # Legacy articles receive a non-blocking backlog report. Newly edited
     # blog pages must pass the structural checks before merging.
+    gate = "--publish-gate" in sys.argv
     base = os.environ.get("JOURNAL_BASE_SHA", "").strip()
     changed = set()
-    if base and re.fullmatch(r"[0-9a-fA-F]{40}", base):
+    if gate:
+        result = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=ROOT, text=True, capture_output=True)
+        if result.returncode:
+            print("ERROR: cannot determine pending articles:", result.stderr)
+            return 2
+        changed = {line[3:] for line in result.stdout.splitlines() if len(line) >= 4 and line[3:].startswith("blog") and line[3:].endswith(".html")}
+        if not changed:
+            print("No new or changed blog HTML files; publication gate passed.")
+            return 0
+    elif base and re.fullmatch(r"[0-9a-fA-F]{40}", base):
         result = subprocess.run(
             ["git", "diff", "--name-only", base, "HEAD", "--", "blog*.html"],
             cwd=ROOT, text=True, capture_output=True, check=False)
