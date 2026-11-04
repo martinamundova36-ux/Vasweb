@@ -1,0 +1,42 @@
+name: WEBU favicon PNG and ICO
+on:
+  push:
+    branches: [main]
+    paths:
+      - favicon.svg
+      - .github/workflows/favicon-assets.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  favicon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install image converters
+        run: python3 -m pip install --user pillow cairosvg
+      - name: Generate 48px and 192px icons and ICO
+        run: |
+          python3 - <<'PY'
+          import io
+          import cairosvg
+          from PIL import Image
+          source='favicon.svg'
+          for size in (48,192):
+              png=cairosvg.svg2png(url=source,output_width=size,output_height=size)
+              with open('favicon-'+str(size)+'.png','wb') as out:out.write(png)
+          image=Image.open('favicon-192.png').convert('RGBA')
+          image.save('favicon.ico',format='ICO',sizes=[(16,16),(32,32),(48,48)])
+          PY
+      - name: Commit generated favicon assets
+        run: |
+          git config user.name "WEBU Favicon Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add favicon.ico favicon-48.png favicon-192.png
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate Google-compatible WEBU favicon assets"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
