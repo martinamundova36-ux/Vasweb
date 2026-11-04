@@ -18,7 +18,7 @@
     "workplace"
   ],
   "verified_at": "2026-11-04",
-  "full_text_reviewed": false,
+  "full_text_reviewed": true,
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
   "drafted_at": "2026-11-04",
@@ -130,5 +130,12 @@
     },
     "content_sha256": "3a7b91022e5289a3edb271fa0f2f92d75a3cbd035e47bff89fa5832906113110",
     "review_level": "full_text_sections"
-  }
+  },
+  "approved_by": "martinamundova36-ux",
+  "approved_content_sha256": "3a7b91022e5289a3edb271fa0f2f92d75a3cbd035e47bff89fa5832906113110",
+  "published_at": "2026-11-04",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6.html",
+    "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6-en.html"
+  ]
 }
