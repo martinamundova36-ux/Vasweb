@@ -29,3 +29,13 @@ AI API: 0 €. Nové predplatné: žiadne. Crossref používa verejné bezplatn�
 Staré platené návrhy sú vypnuté. Starý výskumný workflow zostal dostupný iba ručne. API môžu mať výpadky a limity; neúspech vedie k reportu alebo zastaveniu, nie k náhradným vymysleným zdrojom. Kontrola bibliografie nie je overením vedeckej platnosti. Plánované Actions môžu meškať a GitHub môže deaktivovať harmonogram pri dlhodobej neaktivite verejného repozitára.
 
 Indexovanie sa negarantuje. Sitemap sa obnoví pri publikovaní; Google ju má registrovanú na stálej URL. Google Indexing API ani neautorizované automatizované žiadosti sa nepoužívajú. Automatické opätovné odoslanie sitemap cez Search Console API vyžaduje samostatne udelené serverové oprávnenie; browserová relácia sa do GitHub secrets nekopíruje.
+
+## Pokračovanie 4. novembra 2026
+
+- Opätovné overenie pred publikovaním porovnáva aj poradie autorov, rok/dátum, vydavateľa, časopis a typ zdroja. Zmena zastaví publikáciu a vyžaduje novú redakčnú kontrolu.
+- Denný strop platí aj na publikovanie: najviac päť štúdií, teda najviac desať SK/EN URL. Opakovaný draft beh zachová zoznam už pripravených návrhov v dennom reporte.
+- Favicon workflow po zmene obrazových súborov výslovne vyžiada Pages build; samotný push cez GITHUB_TOKEN ho nemusí spustiť.
+- Verejná kontrola overuje všetkých sedem favicon variantov, zhodu ich bajtov so schváleným zdrojom, PNG/ICO rozmery, SVG viewBox, robots pravidlá pre Googlebot a Googlebot-Image, prepojenie HTML a aktuálnosť SEO metadát a sitemap.
+- Bezplatná AI bola opätovne preverená: GitHub Models je podľa oficiálnej dokumentácie od 30. 7. 2026 ukončený. Gemini má Free Tier pre vybrané modely, ale dostupná kapacita nie je garantovaná a pre tento projekt nie je pripojený účet/API kľúč. Nejde teda o overenú bezobslužnú náhradu redakcie. Zachovaný je funkčný Crossref režim návrhov; nepridáva sa platená závislosť ani ďalší harmonogram.
+
+Oficiálne podklady: https://docs.github.com/en/github-models ; https://ai.google.dev/gemini-api/docs/rate-limits ; https://ai.google.dev/gemini-api/docs/billing/ ; https://developers.google.com/search/docs/appearance/favicon-in-search

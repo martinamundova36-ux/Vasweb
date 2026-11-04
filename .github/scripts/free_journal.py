@@ -21,7 +21,14 @@ def verify(record,expected=None):
  date=dt.date(*parts[:3])
  if date>NOW:raise ValueError('Future-dated source')
  if record.get('relation',{}).get('is-retracted-by') or any(x.get('type')=='retraction' for x in record.get('update-to',[])):raise ValueError('Retraction flagged')
- if expected and (normal(title)!=normal(expected['title']) or doi!=expected['doi']):raise ValueError('Source metadata changed; review again')
+ if expected:
+  current={'title':title,'doi':doi,'authors':[' '.join(filter(None,[a.get('given'),a.get('family')])) for a in authors],'publisher':record['publisher'],'venue':record['container-title'][0],'source_date':date.isoformat(),'type':record['type']}
+  for field,value in current.items():
+   old=expected.get(field)
+   if isinstance(value,list):
+    same=isinstance(old,list) and [normal(x) for x in value]==[normal(x) for x in old]
+   else:same=isinstance(old,str) and normal(value)==normal(old)
+   if not same:raise ValueError('Source '+field+' changed; review again')
  abstract=clean(record.get('abstract',''))
  matched=sorted(k for k in KEYWORDS if k in (title+' '+abstract).casefold())
  return {'doi':doi,'title':title,'authors':[' '.join(filter(None,[a.get('given'),a.get('family')])) for a in authors],'publisher':record['publisher'],'venue':record['container-title'][0],'source_date':date.isoformat(),'type':record['type'],'url':'https://doi.org/'+doi,'abstract_available':bool(abstract),'abstract_words':len(abstract.split()),'selection_keywords':matched,'verified_at':NOW.isoformat(),'full_text_reviewed':False,'source':'Crossref REST API','content_kind':'bibliographic overview, not scientific analysis'}
@@ -33,6 +40,8 @@ def seen_dois():
   try:seen.add(json.loads(p.read_text())['doi'].lower())
   except (ValueError,KeyError):pass
  return seen
+def publication_capacity(folder,limit):
+ return max(0,limit-sum(json.loads(p.read_text()).get('published_at')==str(NOW) for p in folder.glob('*.json')))
 def identifier(source):return source['source_date']+'-'+hashlib.sha256(source['doi'].encode()).hexdigest()[:12]
 def render(source,lang):
  en=lang=='en';key=identifier(source);name='blog-journal-review-'+key+('-en' if en else '')+'.html';other='blog-journal-review-'+key+('' if en else '-en')+'.html'
@@ -83,7 +92,10 @@ def main():
   if not args.draft_id or not re.fullmatch(r'\d{4}-\d{2}-\d{2}-[a-f0-9]{12}',args.draft_id):raise SystemExit('Select an exact draft ID')
   path=folder/(args.draft_id+'.json');source=json.loads(path.read_text())
   if source.get('published_at'):raise SystemExit('Draft already published')
+  if not publication_capacity(folder,config['target_studies_per_day']):raise SystemExit('Daily publication cap reached')
+  drafted_at=source.get('drafted_at',source.get('verified_at'))
   source=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
+  source['drafted_at']=drafted_at
   # Explicit workflow_dispatch publish action is the owner's approval.
   source['approved_by']=__import__('os').environ.get('GITHUB_ACTOR','manual-owner');publish(source)
   source['published_at']=str(NOW);source['published_urls']=[SITE+render(source,lang)[0] for lang in ('sk','en')];path.write_text(json.dumps(source,ensure_ascii=False,indent=2));print(json.dumps(source,ensure_ascii=False));return
@@ -98,6 +110,17 @@ def main():
   try:verify(future)
   except ValueError:pass
   else:raise AssertionError('Future source accepted')
+  record={'DOI':'10.1234/test','title':['Digital marketing'],'author':[{'given':'A','family':'Author'}],'publisher':'Publisher','container-title':['Venue'],'published':{'date-parts':[[2026,1,1]]},'type':'journal-article'}
+  verified=verify(record)
+  assert verify(record,verified)==verified
+  for field,new in [('authors',['Other Author']),('source_date','2025-01-01'),('publisher','Other Publisher'),('venue','Other Venue')]:
+   changed=dict(verified);changed[field]=new
+   try:verify(record,changed)
+   except ValueError:pass
+   else:raise AssertionError('Changed '+field+' accepted')
+  with tempfile.TemporaryDirectory() as cap:
+   for i in range(5):Path(cap,str(i)+'.json').write_text(json.dumps({'published_at':str(NOW)}))
+   assert publication_capacity(Path(cap),5)==0
   original_root=ROOT
   with tempfile.TemporaryDirectory(prefix='webu-journal-test-') as temp:
    test=Path(temp)/'site';shutil.copytree(ROOT,test,ignore=shutil.ignore_patterns('.git','__pycache__'))
@@ -126,6 +149,8 @@ def main():
    name,page,title,desc=render(source,lang);draft+='## '+lang.upper()+'\n\n'+title+'\n\n'+desc+'\n\n'
   draft+='## Pred schválením\n\n- Otvoriť DOI a overiť bibliografiu.\n- Posúdiť tematickú užitočnosť pre čitateľov.\n- Pri dopĺňaní vedeckých záverov overiť abstrakt/plný text, metódu, vzorku a limity.\n- Schválenie publikuje iba označený bibliografický prehľad; plná vedecká analýza sa negeneruje.\n'
   (folder/(key+'.md')).write_text(draft)
- report={'date':str(NOW),'mode':'drafts_require_approval','draft_ids':[identifier(s) for s in selected],'published_urls':[],'errors':errors,'ai_cost_eur':0,'google_index_status':'not inspected'}
+ previous_path=ROOT/'journal-reports'/('free-discovery-'+str(NOW)+'.json')
+ previous=json.loads(previous_path.read_text()) if previous_path.exists() else {}
+ report={'date':str(NOW),'mode':'drafts_require_approval','draft_ids':sorted(set(previous.get('draft_ids',[]))|{identifier(s) for s in selected}),'published_urls':[],'errors':errors,'ai_cost_eur':0,'google_index_status':'not inspected'}
  out=ROOT/'journal-reports';out.mkdir(exist_ok=True);(out/('free-discovery-'+str(NOW)+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2));print(json.dumps(report,ensure_ascii=False))
 if __name__=='__main__':main()
