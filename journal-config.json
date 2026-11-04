@@ -1,0 +1,18 @@
+{
+  "mode": "drafts_require_approval",
+  "max_candidates_per_run": 5,
+  "lookback_days": 90,
+  "minimum_relevance_score": 2,
+  "topics": [
+    "digital marketing small business",
+    "work organizational psychology",
+    "digital entrepreneurship",
+    "artificial intelligence business",
+    "ecommerce customer experience",
+    "leadership workplace productivity",
+    "consumer trust pricing"
+  ],
+  "paid_ai_enabled": false,
+  "schedule_note": "Daily 07:35 UTC; change cron in publish-research-journal.yml",
+  "target_studies_per_day": 5
+}

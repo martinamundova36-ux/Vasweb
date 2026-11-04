@@ -1,0 +1,8 @@
+# Drafts and editorial infrastructure belong in GitHub, not on the public website.
+exclude:
+  - journal-drafts
+  - journal-reports
+  - journal-config.json
+  - scripts
+  - WEBU-JOURNAL-EDITORIAL-POLICY.md
+  - DOMAIN-MIGRATION.md

@@ -1,61 +1,89 @@
-name: WEBU Journal - publikovanie SK a EN
+name: WEBU Journal - bezplatné návrhy a schválené publikovanie
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/free_journal.py'
+      - '.github/scripts/verify_free_deploy.py'
+      - '.github/workflows/publish-research-journal.yml'
+      - 'journal-config.json'
+  schedule:
+    - cron: '35 7 * * *'
   workflow_dispatch:
+    inputs:
+      action:
+        description: 'draft = bezplatný návrh; publish = moje schválenie vybraného bibliografického prehľadu'
+        type: choice
+        options: [draft, publish]
+        default: draft
+        required: true
+      draft_id:
+        description: 'Presné ID z journal-drafts/; povinné iba pre publish'
+        type: string
+        required: false
 permissions:
   contents: write
+  pages: write
 concurrency:
   group: webu-journal-publish
   cancel-in-progress: false
 jobs:
-  publish:
-    if: ${{ vars.WEBU_JOURNAL_PAID_PUBLISHING == 'enabled' }}
+  validate:
+    if: github.event.repository.private == false
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    permissions:
+      contents: read
     steps:
-      - name: Overit cas 08:00 Bratislava
-        id: clock
-        shell: bash
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$(TZ=Europe/Bratislava date +%H)" = "08" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          fi
       - uses: actions/checkout@v4
-        if: steps.clock.outputs.run == 'true'
+        with:
+          fetch-depth: 0
+      - run: python3 .github/scripts/free_journal.py --action self-test
+  publish:
+    needs: validate
+    if: github.event.repository.private == false && (github.event_name == 'schedule' || github.actor == github.repository_owner)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
         with:
           ref: main
-          persist-credentials: true
-      - name: Skontrolovat konfiguraciu OpenAI
-        if: steps.clock.outputs.run == 'true'
+          fetch-depth: 0
+      - name: Test bez zverejnenia a bez plateného API
+        run: python3 .github/scripts/free_journal.py --action self-test
+      - name: Vyhľadať návrh alebo publikovať výslovne schválený prehľad
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        shell: bash
+          JOURNAL_ACTION: ${{ inputs.action || 'draft' }}
+          JOURNAL_DRAFT_ID: ${{ inputs.draft_id }}
+        run: python3 .github/scripts/free_journal.py --action "$JOURNAL_ACTION" ${JOURNAL_DRAFT_ID:+--draft-id "$JOURNAL_DRAFT_ID"}
+      - name: Redakčná a SEO kontrola
         run: |
-          if [ -z "$OPENAI_API_KEY" ]; then
-            echo '::error title=Missing OPENAI_API_KEY::Add OPENAI_API_KEY under Settings > Secrets and variables > Actions. No articles were published.'
-            exit 1
-          fi
-          echo 'OpenAI API key is configured (value hidden).'
-      - name: Vyskum, SK a EN clanky, kontrola a publikovanie
-        if: steps.clock.outputs.run == 'true'
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: python3 .github/scripts/publish_research_journal.py
-      - name: Pripraviť SEO, jazyky, súvisiace články, favicon a sitemap
-        if: steps.clock.outputs.run == 'true'
-        run: python3 .github/scripts/prepare_journal.py
-      - name: Povinná technická kontrola pred publikovaním
-        if: steps.clock.outputs.run == 'true'
-        run: python3 scripts/journal_audit.py --publish-gate
-      - name: Ulozit clanky a denny report
-        if: steps.clock.outputs.run == 'true'
+          python3 scripts/seo_audit.py
+          python3 scripts/journal_audit.py --publish-gate
+      - name: Uložiť návrhy alebo schválené články
+        id: commit
         run: |
           git config user.name "WEBU Journal Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add blog.html blog-en.html blog-journal-*.html sitemap.xml journal-reports/
+          git add journal-drafts/ journal-reports/ blog*.html sitemap.xml
           if ! git diff --cached --quiet; then
-            git commit -m "Publish verified-source WEBU Journal SK and EN articles"
+            git commit -m "WEBU Journal free editorial pipeline"
             git pull --rebase origin main
             git push origin HEAD:main
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
+      - name: Po schválenom publikovaní vyžiadať existujúci GitHub Pages build
+        if: inputs.action == 'publish' && steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds" --jq '.status'
+      - name: Overiť nové verejné URL po dokončení Pages
+        if: inputs.action == 'publish' && steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/verify_free_deploy.py
+      - name: Záznam výsledku bez uchovávania veľkých artefaktov
+        if: always()
+        run: |
+          echo '### WEBU Journal – bezplatný režim' >> "$GITHUB_STEP_SUMMARY"
+          echo 'AI API: nepoužité. Návrhy nie sú článkami na webe. Publikovanie vyžaduje výslovnú voľbu publish vlastníkom.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Záznamy: journal-drafts/ a journal-reports/ v repozitári.' >> "$GITHUB_STEP_SUMMARY"

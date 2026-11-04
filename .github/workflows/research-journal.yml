@@ -1,8 +1,6 @@
 name: WEBU Journal - denne overovanie zahranicnych vyskumov
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 6,7 * * *'
 permissions:
   contents: read
   issues: write
