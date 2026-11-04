@@ -2,6 +2,7 @@
 """Zero-AI-cost bibliographic draft workflow. No generated scientific findings."""
 from pathlib import Path
 import shutil,tempfile
+import urllib.error
 import argparse,datetime as dt,hashlib,html,json,re,subprocess,sys,time,urllib.parse,urllib.request
 ROOT=Path(__file__).resolve().parents[2]
 SITE='https://www.webu.sk/'
@@ -20,7 +21,10 @@ def verify(record,expected=None):
  if len(parts)<3:raise ValueError('Source needs a full publication date')
  date=dt.date(*parts[:3])
  if date>NOW:raise ValueError('Future-dated source')
- if record.get('relation',{}).get('is-retracted-by') or any(x.get('type')=='retraction' for x in record.get('update-to',[])):raise ValueError('Retraction flagged')
+ relations=record.get('relation') or {}
+ if any(relations.get(k) for k in ('is-retracted-by','is-retraction-of')):raise ValueError('Retraction flagged')
+ notices=(record.get('update-to') or [])+(record.get('updated-by') or [])
+ if any(x.get('type','').lower().replace('_','-') in ('retraction','withdrawal','expression-of-concern') for x in notices):raise ValueError('Source integrity notice requires review')
  if expected:
   current={'title':title,'doi':doi,'authors':[' '.join(filter(None,[a.get('given'),a.get('family')])) for a in authors],'publisher':record['publisher'],'venue':record['container-title'][0],'source_date':date.isoformat(),'type':record['type']}
   for field,value in current.items():
@@ -43,6 +47,25 @@ def seen_dois():
 def publication_capacity(folder,limit):
  return max(0,limit-sum(json.loads(p.read_text()).get('published_at')==str(NOW) for p in folder.glob('*.json')))
 def identifier(source):return source['source_date']+'-'+hashlib.sha256(source['doi'].encode()).hexdigest()[:12]
+def editorial_digest(languages):
+ return hashlib.sha256(json.dumps(languages,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def validate_editorial(source):
+ editorial=source.get('editorial') or {}
+ if editorial.get('status')!='ready_for_owner_approval':raise ValueError('A reviewed bilingual article is required; bibliographic templates cannot be published')
+ if set(editorial.get('languages',{}))!={'sk','en'}:raise ValueError('Both SK and EN articles are required')
+ if not all(editorial.get('checks',{}).get(k) is True for k in ('bibliography','source','claims','relevance','bilingual')):raise ValueError('Editorial checks incomplete')
+ if not editorial.get('source_url','').startswith('https://') or not editorial.get('source_scope'):raise ValueError('Source review evidence missing')
+ try:reviewed=dt.date.fromisoformat(editorial['reviewed_at'])
+ except (ValueError,KeyError):raise ValueError('Invalid editorial review date')
+ if reviewed>NOW:raise ValueError('Future editorial review')
+ if editorial.get('content_sha256')!=editorial_digest(editorial['languages']):raise ValueError('Article content changed after review')
+ for lang,article in editorial['languages'].items():
+  if not article.get('title') or not article.get('lead') or not 50<=len(article.get('description',''))<=160:raise ValueError('Article metadata incomplete: '+lang)
+  sections=article.get('sections',[])
+  if len(sections)<3 or any(not x.get('heading') or not x.get('paragraphs') for x in sections):raise ValueError('Article sections incomplete: '+lang)
+  if len((' '.join([article['lead']]+[p for x in sections for p in x.get('paragraphs',[])+x.get('items',[])])).split())<180:raise ValueError('Article is only an outline: '+lang)
+ return editorial
+
 def render(source,lang):
  en=lang=='en';key=identifier(source);name='blog-journal-review-'+key+('-en' if en else '')+'.html';other='blog-journal-review-'+key+('' if en else '-en')+'.html'
  title=('Research record: ' if en else 'Výskumný prehľad: ')+source['title'];desc=(('Bibliographic overview: ' if en else 'Bibliografický prehľad: ')+source['title'])[:155]
@@ -52,9 +75,17 @@ def render(source,lang):
  scope=('This is an automatically prepared bibliographic overview, not an original analysis of scientific findings. DOI, title, authors, publisher, venue and publication date were checked against Crossref. Full text, sample, methods, findings and peer-review status were not independently reviewed. An available abstract was used only to select the topic; it is not reproduced.' if en else 'Ide o automaticky pripravený bibliografický prehľad, nie originálnu analýzu vedeckých výsledkov. DOI, názov, autori, vydavateľ, periodikum a dátum boli skontrolované v Crossref. Celý text, vzorka, metodika, výsledky ani recenzné konanie neboli nezávisle posúdené. Dostupný abstrakt bol použitý iba na výber témy; nie je reprodukovaný.')
  questions=(['Which research question does the source address?','Do its participants, setting and methods match your business context?','What limitations and alternative explanations does the full text report?','What small, measurable pilot could test relevance to your own website?'] if en else ['Akú výskumnú otázku zdroj rieši?','Zodpovedajú jeho účastníci, prostredie a metódy vášmu podnikaniu?','Aké obmedzenia a alternatívne vysvetlenia uvádza celý text?','Aký malý merateľný pilot by overil využiteľnosť pre váš web?'])
  body='<h2>'+('Bibliographic source' if en else 'Bibliografický zdroj')+'</h2><p>'+esc(citation)+'</p><p><a href="'+esc(source['url'])+'">DOI: '+esc(source['doi'])+'</a></p><h2>'+heading+'</h2><p>'+scope+'</p><h2>'+('Editorial questions for readers' if en else 'Redakčné otázky pre čitateľa')+'</h2><p>'+('The following questions are editorial guidance, not results demonstrated by this study.' if en else 'Nasledujúce otázky sú redakčným odporúčaním, nie výsledkami preukázanými touto štúdiou.')+'</p><ul>'+''.join('<li>'+esc(q)+'</li>' for q in questions)+'</ul>'
+ if source.get('editorial'):
+  editorial=validate_editorial(source);article=editorial['languages'][lang]
+  title=article['title'];desc=article['description']
+  body='<p>'+esc(article['lead'])+'</p>'
+  for section in article['sections']:
+   body+='<h2>'+esc(section['heading'])+'</h2>'+''.join('<p>'+esc(p)+'</p>' for p in section['paragraphs'])
+   if section.get('items'):body+='<ul>'+''.join('<li>'+esc(i)+'</li>' for i in section['items'])+'</ul>'
+  body+='<h2>'+('Scientific source' if en else 'Vedecký zdroj')+'</h2><p>'+esc(citation)+'</p><p><a href="'+esc(source['url'])+'">DOI: '+esc(source['doi'])+'</a> · <a href="'+esc(editorial['source_url'])+'">'+('Publisher full text' if en else 'Plný text u vydavateľa')+'</a></p>'
  schema={'@context':'https://schema.org','@type':'BlogPosting','headline':title,'description':desc,'datePublished':str(NOW),'inLanguage':lang,'author':{'@type':'Organization','name':'WEBU'},'publisher':{'@type':'Organization','name':'WEBU'},'mainEntityOfPage':SITE+name,'citation':source['url']}
  sample=(ROOT/'blog-journal-podnikanie-v-nedostatku-2026-11-03.html').read_text();style=re.search(r'<style>.*?</style>',sample,re.S).group()
- page='<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+' | WEBU Journal</title><meta name="description" content="'+esc(desc)+'"><script type="application/ld+json">'+json.dumps(schema,ensure_ascii=False).replace('<','\\u003c')+'</script>'+style+'</head><body><header><a href="/'+('blog-en.html' if en else 'blog.html')+'">WEBU Journal</a> · <a href="/'+other+'">'+('Slovenčina' if en else 'English')+'</a></header><main><p>'+('Bibliographic overview' if en else 'Bibliografický prehľad')+' · '+str(NOW)+'</p><h1>'+esc(title)+'</h1>'+body+'</main><footer>© WEBU</footer><script src="/privacy.js" defer></script></body></html>'
+ page='<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+' | WEBU Journal</title><meta name="description" content="'+esc(desc)+'"><script type="application/ld+json">'+json.dumps(schema,ensure_ascii=False).replace('<','\\u003c')+'</script>'+style+'</head><body><header><a href="/'+('blog-en.html' if en else 'blog.html')+'">WEBU Journal</a> · <a href="/'+other+'">'+('Slovenčina' if en else 'English')+'</a></header><main><p>'+(('Research-inspired editorial' if en else 'Výskumná inšpirácia') if source.get('editorial') else ('Bibliographic overview' if en else 'Bibliografický prehľad'))+' · '+str(NOW)+'</p><h1>'+esc(title)+'</h1>'+body+'</main><footer>© WEBU</footer><script src="/privacy.js" defer></script></body></html>'
  return name,page,title,desc
 def discover(config):
  selected=[];seen=seen_dois();errors=[]
@@ -68,17 +99,24 @@ def discover(config):
      confirmed=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
      selected.append(confirmed);seen.add(source['doi']);break
     except (ValueError,KeyError):continue
+  except urllib.error.HTTPError as exc:
+   errors.append(topic+': HTTP '+str(exc.code)+'; Retry-After='+str(exc.headers.get('Retry-After','unspecified')))
+   if exc.code==429:break
   except Exception as exc:errors.append(topic+': '+str(exc)[:150])
   if len(selected)>=config['max_candidates_per_run']:break
   time.sleep(1)
  return selected,errors
 def publish(source):
+ # Preflight both languages before any local writes; failed jobs never commit.
+ for lang,listing_name in [('sk','blog.html'),('en','blog-en.html')]:
+  if (ROOT/render(source,lang)[0]).exists():raise ValueError('Article URL already exists')
+  if '<div class="vw-journal-grid">' not in (ROOT/listing_name).read_text():raise ValueError('Journal listing missing')
  for lang,listing_name in [('sk','blog.html'),('en','blog-en.html')]:
   name,page,title,desc=render(source,lang)
   if (ROOT/name).exists():raise ValueError('Article URL already exists')
   listing=ROOT/listing_name;text=listing.read_text();marker='<div class="vw-journal-grid">'
   if marker not in text:raise ValueError('Journal listing missing')
-  card='<a class="vw-journal-card" href="/'+name+'"><div><small>'+('Bibliographic overview' if lang=='en' else 'Bibliografický prehľad')+'</small><h3>'+html.escape(title)+'</h3><p>'+html.escape(desc)+'</p><span>'+('Read more' if lang=='en' else 'Čítať viac')+'</span></div></a>'
+  card='<a class="vw-journal-card" href="/'+name+'"><div><small>'+(('Research-inspired editorial' if lang=='en' else 'Výskumná inšpirácia') if source.get('editorial') else ('Bibliographic overview' if lang=='en' else 'Bibliografický prehľad'))+'</small><h3>'+html.escape(title)+'</h3><p>'+html.escape(desc)+'</p><span>'+('Read more' if lang=='en' else 'Čítať viac')+'</span></div></a>'
   (ROOT/name).write_text(page);listing.write_text(text.replace(marker,marker+card,1))
  subprocess.run([sys.executable,str(ROOT/'.github/scripts/prepare_journal.py')],cwd=ROOT,check=True)
  subprocess.run([sys.executable,'scripts/journal_audit.py','--publish-gate'],cwd=ROOT,check=True)
@@ -93,11 +131,14 @@ def main():
   path=folder/(args.draft_id+'.json');source=json.loads(path.read_text())
   if source.get('published_at'):raise SystemExit('Draft already published')
   if not publication_capacity(folder,config['target_studies_per_day']):raise SystemExit('Daily publication cap reached')
+  editorial=validate_editorial(source)
   drafted_at=source.get('drafted_at',source.get('verified_at'))
   source=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
-  source['drafted_at']=drafted_at
+  if not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:raise ValueError('Current source evidence or relevance is insufficient')
+  source['drafted_at']=drafted_at;source['editorial']=editorial
+  source['full_text_reviewed']=editorial.get('review_level')=='full_text_sections'
   # Explicit workflow_dispatch publish action is the owner's approval.
-  source['approved_by']=__import__('os').environ.get('GITHUB_ACTOR','manual-owner');publish(source)
+  source['approved_by']=__import__('os').environ.get('GITHUB_ACTOR','manual-owner');source['approved_content_sha256']=editorial['content_sha256'];publish(source)
   source['published_at']=str(NOW);source['published_urls']=[SITE+render(source,lang)[0] for lang in ('sk','en')];path.write_text(json.dumps(source,ensure_ascii=False,indent=2));print(json.dumps(source,ensure_ascii=False));return
  if args.action=='self-test':
   source={'doi':'10.0000/test-only','title':'Digital marketing and small business — TEST ONLY','authors':['Test Author'],'publisher':'Test publisher','venue':'Test fixture','url':'https://doi.org/10.0000/test-only','source_date':'2026-01-01','type':'journal-article'}

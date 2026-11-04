@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-11-04",
+  "selected_draft_id": "2026-11-04-93b063fd01b6",
+  "selection_reason": "Available publisher full text, explicit methods/results/limitations, direct relevance to workplace technology adoption; no causal claims in the editorial.",
+  "publication_status": "awaiting_user_content_approval",
+  "automatic_publication_enabled": false,
+  "candidates": [
+    {
+      "draft_id": "2026-11-04-c9cbb597a9db",
+      "doi": "10.58344/locus.v5i11.6327",
+      "title": "The Effect of Product Information Quality, Last-Mile Service Quality, and Shipment Trackability on The Decision Not to Return Furniture in E-Commerce Purchases Through Customer Trust",
+      "bibliography_verified": true,
+      "source_date": "2026-11-04",
+      "retraction_flag_in_crossref": false,
+      "selected": false,
+      "review_status": "bibliographic_candidate_only"
+    },
+    {
+      "draft_id": "2026-11-04-5b5dc38594ea",
+      "doi": "10.1108/msar-02-2026-0103",
+      "title": "The role of AI adoption in the relationship between digital self-efficacy and sustainable entrepreneurship intentions among university students in Jordan",
+      "bibliography_verified": true,
+      "source_date": "2026-11-04",
+      "retraction_flag_in_crossref": false,
+      "selected": false,
+      "review_status": "bibliographic_candidate_only"
+    },
+    {
+      "draft_id": "2026-11-04-93b063fd01b6",
+      "doi": "10.3389/fpsyg.2026.1980927",
+      "title": "Corporate sustainability and artificial intelligence-enabled workforce transformation: a dual-pathway model of employee capability, empowerment, anxiety, and job insecurity",
+      "bibliography_verified": true,
+      "source_date": "2026-11-04",
+      "retraction_flag_in_crossref": false,
+      "selected": true,
+      "review_status": "ready_for_owner_approval"
+    },
+    {
+      "draft_id": "2026-11-04-ed72c295acd6",
+      "doi": "10.12688/f1000research.190127.1",
+      "title": "RECONFIGURING PATRIARCHY: GENDER, WORK, AND CHURCH LEADERSHIP IN POST-APARTHEID SOUTH AFRICA",
+      "bibliography_verified": true,
+      "source_date": "2026-11-04",
+      "retraction_flag_in_crossref": false,
+      "selected": false,
+      "review_status": "bibliographic_candidate_only"
+    },
+    {
+      "draft_id": "2026-11-04-f7c72572913c",
+      "doi": "10.1108/ijwbr-01-2026-0013",
+      "title": "Uncorking change: female leadership and sustainable transformation in the Chilean wine industry",
+      "bibliography_verified": true,
+      "source_date": "2026-11-04",
+      "retraction_flag_in_crossref": false,
+      "selected": false,
+      "review_status": "bibliographic_candidate_only"
+    }
+  ]
+}

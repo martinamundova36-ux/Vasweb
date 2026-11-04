@@ -1,0 +1,181 @@
+{
+  "checked_date": "2026-11-04",
+  "quota_recheck": "Google Search Console again returned daily URL inspection quota exceeded; no indexing request sent",
+  "confirmed_indexed_articles_from_previous_inspection": 10,
+  "current_full_index_count": "not rechecked due to quota",
+  "articles": [
+    {
+      "url": "https://www.webu.sk/blog-5-chyb-na-webstranke.html",
+      "language": "sk",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Prijatá Googlom"
+    },
+    {
+      "url": "https://www.webu.sk/blog-5-website-mistakes-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-cena.html",
+      "language": "sk",
+      "last_recorded_google_status": "Google URL nepozná",
+      "index_request": "Prijatá Googlom"
+    },
+    {
+      "url": "https://www.webu.sk/blog-customer-trust-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-dovera.html",
+      "language": "sk",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-dovera-v-digitalne-platby-2026-11-03-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Google URL nepozná",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-dovera-v-digitalne-platby-2026-11-03.html",
+      "language": "sk",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-osobnost-a-ai-konverzacia-2026-11-03-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Prijatá Googlom"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-osobnost-a-ai-konverzacia-2026-11-03.html",
+      "language": "sk",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Prijatá Googlom"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-podnikanie-v-nedostatku-2026-11-03-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Prijatá Googlom"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-podnikanie-v-nedostatku-2026-11-03.html",
+      "language": "sk",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Prijatá Googlom"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-testovanie-cien-2026-11-03-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Google URL nepozná",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-testovanie-cien-2026-11-03.html",
+      "language": "sk",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-udrzatelnost-a-data-2026-11-03-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-udrzatelnost-a-data-2026-11-03.html",
+      "language": "sk",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Prijatá Googlom"
+    },
+    {
+      "url": "https://www.webu.sk/blog-kolko-stoji-webstranka.html",
+      "language": "sk",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-luxury-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-luxus.html",
+      "language": "sk",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-pricing-business-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-seo-websites-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Objavený – momentálne nie je v indexe",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-seo-webstranky.html",
+      "language": "sk",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-web.html",
+      "language": "sk",
+      "last_recorded_google_status": "Google URL nepozná",
+      "index_request": "Prijatá Googlom"
+    },
+    {
+      "url": "https://www.webu.sk/blog-website-cost-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-website-roi-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Indexovaný Googlom",
+      "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    }
+  ],
+  "uninspected_sitemap_urls": [
+    "https://www.webu.sk/ukazky/hotel/blog.html",
+    "https://www.webu.sk/ukazky/hotel/clanok-restauracia-lyziari.html",
+    "https://www.webu.sk/ukazky/hotel/clanok-vnutorny-bazen.html",
+    "https://www.webu.sk/ukazky/hotel/clanok-zimny-pobyt.html",
+    "https://www.webu.sk/ukazky/hotel/galeria.html",
+    "https://www.webu.sk/ukazky/hotel/izby.html",
+    "https://www.webu.sk/ukazky/hotel/kontakt.html",
+    "https://www.webu.sk/ukazky/hotel/pobyt.html",
+    "https://www.webu.sk/ukazky/hotel/rezervacia.html",
+    "https://www.webu.sk/ukazky/hotel/strava.html",
+    "https://www.webu.sk/ukazky/hotel/wellness.html",
+    "https://www.webu.sk/ukazky/prezentacia-vykon-incentivy.html",
+    "https://www.webu.sk/ukazky/prezentacia-vykon.html",
+    "https://www.webu.sk/ukazky/reality/index.html",
+    "https://www.webu.sk/ukazky/reality/makleri.html",
+    "https://www.webu.sk/ukazky/reality/nehnutelnosti.html",
+    "https://www.webu.sk/ukazky/reality/predaj.html",
+    "https://www.webu.sk/ukazky/restauracia/index.html",
+    "https://www.webu.sk/ukazky/restauracia/menu.html",
+    "https://www.webu.sk/ukazky/restauracia/oslavy.html",
+    "https://www.webu.sk/ukazky/restauracia/pribeh.html",
+    "https://www.webu.sk/ukazky/restauracia/rezervacia.html",
+    "https://www.webu.sk/ukazky/restauracia/vino.html",
+    "https://www.webu.sk/ukazky/salon/cennik.html",
+    "https://www.webu.sk/ukazky/salon/index.html",
+    "https://www.webu.sk/ukazky/salon/objednavka.html",
+    "https://www.webu.sk/ukazky/salon/procedury.html"
+  ]
+}
