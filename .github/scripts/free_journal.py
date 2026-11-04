@@ -151,6 +151,6 @@ def main():
   (folder/(key+'.md')).write_text(draft)
  previous_path=ROOT/'journal-reports'/('free-discovery-'+str(NOW)+'.json')
  previous=json.loads(previous_path.read_text()) if previous_path.exists() else {}
- report={'date':str(NOW),'mode':'drafts_require_approval','draft_ids':sorted(set(previous.get('draft_ids',[]))|{identifier(s) for s in selected}),'published_urls':[],'errors':errors,'ai_cost_eur':0,'google_index_status':'not inspected'}
+ report={'date':str(NOW),'mode':'drafts_require_approval','draft_ids':sorted(set(previous.get('draft_ids',[]))|{p.stem for p in folder.glob('*.json') if json.loads(p.read_text()).get('drafted_at',json.loads(p.read_text()).get('verified_at'))==str(NOW)}),'published_urls':[],'errors':errors,'ai_cost_eur':0,'google_index_status':'not inspected'}
  out=ROOT/'journal-reports';out.mkdir(exist_ok=True);(out/('free-discovery-'+str(NOW)+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2));print(json.dumps(report,ensure_ascii=False))
 if __name__=='__main__':main()
