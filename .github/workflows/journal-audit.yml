@@ -1,0 +1,26 @@
+name: WEBU Journal editorial checks
+on:
+  pull_request:
+    paths:
+      - 'blog*.html'
+      - 'scripts/journal_audit.py'
+      - '.github/workflows/journal-audit.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'blog*.html'
+      - 'scripts/journal_audit.py'
+      - '.github/workflows/journal-audit.yml'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate blog metadata, references and links
+        run: python scripts/journal_audit.py
