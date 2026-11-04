@@ -92,6 +92,9 @@ def main():
         hero=next((i for i in parser.images if i.get("src", "").startswith("/assets/journal/")),{})
         image=SITE+hero["src"].lstrip("/") if hero else None
         schema={"@context":"https://schema.org","@type":"BlogPosting","headline":title,"description":desc,"inLanguage":lang,"mainEntityOfPage":{"@type":"WebPage","@id":url},"url":url,"publisher":{"@type":"Organization","name":"WEBU","url":SITE},"author":{"@type":"Organization","name":"WEBU"}}
+        method=SITE+'journal-metodika'+('-en' if lang=='en' else '')+'.html#redakcia'
+        schema['author']['url']=method
+        schema['citation']=[h for h in parser.links if h.startswith(('https://doi.org/','https://www.w3.org/','https://developers.google.com/','https://www.itl.nist.gov/','https://openstax.org/','https://credibility.stanford.edu/','https://www.pcisecuritystandards.org/','https://web.dev/'))]
         if image:schema["image"]={"@type":"ImageObject","url":image,"width":1280,"height":720,"caption":hero.get("alt","")}
         published,modified=dates(p,s)
         schema["datePublished"]=published

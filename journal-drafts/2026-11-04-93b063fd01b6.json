@@ -24,7 +24,7 @@
   "drafted_at": "2026-11-04",
   "editorial": {
     "status": "ready_for_owner_approval",
-    "version": 2,
+    "version": 3,
     "reviewed_at": "2026-11-04",
     "reviewed_by": "Codex editorial review",
     "source_url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1980927/full",
@@ -43,14 +43,14 @@
         "lead": "Pri zavádzaní AI si položte dve samostatné otázky: pomáha nástroj zvládnuť prácu a rozumie tím tomu, čo sa mení? V redakčnom pohľade WEBU odporúčame sledovať obe oblasti. Samotný počet automatizovaných úloh ešte nie je dostatočným hodnotením projektu.",
         "sections": [
           {
-            "heading": "Čo a koho skúmala štúdia",
+            "heading": "Čo skúmala štúdia",
             "paragraphs": [
               "Weijian Wu (2026) analyzoval dotazníky od 530 zamestnancov v Číne. Išlo o prierezový sebavýpovedný výskum: údaje sa zbierali od februára do júna 2026, ale nešlo o opakované sledovanie tých istých ľudí v čase. Autor použil modelovanie štruktúrnych rovníc metódou parciálnych najmenších štvorcov (PLS-SEM).",
               "Výber bol zámerný, podľa vopred stanovených kritérií, a nepravdepodobnostný. Zúčastniť sa mohli ľudia od 18 rokov zamestnaní v Číne, najmenej šesť mesiacov v súčasnej organizácii, so skúsenosťou s AI alebo automatizáciou pri práci a schopnosťou samostatne vyplniť dotazník. Nábor prebiehal online aj osobne v rôznych odvetviach. Z 600 distribuovaných dotazníkov sa vrátilo 580; po vyradení 50 nevyhovujúcich odpovedí zostalo 530 použiteľných prípadov. Rozmanitosť vzorky z nej nerobí reprezentatívny výber čínskych ani slovenských zamestnancov."
             ]
           },
           {
-            "heading": "Dve modelové cesty: čo znamenajú koeficienty",
+            "heading": "Hlavné zistenia: dve nepriame modelové cesty",
             "paragraphs": [
               "Tabuľka 10 uvádza dve nepriame modelové súvislosti. Rozvojová cesta vedie od integrácie AI cez schopnosť zamestnancov prispôsobiť sa transformácii práce a psychologické posilnenie k vnímanej firemnej udržateľnosti: β = 0,189 (95 % bootstrapový interval spoľahlivosti 0,141 až 0,243; p < 0,001). Psychologické posilnenie zahŕňa zmysluplnosť práce, kompetentnosť, autonómiu a vplyv.",
               "Záťažová cesta vedie od integrácie AI cez úzkosť spojenú s AI a pracovnú neistotu k psychickej pohode: β = −0,151 (95 % interval −0,203 až −0,109; p < 0,001). Jej koncovou premennou je psychická pohoda, nie firemná udržateľnosť. Autor použil bootstrap s 5 000 opakovaniami.",
@@ -64,10 +64,11 @@
             ]
           },
           {
-            "heading": "Čo z výsledkov nemožno vyvodiť",
+            "heading": "Limity výskumu a merania",
             "paragraphs": [
               "Jednorazové sebahodnotenie nedokáže určiť, čo čomu predchádzalo, vylúčiť opačný smer súvislosti ani všetky alternatívne vysvetlenia. Odpovede od rovnakého človeka môžu podliehať skresleniu vnímania a spoločnej metódy merania. PLS-SEM tieto obmedzenia výskumného dizajnu neodstraňuje. Výsledky sa preto nedajú automaticky preniesť na každú firmu alebo krajinu.",
-              "Firemná udržateľnosť je tu hodnotená prostredníctvom odpovedí zamestnancov o ekonomických, environmentálnych a sociálnych praktikách organizácie. Nejde o nezávislý audit ESG, objektívne prevádzkové ukazovatele ani priame overenie skutočného výkonu udržateľnosti."
+              "Firemná udržateľnosť je tu hodnotená prostredníctvom odpovedí zamestnancov o ekonomických, environmentálnych a sociálnych praktikách organizácie. Nejde o nezávislý audit ESG, objektívne prevádzkové ukazovatele ani priame overenie skutočného výkonu udržateľnosti.",
+              "Autor posudzoval vnútornú konzistenciu, konvergentnú a diskriminačnú validitu vrátane alfa, kompozitnej reliability, AVE a HTMT. Časť položiek bola vytvorená alebo prispôsobená pre túto štúdiu. Takéto kontroly nenahrádzajú nezávislú validáciu v inej populácii a nepreukazujú objektívnu výkonnosť firmy."
             ]
           },
           {
@@ -91,6 +92,12 @@
             ]
           },
           {
+            "heading": "Záver",
+            "paragraphs": [
+              "Štúdia opisuje súbežné rozvojové a záťažové súvislosti zavádzania AI v konkrétnej vzorke. Pre firmu je primeraným ďalším krokom opatrne vyhodnotený pilot; jeho prínos a záťaž treba zmerať v jej vlastných podmienkach."
+            ]
+          },
+          {
             "heading": "Rozsah redakčnej kontroly",
             "paragraphs": [
               "Overené boli DOI, autor, názov a dátum v Crossref a u vydavateľa; prečítané boli abstrakt, metodické časti, tabuľky hlavných výsledkov a limity dostupného plného textu. Neboli nezávisle prepočítané pôvodné dáta. V kontrolovaných záznamoch nebolo nájdené označenie retrakcie; absencia označenia nie je zárukou vedeckej platnosti."
@@ -104,32 +111,37 @@
         "lead": "When introducing AI, ask two separate questions: does the tool help people do the work, and does the team understand what is changing? WEBU recommends considering both. Counting automated tasks alone is not a sufficient assessment of the project.",
         "sections": [
           {
-            "heading": "What and whom the study examined",
+            "heading": "What the study examined",
             "paragraphs": [
               "Weijian Wu (2026) analysed questionnaires from 530 employees in China. This was a cross-sectional, self-report study: data were collected between February and June 2026, but the same people were not followed repeatedly over time. The author used partial least squares structural equation modelling (PLS-SEM).",
               "Sampling was purposive, criterion-based and non-probability. Eligible participants were at least 18, employed in China, had worked for their current organisation for at least six months, had workplace experience of AI or automation, and could complete the questionnaire independently. Recruitment was online and face to face across industries. Of 600 questionnaires distributed, 580 were returned; excluding 50 unsuitable responses left 530 usable cases. Diversity does not make this a representative sample of employees in China or Slovakia."
-            ]
+            ],
+            "items": []
           },
           {
-            "heading": "Two model pathways: what the coefficients mean",
+            "heading": "Main findings: two indirect model pathways",
             "paragraphs": [
               "Table 10 reports two indirect model associations. The developmental pathway links AI integration through workforce transformation capability and psychological empowerment to perceived corporate sustainability: β = 0.189 (95% bootstrap confidence interval 0.141 to 0.243; p < 0.001). Psychological empowerment includes meaning, competence, autonomy and influence at work.",
               "The strain pathway links AI integration through AI anxiety and job insecurity to psychological wellbeing: β = −0.151 (95% interval −0.203 to −0.109; p < 0.001). Its endpoint is psychological wellbeing, not corporate sustainability. The author used bootstrapping with 5,000 resamples.",
               "These are standardised estimates of indirect associations within this particular model. They are not percentage effects: they do not imply an 18.9% increase in sustainability or a 15.1% decline in wellbeing. Statistical significance establishes neither causality nor the proposed temporal order."
-            ]
+            ],
+            "items": []
           },
           {
             "heading": "Why the study combines JD-R and SCT",
             "paragraphs": [
               "Job Demands–Resources (JD-R) theory distinguishes demands requiring effort from resources supporting work, learning and development. In the study, AI can represent both assistance and new demands. Social Cognitive Theory (SCT) emphasises reciprocal relationships between people, behaviour and the environment, including self-efficacy beliefs. These frameworks motivate the proposed model; they do not themselves establish its causal validity."
-            ]
+            ],
+            "items": []
           },
           {
-            "heading": "What the findings cannot establish",
+            "heading": "Research and measurement limitations",
             "paragraphs": [
               "A one-time self-report cannot determine what preceded what, rule out reverse associations or exclude all alternative explanations. Answers from the same person may share perceptual and common-method biases. PLS-SEM does not remove these design limitations. Findings cannot automatically be transferred to every business or country.",
-              "Corporate sustainability was assessed through employee answers about economic, environmental and social organisational practices. It was not an independent ESG audit, a set of objective operational indicators or direct verification of actual sustainability performance."
-            ]
+              "Corporate sustainability was assessed through employee answers about economic, environmental and social organisational practices. It was not an independent ESG audit, a set of objective operational indicators or direct verification of actual sustainability performance.",
+              "The author assessed internal consistency, convergent validity and discriminant validity using measures including alpha, composite reliability, AVE and HTMT. Some items were developed or adapted for this study. These checks do not replace independent validation in another population or establish objective organisational performance."
+            ],
+            "items": []
           },
           {
             "heading": "WEBU editorial proposal: a small pilot instead of a large promise",
@@ -149,18 +161,27 @@
             "paragraphs": [
               "The service description should match what the business actually provides. If AI only drafts a response and a person checks it, explain that process clearly. Avoid percentage savings and round-the-clock availability promises that your own test has not verified.",
               "For WEBU, a useful pilot outcome is a concrete decision: retain the tool for the selected task, revise the process or stop the test. The same decision need not apply to every business activity."
-            ]
+            ],
+            "items": []
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study describes coexisting developmental and strain-related associations in a particular sample. A carefully assessed pilot is a proportionate next step for a business; its benefits and burden need measurement in that business’s own setting."
+            ],
+            "items": []
           },
           {
             "heading": "Scope of editorial review",
             "paragraphs": [
               "The DOI, author, title and date were checked against Crossref and the publisher. The abstract, methods sections, main results tables and limitations in the available full text were read. Original data were not independently reanalysed. No retraction flag was found in the checked records; an absent flag is not a guarantee of scientific validity."
-            ]
+            ],
+            "items": []
           }
         ]
       }
     },
-    "content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38",
+    "content_sha256": "a5fe59114a53ff66ca1054eb426ffc0bf633fc0279d6a78c846065ae147f3a8c",
     "review_level": "full_text_sections",
     "scientific_review": {
       "status": "completed_editorial_source_comparison",
@@ -212,7 +233,7 @@
       },
       "unverified_claims": [],
       "technical_test_scope": "Validates evidence fields and content hash only; no independent scientific peer review or data reanalysis.",
-      "content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38",
+      "content_sha256": "a5fe59114a53ff66ca1054eb426ffc0bf633fc0279d6a78c846065ae147f3a8c",
       "source_quality": {
         "decision": "accepted_with_limitations",
         "rationale": "Publish only as a cautious source-attributed association study, with purposive sampling, self-report, noncausality and perceived sustainability disclosed; no business-effect guarantees. Original methods/results/limitations were compared in the prior revision.",
@@ -229,17 +250,34 @@
         "content_sha256": "3a7b91022e5289a3edb271fa0f2f92d75a3cbd035e47bff89fa5832906113110",
         "approved_by": "martinamundova36-ux",
         "published_at": "2026-11-04"
+      },
+      {
+        "version": 2,
+        "content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38",
+        "modified_at": "2026-11-04"
+      }
+    ],
+    "references": [
+      {
+        "id": "wu",
+        "apa7": "Wu, W. (2026). Corporate sustainability and artificial intelligence-enabled workforce transformation: A dual-pathway model of employee capability, empowerment, anxiety, and job insecurity. Frontiers in Psychology, 17, Article 1980927.",
+        "url": "https://doi.org/10.3389/fpsyg.2026.1980927",
+        "kind": "research_article",
+        "access": "full_text",
+        "doi": "10.3389/fpsyg.2026.1980927",
+        "verified_at": "2026-11-04",
+        "locator": "Methods3.1–3.4; Tables2–5,7,10; limitations6.4"
       }
     ]
   },
   "approved_by": "martinamundova36-ux",
-  "approved_content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38",
+  "approved_content_sha256": "a5fe59114a53ff66ca1054eb426ffc0bf633fc0279d6a78c846065ae147f3a8c",
   "published_at": "2026-11-04",
   "published_urls": [
     "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6.html",
     "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6-en.html"
   ],
-  "revision_authorization": "Explicit owner request to correct the published SK/EN article on 2026-11-04",
+  "revision_authorization": "Owner requested full editorial revision of all existing articles on2026-11-04",
   "modified_at": "2026-11-04",
   "image_id": "ai-workplace",
   "image_status": "licensed_catalog_assignment"

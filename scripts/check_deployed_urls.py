@@ -32,7 +32,7 @@ def check(url):
    if response.status!=200:row['errors'].append('HTTP status')
    if 'noindex' in response.headers.get('X-Robots-Tag','').lower():row['errors'].append('X-Robots noindex')
   name=url.removeprefix(SITE)
-  if name.startswith('assets/journal/') or name=='journal-images.css':
+  if name.startswith('assets/journal/') or name in ('journal-images.css','journal-editorial.css'):
    if raw!=(ROOT/name).read_bytes():row['errors'].append('deployed image/style differs from repository')
    row['sha256']=hashlib.sha256(raw).hexdigest()
   if name in ICONS:
@@ -62,7 +62,7 @@ def main():
  pages=sorted(p.name for p in ROOT.glob('blog-*.html'))
  urls=[SITE,SITE+'index-en.html',SITE+'blog.html',SITE+'robots.txt',SITE+'sitemap.xml']+[SITE+p for p in pages]+[SITE+p for p in [*ICONS,'journal-share.js']]
  data=json.loads((ROOT/'journal-images.json').read_text());used=set(data['assignments'].values())
- urls += [SITE+path.lstrip('/') for photo in data['photos'] if photo['id'] in used for path in photo['files'].values()] + [SITE+'journal-images.css']
+ urls += [SITE+path.lstrip('/') for photo in data['photos'] if photo['id'] in used for path in photo['files'].values()] + [SITE+'journal-images.css',SITE+'journal-editorial.css',SITE+'journal-metodika.html',SITE+'journal-metodika-en.html']
  with ThreadPoolExecutor(max_workers=6) as pool:rows=list(pool.map(check,urls))
  result={'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'google_index_status':'not inspected','urls':rows}
  Path('deployment-url-report.json').write_text(json.dumps(result,ensure_ascii=False,indent=2))

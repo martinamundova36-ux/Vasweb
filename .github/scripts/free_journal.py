@@ -86,6 +86,7 @@ def validate_editorial(source):
  if editorial.get('status')!='ready_for_owner_approval':raise ValueError('A reviewed bilingual article is required; bibliographic templates cannot be published')
  if set(editorial.get('languages',{}))!={'sk','en'}:raise ValueError('Both SK and EN articles are required')
  if not all(editorial.get('checks',{}).get(k) is True for k in ('bibliography','source','claims','relevance','bilingual')):raise ValueError('Editorial checks incomplete')
+ if not editorial.get('references') or any(not r.get('apa7') or not r.get('url','').startswith('https://') for r in editorial.get('references',[])):raise ValueError('Verified APA7 reference records required')
  if not editorial.get('source_url','').startswith('https://') or not editorial.get('source_scope'):raise ValueError('Source review evidence missing')
  try:reviewed=dt.date.fromisoformat(editorial['reviewed_at'])
  except (ValueError,KeyError):raise ValueError('Invalid editorial review date')
@@ -95,7 +96,7 @@ def validate_editorial(source):
  for lang,article in editorial['languages'].items():
   if not article.get('title') or not article.get('lead') or not 50<=len(article.get('description',''))<=160:raise ValueError('Article metadata incomplete: '+lang)
   sections=article.get('sections',[])
-  if len(sections)<3 or any(not x.get('heading') or not x.get('paragraphs') for x in sections):raise ValueError('Article sections incomplete: '+lang)
+  if len(sections)<5 or any(not x.get('heading') or not x.get('paragraphs') for x in sections):raise ValueError('Article sections incomplete: '+lang)
   if len((' '.join([article['lead']]+[p for x in sections for p in x.get('paragraphs',[])+x.get('items',[])])).split())<180:raise ValueError('Article is only an outline: '+lang)
  return editorial
 
@@ -115,10 +116,13 @@ def render(source,lang):
   for section in article['sections']:
    body+='<h2>'+esc(section['heading'])+'</h2>'+''.join('<p>'+esc(p)+'</p>' for p in section['paragraphs'])
    if section.get('items'):body+='<ul>'+''.join('<li>'+esc(i)+'</li>' for i in section['items'])+'</ul>'
-  body+='<h2>'+('Scientific source' if en else 'Vedecký zdroj')+'</h2><p>'+esc(citation)+'</p><p><a href="'+esc(source['url'])+'">DOI: '+esc(source['doi'])+'</a> · <a href="'+esc(editorial['source_url'])+'">'+('Publisher full text' if en else 'Plný text u vydavateľa')+'</a></p>'
+  body+='<h2>'+('Scientific sources' if en else 'Vedecké zdroje')+'</h2>'+''.join('<p>'+esc(r['apa7'])+' <a href="'+esc(r['url'])+'">'+esc(r['url'])+'</a></p>' for r in editorial['references'])
+  method='/journal-metodika'+('-en' if en else '')+'.html'
+  body+='<aside><h2>'+('Editorial transparency' if en else 'Redakčná transparentnosť')+'</h2><p>'+('Prepared with AI assistance; editorial source comparison is not independent scientific peer review. ' if en else 'Pripravené s pomocou AI; redakčné porovnanie zdroja nie je nezávislým vedeckým recenzným konaním. ')+'<a href="'+method+'">'+('Editorial methodology and corrections' if en else 'Redakčná metodika a opravy')+'</a></p></aside>'
+
  schema={'@context':'https://schema.org','@type':'BlogPosting','headline':title,'description':desc,'datePublished':str(NOW),'inLanguage':lang,'author':{'@type':'Organization','name':'WEBU'},'publisher':{'@type':'Organization','name':'WEBU'},'mainEntityOfPage':SITE+name,'citation':source['url']}
  sample=(ROOT/'blog-journal-podnikanie-v-nedostatku-2026-11-03.html').read_text();style=re.search(r'<style>.*?</style>',sample,re.S).group()
- page='<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+' | WEBU Journal</title><meta name="description" content="'+esc(desc)+'"><script type="application/ld+json">'+json.dumps(schema,ensure_ascii=False).replace('<','\\u003c')+'</script>'+style+'</head><body><header><a href="/'+('blog-en.html' if en else 'blog.html')+'">WEBU Journal</a> · <a href="/'+other+'">'+('Slovenčina' if en else 'English')+'</a></header><main><p>'+(('Research-inspired editorial' if en else 'Výskumná inšpirácia') if source.get('editorial') else ('Bibliographic overview' if en else 'Bibliografický prehľad'))+' · '+str(NOW)+'</p><h1>'+esc(title)+'</h1>'+body+'</main><footer>© WEBU</footer><script src="/privacy.js" defer></script></body></html>'
+ page='<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+' | WEBU Journal</title><meta name="description" content="'+esc(desc)+'"><script type="application/ld+json">'+json.dumps(schema,ensure_ascii=False).replace('<','\\u003c')+'</script>'+style+'<link rel="stylesheet" href="/journal-editorial.css"></head><body><header><a href="/'+('blog-en.html' if en else 'blog.html')+'">WEBU Journal</a> · <a href="/'+other+'">'+('Slovenčina' if en else 'English')+'</a></header><main><!-- WEBU-REVIEWED-CONTENT-START --><article class="webu-reviewed-article"><p>'+(('Research-inspired editorial' if en else 'Výskumná inšpirácia') if source.get('editorial') else ('Bibliographic overview' if en else 'Bibliografický prehľad'))+' · '+str(NOW)+'</p><h1>'+esc(title)+'</h1><p>'+('Author: ' if en else 'Autor: ')+'<a href="/journal-metodika'+('-en' if en else '')+'.html#redakcia">WEBU</a></p>'+body+'</article><!-- WEBU-REVIEWED-CONTENT-END --></main><footer>© WEBU</footer><script src="/privacy.js" defer></script></body></html>'
  return name,page,title,desc
 def discover(config):
  selected=[];seen=seen_dois();errors=[]
@@ -154,6 +158,9 @@ def publish(source):
   card='<a class="vw-journal-card" href="/'+name+'"><div><small>'+(('Research-inspired editorial' if lang=='en' else 'Výskumná inšpirácia') if source.get('editorial') else ('Bibliographic overview' if lang=='en' else 'Bibliografický prehľad'))+'</small><h3>'+html.escape(title)+'</h3><p>'+html.escape(desc)+'</p><span>'+('Read more' if lang=='en' else 'Čítať viac')+'</span></div></a>'
   (ROOT/name).write_text(page);listing.write_text(text.replace(marker,marker+card,1))
  subprocess.run([sys.executable,str(ROOT/'.github/scripts/prepare_journal.py')],cwd=ROOT,check=True)
+ from journal_review_records import record_published
+ record_published(source,ROOT)
+ subprocess.run([sys.executable,'scripts/journal_review_audit.py'],cwd=ROOT,check=True)
  subprocess.run([sys.executable,'scripts/journal_audit.py','--publish-gate'],cwd=ROOT,check=True)
 def main():
  global ROOT

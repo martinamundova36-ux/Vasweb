@@ -63,8 +63,8 @@ def check(path):
             if local and not (ROOT / local).exists(): warn(f"local link not found: {local}")
     body = " ".join(p.text)
     if DOI.search(body) and not any("doi.org/" in x for x in p.links): err("DOI mentioned without DOI hyperlink")
-    if "doi.org/" not in raw: warn("no DOI reference; manually review whether scientific sourcing is required")
-    if not re.search(r'(výskumn|metodik|research|study|štúdi|source|zdroj)', body, re.I):
+    if "doi.org/" not in raw and "webu-review-sources" not in raw: warn("no DOI reference; manually review whether scientific sourcing is required")
+    if not re.search(r'(výskumn|metodik|research|study|štúdi|source|zdroj|odborn)', body, re.I):
         warn("no visible research/source context; manual review recommended")
     if re.search(r'(only bibliographic metadata was reviewed|dostupný bol bibliografický záznam)', body, re.I):
         warn("possibly outdated bibliographic-only disclaimer")

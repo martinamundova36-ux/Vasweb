@@ -22,6 +22,7 @@ jobs:
       - name: Povinná technická kontrola pred publikovaním
         run: |
           python3 scripts/journal_image_audit.py
+          python3 scripts/journal_review_audit.py
           python3 scripts/journal_audit.py --publish-gate
       - name: Uložiť publikovaný článok
         run: |

@@ -1,0 +1,2413 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-11-04",
+  "checkpoint_commit": "06cb07648d487db58c47033c43702f1ebaf3669c",
+  "checkpoint_branch": "checkpoint/webu-before-full-editorial-review-20261104",
+  "review_scope": "Assisted editorial comparison with available original texts and official documentation; no independent peer review, data reanalysis or clinical assessment. Technical validators inspect records/consistency, not scientific truth.",
+  "authorization": "Owner requested direct corrections to all existing articles; no approval for new unreviewed publication.",
+  "articles": [
+    {
+      "id": "blog-5-chyb-na-webstranke",
+      "kind": "professional_guide",
+      "review_status": "professional_sources_compared",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "World Wide Web Consortium. (n.d.). Forms tutorial. Web Accessibility Initiative.",
+          "url": "https://www.w3.org/WAI/tutorials/forms/",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "forms"
+        },
+        {
+          "apa7": "World Wide Web Consortium. (n.d.). Understanding Success Criterion 1.4.10: Reflow. Web Accessibility Initiative.",
+          "url": "https://www.w3.org/WAI/WCAG22/Understanding/reflow.html",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "reflow"
+        },
+        {
+          "apa7": "Google. (n.d.). Search engine optimization (SEO) starter guide. Google Search Central.",
+          "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "google"
+        },
+        {
+          "apa7": "Walton, P. (2024, October 31). Web Vitals. web.dev.",
+          "url": "https://web.dev/articles/vitals",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "vitals"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-5-chyb-na-webstranke.html",
+          "title": "Päť problémov firemného webu a ako ich preveriť",
+          "description": "Nejasná ponuka, mobil, rýchlosť, dôveryhodnosť a kontakt: päť kontrol firemného webu bez sľubov o zaručenom raste objednávok.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "3ea4acd29aa3e33c222712a38ad49b16995d468fb423b46f78b962dc7f93240d"
+        },
+        "en": {
+          "path": "blog-5-website-mistakes-en.html",
+          "title": "Five business website problems and how to check them",
+          "description": "Unclear offers, mobile access, speed, credibility and contact forms: five website checks without promises of guaranteed sales growth.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "2341a21bb5327c4d844bd39f62f4a2f68faebbfeb63dc59f2ddb2b57f528fe39"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Odborné východiská a rozsah dôkazov",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "d1306ce809062f0f950d5f792ca3286e26c55a2e4ef20f1fbb0333ea8c4be08c"
+          },
+          {
+            "section": "Päť oblastí na kontrolu",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "285b332f4f6effc10589186f1073dcea9eeac8b86e690cd9a82e051585440570"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "43d19e302bb5e16cc6c493b90946a8ae85431de5b6f51176a25000c9a821defe"
+          },
+          {
+            "section": "Limity hodnotenia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "b82c6815e0ee67a82b3ae2bb555970a4bff2cad12615735f0afe2710459486ed"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "671cf967416672ff2bd01054e7ee74c3de9ec0cbca5b6f5ec91ca44162c86086"
+          }
+        ],
+        "en": [
+          {
+            "section": "Evidence and scope",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "3eaf914e7534090e2a483d8b0e740b762dbdf5a36f6b95bf3c9252cb7ec8d530"
+          },
+          {
+            "section": "Five areas to inspect",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1a9a158095b8dc805ef4f298950d849efcf3ad52d83f5807d0aadd601afa6e60"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "fd9d581b425e1eb017c5f32d2c1000fc5adbb266d921a674f14d9c0ece73f3c2"
+          },
+          {
+            "section": "Limits of the assessment",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "578984d7724527bb2d7395bcaf0651e5d6af7d23dac887494d0b51d0e8279b1f"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "forms",
+              "reflow",
+              "google",
+              "vitals"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "d8082f67771ae0fabeec506201a2c42a62463ecce561f347076d99258f67db59"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Professional guide based on primary documentation or textbook; not an empirical study",
+        "sample": "Not applicable; no fabricated sample",
+        "country": "Not applicable; business examples are editorial",
+        "analysis": "Source comparison and original illustrative reasoning; no population effect estimate",
+        "measurement": "No psychological or causal effect asserted from a document checklist."
+      },
+      "original_source_status": "No original scientific citation; professional sources added during this revision",
+      "doi_status": "Not applicable: professional documents cited with original URLs",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-cena",
+      "kind": "professional_guide",
+      "review_status": "professional_sources_compared",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "Franklin, M., Graybeal, P., & Cooper, D. (2019). Principles of accounting, volume 2: Managerial accounting (Chapter 3). OpenStax.",
+          "url": "https://openstax.org/books/principles-managerial-accounting/pages/3-key-terms",
+          "kind": "textbook",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "accounting"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-cena.html",
+          "title": "Ako nastaviť cenu služby: náklady, kapacita a hodnota",
+          "description": "Oddeľte náklady, príspevok na ich úhradu a zisk. Praktický rámec ceny služby s ilustračnou kalkuláciou a jasnými obmedzeniami.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-01",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "240fcc5d2d4416a75c66ea17a375c893575e62eb7114351f25f13e306cd5b836"
+        },
+        "en": {
+          "path": "blog-pricing-business-en.html",
+          "title": "Pricing a service: costs, capacity and customer value",
+          "description": "Separate costs, contribution and profit. A practical service-pricing framework with an illustrative calculation and explicit limitations.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "d758e97ef6cecd49026d089bd26df2abcfc876572fe2abac43306afed237f215"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Odborné východiská",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "a00e8711fdd114d883d9ae35f32180d6c61891eddf8774ccc261c9ecd02ef615"
+          },
+          {
+            "section": "Náklady a ilustračná kalkulácia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "738a6e4d7edd206b309d0c6923a677380e04604d3647dda8a73df307a704c38c"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "4a44a16951c60cb7d5fc437be1c2646840922891be38ffb6346ce44cbbb9769b"
+          },
+          {
+            "section": "Limity rámca",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "06c5b16a97fedddeda9987ba0bc7b16d7d982ebe886ff2a49eba3fd8b2c870c2"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1ee1f51ca972bb462d663a14d62b9b871480b382ae406eeefe1efb557550ad97"
+          }
+        ],
+        "en": [
+          {
+            "section": "Professional foundations",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "6ec02d8062d899d83e5d5afdc2d292460ca5e3118fdb7074d85113d38f4902c7"
+          },
+          {
+            "section": "Costs and an illustrative calculation",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "022826201071d0d6e038737178ba5c80c70845e38db360192eb233cdc9bc7fe5"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "bbb1a9d965df561905c9d474e2a3cacf3722435b09c5a3a25a3d8c29a3791c62"
+          },
+          {
+            "section": "Limits of the framework",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "10fe432d1dfbc797cf598ee6d491af8bb9558285f6a939d9e6195a82e7ea9ed8"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "accounting"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "f57f530c721b6e2fc4c7aea91b43856ef5d97b065f983dd29329f838058f3876"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Professional guide based on primary documentation or textbook; not an empirical study",
+        "sample": "Not applicable; no fabricated sample",
+        "country": "Not applicable; business examples are editorial",
+        "analysis": "Source comparison and original illustrative reasoning; no population effect estimate",
+        "measurement": "No psychological or causal effect asserted from a document checklist."
+      },
+      "original_source_status": "No original scientific citation; professional sources added during this revision",
+      "doi_status": "Not applicable: professional documents cited with original URLs",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-dovera",
+      "kind": "professional_guide",
+      "review_status": "professional_sources_compared",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "Fogg, B. J. (2002, May). Stanford guidelines for web credibility [Research summary]. Stanford Persuasive Technology Lab, Stanford University.",
+          "url": "https://credibility.stanford.edu/guidelines/index.html",
+          "kind": "research_summary_not_single_experiment",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "credibility"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-dovera.html",
+          "title": "Dôvera zákazníka: čo môže vysvetliť firemný web",
+          "description": "Ako sprístupniť overiteľné informácie, ukážky práce a kontakt. Dôveryhodnosť webu odlišujeme od ochoty zaplatiť vyššiu cenu.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-01",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "222950b8277b2d3f79f33e4c3e6fec447373df63df97c6e9cac1e131ccccf1ec"
+        },
+        "en": {
+          "path": "blog-customer-trust-en.html",
+          "title": "Customer trust: what a business website can explain",
+          "description": "Make information, work examples and contact details verifiable. Website credibility is distinct from willingness to pay a higher price.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "61f98c09997cc16a3763f51e44137eb15dd43082110d7cf2d026a73383480fba"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Odborné východiská a rozsah overenia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "27ed5ee8e5203b60e97a5078aa7c3dd2d6482accfa1c797de5093beba24a50ef"
+          },
+          {
+            "section": "Čo možno a nemožno tvrdiť",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "25fc4e9aeef60a60e80f76a64c58092966483172935a41af31f2f9eb13dca847"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "b66e06775a8da371331b6efcfc4b7bcf0a0871e68b47d07d533fcc4496ca8963"
+          },
+          {
+            "section": "Limity a psychologická presnosť",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "cdd8e30f61d6eda0ff6167a9a6241ecaa92028a9010010959c6c964500486596"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "c3b356db27b2c769f687e2e4b43eb0e6e553ab9aad8ff9ce9015e7ccdeeeba9f"
+          }
+        ],
+        "en": [
+          {
+            "section": "Evidence and review scope",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1b89cd9ba107217a3f8632b15ac0fac27044c19eef4ebf93b0608ecb96b27412"
+          },
+          {
+            "section": "What can and cannot be claimed",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "20914ed065daa1c0cd9cfa66f4f39a404735cd956717f8080b81cd537da00083"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "93adc3724080a883ad9510ab530d7be626c7f507c0c1d9d0f04d80f0cfd059fe"
+          },
+          {
+            "section": "Limits and psychological precision",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "5f880f5856ea6ac31824480112f8d615e908a83b9546edd4c946652d6d5c36ee"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "credibility"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "506b71e12ac47918678355dae08adb03249484add7f45c05f6c447d2d170d16f"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Professional guide based on primary documentation or textbook; not an empirical study",
+        "sample": "Not applicable; no fabricated sample",
+        "country": "Not applicable; business examples are editorial",
+        "analysis": "Source comparison and original illustrative reasoning; no population effect estimate",
+        "measurement": "No psychological or causal effect asserted from a document checklist."
+      },
+      "original_source_status": "No original scientific citation; professional sources added during this revision",
+      "doi_status": "Not applicable: professional documents cited with original URLs",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-luxus",
+      "kind": "professional_guide",
+      "review_status": "professional_sources_compared",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "Fogg, B. J. (2002, May). Stanford guidelines for web credibility [Research summary]. Stanford Persuasive Technology Lab, Stanford University.",
+          "url": "https://credibility.stanford.edu/guidelines/index.html",
+          "kind": "research_summary_not_single_experiment",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "credibility"
+        },
+        {
+          "apa7": "World Wide Web Consortium. (n.d.). Headings. Web Accessibility Initiative.",
+          "url": "https://www.w3.org/WAI/tutorials/page-structure/headings/",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "headings"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-luxus.html",
+          "title": "Prémiový dojem značky: konzistentnosť bez prázdnych sľubov",
+          "description": "Ako zjednotiť jazyk, fotografie a proces služby. Prémiový vzhľad odlišujeme od preukázanej kvality a automaticky vyššej hodnoty.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-01",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "35541d1be4abb60c98a09b4910cd1f931d761e4e4e8b08f276a34303c082d78d"
+        },
+        "en": {
+          "path": "blog-luxury-en.html",
+          "title": "A premium brand impression: consistency without empty promises",
+          "description": "Align language, photography and service delivery. A premium appearance is distinct from demonstrated quality or automatically higher value.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "35f231c054ba6d37d86a6f8d573a9545834add87b556e1b4d77166dc4fe9f2ed"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Odborné východiská",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "c70499bcf5183282dc7a915210bb8f2255b314deb2e103fa6446c73afcbb9095"
+          },
+          {
+            "section": "Čo znamená konzistentnosť",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1f0b5cab2d30273483158e062b12d051cd927ddef8df79ecb5b98d6fb3529f63"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "a9218026fe3273cfb05441c7d61d48ab956cefd57c7a8f3f19060a9c972c0e0b"
+          },
+          {
+            "section": "Limity odporúčaní",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "8e0e1ff6bf5b2942323758bf67973a799f92f81321dc0365bb0db1df0866924c"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "4b858a20b4e85637f69692a1f7529b305672ff4000dd507f107f9b4332fe2b41"
+          }
+        ],
+        "en": [
+          {
+            "section": "Professional foundations",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "2e3545b70eec94954776e8009036738439b08a239e50fd30057a7ec56aafb14e"
+          },
+          {
+            "section": "What consistency means here",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "aa6b052093e41865cf753ddd470892b01fd7c289f28deb4039d39e46fa185aa7"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "0c15e10692b3f9d3e1170b418f1f5af968167c8c6cf576e923c0de7cedaeabad"
+          },
+          {
+            "section": "Limits of the recommendations",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "30223d17ece72abf003dffbd1db76c33b70992bda2d3df4b2917d68660b5980f"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "credibility",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "696b4dea6903be9db327436557be1b894b11916fb54d67c078aeaca19cd08b48"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Professional guide based on primary documentation or textbook; not an empirical study",
+        "sample": "Not applicable; no fabricated sample",
+        "country": "Not applicable; business examples are editorial",
+        "analysis": "Source comparison and original illustrative reasoning; no population effect estimate",
+        "measurement": "No psychological or causal effect asserted from a document checklist."
+      },
+      "original_source_status": "No original scientific citation; professional sources added during this revision",
+      "doi_status": "Not applicable: professional documents cited with original URLs",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-web",
+      "kind": "professional_guide",
+      "review_status": "professional_sources_compared",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "Franklin, M., Graybeal, P., & Cooper, D. (2019). Principles of accounting, volume 2: Managerial accounting (Chapter 3). OpenStax.",
+          "url": "https://openstax.org/books/principles-managerial-accounting/pages/3-key-terms",
+          "kind": "textbook",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "accounting"
+        },
+        {
+          "apa7": "Google. (n.d.). Search engine optimization (SEO) starter guide. Google Search Central.",
+          "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "google"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-web.html",
+          "title": "Kedy sa web oplatí: ciele, náklady a meranie výsledkov",
+          "description": "Ako posúdiť prínos firemného webu, oddeliť návštevnosť od dopytov a správne čítať jednoduchý príklad návratnosti investície.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-01",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "8f5ec8f1abb53fdce679dc4712fd9f6b49d662b6a39b6b5b407b7c008c0618e3"
+        },
+        "en": {
+          "path": "blog-website-roi-en.html",
+          "title": "When a website pays off: goals, costs and measurement",
+          "description": "Assess website value, distinguish traffic from qualified enquiries and interpret a simple investment-payback example correctly.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "899199236ea9d31662ea6887615bf7b006d3c082969808f06084ee7241f5dff2"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Odborné východiská",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "665f5c35d7c972289cb901cac7c9386e0728f63ca50cdca5ca32d5c7c6924205"
+          },
+          {
+            "section": "Čo merať a ako čítať výpočet",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "5cd729a10427df9eae63b5a804ac458f33e472be5ad72a31a2c0e0bcdadc90f0"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "a9d0e964eae676a3862493df73819562e09cf00af97ad959b2e72fc73b191bf2"
+          },
+          {
+            "section": "Limity vyhodnotenia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "d9b0183c7a36f9074b6228b1ded8e192d259e570a75ab2a9431f6a55c1f56a18"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "636918fa6948dd3c9494ce03732d8e6537027f8b717da56a875ac860a6f8dcd2"
+          }
+        ],
+        "en": [
+          {
+            "section": "Professional foundations",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "5143ce32520a17b517e0f4a95991ae97e887ef8f255d29f6f3d43de255a9b8f5"
+          },
+          {
+            "section": "What to measure and how to read the calculation",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "f4e35e6ba632681e3f1a8764f24488967de2887e16ef32fd54622da92b2163fa"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "775bd8fa589dd308363bf5494eea90980e0f2e12158a4ef55f78037f51fdadcd"
+          },
+          {
+            "section": "Limits of the assessment",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "da5714a642c70f8800805cfef639d5a573460616be77f1d827c65d3ee3c191da"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "accounting",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "3d91e000bd6d8f9e1354d81ff9f7d0c9d1efa3fce9c3dff85a653207b0f657e5"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Professional guide based on primary documentation or textbook; not an empirical study",
+        "sample": "Not applicable; no fabricated sample",
+        "country": "Not applicable; business examples are editorial",
+        "analysis": "Source comparison and original illustrative reasoning; no population effect estimate",
+        "measurement": "No psychological or causal effect asserted from a document checklist."
+      },
+      "original_source_status": "No original scientific citation; professional sources added during this revision",
+      "doi_status": "Not applicable: professional documents cited with original URLs",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-kolko-stoji-webstranka",
+      "kind": "professional_guide",
+      "review_status": "professional_sources_compared",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "World Wide Web Consortium. (n.d.). Forms tutorial. Web Accessibility Initiative.",
+          "url": "https://www.w3.org/WAI/tutorials/forms/",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "forms"
+        },
+        {
+          "apa7": "World Wide Web Consortium. (n.d.). Headings. Web Accessibility Initiative.",
+          "url": "https://www.w3.org/WAI/tutorials/page-structure/headings/",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "headings"
+        },
+        {
+          "apa7": "Google. (n.d.). Search engine optimization (SEO) starter guide. Google Search Central.",
+          "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "google"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-kolko-stoji-webstranka.html",
+          "title": "Koľko stojí firemný web: čo porovnať v ponukách",
+          "description": "Rozsah, obsah, dizajn, integrácie a údržba: ako porovnať cenu firemného webu bez neoverených trhových priemerov.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "34c041e4601aae596c3094fb4d9c973067791da9bae2ad500d33d47437f1fa1f"
+        },
+        "en": {
+          "path": "blog-website-cost-en.html",
+          "title": "What a business website costs: comparing quotations",
+          "description": "Scope, content, design, integrations and maintenance: compare website quotations without relying on unverified market averages.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "d230904039acc1afd393af5fcd83c9a5623855c4774f03b946a0dca86d5762c5"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Odborné východiská",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "ad56cdf4fe64f3705507810bdd57442d9af38e3bb4a31646e2fc8fcb657cc8d5"
+          },
+          {
+            "section": "Čo má byť v rozsahu",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "ca843579cf03b98d40a291a10f1c936b86caf8747724c6803cfe7aaf4ae07b3c"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "2e0e3b959d071add89a59da650343ad5b1c2f1ece05612dbe0cc2141c30747de"
+          },
+          {
+            "section": "Limity porovnania",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "55a491fb045760686b7bc333563baa7876afa70997a66dd7005376e478f55347"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "81b83506225dc26c72b1393373d125b5bd176012ec731b9d520ef44567f4d40e"
+          }
+        ],
+        "en": [
+          {
+            "section": "Professional foundations",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "272845cf6c032da76a96b1b13de6ac0293b709e3adc14ac2ac44319a596514dd"
+          },
+          {
+            "section": "What the scope should contain",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "54769f68d0a819928494db6b66dc33b78d5d142ca54b2345146e682fb907cdf2"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "2a34687efa2333e8f8328bf3ac9c5f84e17d7644472c113a0bba7aa5ff2503e2"
+          },
+          {
+            "section": "Limits of comparison",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "52ca84f107a24fb2ed0ae14f5105c3ca3e07c3f2d2b59b1b1077373109712a41"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "forms",
+              "headings",
+              "google"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "36b1766e15f78e5b1fedd6c51bd2df656a9be2e12a67e97dac83d62ef9853222"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Professional guide based on primary documentation or textbook; not an empirical study",
+        "sample": "Not applicable; no fabricated sample",
+        "country": "Not applicable; business examples are editorial",
+        "analysis": "Source comparison and original illustrative reasoning; no population effect estimate",
+        "measurement": "No psychological or causal effect asserted from a document checklist."
+      },
+      "original_source_status": "No original scientific citation; professional sources added during this revision",
+      "doi_status": "Not applicable: professional documents cited with original URLs",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-seo-webstranky",
+      "kind": "professional_guide",
+      "review_status": "professional_sources_compared",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "Google. (n.d.). Search engine optimization (SEO) starter guide. Google Search Central.",
+          "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "google"
+        },
+        {
+          "apa7": "World Wide Web Consortium. (n.d.). Headings. Web Accessibility Initiative.",
+          "url": "https://www.w3.org/WAI/tutorials/page-structure/headings/",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "headings"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-seo-webstranky.html",
+          "title": "SEO firemného webu: obsah, indexovanie a meranie",
+          "description": "SEO podľa Google Search Central: jasný obsah, titulky, interné odkazy, canonical, sitemap a meranie bez garancie pozícií.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "c972adb5faab4494281434672d8b2865f9a19ee779e0111fe8c0047427338f1c"
+        },
+        "en": {
+          "path": "blog-seo-websites-en.html",
+          "title": "Business website SEO: content, indexing and measurement",
+          "description": "SEO grounded in Google Search Central: useful content, titles, internal links, canonical URLs, sitemaps and measurement without ranking guarantees.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "6666a33cdf8474aa9b247ccb4459c84880ae08f8c8f4eae18fd0f8362ea37970"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo uvádza primárna dokumentácia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "17fce2a2d84c8c0baf81979300f0f359bf9705b749a0913df99acb60e5466875"
+          },
+          {
+            "section": "Čo treba nastaviť",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "917c6738a8906b5c32412996faa0d3bac41032000c0958b67d303a8f8572892d"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "10830a9e58d99dd947711e0bfdf2e760db2649f59d6aede8d675424ef726b951"
+          },
+          {
+            "section": "Limity a interpretácia výsledkov",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "798eb4140ee3c796e1cad1de1907c1e93fbdcf692690e84c75c9fe9a56283d22"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "be2819c001c83780bba853d1f99073069ec3e1adc3df806765ce2a8658b5ebe7"
+          }
+        ],
+        "en": [
+          {
+            "section": "What primary documentation establishes",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "f56c6fa6bc6d4d5186933df6bfe63f20560cf87e53ec5c40d1c97456b8d4d3aa"
+          },
+          {
+            "section": "What to configure",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "3659e6e6ad8dc622e98e21311f22d1b649faede9270377282203881a2fb2d1c2"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "5b9d6ed6444136aa233ffe84b4402388171f473b308896dbd7ea581840c010f8"
+          },
+          {
+            "section": "Limits and interpretation",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1bc33a2c66dff8d5b000e1dfcbc4f23e8d29cdfbd2e0ed88dbf9fcda7b480c5b"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "google",
+              "headings"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "65d28a1c9c8e2b9eec64d1befc642ebf6af636ef775c786e9ebd5726b35c1e19"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Professional guide based on primary documentation or textbook; not an empirical study",
+        "sample": "Not applicable; no fabricated sample",
+        "country": "Not applicable; business examples are editorial",
+        "analysis": "Source comparison and original illustrative reasoning; no population effect estimate",
+        "measurement": "No psychological or causal effect asserted from a document checklist."
+      },
+      "original_source_status": "No original scientific citation; professional sources added during this revision",
+      "doi_status": "Not applicable: professional documents cited with original URLs",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-journal-review-2026-11-04-93b063fd01b6",
+      "kind": "research_commentary",
+      "review_status": "full_text_claim_comparison",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "id": "wu",
+          "apa7": "Wu, W. (2026). Corporate sustainability and artificial intelligence-enabled workforce transformation: A dual-pathway model of employee capability, empowerment, anxiety, and job insecurity. Frontiers in Psychology, 17, Article 1980927.",
+          "url": "https://doi.org/10.3389/fpsyg.2026.1980927",
+          "kind": "research_article",
+          "access": "full_text",
+          "doi": "10.3389/fpsyg.2026.1980927",
+          "verified_at": "2026-11-04",
+          "locator": "Methods3.1–3.4; Tables2–5,7,10; limitations6.4"
+        }
+      ],
+      "scientific_full_text_compared": true,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [
+        "Editorial source comparison, not independent peer review or data reanalysis."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-review-2026-11-04-93b063fd01b6.html",
+          "title": "AI vo firme: merajte prínosy aj obavy ľudí",
+          "description": "Ako vyhodnotiť zavádzanie AI vo firme: čo skúma nová štúdia, kde má limity a ako pripraviť malý pilot s kontrolou kvality.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-04",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "7a67d50d7cfc5454603a86e209b6bb492ae1565a2a3ea3a8966f476dd81d2fcf"
+        },
+        "en": {
+          "path": "blog-journal-review-2026-11-04-93b063fd01b6-en.html",
+          "title": "AI at work: measure benefits and employee concerns",
+          "description": "A practical look at workplace AI: what a new study examines, where its limits lie and how to plan a small pilot with quality checks.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-04",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "fc6f655d573082a73f6ec851c6ac9f3d9021daea8ec397d81b4c4d44ecd017da"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "85ff93b1a70b402717c2f69272c06c17e2eef6743305ba1a4acaa9a1a5df7af2"
+          },
+          {
+            "section": "Hlavné zistenia: dve nepriame modelové cesty",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "489412ce20d3629f75c1e5656e23e87efc1b503ec84e21ecea7b81825a6abd0e"
+          },
+          {
+            "section": "Prečo štúdia spája JD-R a SCT",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "765cc1d6f358d3b9eb462892b01bb89460fac3ad4979a6107e2b7f174553f787"
+          },
+          {
+            "section": "Limity výskumu a merania",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "8356d3f882ed2ae14539f578f606d6f46bdfc07f9163a01887234862b9b3e654"
+          },
+          {
+            "section": "Redakčný návrh WEBU: malý pilot namiesto veľkého sľubu",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "e552d0caa0a91af7b197b0686e506bdee0cf4a1e987929638843a9bfa63d1770"
+          },
+          {
+            "section": "Ako o AI hovoriť na firemnom webe",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "5e476d441ac5790daa64683df84679cbab4986a6d863cb57fd9f5326c0ba67ed"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "34581c205294ad79db7c812861b866d24cf6395493651b8552fa272284d71c8e"
+          },
+          {
+            "section": "Rozsah redakčnej kontroly",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "6e920d015c680542340934f87678743349773078ceabdf9d1ef4641a5a18d2db"
+          }
+        ],
+        "en": [
+          {
+            "section": "What the study examined",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "41db9a0cfac5b58a07dd35b6fbafbb0a64ea0c8cb32e0545a716f650b71aa0b7"
+          },
+          {
+            "section": "Main findings: two indirect model pathways",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "c7ee28d0f13510fe74bf3e21449a9c56d8d39adff84c1d4a6dc9ca515b41a489"
+          },
+          {
+            "section": "Why the study combines JD-R and SCT",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "cf823dc17a6d240ba08d49678de10206f9d9cd2a8aae0cbf0b3ebc424cb382c4"
+          },
+          {
+            "section": "Research and measurement limitations",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "0de43467c04d30e11549457ec207f1e185345f2bed9b2a095278c60cd85f3dd9"
+          },
+          {
+            "section": "WEBU editorial proposal: a small pilot instead of a large promise",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1ed5a21d0672a3acb63eb3c1a3eecaf460d51fb1b26d2a2f64b02321596d2c6d"
+          },
+          {
+            "section": "How to describe AI on a business website",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "20fb13081423d514207b88b9e19cbaa9b7b4f3452ee28080e6323bb4ec413c3c"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "059c8e3bfe0d178125b6c2cf219120e42735ad91947ab7ebf889accdba4538b4"
+          },
+          {
+            "section": "Scope of editorial review",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "wu"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "44cc7f0ed5fa99abd7467eec9d71c97d675d77eb69aeb0ea17156d9eca6892fa"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "cross-sectional self-report, not a causal experiment",
+        "sample": "530 employees; purposive criteria age18+, China employment,6months tenure,AI/automation exposure",
+        "country": "China",
+        "analysis": "PLS-SEM;5000 bootstrap resamples",
+        "measurement": "Study-specific/adapted reflective scales; alpha/composite reliability/AVE/HTMT checks; employee-perceived sustainability, not objective ESG."
+      },
+      "original_source_status": "full_text_claim_comparison",
+      "doi_status": "Registered metadata compared; access limitations recorded per source; no fabricated DOI",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-journal-osobnost-a-ai-konverzacia-2026-11-03",
+      "kind": "research_preprint_commentary",
+      "review_status": "full_text_preprint_claim_comparison",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "id": "abukar_preprint",
+          "apa7": "Abukar, A., Fu, J., Zhai, C., & Jose, J. M. (2026). Role of personality in conversational information seeking [Preprint]. arXiv.",
+          "url": "https://doi.org/10.48550/arXiv.2608.11164",
+          "kind": "preprint",
+          "access": "preprint_full_text",
+          "doi": "10.48550/arXiv.2608.11164",
+          "verified_at": "2026-11-04",
+          "locator": "Sections3–7; Tables3–5; arXiv posting metadata"
+        },
+        {
+          "id": "abukar_acm",
+          "apa7": "Abukar, A., Fu, J., Zhai, C., & Jose, J. M. (2026). Role of personality in conversational information seeking. Proceedings of the 35th ACM International Conference on Information and Knowledge Management, 4–15. [Crossref record dated November6; final publisher version not reviewed.]",
+          "url": "https://doi.org/10.1145/3799682.3840711",
+          "kind": "research_article",
+          "access": "metadata_future_date",
+          "doi": "10.1145/3799682.3840711",
+          "verified_at": "2026-11-04",
+          "locator": ""
+        }
+      ],
+      "scientific_full_text_compared": true,
+      "source_restriction": true,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-osobnost-a-ai-konverzacia-2026-11-03.html",
+          "title": "Štýl AI chatu: čo ukazuje malá kontrolovaná štúdia",
+          "description": "Kontrolovaná štúdia s 26 účastníkmi skúma štýl AI konverzácie. Odlišujeme manipuláciu štýlu od osobnosti človeka a limitov preprintu.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "14e342c1c4a275b5fe06f3334be3bda5545fbeeb5d3e5d856b0db570dc49723a"
+        },
+        "en": {
+          "path": "blog-journal-osobnost-a-ai-konverzacia-2026-11-03-en.html",
+          "title": "AI chat style: evidence from a small controlled study",
+          "description": "A controlled study with 26 participants examines AI conversation style. We distinguish style manipulation, measured personality and preprint limitations.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "cfd3ed5a36c38f228627d67305ab7be60740e1e8330331522867389e19647bb9"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "db9319554a369499a8444ae65423afedadf12d41d26521b9c1dc927c3ee56220"
+          },
+          {
+            "section": "Hlavné zistenia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "b8e059dee177309f1103fffcdf86411375050532dc576c2daa292e77ef7cee06"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "8a1828748cc87db73bc1cf29dc3623e87cdc4b3d8acdf9d009fb83f57172aa15"
+          },
+          {
+            "section": "Limity výskumu a publikačný stav",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "f7c112d26c38da788b46f01e7d936bdec59602abd2dc76bf9cf9c639579658de"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "6e6d24c51201a5b3b9e16ea8be5b74c794ea5d1cc506934c36ee5186910a07cd"
+          }
+        ],
+        "en": [
+          {
+            "section": "What the study examined",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1e35be914a85ac536704ff6ff360981d5def357d71590a78e19e85dcf3dc6742"
+          },
+          {
+            "section": "Main findings",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "a2c31f600f59d3c2602a8083ed4215c96f1cbced00ff2af52a4d06ec30cdcca3"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "b05676e59e8f05be99c1c89116e8beffb3005449194a9d155fc690cb36280a9c"
+          },
+          {
+            "section": "Research limits and publication status",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "5d0b1754e2d3b9f9dc5a97bd0eb3ae3aebfc840884142f63567641f5fbbf38b9"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "abukar_preprint",
+              "abukar_acm"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "30caa14b3006aa758053919bb5dc0c01bb35b84a5d25db3ac58095c84f73bca1"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "counterbalanced within-subject controlled exploratory user study; traits measured, assistant style manipulated",
+        "sample": "26/28 retained;78 task-phase conversations; young male-skewed computing-oriented convenience sample",
+        "country": "Participant residence not unambiguously established; UK author affiliations are not proof of participant location.",
+        "analysis": "Behavioural traces, questionnaire composites, trait associations,task-by-style comparisons; multiple-testing corrections; brief interpretive coding",
+        "measurement": "BFI-2-S and task-specific questionnaires; expressed assistant style is not stable psychological personality; subjective trust is not factual accuracy."
+      },
+      "original_source_status": "full_text_preprint_claim_comparison",
+      "doi_status": "Registered metadata compared; access limitations recorded per source; no fabricated DOI",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-journal-udrzatelnost-a-data-2026-11-03",
+      "kind": "research_commentary",
+      "review_status": "full_text_claim_comparison",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "id": "ottaviani",
+          "apa7": "Ottaviani, M., & Stahlschmidt, S. (2026). The representation of SDG-related research in bibliometric databases: Persisting imbalances and varying perspectives. Scientometrics. Advance online publication.",
+          "url": "https://doi.org/10.1007/s11192-026-05857-x",
+          "kind": "research_article",
+          "access": "full_text",
+          "doi": "10.1007/s11192-026-05857-x",
+          "verified_at": "2026-11-04",
+          "locator": "Data; Methods; Results; Discussion limitations"
+        }
+      ],
+      "scientific_full_text_compared": true,
+      "source_restriction": false,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-udrzatelnost-a-data-2026-11-03.html",
+          "title": "Čo môžu skryť databázy výskumu udržateľnosti",
+          "description": "Ako klasifikácia databáz a jazykový model ovplyvňujú obraz výskumu SDG. Overené metódy, výsledky a limity bibliometrickej štúdie.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "03c8dc202ac547d93696da2ad5530cb0bc7986d2bfad53d68e6f943c1ff36ab2"
+        },
+        "en": {
+          "path": "blog-journal-udrzatelnost-a-data-2026-11-03-en.html",
+          "title": "What sustainability research databases can leave out",
+          "description": "How database classification and a language model shape the picture of SDG research: verified methods, findings and bibliometric limitations.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "cce0ef875ec2c7dd1b0cc51ccb9fea8db94efd3501233631841d5e9bf20fbf50"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "2c6db4f06b920bd9b63e722d9add0a3898df2520fc4838ff85d7d738f6efac25"
+          },
+          {
+            "section": "Hlavné zistenia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "f70a5691a0c2400bb59e01f78c80b1a36a772dae1c63de6d901f8698ccf9c13a"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "f60719978df8e774022be0f471b2f842fb750510ad9a01018bcdd173a5ceb579"
+          },
+          {
+            "section": "Limity výskumu",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "ce1dcec764b9b3696373d32f57c7f48ab218286c8268d61a625d571f3edabf9d"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "ca108a09a49cf08149e2168260d0a55cc4c087dac2c5eb11222aff5a11eaa1c4"
+          }
+        ],
+        "en": [
+          {
+            "section": "What the study examined",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "f17d3741f91df4e49e9617b1b9f1e61caef5aba32f3d77e76351b2daaf5c0554"
+          },
+          {
+            "section": "Main findings",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "6b930ada71880969a2ae0d8897b38d8a6a4424b12832f8f0e8933bf2eb881feb"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "6d408ae5afd48a3f90a8fab92aa854e79aa392d70008c573774fe7f2286fc42c"
+          },
+          {
+            "section": "Research limitations",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "21d98a3bf243b74923fdabd64964f9b2dcb65bb48cc83dc2cfde2b8ae56a7fd9"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "ottaviani"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "f48cf67981b88e67dd5cdc56000ba7f5a948137ef1ba734930ea491ec4e2b041"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "computational bibliometric classification/representation comparison",
+        "sample": "15,471,336 DOI-matched records in common base; subsets selected for SDGs4,5,8,9,10; not participants or count per model training",
+        "country": "International publication databases; no human participant-country sample",
+        "analysis": "Database-specific fine-tuning of DistilGPT-2, common UN-target prompts,generated noun-phrase comparison with human feedback",
+        "measurement": "Classification and model output are representations; not direct societal-impact or live commercial-assistant measurements."
+      },
+      "original_source_status": "full_text_claim_comparison",
+      "doi_status": "Registered metadata compared; access limitations recorded per source; no fabricated DOI",
+      "pending_primary_research_review": false,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-journal-podnikanie-v-nedostatku-2026-11-03",
+      "kind": "editorial_guide_limited_research",
+      "review_status": "abstract_only_research_hold",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "id": "raiss",
+          "apa7": "Raiss, O., Elmoudni, K., & Moufdi, N. (2026). Enacting effectuation in scarcity: A symbiotic model driven by bricolage and socio-cultural networks in Moroccan SME entrepreneurship. Asia Pacific Journal of Innovation and Entrepreneurship. Advance online publication.",
+          "url": "https://doi.org/10.1108/APJIE-11-2025-0165",
+          "kind": "research_article",
+          "access": "abstract_only",
+          "doi": "10.1108/APJIE-11-2025-0165",
+          "verified_at": "2026-11-04",
+          "locator": "Crossref abstract; publisher full text inaccessible HTTP403"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-podnikanie-v-nedostatku-2026-11-03.html",
+          "title": "Podnikanie s obmedzenými zdrojmi: otázky pre malý pilot",
+          "description": "Ako premýšľať o dostupných zdrojoch a malom pilote. Marocká štúdia je overená iba z abstraktu; odporúčania WEBU sú oddelené.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "d0fdd52fcaf683c8d9b7de55bf7993bcf278e3f61884f01f297089edd92127f9"
+        },
+        "en": {
+          "path": "blog-journal-podnikanie-v-nedostatku-2026-11-03-en.html",
+          "title": "Working with limited resources: questions for a small pilot",
+          "description": "Think through available resources and a small pilot. The Moroccan study was checked at abstract level only; WEBU recommendations are separate.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "770e15360ff9db444e0add40f34cfcb695346ed5dd82402cc936c57e8a1853ee"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo uvádza dostupný abstrakt",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1bf72a925c7b7158c52e6d37c62e61e6da1f0da80fb2aad3e5fc4094f11f8089"
+          },
+          {
+            "section": "Rozsah zistení, ktoré tu možno použiť",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "4519fca397b5da49b2e21cd7e1533706a971799f01fc4692809b410ae674afe5"
+          },
+          {
+            "section": "Čo to znamená v praxi — vlastný návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "ba8e95789fcdae4db9138131071153dea6d65a11ac9c7a86cf8f3902cdef4a3b"
+          },
+          {
+            "section": "Limity a otvorená redakčná kontrola",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "7b071277a2c3d02e9c5e3a7e317ffa75f3122599c8684a21cb781a2707aa3d24"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "27dfbba274ec48eee2589b35abeb21da2433d228313c6e2f20d2d433b3d517c9"
+          }
+        ],
+        "en": [
+          {
+            "section": "What the available abstract reports",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "363196b1c2084ded90d99ba99d6067998fb75c6f7182b771041fdab290c8f169"
+          },
+          {
+            "section": "What can be taken from this evidence",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "c5307059788cdfbe3e024ec8d527845ddb9cf1084e74c4f2ba6834f86935316a"
+          },
+          {
+            "section": "Putting it into practice — WEBU’s own proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "9d34390a2ff979fb0092f15c6881f7e318ef90c72b24a085548df369583fb90a"
+          },
+          {
+            "section": "Limitations and outstanding source review",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "793f26e9a693b346bac4c6461679456b8590c574a3667770aedbaa98d74c5a0a"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "raiss"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "bbbc42120c366a13e93664a71034b63d2236f6a4b4697cc71007e54c187e9484"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Qualitative multiple-case study according to abstract only",
+        "sample": "Five established Moroccan SMEs, according to abstract",
+        "country": "Morocco, as reported in abstract",
+        "analysis": "Thematic analysis reported in abstract; coding/recruitment not checked in full text",
+        "measurement": "No full-text assessment of credibility/transferability; theoretical propositions not causal statistical effects."
+      },
+      "original_source_status": "abstract_only_research_hold",
+      "doi_status": "Registered metadata compared; access limitations recorded per source; no fabricated DOI",
+      "pending_primary_research_review": true,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-journal-testovanie-cien-2026-11-03",
+      "kind": "methodological_guide_research_hold",
+      "review_status": "original_research_unverified_safe_guide",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "National Institute of Standards and Technology, & SEMATECH. (n.d.). Choosing an experimental design. In e-Handbook of statistical methods (Section 5.3).",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri3.htm",
+          "kind": "methodological_handbook",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "nist"
+        },
+        {
+          "apa7": "National Institute of Standards and Technology, & SEMATECH. (n.d.). Randomized block designs. In e-Handbook of statistical methods (Section 5.3.3.2).",
+          "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri332.htm",
+          "kind": "methodological_handbook",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "nist_blocks"
+        },
+        {
+          "id": "pricing_pending",
+          "apa7": "Ferrari Ortiz, N., Orellana Montini, S., Garkavenko, M., Lit, R., & Abbiasov, T. (2026). Improving precision in cluster-level pricing experiments with temporal switchbacks. Proceedings of the 35th ACM International Conference on Information and Knowledge Management, 7085–7089. [Crossref record dated November6; findings not verified.]",
+          "url": "https://doi.org/10.1145/3799682.3839902",
+          "kind": "research_article",
+          "access": "metadata_future_date",
+          "doi": "10.1145/3799682.3839902",
+          "verified_at": "2026-11-04",
+          "locator": ""
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-testovanie-cien-2026-11-03.html",
+          "title": "Testovanie cien: ako oddeliť zmenu od náhodného výkyvu",
+          "description": "Stanovte cieľ, metriku a návrh testu ceny. Vysvetľujeme randomizáciu, blokovanie a neistotu bez neoverených konferenčných výsledkov.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "1937336dc01fdf65761ad4a6a918b7fa58e8efcc18d9a14850ff1f99cb0e2058"
+        },
+        "en": {
+          "path": "blog-journal-testovanie-cien-2026-11-03-en.html",
+          "title": "Pricing tests: separating change from random variation",
+          "description": "Define the objective, metric and design of a pricing test. Randomisation, blocking and uncertainty explained without unverified conference findings.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "d7326625b0447cacf2160e2879addd19ec81fdfa30d21e22461e73eac7b9164e"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo overuje metodická príručka",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "9c2ed3ce7c705990aa6e8039a4bc80ef42fd2dc0902482f68a65512bb0aa2260"
+          },
+          {
+            "section": "Korelácia, predikcia a kauzálna otázka",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "3ea08defb1a227d7762d29f301444e34a268781cd4e0c3431cef2b985c234a43"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "c778b076b7dd88dc78513a975fc455408f7659337dd832f3b9deaa0d120a03dc"
+          },
+          {
+            "section": "Limity a pôvodná citácia",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "bf523a64e409438a0d8be801269d5bcc76c16c22c12e55a4787aa5951c0c5adc"
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "4bffe5c379cd3967c25d34de05d8c218aea12d21ab37ebc06c60b2baa0aa4e3e"
+          }
+        ],
+        "en": [
+          {
+            "section": "What the methodological source establishes",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "1d758927f481ee67c555c63a03e5352afa96402ecf1769b768d91a3afd59dca0"
+          },
+          {
+            "section": "Association, prediction and causal questions",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "646802feff11729ee021dcd2478167dc07a2da8a8b1b9c3e72217a45e273d81d"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "e29946618a04d34a15194c8da1267ace1105abfaa54fb1d31c98598b78be4f83"
+          },
+          {
+            "section": "Limitations and the original citation",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "cc281d5e419b07b82889bff965c2008e32d96951a4b04ca91bf4007cbaefddf6"
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "nist",
+              "nist_blocks",
+              "pricing_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "efb93043997344481ac455d18058f8946b5933981446c705e5c73a313ef1414e"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Original conference study unverified; replacement is NIST-based methodological guide",
+        "sample": "Original sample unknown; no invented participants for a handbook",
+        "country": "Not verified",
+        "analysis": "Original study not assessed; general randomisation/blocking guidance compared with NIST",
+        "measurement": "No original estimates or hypotheses presented as findings."
+      },
+      "original_source_status": "original_research_unverified_safe_guide",
+      "doi_status": "Registered metadata compared; access limitations recorded per source; no fabricated DOI",
+      "pending_primary_research_review": true,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    },
+    {
+      "id": "blog-journal-dovera-v-digitalne-platby-2026-11-03",
+      "kind": "professional_guide_research_hold",
+      "review_status": "full_text_compared_publication_date_hold",
+      "reviewed_at": "2026-11-04",
+      "source_records": [
+        {
+          "apa7": "PCI Security Standards Council. (n.d.). Payment security resources for merchants.",
+          "url": "https://www.pcisecuritystandards.org/merchants/",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "pci"
+        },
+        {
+          "apa7": "World Wide Web Consortium. (n.d.). Forms tutorial. Web Accessibility Initiative.",
+          "url": "https://www.w3.org/WAI/tutorials/forms/",
+          "kind": "official_documentation",
+          "verified_at": "2026-11-04",
+          "access": "full_text_documentation",
+          "doi": null,
+          "id": "forms"
+        },
+        {
+          "id": "lintang_pending",
+          "apa7": "Lintang, Q., & Sangka, K. B. (2026). The THE EFFECT OF SECURITY, TRUST, USABILITY ON SHOPEEPAY USER SATISFACTION AMONG GENERATION-Z HIGH SCHOOL STUDENTS. EDUNOMIA: Jurnal Ilmiah Pendidikan Ekonomi, 7(1), 37–58. [Publisher/Crossref date November16; publication status unresolved.]",
+          "url": "https://doi.org/10.24127/edunomia.v7i1.11635",
+          "kind": "research_article",
+          "access": "full_text_future_date_hold",
+          "doi": "10.24127/edunomia.v7i1.11635",
+          "verified_at": "2026-11-04",
+          "locator": "PDF Methods pp39–41, Results, Conclusion; publisher metadata"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": "See section-level claim review and source locators; guide sources are not participant studies.",
+      "results": "Only findings supported by stated access; no empirical claims inferred from title alone.",
+      "practical_recommendations": "Explicit WEBU editorial proposals; no guarantees or untested study intervention claims.",
+      "image": "Existing unique licensed Pexels photo, shared only by SK/EN pair; original assignment retained.",
+      "publication": "owner_authorized_verified_correction",
+      "notes": [],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-dovera-v-digitalne-platby-2026-11-03.html",
+          "title": "Online platba: bezpečnosť a zrozumiteľný postup",
+          "description": "Čo preveriť pri online platbe: skutočné zabezpečenie, jasná suma, označené polia a potvrdenie. Výskumný podklad zostáva na kontrole.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "266143e1f501a0e7ecbd33c5275267ec0243850e583d8ed20f76d08d4c565274"
+        },
+        "en": {
+          "path": "blog-journal-dovera-v-digitalne-platby-2026-11-03-en.html",
+          "title": "Online payments: security and a clear customer journey",
+          "description": "Check actual security, a clear total, labelled fields and payment confirmation. The research source remains under publication-status review.",
+          "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
+          "published_at": "2026-11-03",
+          "modified_at": "2026-11-04",
+          "seo": "passed_static_checks",
+          "links": "passed_local_checks",
+          "content_sha256": "16651ff23d72a2aa944df71a392d82f5c90b4c0b46890e5833ea3281e7265a0c"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Odborné východiská",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "e19ddf47ef64c37359f185d90e00de9624f94464c480120be3bc90f32be1188a"
+          },
+          {
+            "section": "Čo možno odborne odlíšiť",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "01afe43a64a09efa9152164e8a06eca558dfd149c73b36cf55b337dc0172dc5a"
+          },
+          {
+            "section": "Čo to znamená v praxi — návrh WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "19d2256cdbe55d316ef77ed6f6f3a0dab65774fbf2a4835fe9d14303036c731d"
+          },
+          {
+            "section": "Výskumný podklad: prečítaný text, nevyriešený dátum",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "4fda01aa72461c22328e9685fcd3e4e8257a2a8f5325b6d2336e8006c7f3fab9"
+          },
+          {
+            "section": "Limity a záver",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "d6bccf363e5256c530162a41bca3db086db52a19e2682ac8cfaaa59fcbff3061"
+          }
+        ],
+        "en": [
+          {
+            "section": "Professional foundations",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "6639008ef1927827cddc5ca146a29287fc4d4dd18bc356d1106d5b96bf9ca5e8"
+          },
+          {
+            "section": "Concepts that need separating",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "438ab09ea169886b40cdce08a9f9ef21e4cd074633b7e7b2d083694105d4ce93"
+          },
+          {
+            "section": "Putting it into practice — WEBU proposal",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "59c609b9e31b1f33ef099fdf04cca8fd2606f6627f75c8e7653c83a5d96e58f4"
+          },
+          {
+            "section": "Research source: text read, publication date unresolved",
+            "claim_kind": "source_description_or_limited_interpretation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "71e4319ced90d3588fb64b4e013f5e195114f2b6ac7aa45cd343ddea4ef806ee"
+          },
+          {
+            "section": "Limits and conclusion",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [
+              "pci",
+              "forms",
+              "lintang_pending"
+            ],
+            "comparison": "Source facts compared only to stated access; editorial proposals explicitly not study findings.",
+            "text_sha256": "48a6c191d5f6124138cda18ce0f38dbd13bcf338cfa0fb981e7620aac1d48396"
+          }
+        ]
+      },
+      "study_review": {
+        "design": "Available PDF describes observational questionnaire regression; publisher date unresolved",
+        "sample": "378 in main analysis;30 pilot; six schools;reported clustered random selection",
+        "country": "Surakarta, Indonesia",
+        "analysis": "Multiple regression with/without demographic controls, checked in PDF; results withheld as effectiveness evidence pending publication-status review",
+        "measurement": "Perceived security/trust/usability/satisfaction; not a technical security audit; article reports reliability criterion, not proof of independent construct validity."
+      },
+      "original_source_status": "full_text_compared_publication_date_hold",
+      "doi_status": "Registered metadata compared; access limitations recorded per source; no fabricated DOI",
+      "pending_primary_research_review": true,
+      "correction_notes": {
+        "title": "Removed unsupported causal/price-premium/lost-customer assumptions where present",
+        "citations": "APA7-style bibliography added; source access and preprint/future-date status explicit",
+        "languages": "Both versions substantively revised; meanings aligned",
+        "publication_date": "Original date preserved; actual substantive update2026-11-04 shown"
+      }
+    }
+  ]
+}

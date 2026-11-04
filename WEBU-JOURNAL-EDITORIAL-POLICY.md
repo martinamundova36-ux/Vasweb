@@ -36,3 +36,11 @@ Existujúci publisher používa `journal-images.json` a `.github/scripts/journal
 Platné DOI ani prečítaný plný text samy osebe nestačia na prijatie zdroja. Záznam `scientific_review.source_quality` musí obsahovať rozhodnutie `accepted`, `accepted_with_limitations` alebo `hold`, jeho zdôvodnenie a zoznam výhrad. `hold` aj chýbajúce rozhodnutie blokujú publikovanie, aj keby boli ostatné technické polia úplné. Kľúčové slová sú iba prvotný filter tém; nepreukazujú užitočnosť pre klientov WEBU.
 
 HTTP kontrola podporuje HTML, PDF a XML vedeckého zdroja. Pri PDF overí aj hlavičku `%PDF-`; to však neoveruje metodiku ani pravdivosť výsledkov. Redaktor musí obsah skutočne prečítať a zdokumentovať jeho kvalitu. Pri neprístupnom zdroji alebo nevyriešených výhradách sa neznižujú štandardy kvôli dennému počtu.
+
+## Register všetkých článkov a ochrana overeného obsahu
+
+`journal-reports/journal-audit-register.json` eviduje každú jazykovú stránku, zdroje, ich dostupnosť, metodiku/vzorku, stav výskumného podkladu, obsahové porovnanie sekcií a hash revidovaného obsahu. Verejná metodika je na `/journal-metodika.html` a `/journal-metodika-en.html`. Register nie je potvrdením nezávislého vedeckého recenzného konania.
+
+Praktický odborný sprievodca sa nevydáva za empirickú štúdiu: môže vychádzať z dokumentácie W3C, Google alebo metodickej príručky. Nevymýšľa sa mu výskumná vzorka ani DOI. Pri štúdii dostupnej len z abstraktu, nedostupnom texte či nevyriešenom dátume zostáva výskumný podklad označený na kontrolu. Verejná oprava smie obsahovať len doložené opisy rozsahu zdroja a jasne odlíšené bezpečné redakčné odporúčania; nesmie publikovať neoverené výsledky.
+
+Pôvodná URL a datePublished sa zachovávajú. Zmena overeného textu bez aktualizácie skutočného redakčného záznamu je blokovaná. Automatická údržba súvisiacich odkazov a obrazových variantov nie je novým vedeckým tvrdením, preto nemení hash jadra článku. Nový vedecký článok sa zapíše do rovnakého registra po schválení existujúcim workflowom; starý Issue Form nesmie obísť úplnú dvojjazyčnú kontrolu. Referencie podľa APA7 a aspoň päť obsahových sekcií sú povinné pre nový výskumný článok. Samotná dĺžka textu ani počet sekcií nie sú dôkazom kvality.

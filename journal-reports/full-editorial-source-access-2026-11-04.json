@@ -1,0 +1,80 @@
+{
+  "checked_at": "2026-11-04",
+  "source_access": [
+    {
+      "id": "10.1108/APJIE-11-2025-0165",
+      "url": "https://www.emerald.com/apjie/article/doi/10.1108/APJIE-11-2025-0165/1406183/Enacting-effectuation-in-scarcity-a-symbiotic",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "10.1108/APJIE-11-2025-0165-pdf",
+      "url": "https://www.emerald.com/apjie/article-pdf/doi/10.1108/APJIE-11-2025-0165/11945457/apjie-11-2025-0165en.pdf",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "10.1145/3799682.3839902",
+      "url": "https://dl.acm.org/doi/10.1145/3799682.3839902",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "10.1145/3799682.3840711",
+      "url": "https://dl.acm.org/doi/10.1145/3799682.3840711",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "10.1007/s11192-026-05857-x",
+      "url": "https://link.springer.com/article/10.1007/s11192-026-05857-x",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 506136
+    },
+    {
+      "id": "10.24127/edunomia.v7i1.11635",
+      "url": "https://scholar.ummetro.ac.id/index.php/edunomia/article/view/11635",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 62291
+    },
+    {
+      "id": "10.24127/edunomia.v7i1.11635-pdf",
+      "url": "https://scholar.ummetro.ac.id/index.php/edunomia/article/download/11635/4742",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 532156
+    },
+    {
+      "id": "10.3389/fpsyg.2026.1980927",
+      "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1980927/full",
+      "status": 200,
+      "content_type": "text/html;charset=utf-8",
+      "bytes": 1766348
+    },
+    {
+      "id": "10.1145/997078.997097",
+      "url": "https://dl.acm.org/doi/10.1145/997078.997097",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "arxiv-personality",
+      "url": "https://arxiv.org/pdf/2608.11164",
+      "status": 200,
+      "content_type": "application/pdf",
+      "bytes": 1067829
+    },
+    {
+      "id": "arxiv-personality-abstract",
+      "url": "https://arxiv.org/abs/2608.11164",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 43171
+    }
+  ],
+  "arxiv_doi_registry": {
+    "doi": "10.48550/arxiv.2608.11164",
+    "registry": "DataCite",
+    "state": "findable",
+    "title": "Role of Personality in Conversational Information Seeking",
+    "year": 2026
+  },
+  "warning": "DOI registration and HTTP availability do not establish scientific validity; metadata-only and future-dated sources are not used as verified findings."
+}

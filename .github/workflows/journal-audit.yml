@@ -11,6 +11,9 @@ on:
       - 'journal-share.js'
       - 'journal-images.css'
       - 'journal-images.json'
+      - 'journal-editorial.css'
+      - 'journal-metodika*.html'
+      - 'journal-reports/journal-audit-register.json'
       - 'assets/journal/**'
       - 'sitemap.xml'
       - '.github/workflows/journal-audit.yml'
@@ -23,6 +26,9 @@ on:
       - 'journal-share.js'
       - 'journal-images.css'
       - 'journal-images.json'
+      - 'journal-editorial.css'
+      - 'journal-metodika*.html'
+      - 'journal-reports/journal-audit-register.json'
       - 'assets/journal/**'
       - 'sitemap.xml'
       - '.github/workflows/journal-audit.yml'
@@ -42,6 +48,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 scripts/journal_image_audit.py
+      - run: python3 scripts/journal_review_audit.py
+      - run: python3 scripts/test_journal_review.py
       - name: Validate indexability and bilingual SEO for all articles
         run: python3 scripts/seo_audit.py
       - name: Validate blog metadata, references and links
