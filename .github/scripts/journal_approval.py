@@ -102,25 +102,19 @@ def preview(source, key):
 
 def body(source, key, sha):
     repo = os.environ['GITHUB_REPOSITORY']
-    owner = settings()['owner']
-    data = {'id': key, 'source_sha256': digest(source), 'test_only': source.get('test_only') is True}
+    data = {'id': key, 'head_sha': sha, 'source_sha256': digest(source), 'test_only': source.get('test_only') is True}
     annotation = source.get('notification_annotation') or source.get('editorial', {}).get('languages', {}).get('sk', {}).get('description') or 'Nový bibliografický návrh na posúdenie tematickej vhodnosti. Plný článok a odborná kontrola ešte nemusia byť pripravené.'
+    if source.get('test_only'):
+        annotation = 'Skúška jednoduchého schvaľovania. Tento návrh sa nezverejní.'
     return '\n'.join([
         f'{MARKER}{json.dumps(data, sort_keys=True)} -->',
-        f'@{owner} — rozhodnutie je priradené tebe.', '',
-        '## Článok', safe_text(article_title(source)), '', safe_text(annotation), '',
-        '## Vedecký zdroj', safe_text(source['title']), safe_text('; '.join(source['authors'])),
-        safe_text(source['venue']) + ' · ' + safe_text(source['source_date']), source['url'], '',
-        '## Výsledok vedeckej kontroly', review_status(source), '',
-        f'## [Náhľad SK/EN](https://github.com/{repo}/blob/{sha}/journal-drafts/{key}.md)', '',
-        '## Rozhodnutie', 'Do komentára tohto Pull Requestu vlož presne jeden príkaz:', '',
-        f'- **SCHVÁLIŤ:** `SCHVALIT {sha}`',
-        f'- **UPRAVIŤ:** `UPRAVIT {sha}` a na ďalší riadok pripomienky.',
-        f'- **ZAMIETNUŤ:** `ZAMIETNUT {sha}`', '',
-        'Schválenie platí iba pre túto presnú verziu. Vytvorenie PR, zelené testy ani bežné tlačidlo Merge nepovažujeme za obsahové schválenie.',
-        'Publikovať možno len úplný odborne skontrolovaný SK/EN článok po úspešných kontrolách. Testovací návrh sa nikdy nepublikuje.',
-        'E-mail môžeš použiť na otvorenie tohto PR; príkaz vlož priamo na GitHub, aby bolo spoľahlivo overené tvoje konto.',
-        '', '**Doručenie e-mailu: zatiaľ nepotvrdené.** GitHub priradenie nie je potvrdením doručenia do schránky.',
+        '**' + safe_text(article_title(source)) + '**', '', safe_text(annotation), '',
+        f'**[Prečítať článok SK / EN](https://github.com/{repo}/blob/{sha}/journal-drafts/{key}.md)**', '',
+        'Odpovedz na tento e-mail alebo pridaj komentár na GitHub jedným slovom:', '',
+        '**SCHVÁLIŤ · UPRAVIŤ · ZAMIETNUŤ**', '',
+        'Pri úprave pripíš, čo chceš zmeniť. Zdroj, DOI a výsledok kontroly nájdeš v náhľade.', '',
+        ('**TEST — nič sa nezverejní.**' if source.get('test_only') else
+         '**Stav:** ' + ('Pripravené na tvoje rozhodnutie.' if source.get('editorial', {}).get('status') == 'ready_for_owner_approval' and review_status(source).startswith('Redakčný záznam') else 'Čaká na odbornú kontrolu; zatiaľ sa nemôže publikovať.')),
     ])
 
 
@@ -206,7 +200,7 @@ def notify(test=False):
                     marker = '<!-- webu-test-email-notice -->'
                     comments = paged('issues/' + str(previous['number']) + '/comments')
                     if not any(marker in c.get('body', '') for c in comments):
-                        api('issues/' + str(previous['number']) + '/comments', 'POST', {'body': marker + '\n@' + config['owner'] + '\n\n' + body(source, key, previous['head']['sha'])})
+                        api('issues/' + str(previous['number']) + '/comments', 'POST', {'body': marker + '\n' + body(source, key, previous['head']['sha'])})
                 continue
         elif count >= min(5, config['max_new_requests_per_day']):
             break
@@ -237,11 +231,27 @@ def parse_decision(event, owner):
     if comment.get('user', {}).get('login') != owner or 'pull_request' not in event.get('issue', {}):
         raise ValueError('Only the named owner may decide on a pull request')
     lines = comment.get('body', '').strip().splitlines()
-    match = re.fullmatch(r'(SCHVALIT|SCHVÁLIŤ|UPRAVIT|UPRAVIŤ|ZAMIETNUT|ZAMIETNUŤ) ([a-f0-9]{40})', lines[0] if lines else '', re.I)
+    match = re.fullmatch(r'(SCHVALIT|SCHVÁLIŤ|UPRAVIT|UPRAVIŤ|ZAMIETNUT|ZAMIETNUŤ)(?: ([a-f0-9]{40}))?', lines[0].strip() if lines else '', re.I)
     if not match:
         return None
     action = {'SCHVÁLIŤ': 'SCHVALIT', 'UPRAVIŤ': 'UPRAVIT', 'ZAMIETNUŤ': 'ZAMIETNUT'}.get(match[1].upper(), match[1].upper())
     return action, match[2]
+
+
+def decision_version(event, pr, data, explicit_sha=None):
+    if explicit_sha:
+        return explicit_sha  # Backward-compatible replies to the original test email.
+    sha = data.get('head_sha')
+    if not sha or sha != pr['head']['sha']:
+        raise ValueError('Notification version is stale; refresh the article before deciding')
+    # Bind a one-word decision to the current notified version, without exposing
+    # machine identifiers. A branch changed after the comment cannot be approved.
+    commit = api('git/commits/' + sha)
+    comment_time = dt.datetime.fromisoformat(event['comment']['created_at'].replace('Z', '+00:00'))
+    commit_time = dt.datetime.fromisoformat(commit['committer']['date'].replace('Z', '+00:00'))
+    if commit_time >= comment_time:
+        raise ValueError('Article version changed during or after the decision; decide again on the refreshed article')
+    return sha
 
 
 def output(name, value):
@@ -266,12 +276,14 @@ def decide(event):
     if decision is None:
         print('No decision command; nothing published')
         return
-    action, sha = decision
+    action, explicit_sha = decision
     number = event['issue']['number']
     pr = api('pulls/' + str(number))
     data = metadata(pr)
     key = data['id']
+    sha = decision_version(event, pr, data, explicit_sha)
     validate_pr(pr, key, sha, owner)
+    output('head_sha', sha)
     files = paged('pulls/' + str(number) + '/files')
     allowed = {f'journal-drafts/{key}.json', f'journal-drafts/{key}.md'}
     if not files or any(f['filename'] not in allowed or f['status'] == 'removed' for f in files):
@@ -314,13 +326,16 @@ def finish(number, success=True):
     event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
     if parse_decision(event, settings()['owner']) is None:
         return
-    sha = parse_decision(event, settings()['owner'])[1]
+    sha = parse_decision(event, settings()['owner'])[1] or os.environ.get('DECISION_HEAD_SHA') or api('pulls/' + str(number))['head']['sha']
     path = ROOT / 'journal-reports/approval-decisions' / f'{number}-{sha}.json'
     if not path.exists():
         message = 'Rozhodnutie nespôsobilo publikovanie. Kontrola zlyhala; pozri príslušný Actions beh. Zelené technické testy samy neznamenajú odborné schválenie.'
     else:
         record = json.loads(path.read_text())
-        if record['action'] == 'UPRAVIT':
+        if record['comment_id'] != event['comment']['id']:
+            record = None
+            message = 'Táto verzia už má zaznamenané rozhodnutie. Ďalší článok sa nepublikoval.'
+        elif record['action'] == 'UPRAVIT':
             message = 'UPRAVIŤ: návrh zostáva nepublikovaný. Zapracujte pripomienky do pôvodného návrhu; nová verzia potrebuje nové výslovné schválenie.'
         elif record['action'] == 'ZAMIETNUT':
             message = 'ZAMIETNUTÉ: návrh nebol publikovaný.'
@@ -332,7 +347,7 @@ def finish(number, success=True):
     if any(marker in c.get('body', '') for c in paged('issues/' + str(number) + '/comments')):
         return
     api('issues/' + str(number) + '/comments', 'POST', {'body': marker + '\n' + message})
-    if path.exists() and (record['action'] == 'ZAMIETNUT' or (record['action'] == 'SCHVALIT' and success)):
+    if path.exists() and record and (record['action'] == 'ZAMIETNUT' or (record['action'] == 'SCHVALIT' and success)):
         api('pulls/' + str(number), 'PATCH', {'state': 'closed'})
 
 

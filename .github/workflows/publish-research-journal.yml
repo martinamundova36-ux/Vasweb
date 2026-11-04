@@ -142,10 +142,7 @@ jobs:
     needs: validate
     if: >-
       github.event_name == 'issue_comment' && github.event.issue.pull_request &&
-      github.event.comment.user.login == github.repository_owner &&
-      (startsWith(github.event.comment.body, 'SCHVALIT ') || startsWith(github.event.comment.body, 'SCHVÁLIŤ ') ||
-       startsWith(github.event.comment.body, 'UPRAVIT ') || startsWith(github.event.comment.body, 'UPRAVIŤ ') ||
-       startsWith(github.event.comment.body, 'ZAMIETNUT ') || startsWith(github.event.comment.body, 'ZAMIETNUŤ '))
+      github.event.comment.user.login == github.repository_owner
     runs-on: ubuntu-latest
     timeout-minutes: 12
     permissions:
@@ -194,6 +191,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.issue.number }}
           DECISION_SUCCESS: ${{ job.status == 'success' && 'true' || 'false' }}
+          DECISION_HEAD_SHA: ${{ steps.decision.outputs.head_sha }}
         run: |
           if [ "$DECISION_SUCCESS" = true ]; then
             python3 .github/scripts/journal_approval.py --action finish --pr-number "$PR_NUMBER"

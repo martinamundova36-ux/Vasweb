@@ -1,6 +1,6 @@
 {
   "date": "2026-11-04",
-  "status": "pending_repository_permission_and_recipient_delivery_confirmation",
+  "status": "email_received_simplified_interface_pending_repository_permission",
   "test_pull_request": "https://github.com/martinamundova36-ux/Vasweb/pull/3",
   "title": "WEBU Journal – Na schválenie: TEST – AI vo firme: merajte prínosy aj obavy ľudí",
   "assignee": "martinamundova36-ux",
@@ -12,17 +12,18 @@
   "bot_notification_comment": "https://github.com/martinamundova36-ux/Vasweb/pull/3#issuecomment-6630978249",
   "bot_notification_comment_count_after_two_runs": 1,
   "email_enabled_for_participating_and_mentions_observed": true,
-  "email_delivery": "not_confirmed_no_mailbox_access_or_recipient_confirmation",
-  "email_subject": "not_observed_in_mailbox_GitHub_uses_PR_title",
+  "email_delivery": "confirmed_by_recipient_screenshots_on_2026-11-04",
+  "email_subject": "not_visible_in_recipient_screenshots; notification body identifies the article and PR #3",
   "approval_link": "https://github.com/martinamundova36-ux/Vasweb/pull/3",
   "automated_pr_creation_permission_observed": false,
   "permission_action": "Await action-time confirmation before enabling GitHub's combined create-and-approve-PR setting; no automatic approving review is implemented",
-  "offline_approval_regression_tests": 8,
+  "offline_approval_regression_tests": 10,
   "existing_editorial_seo_image_and_publication_regressions": "passed",
   "new_paid_api_or_subscription": false,
   "unresolved": [
     "Enable bot PR creation after explicit confirmation of GitHub's combined repository permission",
-    "Recipient confirms actual email receipt, article-identifying subject and correct PR link",
     "After permission is enabled, verify one real bot-created PR; the present fixture PR was created through the owner connector and notified by bot comment"
-  ]
+  ],
+  "delivery_evidence": "Recipient supplied screenshots of github-actions[bot] email, article title, DOI and Vasweb#3 on 2026-11-04",
+  "interface": "one-word decisions; version identifiers handled internally"
 }

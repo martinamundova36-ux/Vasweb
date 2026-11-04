@@ -20,13 +20,17 @@ GitHub Notifications → Participating, @mentions and custom musí obsahovať Em
 
 ## Rozhodnutie
 
-Otvorte PR z e-mailu a vložte komentár priamo na GitHub. Skopírujte celý príkaz z popisu PR, kde je aktuálny 40-znakový SHA:
+Prečítajte si náhľad článku. Odpovedzte na upozornenie z GitHub e-mailom alebo vložte komentár v príslušnom PR. Na prvý riadok stačí jedno slovo, aj bez diakritiky a bez rozlišovania veľkosti písmen:
 
-- `SCHVALIT <SHA>`: publikuje iba odborne pripravený dvojjazyčný článok po opätovných vedeckých záznamových, bibliografických, zdrojových, obrazových a SEO kontrolách. Po nasadení sa overia verejné URL a výsledok sa oznámi v PR.
-- `UPRAVIT <SHA>`: nič sa nepublikuje; doplňte pripomienky na ďalšie riadky. Upraviť treba pôvodný JSON v `journal-drafts/` na main; zmena aktualizuje ten istý PR a vyžiada nové rozhodnutie. Nezmenená verzia sa po tomto rozhodnutí nedá schváliť.
-- `ZAMIETNUT <SHA>`: nič sa nepublikuje, rozhodnutie sa uloží a PR sa zatvorí.
+- **SCHVÁLIŤ** — publikuje iba odborne pripravený dvojjazyčný článok po všetkých kontrolách.
+- **UPRAVIŤ** — nič sa nepublikuje; na ďalší riadok doplňte pripomienky.
+- **ZAMIETNUŤ** — nič sa nepublikuje a PR sa zatvorí.
 
-Príkaz je platný len od vlastníčky účtu, pre otvorenú vlastnú vetvu repozitára a presný aktuálny SHA. Z PR sa čítajú iba jeho JSON a Markdown; jeho kód sa nikdy nespúšťa. Zmena návrhu, chýbajúci plný text, neúplná SK/EN verzia, nevyriešené tvrdenia alebo testovací príznak blokujú publikovanie. Nezávislé odborné posúdenie nemôže nahradiť automatický test.
+Žiadny technický kód netreba kopírovať. Verzia, hash obsahu, identita účtu a čas rozhodnutia sa kontrolujú na pozadí. E-mailová odpoveď musí byť GitHubom pripísaná účtu vlastníčky; ak ju GitHub neprijme, rozhodnutie sa nevykoná. Bežný text bez jedného z troch rozhodnutí nič nepublikuje.
+
+Príkaz sa viaže na aktuálnu verziu náhľadu v PR v čase komentára. Ak sa vetva zmení po komentári alebo nezodpovedá oznámenému náhľadu, schválenie sa odmietne. Pri odpovedi na starší e-mail si treba otvoriť aktuálny náhľad; z textu odpovede nemožno zistiť, ktorú staršiu verziu čitateľka videla. Staré testovacie príkazy s SHA zostávajú spätne podporované.
+
+Po UPRAVIŤ upravte pôvodný JSON v `journal-drafts/` na main; zmena aktualizuje ten istý PR a vyžiada nové rozhodnutie. Nezmenená verzia sa po tomto rozhodnutí nedá schváliť. Z PR sa čítajú iba JSON a Markdown; jeho kód sa nikdy nespúšťa. Chýbajúci plný text, neúplná SK/EN verzia, nevyriešené tvrdenia alebo testovací príznak blokujú publikovanie. Nezávislé odborné posúdenie nemôže nahradiť automatický test.
 
 Vytvorenie PR, úspešné Actions, bežné Merge alebo komentár „páči sa mi“ nepúšťajú publikovanie. Existujúca manuálna voľba `publish` vo workflow zostáva alternatívnym výslovným schválením vlastníčky a podlieha rovnakým kontrolám.
 

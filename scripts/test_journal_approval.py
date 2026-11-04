@@ -54,6 +54,9 @@ class ApprovalTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Only the named owner'):
             approval.parse_decision(event, OWNER)
         self.assertEqual(approval.parse_decision(self.event('UPRAVIŤ'), OWNER), ('UPRAVIT', SHA))
+        short = self.event()
+        short['comment']['body'] = 'Schváliť\n\n> quoted original notification'
+        self.assertEqual(approval.parse_decision(short, OWNER), ('SCHVALIT', None))
         self.assertIsNone(approval.parse_decision(self.event('nice article'), OWNER))
         with self.assertRaisesRegex(ValueError, 'stale'):
             approval.validate_pr(self.pr, KEY, 'b' * 40, OWNER)
@@ -61,6 +64,31 @@ class ApprovalTests(unittest.TestCase):
         changed['head']['repo']['full_name'] = 'attacker/repo'
         with self.assertRaisesRegex(ValueError, 'Unexpected approval branch'):
             approval.validate_pr(changed, KEY, SHA, OWNER)
+
+    def test_short_reply_is_bound_to_notification_and_time(self):
+        event = self.event()
+        event['comment']['body'] = 'SCHVÁLIŤ'
+        event['comment']['created_at'] = '2026-11-04T12:00:01Z'
+        data = approval.metadata(self.pr)
+        with patch.object(approval, 'api', return_value={'committer': {'date': '2026-11-04T12:00:00Z'}}):
+            self.assertEqual(approval.decision_version(event, self.pr, data), SHA)
+        with patch.object(approval, 'api', return_value={'committer': {'date': '2026-11-04T12:00:02Z'}}):
+            with self.assertRaisesRegex(ValueError, 'changed during or after'):
+                approval.decision_version(event, self.pr, data)
+        changed = copy.deepcopy(self.pr)
+        changed['head']['sha'] = 'b' * 40
+        with self.assertRaisesRegex(ValueError, 'Notification version is stale'):
+            approval.decision_version(event, changed, data)
+
+    def test_email_is_short_and_has_no_copyable_machine_command(self):
+        import re
+        message = approval.body(self.source, KEY, SHA)
+        visible = re.sub(r'<!--.*?-->', '', message, flags=re.S)
+        visible = re.sub(r'\]\([^)]*\)', ']', visible)
+        self.assertNotRegex(visible, r'[a-f0-9]{40}')
+        self.assertNotIn('SCHVALIT ' + SHA, visible)
+        self.assertIn('SCHVÁLIŤ · UPRAVIŤ · ZAMIETNUŤ', visible)
+        self.assertLess(len(visible), 1000)
 
     def test_unchanged_and_closed_requests_do_not_notify(self):
         (self.root / 'journal-drafts' / (KEY + '.json')).write_text(json.dumps(self.source))
@@ -146,6 +174,8 @@ class ApprovalTests(unittest.TestCase):
         local.write_text(json.dumps(source))
         content = {'content': base64.b64encode(json.dumps(source).encode()).decode()}
         def api(path, *args):
+            if path.startswith('git/commits/'):
+                return {'committer': {'date': '2026-11-04T12:00:00Z'}}
             return self.pr if path.startswith('pulls/') else content
         def published(*args, **kwargs):
             result = dict(source, published_at='2026-11-04',
@@ -154,7 +184,10 @@ class ApprovalTests(unittest.TestCase):
         with patch.object(approval, 'api', side_effect=api), \
              patch.object(approval, 'paged', return_value=[{'filename': f'journal-drafts/{KEY}.json', 'status': 'added'}]), \
              patch.object(approval.subprocess, 'run', side_effect=published) as publish:
-            approval.decide(self.event())
+            event = self.event()
+            event['comment']['body'] = 'SCHVÁLIŤ'
+            event['comment']['created_at'] = '2026-11-04T12:00:01Z'
+            approval.decide(event)
             publish.assert_called_once()
             self.assertIn('--draft-id', publish.call_args.args[0])
             self.assertIn('free_journal.py', publish.call_args.args[0][1])
