@@ -43,6 +43,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python3 .github/scripts/publish_research_journal.py
       - name: Povinná technická kontrola pred publikovaním
+        if: steps.clock.outputs.run == 'true'
         run: python3 scripts/journal_audit.py --publish-gate
       - name: Ulozit clanky a denny report
         if: steps.clock.outputs.run == 'true'
