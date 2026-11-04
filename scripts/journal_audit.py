@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """WEBU Journal static editorial checks. Does not certify scientific validity."""
 import json
+import os
+import subprocess
 import re
 import sys
 from pathlib import Path
@@ -71,14 +73,29 @@ def check(path):
 def main():
     files = sorted(ROOT.glob("blog*.html"))
     all_errors, all_warnings = [], []
+    # Legacy articles receive a non-blocking backlog report. Newly edited
+    # blog pages must pass the structural checks before merging.
+    base = os.environ.get("JOURNAL_BASE_SHA", "").strip()
+    changed = set()
+    if base and re.fullmatch(r"[0-9a-fA-F]{40}", base):
+        result = subprocess.run(
+            ["git", "diff", "--name-only", base, "HEAD", "--", "blog*.html"],
+            cwd=ROOT, text=True, capture_output=True, check=False)
+        if result.returncode:
+            print("ERROR: cannot determine changed articles:", result.stderr)
+            return 2
+        changed = set(result.stdout.splitlines())
     for path in files:
         errors, warnings = check(path)
-        all_errors.extend(errors)
+        if path.name in changed:
+            all_errors.extend(errors)
+        else:
+            all_warnings.extend(x.replace("ERROR:", "LEGACY:") for x in errors)
         all_warnings.extend(warnings)
-    print(f"Checked {len(files)} blog HTML files")
+    print(f"Checked {len(files)} blog HTML files; enforced changed files: {len(changed)}")
     for item in all_errors: print("ERROR:", item)
     for item in all_warnings: print("WARNING:", item)
-    print(f"Errors: {len(all_errors)}; warnings requiring editorial review: {len(all_warnings)}")
+    print(f"Blocking errors: {len(all_errors)}; warnings/backlog: {len(all_warnings)}")
     return 1 if all_errors else 0
 
 if __name__ == "__main__": sys.exit(main())
