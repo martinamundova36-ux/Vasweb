@@ -37,6 +37,8 @@ jobs:
         run: python3 .github/scripts/sync_favicon.py
       - name: Zostaviť sitemap z aktuálnych stránok
         run: python3 .github/scripts/sync_sitemap.py
+      - name: Zastaviť uloženie pri chybe SEO
+        run: python3 scripts/seo_audit.py
       - name: Uložiť sitemap iba ak sa zmenila
         run: |
           git config user.name "WEBU Sitemap Bot"

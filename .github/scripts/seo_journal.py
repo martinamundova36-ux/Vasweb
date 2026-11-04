@@ -3,7 +3,7 @@
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
-import html, json, re, sys
+import html, json, re, sys, subprocess
 ROOT=Path(__file__).resolve().parents[2]
 SITE="https://www.webu.sk/"
 ARTICLES=sorted(p for p in ROOT.glob("blog-*.html") if p.name!="blog-en.html")
@@ -27,16 +27,45 @@ def meta(s,name):
 def tag(s,kind):
     m=re.search(r"<"+kind+r"\b[^>]*>(.*?)</"+kind+r">",s,re.I|re.S)
     return text(m.group(1)) if m else ""
+PAIRS={"blog-5-chyb-na-webstranke.html":"blog-5-website-mistakes-en.html","blog-cena.html":"blog-pricing-business-en.html","blog-dovera.html":"blog-customer-trust-en.html","blog-luxus.html":"blog-luxury-en.html","blog-web.html":"blog-website-roi-en.html","blog-kolko-stoji-webstranka.html":"blog-website-cost-en.html","blog-seo-webstranky.html":"blog-seo-websites-en.html"}
 def alternate(p):
+    pairs={**PAIRS, **{v:k for k,v in PAIRS.items()}}
     n=p.name
-    if n.endswith("-en.html"):
-        sk=ROOT/(n[:-8]+".html")
-        return sk if sk.exists() else None
-    en=ROOT/(n[:-5]+"-en.html")
-    if en.exists():return en
-    pairs={"blog-5-chyb-na-webstranke.html":"blog-5-website-mistakes-en.html","blog-cena.html":"blog-pricing-business-en.html","blog-dovera.html":"blog-customer-trust-en.html","blog-luxus.html":"blog-luxury-en.html","blog-kolko-stoji-webstranka.html":"blog-website-cost-en.html","blog-seo-webstranky.html":"blog-seo-websites-en.html"}
-    other=ROOT/pairs.get(n,"")
-    return other if n in pairs and other.exists() else None
+    other=ROOT/pairs.get(n, n[:-8]+".html" if n.endswith("-en.html") else n[:-5]+"-en.html")
+    return other if other.is_file() else None
+
+def dates(p,s):
+    existing=[]
+    for raw in re.findall(r'<script\b[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',s,re.S|re.I):
+        try:
+            obj=json.loads(raw)
+            if obj.get("@type")=="BlogPosting":existing.append(obj)
+        except (ValueError,AttributeError):pass
+    published=next((j["datePublished"] for j in existing if j.get("datePublished")),None)
+    if not published:
+        date=re.search(r"-(20\d{2})-(\d{2})-(\d{2})(?:-en)?\.html$",p.name)
+        if date:published="-".join(date.groups())
+    # Earliest tracked appearance is evidence for legacy publication dates.
+    if not published:
+        result=subprocess.run(["git","log","--follow","--diff-filter=A","--format=%as","--",p.name],cwd=ROOT,capture_output=True,text=True,check=True)
+        published=next(iter(result.stdout.splitlines()),None)
+    if not published:raise ValueError("No evidenced publication date: "+p.name)
+    modified=next((j["dateModified"] for j in existing if j.get("dateModified")),None)
+    return published,modified
+
+def strip_article_schema(s):
+    def keep(m):
+        try:return "" if json.loads(m.group(1)).get("@type")=="BlogPosting" else m.group(0)
+        except (ValueError,AttributeError):return m.group(0)
+    s=re.sub(re.escape(BEGIN)+r".*?"+re.escape(END),"",s,flags=re.S)
+    return re.sub(r'<script\b[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',keep,s,flags=re.S|re.I)
+
+def social(s,title,desc,url,article=True):
+    s=re.sub(r'<meta\b[^>]*(?:name|property)=["\'](?:og:[^"\']*|twitter:[^"\']*)["\'][^>]*>',"",s,flags=re.I)
+    values={"og:type":"article" if article else "website","og:site_name":"WEBU","og:title":title,"og:description":desc,"og:url":url,"twitter:card":"summary","twitter:title":title,"twitter:description":desc}
+    fragment="".join('<meta '+('property' if k.startswith('og:') else 'name')+'="'+k+'" content="'+html.escape(v,quote=True)+'">' for k,v in values.items())
+    return s.replace("</head>",fragment+"</head>",1)
+
 def main():
     errors=[];changed=0;warnings=[]
     for p in ARTICLES:
@@ -62,8 +91,10 @@ def main():
         image=next((i.get("src") for i in parser.images if i.get("src","").startswith("https://") and not i.get("src","").endswith(".svg")),None)
         schema={"@context":"https://schema.org","@type":"BlogPosting","headline":title,"description":desc,"inLanguage":lang,"mainEntityOfPage":{"@type":"WebPage","@id":url},"url":url,"publisher":{"@type":"Organization","name":"WEBU","url":SITE},"author":{"@type":"Organization","name":"WEBU"}}
         if image:schema["image"]=image
-        date=re.search(r"-(20\d{2})-(\d{2})-(\d{2})(?:-en)?\.html$",p.name)
-        if date:schema["datePublished"]="-".join(date.groups())
+        published,modified=dates(p,s)
+        schema["datePublished"]=published
+        if modified:schema["dateModified"]=modified
+        s=strip_article_schema(s)
         fragment=BEGIN+'<script type="application/ld+json">'+json.dumps(schema,ensure_ascii=False).replace("<","\\u003c")+'</script>'+END
         if BEGIN in s and END in s:s=re.sub(re.escape(BEGIN)+r".*?"+re.escape(END),lambda _:fragment,s,flags=re.S)
         else:s=s.replace("</head>",fragment+"</head>",1)
@@ -80,6 +111,8 @@ def main():
                 links+=''.join('<link rel="alternate" hreflang="'+l+'" href="'+SITE+f.name+'">' for l,f in (("sk",sk),("en",en),("x-default",sk)))
             else:warnings.append(p.name+": language pair has same language")
         s=s.replace("</head>",links+"</head>",1)
+        s=social(s,tag(s,"title"),desc,url)
+        if '/journal-share.js' not in s:s=s.replace('</body>','<script src="/journal-share.js" defer></script></body>')
         if not meta(s,"description"):
             s=s.replace("</head>",'<meta name="description" content="'+html.escape(desc,quote=True)+'"></head>',1)
         if s!=p.read_text(encoding="utf-8"):

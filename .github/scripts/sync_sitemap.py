@@ -8,8 +8,9 @@ ROOT = Path(__file__).resolve().parents[2]
 BASE = "https://www.webu.sk"
 EXCLUDE = {"index.html"}
 pages = sorted(
-    p.name for p in ROOT.glob("*.html")
-    if p.is_file() and not p.name.lower().startswith("google")
+    p.relative_to(ROOT).as_posix() for p in ROOT.rglob("*.html")
+    if p.is_file() and ".git" not in p.parts and not p.name.lower().startswith("google")
+    and 'http-equiv="refresh"' not in p.read_text(encoding="utf-8").lower()
 )
 urls = [BASE + "/"] + [BASE + "/" + quote(name) for name in pages if name not in EXCLUDE]
 ET.register_namespace("", "http://www.sitemaps.org/schemas/sitemap/0.9")

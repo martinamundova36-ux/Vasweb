@@ -2,6 +2,7 @@
 
 // WEBU Journal social sharing (first-party, no external tracking scripts).
 (()=>{const file=location.pathname.split('/').pop()||'';if(!/^blog-[a-z0-9-]+\.html$/i.test(file))return;
+if(file==='blog-en.html'||document.querySelector('script[src="/journal-share.js"]'))return;
 const root=document.querySelector('article')||document.querySelector('main');if(!root||document.getElementById('webu-share'))return;
 const en=(document.documentElement.lang||'sk').toLowerCase().startsWith('en');
 const url=location.origin+location.pathname;const title=document.querySelector('h1')?.textContent?.trim()||document.title;

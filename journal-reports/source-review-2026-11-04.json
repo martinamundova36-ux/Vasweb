@@ -1,0 +1,93 @@
+[
+  {
+    "article": "blog-journal-dovera-v-digitalne-platby-2026-11-03.html",
+    "doi": "10.24127/edunomia.v7i1.11635",
+    "title": "The THE EFFECT OF SECURITY, TRUST, USABILITY ON SHOPEEPAY USER SATISFACTION AMONG GENERATION-Z HIGH SCHOOL STUDENTS",
+    "authors": [
+      "Queendira Lintang",
+      "Khresna Bayu Sangka"
+    ],
+    "publisher": "Muhammadiyah Metro University",
+    "journal_or_proceedings": "EDUNOMIA: Jurnal Ilmiah Pendidikan Ekonomi",
+    "source_date": "2026-11-16",
+    "type": "journal-article",
+    "checked_at": "2026-11-04",
+    "scope": "metadata and abstract",
+    "full_text_reviewed": false,
+    "manual_review_required": true
+  },
+  {
+    "article": "blog-journal-testovanie-cien-2026-11-03.html",
+    "doi": "10.1145/3799682.3839902",
+    "title": "Improving Precision in Cluster-Level Pricing Experiments with Temporal Switchbacks",
+    "authors": [
+      "Nicolás Ferrari Ortiz",
+      "Sebastián Orellana Montini",
+      "Marie Garkavenko",
+      "Rutger Lit",
+      "Timur Abbiasov"
+    ],
+    "publisher": "ACM",
+    "journal_or_proceedings": "Proceedings of the 35th ACM International Conference on Information and Knowledge Management",
+    "source_date": "2026-11-06",
+    "type": "proceedings-article",
+    "checked_at": "2026-11-04",
+    "scope": "metadata only",
+    "full_text_reviewed": false,
+    "manual_review_required": true
+  },
+  {
+    "article": "blog-journal-podnikanie-v-nedostatku-2026-11-03.html",
+    "doi": "10.1108/APJIE-11-2025-0165",
+    "title": "Enacting effectuation in scarcity: a symbiotic model driven by bricolage and socio-cultural networks in Moroccan SME entrepreneurship",
+    "authors": [
+      "Omar Raiss",
+      "Khaoula Elmoudni",
+      "Nada Moufdi"
+    ],
+    "publisher": "Emerald",
+    "journal_or_proceedings": "Asia Pacific Journal of Innovation and Entrepreneurship",
+    "source_date": "2026-11-02",
+    "type": "journal-article",
+    "checked_at": "2026-11-04",
+    "scope": "metadata and abstract",
+    "full_text_reviewed": false,
+    "manual_review_required": false
+  },
+  {
+    "article": "blog-journal-udrzatelnost-a-data-2026-11-03.html",
+    "doi": "10.1007/s11192-026-05857-x",
+    "title": "The representation of SDG-related research in bibliometric databases: persisting imbalances and varying perspectives",
+    "authors": [
+      "Matteo Ottaviani",
+      "Stephan Stahlschmidt"
+    ],
+    "publisher": "Springer Science and Business Media LLC",
+    "journal_or_proceedings": "Scientometrics",
+    "source_date": "2026-11-02",
+    "type": "journal-article",
+    "checked_at": "2026-11-04",
+    "scope": "metadata and abstract",
+    "full_text_reviewed": false,
+    "manual_review_required": false
+  },
+  {
+    "article": "blog-journal-osobnost-a-ai-konverzacia-2026-11-03.html",
+    "doi": "10.1145/3799682.3840711",
+    "title": "Role of Personality in Conversational Information Seeking",
+    "authors": [
+      "Abdisalam Abukar",
+      "Junchen Fu",
+      "Chengli Zhai",
+      "Joemon M. Jose"
+    ],
+    "publisher": "ACM",
+    "journal_or_proceedings": "Proceedings of the 35th ACM International Conference on Information and Knowledge Management",
+    "source_date": "2026-11-06",
+    "type": "proceedings-article",
+    "checked_at": "2026-11-04",
+    "scope": "metadata and abstract",
+    "full_text_reviewed": false,
+    "manual_review_required": true
+  }
+]

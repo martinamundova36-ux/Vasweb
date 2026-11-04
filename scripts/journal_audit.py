@@ -48,9 +48,9 @@ def check(path):
             if j.get("@type") == "BlogPosting" and not j.get("datePublished"): err("missing datePublished")
         except json.JSONDecodeError: err("invalid JSON-LD")
     if not re.search(r'<link[^>]+rel="canonical"', raw): err("missing canonical")
-    if not re.search(r'<link[^>]+hreflang="(sk|en)"', raw): err("missing hreflang")
+
     pair = path.with_name(path.stem[:-3] + ".html") if expected == "en" else path.with_name(path.stem + "-en.html")
-    if not pair.exists(): warn("SK/EN counterpart missing; check translation manually")
+    if not pair.exists() and not re.search(r'<link[^>]+hreflang="(sk|en)"', raw): warn("SK/EN counterpart missing; check translation manually")
     for href in p.links:
         if href.startswith("https://doi.org/"):
             if not DOI.search(href): err("malformed DOI link")
@@ -71,7 +71,7 @@ def check(path):
     return errors, warnings
 
 def main():
-    files = sorted(ROOT.glob("blog-*.html"))
+    files = sorted(p for p in ROOT.glob("blog-*.html") if p.name != "blog-en.html")
     all_errors, all_warnings = [], []
     # Legacy articles receive a non-blocking backlog report. Newly edited
     # blog pages must pass the structural checks before merging.

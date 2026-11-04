@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """WEBU Journal: research-backed bilingual publishing; fail closed on weak sources."""
-import datetime as dt, html, json, os, re, time, urllib.parse, urllib.request, unicodedata
+import datetime as dt, html, json, os, re, time, urllib.parse, urllib.request, unicodedata, difflib
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -54,6 +54,27 @@ def research():
             if any(x["category"]==category for x in candidates):break
         if len(candidates)>=10:break
     return candidates
+
+def verify_source(source):
+    """Verify DOI bibliography before generation; no scientific-validity assertion."""
+    doi=source["doi"].split("doi.org/",1)[-1]
+    record=fetch("https://api.crossref.org/works/"+urllib.parse.quote(doi,safe="/"))["message"]
+    norm=lambda value:re.sub(r"[^a-z0-9]+"," ",value.casefold()).strip()
+    title=(record.get("title") or [""])[0]
+    if record.get("DOI","").lower()!=doi.lower() or difflib.SequenceMatcher(None,norm(title),norm(source["title"])).ratio()<0.85:
+        raise ValueError("DOI/title mismatch")
+    authors=record.get("author") or []
+    if not authors or not record.get("publisher"):raise ValueError("Incomplete source metadata")
+    parts=(record.get("published") or {}).get("date-parts",[[]])[0]
+    if len(parts)<1:raise ValueError("Missing source date")
+    date=dt.date(parts[0],parts[1] if len(parts)>1 else 1,parts[2] if len(parts)>2 else 1)
+    if date>TODAY:raise ValueError("Future-dated source requires editorial review")
+    source["title"]=title
+    source["authors"]=", ".join(" ".join(filter(None,[a.get("given"),a.get("family")])) for a in authors)
+    source["venue"]=(record.get("container-title") or [source["venue"]])[0]
+    source["publisher"]=record["publisher"]
+    source["verification"]={"doi":doi,"checked_at":str(TODAY),"bibliography":"Crossref matched","abstract_source":"OpenAlex","full_text_reviewed":False,"source_date":str(date)}
+    return source
 
 def model(article):
     instructions=("You are a rigorous bilingual science editor. Use ONLY the supplied primary-study metadata and abstract. "
@@ -133,7 +154,7 @@ def publish(source,pair):
 
 def main():
     if not API:raise SystemExit("OPENAI_API_KEY missing; publishing disabled")
-    log={"date":str(TODAY),"found":0,"published":0,"published_dois":[],"rejected":[]}
+    log={"date":str(TODAY),"found":0,"published":0,"published_dois":[],"source_verifications":[],"published_urls":[],"rejected":[]}
     previous=set()
     for old in (ROOT/"journal-reports").glob("*.json") if (ROOT/"journal-reports").exists() else []:
         try:previous.update(json.loads(old.read_text(encoding="utf-8")).get("published_dois",[]))
@@ -143,10 +164,14 @@ def main():
     for source in items:
         if log["published"]>=5:break
         try:
+            source=verify_source(source)
             pair=model(source)
             if publish(source,pair):
                 log["published"]+=1
                 log["published_dois"].append(source["doi"])
+                log["source_verifications"].append(source["verification"])
+                key=slug(source["title"])[:43]+"-"+str(TODAY)
+                log["published_urls"].extend(BASE+"blog-journal-"+key+suffix for suffix in (".html","-en.html"))
         except Exception as exc:log["rejected"].append({"doi":source["doi"],"reason":str(exc)[:200]})
         time.sleep(0.3)
     import subprocess
