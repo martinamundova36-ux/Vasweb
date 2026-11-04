@@ -5,6 +5,8 @@ from pathlib import Path
 import datetime,hashlib,json,struct,sys,urllib.request,xml.etree.ElementTree as ET
 from urllib.robotparser import RobotFileParser
 from seo_audit import Page,SITE,ROOT
+sys.path.insert(0,str(ROOT/".github/scripts"))
+from journal_review_records import digest
 ICONS={'favicon.ico':None,'favicon.svg':None,'favicon-48.png':48,'favicon-96.png':96,'favicon-192.png':192,'favicon-512.png':512,'apple-touch-icon.png':180}
 def validate_icon(name,raw):
  errors=[]
@@ -44,7 +46,10 @@ def check(url):
    if not all('/'+icon in p.links for icon in ('favicon-96.png','favicon.svg','favicon.ico')):row['errors'].append('favicon HTML links missing')
    if name.startswith('blog-') and name!='blog-en.html':
     if '/journal-share.js' not in p.scripts:row['errors'].append('stale article deployment')
-    local=Page((ROOT/name).read_text())
+    local_raw=(ROOT/name).read_text();local=Page(local_raw)
+    try:
+     if digest(raw.decode())!=digest(local_raw):row['errors'].append('stale or changed reviewed article content')
+    except ValueError as exc:row['errors'].append(str(exc))
     if p.title!=local.title or p.meta.get('description')!=local.meta.get('description') or p.alts!=local.alts or p.json!=local.json:row['errors'].append('stale article SEO metadata')
   if name=='robots.txt':
    robots=RobotFileParser();robots.parse(raw.decode().splitlines())
