@@ -1,6 +1,6 @@
 # WEBU Journal – e-mailové upozornenie a rozhodnutie
 
-Existujúci `publish-research-journal.yml` zostáva jediným bezplatným výskumným publikačným procesom. Denne o 07:35 UTC pripraví najviac päť bibliografických návrhov; nie je to sľub piatich hotových vedecky posúdených článkov.
+Existujúci `publish-research-journal.yml` zostáva jediným bezplatným výskumným publikačným procesom. Denne o 08:00 Europe/Bratislava (vrátane letného a zimného času) pripraví najviac päť bibliografických návrhov; nie je to sľub piatich hotových vedecky posúdených článkov.
 
 ## Upozornenia
 
@@ -34,8 +34,18 @@ Po UPRAVIŤ upravte pôvodný JSON v `journal-drafts/` na main; zmena aktualizuj
 
 Vytvorenie PR, úspešné Actions, bežné Merge alebo komentár „páči sa mi“ nepúšťajú publikovanie. Existujúca manuálna voľba `publish` vo workflow zostáva alternatívnym výslovným schválením vlastníčky a podlieha rovnakým kontrolám.
 
-Pri úspešnom publikovaní sa PR uzavrie s odkazmi na obe nasadené URL; nemerguje sa jeho dočasný náhľad. Pri chybe nasadenia sa nehlási úspech; existujúci režim `deploy` slúži na obnovu.
+Po výslovnom schválení sa overená dátová vetva PR zlúči lokálne bez commitu. Až po úspešných obsahových záznamových a technických kontrolách sa vytvorí a odošle merge commit so schváleným návrhom a oboma hotovými stránkami. Pri chybe kontrol alebo zmene produkčnej vetvy sa nič neodošle. Po úspešnom nasadení sa výsledok oznámi s oboma URL. Testovací PR #3 sa nikdy nezlučuje ani nepublikuje. Pri chybe nasadenia sa nehlási úspech; existujúci režim `deploy` slúži na obnovu.
 
 ## Test bez publikovania
 
 Spustite existujúci workflow s `action=notify-test`. Používa tú istú skutočnú bibliografiu ako už publikovaný článok o AI vo firme, ale s odlišným testovacím ID a `test_only=true`. Nejde o druhý článok. Aj pokus o SCHVALIT musí zostať bez publikovania. Opakované spustenie nezmeneného testu nesmie vytvoriť druhý PR ani druhé upozornenie.
+
+## Skutočná kapacita a plán
+
+Jediný plánovaný generátor má `cron: 0 8 * * *` a `timezone: Europe/Bratislava`. GitHub môže plánovaný beh zaradiť do frontu alebo oneskoriť; 08:00 je plánovaný čas, nie garancia okamžitého doručenia e-mailu. Samostatné denné SEO kontroly nevytvárajú články. Starý výskumný workflow zostáva iba manuálny.
+
+Generátor bez AI vytvára najviac päť bibliografických podkladov denne. **Nedokáže automaticky napísať päť úplných, vedecky posúdených SK/EN článkov.** Crossref nie je nástroj na písanie ani vedecký recenzent. Pre aktuálny Crossref proces nechýba platený kľúč; chýba autonómne písanie celých textov a odborné posúdenie primárnych zdrojov. GitHub Models API už nie je dostupné (GitHub uvádza ukončenie 30.7.2026: https://docs.github.com/en/github-models). Žiadna platená náhrada sa nezapína.
+
+`journal-reports/daily-status.json` odlišuje bibliografické podklady, úplné SK/EN návrhy a publikované články. Na obsahové schválenie sa posielajú iba úplné návrhy, ktoré spĺňajú redakčné záznamové kontroly. Samotný bibliografický podklad sa neposiela ako hotový článok. Výsledok technickej kontroly neznamená nezávislé odborné posúdenie. Denné limity sa počítajú podľa Bratislavy; DOI a presné názvy sa kontrolujú proti existujúcim návrhom a publikovanému obsahu. Nejde o komplexný test plagiátorstva ani sémantickej podobnosti tém.
+
+Odpoveď **SÚHLASÍM** alebo **SUHLASIM** sa prijíma rovnako ako SCHVÁLIŤ. Oprávnenie účtu a aktuálny obsah zostávajú povinné.

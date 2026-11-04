@@ -227,18 +227,56 @@ class ApprovalTests(unittest.TestCase):
             local.write_text(json.dumps(result))
         with patch.object(approval, 'api', side_effect=api), \
              patch.object(approval, 'paged', return_value=[{'filename': f'journal-drafts/{KEY}.json', 'status': 'added'}]), \
+             patch.object(approval, 'merge_approved_draft') as merge, \
              patch.object(approval.subprocess, 'run', side_effect=published) as publish:
             event = self.event()
             event['comment']['body'] = 'SCHVÁLIŤ'
             event['comment']['created_at'] = '2026-11-04T12:00:01Z'
             approval.decide(event)
             publish.assert_called_once()
+            merge.assert_called_once_with(SHA)
             self.assertIn('--draft-id', publish.call_args.args[0])
             self.assertIn('free_journal.py', publish.call_args.args[0][1])
             record = json.loads((self.root / f'journal-reports/approval-decisions/7-{SHA}.json').read_text())
             self.assertEqual(record['action'], 'SCHVALIT')
             self.assertEqual(record['actor'], OWNER)
             self.assertEqual(len(record['published_urls']), 2)
+
+    def test_incomplete_bibliography_does_not_send_approval_email(self):
+        config_path = self.root / 'journal-config.json'
+        config = json.loads(config_path.read_text())
+        config['approval_notifications']['ready_articles_only'] = True
+        config_path.write_text(json.dumps(config))
+        (self.root / 'journal-drafts' / (KEY + '.json')).write_text(json.dumps(self.source))
+        with patch.object(approval, 'paged', return_value=[]), patch.object(approval, 'api') as api:
+            self.assertEqual(approval.notify(), [])
+            api.assert_not_called()
+
+    def test_actual_git_merge_preserves_approved_pr_parent(self):
+        import subprocess
+        def git(*args):
+            return subprocess.run(['git', *args], cwd=self.root, check=True,
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True).stdout.strip()
+        with tempfile.TemporaryDirectory() as remote:
+            subprocess.run(['git', 'init', '--bare', '-q', remote], check=True)
+            git('init', '-q', '-b', 'main')
+            git('config', 'user.name', 'Isolated Test')
+            git('config', 'user.email', 'test@example.invalid')
+            path = self.root / 'journal-drafts' / (KEY + '.json')
+            path.write_text('{}')
+            git('add', str(path.relative_to(self.root)))
+            git('commit', '-qm', 'baseline')
+            git('checkout', '-qb', 'test-draft')
+            path.write_text('{"test_only":true}')
+            git('commit', '-qam', 'approved data fixture')
+            approved = git('rev-parse', 'HEAD')
+            git('checkout', '-q', 'main')
+            git('remote', 'add', 'origin', remote)
+            git('push', '-q', 'origin', 'main', 'test-draft')
+            approval.merge_approved_draft(approved)
+            self.assertEqual(git('rev-parse', 'MERGE_HEAD'), approved)
+            git('commit', '-qm', 'validated isolated publication fixture')
+            self.assertIn(approved, git('show', '-s', '--format=%P').split())
 
 
 if __name__ == '__main__':

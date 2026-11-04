@@ -17,6 +17,7 @@ import sys
 import urllib.parse
 import urllib.request
 import urllib.error
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[2]
 PREFIX = 'journal/approval/'
@@ -165,8 +166,9 @@ def notify(test=False):
         raise ValueError('Unexpected repository owner')
     requests = paged('pulls?state=all&sort=created&direction=desc')
     by_branch = {pr['head']['ref']: pr for pr in requests if pr['head']['ref'].startswith(PREFIX)}
-    today = dt.datetime.now(dt.timezone.utc).date().isoformat()
-    count = sum(pr['created_at'].startswith(today) and pr['head']['ref'].startswith(PREFIX) for pr in requests)
+    zone = ZoneInfo('Europe/Bratislava')
+    today = dt.datetime.now(zone).date()
+    count = sum(dt.datetime.fromisoformat(pr['created_at'].replace('Z', '+00:00')).astimezone(zone).date() == today and pr['head']['ref'].startswith(PREFIX) for pr in requests)
     sources = []
     if test:
         # Verified existing bibliography reused explicitly as a notification fixture.
@@ -182,6 +184,12 @@ def notify(test=False):
             source = json.loads(path.read_text())
             if source.get('published_at') or source.get('test_only') or not ID.fullmatch(path.stem):
                 continue
+            if config.get('ready_articles_only'):
+                from free_journal import validate_editorial
+                try:
+                    validate_editorial(source)
+                except ValueError:
+                    continue  # Bibliography is not a complete article to send for publication approval.
             if path.stem in config.get('legacy_draft_ids', []) and PREFIX + path.stem not in by_branch:
                 continue
             sources.append((path.stem, source))
@@ -302,7 +310,9 @@ def decide(event):
     if record_path.exists():
         raise ValueError('This version already has a recorded decision; revise the article before deciding again')
     if data['test_only'] or source.get('test_only'):
-        api('issues/' + str(number) + '/comments', 'POST', {'body': 'TEST: príkaz bol rozpoznaný od vlastníčky. Publikovanie je natrvalo zablokované pre tento testovací návrh.'})
+        marker = '<!-- webu-test-decision ' + str(event['comment']['id']) + ' -->'
+        if not any(marker in c.get('body', '') for c in paged('issues/' + str(number) + '/comments')):
+            api('issues/' + str(number) + '/comments', 'POST', {'body': marker + '\nTvoje „súhlasím“ bolo prijaté. Test schvaľovania prešiel; testovací článok sa nezverejní.'})
         output('test_only', 'true')
         return
     local = ROOT / 'journal-drafts' / (key + '.json')
@@ -315,6 +325,8 @@ def decide(event):
         from free_journal import validate_editorial
         editorial = validate_editorial(source)
         record['bilingual_content_sha256'] = editorial['content_sha256']
+        merge_approved_draft(sha)
+        record['merge_parent_sha'] = sha
         # The existing free pipeline performs fresh bibliography/integrity/source/image/SEO gates.
         subprocess.run([sys.executable, str(ROOT / '.github/scripts/free_journal.py'),
                         '--action', 'publish', '--draft-id', key], cwd=ROOT, check=True)
@@ -324,6 +336,20 @@ def decide(event):
     output('pr_number', number)
     output('action', action)
     print(json.dumps(record, ensure_ascii=False))
+
+
+def merge_approved_draft(sha):
+    """Stage only the validated JSON/Markdown branch, never execute PR code.
+
+    The workflow commits this merge together with the generated pages only after
+    all publication checks pass. On failure nothing is pushed to main.
+    """
+    if not re.fullmatch('[a-f0-9]{40}', sha):
+        raise ValueError('Invalid approved merge parent')
+    subprocess.run(['git', 'fetch', '--no-tags', 'origin', sha], cwd=ROOT, check=True)
+    subprocess.run(['git', '-c', 'user.name=WEBU Journal Bot', '-c',
+        'user.email=41898282+github-actions[bot]@users.noreply.github.com',
+        'merge', '--no-ff', '--no-commit', sha], cwd=ROOT, check=True)
 
 
 def finish(number, success=True):

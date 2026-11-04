@@ -13,7 +13,7 @@
     "consumer trust pricing"
   ],
   "paid_ai_enabled": false,
-  "schedule_note": "Daily 07:35 UTC; change cron in publish-research-journal.yml",
+  "schedule_note": "Daily 08:00 Europe/Bratislava; native GitHub timezone handles DST",
   "target_studies_per_day": 5,
   "approval_notifications": {
     "owner": "martinamundova36-ux",
@@ -26,6 +26,8 @@
     ],
     "max_new_requests_per_day": 5,
     "test_id": "test-notification-2026-11-04",
-    "email_delivery": "requires recipient confirmation; GitHub API creation is not delivery evidence"
-  }
+    "email_delivery": "Confirmed by recipient screenshots and actual GitHub email reply on 2026-11-04",
+    "ready_articles_only": true
+  },
+  "generator_capability": "bibliographic_candidates_only"
 }

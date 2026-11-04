@@ -4,9 +4,10 @@ from pathlib import Path
 import shutil,tempfile
 import urllib.error
 import argparse,datetime as dt,hashlib,html,json,re,subprocess,sys,time,urllib.parse,urllib.request
+from zoneinfo import ZoneInfo
 ROOT=Path(__file__).resolve().parents[2]
 SITE='https://www.webu.sk/'
-NOW=dt.datetime.now(dt.timezone.utc).date()
+NOW=dt.datetime.now(ZoneInfo('Europe/Bratislava')).date()
 KEYWORDS={'digital marketing','small business','entrepreneurship','customer','e-commerce','ecommerce','organizational','workplace','productivity','artificial intelligence','usability','consumer','leadership'}
 def fetch(url):
  req=urllib.request.Request(url,headers={'User-Agent':'WEBU-Bibliographic-Review/1.0 (https://www.webu.sk/)','Accept':'application/json'})
@@ -45,6 +46,14 @@ def seen_dois():
   try:seen.add(json.loads(p.read_text())['doi'].lower())
   except (ValueError,KeyError):pass
  return seen
+def seen_titles():
+ titles=set()
+ for path in (ROOT/'journal-drafts').glob('*.json'):
+  value=json.loads(path.read_text()).get('title','')
+  if value:titles.add(normal(value))
+ for path in ROOT.glob('blog-*.html'):
+  for value in re.findall(r'<h1[^>]*>(.*?)</h1>',path.read_text(),re.S):titles.add(normal(clean(value)))
+ return titles
 def publication_capacity(folder,limit):
  return max(0,limit-sum(json.loads(p.read_text()).get('published_at')==str(NOW) for p in folder.glob('*.json')))
 def identifier(source):return source['source_date']+'-'+hashlib.sha256(source['doi'].encode()).hexdigest()[:12]
@@ -125,16 +134,16 @@ def render(source,lang):
  page='<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+' | WEBU Journal</title><meta name="description" content="'+esc(desc)+'"><script type="application/ld+json">'+json.dumps(schema,ensure_ascii=False).replace('<','\\u003c')+'</script>'+style+'<link rel="stylesheet" href="/journal-editorial.css?v=20261104-r2"></head><body><header><a href="/'+('blog-en.html' if en else 'blog.html')+'">WEBU Journal</a> · <a href="/'+other+'">'+('Slovenčina' if en else 'English')+'</a></header><main><!-- WEBU-REVIEWED-CONTENT-START --><article class="webu-reviewed-article"><p>'+(('Research-inspired editorial' if en else 'Výskumná inšpirácia') if source.get('editorial') else ('Bibliographic overview' if en else 'Bibliografický prehľad'))+' · '+str(NOW)+'</p><h1>'+esc(title)+'</h1><p>'+('Author: ' if en else 'Autor: ')+'<a href="/journal-metodika'+('-en' if en else '')+'.html#redakcia">WEBU</a></p>'+body+'</article><!-- WEBU-REVIEWED-CONTENT-END --></main><footer>© WEBU</footer><script src="/privacy.js" defer></script></body></html>'
  return name,page,title,desc
 def discover(config):
- selected=[];seen=seen_dois();errors=[]
+ selected=[];seen=seen_dois();titles=seen_titles();errors=[]
  for topic in config['topics']:
   params=urllib.parse.urlencode({'query':topic,'filter':'from-pub-date:'+(NOW-dt.timedelta(days=config['lookback_days'])).isoformat()+',until-pub-date:'+str(NOW)+',type:journal-article','rows':12,'sort':'published','order':'desc'})
   try:
    for record in fetch('https://api.crossref.org/works?'+params)['message']['items']:
     try:
      source=verify(record)
-     if source['doi'] in seen or not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:continue
+     if source['doi'] in seen or normal(source['title']) in titles or not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:continue
      confirmed=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
-     selected.append(confirmed);seen.add(source['doi']);break
+     selected.append(confirmed);seen.add(source['doi']);titles.add(normal(source['title']));break
     except (ValueError,KeyError):continue
   except urllib.error.HTTPError as exc:
    errors.append(topic+': HTTP '+str(exc.code)+'; Retry-After='+str(exc.headers.get('Retry-After','unspecified')))
@@ -243,6 +252,7 @@ def main():
   (folder/(key+'.md')).write_text(draft)
  previous_path=ROOT/'journal-reports'/('free-discovery-'+str(NOW)+'.json')
  previous=json.loads(previous_path.read_text()) if previous_path.exists() else {}
- report={'date':str(NOW),'mode':'drafts_require_approval','draft_ids':sorted(set(previous.get('draft_ids',[]))|{p.stem for p in folder.glob('*.json') if json.loads(p.read_text()).get('drafted_at',json.loads(p.read_text()).get('verified_at'))==str(NOW)}),'published_urls':[],'errors':errors,'ai_cost_eur':0,'google_index_status':'not inspected'}
+ report={'date':str(NOW),'mode':'drafts_require_approval','generator_capability':'bibliographic_candidates_only','complete_articles_automatically_written':0,'draft_ids':sorted(set(previous.get('draft_ids',[]))|{p.stem for p in folder.glob('*.json') if json.loads(p.read_text()).get('drafted_at',json.loads(p.read_text()).get('verified_at'))==str(NOW)}),'published_urls':[],'errors':errors,'ai_cost_eur':0,'google_index_status':'not inspected'}
  out=ROOT/'journal-reports';out.mkdir(exist_ok=True);(out/('free-discovery-'+str(NOW)+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2));print(json.dumps(report,ensure_ascii=False))
+ if remaining and errors and not selected:raise SystemExit('Discovery failed; inspect the recorded source errors before retrying')
 if __name__=='__main__':main()

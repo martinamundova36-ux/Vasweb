@@ -6,6 +6,7 @@ on:
       - '.github/scripts/free_journal.py'
       - '.github/scripts/journal_approval.py'
       - 'scripts/test_journal_approval.py'
+      - '.github/scripts/journal_daily_status.py'
       - '.github/scripts/verify_free_deploy.py'
       - '.github/scripts/pages_api.py'
       - 'scripts/test_pages_api.py'
@@ -22,7 +23,8 @@ on:
       - 'scripts/test_free_journal.py'
       - 'journal-drafts/*.json'
   schedule:
-    - cron: '35 7 * * *'
+    - cron: '0 8 * * *'
+      timezone: 'Europe/Bratislava'
   issue_comment:
     types: [created]
   workflow_dispatch:
@@ -64,6 +66,7 @@ jobs:
       - run: python3 scripts/journal_review_audit.py
       - run: python3 scripts/test_journal_review.py
       - run: python3 scripts/test_journal_approval.py
+      - run: python3 .github/scripts/journal_daily_status.py --self-test
   publish:
     needs: validate
     if: github.event.repository.private == false && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner && inputs.action != 'notify-test'))
@@ -91,6 +94,8 @@ jobs:
           python3 scripts/journal_review_audit.py
           python3 scripts/seo_audit.py
           python3 scripts/journal_audit.py --publish-gate
+      - name: Evidovať skutočné články oddelene od bibliografických podkladov
+        run: python3 .github/scripts/journal_daily_status.py
       - name: Uložiť návrhy alebo schválené články
         if: inputs.action != 'deploy'
         id: commit
@@ -120,6 +125,13 @@ jobs:
           echo '### WEBU Journal – bezplatný režim' >> "$GITHUB_STEP_SUMMARY"
           echo 'AI API: nepoužité. Návrhy nie sú článkami na webe. Publikovanie vyžaduje výslovnú voľbu publish vlastníkom.' >> "$GITHUB_STEP_SUMMARY"
           echo 'Záznamy: journal-drafts/ a journal-reports/ v repozitári.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Uchovať chybu pre bezpečné opakovanie
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webu-journal-failure-${{ github.run_id }}
+          path: journal-reports/*.json
+          retention-days: 7
   notify:
     needs: [validate, publish]
     if: >-
@@ -181,7 +193,6 @@ jobs:
           git add journal-drafts/ journal-reports/ blog*.html sitemap.xml journal-images.json
           if ! git diff --cached --quiet; then
             git commit -m "Record explicit WEBU owner decision"
-            git pull --rebase origin main
             git push origin HEAD:main
           fi
       - name: Nasadiť iba výslovne schválený článok

@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-11-04T15:53:29.501990+00:00",
+  "timezone": "Europe/Bratislava",
+  "schedule": "0 8 * * *",
+  "next_scheduled_local": "2026-11-05T08:00:00+01:00",
+  "next_scheduled_utc": "2026-11-05T07:00:00+00:00",
+  "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
+  "daily_maximum": 5,
+  "generator_capability": "bibliographic_candidates_only",
+  "automatically_written_full_articles": 0,
+  "ready_bilingual_articles": [],
+  "pending_editorial_work": [
+    {
+      "id": "2026-11-04-5b5dc38594ea",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-04-c9cbb597a9db",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-04-ed72c295acd6",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-04-f7c72572913c",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    }
+  ],
+  "published_research_draft_ids": [
+    "2026-11-04-93b063fd01b6"
+  ],
+  "paid_ai_enabled": false,
+  "missing_for_five_full_articles": [
+    "A writer/source-analysis process producing distinct complete SK/EN articles",
+    "Documented editorial full-text comparison and scientific quality decisions for each article"
+  ],
+  "api_key_needed_for_current_crossref_pipeline": false,
+  "scope": "Record/technical checks only; no claim of automatic scientific peer review or plagiarism clearance"
+}
