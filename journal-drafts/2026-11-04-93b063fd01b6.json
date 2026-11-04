@@ -24,11 +24,11 @@
   "drafted_at": "2026-11-04",
   "editorial": {
     "status": "ready_for_owner_approval",
-    "version": 1,
+    "version": 2,
     "reviewed_at": "2026-11-04",
     "reviewed_by": "Codex editorial review",
     "source_url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1980927/full",
-    "source_scope": "abstract; methods 3.1–3.3; results Tables 7 and 10; limitations 6.4; publisher bibliography",
+    "source_scope": "Full-text comparison: 2.1 JD-R/SCT; 3.1–3.4 design, criteria, recruitment and measures; Tables 1, 2, 7, 10; 6.4 limitations; publisher bibliography",
     "checks": {
       "bibliography": true,
       "source": true,
@@ -43,15 +43,31 @@
         "lead": "Pri zavádzaní AI si položte dve samostatné otázky: pomáha nástroj zvládnuť prácu a rozumie tím tomu, čo sa mení? V redakčnom pohľade WEBU odporúčame sledovať obe oblasti. Samotný počet automatizovaných úloh ešte nie je dostatočným hodnotením projektu.",
         "sections": [
           {
-            "heading": "Čo skúmala štúdia",
+            "heading": "Čo a koho skúmala štúdia",
             "paragraphs": [
-              "Weijian Wu (2026) analyzoval dotazníkové údaje od 530 zamestnancov v Číne pomocou PLS-SEM. Skúmal súvislosti zavádzania AI so schopnosťou prispôsobiť sa práci, psychologickým posilnením, obavami z AI, pracovnou neistotou a ďalšími hodnoteniami. Výsledky podporili model, v ktorom sa rozvojové súvislosti môžu objavovať spolu so súvislosťami spojenými s neistotou."
+              "Weijian Wu (2026) analyzoval dotazníky od 530 zamestnancov v Číne. Išlo o prierezový sebavýpovedný výskum: údaje sa zbierali od februára do júna 2026, ale nešlo o opakované sledovanie tých istých ľudí v čase. Autor použil modelovanie štruktúrnych rovníc metódou parciálnych najmenších štvorcov (PLS-SEM).",
+              "Výber bol zámerný, podľa vopred stanovených kritérií, a nepravdepodobnostný. Zúčastniť sa mohli ľudia od 18 rokov zamestnaní v Číne, najmenej šesť mesiacov v súčasnej organizácii, so skúsenosťou s AI alebo automatizáciou pri práci a schopnosťou samostatne vyplniť dotazník. Nábor prebiehal online aj osobne v rôznych odvetviach. Z 600 distribuovaných dotazníkov sa vrátilo 580; po vyradení 50 nevyhovujúcich odpovedí zostalo 530 použiteľných prípadov. Rozmanitosť vzorky z nej nerobí reprezentatívny výber čínskych ani slovenských zamestnancov."
+            ]
+          },
+          {
+            "heading": "Dve modelové cesty: čo znamenajú koeficienty",
+            "paragraphs": [
+              "Tabuľka 10 uvádza dve nepriame modelové súvislosti. Rozvojová cesta vedie od integrácie AI cez schopnosť zamestnancov prispôsobiť sa transformácii práce a psychologické posilnenie k vnímanej firemnej udržateľnosti: β = 0,189 (95 % bootstrapový interval spoľahlivosti 0,141 až 0,243; p < 0,001). Psychologické posilnenie zahŕňa zmysluplnosť práce, kompetentnosť, autonómiu a vplyv.",
+              "Záťažová cesta vedie od integrácie AI cez úzkosť spojenú s AI a pracovnú neistotu k psychickej pohode: β = −0,151 (95 % interval −0,203 až −0,109; p < 0,001). Jej koncovou premennou je psychická pohoda, nie firemná udržateľnosť. Autor použil bootstrap s 5 000 opakovaniami.",
+              "Ide o štandardizované odhady nepriamych súvislostí v konkrétnom modeli. Nie sú to percentuálne účinky: nemožno z nich odvodiť zvýšenie udržateľnosti o 18,9 % ani zhoršenie pohody o 15,1 %. Štatistická významnosť nepotvrdzuje kauzalitu ani časové poradie navrhnutých krokov."
+            ]
+          },
+          {
+            "heading": "Prečo štúdia spája JD-R a SCT",
+            "paragraphs": [
+              "Teória pracovných nárokov a zdrojov (Job Demands–Resources, JD-R) rozlišuje nároky vyžadujúce úsilie a zdroje podporujúce zvládanie práce, učenie a rozvoj. V štúdii môže byť AI zdrojom pomoci aj nových nárokov. Sociálno-kognitívna teória (Social Cognitive Theory, SCT) zdôrazňuje vzájomné pôsobenie človeka, správania a prostredia vrátane presvedčenia o vlastnej účinnosti. Tieto rámce zdôvodňujú navrhnutý model; samy osebe nie sú dôkazom jeho príčinného pôsobenia."
             ]
           },
           {
             "heading": "Čo z výsledkov nemožno vyvodiť",
             "paragraphs": [
-              "Ide o prierezový sebavýpovedný výskum s účelovým výberom. Neurčuje príčinu ani časové poradie zmien a nemožno ho automaticky preniesť na každú firmu. Firemná udržateľnosť tu označuje vnímanie zamestnancov, nie nezávislý audit environmentálnych výsledkov."
+              "Jednorazové sebahodnotenie nedokáže určiť, čo čomu predchádzalo, vylúčiť opačný smer súvislosti ani všetky alternatívne vysvetlenia. Odpovede od rovnakého človeka môžu podliehať skresleniu vnímania a spoločnej metódy merania. PLS-SEM tieto obmedzenia výskumného dizajnu neodstraňuje. Výsledky sa preto nedajú automaticky preniesť na každú firmu alebo krajinu.",
+              "Firemná udržateľnosť je tu hodnotená prostredníctvom odpovedí zamestnancov o ekonomických, environmentálnych a sociálnych praktikách organizácie. Nejde o nezávislý audit ESG, objektívne prevádzkové ukazovatele ani priame overenie skutočného výkonu udržateľnosti."
             ]
           },
           {
@@ -88,15 +104,31 @@
         "lead": "When introducing AI, ask two separate questions: does the tool help people do the work, and does the team understand what is changing? WEBU recommends considering both. Counting automated tasks alone is not a sufficient assessment of the project.",
         "sections": [
           {
-            "heading": "What the study examined",
+            "heading": "What and whom the study examined",
             "paragraphs": [
-              "Weijian Wu (2026) analysed questionnaire data from 530 employees in China using PLS-SEM. The study examined associations involving AI integration, workforce adaptability, psychological empowerment, AI anxiety, job insecurity and other assessments. Results supported a model in which development-related associations can coexist with associations involving uncertainty."
+              "Weijian Wu (2026) analysed questionnaires from 530 employees in China. This was a cross-sectional, self-report study: data were collected between February and June 2026, but the same people were not followed repeatedly over time. The author used partial least squares structural equation modelling (PLS-SEM).",
+              "Sampling was purposive, criterion-based and non-probability. Eligible participants were at least 18, employed in China, had worked for their current organisation for at least six months, had workplace experience of AI or automation, and could complete the questionnaire independently. Recruitment was online and face to face across industries. Of 600 questionnaires distributed, 580 were returned; excluding 50 unsuitable responses left 530 usable cases. Diversity does not make this a representative sample of employees in China or Slovakia."
+            ]
+          },
+          {
+            "heading": "Two model pathways: what the coefficients mean",
+            "paragraphs": [
+              "Table 10 reports two indirect model associations. The developmental pathway links AI integration through workforce transformation capability and psychological empowerment to perceived corporate sustainability: β = 0.189 (95% bootstrap confidence interval 0.141 to 0.243; p < 0.001). Psychological empowerment includes meaning, competence, autonomy and influence at work.",
+              "The strain pathway links AI integration through AI anxiety and job insecurity to psychological wellbeing: β = −0.151 (95% interval −0.203 to −0.109; p < 0.001). Its endpoint is psychological wellbeing, not corporate sustainability. The author used bootstrapping with 5,000 resamples.",
+              "These are standardised estimates of indirect associations within this particular model. They are not percentage effects: they do not imply an 18.9% increase in sustainability or a 15.1% decline in wellbeing. Statistical significance establishes neither causality nor the proposed temporal order."
+            ]
+          },
+          {
+            "heading": "Why the study combines JD-R and SCT",
+            "paragraphs": [
+              "Job Demands–Resources (JD-R) theory distinguishes demands requiring effort from resources supporting work, learning and development. In the study, AI can represent both assistance and new demands. Social Cognitive Theory (SCT) emphasises reciprocal relationships between people, behaviour and the environment, including self-efficacy beliefs. These frameworks motivate the proposed model; they do not themselves establish its causal validity."
             ]
           },
           {
             "heading": "What the findings cannot establish",
             "paragraphs": [
-              "This is a cross-sectional, self-report study using purposive sampling. It cannot establish causation or the timing of changes, and its findings cannot automatically be transferred to every business. Corporate sustainability here means employee perceptions, not an independent audit of environmental outcomes."
+              "A one-time self-report cannot determine what preceded what, rule out reverse associations or exclude all alternative explanations. Answers from the same person may share perceptual and common-method biases. PLS-SEM does not remove these design limitations. Findings cannot automatically be transferred to every business or country.",
+              "Corporate sustainability was assessed through employee answers about economic, environmental and social organisational practices. It was not an independent ESG audit, a set of objective operational indicators or direct verification of actual sustainability performance."
             ]
           },
           {
@@ -128,14 +160,76 @@
         ]
       }
     },
-    "content_sha256": "3a7b91022e5289a3edb271fa0f2f92d75a3cbd035e47bff89fa5832906113110",
-    "review_level": "full_text_sections"
+    "content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38",
+    "review_level": "full_text_sections",
+    "scientific_review": {
+      "status": "completed_editorial_source_comparison",
+      "reviewed_by": "WEBU editorial revision with source comparison by Codex; owner explicitly requested this revision",
+      "reviewed_at": "2026-11-04",
+      "source_access": "full_text",
+      "source_url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1980927/full",
+      "methodology": {
+        "design": "cross-sectional self-report survey",
+        "sample": "530 employees in China; purposive criterion-based non-probability sampling",
+        "locator": "3.1–3.4; Table 1"
+      },
+      "statistics": [
+        {
+          "claim_id": "H9",
+          "estimate": "0.189",
+          "interval": [
+            "0.141",
+            "0.243"
+          ],
+          "endpoint": "employee-perceived corporate sustainability",
+          "locator": "Table 10",
+          "interpretation": "standardised indirect association, not percentage or causal effect"
+        },
+        {
+          "claim_id": "H10",
+          "estimate": "-0.151",
+          "interval": [
+            "-0.203",
+            "-0.109"
+          ],
+          "endpoint": "psychological wellbeing",
+          "locator": "Table 10",
+          "interpretation": "standardised indirect association, not percentage or causal effect"
+        }
+      ],
+      "causality": "Cross-sectional associations; temporal order and causal mediation not established.",
+      "limitations": "Non-probability Chinese sample, self-report/common-method bias, omitted variables and employee-perceived sustainability.",
+      "bilingual_alignment": "Both versions compared for same sample, coefficients, endpoints, uncertainty and editorial pilot.",
+      "editorial_separation": "Customer-communication pilot is WEBU proposal, not tested in Wu study.",
+      "integrity": {
+        "status": "checked_no_notice_found",
+        "checked_at": "2026-11-04",
+        "sources": [
+          "Crossref DOI metadata",
+          "publisher full-text article and notices"
+        ],
+        "scope": "No notice seen in checked records; this is not proof of scientific validity."
+      },
+      "unverified_claims": [],
+      "technical_test_scope": "Validates evidence fields and content hash only; no independent scientific peer review or data reanalysis.",
+      "content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38"
+    },
+    "revision_history": [
+      {
+        "version": 1,
+        "content_sha256": "3a7b91022e5289a3edb271fa0f2f92d75a3cbd035e47bff89fa5832906113110",
+        "approved_by": "martinamundova36-ux",
+        "published_at": "2026-11-04"
+      }
+    ]
   },
   "approved_by": "martinamundova36-ux",
-  "approved_content_sha256": "3a7b91022e5289a3edb271fa0f2f92d75a3cbd035e47bff89fa5832906113110",
+  "approved_content_sha256": "be802ca1d9a18c5f70a7ee2dee6bd8885ed79de958dad93cff32f0f82a50ed38",
   "published_at": "2026-11-04",
   "published_urls": [
     "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6.html",
     "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6-en.html"
-  ]
+  ],
+  "revision_authorization": "Explicit owner request to correct the published SK/EN article on 2026-11-04",
+  "modified_at": "2026-11-04"
 }

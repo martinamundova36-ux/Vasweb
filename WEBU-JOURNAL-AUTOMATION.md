@@ -57,3 +57,11 @@ HTTPS už bolo zapnuté a uložené v Pages nastaveniach. Následná kontrola po
 Produkčný publish beh 41813297932 vytvoril schválené SK/EN stránky a commit `e4e578b6bc393b4bd538f99c0d1e7c02eb4df20e`. GitHub pri žiadosti o Pages build vrátil HTTP 502. Nie je potrebné znova publikovať návrh: v rovnakom workflowe je `action=deploy`, ktoré iba vyžiada build aktuálnej vetvy a overí verejné URL. Nemení texty, návrhy, dátumy ani Journal.
 
 Pages API požiadavky opakujú iba prechodné 429/500/502/503/504, najviac trikrát, s krátkym čakaním a rešpektovaním Retry-After do 30 sekúnd. Trvalé chyby oprávnení zastavia beh. Integračný test pripraveného článku používa odlišné testovacie URL aj metadáta, aby zostal opakovateľný po prvej skutočnej publikácii.
+
+### Aktualizácia 4. 11. 2026: vedecké podklady a fotografie
+
+Denný beh pripravuje najviac päť **bibliografických návrhov**, nie päť automaticky odborne napísaných článkov. Bezplatné riešenie neobsahuje AI API. Publikovať môže vlastník až po doplnení a obsahovom schválení úplného SK/EN textu a evidence `scientific_review` podľa redakčnej politiky. Automatické zverejňovanie bez schválenia zostáva vypnuté.
+
+Pred publikovaním sa znovu overí Crossref bibliografia, dátumy a známe opravné/retrakčné oznámenia; zdroj musí byť dostupný. Záznam kontroly musí byť viazaný na rovnaký obsah. Štatistiky, metodiku, reprezentatívnosť, kauzalitu a presnosť prekladu stále posudzuje redaktor; úspešný Python test to nedokazuje.
+
+Fotografie sa prideľujú z overenej lokálnej knižnice bez plateného kľúča alebo predplatného. Výber je obmedzený tematickými štítkami a už použitými obrázkami. Nedostatok obrázkov znamená `needs_image`, nie opakovanie fotografie pri inej téme. Knižnica má teraz tri rezervné fotografie; priebežné redakčné dopĺňanie je potrebné. Optimalizácia používa pripravené WebP/JPEG varianty, publikovanie nevyžaduje nový obrázkový balík ani API. Postdeploy kontrola overuje aj súbory obrázkov a CSS proti repozitáru. Licencie: WEBU-JOURNAL-IMAGE-LICENSES.md.

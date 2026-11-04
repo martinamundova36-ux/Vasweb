@@ -21,12 +21,14 @@ title = field("Názov článku")
 desc = field("Krátky popis pre Google a blog")
 category = field("Kategória")
 content = field("Text článku")
-image = field("URL obrázka (https://)") or "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=85"
+image = field("URL obrázka (https://)")
+if re.search(r"doi\.org/|10\.\d{4,9}/",content,re.I):
+    raise SystemExit("Vedecký článok vyžaduje existujúci dvojjazyčný review workflow a scientific_review; Issue Form vedeckú kontrolu neobchádza.")
 if not all([title, desc, category, content]):
     raise SystemExit("Chýbajú povinné polia. Článok sa nepublikoval.")
 if len(title) > 140 or len(desc) > 350 or len(content) > 60000:
     raise SystemExit("Príliš dlhý názov, popis alebo článok.")
-if urlparse(image).scheme != "https" or not urlparse(image).netloc:
+if image and (urlparse(image).scheme != "https" or not urlparse(image).netloc):
     raise SystemExit("Obrázok musí mať platnú HTTPS adresu.")
 
 def esc(x):
@@ -73,6 +75,15 @@ page = ('<!doctype html><html lang="sk"><head><meta charset="utf-8">'
         '<a href="/sluzby.html">Pozrieť služby ↗</a></div></div></main>'
         '<footer>© WEBU · <a href="/ochrana-osobnych-udajov.html">Ochrana osobných údajov</a></footer>'
         '<script src="/privacy.js" defer></script></body></html>')
+from journal_images import choose_for_source,load,save,group
+# Only the reviewed license catalog can supply the final image; arbitrary URL is ignored.
+photo_source={'doi':'issue:'+filename,'source_date':datetime.date.today().isoformat(),'title':title}
+photo=choose_for_source(photo_source,ROOT)
+data=load(ROOT)
+import hashlib
+allocated='blog-journal-review-'+photo_source['source_date']+'-'+hashlib.sha256(photo_source['doi'].encode()).hexdigest()[:12]+'.html'
+data['assignments'][filename]=data['assignments'].pop(allocated);save(data,ROOT)
+image=photo['files']['social']
 path.write_text(page, encoding="utf-8")
 
 blog = ROOT / "blog.html"

@@ -1,0 +1,532 @@
+{
+  "version": 1,
+  "photos": [
+    {
+      "id": "website-review",
+      "provider": "Pexels",
+      "provider_id": "7801139",
+      "source_page": "https://www.pexels.com/photo/a-close-up-shot-of-a-laptop-with-an-open-browser-7801139/",
+      "download_url": "https://images.pexels.com/photos/7801139/pexels-photo-7801139.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": null,
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "acc160bce0a52aab1c5a70cdfd896125e29f712f461a1465ff68d7cf30263454",
+      "topics": [
+        "webdesign"
+      ],
+      "alt": {
+        "sk": "Práca s návrhom webovej stránky na notebooku",
+        "en": "Web design work on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/website-review-640.webp",
+        "1280": "/assets/journal/website-review-1280.webp",
+        "social": "/assets/journal/website-review-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "f15f3098a657b4f5b8b6b6701698832e615b88ca27a0098672b74daf39fe82b3",
+        "1280": "851d6d4d937113ddc7c8162eb5454f734b2f7ec015ff21a4238b1eda21dd344e",
+        "social": "f9825fde893e64877f547e2252439a79d5933b67c903b59a58f69b4b57fa0da5"
+      }
+    },
+    {
+      "id": "service-pricing",
+      "provider": "Pexels",
+      "provider_id": "6694492",
+      "source_page": "https://www.pexels.com/photo/an-accountant-s-workspace-6694492/",
+      "download_url": "https://images.pexels.com/photos/6694492/pexels-photo-6694492.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Tima Miroshnichenko",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "5e698a7886db1369842b98b54defe2361b1939c7abcc5f420074b9d40b650e2b",
+      "topics": [
+        "pricing"
+      ],
+      "alt": {
+        "sk": "Finančné výkazy a kalkulačka na pracovnom stole",
+        "en": "Financial reports and calculator on a work desk"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/service-pricing-640.webp",
+        "1280": "/assets/journal/service-pricing-1280.webp",
+        "social": "/assets/journal/service-pricing-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "8697b2f8e980bc2011ccff7f9a3e74061b33192876e11ce6700ddf97e2a287e1",
+        "1280": "562d21787875552e352105282039d3bd8020253ba4eb09cc5c847ef2c1bbb769",
+        "social": "960efd0f28defb43296aae85696aea71e35033b3e0234a4b406b4f2e26afa0f0"
+      }
+    },
+    {
+      "id": "customer-trust",
+      "provider": "Pexels",
+      "provider_id": "5313173",
+      "source_page": "https://www.pexels.com/photo/close-up-shot-of-a-shake-hands-5313173/",
+      "download_url": "https://images.pexels.com/photos/5313173/pexels-photo-5313173.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "olia danilevich",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "4f2cce9f4c03b3d7ef5b6ed0f804cf0c2d189cdc14c1f79fe78851c8eb08dd90",
+      "topics": [
+        "trust"
+      ],
+      "alt": {
+        "sk": "Podanie rúk pri obchodnom stretnutí",
+        "en": "Business handshake above a table"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/customer-trust-640.webp",
+        "1280": "/assets/journal/customer-trust-1280.webp",
+        "social": "/assets/journal/customer-trust-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "574925a4cff865f9f1abf10056178d1f9092f67d122ddd2ec8f9b5b7b10115a6",
+        "1280": "25efa627e66dc04a910a0b4e66f890cf39a426ceef0b92f909ca3aa3b90a44b4",
+        "social": "dea8aa5476b7716371446b60476b797798fe1353d833ebe9e042b0f8611b9049"
+      }
+    },
+    {
+      "id": "digital-payments",
+      "provider": "Pexels",
+      "provider_id": "10330106",
+      "source_page": "https://www.pexels.com/photo/a-person-using-a-laptop-and-credit-card-on-online-payment-10330106/",
+      "download_url": "https://images.pexels.com/photos/10330106/pexels-photo-10330106.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "REINER SCT",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "3d6316b717ff6516e197c172c6e943ad422f0fe280f05a6b8b438194a13f7ad2",
+      "topics": [
+        "payments"
+      ],
+      "alt": {
+        "sk": "Ruky pri platbe pomocou notebooku a čítačky kariet",
+        "en": "Hands using a laptop and card reader for payment"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/digital-payments-640.webp",
+        "1280": "/assets/journal/digital-payments-1280.webp",
+        "social": "/assets/journal/digital-payments-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "b3271226cd4aa195f390909b1211288f3ae07834c98dbfee1ea460b0f28a04cb",
+        "1280": "8f7e503d1b43524e2d497c9500801fdf97f62d1e664a4883fc4fadb3e6a98dae",
+        "social": "afc11b201ad2f721c4dae3ed407b1cd8b055afbaf08e773e7b3b4b3311208b2a"
+      }
+    },
+    {
+      "id": "ai-conversation",
+      "provider": "Pexels",
+      "provider_id": "16027824",
+      "source_page": "https://www.pexels.com/photo/chat-gpt-welcome-screen-on-computer-16027824/",
+      "download_url": "https://images.pexels.com/photos/16027824/pexels-photo-16027824.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Matheus Bertelli",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "4f46bea73c69da3ce65f3d7299f3dfc4948c435bce1cd84dddd10d9c45ad8018",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Rozhranie AI konverzácie na obrazovke počítača",
+        "en": "AI conversation interface on a computer screen"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/ai-conversation-640.webp",
+        "1280": "/assets/journal/ai-conversation-1280.webp",
+        "social": "/assets/journal/ai-conversation-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "bd2edc594287fbe90715b6ed2aeec059bb10b18108181d33dff76611e87777b6",
+        "1280": "fe6378e3bb4ffee9286fcad03321f87ad0c9587f93c3250130b8db0fcecbbd8a",
+        "social": "7b31b3a3e708542959460072baf9807b639a6fab17e4d63cede28f5f32ea80b8"
+      }
+    },
+    {
+      "id": "resourceful-business",
+      "provider": "Pexels",
+      "provider_id": "7652185",
+      "source_page": "https://www.pexels.com/photo/people-working-together-at-the-office-7652185/",
+      "download_url": "https://images.pexels.com/photos/7652185/pexels-photo-7652185.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Thirdman",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "62b343e80b02a66417dde5473a41dedd437cdc8bdab8089b4d453657b18bbefb",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Malý tím spoločne plánuje prácu pri stole",
+        "en": "Small team planning work together at a table"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/resourceful-business-640.webp",
+        "1280": "/assets/journal/resourceful-business-1280.webp",
+        "social": "/assets/journal/resourceful-business-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d9a09f25523e16013258a2badf771dc3b6f019855d383bd955b9c5925ea6cb34",
+        "1280": "5607c68164c02a826abd471e7b76ad652f3830d7cff16341f1dcfa517ce0d164",
+        "social": "bc862ad0c2d0af2417dc7c2e3a1e805bc1d8b68698eafe8ab448b858db6a7ce0"
+      }
+    },
+    {
+      "id": "ai-workplace",
+      "provider": "Pexels",
+      "provider_id": "34774358",
+      "source_page": "https://www.pexels.com/photo/focused-team-collaborating-on-laptops-in-office-setting-34774358/",
+      "download_url": "https://images.pexels.com/photos/34774358/pexels-photo-34774358.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Matheus Bertelli",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "85c282fb76199c005d485595d69352b31ac37a0d4d8a106587af911cb393a480",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Kolegovia spolupracujú pri práci s notebookmi",
+        "en": "Colleagues working together with laptops"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/ai-workplace-640.webp",
+        "1280": "/assets/journal/ai-workplace-1280.webp",
+        "social": "/assets/journal/ai-workplace-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "bec698e560124f106132f18c489c55d9a45486c6723998b6f3b945e8987eed59",
+        "1280": "7d5f14258957d7005cebe125c249bbedbc432362ea2397087e9eb42ea7257b0c",
+        "social": "660629fd2771cef7120c1657d58e55c70627e352248c1429297084dfb93d2922"
+      }
+    },
+    {
+      "id": "pricing-experiments",
+      "provider": "Pexels",
+      "provider_id": "669613",
+      "source_page": "https://www.pexels.com/photo/notebook-and-charts-669613/",
+      "download_url": "https://images.pexels.com/photos/669613/pexels-photo-669613.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": null,
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "bd88876de6d84c7240f7e9a7cc2e776ffead4023b101e530344a951e0cde428b",
+      "topics": [
+        "pricing"
+      ],
+      "alt": {
+        "sk": "Zápisník a vytlačené grafy na pracovnom stole",
+        "en": "Notebook and printed charts on a work desk"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pricing-experiments-640.webp",
+        "1280": "/assets/journal/pricing-experiments-1280.webp",
+        "social": "/assets/journal/pricing-experiments-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "6344e99f642558a7fec26a1f82f9f59046e356bac1416912008ccc691c22cf1f",
+        "1280": "f0a9c07426ad4978fc416ba94fc3c9cc655d5109a0fe02c0d8cb2dbf23e914eb",
+        "social": "964744649c7459e7f87a29323d3c3a2bffa28468b957d580b97a1272b6dc0b06"
+      }
+    },
+    {
+      "id": "research-data",
+      "provider": "Pexels",
+      "provider_id": "3861957",
+      "source_page": "https://www.pexels.com/photo/graph-on-laptop-screen-3861957/",
+      "download_url": "https://images.pexels.com/photos/3861957/pexels-photo-3861957.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": null,
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "a01b5a945da395b1ff450447867336b1d9fa640d785f9cd643e92087006880a4",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Graf dátovej analýzy zobrazený na notebooku",
+        "en": "Data analysis graph displayed on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/research-data-640.webp",
+        "1280": "/assets/journal/research-data-1280.webp",
+        "social": "/assets/journal/research-data-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "0eccc3a3e0bca9268c06a48f4786c73839ce1335b1bcb31d825f57ddb9833cdc",
+        "1280": "314db15548375c281b74e5077cfd2ee90a86c3c72f68652365161951eedb3e61",
+        "social": "e6624a4de06ab00c0f8676e884f9eacae54f5113be5b01c6bbf2cb292bdbcd9b"
+      }
+    },
+    {
+      "id": "website-budget",
+      "provider": "Pexels",
+      "provider_id": "8297220",
+      "source_page": "https://www.pexels.com/photo/a-person-working-on-the-documents-using-a-calculator-8297220/",
+      "download_url": "https://images.pexels.com/photos/8297220/pexels-photo-8297220.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": null,
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "722489d560356f76edbea6651540e24fbe6dc21a16f412db81bf83b1f2a8328c",
+      "topics": [
+        "budget"
+      ],
+      "alt": {
+        "sk": "Ruky kontrolujú rozpočet pomocou dokumentov a kalkulačky",
+        "en": "Hands checking a budget with documents and a calculator"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/website-budget-640.webp",
+        "1280": "/assets/journal/website-budget-1280.webp",
+        "social": "/assets/journal/website-budget-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "14b631cdb2898418b5c11883f998aef6a799447ad3b70e9a460a418194d0cbd2",
+        "1280": "362d34be313bc5ad7ff9d3930552c65f19adccc6d68c5dd9ea2479effe169edf",
+        "social": "4f94952f7ffc2c201dca296a97a80b53f263b19bc0b5f06a9adeb70fa51842a3"
+      }
+    },
+    {
+      "id": "premium-brand",
+      "provider": "Pexels",
+      "provider_id": "7546314",
+      "source_page": "https://www.pexels.com/photo/contemporary-apartment-interior-design-7546314/",
+      "download_url": "https://images.pexels.com/photos/7546314/pexels-photo-7546314.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": null,
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "cfde5de5fb2e12290a3e5d610060f236cb1208c47a7067987a7be1c1babd9e4a",
+      "topics": [
+        "branding"
+      ],
+      "alt": {
+        "sk": "Svetlý moderný interiér s premysleným zariadením",
+        "en": "Bright contemporary interior with carefully chosen furnishings"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/premium-brand-640.webp",
+        "1280": "/assets/journal/premium-brand-1280.webp",
+        "social": "/assets/journal/premium-brand-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "94c4b71212da8bcea9bda23daa4f2ac12baf4cbf346e9f4a28f5eacf79812ac2",
+        "1280": "b517c576c061e784f9b86ed2eb639fb49d4943d39519240faaae8210bf32aca6",
+        "social": "85295b5a1d3ac17372165dad318d0fa49552756905c847a478b0dfe4dcc45083"
+      }
+    },
+    {
+      "id": "search-visibility",
+      "provider": "Pexels",
+      "provider_id": "6483627",
+      "source_page": "https://www.pexels.com/photo/laptop-on-desk-6483627/",
+      "download_url": "https://images.pexels.com/photos/6483627/pexels-photo-6483627.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": null,
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "c4fe452f6f89d995388662d69ae4400f30cbf213262e6a9dfaf05bdde8ad11b0",
+      "topics": [
+        "seo"
+      ],
+      "alt": {
+        "sk": "Notebook s digitálnym marketingovým obsahom na pracovnom stole",
+        "en": "Laptop displaying digital marketing material on a desk"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/search-visibility-640.webp",
+        "1280": "/assets/journal/search-visibility-1280.webp",
+        "social": "/assets/journal/search-visibility-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "01eab0c0237028df79d48e0636436cec5cd60ba57a1ca9cb8c8fed0c3b8d19b4",
+        "1280": "7cb86997f4d1ae8e106d9fb190656716b6c7ea136db0eddabef2cd5491e31121",
+        "social": "7611adf82ed76ef1c8774eb9e2a418aada7b2a8a62ae00740713bd1274e02e4f"
+      }
+    },
+    {
+      "id": "website-results",
+      "provider": "Pexels",
+      "provider_id": "6779570",
+      "source_page": "https://www.pexels.com/photo/a-person-writing-on-a-paper-with-graph-6779570/",
+      "download_url": "https://images.pexels.com/photos/6779570/pexels-photo-6779570.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Artem Podrez",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "d4756a5eeeef636f64245c577eaa8ec3bce75df675a13fdd0dcaf55b6ef47b7d",
+      "topics": [
+        "analytics"
+      ],
+      "alt": {
+        "sk": "Ľudia vyhodnocujú výkazy a grafy pri notebooku",
+        "en": "People reviewing reports and charts beside a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/website-results-640.webp",
+        "1280": "/assets/journal/website-results-1280.webp",
+        "social": "/assets/journal/website-results-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "499437ca877973395970a7d74aa0a68b9e73fc22e4d923dd3569d9c959295ba7",
+        "1280": "57fde8272801192865095bc8bad7de32b5ab2daab0ba793ed57404cf9c765bc3",
+        "social": "c98a26c63966864b3ae7e34ddb4dbe769572cbe1c2de43f160f5b4b435edd218"
+      }
+    },
+    {
+      "id": "team-planning-reserve",
+      "provider": "Pexels",
+      "provider_id": "7693733",
+      "source_page": "https://www.pexels.com/photo/a-person-using-a-laptop-while-in-a-meeting-7693733/",
+      "download_url": "https://images.pexels.com/photos/7693733/pexels-photo-7693733.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Yan Krukau",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "3988cf154170250c469c76adb45800be8e64685a613bc8c850915990945f4688",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Tím vyhodnocuje grafy na pracovnom stretnutí",
+        "en": "Team reviewing charts in a meeting"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/team-planning-reserve-640.webp",
+        "1280": "/assets/journal/team-planning-reserve-1280.webp",
+        "social": "/assets/journal/team-planning-reserve-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "e8d5f0b40def71bbb77e775d098dd165640e5ba67e4931b0b0e9980127c327c1",
+        "1280": "ad6b0f28b48526c13b9012d8fc1fd478fd93edeb09342437e955037e0f873a61",
+        "social": "fcb5f61aa8c4c8b207251dac590b1841a66aefe9fa671af03661060b71a88d94"
+      }
+    },
+    {
+      "id": "team-collaboration-reserve",
+      "provider": "Pexels",
+      "provider_id": "3931504",
+      "source_page": "https://www.pexels.com/photo/diverse-business-team-working-on-laptop-in-modern-office-3931504/",
+      "download_url": "https://images.pexels.com/photos/3931504/pexels-photo-3931504.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Andrea Piacquadio",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "4140f99c21036bce4a83b5e49d199e52707e4db4d192cbeb8cf5ad041ebf8504",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Kolegovia spolupracujú pri notebooku",
+        "en": "Colleagues collaborating around a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/team-collaboration-reserve-640.webp",
+        "1280": "/assets/journal/team-collaboration-reserve-1280.webp",
+        "social": "/assets/journal/team-collaboration-reserve-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "b47df09adf11ab65e057d5470f0f644596d8b3987e6075d77bcf483c702335d0",
+        "1280": "e6d3ab16f784be6b3ef3a89b56489173d8f9545e5084668809fb2cfb1958cb16",
+        "social": "f72d696257da69cab4fd6036efce9f3ae10b470b839df30fe3460690cf3a7fc3"
+      }
+    },
+    {
+      "id": "budget-review-reserve",
+      "provider": "Pexels",
+      "provider_id": "8296991",
+      "source_page": "https://www.pexels.com/photo/person-using-a-calculator-and-a-laptop-8296991/",
+      "download_url": "https://images.pexels.com/photos/8296991/pexels-photo-8296991.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": null,
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-04",
+      "original_sha256": "af4f26f19deb474dbb635648321854b34d8bf628a429f3feaa669aaa0c96c0a7",
+      "topics": [
+        "pricing"
+      ],
+      "alt": {
+        "sk": "Kalkulačka vedľa notebooku a zápisníka",
+        "en": "Calculator beside a laptop and notebook"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/budget-review-reserve-640.webp",
+        "1280": "/assets/journal/budget-review-reserve-1280.webp",
+        "social": "/assets/journal/budget-review-reserve-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "f7caca2475aa684b40f4090200936745bec0a0f2a75bc1a4cadb22c40cd6708e",
+        "1280": "ceb8870925a5a37715a0d75449af53654d4752fb760d2c1afce9fcfd1ee5b597",
+        "social": "737d83db899db35e794060f1b88397bb023476ed36d6f4aae2ff47176ff0d4cf"
+      }
+    }
+  ],
+  "assignments": {
+    "blog-5-chyb-na-webstranke.html": "website-review",
+    "blog-cena.html": "service-pricing",
+    "blog-dovera.html": "customer-trust",
+    "blog-journal-dovera-v-digitalne-platby-2026-11-03.html": "digital-payments",
+    "blog-journal-osobnost-a-ai-konverzacia-2026-11-03.html": "ai-conversation",
+    "blog-journal-podnikanie-v-nedostatku-2026-11-03.html": "resourceful-business",
+    "blog-journal-review-2026-11-04-93b063fd01b6.html": "ai-workplace",
+    "blog-journal-testovanie-cien-2026-11-03.html": "pricing-experiments",
+    "blog-journal-udrzatelnost-a-data-2026-11-03.html": "research-data",
+    "blog-kolko-stoji-webstranka.html": "website-budget",
+    "blog-luxus.html": "premium-brand",
+    "blog-seo-webstranky.html": "search-visibility",
+    "blog-web.html": "website-results"
+  }
+}

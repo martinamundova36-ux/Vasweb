@@ -60,9 +60,10 @@ def strip_article_schema(s):
     s=re.sub(re.escape(BEGIN)+r".*?"+re.escape(END),"",s,flags=re.S)
     return re.sub(r'<script\b[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',keep,s,flags=re.S|re.I)
 
-def social(s,title,desc,url,article=True):
+def social(s,title,desc,url,article=True,image=None,image_alt=""):
     s=re.sub(r'<meta\b[^>]*(?:name|property)=["\'](?:og:[^"\']*|twitter:[^"\']*)["\'][^>]*>',"",s,flags=re.I)
     values={"og:type":"article" if article else "website","og:site_name":"WEBU","og:title":title,"og:description":desc,"og:url":url,"twitter:card":"summary","twitter:title":title,"twitter:description":desc}
+    if image:values.update({"og:image":image,"og:image:width":"1280","og:image:height":"720","og:image:type":"image/jpeg","og:image:alt":image_alt,"twitter:card":"summary_large_image","twitter:image":image,"twitter:image:alt":image_alt})
     fragment="".join('<meta '+('property' if k.startswith('og:') else 'name')+'="'+k+'" content="'+html.escape(v,quote=True)+'">' for k,v in values.items())
     return s.replace("</head>",fragment+"</head>",1)
 
@@ -88,9 +89,10 @@ def main():
             if local.endswith(".html") and not (ROOT/local).exists():errors.append(p.name+": broken link "+local)
         for img in parser.images:
             if not img.get("alt"):warnings.append(p.name+": image missing alt")
-        image=next((i.get("src") for i in parser.images if i.get("src","").startswith("https://") and not i.get("src","").endswith(".svg")),None)
+        hero=next((i for i in parser.images if i.get("src", "").startswith("/assets/journal/")),{})
+        image=SITE+hero["src"].lstrip("/") if hero else None
         schema={"@context":"https://schema.org","@type":"BlogPosting","headline":title,"description":desc,"inLanguage":lang,"mainEntityOfPage":{"@type":"WebPage","@id":url},"url":url,"publisher":{"@type":"Organization","name":"WEBU","url":SITE},"author":{"@type":"Organization","name":"WEBU"}}
-        if image:schema["image"]=image
+        if image:schema["image"]={"@type":"ImageObject","url":image,"width":1280,"height":720,"caption":hero.get("alt","")}
         published,modified=dates(p,s)
         schema["datePublished"]=published
         if modified:schema["dateModified"]=modified
@@ -111,7 +113,7 @@ def main():
                 links+=''.join('<link rel="alternate" hreflang="'+l+'" href="'+SITE+f.name+'">' for l,f in (("sk",sk),("en",en),("x-default",sk)))
             else:warnings.append(p.name+": language pair has same language")
         s=s.replace("</head>",links+"</head>",1)
-        s=social(s,tag(s,"title"),desc,url)
+        s=social(s,tag(s,"title"),desc,url,image=image,image_alt=hero.get("alt",""))
         if '/journal-share.js' not in s:s=s.replace('</body>','<script src="/journal-share.js?v=20261104-seo2" defer></script></body>')
         if not meta(s,"description"):
             s=s.replace("</head>",'<meta name="description" content="'+html.escape(desc,quote=True)+'"></head>',1)

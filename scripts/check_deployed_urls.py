@@ -32,6 +32,9 @@ def check(url):
    if response.status!=200:row['errors'].append('HTTP status')
    if 'noindex' in response.headers.get('X-Robots-Tag','').lower():row['errors'].append('X-Robots noindex')
   name=url.removeprefix(SITE)
+  if name.startswith('assets/journal/') or name=='journal-images.css':
+   if raw!=(ROOT/name).read_bytes():row['errors'].append('deployed image/style differs from repository')
+   row['sha256']=hashlib.sha256(raw).hexdigest()
   if name in ICONS:
    row['sha256']=hashlib.sha256(raw).hexdigest();row['errors']+=validate_icon(name,raw)
   if url.endswith('.html') or url==SITE:
@@ -45,7 +48,7 @@ def check(url):
     if p.title!=local.title or p.meta.get('description')!=local.meta.get('description') or p.alts!=local.alts or p.json!=local.json:row['errors'].append('stale article SEO metadata')
   if name=='robots.txt':
    robots=RobotFileParser();robots.parse(raw.decode().splitlines())
-   for asset in ['',*ICONS]:
+   for asset in ['',*ICONS,'assets/journal/ai-workplace-1280.webp']:
     agent='Googlebot-Image' if asset else 'Googlebot'
     if not robots.can_fetch(agent,SITE+asset):row['errors'].append(agent+' blocked: '+asset)
   if name=='sitemap.xml':
@@ -58,6 +61,8 @@ def check(url):
 def main():
  pages=sorted(p.name for p in ROOT.glob('blog-*.html'))
  urls=[SITE,SITE+'index-en.html',SITE+'blog.html',SITE+'robots.txt',SITE+'sitemap.xml']+[SITE+p for p in pages]+[SITE+p for p in [*ICONS,'journal-share.js']]
+ data=json.loads((ROOT/'journal-images.json').read_text());used=set(data['assignments'].values())
+ urls += [SITE+path.lstrip('/') for photo in data['photos'] if photo['id'] in used for path in photo['files'].values()] + [SITE+'journal-images.css']
  with ThreadPoolExecutor(max_workers=6) as pool:rows=list(pool.map(check,urls))
  result={'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'google_index_status':'not inspected','urls':rows}
  Path('deployment-url-report.json').write_text(json.dumps(result,ensure_ascii=False,indent=2))

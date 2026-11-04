@@ -24,7 +24,8 @@ def verify(record,expected=None):
  relations=record.get('relation') or {}
  if any(relations.get(k) for k in ('is-retracted-by','is-retraction-of')):raise ValueError('Retraction flagged')
  notices=(record.get('update-to') or [])+(record.get('updated-by') or [])
- if any(x.get('type','').lower().replace('_','-') in ('retraction','withdrawal','expression-of-concern') for x in notices):raise ValueError('Source integrity notice requires review')
+ if any(x.get('type','').lower().replace('_','-') in ('retraction','withdrawal','expression-of-concern','correction','erratum','corrigendum','addendum') for x in notices):raise ValueError('Source integrity notice requires review')
+ if any(relations.get(k) for k in ('is-corrected-by','is-updated-by')):raise ValueError('Correction/update relation requires editorial review')
  if expected:
   current={'title':title,'doi':doi,'authors':[' '.join(filter(None,[a.get('given'),a.get('family')])) for a in authors],'publisher':record['publisher'],'venue':record['container-title'][0],'source_date':date.isoformat(),'type':record['type']}
   for field,value in current.items():
@@ -49,6 +50,26 @@ def publication_capacity(folder,limit):
 def identifier(source):return source['source_date']+'-'+hashlib.sha256(source['doi'].encode()).hexdigest()[:12]
 def editorial_digest(languages):
  return hashlib.sha256(json.dumps(languages,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+def validate_scientific_evidence(editorial):
+ # This gate checks an accountable review record, never the truth of a study.
+ review=editorial.get('scientific_review') or {}
+ if review.get('status')!='completed_editorial_source_comparison':raise ValueError('Scientific source comparison requires editorial review')
+ if review.get('source_access')!='full_text':raise ValueError('Full text unavailable: disclose this and request editorial review; do not publish unverifiable findings')
+ for field in ('reviewed_by','reviewed_at','source_url','causality','limitations','bilingual_alignment','editorial_separation','technical_test_scope'):
+  if not review.get(field):raise ValueError('Scientific review evidence missing: '+field)
+ if review.get('source_url')!=editorial.get('source_url'):raise ValueError('Reviewed scientific source changed')
+ if review.get('content_sha256')!=editorial.get('content_sha256'):raise ValueError('Scientific review is not bound to this bilingual text')
+ if review.get('unverified_claims')!=[]:raise ValueError('Unverified findings require editorial resolution')
+ if not all(review.get('methodology',{}).get(k) for k in ('design','sample','locator')):raise ValueError('Method/sample evidence missing')
+ if not review.get('statistics') or any(not all(c.get(k) for k in ('claim_id','estimate','endpoint','locator','interpretation')) for c in review['statistics']):raise ValueError('Statistical claim evidence missing (or explain explicitly why no numerical claim is made)')
+ integrity=review.get('integrity') or {}
+ if integrity.get('status')!='checked_no_notice_found' or not integrity.get('sources') or not integrity.get('scope'):raise ValueError('Publication corrections/retractions require editorial review')
+ try:
+  dates=[dt.date.fromisoformat(review['reviewed_at']),dt.date.fromisoformat(integrity['checked_at'])]
+ except (ValueError,KeyError):raise ValueError('Scientific review date invalid')
+ if any(d>NOW or (NOW-d).days>30 for d in dates):raise ValueError('Scientific/integrity review needs refresh (30-day maximum)')
+ return review
+
 def validate_editorial(source):
  editorial=source.get('editorial') or {}
  if editorial.get('status')!='ready_for_owner_approval':raise ValueError('A reviewed bilingual article is required; bibliographic templates cannot be published')
@@ -59,6 +80,7 @@ def validate_editorial(source):
  except (ValueError,KeyError):raise ValueError('Invalid editorial review date')
  if reviewed>NOW:raise ValueError('Future editorial review')
  if editorial.get('content_sha256')!=editorial_digest(editorial['languages']):raise ValueError('Article content changed after review')
+ validate_scientific_evidence(editorial)
  for lang,article in editorial['languages'].items():
   if not article.get('title') or not article.get('lead') or not 50<=len(article.get('description',''))<=160:raise ValueError('Article metadata incomplete: '+lang)
   sections=article.get('sections',[])
@@ -111,6 +133,8 @@ def publish(source):
  for lang,listing_name in [('sk','blog.html'),('en','blog-en.html')]:
   if (ROOT/render(source,lang)[0]).exists():raise ValueError('Article URL already exists')
   if '<div class="vw-journal-grid">' not in (ROOT/listing_name).read_text():raise ValueError('Journal listing missing')
+ from journal_images import choose_for_source
+ photo=choose_for_source(source,ROOT);source['image_id']=photo['id'];source['image_status']='licensed_catalog_assignment'
  for lang,listing_name in [('sk','blog.html'),('en','blog-en.html')]:
   name,page,title,desc=render(source,lang)
   if (ROOT/name).exists():raise ValueError('Article URL already exists')
@@ -132,6 +156,9 @@ def main():
   if source.get('published_at'):raise SystemExit('Draft already published')
   if not publication_capacity(folder,config['target_studies_per_day']):raise SystemExit('Daily publication cap reached')
   editorial=validate_editorial(source)
+  # Availability alone is not scientific verification. Evidence was compared by an editor.
+  with urllib.request.urlopen(urllib.request.Request(editorial['source_url'],headers={'User-Agent':'WEBU-Source-Availability/1.0 (https://www.webu.sk/)'}),timeout=30) as response:
+   if response.status!=200 or 'text/html' not in response.headers.get('Content-Type',''):raise ValueError('Scientific source unavailable; editorial review required')
   drafted_at=source.get('drafted_at',source.get('verified_at'))
   source=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
   if not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:raise ValueError('Current source evidence or relevance is insufficient')
@@ -184,11 +211,17 @@ def main():
  selected,errors=([],['Daily quality cap reached']) if not remaining else discover(config)
  for source in selected:
   source['drafted_at']=str(NOW)
+  source['scientific_review_status']='needs_editorial_review'
+  source['scientific_review_note']='Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.'
+  from journal_images import choose_for_source
+  try:
+   photo=choose_for_source(source,ROOT);source['image_id']=photo['id'];source['image_status']='licensed_catalog_assignment_pending_editorial_relevance_check'
+  except ValueError as exc:source['image_status']='needs_image';source['image_note']=str(exc)
   key=identifier(source);(folder/(key+'.json')).write_text(json.dumps(source,ensure_ascii=False,indent=2))
   draft='# WEBU Journal – bibliografický návrh / draft\n\nID: '+key+'\n\n'+source['title']+'\n\nDOI: '+source['url']+'\n\nTento návrh nie je publikovaný na webe. Neobsahuje nezávisle overené vedecké výsledky.\n\n'
   for lang in ('sk','en'):
    name,page,title,desc=render(source,lang);draft+='## '+lang.upper()+'\n\n'+title+'\n\n'+desc+'\n\n'
-  draft+='## Pred schválením\n\n- Otvoriť DOI a overiť bibliografiu.\n- Posúdiť tematickú užitočnosť pre čitateľov.\n- Pri dopĺňaní vedeckých záverov overiť abstrakt/plný text, metódu, vzorku a limity.\n- Schválenie publikuje iba označený bibliografický prehľad; plná vedecká analýza sa negeneruje.\n'
+  draft+='## Pred schválením\n\n- Otvoriť DOI a overiť bibliografiu.\n- Posúdiť tematickú užitočnosť pre čitateľov.\n- Pri dopĺňaní vedeckých záverov overiť abstrakt/plný text, metódu, vzorku a limity.\n- Pred publikovaním je povinný overený dvojjazyčný článok a záznam scientific_review; automatický návrh nie je vedecky posúdený článok.\n'
   (folder/(key+'.md')).write_text(draft)
  previous_path=ROOT/'journal-reports'/('free-discovery-'+str(NOW)+'.json')
  previous=json.loads(previous_path.read_text()) if previous_path.exists() else {}

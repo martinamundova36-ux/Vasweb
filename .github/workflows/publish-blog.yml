@@ -20,12 +20,14 @@ jobs:
       - name: Pripraviť SEO, jazyky, súvisiace články, favicon a sitemap
         run: python3 .github/scripts/prepare_journal.py
       - name: Povinná technická kontrola pred publikovaním
-        run: python3 scripts/journal_audit.py --publish-gate
+        run: |
+          python3 scripts/journal_image_audit.py
+          python3 scripts/journal_audit.py --publish-gate
       - name: Uložiť publikovaný článok
         run: |
           git config user.name "WEBU Blog Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add blog.html blog-en.html sitemap.xml blog-*.html
+          git add blog.html blog-en.html sitemap.xml blog-*.html journal-images.json
           if ! git diff --cached --quiet; then
             git commit -m "Publish WEBU blog from issue #${{ github.event.issue.number }}"
             git push

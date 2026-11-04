@@ -1,0 +1,12 @@
+/* WEBU editorial photography: shared by SK/EN cards and article pages. */
+.webu-journal-picture{display:block;width:100%;overflow:hidden}
+.vw-journal-grid .vw-journal-card>.webu-journal-picture{aspect-ratio:16/9;border-radius:17px 17px 0 0}
+.vw-journal-grid .vw-journal-card>.webu-journal-picture>img{display:block;width:100%;height:auto!important;aspect-ratio:16/9;object-fit:cover;max-height:none;border-radius:17px 17px 0 0}
+.webu-article-hero{width:100%;max-width:100%;margin:20px 0 30px}
+.webu-article-hero .webu-journal-picture{aspect-ratio:16/9;border-radius:16px}
+.webu-article-hero img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:16px}
+.webu-article-hero figcaption{margin-top:8px;color:#526078;font:12px/1.5 system-ui,sans-serif}
+.webu-article-hero figcaption a{color:inherit;text-underline-offset:3px}
+.vw-journal-cover>.webu-journal-picture{height:100%}
+.vw-journal-cover>.webu-journal-picture>img{height:100%;object-fit:cover}
+@media(max-width:800px){.webu-article-hero{margin:16px 0 24px}.webu-article-hero .webu-journal-picture,.webu-article-hero img{border-radius:12px}}
