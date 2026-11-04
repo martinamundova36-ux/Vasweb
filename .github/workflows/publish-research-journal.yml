@@ -40,7 +40,7 @@ jobs:
       - run: python3 .github/scripts/free_journal.py --action self-test
   publish:
     needs: validate
-    if: github.event.repository.private == false && (github.event_name == 'schedule' || github.actor == github.repository_owner)
+    if: github.event.repository.private == false && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner))
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
