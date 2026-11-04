@@ -12,6 +12,8 @@ on:
       - 'scripts/journal_audit.py'
       - '.github/workflows/journal-audit.yml'
   workflow_dispatch:
+  schedule:
+    - cron: '15 6 * * *'
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -27,4 +29,12 @@ jobs:
       - name: Validate blog metadata, references and links
         env:
           JOURNAL_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: python scripts/journal_audit.py
+        run: python scripts/journal_audit.py | tee journal-audit-report.txt; exit ${PIPESTATUS[0]}
+      - name: Archive editorial audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webu-journal-audit-${{ github.run_id }}
+          path: journal-audit-report.txt
+          if-no-files-found: warn
+          retention-days: 30
