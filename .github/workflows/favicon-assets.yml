@@ -47,7 +47,7 @@ jobs:
         if: steps.commit.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds" --jq '.status'
+        run: python3 .github/scripts/pages_api.py
       - name: Verify generated assets on the public site
         if: steps.commit.outputs.changed == 'true'
         env:

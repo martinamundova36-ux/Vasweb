@@ -51,3 +51,9 @@ Prvé produkčné zverejnenie čaká na výslovné obsahové schválenie použí
 `test_free_journal.py` overuje izolované publikovanie skutočného pripraveného textu vrátane metadát, Journalu a sitemap, odmietnutie zmeneného obsahu, neúplnej redakčnej kontroly, chýbajúcej EN verzie a oznámení o retrakcii/obavách. Produkčný commit článku vznikne až po úspešných bránach. Pri chybe pred commitom existujúci web zostáva bez zmeny. Ak zlyhá samotný Pages build po commite, workflow musí hlásiť neúspech; opakované publikovanie rovnakého návrhu sa blokuje a nasadenie sa opravuje bez tvorby ďalšieho článku.
 
 HTTPS už bolo zapnuté a uložené v Pages nastaveniach. Následná kontrola potvrdila HTTP 301 na HTTPS a HTTPS 200 s bežným overením TLS. Favicon zostal nezmenený, sedem verejných variantov sa zhoduje so schválenými súbormi. Search Console pri jednorazovom opätovnom pokuse stále hlási dennú kvótu; nové žiadosti neboli odoslané. Historické stavy 24 článkov a nevybavené kontroly sú zaznamenané v `journal-reports/google-pending-2026-11-04.json`.
+
+## Obnovenie nasadenia bez duplicitného článku
+
+Produkčný publish beh 41813297932 vytvoril schválené SK/EN stránky a commit `e4e578b6bc393b4bd538f99c0d1e7c02eb4df20e`. GitHub pri žiadosti o Pages build vrátil HTTP 502. Nie je potrebné znova publikovať návrh: v rovnakom workflowe je `action=deploy`, ktoré iba vyžiada build aktuálnej vetvy a overí verejné URL. Nemení texty, návrhy, dátumy ani Journal.
+
+Pages API požiadavky opakujú iba prechodné 429/500/502/503/504, najviac trikrát, s krátkym čakaním a rešpektovaním Retry-After do 30 sekúnd. Trvalé chyby oprávnení zastavia beh. Integračný test pripraveného článku používa odlišné testovacie URL aj metadáta, aby zostal opakovateľný po prvej skutočnej publikácii.
