@@ -2,7 +2,7 @@
   "checked_at": "2026-11-04",
   "selected_draft_id": "2026-11-04-93b063fd01b6",
   "selection_reason": "Available publisher full text, explicit methods/results/limitations, direct relevance to workplace technology adoption; no causal claims in the editorial.",
-  "publication_status": "awaiting_user_content_approval",
+  "publication_status": "deployed_and_verified",
   "automatic_publication_enabled": false,
   "candidates": [
     {
@@ -33,7 +33,7 @@
       "source_date": "2026-11-04",
       "retraction_flag_in_crossref": false,
       "selected": true,
-      "review_status": "ready_for_owner_approval"
+      "review_status": "published_with_explicit_user_approval"
     },
     {
       "draft_id": "2026-11-04-ed72c295acd6",
@@ -55,5 +55,17 @@
       "selected": false,
       "review_status": "bibliographic_candidate_only"
     }
-  ]
+  ],
+  "publication_commit": "e4e578b6bc393b4bd538f99c0d1e7c02eb4df20e",
+  "deployment_recovery_run": 41813889892,
+  "publication_run": 41813297932,
+  "initial_deployment_error": "GitHub Pages POST returned HTTP 502; recovered by deploy-only action without republishing",
+  "public_url_checks_passed": 40,
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6.html",
+    "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6-en.html"
+  ],
+  "technical_article_url_count": 26,
+  "sitemap_url_count": 79,
+  "google_index_status": "Latest previous confirmed count: 10; current count and new URLs not inspected due to daily quota"
 }

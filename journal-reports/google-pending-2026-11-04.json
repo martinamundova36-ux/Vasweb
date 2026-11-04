@@ -147,6 +147,18 @@
       "language": "en",
       "last_recorded_google_status": "Indexovaný Googlom",
       "index_request": "Neodoslaná; URL je v prijatej sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6.html",
+      "language": "sk",
+      "last_recorded_google_status": "Not inspected: new article published after daily quota exhausted",
+      "index_request": "Not submitted; included in sitemap"
+    },
+    {
+      "url": "https://www.webu.sk/blog-journal-review-2026-11-04-93b063fd01b6-en.html",
+      "language": "en",
+      "last_recorded_google_status": "Not inspected: new article published after daily quota exhausted",
+      "index_request": "Not submitted; included in sitemap"
     }
   ],
   "uninspected_sitemap_urls": [
