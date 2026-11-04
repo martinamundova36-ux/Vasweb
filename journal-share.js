@@ -1,5 +1,7 @@
 /* Article-specific, bilingual sharing. No Meta App ID is required. */
 (()=>{
+ document.getElementById('webu-share')?.remove();
+ if(document.querySelector('.webu-article-share'))return;
  const en=document.documentElement.lang==='en';
  const url=document.querySelector('link[rel="canonical"]')?.href||location.href.split('#')[0];
  const title=document.querySelector('h1')?.textContent||document.title;

@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - '*.html'
+      - 'ukazky/**/*.html'
+      - 'scripts/seo_audit.py'
       - '.github/scripts/audit_webu.py'
       - '.github/scripts/sync_sitemap.py'
       - '.github/scripts/link_journal_articles.py'
