@@ -88,6 +88,7 @@ class ApprovalTests(unittest.TestCase):
              patch.object(approval, 'api', return_value=created) as api:
             self.assertEqual(len(approval.notify()), 1)
             self.assertEqual(api.call_args_list[0].args[:2], ('pulls', 'POST'))
+            self.assertTrue(api.call_args_list[0].args[2]['draft'])
             self.assertEqual(api.call_args_list[1].args, ('issues/7/assignees', 'POST', {'assignees': [OWNER]}))
         requests = [dict(self.pr, created_at=approval.dt.datetime.now(approval.dt.timezone.utc).date().isoformat(),
                          head=dict(self.pr['head'], ref=approval.PREFIX + str(n))) for n in range(5)]

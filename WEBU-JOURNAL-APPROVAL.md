@@ -6,6 +6,8 @@ Existujúci `publish-research-journal.yml` zostáva jediným bezplatným výskum
 
 Pre nový návrh vytvára `github-actions[bot]` samostatnú vetvu `journal/approval/<id>` a Pull Request `WEBU Journal – Na schválenie: <názov>`, priradený účtu `martinamundova36-ux`. Obsahuje anotáciu, bibliografiu/DOI, skutočný stav odbornej kontroly, náhľad SK/EN a presné príkazy na rozhodnutie.
 
+Nové PR sú označené Draft: ide o redakčné návrhy, nie požiadavky na automatické programátorské AI recenzie. Na priradenie, upozornenie a vlastné rozhodovacie príkazy tento stav nemá negatívny vplyv.
+
 Náhľad je Markdown v tej istej vetve repozitára, nie ďalšie nasadenie webu. Repozitár je verejný; návrhy sú teda čitateľné na GitHub, ale `journal-drafts/` a `journal-reports/` sú vylúčené z GitHub Pages.
 
 Bot a pridelenie vlastníčke riešia problém s upozornením na vlastné PR bez plateného mailera, hesla SMTP alebo plateného API. Testovací PR vytvorený vlastníčkou môže dostať jednorazový komentár bota ako bezplatnú alternatívu upozornenia. Nezmenené návrhy nevytvárajú nové PR ani komentáre. Zmenený návrh aktualizuje ten istý otvorený PR; zatvorený/zamietnutý sa automaticky neotvára znova. Staršie návrhy pred zavedením tohto režimu sú evidované ako legacy; nejde o nové návrhy a neposielajú sa spätne naraz.

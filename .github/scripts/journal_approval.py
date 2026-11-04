@@ -216,7 +216,7 @@ def notify(test=False):
         if previous:
             pr = api('pulls/' + str(previous['number']), 'PATCH', payload)
         else:
-            pr = api('pulls', 'POST', dict(payload, head=branch, base='main', draft=False))
+            pr = api('pulls', 'POST', dict(payload, head=branch, base='main', draft=True))
             count += 1
         if config['owner'] not in [a['login'] for a in pr.get('assignees', [])]:
             api('issues/' + str(pr['number']) + '/assignees', 'POST', {'assignees': [config['owner']]})
