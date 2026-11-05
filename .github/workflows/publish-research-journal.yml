@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/scripts/free_journal.py'
       - '.github/scripts/editorial_briefs.py'
+      - '.github/scripts/ai_journal_writer.py'
       - '.github/scripts/journal_approval.py'
       - 'scripts/test_journal_approval.py'
       - '.github/scripts/journal_daily_status.py'
@@ -66,6 +67,7 @@ jobs:
       - run: python3 .github/scripts/free_journal.py --action self-test
       - run: python3 scripts/test_free_journal.py
       - run: python3 .github/scripts/editorial_briefs.py --self-test
+      - run: python3 .github/scripts/ai_journal_writer.py --self-test
       - run: python3 scripts/test_pages_api.py
       - run: python3 scripts/journal_image_audit.py
       - run: python3 scripts/journal_review_audit.py
@@ -100,6 +102,11 @@ jobs:
       - name: Doplniť SK/EN redakčné osnovy k dnešným bibliografickým podkladom
         if: inputs.action != 'deploy' && inputs.action != 'publish'
         run: python3 .github/scripts/editorial_briefs.py
+      - name: Automaticky napísať SK/EN články z dostupného abstraktu (bez zverejnenia)
+        if: inputs.action != 'deploy' && inputs.action != 'publish'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 .github/scripts/ai_journal_writer.py
       - name: Redakčná a SEO kontrola
         run: |
           python3 scripts/journal_image_audit.py
@@ -114,7 +121,7 @@ jobs:
         run: |
           git config user.name "WEBU Journal Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add journal-drafts/ journal-reports/ blog*.html sitemap.xml journal-images.json
+          git add journal-drafts/ journal-articles-pending/ journal-reports/ blog*.html sitemap.xml journal-images.json
           if ! git diff --cached --quiet; then
             git commit -m "WEBU Journal free editorial pipeline"
             git pull --rebase origin main
