@@ -192,7 +192,7 @@ def main():
   source['drafted_at']=drafted_at;source['editorial']=editorial
   source['full_text_reviewed']=editorial.get('review_level')=='full_text_sections'
   # Explicit workflow_dispatch publish action is the owner's approval.
-  source['approved_by']=__import__('os').environ.get('GITHUB_ACTOR','manual-owner');source['approved_content_sha256']=editorial['content_sha256'];publish(source)
+  source['approved_by']=('verified_automation' if __import__('os').environ.get('WEBU_AUTOPUBLISH_VERIFIED')=='true' else __import__('os').environ.get('GITHUB_ACTOR','manual-owner'));source['approved_content_sha256']=editorial['content_sha256'];publish(source)
   source['published_at']=str(NOW);source['published_urls']=[SITE+render(source,lang)[0] for lang in ('sk','en')];path.write_text(json.dumps(source,ensure_ascii=False,indent=2));print(json.dumps(source,ensure_ascii=False));return
  if args.action=='self-test':
   source={'doi':'10.0000/test-only','title':'Digital marketing and small business — TEST ONLY','authors':['Test Author'],'publisher':'Test publisher','venue':'Test fixture','url':'https://doi.org/10.0000/test-only','source_date':'2026-01-01','type':'journal-article'}
