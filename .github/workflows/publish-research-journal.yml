@@ -129,16 +129,17 @@ jobs:
           git add journal-drafts/ journal-articles-pending/ journal-reports/ blog*.html sitemap.xml journal-images.json
           if ! git diff --cached --quiet; then
             git commit -m "WEBU Journal free editorial pipeline"
-            if git diff-tree --no-commit-id --name-only -r HEAD | grep -E '^blog-journal-review-.*[.]html
+            git pull --rebase origin main
+            git push origin HEAD:main
             echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
       - name: Po schválenom publikovaní vyžiadať existujúci GitHub Pages build
-        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.published == 'true')
+        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.changed == 'true')
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 .github/scripts/pages_api.py
       - name: Overiť nové verejné URL po dokončení Pages
-        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.published == 'true')
+        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.changed == 'true')
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 .github/scripts/verify_free_deploy.py
@@ -250,124 +251,7 @@ jobs:
             echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
       - name: Po schválenom publikovaní vyžiadať existujúci GitHub Pages build
-        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.published == 'true')
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: python3 .github/scripts/pages_api.py
-      - name: Overiť nové verejné URL po dokončení Pages
-        if: inputs.action == 'deploy' || (inputs.action == 'publish' && steps.commit.outputs.changed == 'true')
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: python3 .github/scripts/verify_free_deploy.py
-      - name: Záznam výsledku bez uchovávania veľkých artefaktov
-        if: always()
-        run: |
-          echo '### WEBU Journal – bezplatný režim' >> "$GITHUB_STEP_SUMMARY"
-          echo 'AI pripravuje návrhy; automatické zverejnenie prebehne iba po úplnom overení zdroja a všetkých odborných kontrolách. Neoverené texty sa nezverejnia.' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Záznamy: journal-drafts/ a journal-reports/ v repozitári.' >> "$GITHUB_STEP_SUMMARY"
-      - name: Uchovať chybu pre bezpečné opakovanie
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: webu-journal-failure-${{ github.run_id }}
-          path: journal-reports/*.json
-          retention-days: 7
-  notify:
-    needs: [validate, publish]
-    if: >-
-      always() && needs.validate.result == 'success' && github.event.repository.private == false &&
-      ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
-       (github.event_name == 'push') ||
-       (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner &&
-        (inputs.action == 'notify-test' || (inputs.action == 'draft' && needs.publish.result == 'success'))))
-    runs-on: ubuntu-latest
-    timeout-minutes: 8
-    permissions:
-      contents: write
-      pull-requests: write
-      issues: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-      - name: Samostatný PR a GitHub upozornenie bez plateného mailera
-        env:
-          GH_TOKEN: ${{ github.token }}
-          NOTIFY_ACTION: ${{ inputs.action == 'notify-test' && 'notify-test' || 'notify' }}
-          RESEND_TEST_NOTICE: ${{ inputs.action == 'notify-test' && inputs.resend_notice && 'true' || 'false' }}
-        run: python3 .github/scripts/journal_approval.py --action "$NOTIFY_ACTION"
-      - name: Denný pravdivý stav aj pri nepripravených článkoch alebo chybe vyhľadávania
-        if: >-
-          always() && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
-          (github.event_name == 'push' && github.actor == github.repository_owner && contains(github.event.head_commit.message, '[journal-recover]')) ||
-          (github.event_name == 'workflow_dispatch' && inputs.action == 'draft'))
-        env:
-          GH_TOKEN: ${{ github.token }}
-          DISCOVERY_RESULT: ${{ needs.publish.result }}
-        run: python3 .github/scripts/journal_approval.py --action daily-report
-  decision:
-    needs: validate
-    if: >-
-      github.event_name == 'issue_comment' && github.event.issue.pull_request &&
-      github.event.comment.user.login == github.repository_owner
-    runs-on: ubuntu-latest
-    timeout-minutes: 12
-    permissions:
-      contents: write
-      pull-requests: write
-      issues: write
-      pages: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
-      - name: Overiť vlastníčku, presnú verziu a odborné podklady
-        id: decision
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: python3 .github/scripts/journal_approval.py --action decide
-      - name: Povinné kontroly schváleného článku
-        if: steps.decision.outputs.publish == 'true'
-        run: |
-          python3 scripts/seo_audit.py
-          python3 scripts/journal_image_audit.py
-          python3 scripts/journal_review_audit.py
-          python3 scripts/journal_audit.py --publish-gate
-      - name: Uložiť rozhodnutie a prípadné schválené publikovanie
-        if: steps.decision.outputs.action != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: python3 .github/scripts/journal_approval.py --action commit-decision
-      - name: Nasadiť iba výslovne schválený článok
-        if: steps.decision.outputs.publish == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          python3 .github/scripts/pages_api.py
-          python3 .github/scripts/verify_free_deploy.py
-      - name: Oznámiť skutočný výsledok rozhodnutia
-        if: always() && steps.decision.outputs.test_only != 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ github.event.issue.number }}
-          DECISION_SUCCESS: ${{ job.status == 'success' && 'true' || 'false' }}
-          DECISION_HEAD_SHA: ${{ steps.decision.outputs.head_sha }}
-        run: |
-          if [ "$DECISION_SUCCESS" = true ]; then
-            python3 .github/scripts/journal_approval.py --action finish --pr-number "$PR_NUMBER"
-          else
-            python3 .github/scripts/journal_approval.py --action finish --pr-number "$PR_NUMBER" --failed
-          fi
- >/dev/null; then
-              echo 'published=true' >> "$GITHUB_OUTPUT"
-            fi
-            git pull --rebase origin main
-            git push origin HEAD:main
-            echo 'changed=true' >> "$GITHUB_OUTPUT"
-          fi
-      - name: Po schválenom publikovaní vyžiadať existujúci GitHub Pages build
-        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.published == 'true')
+        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.changed == 'true')
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 .github/scripts/pages_api.py
@@ -484,7 +368,124 @@ jobs:
             echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
       - name: Po schválenom publikovaní vyžiadať existujúci GitHub Pages build
-        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.published == 'true')
+        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.changed == 'true')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/pages_api.py
+      - name: Overiť nové verejné URL po dokončení Pages
+        if: inputs.action == 'deploy' || (inputs.action == 'publish' && steps.commit.outputs.changed == 'true')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/verify_free_deploy.py
+      - name: Záznam výsledku bez uchovávania veľkých artefaktov
+        if: always()
+        run: |
+          echo '### WEBU Journal – bezplatný režim' >> "$GITHUB_STEP_SUMMARY"
+          echo 'AI pripravuje návrhy; automatické zverejnenie prebehne iba po úplnom overení zdroja a všetkých odborných kontrolách. Neoverené texty sa nezverejnia.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Záznamy: journal-drafts/ a journal-reports/ v repozitári.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Uchovať chybu pre bezpečné opakovanie
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webu-journal-failure-${{ github.run_id }}
+          path: journal-reports/*.json
+          retention-days: 7
+  notify:
+    needs: [validate, publish]
+    if: >-
+      always() && needs.validate.result == 'success' && github.event.repository.private == false &&
+      ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
+       (github.event_name == 'push') ||
+       (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner &&
+        (inputs.action == 'notify-test' || (inputs.action == 'draft' && needs.publish.result == 'success'))))
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Samostatný PR a GitHub upozornenie bez plateného mailera
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTIFY_ACTION: ${{ inputs.action == 'notify-test' && 'notify-test' || 'notify' }}
+          RESEND_TEST_NOTICE: ${{ inputs.action == 'notify-test' && inputs.resend_notice && 'true' || 'false' }}
+        run: python3 .github/scripts/journal_approval.py --action "$NOTIFY_ACTION"
+      - name: Denný pravdivý stav aj pri nepripravených článkoch alebo chybe vyhľadávania
+        if: >-
+          always() && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
+          (github.event_name == 'push' && github.actor == github.repository_owner && contains(github.event.head_commit.message, '[journal-recover]')) ||
+          (github.event_name == 'workflow_dispatch' && inputs.action == 'draft'))
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DISCOVERY_RESULT: ${{ needs.publish.result }}
+        run: python3 .github/scripts/journal_approval.py --action daily-report
+  decision:
+    needs: validate
+    if: >-
+      github.event_name == 'issue_comment' && github.event.issue.pull_request &&
+      github.event.comment.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      pages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Overiť vlastníčku, presnú verziu a odborné podklady
+        id: decision
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/journal_approval.py --action decide
+      - name: Povinné kontroly schváleného článku
+        if: steps.decision.outputs.publish == 'true'
+        run: |
+          python3 scripts/seo_audit.py
+          python3 scripts/journal_image_audit.py
+          python3 scripts/journal_review_audit.py
+          python3 scripts/journal_audit.py --publish-gate
+      - name: Uložiť rozhodnutie a prípadné schválené publikovanie
+        if: steps.decision.outputs.action != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/journal_approval.py --action commit-decision
+      - name: Nasadiť iba výslovne schválený článok
+        if: steps.decision.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 .github/scripts/pages_api.py
+          python3 .github/scripts/verify_free_deploy.py
+      - name: Oznámiť skutočný výsledok rozhodnutia
+        if: always() && steps.decision.outputs.test_only != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+          DECISION_SUCCESS: ${{ job.status == 'success' && 'true' || 'false' }}
+          DECISION_HEAD_SHA: ${{ steps.decision.outputs.head_sha }}
+        run: |
+          if [ "$DECISION_SUCCESS" = true ]; then
+            python3 .github/scripts/journal_approval.py --action finish --pr-number "$PR_NUMBER"
+          else
+            python3 .github/scripts/journal_approval.py --action finish --pr-number "$PR_NUMBER" --failed
+          fi
+ >/dev/null; then
+              echo 'published=true' >> "$GITHUB_OUTPUT"
+            fi
+            git pull --rebase origin main
+            git push origin HEAD:main
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Po schválenom publikovaní vyžiadať existujúci GitHub Pages build
+        if: inputs.action == 'deploy' || (steps.commit.outputs.changed == 'true' && steps.commit.outputs.changed == 'true')
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 .github/scripts/pages_api.py
