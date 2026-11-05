@@ -1,9 +1,11 @@
 {
-  "checked_at": "2026-11-04T15:53:29.501990+00:00",
+  "checked_at": "2026-11-05T09:31:33.763081+00:00",
   "timezone": "Europe/Bratislava",
-  "schedule": "0 8 * * *",
-  "next_scheduled_local": "2026-11-05T08:00:00+01:00",
-  "next_scheduled_utc": "2026-11-05T07:00:00+00:00",
+  "schedule": "0,17,37 8-11 * * *",
+  "primary_target": "08:00 Europe/Bratislava",
+  "backup_checks": "08:17, 08:37 and the same minutes through 11:37; one daily delivery",
+  "next_scheduled_local": "2026-11-06T08:00:00+01:00",
+  "next_scheduled_utc": "2026-11-06T07:00:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
   "generator_capability": "bibliographic_candidates_only",
@@ -24,6 +26,26 @@
     },
     {
       "id": "2026-11-04-f7c72572913c",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-05-4b65960ecdbe",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-05-841f37bc7684",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-05-92305488b265",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-05-ad67275da37f",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-05-e2f830a0e522",
       "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
     }
   ],

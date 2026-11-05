@@ -1,0 +1,28 @@
+{
+  "doi": "10.21686/2500-3925-2026-5-23-33",
+  "title": "Statistical Assessment of the Effectiveness of Artificial Intelligence Use by organizations in Russian Regions",
+  "authors": [
+    "Natalya V. Novikova",
+    "Ivan A. Strakhov"
+  ],
+  "publisher": "Plekhanov Russian University of Economics (PRUE)",
+  "venue": "Statistics and Economics",
+  "source_date": "2026-11-05",
+  "type": "journal-article",
+  "url": "https://doi.org/10.21686/2500-3925-2026-5-23-33",
+  "abstract_available": true,
+  "abstract_words": 451,
+  "selection_keywords": [
+    "artificial intelligence",
+    "productivity"
+  ],
+  "verified_at": "2026-11-05",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-05",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photo; editorial image selection required"
+}
