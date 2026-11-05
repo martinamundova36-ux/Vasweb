@@ -222,6 +222,15 @@ def main():
    subprocess.run(['git','init','-q'],cwd=test,check=True)
    subprocess.run(['git','add','.'],cwd=test,check=True)
    subprocess.run(['git','-c','user.name=Test','-c','user.email=test@example.invalid','commit','-qm','fixture'],cwd=test,check=True)
+   # A synthetic licensed-image catalog entry is confined to this disposable test copy.
+   # Production image assignments and the no-reuse rule remain untouched.
+   catalog_path=test/'journal-images.json'
+   catalog=json.loads(catalog_path.read_text())
+   fixture=next((p for p in catalog['photos'] if 'business' in p.get('topics',[])),None)
+   if fixture is None:raise AssertionError('Self-test requires an existing licensed business photo')
+   fixture=dict(fixture);fixture['id']='self-test-business-photo'
+   catalog['photos'].append(fixture)
+   catalog_path.write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\\n')
    ROOT=test
    try:
     publish(source)
