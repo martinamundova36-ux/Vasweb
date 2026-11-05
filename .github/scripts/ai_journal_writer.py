@@ -10,6 +10,8 @@ import os
 from pathlib import Path
 import re
 import sys
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from zoneinfo import ZoneInfo
@@ -33,8 +35,27 @@ def load_abstract(source):
         raise ValueError("Insufficient primary-source abstract: do not invent findings")
     return abstract[:14000]
 
-def generate(source,abstract,api_key):
-    url="https://generativelanguage.googleapis.com/v1beta/models/"+urllib.parse.quote(MODEL,safe="")+":generateContent"
+def available_models(api_key):
+    req=urllib.request.Request("https://generativelanguage.googleapis.com/v1beta/models?pageSize=100",headers={"x-goog-api-key":api_key})
+    with urllib.request.urlopen(req,timeout=30) as response:
+        data=json.load(response)
+    return {m["name"].split("/",1)[-1] for m in data.get("models",[]) if "generateContent" in m.get("supportedGenerationMethods",[])}
+
+def request_with_retries(model,request,key):
+    url="https://generativelanguage.googleapis.com/v1beta/models/"+urllib.parse.quote(model,safe="")+":generateContent"
+    for attempt in range(3):
+        req=urllib.request.Request(url,data=json.dumps(request,ensure_ascii=False).encode(),headers={"Content-Type":"application/json","x-goog-api-key":key},method="POST")
+        try:
+            with urllib.request.urlopen(req,timeout=120) as response:
+                return json.load(response)
+        except urllib.error.HTTPError as exc:
+            if exc.code not in (429,500,502,503,504) or attempt==2:raise
+        except (urllib.error.URLError,TimeoutError):
+            if attempt==2:raise
+        time.sleep(2**attempt * 2)
+    raise RuntimeError("Retries exhausted")
+
+def generate(source,abstract,api_key,models):
     prompt="""Create TWO DISTINCT, polished, genuinely useful and original WEBU Journal editorial article drafts in Slovak and English.
 Return ONLY JSON with two properties 'sk' and 'en'. Each contains 'title', 'description' (50-160 chars), 'lead' and 'sections'.
 Each 'sections' must contain EXACTLY six objects with a 'heading' and 'paragraphs' (array of 2-3 substantive original paragraphs).
@@ -55,9 +76,19 @@ CRITICAL accuracy rules:
 - No external references apart from the verified DOI.
 """
     request={"contents":[{"parts":[{"text":prompt}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.35,"maxOutputTokens":7000}}
-    req=urllib.request.Request(url,data=json.dumps(request,ensure_ascii=False).encode(),headers={"Content-Type":"application/json","x-goog-api-key":api_key},method="POST")
-    with urllib.request.urlopen(req,timeout=120) as response:
-        payload=json.load(response)
+    payload=None
+    errors=[]
+    for model in models:
+        try:
+            payload=request_with_retries(model,request,api_key)
+            print("Gemini model used:",model)
+            break
+        except urllib.error.HTTPError as exc:
+            if exc.code in (400,401,403):raise
+            errors.append(model+": "+str(exc))
+        except (urllib.error.URLError,TimeoutError) as exc:
+            errors.append(model+": "+str(exc))
+    if payload is None:raise RuntimeError("All Gemini models failed: "+"; ".join(errors))
     response_text=payload["candidates"][0]["content"]["parts"][0]["text"]
     result=json.loads(response_text)
     if set(result)!={"sk","en"}:raise ValueError("Missing bilingual output")
@@ -107,6 +138,11 @@ def main():
     if not key:
         raise SystemExit("GEMINI_API_KEY is missing. Add the repository Actions secret; no manuscript published.")
     drafts=ROOT/"journal-drafts"
+    try:offered=available_models(key)
+    except Exception as exc:raise SystemExit("Gemini model discovery failed: "+str(exc))
+    models=[name for name in (MODEL,"gemini-3.1-flash-lite","gemini-3.8-flash") if name in offered]
+    if not models:raise SystemExit("No configured Gemini model supports generateContent for this key")
+    print("Configured available models:",", ".join(models))
     count=0
     for source_path in sorted(drafts.glob("*.json")):
         source=json.loads(source_path.read_text())
@@ -119,7 +155,7 @@ def main():
             except Exception as exc:
                 raise RuntimeError("Crossref source lookup: "+str(exc)) from exc
             try:
-                generated=generate(source,abstract,key)
+                generated=generate(source,abstract,key,models)
             except Exception as exc:
                 raise RuntimeError("Gemini model "+MODEL+": "+str(exc)) from exc
             destination.write_text(markdown(source,generated),encoding="utf-8")
