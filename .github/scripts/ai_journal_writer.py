@@ -16,7 +16,7 @@ from zoneinfo import ZoneInfo
 
 ROOT=Path(__file__).resolve().parents[2]
 TODAY=dt.datetime.now(ZoneInfo("Europe/Bratislava")).date().isoformat()
-MODEL=os.environ.get("WEBU_GEMINI_MODEL","gemini-2.5-flash-lite")
+MODEL=os.environ.get("WEBU_GEMINI_MODEL","gemini-3.5-flash-lite")
 HEADINGS_SK=["Úvod","Čo skúmala štúdia","Hlavné zistenia a význam","Metodika a limity","Praktický návrh WEBU","Záver"]
 HEADINGS_EN=["Introduction","What the study examined","Findings and interpretation","Methodology and limitations","WEBU practical proposal","Conclusion"]
 
@@ -114,12 +114,22 @@ def main():
         destination=output/(source_path.stem+".md")
         if destination.exists():continue
         try:
-            abstract=load_abstract(source)
-            generated=generate(source,abstract,key)
+            try:
+                abstract=load_abstract(source)
+            except Exception as exc:
+                raise RuntimeError("Crossref source lookup: "+str(exc)) from exc
+            try:
+                generated=generate(source,abstract,key)
+            except Exception as exc:
+                raise RuntimeError("Gemini model "+MODEL+": "+str(exc)) from exc
             destination.write_text(markdown(source,generated),encoding="utf-8")
             count+=1
             print("DRAFT generated:",source_path.stem)
         except Exception as exc:
             print("HOLD",source_path.stem,str(exc)[:250],file=sys.stderr)
     print(json.dumps({"date":TODAY,"new_manuscripts":count,"publication":"blocked pending science review"}))
+    eligible=sum(1 for p in drafts.glob("*.json") if (lambda x: x.get("drafted_at")==TODAY and not x.get("published_at") and not x.get("test_only"))(json.loads(p.read_text())))
+    present=sum(1 for p in output.glob(TODAY+"-*.md"))
+    if eligible and not present:
+        raise SystemExit("No AI manuscripts created: inspect HOLD stage and model availability; not a successful delivery")
 if __name__=="__main__":main()
