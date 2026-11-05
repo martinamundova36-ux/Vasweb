@@ -42,6 +42,16 @@ def main():
   test=Path(temp)/'site';shutil.copytree(ROOT,test,ignore=shutil.ignore_patterns('.git','__pycache__'))
   subprocess.run(['git','init','-q'],cwd=test,check=True);subprocess.run(['git','add','.'],cwd=test,check=True)
   subprocess.run(['git','-c','user.name=Test','-c','user.email=test@example.invalid','commit','-qm','fixture'],cwd=test,check=True)
+  # Reserve an isolated licensed-image fixture: production assignments must stay intact.
+  # A real catalog may have exhausted all suitable photos; that must not break
+  # this publication regression test, which runs only in a temporary copy.
+  catalog=test/'journal-images.json'
+  image_data=json.loads(catalog.read_text())
+  fixture=copy.deepcopy(image_data['photos'][0])
+  fixture['id']='test-only-reviewed-publication-image'
+  fixture['topics']=sorted(set().union(*(set(photo['topics']) for photo in image_data['photos'])))
+  image_data['photos'].append(fixture)
+  catalog.write_text(json.dumps(image_data,ensure_ascii=False,indent=2)+'\n')
   m.ROOT=test;m.publish(source)
   for lang in ('sk','en'):
    name=m.render(source,lang)[0];html=(test/name).read_text()
