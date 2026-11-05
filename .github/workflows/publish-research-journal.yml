@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - '.github/scripts/free_journal.py'
+      - '.github/scripts/editorial_briefs.py'
       - '.github/scripts/journal_approval.py'
       - 'scripts/test_journal_approval.py'
       - '.github/scripts/journal_daily_status.py'
@@ -64,6 +65,7 @@ jobs:
           fetch-depth: 0
       - run: python3 .github/scripts/free_journal.py --action self-test
       - run: python3 scripts/test_free_journal.py
+      - run: python3 .github/scripts/editorial_briefs.py --self-test
       - run: python3 scripts/test_pages_api.py
       - run: python3 scripts/journal_image_audit.py
       - run: python3 scripts/journal_review_audit.py
@@ -95,6 +97,9 @@ jobs:
           JOURNAL_ACTION: ${{ inputs.action || 'draft' }}
           JOURNAL_DRAFT_ID: ${{ inputs.draft_id }}
         run: python3 .github/scripts/free_journal.py --action "$JOURNAL_ACTION" ${JOURNAL_DRAFT_ID:+--draft-id "$JOURNAL_DRAFT_ID"}
+      - name: Doplniť SK/EN redakčné osnovy k dnešným bibliografickým podkladom
+        if: inputs.action != 'deploy' && inputs.action != 'publish'
+        run: python3 .github/scripts/editorial_briefs.py
       - name: Redakčná a SEO kontrola
         run: |
           python3 scripts/journal_image_audit.py
