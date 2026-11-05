@@ -102,12 +102,11 @@ def main():
         print("PASS: bilingual manuscript formatting, no publishing")
         return
     key=os.environ.get("GEMINI_API_KEY","")
-    if not key:
-        print("GEMINI_API_KEY secret is missing; no manuscript generated and none published.")
-        return
-    drafts=ROOT/"journal-drafts"
     output=ROOT/"journal-articles-pending"
     output.mkdir(exist_ok=True)
+    if not key:
+        raise SystemExit("GEMINI_API_KEY is missing. Add the repository Actions secret; no manuscript published.")
+    drafts=ROOT/"journal-drafts"
     count=0
     for source_path in sorted(drafts.glob("*.json")):
         source=json.loads(source_path.read_text())
