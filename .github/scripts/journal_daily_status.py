@@ -9,6 +9,15 @@ from free_journal import validate_editorial
 
 ROOT = Path(__file__).resolve().parents[2]
 ZONE = ZoneInfo('Europe/Bratislava')
+SCHEDULE = '0,17,37 8-11 * * *'
+
+def daily_due(now):
+    local = now.astimezone(ZONE)
+    record = ROOT / 'journal-reports/daily-delivery' / (str(local.date()) + '.json')
+    if local.hour < 8:return False
+    if not record.exists():return True
+    return json.loads(record.read_text()).get('discovery_result') != 'success'
+
 
 
 def next_run(now):
@@ -37,7 +46,7 @@ def status():
             ready.append(path.stem)
     scheduled = next_run(now)
     result = {'checked_at': now.isoformat(), 'timezone': ZONE.key,
-        'schedule': '0 8 * * *', 'next_scheduled_local': scheduled.isoformat(),
+        'schedule': SCHEDULE, 'primary_target': '08:00 Europe/Bratislava', 'backup_checks': '08:17, 08:37 and the same minutes through 11:37; one daily delivery', 'next_scheduled_local': scheduled.isoformat(),
         'next_scheduled_utc': scheduled.astimezone(dt.timezone.utc).isoformat(),
         'scheduler_timing': 'Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.',
         'daily_maximum': 5, 'generator_capability': 'bibliographic_candidates_only',
@@ -60,7 +69,7 @@ def self_test():
                            ('2026-10-24T08:00:00+00:00', '2026-10-25T08:00:00+01:00')]:
         assert next_run(dt.datetime.fromisoformat(date)).isoformat() == expected
     workflow = (ROOT / '.github/workflows/publish-research-journal.yml').read_text()
-    assert "cron: '0 8 * * *'\n      timezone: 'Europe/Bratislava'" in workflow
+    assert "cron: '" + SCHEDULE + "'\n      timezone: 'Europe/Bratislava'" in workflow
     assert workflow.count('  schedule:') == 1
     config = json.loads((ROOT / 'journal-config.json').read_text())
     assert config['target_studies_per_day'] <= 5 and not config['paid_ai_enabled']
@@ -70,4 +79,8 @@ def self_test():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--self-test', action='store_true')
-    self_test() if parser.parse_args().self_test else status()
+    parser.add_argument('--due', action='store_true')
+    args = parser.parse_args()
+    if args.self_test:self_test()
+    elif args.due:print('true' if daily_due(dt.datetime.now(dt.timezone.utc)) else 'false')
+    else:status()

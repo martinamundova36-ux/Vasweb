@@ -13,7 +13,7 @@
     "consumer trust pricing"
   ],
   "paid_ai_enabled": false,
-  "schedule_note": "Daily 08:00 Europe/Bratislava; native GitHub timezone handles DST",
+  "schedule_note": "Daily target 08:00 Europe/Bratislava; catch-up checks at :17/:37 through 11:37, deduplicated by local-day delivery record; GitHub scheduling can be delayed",
   "target_studies_per_day": 5,
   "approval_notifications": {
     "owner": "martinamundova36-ux",

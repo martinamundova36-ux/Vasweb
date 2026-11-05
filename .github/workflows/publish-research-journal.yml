@@ -7,6 +7,7 @@ on:
       - '.github/scripts/journal_approval.py'
       - 'scripts/test_journal_approval.py'
       - '.github/scripts/journal_daily_status.py'
+      - 'scripts/test_journal_daily_delivery.py'
       - '.github/scripts/verify_free_deploy.py'
       - '.github/scripts/pages_api.py'
       - 'scripts/test_pages_api.py'
@@ -23,7 +24,7 @@ on:
       - 'scripts/test_free_journal.py'
       - 'journal-drafts/*.json'
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0,17,37 8-11 * * *'
       timezone: 'Europe/Bratislava'
   issue_comment:
     types: [created]
@@ -51,6 +52,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   validate:
+    outputs:
+      daily_due: ${{ steps.daily_due.outputs.due }}
     if: github.event.repository.private == false
     runs-on: ubuntu-latest
     permissions:
@@ -67,9 +70,13 @@ jobs:
       - run: python3 scripts/test_journal_review.py
       - run: python3 scripts/test_journal_approval.py
       - run: python3 .github/scripts/journal_daily_status.py --self-test
+      - run: python3 scripts/test_journal_daily_delivery.py
+      - name: Check whether this local day already has a delivery
+        id: daily_due
+        run: echo "due=$(python3 .github/scripts/journal_daily_status.py --due)" >> "$GITHUB_OUTPUT"
   publish:
     needs: validate
-    if: github.event.repository.private == false && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner && inputs.action != 'notify-test'))
+    if: github.event.repository.private == false && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') || (github.event_name == 'push' && github.actor == github.repository_owner && contains(github.event.head_commit.message, '[journal-recover]')) || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner && inputs.action != 'notify-test'))
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -136,7 +143,7 @@ jobs:
     needs: [validate, publish]
     if: >-
       always() && needs.validate.result == 'success' && github.event.repository.private == false &&
-      ((github.event_name == 'schedule' && needs.publish.result == 'success') ||
+      ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
        (github.event_name == 'push') ||
        (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner &&
         (inputs.action == 'notify-test' || (inputs.action == 'draft' && needs.publish.result == 'success'))))
@@ -156,6 +163,15 @@ jobs:
           NOTIFY_ACTION: ${{ inputs.action == 'notify-test' && 'notify-test' || 'notify' }}
           RESEND_TEST_NOTICE: ${{ inputs.action == 'notify-test' && inputs.resend_notice && 'true' || 'false' }}
         run: python3 .github/scripts/journal_approval.py --action "$NOTIFY_ACTION"
+      - name: Denný pravdivý stav aj pri nepripravených článkoch alebo chybe vyhľadávania
+        if: >-
+          always() && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
+          (github.event_name == 'push' && github.actor == github.repository_owner && contains(github.event.head_commit.message, '[journal-recover]')) ||
+          (github.event_name == 'workflow_dispatch' && inputs.action == 'draft'))
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DISCOVERY_RESULT: ${{ needs.publish.result }}
+        run: python3 .github/scripts/journal_approval.py --action daily-report
   decision:
     needs: validate
     if: >-

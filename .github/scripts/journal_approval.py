@@ -419,13 +419,75 @@ def finish(number, success=True):
         api('pulls/' + str(number), 'PATCH', {'state': 'closed'})
 
 
+def daily_report():
+    """One honest owner notification per day, even when zero articles are ready."""
+    config = settings()
+    if os.environ.get('GITHUB_REPOSITORY_OWNER') != config['owner']:
+        raise ValueError('Unexpected owner')
+    from journal_daily_status import status
+    state = status()
+    today = dt.datetime.now(ZoneInfo('Europe/Bratislava')).date().isoformat()
+    marker = '<!-- webu-daily-status ' + today + ' -->'
+    report = ROOT / 'journal-reports' / ('free-discovery-' + today + '.json')
+    discovery = json.loads(report.read_text()) if report.exists() else {}
+    ready = len(state['ready_bilingual_articles'])
+    ids = discovery.get('draft_ids', [])
+    lines = [marker, '@' + config['owner'], '',
+        '**Hotové dvojjazyčné články na schválenie: ' + str(ready) + '/5.**', '',
+        'Dnešné bibliografické podklady: ' + str(len(ids)) + '. Podklady nie sú hotové články.', '',
+        'Výsledok prípravy: ' + os.environ.get('DISCOVERY_RESULT', 'not confirmed') + '.', '',
+        '## Dnešné podklady (nie hotové články)', '']
+    for key in ids:
+        path = ROOT / 'journal-drafts' / (key + '.json')
+        if path.exists():
+            source = json.loads(path.read_text())
+            lines += ['- **' + safe_text(source['title']) + '** — ' + source['url']]
+    if not ids:lines += ['- Dnes neboli uložené nové podklady.']
+    if ready < 5:
+        lines += ['', '**Chýba redakčné spracovanie a zdokumentované porovnanie s plným textom.** '
+                  'Súčasný bezplatný generátor vyhľadáva zdroje; sám nepíše päť hotových odborných článkov. '
+                  'Kontroly publikovania zostali zachované.']
+    if discovery.get('errors'):lines += ['', 'Chyby vyhľadávania: ' + safe_text('; '.join(discovery['errors']))]
+    run = os.environ.get('GITHUB_RUN_ID', '')
+    if run:lines += ['', 'Beh: https://github.com/' + os.environ['GITHUB_REPOSITORY'] + '/actions/runs/' + run]
+    lines += ['', 'GitHub vytvorenie tohto upozornenia potvrdzuje; doručenie e-mailu do schránky tým nie je overené.']
+    body_text = '\n'.join(lines)
+    previous = next((x for x in paged('issues?state=all') if marker in (x.get('body') or '')), None)
+    if previous:
+        issue = previous  # No repeated messages from catch-up schedules.
+        if issue.get('body') != body_text:
+            api('issues/' + str(issue['number']), 'PATCH', {'body': body_text})
+    else:
+        issue = api('issues', 'POST', {'title': 'WEBU Journal – Denný stav ' + today + ': ' + str(ready) + '/5 článkov',
+                    'body': body_text, 'assignees': [config['owner']]})
+    path = 'journal-reports/daily-delivery/' + today + '.json'
+    evidence = {'date': today, 'issue': issue['number'], 'url': issue['html_url'],
+                'ready_articles': ready, 'bibliographic_candidates': len(ids),
+                'discovery_result': os.environ.get('DISCOVERY_RESULT', 'not confirmed'),
+                'github_notice_created': True, 'email_delivery': 'not confirmed'}
+    try:
+        current = api('contents/' + path)
+        old = json.loads(base64.b64decode(current['content']))
+        if old != evidence:
+            api('contents/' + path, 'PUT', {'message': 'Update WEBU daily delivery result ' + today, 'sha': current['sha'],
+                'content': base64.b64encode((json.dumps(evidence, ensure_ascii=False, indent=2)+'\n').encode()).decode(), 'branch': 'main'})
+    except urllib.error.HTTPError as error:
+        if error.code != 404:raise
+        api('contents/' + path, 'PUT', {'message': 'Record WEBU daily owner notice ' + today,
+            'content': base64.b64encode((json.dumps(evidence, ensure_ascii=False, indent=2)+'\n').encode()).decode(), 'branch': 'main'})
+    print(json.dumps(evidence, ensure_ascii=False))
+    return evidence
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--action', choices=['notify', 'notify-test', 'decide', 'finish', 'commit-decision'], required=True)
+    parser.add_argument('--action', choices=['notify', 'notify-test', 'decide', 'finish', 'commit-decision', 'daily-report'], required=True)
     parser.add_argument('--pr-number', type=int)
     parser.add_argument('--failed', action='store_true')
     args = parser.parse_args()
-    if args.action in ('notify', 'notify-test'):
+    if args.action == 'daily-report':
+        daily_report()
+    elif args.action in ('notify', 'notify-test'):
         notify(args.action == 'notify-test')
     elif args.action == 'decide':
         decide(json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text()))
