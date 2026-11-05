@@ -1,5 +1,5 @@
 {
-  "mode": "drafts_require_approval",
+  "mode": "auto_publish_source_verified_only",
   "max_candidates_per_run": 5,
   "lookback_days": 90,
   "minimum_relevance_score": 2,
@@ -29,5 +29,11 @@
     "email_delivery": "Confirmed by recipient screenshots and actual GitHub email reply on 2026-11-04",
     "ready_articles_only": true
   },
-  "generator_capability": "bibliographic_candidates_only"
+  "generator_capability": "bibliographic_candidates_only",
+  "publication_policy": {
+    "manual_approval_required": false,
+    "full_text_scientific_review_required": true,
+    "skip_publication_on_failed_checks": true,
+    "absolute_accuracy_guaranteed": false
+  }
 }
