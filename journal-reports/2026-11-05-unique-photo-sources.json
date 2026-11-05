@@ -1,0 +1,43 @@
+{
+  "purpose": "Unique photos for newest five WEBU Journal articles, not shared across different article topics",
+  "license": "Pexels License",
+  "license_url": "https://www.pexels.com/license/",
+  "notice": "Images are loaded from Pexels CDN. Source/license metadata only; assets are not yet self-hosted.",
+  "articles": [
+    {
+      "article_id": "4b65960ecdbe",
+      "photo_id": "39219944",
+      "creator": "Vitaly Gariev",
+      "source_page": "https://www.pexels.com/photo/39219944/",
+      "image": "https://images.pexels.com/photos/39219944/pexels-photo-39219944.jpeg"
+    },
+    {
+      "article_id": "841f37bc7684",
+      "photo_id": "3861957",
+      "creator": "ThisIsEngineering",
+      "source_page": "https://www.pexels.com/photo/3861957/",
+      "image": "https://images.pexels.com/photos/3861957/pexels-photo-3861957.jpeg"
+    },
+    {
+      "article_id": "92305488b265",
+      "photo_id": "7693733",
+      "creator": "Yan Krukau",
+      "source_page": "https://www.pexels.com/photo/7693733/",
+      "image": "https://images.pexels.com/photos/7693733/pexels-photo-7693733.jpeg"
+    },
+    {
+      "article_id": "ad67275da37f",
+      "photo_id": "6476252",
+      "creator": "Mikael Blomkvist",
+      "source_page": "https://www.pexels.com/photo/6476252/",
+      "image": "https://images.pexels.com/photos/6476252/pexels-photo-6476252.jpeg"
+    },
+    {
+      "article_id": "e2f830a0e522",
+      "photo_id": "12969403",
+      "creator": "Atlantic Ambience",
+      "source_page": "https://www.pexels.com/photo/12969403/",
+      "image": "https://images.pexels.com/photos/12969403/pexels-photo-12969403.jpeg"
+    }
+  ]
+}
