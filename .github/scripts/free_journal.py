@@ -230,7 +230,7 @@ def main():
    if fixture is None:raise AssertionError('Self-test requires an existing licensed business photo')
    fixture=dict(fixture);fixture['id']='self-test-business-photo'
    catalog['photos'].append(fixture)
-   catalog_path.write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\\n')
+   catalog_path.write_text(json.dumps(catalog,ensure_ascii=False,indent=2))
    ROOT=test
    try:
     publish(source)
