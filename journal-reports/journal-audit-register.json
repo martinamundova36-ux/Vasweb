@@ -3008,6 +3008,156 @@
           }
         ]
       }
+    },
+    {
+      "id": "blog-journal-review-2026-11-06-a508bd757266",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-06",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1108/jfmm-10-2025-0572",
+          "apa7": "Erkan Yildiz, Pınar Türkdemir, Mustafa Fikret Ateş (2026). Omnichannel integration in fashion retail: privacy barriers to customer retention. Journal of Fashion Marketing and Management: An International Journal. https://doi.org/10.1108/jfmm-10-2025-0572",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-review-2026-11-06-a508bd757266.html",
+          "title": "Omnikanálový maloobchod a obavy o súkromie v móde",
+          "description": "Prehľad štúdie o vplyve integrácie kanálov a obáv o súkromie na udržanie zákazníkov v módnom biznise. Prináša praktické tipy pre WEBU.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-06",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "89a1cd160345759c74ce205fa507bb0e4ead5df572fc9a46203473290d4db602"
+        },
+        "en": {
+          "path": "blog-journal-review-2026-11-06-a508bd757266-en.html",
+          "title": "Omnichannel Integration and Privacy Concerns in Fashion Retail",
+          "description": "An editorial review of a study examining how channel integration and privacy concerns affect fashion retail customer retention. With WEBU tips.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-06",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "955577cedf9bd9224b03fc4ae19c280d7dc1d130614a597a53f9eb74b6fd19da"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
     }
   ]
 }

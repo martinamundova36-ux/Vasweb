@@ -11,7 +11,9 @@
     "2026-11-06-a508bd757266"
   ],
   "published_urls": [],
-  "errors": [],
+  "errors": [
+    "Daily quality cap reached"
+  ],
   "ai_cost_eur": 0,
   "google_index_status": "not inspected"
 }

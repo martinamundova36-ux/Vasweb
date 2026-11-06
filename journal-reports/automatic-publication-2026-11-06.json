@@ -1,15 +1,9 @@
 {
   "date": "2026-11-06",
   "automatically_published": [
-    "2026-11-06-439b1cc5fbf3",
-    "2026-11-06-6ec3d67c0fa0"
+    "2026-11-06-a508bd757266"
   ],
-  "held_due_to_missing_review_or_gates": 1,
-  "publication_errors": [
-    {
-      "id": "2026-11-06-a508bd757266",
-      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
-    }
-  ],
+  "held_due_to_missing_review_or_gates": 0,
+  "publication_errors": [],
   "mode": "transparent_abstract_editorials"
 }

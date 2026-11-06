@@ -30,3 +30,5 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 - commons-21e55ac07e8e9f: [MonarchErgoIndia](https://commons.wikimedia.org/wiki/File:Office_Furniture.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-18ced866ff2789: [Maria Neiva Almeida](https://commons.wikimedia.org/wiki/File:Office_Goats.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-1a74bb12a21718: [Harrison Keely](https://commons.wikimedia.org/wiki/File:A_Buckle_clothing_retail_store_at_The_Summit_shopping_mall_in_Birmingham,_Alabama.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.

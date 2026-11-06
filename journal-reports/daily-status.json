@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-06T07:02:38.867201+00:00",
+  "checked_at": "2026-11-06T07:11:19.229040+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "0,17,37 8-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
@@ -14,12 +14,11 @@
   "published_today": [
     "2026-11-06-3268038cd03a",
     "2026-11-06-6ec3d67c0fa0",
+    "2026-11-06-a508bd757266",
     "2026-11-06-439b1cc5fbf3",
     "2026-11-06-976f4ac7554a"
   ],
-  "ready_bilingual_articles": [
-    "2026-11-06-a508bd757266"
-  ],
+  "ready_bilingual_articles": [],
   "pending_editorial_work": [
     {
       "id": "2026-11-04-5b5dc38594ea",
@@ -63,7 +62,8 @@
     "2026-11-06-3268038cd03a",
     "2026-11-06-439b1cc5fbf3",
     "2026-11-06-6ec3d67c0fa0",
-    "2026-11-06-976f4ac7554a"
+    "2026-11-06-976f4ac7554a",
+    "2026-11-06-a508bd757266"
   ],
   "paid_ai_enabled": false,
   "scientific_review_limit": "Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review",
