@@ -22,6 +22,9 @@ def audit(root=ROOT):
     if row.get('content_sha256')!=digest(raw):errors.append(name+': content changed after recorded review')
    except ValueError as e:errors.append(name+': '+str(e))
    if item['kind']=='technical_fixture':continue
+   if '<p class="webu-journal-footer-note">' not in raw:errors.append(name+': compact AI transparency note missing from footer')
+   if 'webu-review-transparency' in raw or 'webu-source-scope' in raw:errors.append(name+': oversized AI disclosure must not appear inside article body')
+   if 'webu-journal-footer-note' in raw and raw.index('webu-journal-footer-note')<raw.index('WEBU-REVIEWED-CONTENT-END'):errors.append(name+': AI disclosure is not in footer')
    if row['title'] not in raw or p.title!=row['title']+' | WEBU Journal':errors.append(name+': reviewed title mismatch')
    if p.meta.get('description')!=row['description']:errors.append(name+': reviewed description mismatch')
    if p.lang!=lang or p.h1!=1:errors.append(name+': language/H1 mismatch')
@@ -36,6 +39,18 @@ def audit(root=ROOT):
    elif schemas[0].get('datePublished')!=row['published_at']:errors.append(name+': original publication date changed')
  pages={p.name for p in root.glob('blog-*.html') if p.name!='blog-en.html'}
  errors += [p+': no accountable review record' for p in sorted(pages-seen)]
+ # Audit the older, standalone bilingual journal pages as well. The caveat is
+ # accessible in the footer, without interrupting the opening of the article.
+ for page in root.glob('journal-2026-11-05-*.html'):
+  raw=page.read_text()
+  note=raw.find('<p class="webu-journal-footer-note">')
+  footer=raw.find('<div class="footer">')
+  if note<0 or footer<0 or note<footer:errors.append(page.name+': compact AI notice missing from the article footer')
+  if '<div class="notice"><strong>' in raw:errors.append(page.name+': oversized scope warning still above the article')
+ for page in root.rglob('*.html'):
+  raw=page.read_text()
+  if '<aside class="webu-review-transparency">' in raw or '<aside class="webu-source-scope">' in raw:
+   errors.append(page.relative_to(root).as_posix()+': outdated in-article AI disclosure')
  return data,errors
 
 def main():

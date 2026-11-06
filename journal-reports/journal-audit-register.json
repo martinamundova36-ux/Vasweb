@@ -64,10 +64,10 @@
           "description": "Nejasná ponuka, mobil, rýchlosť, dôveryhodnosť a kontakt: päť kontrol firemného webu bez sľubov o zaručenom raste objednávok.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633017+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "3ea4acd29aa3e33c222712a38ad49b16995d468fb423b46f78b962dc7f93240d"
+          "content_sha256": "b427a7d035478a27187ccfa1a2c46c227ccb36b8d30ac63c064adbe98fbe7a0e"
         },
         "en": {
           "path": "blog-5-website-mistakes-en.html",
@@ -75,10 +75,10 @@
           "description": "Unclear offers, mobile access, speed, credibility and contact forms: five website checks without promises of guaranteed sales growth.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633120+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "2341a21bb5327c4d844bd39f62f4a2f68faebbfeb63dc59f2ddb2b57f528fe39"
+          "content_sha256": "204b2800824a7fc7e7f8412d73fcf2e8d3b6c6c73153d0fe51648c6c54213897"
         }
       },
       "claim_review": {
@@ -255,10 +255,10 @@
           "description": "Oddeľte náklady, príspevok na ich úhradu a zisk. Praktický rámec ceny služby s ilustračnou kalkuláciou a jasnými obmedzeniami.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-01",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633199+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "240fcc5d2d4416a75c66ea17a375c893575e62eb7114351f25f13e306cd5b836"
+          "content_sha256": "56b5c44b2c3de53fb049ca0b0cbd1e036c415ffe46dca44ac4a8613d4b2612d1"
         },
         "en": {
           "path": "blog-pricing-business-en.html",
@@ -266,10 +266,10 @@
           "description": "Separate costs, contribution and profit. A practical service-pricing framework with an illustrative calculation and explicit limitations.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633293+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "d758e97ef6cecd49026d089bd26df2abcfc876572fe2abac43306afed237f215"
+          "content_sha256": "b15f4804b3a87b9d684fd2a01d8990d254475c90b4cac4d7fd895c32dd176aa6"
         }
       },
       "claim_review": {
@@ -416,10 +416,10 @@
           "description": "Ako sprístupniť overiteľné informácie, ukážky práce a kontakt. Dôveryhodnosť webu odlišujeme od ochoty zaplatiť vyššiu cenu.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-01",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633364+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "222950b8277b2d3f79f33e4c3e6fec447373df63df97c6e9cac1e131ccccf1ec"
+          "content_sha256": "ae98bc9c30f19a8300cc7c7d02b501520a07156f2d613352a197f31dddff32c1"
         },
         "en": {
           "path": "blog-customer-trust-en.html",
@@ -427,10 +427,10 @@
           "description": "Make information, work examples and contact details verifiable. Website credibility is distinct from willingness to pay a higher price.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633425+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "61f98c09997cc16a3763f51e44137eb15dd43082110d7cf2d026a73383480fba"
+          "content_sha256": "70e92373c957cd104b384eb4adc380ad11a0e2388d98ce4f13a9b0bd6d7650d9"
         }
       },
       "claim_review": {
@@ -586,10 +586,10 @@
           "description": "Ako zjednotiť jazyk, fotografie a proces služby. Prémiový vzhľad odlišujeme od preukázanej kvality a automaticky vyššej hodnoty.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-01",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633492+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "35541d1be4abb60c98a09b4910cd1f931d761e4e4e8b08f276a34303c082d78d"
+          "content_sha256": "7b68a2e87be3e975b86cbb8d639916c9fa1a0de3d10925937ab674ae182a6f6a"
         },
         "en": {
           "path": "blog-luxury-en.html",
@@ -597,10 +597,10 @@
           "description": "Align language, photography and service delivery. A premium appearance is distinct from demonstrated quality or automatically higher value.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633555+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "35f231c054ba6d37d86a6f8d573a9545834add87b556e1b4d77166dc4fe9f2ed"
+          "content_sha256": "d6cea6e21bdfa651d84dc918350b23d61804a0830ca9f699ed1334c44c734066"
         }
       },
       "claim_review": {
@@ -766,10 +766,10 @@
           "description": "Ako posúdiť prínos firemného webu, oddeliť návštevnosť od dopytov a správne čítať jednoduchý príklad návratnosti investície.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-01",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633620+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "8f5ec8f1abb53fdce679dc4712fd9f6b49d662b6a39b6b5b407b7c008c0618e3"
+          "content_sha256": "ef415c111b1420ac667aeb3ef8c2b444d848158ea1dcc2e311281d7679bc7560"
         },
         "en": {
           "path": "blog-website-roi-en.html",
@@ -777,10 +777,10 @@
           "description": "Assess website value, distinguish traffic from qualified enquiries and interpret a simple investment-payback example correctly.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633680+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "899199236ea9d31662ea6887615bf7b006d3c082969808f06084ee7241f5dff2"
+          "content_sha256": "17d49b763f39df639300987dadcdc6440aa9b9e545ccf81ebedd5c95262cc813"
         }
       },
       "claim_review": {
@@ -955,10 +955,10 @@
           "description": "Rozsah, obsah, dizajn, integrácie a údržba: ako porovnať cenu firemného webu bez neoverených trhových priemerov.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633745+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "34c041e4601aae596c3094fb4d9c973067791da9bae2ad500d33d47437f1fa1f"
+          "content_sha256": "af286d742ab5e572d8cc7dbc0b63c0150b6eb07631c6b66243e80277fd3b0406"
         },
         "en": {
           "path": "blog-website-cost-en.html",
@@ -966,10 +966,10 @@
           "description": "Scope, content, design, integrations and maintenance: compare website quotations without relying on unverified market averages.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633806+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "d230904039acc1afd393af5fcd83c9a5623855c4774f03b946a0dca86d5762c5"
+          "content_sha256": "901cb81ad167e501d6e4f1131fcb6239a5e5177fa2a8342dd2a02f979192a734"
         }
       },
       "claim_review": {
@@ -1145,10 +1145,10 @@
           "description": "SEO podľa Google Search Central: jasný obsah, titulky, interné odkazy, canonical, sitemap a meranie bez garancie pozícií.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.633868+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "c972adb5faab4494281434672d8b2865f9a19ee779e0111fe8c0047427338f1c"
+          "content_sha256": "8fa920250c9911ee934bde597e542da2893db572677e3bc31c46eb5888cf71ef"
         },
         "en": {
           "path": "blog-seo-websites-en.html",
@@ -1156,10 +1156,10 @@
           "description": "SEO grounded in Google Search Central: useful content, titles, internal links, canonical URLs, sitemaps and measurement without ranking guarantees.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634017+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "6666a33cdf8474aa9b247ccb4459c84880ae08f8c8f4eae18fd0f8362ea37970"
+          "content_sha256": "874e731424edd95328e4b4fa4b97fd1bee844a5cf916b127d40dc5f36fc57e82"
         }
       },
       "claim_review": {
@@ -1319,10 +1319,10 @@
           "description": "Ako vyhodnotiť zavádzanie AI vo firme: čo skúma nová štúdia, kde má limity a ako pripraviť malý pilot s kontrolou kvality.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-04",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634135+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "7a67d50d7cfc5454603a86e209b6bb492ae1565a2a3ea3a8966f476dd81d2fcf"
+          "content_sha256": "0e3d59de13994d2ad0aa019f648e5c4194045612456199f6dbd62b5d3b5166a8"
         },
         "en": {
           "path": "blog-journal-review-2026-11-04-93b063fd01b6-en.html",
@@ -1330,10 +1330,10 @@
           "description": "A practical look at workplace AI: what a new study examines, where its limits lie and how to plan a small pilot with quality checks.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-04",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634246+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "fc6f655d573082a73f6ec851c6ac9f3d9021daea8ec397d81b4c4d44ecd017da"
+          "content_sha256": "292de87ef3531020721bace04579bb2634da3ef36d37f2ce05964beb3acbfe42"
         }
       },
       "claim_review": {
@@ -1545,10 +1545,10 @@
           "description": "Kontrolovaná štúdia s 26 účastníkmi skúma štýl AI konverzácie. Odlišujeme manipuláciu štýlu od osobnosti človeka a limitov preprintu.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634332+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "14e342c1c4a275b5fe06f3334be3bda5545fbeeb5d3e5d856b0db570dc49723a"
+          "content_sha256": "d26bdfbf5600ca262cba930a786ef149d0dcd9dae1c6deeeeefdaabf2756ed78"
         },
         "en": {
           "path": "blog-journal-osobnost-a-ai-konverzacia-2026-11-03-en.html",
@@ -1556,10 +1556,10 @@
           "description": "A controlled study with 26 participants examines AI conversation style. We distinguish style manipulation, measured personality and preprint limitations.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634461+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "cfd3ed5a36c38f228627d67305ab7be60740e1e8330331522867389e19647bb9"
+          "content_sha256": "eb4fd74ab7bfd2e0a6ddbfe6010688ed5ec5d4e2528a1d41c47e88ceed6e4e25"
         }
       },
       "claim_review": {
@@ -1717,10 +1717,10 @@
           "description": "Ako klasifikácia databáz a jazykový model ovplyvňujú obraz výskumu SDG. Overené metódy, výsledky a limity bibliometrickej štúdie.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634556+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "03c8dc202ac547d93696da2ad5530cb0bc7986d2bfad53d68e6f943c1ff36ab2"
+          "content_sha256": "5e33ba224c282d99b5b396114d12a3acc0772878efde505916775428a55f2675"
         },
         "en": {
           "path": "blog-journal-udrzatelnost-a-data-2026-11-03-en.html",
@@ -1728,10 +1728,10 @@
           "description": "How database classification and a language model shape the picture of SDG research: verified methods, findings and bibliometric limitations.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634620+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "cce0ef875ec2c7dd1b0cc51ccb9fea8db94efd3501233631841d5e9bf20fbf50"
+          "content_sha256": "12902d6549d31623177fd6517ea9225523350855aaac05d6149e2eed788177f6"
         }
       },
       "claim_review": {
@@ -1879,10 +1879,10 @@
           "description": "Ako premýšľať o dostupných zdrojoch a malom pilote. Marocká štúdia je overená iba z abstraktu; odporúčania WEBU sú oddelené.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634686+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "d0fdd52fcaf683c8d9b7de55bf7993bcf278e3f61884f01f297089edd92127f9"
+          "content_sha256": "5e467cd211c4798ff4f8a03126ee2e9f53e71630d253c8336f01c668726d1ba1"
         },
         "en": {
           "path": "blog-journal-podnikanie-v-nedostatku-2026-11-03-en.html",
@@ -1890,10 +1890,10 @@
           "description": "Think through available resources and a small pilot. The Moroccan study was checked at abstract level only; WEBU recommendations are separate.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634746+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "770e15360ff9db444e0add40f34cfcb695346ed5dd82402cc936c57e8a1853ee"
+          "content_sha256": "12f47cbd852d2b703c4fe4510f364ebb4cfbb0b4d651781f5fc90b42c6271bba"
         }
       },
       "claim_review": {
@@ -2059,10 +2059,10 @@
           "description": "Stanovte cieľ, metriku a návrh testu ceny. Vysvetľujeme randomizáciu, blokovanie a neistotu bez neoverených konferenčných výsledkov.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634815+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "1937336dc01fdf65761ad4a6a918b7fa58e8efcc18d9a14850ff1f99cb0e2058"
+          "content_sha256": "7e13eeb20ff62af4dbc5a9ca20e285deee32fa6b14084e984b114ac71bcff023"
         },
         "en": {
           "path": "blog-journal-testovanie-cien-2026-11-03-en.html",
@@ -2070,10 +2070,10 @@
           "description": "Define the objective, metric and design of a pricing test. Randomisation, blocking and uncertainty explained without unverified conference findings.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634879+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "d7326625b0447cacf2160e2879addd19ec81fdfa30d21e22461e73eac7b9164e"
+          "content_sha256": "d85db01e1d0297c326174c8e71c42269c186285a7f45c801a1d94d674ae6d6ce"
         }
       },
       "claim_review": {
@@ -2259,10 +2259,10 @@
           "description": "Čo preveriť pri online platbe: skutočné zabezpečenie, jasná suma, označené polia a potvrdenie. Výskumný podklad zostáva na kontrole.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.634947+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "266143e1f501a0e7ecbd33c5275267ec0243850e583d8ed20f76d08d4c565274"
+          "content_sha256": "b70000f3e804cbbd4bec608f621e5e062eeb17ca368ff607d2677d4a8d56b51f"
         },
         "en": {
           "path": "blog-journal-dovera-v-digitalne-platby-2026-11-03-en.html",
@@ -2270,10 +2270,10 @@
           "description": "Check actual security, a clear total, labelled fields and payment confirmation. The research source remains under publication-status review.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-04",
+          "modified_at": "2026-11-06T07:38:38.635011+00:00",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
-          "content_sha256": "16651ff23d72a2aa944df71a392d82f5c90b4c0b46890e5833ea3281e7265a0c"
+          "content_sha256": "b273f90d0c764de5a93c7b12400d6235a3f6e0d1427cffd26de6c0a1b395ec31"
         }
       },
       "claim_review": {
