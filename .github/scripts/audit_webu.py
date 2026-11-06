@@ -25,7 +25,10 @@ for filename in ('blog.html','blog-en.html'):
             removed.append(path);return ''
         return m.group(0)
     html=re.sub(pattern,clean,html,flags=re.S)
-    count=len(re.findall(r'class="vw-journal-card"',html))
+    # Both the five promoted image stories and the archived cards belong to
+    # the article count. Counting the archive alone silently reverted 23 to 18.
+    card_urls=re.findall(r'<a class="(?:vw-journal-card|webu-new-story)" href="([^"]+)"',html)
+    count=len(set(card_urls))
     html=re.sub(r'(<div class="vw-journal-section-head">.*?</div><span>)\s*\d+\s+(?:články|článkov|articles)',lambda m:m.group(1)+(str(count)+' článkov' if filename=='blog.html' else str(count)+' articles'),html,count=1,flags=re.S)
     if removed: print(filename,'removed dead cards:',removed)
     p.write_text(html,encoding='utf-8')
