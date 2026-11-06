@@ -154,7 +154,7 @@ def render(source,lang):
 def discover(config):
  selected=[];seen=seen_dois();titles=seen_titles();errors=[]
  for topic in config['topics']:
-  params=urllib.parse.urlencode({'query':topic,'filter':'from-pub-date:'+(NOW-dt.timedelta(days=config['lookback_days'])).isoformat()+',until-pub-date:'+str(NOW)+',type:journal-article','rows':12,'sort':'published','order':'desc'})
+  params=urllib.parse.urlencode({'query':topic,'filter':'from-pub-date:'+(NOW-dt.timedelta(days=config['lookback_days'])).isoformat()+',until-pub-date:'+str(NOW)+',type:journal-article','rows':35,'sort':'published','order':'desc'})
   try:
    for record in fetch('https://api.crossref.org/works?'+params)['message']['items']:
     try:
