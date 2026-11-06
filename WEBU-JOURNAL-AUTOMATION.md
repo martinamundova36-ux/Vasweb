@@ -1,6 +1,14 @@
 # WEBU Journal — bezplatná redakčná automatizácia
 
-Existujúci workflow `publish-research-journal.yml` beží denne o 07:35 UTC. Harmonogram sa mení v jeho `cron`; tematické a kvalitatívne pravidlá sú v `journal-config.json`.
+Aktuálny workflow `publish-research-journal.yml` sa pokúša spustiť o **08:00 Europe/Bratislava**; náhradné behy sú do 11:37 miestneho času. GitHub môže spúšťanie oneskoriť. Tematické pravidlá sú v `journal-config.json`.
+
+## Aktuálny režim od 6. novembra 2026
+
+- Cieľ je najviac päť nových štúdií denne s dvoma stránkami SK/EN, **bez schvaľovacieho kliknutia**. Nie je to garancia piatich publikácií: pri chybnom zdroji, vyčerpanom bezplatnom Gemini limite, chýbajúcej fotografii alebo chybách kontrol sa článok nezverejní.
+- Gemini zo zdokumentovaného abstraktu pripraví plný redakčný text. Automatika reviduje metadáta DOI v Crossref a zablokuje zmenené záznamy, známe upozornenia na retrakciu, neúplné jazykové verzie, poškodené odkazy či obrázky. **Nedokáže nezávisle overiť úplný vedecký text a všetky empirické tvrdenia.**
+- Nové automatické články preto nesú výrazné upozornenie „na základe abstraktu / abstract-based editorial“ a **nesmú sa vydávať za plnotextovo vedecky overené analýzy**. Doterajšia brána pre ručne plnotextovo revidované články zostáva nezmenená.
+- Každá nová téma dostáva inú licencovanú lokálne hostovanú fotografiu. Po vyčerpaní Pexels knižnice sa skúša Wikimedia Commons s overenou komerčnou licenciou a uvedením autora; ak sa vhodná fotografia nenájde, článok zostane nezverejnený.
+- Automatika generuje HTML, SEO, sitemap, preklady, záznam pôvodu a GitHub Issue s pravdivým denným výsledkom. Starý postup ručného schvaľovania nižšie zostáva len pre historické / plnotextovo redigované príspevky.
 
 ## Čo sa deje automaticky
 
@@ -11,7 +19,7 @@ Existujúci workflow `publish-research-journal.yml` beží denne o 07:35 UTC. Ha
 - SK a EN návrh bibliografického prehľadu v `journal-drafts/`. Abstrakt sa používa iba na výber témy a nereprodukuje sa.
 - Drafty a redakčná infraštruktúra sú vylúčené z GitHub Pages cez `_config.yml`.
 
-## Schválenie a publikovanie
+## Historické ručné schválenie plnotextovo kontrolovaných článkov
 
 1. Otvor návrh `journal-drafts/ID.md` a DOI. Posúď vhodnosť pre čitateľa.
 2. V Actions otvor **WEBU Journal - bezplatné návrhy a schválené publikovanie**.

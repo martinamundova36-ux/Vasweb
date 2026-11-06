@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Automatically create bilingual WEBU Journal article manuscripts via Gemini free-tier API.
-Creates drafts only; never marks scientific checks complete or publishes pages.
-No API call without explicit GEMINI_API_KEY secret; billing is never configured here.
+"""Create bilingual abstract-scoped editorial manuscripts via Gemini.
+The JSON carries no claim of full-text comparison or scientific peer review.
+No API call without explicit GEMINI_API_KEY; no paid plan is configured here.
 """
 import datetime as dt
 import html
@@ -148,7 +148,8 @@ def main():
         source=json.loads(source_path.read_text())
         if source.get("drafted_at")!=TODAY or source.get("published_at") or source.get("test_only"):continue
         destination=output/(source_path.stem+".md")
-        if destination.exists():continue
+        structured=output/(source_path.stem+".json")
+        if destination.exists() and structured.exists():continue
         try:
             try:
                 abstract=load_abstract(source)
@@ -158,6 +159,7 @@ def main():
                 generated=generate(source,abstract,key,models)
             except Exception as exc:
                 raise RuntimeError("Gemini model "+MODEL+": "+str(exc)) from exc
+            structured.write_text(json.dumps({"schema":"webu-abstract-manuscript-v1","source_doi":source["doi"],"generated_on":TODAY,"abstract_scope":"crossref_abstract_only","languages":generated},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
             destination.write_text(markdown(source,generated),encoding="utf-8")
             count+=1
             print("DRAFT generated:",source_path.stem)
@@ -165,7 +167,7 @@ def main():
             print("HOLD",source_path.stem,str(exc)[:250],file=sys.stderr)
     print(json.dumps({"date":TODAY,"new_manuscripts":count,"publication":"blocked pending science review"}))
     eligible=sum(1 for p in drafts.glob("*.json") if (lambda x: x.get("drafted_at")==TODAY and not x.get("published_at") and not x.get("test_only"))(json.loads(p.read_text())))
-    present=sum(1 for p in output.glob(TODAY+"-*.md"))
+    present=sum(1 for p in output.glob("*.json") if json.loads(p.read_text()).get('generated_on')==TODAY)
     if eligible and not present:
         raise SystemExit("No AI manuscripts created: inspect HOLD stage and model availability; not a successful delivery")
 if __name__=="__main__":main()

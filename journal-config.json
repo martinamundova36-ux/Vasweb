@@ -29,10 +29,12 @@
     "email_delivery": "Confirmed by recipient screenshots and actual GitHub email reply on 2026-11-04",
     "ready_articles_only": true
   },
-  "generator_capability": "bibliographic_candidates_only",
+  "generator_capability": "bilingual_abstract_editorial_auto_publish",
   "publication_policy": {
     "manual_approval_required": false,
-    "full_text_scientific_review_required": true,
+    "full_text_scientific_review_required_for_scientific_claims": true,
+    "automated_abstract_editorials_allowed": true,
+    "automated_articles_must_disclose_no_full_text_review": true,
     "skip_publication_on_failed_checks": true,
     "absolute_accuracy_guaranteed": false
   }

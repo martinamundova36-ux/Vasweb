@@ -184,6 +184,8 @@ def notify(test=False):
             source = json.loads(path.read_text())
             if source.get('published_at') or source.get('test_only') or not ID.fullmatch(path.stem):
                 continue
+            if (source.get('editorial') or {}).get('status')=='automated_abstract_editorial':
+                continue  # Automatic manuscripts are never sent for owner approval.
             if config.get('ready_articles_only'):
                 from free_journal import validate_editorial
                 try:
@@ -430,11 +432,14 @@ def daily_report():
     marker = '<!-- webu-daily-status ' + today + ' -->'
     report = ROOT / 'journal-reports' / ('free-discovery-' + today + '.json')
     discovery = json.loads(report.read_text()) if report.exists() else {}
-    ready = len(state['ready_bilingual_articles'])
+    ready = len(state.get('ready_bilingual_articles',[]))
+    published = len(state.get('published_today',[]))
+    generated = state.get('automatically_prepared_abstract_editorials',0)
     ids = discovery.get('draft_ids', [])
     lines = [marker, '@' + config['owner'], '',
-        '**Hotové dvojjazyčné články na schválenie: ' + str(ready) + '/5.**', '',
-        'Dnešné bibliografické podklady: ' + str(len(ids)) + '. Podklady nie sú hotové články.', '',
+        '**Dnes automaticky zverejnené dvojjazyčné články: ' + str(published) + '/5.**', '',
+        'Dnešné bibliografické podklady: ' + str(len(ids)) + '. Podklady nie sú hotové články.',
+        'AI redakčné rukopisy založené na abstrakte: ' + str(generated) + '.', '',
         'Výsledok prípravy: ' + os.environ.get('DISCOVERY_RESULT', 'not confirmed') + '.', '',
         '## Dnešné podklady (nie hotové články)', '']
     for key in ids:
@@ -443,10 +448,11 @@ def daily_report():
             source = json.loads(path.read_text())
             lines += ['- **' + safe_text(source['title']) + '** — ' + source['url']]
     if not ids:lines += ['- Dnes neboli uložené nové podklady.']
-    if ready < 5:
-        lines += ['', '**Chýba redakčné spracovanie a zdokumentované porovnanie s plným textom.** '
-                  'Súčasný bezplatný generátor vyhľadáva zdroje; sám nepíše päť hotových odborných článkov. '
-                  'Kontroly publikovania zostali zachované.']
+    if published < 5:
+        lines += ['', '**Denný cieľ zverejnenia nebol splnený.** Chýbajúce alebo nevyhovujúce '
+                  'texty a obrázky zostali zablokované. Nasledujúci náhradný beh môže skúsiť znovu.']
+    lines += ['', 'Automatické texty sú jasne označené ako komentáre na základe abstraktu; '
+              'nepredstavujú nezávislé vedecké posúdenie plného textu.']
     if discovery.get('errors'):lines += ['', 'Chyby vyhľadávania: ' + safe_text('; '.join(discovery['errors']))]
     run = os.environ.get('GITHUB_RUN_ID', '')
     if run:lines += ['', 'Beh: https://github.com/' + os.environ['GITHUB_REPOSITORY'] + '/actions/runs/' + run]
@@ -455,14 +461,16 @@ def daily_report():
     previous = next((x for x in paged('issues?state=all') if marker in (x.get('body') or '')), None)
     if previous:
         issue = previous  # No repeated messages from catch-up schedules.
-        if issue.get('body') != body_text:
-            api('issues/' + str(issue['number']), 'PATCH', {'body': body_text})
+        heading='WEBU Journal – Denný stav '+today+': '+str(published)+'/5 článkov'
+        if issue.get('body') != body_text or issue.get('title') != heading:
+            api('issues/' + str(issue['number']), 'PATCH', {'body': body_text, 'title': heading})
     else:
-        issue = api('issues', 'POST', {'title': 'WEBU Journal – Denný stav ' + today + ': ' + str(ready) + '/5 článkov',
+        issue = api('issues', 'POST', {'title': 'WEBU Journal – Denný stav ' + today + ': ' + str(published) + '/5 článkov',
                     'body': body_text, 'assignees': [config['owner']]})
     path = 'journal-reports/daily-delivery/' + today + '.json'
     evidence = {'date': today, 'issue': issue['number'], 'url': issue['html_url'],
-                'ready_articles': ready, 'bibliographic_candidates': len(ids),
+                'ready_articles': ready, 'published_articles': published,
+                'generated_manuscripts': generated, 'bibliographic_candidates': len(ids),
                 'discovery_result': os.environ.get('DISCOVERY_RESULT', 'not confirmed'),
                 'github_notice_created': True, 'email_delivery': 'not confirmed'}
     try:

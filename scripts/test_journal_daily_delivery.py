@@ -14,7 +14,9 @@ class DeliveryTests(unittest.TestCase):
    folder=Path(tmp)/'journal-reports/daily-delivery';folder.mkdir(parents=True)
    marker=folder/'2026-11-05.json';marker.write_text(json.dumps({'discovery_result':'failure'}))
    self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T08:17:00+00:00')))
-   marker.write_text(json.dumps({'discovery_result':'success'}))
+   marker.write_text(json.dumps({'discovery_result':'success','published_articles':0}))
+   self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T08:17:00+00:00')))
+   marker.write_text(json.dumps({'discovery_result':'success','published_articles':5}))
    self.assertFalse(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T08:17:00+00:00')))
    self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-06T07:00:00+00:00')))
  def test_zero_ready_is_reported_once_without_fake_approval(self):
@@ -31,7 +33,7 @@ class DeliveryTests(unittest.TestCase):
       return {'sha':'a'*40,'content':record['content']}
      record.update(payload);return {}
     raise AssertionError((path,method))
-   state={'ready_bilingual_articles':[]}
+   state={'ready_bilingual_articles':[],'published_today':[], 'automatically_prepared_abstract_editorials':0}
    env={'GITHUB_REPOSITORY_OWNER':owner,'GITHUB_REPOSITORY':owner+'/Vasweb','DISCOVERY_RESULT':'success','GITHUB_RUN_ID':'123'}
    with patch.object(approval,'ROOT',root),patch.object(approval,'settings',return_value={'owner':owner}),patch.object(approval,'api',side_effect=api),patch.object(approval,'paged',side_effect=lambda path:issues),patch.object(daily,'status',return_value=state),patch.dict(os.environ,env):
     first=approval.daily_report();second=approval.daily_report()

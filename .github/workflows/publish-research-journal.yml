@@ -1,4 +1,4 @@
-name: WEBU Journal - bezplatné návrhy a schválené publikovanie
+name: WEBU Journal - automatické SK/EN články
 on:
   push:
     branches: [main]
@@ -23,6 +23,7 @@ on:
       - 'journal-images.css'
       - 'assets/journal/**'
       - '.github/scripts/journal_images.py'
+      - '.github/scripts/journal_review_records.py'
       - 'scripts/journal_image_audit.py'
       - 'scripts/test_free_journal.py'
       - 'journal-drafts/*.json'
@@ -34,7 +35,7 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: 'draft = pripraviť návrhy a PR; publish = moje výslovné schválenie; deploy = obnova; notify-test = test e-mailu bez publikovania'
+        description: 'draft = pripraviť a automaticky publikovať vhodné abstraktové prehľady; publish = staré ručné články; deploy = obnova; notify-test = test správy'
         type: choice
         options: [draft, publish, deploy, notify-test]
         default: draft
@@ -51,7 +52,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: webu-journal-${{ github.event.issue.number || (github.event_name == 'push' && github.sha) || 'discovery' }}
+  group: webu-journal-${{ github.event.issue.number || 'discovery' }}
   cancel-in-progress: false
 jobs:
   validate:
@@ -70,6 +71,7 @@ jobs:
       - run: python3 .github/scripts/editorial_briefs.py --self-test
       - run: python3 .github/scripts/ai_journal_writer.py --self-test
       - run: python3 .github/scripts/auto_publish_verified.py --self-test
+      - run: python3 scripts/test_abstract_autopublish.py
       - run: python3 scripts/test_pages_api.py
       - run: python3 scripts/journal_image_audit.py
       - run: python3 scripts/journal_review_audit.py
@@ -87,12 +89,17 @@ jobs:
     permissions:
       contents: write
       pages: write
-    timeout-minutes: 12
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pripraviť bezplatné spracovanie licencovaných fotografií
+        run: python3 -m pip install 'Pillow>=11,<14'
       - name: Test bez zverejnenia a bez plateného API
         run: python3 .github/scripts/free_journal.py --action self-test
       - name: Vyhľadať návrh alebo publikovať výslovne schválený článok
@@ -104,12 +111,12 @@ jobs:
       - name: Doplniť SK/EN redakčné osnovy k dnešným bibliografickým podkladom
         if: inputs.action != 'deploy' && inputs.action != 'publish'
         run: python3 .github/scripts/editorial_briefs.py
-      - name: Automaticky napísať SK/EN články z dostupného abstraktu (bez zverejnenia)
+      - name: Vytvoriť SK/EN redakčné rukopisy podľa abstraktov
         if: inputs.action != 'deploy' && inputs.action != 'publish'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python3 .github/scripts/ai_journal_writer.py
-      - name: Automaticky publikovať iba plne vedecky overené články bez ručného schvaľovania
+      - name: Automaticky publikovať transparentne označené prehľady s DOI a vlastnými fotografiami
         if: inputs.action != 'deploy' && inputs.action != 'publish'
         run: python3 .github/scripts/auto_publish_verified.py
       - name: Redakčná a SEO kontrola
@@ -126,7 +133,7 @@ jobs:
         run: |
           git config user.name "WEBU Journal Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add journal-drafts/ journal-articles-pending/ journal-reports/ blog*.html sitemap.xml journal-images.json
+          git add journal-drafts/ journal-articles-pending/ journal-reports/ blog*.html sitemap.xml journal-images.json assets/journal/ WEBU-JOURNAL-IMAGE-LICENSES.md
           if ! git diff --cached --quiet; then
             git commit -m "WEBU Journal free editorial pipeline"
             git pull --rebase origin main
@@ -147,7 +154,7 @@ jobs:
         if: always()
         run: |
           echo '### WEBU Journal – bezplatný režim' >> "$GITHUB_STEP_SUMMARY"
-          echo 'AI pripravuje návrhy; automatické zverejnenie prebehne iba po úplnom overení zdroja a všetkých odborných kontrolách. Neoverené texty sa nezverejnia.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Automaticky zverejnené texty sú označené ako komentáre na základe abstraktov; bez tvrdenia o nezávislom plnotextovom vedeckom overení. Neúplné zdroje alebo obrázky zostanú blokované.' >> "$GITHUB_STEP_SUMMARY"
           echo 'Záznamy: journal-drafts/ a journal-reports/ v repozitári.' >> "$GITHUB_STEP_SUMMARY"
       - name: Uchovať chybu pre bezpečné opakovanie
         if: failure()
@@ -174,7 +181,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Samostatný PR a GitHub upozornenie bez plateného mailera
+      - name: Jednorazový test starého schvaľovacieho upozornenia
+        if: github.event_name == 'workflow_dispatch' && inputs.action == 'notify-test'
         env:
           GH_TOKEN: ${{ github.token }}
           NOTIFY_ACTION: ${{ inputs.action == 'notify-test' && 'notify-test' || 'notify' }}

@@ -92,6 +92,22 @@ def validate_scientific_evidence(editorial):
 
 def validate_editorial(source):
  editorial=source.get('editorial') or {}
+ if editorial.get('status')=='automated_abstract_editorial':
+  # Automated research-inspired commentary is deliberately NOT a full-text
+  # scientific review. Keep it separate from the owner's review evidence.
+  if editorial.get('source_scope')!='verified_crossref_abstract_only':raise ValueError('Automated source scope missing')
+  if editorial.get('source_url')!=source.get('url'):raise ValueError('Automated source URL changed')
+  if editorial.get('content_sha256')!=editorial_digest(editorial.get('languages',{})):raise ValueError('Automated text changed after generation')
+  if set(editorial.get('languages',{}))!={'sk','en'}:raise ValueError('Automated article requires SK and EN')
+  if normal(editorial['languages']['sk'].get('title',''))==normal(editorial['languages']['en'].get('title','')):raise ValueError('SK and EN titles must be localized')
+  if editorial.get('generated_by')!='gemini_from_abstract' or not editorial.get('generated_at'):raise ValueError('Automated generation provenance missing')
+  if not editorial.get('references') or editorial['references'][0].get('url')!=source['url'] or not editorial['references'][0].get('apa7'):raise ValueError('DOI reference missing')
+  for lang,article in editorial['languages'].items():
+   if not article.get('title') or not article.get('lead') or not 50<=len(article.get('description',''))<=160:raise ValueError('Automated metadata incomplete: '+lang)
+   sections=article.get('sections',[])
+   if len(sections)!=6 or any(not s.get('heading') or len(s.get('paragraphs',[]))<2 for s in sections):raise ValueError('Automated article sections incomplete: '+lang)
+   if len(' '.join([article['lead']]+[p for s in sections for p in s['paragraphs']]).split())<300:raise ValueError('Automated article too short: '+lang)
+  return editorial
  if editorial.get('status')!='ready_for_owner_approval':raise ValueError('A reviewed bilingual article is required; bibliographic templates cannot be published')
  if set(editorial.get('languages',{}))!={'sk','en'}:raise ValueError('Both SK and EN articles are required')
  if not all(editorial.get('checks',{}).get(k) is True for k in ('bibliography','source','claims','relevance','bilingual')):raise ValueError('Editorial checks incomplete')
@@ -121,13 +137,15 @@ def render(source,lang):
  if source.get('editorial'):
   editorial=validate_editorial(source);article=editorial['languages'][lang]
   title=article['title'];desc=article['description']
-  body='<p>'+esc(article['lead'])+'</p>'
+  automated=editorial['status']=='automated_abstract_editorial'
+  disclosure=('This AI-assisted editorial summary is based on the publisher-supplied abstract and DOI record, not on an independently verified full text. The study findings, methods and statistics have not been independently checked. Practical advice is WEBU editorial guidance, not a conclusion proved by the study.' if en else 'Tento redakčný prehľad pripravený s pomocou AI vychádza z abstraktu vydavateľa a záznamu DOI, nie z nezávisle overeného plného textu. Zistenia, metodika a štatistiky štúdie neboli nezávisle skontrolované. Praktické odporúčania sú redakčným návrhom WEBU, nie záverom preukázaným štúdiou.')
+  body=('<aside class="webu-source-scope"><p>'+esc(disclosure)+'</p></aside>' if automated else '')+'<p>'+esc(article['lead'])+'</p>'
   for section in article['sections']:
    body+='<h2>'+esc(section['heading'])+'</h2>'+''.join('<p>'+esc(p)+'</p>' for p in section['paragraphs'])
    if section.get('items'):body+='<ul>'+''.join('<li>'+esc(i)+'</li>' for i in section['items'])+'</ul>'
   body+='<h2>'+('Scientific sources' if en else 'Vedecké zdroje')+'</h2>'+''.join('<p>'+esc(r['apa7'])+' <a href="'+esc(r['url'])+'">'+esc(r['url'])+'</a></p>' for r in editorial['references'])
   method='/journal-metodika'+('-en' if en else '')+'.html'
-  body+='<aside><h2>'+('Editorial transparency' if en else 'Redakčná transparentnosť')+'</h2><p>'+('Prepared with AI assistance; editorial source comparison is not independent scientific peer review. ' if en else 'Pripravené s pomocou AI; redakčné porovnanie zdroja nie je nezávislým vedeckým recenzným konaním. ')+'<a href="'+method+'">'+('Editorial methodology and corrections' if en else 'Redakčná metodika a opravy')+'</a></p></aside>'
+  body+='<aside><h2>'+('Editorial transparency' if en else 'Redakčná transparentnosť')+'</h2><p>'+('Automated abstract-based commentary; no independent scientific peer review or full-text comparison. ' if automated and en else 'Automatický komentár založený na abstrakte; bez nezávislého vedeckého posúdenia či porovnania plného textu. ' if automated else 'Prepared with AI assistance; editorial source comparison is not independent scientific peer review. ' if en else 'Pripravené s pomocou AI; redakčné porovnanie zdroja nie je nezávislým vedeckým recenzným konaním. ')+'<a href="'+method+'">'+('Editorial methodology and corrections' if en else 'Redakčná metodika a opravy')+'</a></p></aside>'
 
  schema={'@context':'https://schema.org','@type':'BlogPosting','headline':title,'description':desc,'datePublished':str(NOW),'inLanguage':lang,'author':{'@type':'Organization','name':'WEBU'},'publisher':{'@type':'Organization','name':'WEBU'},'mainEntityOfPage':SITE+name,'citation':source['url']}
  sample=(ROOT/'blog-journal-podnikanie-v-nedostatku-2026-11-03.html').read_text();style=re.search(r'<style>.*?</style>',sample,re.S).group()
@@ -184,15 +202,15 @@ def main():
   if source.get('published_at'):raise SystemExit('Draft already published')
   if not publication_capacity(folder,config['target_studies_per_day']):raise SystemExit('Daily publication cap reached')
   editorial=validate_editorial(source)
-  # Availability alone is not scientific verification. Evidence was compared by an editor.
-  check_source_availability(editorial['source_url'])
+  # For an automated abstract digest, the fresh Crossref record is the
+  # declared source. A full-text comparison is never claimed.
+  if editorial['status']!='automated_abstract_editorial':check_source_availability(editorial['source_url'])
   drafted_at=source.get('drafted_at',source.get('verified_at'))
   source=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
   if not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:raise ValueError('Current source evidence or relevance is insufficient')
   source['drafted_at']=drafted_at;source['editorial']=editorial
   source['full_text_reviewed']=editorial.get('review_level')=='full_text_sections'
-  # Explicit workflow_dispatch publish action is the owner's approval.
-  source['approved_by']=('verified_automation' if __import__('os').environ.get('WEBU_AUTOPUBLISH_VERIFIED')=='true' else __import__('os').environ.get('GITHUB_ACTOR','manual-owner'));source['approved_content_sha256']=editorial['content_sha256'];publish(source)
+  source['approved_by']=('abstract_automation' if editorial['status']=='automated_abstract_editorial' else 'verified_automation' if __import__('os').environ.get('WEBU_AUTOPUBLISH_VERIFIED')=='true' else __import__('os').environ.get('GITHUB_ACTOR','manual-owner'));source['approved_content_sha256']=editorial['content_sha256'];publish(source)
   source['published_at']=str(NOW);source['published_urls']=[SITE+render(source,lang)[0] for lang in ('sk','en')];path.write_text(json.dumps(source,ensure_ascii=False,indent=2));print(json.dumps(source,ensure_ascii=False));return
  if args.action=='self-test':
   source={'doi':'10.0000/test-only','title':'Digital marketing and small business — TEST ONLY','authors':['Test Author'],'publisher':'Test publisher','venue':'Test fixture','url':'https://doi.org/10.0000/test-only','source_date':'2026-01-01','type':'journal-article'}

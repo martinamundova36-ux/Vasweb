@@ -1,8 +1,8 @@
 # Voliteľné automatické uverejňovanie — pripravené pravidlá
 
-Stav: NEAKTÍVNE. Existujúci denný workflow spúšťa výhradne prípravu návrhov. Tento dokument nezapína automatické publikovanie a nepredstavuje novú automatizáciu.
+Stav od 6. 11. 2026: **aktívne len pre redakčné prehľady založené na abstraktoch**, ktoré sú ako také čitateľom viditeľne označené. Plnohodnotná nezávislá vedecká kontrola plných textov nie je automatizovaná a nesmie sa tvrdiť. Publikovanie neprejde bez aktuálneho DOI záznamu, úplných SK/EN textov, unikátneho legálneho obrázka a technických kontrol. Denný cieľ päť štúdií nie je garantovaný.
 
-Pre budúci režim bez potvrdenia pri každom spustení musí používateľka najskôr výslovne schváliť jeho rozsah. Bezplatná bezpečná verzia môže plánovane zverejňovať iba vopred obsahovo schválené články s presným odtlačkom SK/EN textu. Samotný DOI ani technické skóre nie sú dostatočnou obsahovou kontrolou.
+Používateľka výslovne požadovala režim bez každodenného schvaľovania. Tento režim sa vzťahuje na transparentné, AI asistované abstraktové komentáre, **nie** na tvrdenie, že celý výskum a jeho výsledky boli odborne skontrolované. Samotný DOI ani technické skóre nie sú dostatočnou vedeckou obsahovou kontrolou.
 
 ## Podmienky budúcej publikačnej fronty
 

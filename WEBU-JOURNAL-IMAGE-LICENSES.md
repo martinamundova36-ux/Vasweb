@@ -2,6 +2,8 @@
 
 Overené 4. 11. 2026. Zdroj: Pexels. Licencia: https://www.pexels.com/license/
 
+Od 6. 11. 2026 sa pri vyčerpaní kurátorovanej Pexels knižnice môžu automaticky pridať aj licencované fotografie z Wikimedia Commons (CC0, Public domain alebo CC BY 3.0/4.0). Každá musí mať samostatný zdroj, autora, overenú licenciu, kontrolný súčet a vlastné lokálne optimalizované varianty; výber bez licencie sa odmietne. Nové zdroje sa zapisujú nižšie a do `journal-images.json`.
+
 Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú ilustračné; nezobrazujú účastníkov štúdií ani odporúčanie služby zobrazenými ľuďmi. Autori sú uvedení tam, kde boli overení. Neoverené meno autora sa nevymýšľa. Originálne zdrojové URL a SHA-256, lokalizované alty a hashe optimalizovaných súborov sú v journal-images.json.
 
 13 fotografií je priradených 13 témam (26 jazykových stránok); 3 fotografie tvoria rezervu. WebP 640×360 a 1280×720, JPEG 1280×720 pre fallback/OG. Všetky súbory sa hostujú lokálne. Rovnaká fotografia sa zdieľa iba medzi prekladmi rovnakého článku.

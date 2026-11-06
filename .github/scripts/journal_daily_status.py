@@ -16,7 +16,8 @@ def daily_due(now):
     record = ROOT / 'journal-reports/daily-delivery' / (str(local.date()) + '.json')
     if local.hour < 8:return False
     if not record.exists():return True
-    return json.loads(record.read_text()).get('discovery_result') != 'success'
+    latest = json.loads(record.read_text())
+    return latest.get('published_articles', 0) < 5
 
 
 
@@ -45,16 +46,20 @@ def status():
         else:
             ready.append(path.stem)
     scheduled = next_run(now)
+    today=str(now.astimezone(ZONE).date())
+    auto_manuscripts=sum(json.loads(p.read_text()).get('generated_on')==today for p in (ROOT/'journal-articles-pending').glob('*.json'))
+    published_today=[p.stem for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('published_at')==today]
     result = {'checked_at': now.isoformat(), 'timezone': ZONE.key,
         'schedule': SCHEDULE, 'primary_target': '08:00 Europe/Bratislava', 'backup_checks': '08:17, 08:37 and the same minutes through 11:37; one daily delivery', 'next_scheduled_local': scheduled.isoformat(),
         'next_scheduled_utc': scheduled.astimezone(dt.timezone.utc).isoformat(),
         'scheduler_timing': 'Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.',
-        'daily_maximum': 5, 'generator_capability': 'bibliographic_candidates_only',
+        'daily_maximum': 5, 'generator_capability': 'abstract_scoped_bilingual_editorials',
         'automatically_written_full_articles': 0,
+        'automatically_prepared_abstract_editorials': auto_manuscripts,
+        'published_today': published_today,
         'ready_bilingual_articles': ready, 'pending_editorial_work': pending,
         'published_research_draft_ids': published, 'paid_ai_enabled': False,
-        'missing_for_five_full_articles': ['A writer/source-analysis process producing distinct complete SK/EN articles',
-            'Documented editorial full-text comparison and scientific quality decisions for each article'],
+        'scientific_review_limit': 'Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review',
         'api_key_needed_for_current_crossref_pipeline': False,
         'scope': 'Record/technical checks only; no claim of automatic scientific peer review or plagiarism clearance'}
     (ROOT / 'journal-reports/daily-status.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')

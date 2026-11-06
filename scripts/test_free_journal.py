@@ -63,7 +63,8 @@ def main():
   for i,photo in enumerate(data['photos']):data['assignments']['reserved-test-'+str(i)+'.html']=photo['id']
   catalog.write_text(json.dumps(data));blocked=copy.deepcopy(source);blocked['doi']='10.0000/no-image-test'
   before={p.name:p.read_bytes() for p in test.glob('blog*.html')}
-  rejected(lambda:m.publish(blocked))
+  with patch('journal_images.acquire_commons_photo',return_value=None):
+   rejected(lambda:m.publish(blocked))
   assert before=={p.name:p.read_bytes() for p in test.glob('blog*.html')}
   catalog.write_text(original_catalog)
   before={p.name:p.read_bytes() for p in test.glob('blog*.html')}
