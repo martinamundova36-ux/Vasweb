@@ -30,10 +30,10 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-06",
-    "content_sha256": "ce5f4044e207a66a2b61faa2a4ce0cfbd224458e2814de6d430e30e366c351f6",
+    "content_sha256": "e00a7a858138ab5abc4f62759ed1891f42b1998912f8b74f1666a3ded9ec2c9f",
     "languages": {
       "sk": {
-        "title": "Ulámaná umelá inteligencia: Ako AI mení zelené inovácie vo firmách",
+        "title": "Umelá inteligencia a zelené inovácie: Dve stránky jej vplyvu na firmy",
         "description": "Objavte, ako zavádzanie umelej inteligencie ovplyvňuje prieskumné a využívajúce zelené inovácie vo firmách podľa najnovšieho odborného výskumu.",
         "lead": "Súčasný výskum publikovaný v časopise Management of Environmental Quality prináša nový pohľad na to, ako umelá inteligencia formuje zelené inovácie podnikov. Prostredníctvom teórie založenej na pozornosti autori skúmajú dvojsečný charakter technológií pri dosahovaní environmentálnych cieľov.",
         "sections": [
@@ -47,7 +47,7 @@
           {
             "heading": "Čo skúmala štúdia",
             "paragraphs": [
-              "Podľa abstraktu sa táto štúdia zameriava na to, ako zavádzanie umelej inteligencie formuje ambidextruálne zelené inovácie firiem. Autori pritom vyvolávajú diferencované účinky na prieskumné a využívajúce aktivity prostredníctvom perspektívy založenej na pozornosti.",
+              "Podľa abstraktu sa táto štúdia zameriava na to, ako zavádzanie umelej inteligencie formuje ambidextruálne zelené inovácie firiem. Autori pritom skúmajú rozdielne účinky na prieskumné a využívajúce aktivity prostredníctvom perspektívy založenej na pozornosti.",
               "Využitím panelových údajov čínskych kótovaných spoločností a regresných analýz sa výskumníci snažili pochopiť, ako technologické nástroje rekonfigurovajú vnútorné procesy v organizáciách."
             ]
           },
@@ -62,13 +62,13 @@
             "heading": "Metodika a limity",
             "paragraphs": [
               "Autori vo výskume pracovali s panelovými údajmi čínskych kótovaných firiem a aplikovali regresné analýzy na testovanie svojich hypotéz. Celý teoretický rámec je postavený na perspektíve organizácie založenej na pozornosti.",
-              "Keďže máme k dispozícii iba vydavateľom poskytnutý abstrakt a neoverili sme si kompletný plný text článku, musíme brať do úvahy obmedzenia tohto zhrnutia. Absencia podrobných detailov o štatistických modeloch v samotnom abastrakte znamená, že závery musíme vnímať v medziach poskytnutého textu bez dodatočných kontextových dôkazov z plného znenia."
+              "Keďže máme k dispozícii iba vydavateľom poskytnutý abstrakt a neoverili sme si kompletný plný text článku, musíme brať do úvahy obmedzenia tohto zhrnutia. Absencia podrobných detailov o štatistických modeloch v samotnom abstrakte znamená, že závery musíme vnímať v medziach poskytnutého textu bez dodatočných kontextových dôkazov z plného znenia."
             ]
           },
           {
             "heading": "Praktický návrh WEBU",
             "paragraphs": [
-              "V rámci redakčných odporúčaní pre malé podniky, tvorbu webov a marketing odporúčame vyhnúť sa slepej viere, že automatizácia vyrieši všetky úlohy naraz. Pri správe webstránok alebo tvorbe obsahu by majitelia firiem nemali spoliehať výhradne na generovanie textov cez AI na základe rigidných šablón, ktoré potláčajú postupné vylepšovania a úpravy detailov.",
+              "V rámci redakčných odporúčaní pre malé podniky, tvorbu webov a marketing odporúčame vyhnúť sa slepej viere, že automatizácia vyrieši všetky úlohy naraz. Pri správe webstránok alebo tvorbe obsahu by sa majitelia firiem nemali spoliehať výhradne na generovanie textov cez AI na základe rigidných šablón, ktoré potláčajú postupné vylepšovania a úpravy detailov.",
               "Namiesto toho odporúčame vyvážiť využívanie nástrojov umelej inteligencie s ľudskou rešeršou a strategickým plánovaním. Pri riadení pracovných procesov kombinujte kreatívne experimentovanie s dôkladnou starostlivosťou o existujúce a overené postupy, aby ste predišli zanedbaniu inkrementálnych inovácií."
             ]
           },
@@ -82,7 +82,7 @@
         ]
       },
       "en": {
-        "title": "Weighed by Intelligence: How AI Shapes Green Innovations in Firms",
+        "title": "Artificial Intelligence and Green Innovation: Two Sides of Its Impact on Firms",
         "description": "Explore how artificial intelligence adoption influences exploratory and exploitative green innovations based on recent scholarly management research.",
         "lead": "Recent research published in Management of Environmental Quality provides a fresh perspective on how artificial intelligence shapes corporate green innovations. Drawing on an attention-based view, the authors examine the dual nature of technology in achieving environmental objectives.",
         "sections": [
@@ -141,7 +141,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "ce5f4044e207a66a2b61faa2a4ce0cfbd224458e2814de6d430e30e366c351f6",
+  "approved_content_sha256": "e00a7a858138ab5abc4f62759ed1891f42b1998912f8b74f1666a3ded9ec2c9f",
   "image_id": "commons-b9e72fe0f57fa9",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-06",

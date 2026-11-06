@@ -139,13 +139,21 @@ def sync(root=ROOT):
    name=urlsplit(match.group(1)).path.lstrip('/');key=group(name)
    if key in seen:return ''
    seen.add(key);photo=photo_for(name,data)
-   if not photo:raise ValueError('Card image missing: '+name)
+   if not photo:
+    # The five original 2026-11-05 editorial cards already have their
+    # individually sourced Pexels pictures, outside the newer image catalog.
+    if name.startswith('journal-2026-11-05-') and '<picture' in match.group(0):
+     return match.group(0)
+    raise ValueError('Card image missing: '+name)
    text=match.group(0);text=re.sub(r'<picture\b.*?</picture>|<img\b[^>]*>','',text,flags=re.S)
    end=text.index('>')+1;return text[:end]+picture(photo,lang)+text[end:]
   raw=re.sub(pattern,card,raw,flags=re.S)
   raw=re.sub(r'(<div class="vw-journal-section-head">.*?</div><span>)\s*\d+\s+(?:články|článkov|articles)',lambda m:m.group(1)+str(len(seen))+(' articles' if lang=='en' else ' článkov'),raw,count=1,flags=re.S)
   def cover(match):
-   opening=match.group(1);photo=photo_for('blog-luxus.html',data)
+   opening=match.group(1)
+   href=re.search(r'href="([^"]+)"',opening)
+   photo=photo_for(href.group(1),data) if href else None
+   if not photo:photo=photo_for('blog-luxus.html',data)
    return opening+picture(photo,lang,True)+match.group(2)
   raw=re.sub(r'(<a\b[^>]*class="vw-journal-cover"[^>]*>)(?:<picture\b.*?</picture>|<img\b[^>]*>)(.*?)</a>',lambda m:cover(m)+'</a>',raw,flags=re.S)
   page.write_text(stylesheet(raw))

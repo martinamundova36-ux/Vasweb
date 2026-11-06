@@ -12,7 +12,7 @@ class Page(HTMLParser):
   d=dict(a)
   if t=='img':self.images.append(d)
   if t=='meta':self.meta[d.get('property',d.get('name'))]=d.get('content')
-  if t=='a' and d.get('class')=='vw-journal-card':self.cards.append(d['href'])
+  if t=='a' and d.get('class') in ('vw-journal-card','webu-new-story'):self.cards.append(d['href'])
   if t=='script' and d.get('type')=='application/ld+json':self.in_json=True;self.buf=''
  def handle_data(self,s):
   if self.in_json:self.buf+=s
@@ -21,6 +21,11 @@ class Page(HTMLParser):
 
 def main():
  data=load(ROOT);seen={};count=0
+ published={}
+ for draft in (ROOT/'journal-drafts').glob('*.json'):
+  source=json.loads(draft.read_text())
+  if source.get('published_at') and source.get('editorial'):
+   published['blog-journal-review-'+draft.stem]=source['published_at']
  for photo in data['photos']:
   validate_photo(photo,ROOT)
   for key,path in photo['files'].items():
@@ -44,10 +49,26 @@ def main():
  for name in ('blog.html','blog-en.html'):
   raw=(ROOT/name).read_text();p=Page();p.feed(raw)
   assert len({group(url) for url in p.cards})==len(p.cards),name+': duplicate cards'
-  for card in re.findall(r'<a\b[^>]*class="vw-journal-card"[^>]*>.*?</a>',raw,re.S):
+  newest=re.findall(r'<a class="webu-new-story" href="([^"]+)"',raw)
+  assert len(newest)==min(5,len(published)),name+': newest stories not promoted'
+  featured_dates=[published.get(url.rsplit('/',1)[-1].removesuffix('.html').removesuffix('-en')) for url in newest]
+  assert all(featured_dates) and featured_dates==sorted(featured_dates,reverse=True),name+': featured articles not newest first'
+  cover=re.search(r'<a href="([^"]+)" class="vw-journal-cover">',raw)
+  assert cover and cover.group(1)==newest[0],name+': cover is not latest article'
+  pictured=set()
+  for card in re.findall(r'<a\b[^>]*class="(?:vw-journal-card|webu-new-story)"[^>]*>.*?</a>',raw,re.S):
    fragment=Page();fragment.feed(card);assert len(fragment.images)==1,name+': image missing on a card'
    img=fragment.images[0];assert img.get('loading')=='lazy' and img.get('width')=='1280' and img.get('height')=='720'
-   photo=photo_for(fragment.cards[0],data);assert img['src']==photo['files']['social']
+   photo=photo_for(fragment.cards[0],data)
+   if photo:
+    assert img['src']==photo['files']['social']
+   else:
+    # Older one-off 2026-11-05 stories predate the curated image catalog.
+    # Preserve their existing distinct Pexels images when moving into archive.
+    assert fragment.cards[0].startswith('/journal-2026-11-05-')
+    assert img['src'].startswith('https://images.pexels.com/photos/')
+   assert img['src'] not in pictured,name+': two article cards share an image'
+   pictured.add(img['src'])
    assert card.index('<picture')<card.index('<h3'),name+': card image must precede heading'
  print('PASS: '+str(count)+' article pages; unique photos per topic; SK/EN alt; licensed catalog hashes; responsive/lazy cards; eager heroes; OG/Twitter/BlogPosting images')
 if __name__=='__main__':main()

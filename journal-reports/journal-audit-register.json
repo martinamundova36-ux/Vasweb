@@ -2585,25 +2585,25 @@
       "languages": {
         "sk": {
           "path": "blog-journal-review-2026-11-06-976f4ac7554a.html",
-          "title": "Ulámaná umelá inteligencia: Ako AI mení zelené inovácie vo firmách",
+          "title": "Umelá inteligencia a zelené inovácie: Dve stránky jej vplyvu na firmy",
           "description": "Objavte, ako zavádzanie umelej inteligencie ovplyvňuje prieskumné a využívajúce zelené inovácie vo firmách podľa najnovšieho odborného výskumu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-06",
-          "modified_at": "2026-11-06T07:26:34.685352+00:00",
+          "modified_at": "2026-11-06T13:53:27Z",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "1a2d1388fca7f00085b61412477e36a696825226fac6a3c4aee2ea07e7eaa0d4"
+          "content_sha256": "8992029c36a1ab317b9d66e452a3e7c0e70bb9ab00f1a89d3f1412c4b007ec67"
         },
         "en": {
           "path": "blog-journal-review-2026-11-06-976f4ac7554a-en.html",
-          "title": "Weighed by Intelligence: How AI Shapes Green Innovations in Firms",
+          "title": "Artificial Intelligence and Green Innovation: Two Sides of Its Impact on Firms",
           "description": "Explore how artificial intelligence adoption influences exploratory and exploitative green innovations based on recent scholarly management research.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-06",
-          "modified_at": "2026-11-06T07:26:34.685428+00:00",
+          "modified_at": "2026-11-06T13:53:27Z",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "6a3a8ad628bd9b7e19d859bb0f8c0d8f5503c971567afc4e665cebd94fb93bb2"
+          "content_sha256": "dba4d0d5158e06fcb32a1d9fffcdce9ac85a4431f2032e84e344765b76226b2a"
         }
       },
       "claim_review": {
