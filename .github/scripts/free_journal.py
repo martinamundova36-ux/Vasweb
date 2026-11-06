@@ -139,17 +139,23 @@ def render(source,lang):
   title=article['title'];desc=article['description']
   automated=editorial['status']=='automated_abstract_editorial'
   disclosure=('This AI-assisted editorial summary is based on the publisher-supplied abstract and DOI record, not on an independently verified full text. The study findings, methods and statistics have not been independently checked. Practical advice is WEBU editorial guidance, not a conclusion proved by the study.' if en else 'Tento redakčný prehľad pripravený s pomocou AI vychádza z abstraktu vydavateľa a záznamu DOI, nie z nezávisle overeného plného textu. Zistenia, metodika a štatistiky štúdie neboli nezávisle skontrolované. Praktické odporúčania sú redakčným návrhom WEBU, nie záverom preukázaným štúdiou.')
-  body=('<aside class="webu-source-scope"><p>'+esc(disclosure)+'</p></aside>' if automated else '')+'<p>'+esc(article['lead'])+'</p>'
+  # Keep the AI/source-scope statement visible in the footer, not ahead of the article.
+  body='<p>'+esc(article['lead'])+'</p>'
   for section in article['sections']:
    body+='<h2>'+esc(section['heading'])+'</h2>'+''.join('<p>'+esc(p)+'</p>' for p in section['paragraphs'])
    if section.get('items'):body+='<ul>'+''.join('<li>'+esc(i)+'</li>' for i in section['items'])+'</ul>'
   body+='<h2>'+('Scientific sources' if en else 'Vedecké zdroje')+'</h2>'+''.join('<p>'+esc(r['apa7'])+' <a href="'+esc(r['url'])+'">'+esc(r['url'])+'</a></p>' for r in editorial['references'])
   method='/journal-metodika'+('-en' if en else '')+'.html'
-  body+='<aside><h2>'+('Editorial transparency' if en else 'Redakčná transparentnosť')+'</h2><p>'+('Automated abstract-based commentary; no independent scientific peer review or full-text comparison. ' if automated and en else 'Automatický komentár založený na abstrakte; bez nezávislého vedeckého posúdenia či porovnania plného textu. ' if automated else 'Prepared with AI assistance; editorial source comparison is not independent scientific peer review. ' if en else 'Pripravené s pomocou AI; redakčné porovnanie zdroja nie je nezávislým vedeckým recenzným konaním. ')+'<a href="'+method+'">'+('Editorial methodology and corrections' if en else 'Redakčná metodika a opravy')+'</a></p></aside>'
+  if not automated:
+   body+='<aside><h2>'+('Editorial transparency' if en else 'Redakčná transparentnosť')+'</h2><p>'+('Prepared with AI assistance; editorial source comparison is not independent scientific peer review. ' if en else 'Pripravené s pomocou AI; redakčné porovnanie zdroja nie je nezávislým vedeckým recenzným konaním. ')+'<a href="'+method+'">'+('Editorial methodology and corrections' if en else 'Redakčná metodika a opravy')+'</a></p></aside>'
 
  schema={'@context':'https://schema.org','@type':'BlogPosting','headline':title,'description':desc,'datePublished':str(NOW),'inLanguage':lang,'author':{'@type':'Organization','name':'WEBU'},'publisher':{'@type':'Organization','name':'WEBU'},'mainEntityOfPage':SITE+name,'citation':source['url']}
  sample=(ROOT/'blog-journal-podnikanie-v-nedostatku-2026-11-03.html').read_text();style=re.search(r'<style>.*?</style>',sample,re.S).group()
  page='<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+' | WEBU Journal</title><meta name="description" content="'+esc(desc)+'"><script type="application/ld+json">'+json.dumps(schema,ensure_ascii=False).replace('<','\\u003c')+'</script>'+style+'<link rel="stylesheet" href="/journal-editorial.css?v=20261104-r2"></head><body><header><a href="/'+('blog-en.html' if en else 'blog.html')+'">WEBU Journal</a> · <a href="/'+other+'">'+('Slovenčina' if en else 'English')+'</a></header><main><!-- WEBU-REVIEWED-CONTENT-START --><article class="webu-reviewed-article"><p>'+(('Research-inspired editorial' if en else 'Výskumná inšpirácia') if source.get('editorial') else ('Bibliographic overview' if en else 'Bibliografický prehľad'))+' · '+str(NOW)+'</p><h1>'+esc(title)+'</h1><p>'+('Author: ' if en else 'Autor: ')+'<a href="/journal-metodika'+('-en' if en else '')+'.html#redakcia">WEBU</a></p>'+body+'</article><!-- WEBU-REVIEWED-CONTENT-END --></main><footer>© WEBU</footer><script src="/privacy.js" defer></script></body></html>'
+ if source.get('editorial') and automated:
+  note=('AI-assisted summary based on a study abstract; the full text was not independently verified. Practical tips are WEBU editorial suggestions. ' if en else 'Text s pomocou AI podľa abstraktu štúdie; celý text nebol nezávisle overený. Praktické tipy sú návrhom WEBU. ')
+  note+='<a href="'+method+'">'+('Methodology' if en else 'Metodika')+'</a>'
+  page=page.replace('<footer>© WEBU</footer>','<footer>© WEBU<p class="webu-journal-footer-note">'+note+'</p></footer>',1)
  return name,page,title,desc
 def discover(config):
  selected=[];seen=seen_dois();titles=seen_titles();errors=[]

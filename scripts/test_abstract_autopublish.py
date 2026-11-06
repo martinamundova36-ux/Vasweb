@@ -40,7 +40,8 @@ def main():
     assert validate_editorial(src)['status']=='automated_abstract_editorial'
     for lang in ('sk','en'):
         _,page,_,_=render(src,lang)
-        assert 'independently checked' in page or 'neboli nezávisle skontrolované' in page
+        assert 'the full text was not independently verified' in page or 'celý text nebol nezávisle overený' in page
+        assert page.count('webu-journal-footer-note')==1 and 'webu-source-scope' not in page
         assert '/journal-metodika' in page and source['doi'] in page
     tampered=copy.deepcopy(src)
     tampered['editorial']['languages']['sk']['lead']='A new unreviewed claim.'
@@ -79,6 +80,10 @@ def main():
             for lang in ('sk','en'):
                 name=free_journal.render(src,lang)[0]
                 assert (root/name).is_file() and name in (root/'sitemap.xml').read_text()
+                generated=(root/name).read_text()
+                assert 'webu-source-scope' not in generated
+                assert generated.count('webu-journal-footer-note')==1
+                assert generated.index('webu-journal-footer-note')>generated.index('WEBU-REVIEWED-CONTENT-END')
         finally:free_journal.ROOT=old
     print('PASS: abstract-scoped SK/EN articles, evidence binding, transparent disclaimer, tamper rejection, no bibliography-only publication')
 
