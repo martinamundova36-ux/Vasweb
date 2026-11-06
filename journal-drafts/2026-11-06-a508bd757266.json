@@ -1,0 +1,147 @@
+{
+  "doi": "10.1108/jfmm-10-2025-0572",
+  "title": "Omnichannel integration in fashion retail: privacy barriers to customer retention",
+  "authors": [
+    "Erkan Yildiz",
+    "Pınar Türkdemir",
+    "Mustafa Fikret Ateş"
+  ],
+  "publisher": "Emerald",
+  "venue": "Journal of Fashion Marketing and Management: An International Journal",
+  "source_date": "2026-11-06",
+  "type": "journal-article",
+  "url": "https://doi.org/10.1108/jfmm-10-2025-0572",
+  "abstract_available": true,
+  "abstract_words": 217,
+  "selection_keywords": [
+    "consumer",
+    "customer"
+  ],
+  "verified_at": "2026-11-06",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-06",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-06",
+    "source_url": "https://doi.org/10.1108/jfmm-10-2025-0572",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-06",
+    "content_sha256": "8c57361a3881bcb0ba4a3ac8c1e6bcf71f972c26ce34cd55102c4f125d12782d",
+    "languages": {
+      "sk": {
+        "title": "Omnikanálový maloobchod a obavy o súkromie v móde",
+        "description": "Prehľad štúdie o vplyve integrácie kanálov a obáv o súkromie na udržanie zákazníkov v módnom biznise. Prináša praktické tipy pre WEBU.",
+        "lead": "Súčasný módny maloobchod neustále hľadá rovnováhu medzi prepájaním nákupných kanálov a ochranou osobných údajov zákazníkov. Nový výskum prináša pohľad na to, ako zákazníkom uľahčiť obavy a udržať si ich vernosť prostredníctvom premyslenej integrácie.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Digitálna éra mení spôsob, akým zákazníci nakupujú módu, pričom očakávajú plynulý prechod medzi online prostredím a kamennými predajňami. Prepojenie týchto kanálov prináša obrovské výhody pre maloobchodníkov, ktorí sa snažia budovať dlhodobé vzťahy s nakupujúcimi.",
+              "Na druhej strane, hlbšia integrácia často vyžaduje zber väčšieho množstva údajov, čo u spotrebiteľov vyvoláva pochopiteľné obavy o súkromie. Porozumenie tejto dynamike je kľúčové pre každú značku, ktorá chce rásť bez straty dôvery svojich kupujúcich."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa táto štúdia zameriava na módny maloobchod a skúma, ako zákazníkmi vnímaná integrácia kanálov ovplyvňuje obavy o súkromie a udržanie zákazníkov. Výskumníci špecificky testovali, či obavy o súkromie fungujú ako mediátor medzi integráciou a udržaním.",
+              "Autori Erkan Yildiz, Pınar Türkdemir a Mustafa Fikret Ateş publikovali svoje zistenia v Journal of Fashion Marketing and Management: An International Journal s odkazom na DOI 10.1108/jfmm-10-2025-0572 z novembra 2026."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu výsledky naznačujú, že vnímaná integrácia kanálov v maloobchode súvisí pozitívne s udržaním zákazníkov a negatívne s obavami o súkromie. Obavy o súkromie podľa abstraktu čiastočne sprostredkujú vzťah medzi integráciou a udržaním, čo znamená, že integrované zážitky pomáhajú udržiavať zákazníkov priamo aj nepriamo cez zníženú úzkosť ohľadom súkromia.",
+              "Tento mechanizmus ukazuje, že kvalitná integrácia nielen priamo priťahuje, ale aj upokojuje obavy spojené s citlivými údajmi v módnom segmente, kde je spotrebiteľské správanie často spojené s osobnou identitou."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Podľa abstraktu štúdia čerpá z modelu „Stimulus–Organism–Response“ a teórie kalkulu súkromia pri skúmaní správania spotrebiteľov v omnikanálovom maloobchode. Údaje boli zbierané formou osobných prieskumov od 600 zákazníkov generácie Y v Ankare.",
+              "Na analýzu priamych a nepriamych ciest v modeli bola použitá čiastočná štrukturálna modelovanie metodikou najmenších štvorcov. Zovšeobecniteľnosť je však podľa abstraktu obmedzená zameraním na jedinú metropolitnú oblasť, pričom plný text štúdie nemáme k dispozícii na podrobnejšie overenie."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Z pohľadu redakčných odporúčaní WEBU by mali prevádzkovatelia malých e-shopov implementovať princípy ochrany súkromia už pri samotnom návrhu webových stránok. Transparentné oznamovanie toho, prečo a aké údaje zbierate pri prepojení e-shopu a vernostného programu v kamennej predajni, buduje dôveru.",
+              "Pri tvorbe digitálneho marketingu dbajte na to, aby boli formuláre pre súhlas s cookies a marketingovými aktivitami zrozumiteľné. V pracovnom prostredí integrujte nástroje tak, aby zamestnanci videli len nevyhnutné minimum zákazníckych dát, čím znížite riziko chýb a zvýšite ochranu osobných údajov."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Skúmanie omnikanálového predaja v móde ukazuje, že technická integrácia musí kráčať ruka v ruke s dôrazom na ochranu údajov. Zákazníci oceňujú pohodlie, no vyžadujú si istotu, že ich súkromie je v bezpečí.",
+              "Hoci štúdia prináša cenné pohľady na generáciu Y v špecifickom regióne, celkové výsledky slúžia ako skvelý podnet pre každého obchodníka, ktorý chce modernizovať svoje služby s ohľadom na dôveru."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Omnichannel Integration and Privacy Concerns in Fashion Retail",
+        "description": "An editorial review of a study examining how channel integration and privacy concerns affect fashion retail customer retention. With WEBU tips.",
+        "lead": "Modern fashion retail relies heavily on seamless omnichannel integration, yet balancing this with consumer privacy remains a complex challenge. New research sheds light on how reducing privacy anxieties helps secure long-term customer loyalty.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "The digital age continues to reshape how shoppers interact with fashion brands, expecting effortless transitions between physical stores and online platforms. Achieving this omnichannel synergy provides significant strategic advantages for retailers striving to build enduring customer relationships.",
+              "However, closer integration often demands higher volumes of personal data collection, which naturally triggers consumer privacy concerns. Understanding this psychological balance is critical for any brand aiming to expand its reach without eroding consumer trust."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, this study investigates how customer-perceived channel integration influences privacy concerns and customer retention within fashion retail, specifically testing whether privacy concerns mediate the link between integration and retention.",
+              "Authored by Erkan Yildiz, Pınar Türkdemir, and Mustafa Fikret Ateş, the study was published in the Journal of Fashion Marketing and Management: An International Journal under DOI 10.1108/jfmm-10-2025-0572 in November 2026."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, the results indicate that retail channel integration is positively associated with customer retention and negatively associated with privacy concerns. Furthermore, privacy concerns partially mediate this relationship, showing that integrated experiences relate to retention both directly and indirectly through lower privacy anxieties.",
+              "This dynamic highlights that integration quality helps strengthen customer retention partly by easing anxieties regarding data exposure, a factor particularly relevant in fashion retail where consumer decisions carry strong identity-expressive elements."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "According to the abstract, the study draws on the Stimulus-Organism-Response model and privacy calculus theory to explore omnichannel retail consumer behaviour. Data were gathered through in-person surveys administered to 600 Generation Y customers in Ankara.",
+              "Partial Least Squares Structural Equation Modelling was utilized to evaluate the pathways within the model. The abstract notes that generalisability is bounded by the single metropolitan focus, and we acknowledge that the complete full text was not fully independently verified."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "From an editorial standpoint, WEBU recommends that small business owners and web designers adopt 'privacy-by-design' frameworks across all digital touchpoints. Transparent consent mechanisms on e-commerce platforms ensure users understand how their data flows between online shopping carts and in-store loyalty profiles.",
+              "In digital marketing and workplace management, teams should audit data collection practices regularly. Ensuring that staff only access necessary customer metrics prevents data fatigue and reinforces a secure environment that nurtures consumer trust."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "Integrating retail channels in the fashion sector is no longer optional, but it must be accompanied by proactive privacy protection measures. Consumers appreciate convenience, but they reward brands that respect their personal boundaries.",
+              "While this study's insights are framed around a specific demographic and location, its core message offers a timeless blueprint for retail modernization rooted in transparent customer relations."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.1108/jfmm-10-2025-0572",
+        "apa7": "Erkan Yildiz, Pınar Türkdemir, Mustafa Fikret Ateş (2026). Omnichannel integration in fashion retail: privacy barriers to customer retention. Journal of Fashion Marketing and Management: An International Journal. https://doi.org/10.1108/jfmm-10-2025-0572",
+        "access": "abstract"
+      }
+    ]
+  }
+}

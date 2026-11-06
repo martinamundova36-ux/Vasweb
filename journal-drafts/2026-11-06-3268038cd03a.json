@@ -1,0 +1,153 @@
+{
+  "doi": "10.1108/jcre-06-2026-0035",
+  "title": "From user feedback to design decisions: how workplace design practice interprets user evidence",
+  "authors": [
+    "Maria Victoria Davalos Quevedo",
+    "Alessandra Luna-Navarro",
+    "Uta Pottgiesser",
+    "Ulrich Blum"
+  ],
+  "publisher": "Emerald",
+  "venue": "Journal of Corporate Real Estate",
+  "source_date": "2026-11-06",
+  "type": "journal-article",
+  "url": "https://doi.org/10.1108/jcre-06-2026-0035",
+  "abstract_available": true,
+  "abstract_words": 371,
+  "selection_keywords": [
+    "usability",
+    "workplace"
+  ],
+  "verified_at": "2026-11-06",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-06",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-06",
+    "source_url": "https://doi.org/10.1108/jcre-06-2026-0035",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-06",
+    "content_sha256": "483319151871ff94dbe332e59a6214eec92571b4cc894b78304775b1e2961bee",
+    "languages": {
+      "sk": {
+        "title": "Od spätnej väzby k dizajnu: Prečo dáta o používateľoch často neovplyvňujú priestor",
+        "description": "Nová štúdia skúma, prečo validované hodnotiace nástroje zostávajú v praxi okrajové. Prinášame pohľad na interpretáciu dát a odporúčania pre WEBU.",
+        "lead": "Súčasný korporátny realitný trh a tvorba pracovných priestorov kladú čoraz väčší dôraz na rozhodnutia podložené dôkazmi. Napriek dostupnosti nástrojov na hodnotenie po obsadení budov (tzv. POE) však zostáva ich využívanie v praxi obmedzené. Nový výskum prináša cenné pohľady na to, ako odborníci nakladajú so spätnou väzbou od používateľov a kde vzniká kritická medzera v prenose dát do samotného dizajnu.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Diskusia o tom, ako dáta o správaní a potrebách používateľov ovplyvňujú navrhovanie pracovného prostredia, je kľúčová pre moderný manažment firiem, architektúru aj digitálny dizajn. Zatiaľ čo teória predpokladá, že kvantitatívne a kvalitatívne metriky priamo formujú konečnú podobu priestorov či digitálnych produktov, realita býva omnoho komplexnejšia. Východiskom pre zamyslenie je fakt, že samotná dostupnosť sofistikovaných meracích nástrojov automaticky nezaručuje ich zmysluplné využitie v praxi.",
+              "Tento článok prináša kritický pohľad na najnovšie vedecké zistenia publikované v Journal of Corporate Real Estate pod DOI 10.1108/jcre-06-2026-0035. Autori Maria Victoria Davalos Quevedo, Alessandra Luna-Navarro, Uta Pottgiesser a Ulrich Blum sa zamerali na to, prečo validované hodnotiace nástroje zostávajú na okraji záujmu. Pozornosť venujú najmä tomu, akým spôsobom dizajnéri a konzultanti reálne interpretujú a prekladajú informácie od používateľov do konkrétnych rozhodnutí."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa výskum zameral na objasnenie toho, prečo validované nástroje na hodnotenie po obsadení budov (POE) zostávajú marginálne napriek svojej dostupnosti a rastúcemu tlaku na rozhodnutia založené na dôkazoch. Predchádzajúce bádanie síce identifikovalo bariéry ich prijatia, avšak menej sa vedelo o tom, ako profesionáli v oblasti pracovného prostredia zbierajú, interpretujú a transformujú dáta od používateľov na dizajnové kroky.",
+              "Metodika, ako vyplýva z abstraktu, stála na šestnástich semištruktúrovaných rozhovoroch s expertmi. Medzi respondentmi boli dizajnéri pracovísk, architekti a konzultanti, ktorí pôsobia predovšetkým v Nemecku. Rozhovory mapovali projektové workflow, metódy chápania potrieb ľudí, používanie dotazníkov a prístupy k premene spätnej väzby na dizajnové rozhodnutia, pričom dáta boli analyzované induktívnym kvalitatívnym kódovaním."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu pracovný dizajn funguje skôr prostredníctvom interpretačných a naratívnych foriem uvažovania než prostredníctvom štandardizovaného hodnotenia. Zapojenie používateľov v praxi dominovali najmä workshopy a rozhovory, zatiaľ čo dotazníky plnili skôr komunikačnú než analytickú úlohu. Tieto zistení poukazujú na hlbší mechanizmus fungovania tvorivých profesií pri spracúvaní neštruktúrovaných ľudských podnetov.",
+              "Kľúčovým príspevkom štúdie je identifikácia takzvanej „interpretačnej medzery“. Podľa abstraktu ide o absenciu rámcov, ktoré by odborníkom pomáhali previesť výstupy hodnotenia do konkrétnych priestorových rozhodnutí. Spätná väzba tak zostáva odpojená od dizajnových akcií napriek úprimnému záujmu praktikov o prácu s dôkazmi, čo vysvetľuje prečo dáta často neovplyvňujú konečný výsledok."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Pri posudzovaní výstupov je nutné zohľadniť, že celá analýza čerpá z dostupného textu abstraktu a úplný text štúdie nebol verifikovaný. Metodologický základ tvorí kvalitatívna vzorka šestnástich odborníkov z Nemecka, čo znamená, že vyvodené závery poskytujú analytickú a nie štatistickú generalizáciu. Tento prístup je síce hodnotný pre hĺbkové pochopenie fenoménu, no vyžaduje opatrnosť pri jeho plošnej aplikácii na odlišné geografické či kultúrne trhy.",
+              "Autori v samotnom zhrnutí upozorňujú na limity výskumu a navrhujú, aby budúce práce testovali tieto vzorce na väčších vzorkach. Rovnako je potrebné vyvinúť metódy, ktoré lepšie podporia preklad spätnej väzby do priestorových rozhodnutí. Odborná verejnosť by tak mala brať do úvahy, že ide o kvalitatívny pohľad otvárajúci dvere k ďalšiemu bádaniu, nie o univerzálny kvantitatívny zákon."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Na základe princípov diskutovaných v štúdii prinášame redakčné odporúčania pre oblasti ako webdizajn, marketing a riadenie malých firiem, ktoré často narážajú na rovnaký problém „interpretačnej medzery“ pri analýze používateľských dát. Majitelia malých firiem a manažéri často zbierajú spätnú väzbu prostredníctvom dotazníkov či recenzií, no chýba im systém na ich premenu do reálnych zmien v ponuke služieb alebo v interných procesoch.",
+              "V oblasti webdizajnu a marketingu to znamená, že nestačí iba pasívne zbierať analytické dáta z návštevnosti alebo robiť jednorazové prieskumy spokojnosti. Redakcia odporúča zaviesť pravidelné interpetačné workshopy, kde sa marketingový a vývojový tím spoločne pozrie na to, čo dáta hovoria o reálnom správaní zákazníkov, a preloží ich do dvoch až troch konkrétnych vylepšení rozhrania či kampane."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Skúmanie prepojenia medzi spätnou väzbou a reálnymi krokmi v dizajne odhalilo hlbokú výzvu súčasnej praxe. Podľa abstraktu štúdie si zlepšenie hodnotiacich procesov vyžaduje viac než len zvyšovanie dostupnosti meracích nástrojov, pričom dôraz sa musí presunúť na interpretačnú použité schopnosti a prepojenie výstupov s plánovaním.",
+              "Z pohľadu redakcie WEBU je zrejmé, že dáta samé o sebe úspech nezaručia. Kľúčom k efektívnemu rozvoju firiem, pracovísk aj digitálnych projektov je schopnosť preklenúť priepasť medzi informáciami od ľudí a odvahou premeniť ich na zmysluplnú akciu."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "From Feedback to Design: Why User Data Often Fails to Shape Space",
+        "description": "A new study examines why validated evaluation tools remain marginal in practice. We explore the interpretation gap and offer editorial recommendations.",
+        "lead": "Modern corporate real estate and workspace creation increasingly emphasize evidence-based decision-making. However, despite the availability of post-occupancy evaluation tools, their practical utilization remains limited. New research provides valuable insights into how practitioners handle user feedback and where a critical gap emerges in translating data into actual design.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "The discussion on how behavioral metrics and user needs influence the design of workplaces is vital for modern business management, architecture, and digital design. While theory assumes that quantitative and qualitative indicators directly shape the final form of spaces or digital products, reality is far more complex. The starting point for reflection is the fact that the mere availability of sophisticated measurement tools does not automatically guarantee their meaningful practical use.",
+              "This article offers a critical review of the latest scientific findings published in the Journal of Corporate Real Estate under DOI 10.1108/jcre-06-2026-0035. Authors Maria Victoria Davalos Quevedo, Alessandra Luna-Navarro, Uta Pottgiesser, and Ulrich Blum investigated why validated evaluation tools remain on the periphery of attention. They focused particularly on how designers and consultants actually interpret and translate user information into concrete decisions."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the study aims to investigate why validated post-occupancy evaluation (POE) tools remain marginal despite their widespread availability and the growing emphasis on evidence-based workplace decision-making. While previous research identified barriers to POE adoption, less was known about how workplace practitioners collect, interpret, and translate user-related information into workplace design decisions.",
+              "The methodology, as stated in the abstract, involved sixteen semi-structured expert interviews conducted with workplace designers, architects, and consultants operating primarily in Germany. Interviews explored project workflows, methods for understanding user needs, questionnaire use, and approaches to translating user feedback into design decisions, with data analyzed through an inductive qualitative coding process."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, workspace design operates through interpretive and narrative forms of reasoning rather than standardized evaluation. Workshops and conversations dominated user engagement, while questionnaires served communicative rather than analytical purposes. These findings highlight the underlying mechanisms creative professions use when processing unstructured human inputs.",
+              "A key contribution of the study is the identification of the \"interpretation gap.\" According to the abstract, this refers to the absence of frameworks that help practitioners translate evaluation outputs into concrete spatial decisions. Consequently, user feedback remains disconnected from design action despite practitioners' genuine interest in evidence, explaining why available data often fails to influence outcomes."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "When evaluating these outcomes, it must be noted that the analysis draws exclusively from the provided abstract excerpt, and the complete full-text article was not verified. The methodological foundation relies on a qualitative sample of sixteen practitioners from Germany, meaning the derived conclusions provide analytical rather than statistical generalization. While valuable for deep insights, this requires caution when applying the findings universally across different geographic or cultural markets.",
+              "The authors themselves note in the summary that future research should test these patterns in larger samples and develop methods that better support the translation of user feedback into spatial design decisions. Therefore, the professional public should treat this as a qualitative perspective opening doors to further inquiry rather than a universal quantitative law."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "Building on the principles discussed in the study, we provide editorial recommendations for areas such as web design, marketing, and small business management, which frequently encounter the same \"interpretation gap\" when analyzing user data. Small business owners and managers often collect feedback via surveys or reviews, yet lack a system to transform them into actionable changes in service offerings or internal processes.",
+              "In web design and marketing, this implies that passively collecting traffic metrics or running one-off satisfaction surveys is insufficient. The editorial team recommends establishing regular interpretation sessions where marketing and development teams jointly review what data reveals about actual customer behavior, translating insights into two or three concrete interface or campaign improvements."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "Examining the link between user feedback and actual design actions reveals a profound challenge in contemporary practice. According to the study's abstract, improving workplace evaluation practice requires more than increasing the availability of measurement tools, with focus shifting toward interpretive usability and connecting outputs to planning.",
+              "From the WEBU editorial perspective, data alone does not guarantee success. The key to effective growth in businesses, workspaces, and digital projects is the ability to bridge the gap between people's insights and the courage to turn them into meaningful action."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.1108/jcre-06-2026-0035",
+        "apa7": "Maria Victoria Davalos Quevedo, Alessandra Luna-Navarro, Uta Pottgiesser, Ulrich Blum (2026). From user feedback to design decisions: how workplace design practice interprets user evidence. Journal of Corporate Real Estate. https://doi.org/10.1108/jcre-06-2026-0035",
+        "access": "abstract"
+      }
+    ]
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "483319151871ff94dbe332e59a6214eec92571b4cc894b78304775b1e2961bee",
+  "image_id": "commons-7629598121a89a",
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-06",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-review-2026-11-06-3268038cd03a.html",
+    "https://www.webu.sk/blog-journal-review-2026-11-06-3268038cd03a-en.html"
+  ]
+}

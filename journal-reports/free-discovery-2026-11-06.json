@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-06",
+  "mode": "drafts_require_approval",
+  "generator_capability": "bibliographic_candidates_only",
+  "complete_articles_automatically_written": 0,
+  "draft_ids": [
+    "2026-11-06-3268038cd03a",
+    "2026-11-06-439b1cc5fbf3",
+    "2026-11-06-976f4ac7554a",
+    "2026-11-06-a508bd757266"
+  ],
+  "published_urls": [],
+  "errors": [],
+  "ai_cost_eur": 0,
+  "google_index_status": "not inspected"
+}

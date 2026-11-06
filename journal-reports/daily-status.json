@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-05T12:34:14.939697+00:00",
+  "checked_at": "2026-11-06T06:56:30.103518+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "0,17,37 8-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
@@ -8,9 +8,17 @@
   "next_scheduled_utc": "2026-11-06T07:00:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
-  "generator_capability": "bibliographic_candidates_only",
+  "generator_capability": "abstract_scoped_bilingual_editorials",
   "automatically_written_full_articles": 0,
-  "ready_bilingual_articles": [],
+  "automatically_prepared_abstract_editorials": 4,
+  "published_today": [
+    "2026-11-06-3268038cd03a",
+    "2026-11-06-976f4ac7554a"
+  ],
+  "ready_bilingual_articles": [
+    "2026-11-06-439b1cc5fbf3",
+    "2026-11-06-a508bd757266"
+  ],
   "pending_editorial_work": [
     {
       "id": "2026-11-04-5b5dc38594ea",
@@ -50,13 +58,12 @@
     }
   ],
   "published_research_draft_ids": [
-    "2026-11-04-93b063fd01b6"
+    "2026-11-04-93b063fd01b6",
+    "2026-11-06-3268038cd03a",
+    "2026-11-06-976f4ac7554a"
   ],
   "paid_ai_enabled": false,
-  "missing_for_five_full_articles": [
-    "A writer/source-analysis process producing distinct complete SK/EN articles",
-    "Documented editorial full-text comparison and scientific quality decisions for each article"
-  ],
+  "scientific_review_limit": "Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review",
   "api_key_needed_for_current_crossref_pipeline": false,
   "scope": "Record/technical checks only; no claim of automatic scientific peer review or plagiarism clearance"
 }

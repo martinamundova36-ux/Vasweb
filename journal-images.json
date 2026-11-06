@@ -512,6 +512,70 @@
         "1280": "ceb8870925a5a37715a0d75449af53654d4752fb760d2c1afce9fcfd1ee5b597",
         "social": "737d83db899db35e794060f1b88397bb023476ed36d6f4aae2ff47176ff0d4cf"
       }
+    },
+    {
+      "id": "commons-b9e72fe0f57fa9",
+      "provider": "Wikimedia Commons",
+      "provider_id": "177765450",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Laptop_image.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Laptop_image.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Darakshanehaluddin",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercial_use_verified_at": "2026-11-06",
+      "original_sha256": "c35d650df80513bf822601807a236f43c2a73df4c27a4b669cf37b475b1c0cbe",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s počítačovou technológiou",
+        "en": "Working with computer technology"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-b9e72fe0f57fa9-640.webp",
+        "1280": "/assets/journal/commons-b9e72fe0f57fa9-1280.webp",
+        "social": "/assets/journal/commons-b9e72fe0f57fa9-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "1984c12544a7996460fb199b1c35376ae7524a8b3c41c713d6cb46f1ab9451bf",
+        "1280": "6c9bd158073201e04339bc303afb260e8089f4622250f5dbad5125cc66f9bbb6",
+        "social": "44091d7439811fe82bde9df1fbc1af03a91e8ec07eb30829435e561b0b2060d2"
+      }
+    },
+    {
+      "id": "commons-7629598121a89a",
+      "provider": "Wikimedia Commons",
+      "provider_id": "178627873",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Barry_Moore_team_at_meeting.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Barry_Moore_team_at_meeting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Barry Moore",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain",
+      "commercial_use_verified_at": "2026-11-06",
+      "original_sha256": "22cd442cf09d6ca2d9c4fe11cfbc00c6146b8733d5ed135a140d535cd76790f6",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "tím pri pracovnom stretnutí",
+        "en": "Team at an office meeting"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-7629598121a89a-640.webp",
+        "1280": "/assets/journal/commons-7629598121a89a-1280.webp",
+        "social": "/assets/journal/commons-7629598121a89a-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "ed0e5e3cfd7833c6a76ee7e823b2f33aefb3593b078cb1c17fcd030070f56807",
+        "1280": "a852f60075cab14d86416ec565aae38fc6b38514f0c64e596e39dcaa7ca72c78",
+        "social": "89bbbae6622efe5792c6fffb46fbf674e747f2c1a3863399b0cb3b1e870a1f7e"
+      }
     }
   ],
   "assignments": {
@@ -529,6 +593,8 @@
     "blog-seo-webstranky.html": "search-visibility",
     "blog-web.html": "website-results",
     "blog-journal-review-2026-11-05-e2f830a0e522.html": "team-planning-reserve",
-    "blog-journal-review-2026-11-05-92305488b265.html": "team-collaboration-reserve"
+    "blog-journal-review-2026-11-05-92305488b265.html": "team-collaboration-reserve",
+    "blog-journal-review-2026-11-06-976f4ac7554a.html": "commons-b9e72fe0f57fa9",
+    "blog-journal-review-2026-11-06-3268038cd03a.html": "commons-7629598121a89a"
   }
 }

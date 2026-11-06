@@ -1,0 +1,145 @@
+{
+  "doi": "10.3389/fsufs.2026.1985183",
+  "title": "Equifinality or singular path? A configurational analysis of new farmers’ marketing competence and marketing performance on digital platforms",
+  "authors": [
+    "Tianjia You"
+  ],
+  "publisher": "Frontiers Media SA",
+  "venue": "Frontiers in Sustainable Food Systems",
+  "source_date": "2026-11-06",
+  "type": "journal-article",
+  "url": "https://doi.org/10.3389/fsufs.2026.1985183",
+  "abstract_available": true,
+  "abstract_words": 272,
+  "selection_keywords": [
+    "customer",
+    "digital marketing"
+  ],
+  "verified_at": "2026-11-06",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-06",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-06",
+    "source_url": "https://doi.org/10.3389/fsufs.2026.1985183",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-06",
+    "content_sha256": "d6d07aaa7a21f3fbdd38e162e4d6a516adda58080c859e47096fa8e7ce1cb062",
+    "languages": {
+      "sk": {
+        "title": "Konfiguračná analýza marketingových kompetencií nových farmárov v digitálnom prostredí",
+        "description": "Prehľad štúdie o kombináciách marketingových schopností nových farmárov na digitálnych platformách a praktické dôsledky pre malé podniky.",
+        "lead": "Digitálne platformy menia spôsob, akým noví aktéri v agrosektore ponúkajú svoje produkty. Podľa abstraktu nedávnej štúdie z novembra 2026 sa výskum zameral na to, ako sa rôzne marketingové kompetencie vzájomne kombinujú a ovplyvňujú výkonnosť predaja. Tento text prináša pohľad na zistenia a ich prepojenie s reálnou praxou malých firiem.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Digitálny trh prináša nové príležitosti, ale aj výzvy pre menších producentov, ktorí sa snažia presadiť v konkurenčnom prostredí. Noví farmári predávajúci cez online kanály predstavujú dôležitý ekonomický prvok, no ich úspešnosť vykazuje značné rozdiely. Pochopenie faktorov, ktoré vedú k úspechu, je kľúčové pre efektívne plánovanie aktivít.",
+              "Tradičné prístupy často hodnotia jednotlivé zručnosti izolovane, čo však neodráža komplexitu reálneho podnikania. Moderná vedecká práca preto čoraz častejšie využíva konfiguračný pohľad, ktorý skúma vzájomné prepojenie viacerých schopností naraz. Tento prístup lepšie vystihuje, ako rôzne faktory spolupracujú pri dosahovaní obchodných výsledkov."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa štúdia autorky Tianjia You (2026), publikovaná pod DOI 10.3389/fsufs.2026.1985183, zamerala na to, ako sa šesť špecifických kompetencií kombinuje v súvislosti s marketingovou výkonnosťou. Medzi tieto podmienky patrili schopnosť integrácie zdrojov, digitálne marketingové zručnosti, tvorba obsahu, manažment vzťahov so zákazníkmi, budovanie značky a prispôsobenie sa platformám.",
+              "Výskum ďalej sledoval, či sa tieto kombinácie líšia v závislosti od úrovne diferencovanosti produktov. Cieľom bolo zistiť, ktoré vzorce schopností vedú k vysokej výkonnosti a akú rolu v tom zohrávajú špecifické vlastnosti ponúkaného sortimentu."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu dáta ukázali, že žiadna jednotlivá kompetencia nie je samostatne nutná na dosiahnutie vysokej marketingovej výkonnosti. Autorka identifikovala tri rôzne konfigurácie, ktoré sú samy o sebe dostatočné: ide o obsahovo orientovanú, platformovo-vzťahovú a platformovo-závislú konfiguráciu.",
+              "V oblasti jadrových podmienok sa ukázali dve hlavné cesty – buď kombinácia obsahu a budovania značky, alebo digitálne zručnosti spojené s adaptáciou na platformu. Zaujímavým zistením je, že schopnosť prispôsobiť sa platformám bola prítomná vo všetkých troch úspešných konfiguráciách."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Podľa abstraktu bola analýza založená na prieskumných dátach od 240 nových farmárov pôsobiacich v 12 čínskych provinciách. Na spracovanie údajov bola použitá metóda kvalitatívnej komparatívnej analýzy pomocou fuzzy množín (fsQCA), ktorá umožňuje skúmať komplexné a vzájomne sa podmieňujúce vzťahy.",
+              "Autorka v texte abstraktne upozorňuje, že dáta boli prierezové a sebahlásené, čo znamená, že zistenia majú asociačný charakter. Kompletný text štúdie nebol overovaný, preto je nutné brať uvedené závery v kontexte obmedzení, ktoré prináša tento typ zberu údajov bez možnosti vyvodiť priamu kauzalitu."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Z pohľadu redakčných odporúčaní pre malé podniky a tvorbu webov vyplýva, že spoliehať sa na jedinú marketingovú aktivitu nestačí. Podobne ako štúdia poukazuje na význam prispôsobenia sa platformám, aj majitelia e-shopov by mali dbať na to, aby ich webové rozhranie bolo plne optimalizované pre rôzne zariadenia a správanie používateľov.",
+              "Pri tvorbe digitálnej stratégie pre web odporúčame kombinovať kvalitnú prezentáciu produktov s prehľadným systémom spracovania zákazníckych vzťahov. Namiesto izolovanej podpory predaja sa oplatí budovať prepojený ekosystém, kde obsah, brandová identita a technické prispôsobenie platforme pracujú spoločne."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Podľa abstraktu štúdia prináša cenný pohľad na konfigurovanie marketingových kompetencií a poukazuje na potrebu diferencovanej podpory pre rôzne typy produktov. Ukazuje sa, že úspech v digitálnom prostredí nevychádza z jednej dokonalej vlastnosti, ale z premyslených kombinácií schopností.",
+              "Budúci rozvoj malých firiem v online priestore bude pravdepodobne vyžadovať flexibilitu a schopnosť spájať obsahovú tvorbu s technickou adaptáciou. Dáta z výskumu poskytujú užitočný teoretický základ pre ďalšie uvažovanie o digitálnej transformácii v agrosektore."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "A Configurational Analysis of New Farmers' Marketing Competence and Performance",
+        "description": "An overview of a study examining combinations of marketing capabilities among new farmers on digital platforms and practical implications for small businesses.",
+        "lead": "Digital platforms are transforming how agricultural producers market their goods. According to the abstract of a recent study from November 2026, research investigated how various marketing competences combine to influence sales performance. This article explores those findings and connects them to actionable insights for small enterprises.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "The digital marketplace offers unprecedented opportunities alongside notable challenges for smaller producers seeking visibility. New farmers selling through online channels represent vital economic participants, yet their sales outcomes vary extensively. Understanding the underlying drivers of digital success remains essential for effective operational planning.",
+              "Traditional evaluations often isolate individual skills, failing to capture the inherent complexity of modern commerce. Contemporary academic inquiry increasingly adopts a configurational perspective, examining how multiple capabilities interact simultaneously. This approach better reflects how diverse factors jointly produce business results."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the study by Tianjia You (2026), published under DOI 10.3389/fsufs.2026.1985183, investigated how six specific competences combine in association with marketing performance. These conditions included resource integration capability, digital marketing skills, content creation capability, customer relationship management, brand narrative capability, and platform adaptation capability.",
+              "The research also explored whether these configurations differed across varying levels of product differentiation. The core objective was identifying which competence patterns lead to high performance and how product characteristics influence these dynamics."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, data indicated that no single competence is necessary on its own for high marketing performance. The author identified three distinct configurations that are each sufficient: content-driven, platform-relationship, and platform-dependent configurations.",
+              "Regarding core conditions, findings revealed two main routes – either content and brand competences combined, or digital marketing skills paired with platform adaptation. Notably, platform adaptation capability was present across all three high-performance configurations."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "According to the abstract, the analysis relied on survey data collected from 240 new farmers across 12 Chinese provinces. The study utilized fuzzy-set qualitative comparative analysis (fsQCA) to evaluate complex and interdependent relationships among the variables.",
+              "The author explicitly notes in the abstract that the data are cross-sectional and self-reported, meaning findings are strictly associational. The complete article text was not verified, and these limitations preclude establishing definitive causal relationships from the reported evidence."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "From an editorial perspective for small businesses and web design, relying on a single isolated marketing tactic is rarely sufficient. Much like the study emphasizes platform adaptation, website owners must ensure their digital interfaces are fully optimized for seamless user experiences and modern browsing habits.",
+              "When structuring a digital strategy for web platforms, we recommend integrating compelling product storytelling with robust customer relationship management tools. Rather than focusing on isolated sales tricks, enterprises should build an interconnected ecosystem where content, brand identity, and technical platform alignment work together."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "According to the abstract, the study offers a valuable configurational account of marketing capabilities and highlights the necessity of differentiated support for diverse product offerings. Success in digital environments appears rooted in thoughtful combinations of skills rather than any single isolated trait.",
+              "Future development for small businesses online will likely demand ongoing flexibility and the ability to bridge content creation with technical platform adaptation. These insights provide a useful foundation for conceptualizing digital transformation in competitive markets."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.3389/fsufs.2026.1985183",
+        "apa7": "Tianjia You (2026). Equifinality or singular path? A configurational analysis of new farmers’ marketing competence and marketing performance on digital platforms. Frontiers in Sustainable Food Systems. https://doi.org/10.3389/fsufs.2026.1985183",
+        "access": "abstract"
+      }
+    ]
+  }
+}
