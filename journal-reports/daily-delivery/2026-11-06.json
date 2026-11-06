@@ -2,11 +2,11 @@
   "date": "2026-11-06",
   "issue": 5,
   "url": "https://github.com/martinamundova36-ux/Vasweb/issues/5",
-  "ready_articles": 1,
-  "published_articles": 4,
+  "ready_articles": 0,
+  "published_articles": 5,
   "generated_manuscripts": 5,
   "bibliographic_candidates": 5,
-  "discovery_result": "failure",
+  "discovery_result": "success",
   "github_notice_created": true,
   "email_delivery": "not confirmed"
 }
