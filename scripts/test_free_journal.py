@@ -11,7 +11,7 @@ def rejected(call):
  except ValueError:return
  raise AssertionError('Unsafe publication input was accepted')
 def main():
- source=next(json.loads(p.read_text()) for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('editorial') and json.loads(p.read_text()).get('published_at'))
+ source=next(json.loads(p.read_text()) for p in (ROOT/'journal-drafts').glob('*.json') if (json.loads(p.read_text()).get('editorial') or {}).get('scientific_review') and json.loads(p.read_text()).get('published_at'))
  # Freeze the archived review fixture date; real publication still uses today.
  m.NOW=datetime.date.fromisoformat(source["editorial"]["reviewed_at"])
  m.validate_editorial(source)
