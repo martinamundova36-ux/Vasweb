@@ -7,9 +7,10 @@ import hashlib,io,json,re,datetime as dt,urllib.request,sys
 ROOT=Path(__file__).resolve().parents[2]
 SITE='https://www.webu.sk/'
 PAIRS={'blog-5-chyb-na-webstranke.html':'blog-5-website-mistakes-en.html','blog-cena.html':'blog-pricing-business-en.html','blog-dovera.html':'blog-customer-trust-en.html','blog-luxus.html':'blog-luxury-en.html','blog-web.html':'blog-website-roi-en.html','blog-kolko-stoji-webstranka.html':'blog-website-cost-en.html','blog-seo-webstranky.html':'blog-seo-websites-en.html'}
-TOPICS={'workplace':['employee','workforce','workplace','zamestnan','pracovn'], 'ai':['artificial intelligence','chatbot','konverz','chatgpt'], 'pricing':['pricing','price','cenotvor','ceny','cenu'], 'data':['data','dáta','udržateľ','sustainab'], 'business':['business','entrepreneur','podnik','marketing','resources'], 'trust':['trust','dôver'], 'payments':['payment','platb'], 'seo':['seo','search engine'], 'webdesign':['website','webstrán','web design'], 'budget':['budget','rozpočet'], 'analytics':['analytics','analýz'], 'branding':['brand','značk','luxury','luxus']}
-COMMONS_SEARCH={'workplace':('office meeting','tím pri pracovnom stretnutí','Team at an office meeting'), 'ai':('computer laptop','Práca s počítačovou technológiou','Working with computer technology'), 'pricing':('calculator','Kalkulačka na pracovnom stole','Calculator on a work desk'), 'data':('data visualization','Analytická práca s dátami na počítači','Data analysis on a computer'), 'business':('office','Moderné kancelárske pracovisko','Modern office workspace'), 'trust':('handshake','Obchodné rokovanie a spolupráca','Business negotiation and collaboration'), 'payments':('payment card','Platobná karta pri notebooku','Payment card near a laptop'), 'seo':('laptop','Práca s webovou stránkou na notebooku','Website work on a laptop'), 'webdesign':('computer desk','Pracovisko webového dizajnéra','Web designer workstation'), 'budget':('calculator','Finančné plánovanie pri stole','Financial planning at a desk'), 'analytics':('chart','Grafy a analytika na počítači','Charts and analytics on a computer'), 'branding':('studio','Kreatívny dizajnérsky ateliér','Creative design studio')}
+TOPICS={'workplace':['employee','workforce','workplace','zamestnan','pracovn'], 'ai':['artificial intelligence','chatbot','konverz','chatgpt'], 'pricing':['pricing','price','cenotvor','ceny','cenu'], 'data':['data','dáta','udržateľ','sustainab'], 'business':['business','entrepreneur','podnik','marketing','resources'], 'retail':['retail','fashion','shopping','store','omnichannel','consumer'], 'trust':['trust','dôver'], 'payments':['payment','platb'], 'seo':['seo','search engine'], 'webdesign':['website','webstrán','web design'], 'budget':['budget','rozpočet'], 'analytics':['analytics','analýz'], 'branding':['brand','značk','luxury','luxus']}
+COMMONS_SEARCH={'workplace':('office meeting','tím pri pracovnom stretnutí','Team at an office meeting'), 'ai':('computer laptop','Práca s počítačovou technológiou','Working with computer technology'), 'pricing':('calculator','Kalkulačka na pracovnom stole','Calculator on a work desk'), 'data':('data visualization','Analytická práca s dátami na počítači','Data analysis on a computer'), 'business':('office','Moderné kancelárske pracovisko','Modern office workspace'), 'retail':('clothing shop','Predajňa oblečenia','Clothing store interior'), 'trust':('handshake','Obchodné rokovanie a spolupráca','Business negotiation and collaboration'), 'payments':('payment card','Platobná karta pri notebooku','Payment card near a laptop'), 'seo':('laptop','Práca s webovou stránkou na notebooku','Website work on a laptop'), 'webdesign':('computer desk','Pracovisko webového dizajnéra','Web designer workstation'), 'budget':('calculator','Finančné plánovanie pri stole','Financial planning at a desk'), 'analytics':('chart','Grafy a analytika na počítači','Charts and analytics on a computer'), 'branding':('studio','Kreatívny dizajnérsky ateliér','Creative design studio')}
 COMMONS_LICENSES={'CC0','Public domain','CC BY 2.0','CC BY 3.0','CC BY 4.0','CC BY-SA 2.0','CC BY-SA 3.0','CC BY-SA 4.0'}
+IRRELEVANT_COMMONS_TITLE=re.compile(r'(?i)\b(?:goats?|sheep|lambs?|cows?|cattle|dogs?|cats?|birds?|fish|statues?|sculptures?|flags?|logos?|icons?|drawings?|paintings?|diagrams?|maps?|screenshots?|cartoons?)\b')
 def load(root=ROOT):return json.loads((root/'journal-images.json').read_text())
 def save(data,root=ROOT):(root/'journal-images.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
 def group(name):
@@ -35,7 +36,7 @@ No unlicensed replacement or repeated image is ever used.
 """
  from PIL import Image, ImageOps, UnidentifiedImageError
  used_pages={p['source_page'] for p in data['photos']}
- for topic in sorted(topics) or ['business']:
+ for topic in sorted(topics,key=lambda t:(t=='business',t)) or ['business']:
   query,alt_sk,alt_en=COMMONS_SEARCH[topic]
   params=urlencode({'action':'query','generator':'search','gsrsearch':query,'gsrnamespace':6,
                     'gsrlimit':40,'prop':'imageinfo','iiprop':'url|size|extmetadata',
@@ -50,7 +51,7 @@ No unlicensed replacement or repeated image is ever used.
   print('Wikimedia Commons candidates:',topic,len(pages))
   for page in sorted(pages.values(),key=lambda p:p.get('index',1000)):
    title=page.get('title','')
-   if not re.search(r'\.(?:jpe?g|png|webp)$',title,re.I):continue
+   if not re.search(r'\.(?:jpe?g|png|webp)$',title,re.I) or IRRELEVANT_COMMONS_TITLE.search(title.replace('_',' ')):continue
    info=(page.get('imageinfo') or [{}])[0];meta=info.get('extmetadata') or {}
    lic=unescape(re.sub('<[^>]*>','',meta.get('LicenseShortName',{}).get('value',''))).strip()
    if lic not in COMMONS_LICENSES:continue
@@ -103,7 +104,7 @@ def choose_for_source(source,root=ROOT):
  if existing:validate_photo(existing,root);return existing
  text=(source.get('title','')+' '+' '.join(source.get('selection_keywords',[]))).casefold()
  topics={topic for topic,terms in TOPICS.items() if any(term in text for term in terms)}
- used=set(data['assignments'].values());candidates=[p for p in data['photos'] if p['id'] not in used and topics.intersection(p['topics'])]
+ used=set(data['assignments'].values());candidates=[p for p in data['photos'] if p['id'] not in used and not p.get('excluded_from_reuse') and topics.intersection(p['topics'])]
  candidates.sort(key=lambda p:(-len(topics.intersection(p['topics'])),p['id']))
  photo=candidates[0] if candidates else acquire_commons_photo(topics,data,root)
  if not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')

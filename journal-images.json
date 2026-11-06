@@ -611,6 +611,7 @@
     },
     {
       "id": "commons-18ced866ff2789",
+      "excluded_from_reuse": true,
       "provider": "Wikimedia Commons",
       "provider_id": "156460057",
       "source_page": "https://commons.wikimedia.org/wiki/File:Office_Goats.jpg",
@@ -661,6 +662,6 @@
     "blog-journal-review-2026-11-06-976f4ac7554a.html": "commons-b9e72fe0f57fa9",
     "blog-journal-review-2026-11-06-3268038cd03a.html": "commons-7629598121a89a",
     "blog-journal-review-2026-11-06-6ec3d67c0fa0.html": "commons-21e55ac07e8e9f",
-    "blog-journal-review-2026-11-06-439b1cc5fbf3.html": "commons-18ced866ff2789"
+    "blog-journal-review-2026-11-06-439b1cc5fbf3.html": "budget-review-reserve"
   }
 }

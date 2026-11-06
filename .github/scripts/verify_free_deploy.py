@@ -12,7 +12,12 @@ for attempt in range(24):
  if build['status']=='errored' and build.get('commit')==expected:raise SystemExit('GitHub Pages build failed')
  time.sleep(10)
 else:raise SystemExit('Pages build not confirmed within four minutes')
-subprocess.run([sys.executable,'scripts/check_deployed_urls.py'],cwd=root,check=True)
+for deployment_attempt in range(8):
+ result=subprocess.run([sys.executable,'scripts/check_deployed_urls.py'],cwd=root)
+ if result.returncode==0:break
+ if deployment_attempt==7:raise SystemExit('Deployed URL validation still failing after CDN propagation retries')
+ print('Pages CDN or other deployment may still be propagating; rechecking public URLs in 20 seconds',flush=True)
+ time.sleep(20)
 report=json.loads((root/'deployment-url-report.json').read_text());report['pages_build_status']=build['status'];report['pages_commit']=build.get('commit')
 # This output intentionally records technical availability, never Google index status.
 with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
