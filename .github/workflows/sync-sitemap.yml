@@ -27,6 +27,7 @@ jobs:
         with:
           ref: main
           persist-credentials: true
+          fetch-depth: 0
       - name: Odstrániť neplatné karty blogu a skontrolovať SEO
         run: python3 .github/scripts/audit_webu.py
       - name: Prepojit vsetky SK a EN clanky s relevantnym obsahom
