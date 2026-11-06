@@ -3,12 +3,13 @@
 from pathlib import Path
 from urllib.parse import urlsplit, urlencode
 from html import escape, unescape
-import hashlib,io,json,re,datetime as dt,urllib.request
+import hashlib,io,json,re,datetime as dt,urllib.request,sys
 ROOT=Path(__file__).resolve().parents[2]
 SITE='https://www.webu.sk/'
 PAIRS={'blog-5-chyb-na-webstranke.html':'blog-5-website-mistakes-en.html','blog-cena.html':'blog-pricing-business-en.html','blog-dovera.html':'blog-customer-trust-en.html','blog-luxus.html':'blog-luxury-en.html','blog-web.html':'blog-website-roi-en.html','blog-kolko-stoji-webstranka.html':'blog-website-cost-en.html','blog-seo-webstranky.html':'blog-seo-websites-en.html'}
 TOPICS={'workplace':['employee','workforce','workplace','zamestnan','pracovn'], 'ai':['artificial intelligence','chatbot','konverz','chatgpt'], 'pricing':['pricing','price','cenotvor','ceny','cenu'], 'data':['data','dáta','udržateľ','sustainab'], 'business':['business','entrepreneur','podnik','marketing','resources'], 'trust':['trust','dôver'], 'payments':['payment','platb'], 'seo':['seo','search engine'], 'webdesign':['website','webstrán','web design'], 'budget':['budget','rozpočet'], 'analytics':['analytics','analýz'], 'branding':['brand','značk','luxury','luxus']}
-COMMONS_SEARCH={'workplace':('office meeting team','tím pri pracovnom stretnutí','Team at an office meeting'), 'ai':('computer technology laptop','Práca s počítačovou technológiou','Working with computer technology'), 'pricing':('calculator business desk','Kalkulačka na pracovnom stole','Calculator on a work desk'), 'data':('data analytics computer','Analytická práca s dátami na počítači','Data analysis on a computer'), 'business':('business office workspace','Moderné kancelárske pracovisko','Modern office workspace'), 'trust':('business handshake office','Obchodné rokovanie a spolupráca','Business negotiation and collaboration'), 'payments':('payment credit card laptop','Platobná karta pri notebooku','Payment card near a laptop'), 'seo':('website laptop screen','Práca s webovou stránkou na notebooku','Website work on a laptop'), 'webdesign':('web designer computer desk','Pracovisko webového dizajnéra','Web designer workstation'), 'budget':('calculator financial documents','Finančné plánovanie pri stole','Financial planning at a desk'), 'analytics':('statistics charts laptop','Grafy a analytika na počítači','Charts and analytics on a computer'), 'branding':('creative studio design','Kreatívny dizajnérsky ateliér','Creative design studio')}
+COMMONS_SEARCH={'workplace':('office meeting','tím pri pracovnom stretnutí','Team at an office meeting'), 'ai':('computer laptop','Práca s počítačovou technológiou','Working with computer technology'), 'pricing':('calculator','Kalkulačka na pracovnom stole','Calculator on a work desk'), 'data':('data visualization','Analytická práca s dátami na počítači','Data analysis on a computer'), 'business':('office','Moderné kancelárske pracovisko','Modern office workspace'), 'trust':('handshake','Obchodné rokovanie a spolupráca','Business negotiation and collaboration'), 'payments':('payment card','Platobná karta pri notebooku','Payment card near a laptop'), 'seo':('laptop','Práca s webovou stránkou na notebooku','Website work on a laptop'), 'webdesign':('computer desk','Pracovisko webového dizajnéra','Web designer workstation'), 'budget':('calculator','Finančné plánovanie pri stole','Financial planning at a desk'), 'analytics':('chart','Grafy a analytika na počítači','Charts and analytics on a computer'), 'branding':('studio','Kreatívny dizajnérsky ateliér','Creative design studio')}
+COMMONS_LICENSES={'CC0','Public domain','CC BY 2.0','CC BY 3.0','CC BY 4.0','CC BY-SA 2.0','CC BY-SA 3.0','CC BY-SA 4.0'}
 def load(root=ROOT):return json.loads((root/'journal-images.json').read_text())
 def save(data,root=ROOT):(root/'journal-images.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
 def group(name):
@@ -20,7 +21,7 @@ def photo_for(name,data):
  return next((p for p in data['photos'] if p['id']==key),None)
 def validate_photo(photo,root=ROOT):
  pexels=photo.get('license')=='Pexels License' and photo.get('license_url')=='https://www.pexels.com/license/' and photo.get('source_page','').startswith('https://www.pexels.com/photo/')
- commons=photo.get('provider')=='Wikimedia Commons' and photo.get('license') in ('CC0','Public domain','CC BY 3.0','CC BY 4.0') and photo.get('source_page','').startswith('https://commons.wikimedia.org/wiki/File:') and photo.get('license_url','').startswith('https://')
+ commons=photo.get('provider')=='Wikimedia Commons' and photo.get('license') in COMMONS_LICENSES and photo.get('source_page','').startswith('https://commons.wikimedia.org/wiki/File:') and photo.get('license_url','').startswith('https://')
  if not (pexels or commons) or not photo.get('commercial_use_verified_at'):raise ValueError('Image license evidence missing')
  if photo.get('width')!=1280 or photo.get('height')!=720 or not all(photo.get('alt',{}).get(l) for l in ('sk','en')):raise ValueError('Image size or localized alt missing')
  for name in photo['files'].values():
@@ -43,19 +44,24 @@ No unlicensed replacement or repeated image is ever used.
                             headers={'User-Agent':'WEBUJournal/2.0 (https://www.webu.sk/; editorial image sourcing)'})
   try:
    with urllib.request.urlopen(req,timeout=25) as response:pages=json.load(response).get('query',{}).get('pages',{})
-  except (OSError,ValueError):continue
+  except (OSError,ValueError) as exc:
+   print('Wikimedia Commons API unavailable for',topic,type(exc).__name__,str(exc)[:100],file=sys.stderr)
+   continue
+  print('Wikimedia Commons candidates:',topic,len(pages))
   for page in sorted(pages.values(),key=lambda p:p.get('index',1000)):
    title=page.get('title','')
    if not re.search(r'\.(?:jpe?g|png|webp)$',title,re.I):continue
    info=(page.get('imageinfo') or [{}])[0];meta=info.get('extmetadata') or {}
    lic=unescape(re.sub('<[^>]*>','',meta.get('LicenseShortName',{}).get('value',''))).strip()
-   if lic not in ('CC0','Public domain','CC BY 3.0','CC BY 4.0'):continue
+   if lic not in COMMONS_LICENSES:continue
    link=info.get('descriptionurl','')
    if link in used_pages or not link.startswith('https://commons.wikimedia.org/wiki/File:'):continue
    if info.get('width',0)<1280 or info.get('height',0)<720:continue
    url=info.get('thumburl') or info.get('url','')
    if not url.startswith('https://upload.wikimedia.org/'):continue
    license_url=meta.get('LicenseUrl',{}).get('value','')
+   if license_url.startswith('http://creativecommons.org/'):
+    license_url='https://'+license_url.removeprefix('http://')
    if not license_url.startswith('https://'):
     if lic=='CC0':license_url='https://creativecommons.org/publicdomain/zero/1.0/'
     elif lic=='Public domain':license_url='https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain'

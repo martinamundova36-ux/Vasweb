@@ -2,7 +2,7 @@
 
 Overené 4. 11. 2026. Zdroj: Pexels. Licencia: https://www.pexels.com/license/
 
-Od 6. 11. 2026 sa pri vyčerpaní kurátorovanej Pexels knižnice môžu automaticky pridať aj licencované fotografie z Wikimedia Commons (CC0, Public domain alebo CC BY 3.0/4.0). Každá musí mať samostatný zdroj, autora, overenú licenciu, kontrolný súčet a vlastné lokálne optimalizované varianty; výber bez licencie sa odmietne. Nové zdroje sa zapisujú nižšie a do `journal-images.json`.
+Od 6. 11. 2026 sa pri vyčerpaní kurátorovanej Pexels knižnice môžu automaticky pridať aj licencované fotografie z Wikimedia Commons (CC0, Public domain, CC BY alebo CC BY-SA). Každá musí mať samostatný zdroj, autora, overenú licenciu, kontrolný súčet a vlastné lokálne optimalizované varianty; prípadné odvodené súbory pri CC BY-SA zostávajú pod rovnakou licenciou. Výber bez licencie sa odmietne. Nové zdroje sa zapisujú nižšie a do `journal-images.json`.
 
 Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú ilustračné; nezobrazujú účastníkov štúdií ani odporúčanie služby zobrazenými ľuďmi. Autori sú uvedení tam, kde boli overení. Neoverené meno autora sa nevymýšľa. Originálne zdrojové URL a SHA-256, lokalizované alty a hashe optimalizovaných súborov sú v journal-images.json.
 
@@ -26,7 +26,3 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 | team-planning-reserve | Yan Krukau | https://www.pexels.com/photo/a-person-using-a-laptop-while-in-a-meeting-7693733/ | rezerva |
 | team-collaboration-reserve | Andrea Piacquadio | https://www.pexels.com/photo/diverse-business-team-working-on-laptop-in-modern-office-3931504/ | rezerva |
 | budget-review-reserve | Pexels – meno autora neoverené | https://www.pexels.com/photo/person-using-a-calculator-and-a-laptop-8296991/ | rezerva |
-
-- commons-b9e72fe0f57fa9: [Darakshanehaluddin](https://commons.wikimedia.org/wiki/File:Laptop_image.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/); automaticky prevzaté ako ilustračná fotografia.
-
-- commons-7629598121a89a: [Barry Moore](https://commons.wikimedia.org/wiki/File:Barry_Moore_team_at_meeting.jpg), licencia [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain); automaticky prevzaté ako ilustračná fotografia.
