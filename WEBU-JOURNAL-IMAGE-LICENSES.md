@@ -26,3 +26,7 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 | team-planning-reserve | Yan Krukau | https://www.pexels.com/photo/a-person-using-a-laptop-while-in-a-meeting-7693733/ | rezerva |
 | team-collaboration-reserve | Andrea Piacquadio | https://www.pexels.com/photo/diverse-business-team-working-on-laptop-in-modern-office-3931504/ | rezerva |
 | budget-review-reserve | Pexels – meno autora neoverené | https://www.pexels.com/photo/person-using-a-calculator-and-a-laptop-8296991/ | rezerva |
+
+- commons-21e55ac07e8e9f: [MonarchErgoIndia](https://commons.wikimedia.org/wiki/File:Office_Furniture.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-18ced866ff2789: [Maria Neiva Almeida](https://commons.wikimedia.org/wiki/File:Office_Goats.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.

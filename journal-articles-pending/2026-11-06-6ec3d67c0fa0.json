@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.1108/jfbm-06-2026-0191",
+  "generated_on": "2026-11-06",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Kto skutočne profituje z nového pracovného štýlu? Spravodlivosť v rodinných firmách",
+      "description": "Analýza štúdie o vnímaní flexibility modrými a bielymi goliermi v rodinných firmách, s praktickými odporúčaniami pre WEBU.",
+      "lead": "Transformácia smerom k novému pracovnému štýlu prináša výzvy aj príležitosti, pretože flexibilita na pracovisku ovplyvňuje rôznych zamestnancov nerovnako. Tento článok prináša pohľad na najnovší výskum publikovaný v Journal of Family Business Management, ktorý zohľadňuje obmedzenia dostupných informácií.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Súčasný trh práce prechádza prudkými zmenami, ktoré sú často zastrešené pojmom „new work“. Zatiaľ čo administratívni pracovníci profitujú z home officu a flexibilného pracovného času, robotníci a zamestnanci vo výrobe často čelia odlišným podmienkam. Táto nerovnosť otvára dôležitú diskusiu o tom, ako jednotlivé skupiny vnímajú spravodlivosť na pracovisku.",
+            "Nová štúdia, ktorú autorský kolektív v zložení David Maximilian Gerhard Fischer, Nevena Toporova a Alwine Mohnen publikoval v novembri 2026, sa pozrela na túto problematiku hlbšie. Zameriava sa najmä na porovnanie rodinných a ne-rodinných podnikov a na to, ako rôzne pracovné pozície ovplyvňujú hodnotenie spravodlivosti zo strany zamestnancov."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu sa výskum zameriava na to, ako zamestnanci na pozíciách s modrými a bielymi goliermi prežívajú a vnímajú praktiky nového pracovného štýlu v rodinných firmách. Hlavným objektívom skúmania bola organizovaná spravodlivosť a jej vnímanie v špecifickom kontexte rodinného podnikania.",
+            "Autori v štúdii porovnávali tri nemecké rodinné firmy a jednu ne-rodinnú firmu pôsobiace v tradičných odvetviach. Cieľom bolo zistiť, do akej miery formujú pracovné roly a organizačné prostredie reakcie zamestnancov na zavádzané opatrenia flexibility."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu prináša štúdia zaujímavý paradox. Hoci pracovníci vo výrobe čelia obmedzenému prístupu k opatreniam flexibility, podľa dostupných zistení nevnímajú distribučnú nespravodlivosť, pretože obmedzenia pripisujú povahe svojej profesie.",
+            "Výskum taktiež poukazuje na vznikajúce obavy týkajúce sa interpersonálnej spravodlivosti, ktoré sú spôsobené menšou dostupnosťou vedúcich pracovníkov pri hybridnej práci. Zistenia ukazujú, že mechanizmy spravodlivosti zostávajú naprieč rôznymi kontextmi konzistentné, hociaż implementačné prístupy sa líšia."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Autori zvolili kvalitatívny dizajn viac-prípadovej štúdie, ktorého základom bolo 27 pološtruktúrovaných rozhovorov uskutočnených v troch nemeckých rodinných firmách a jednej ne-rodinnej firme. Zozbierané dáta boli následne analyzované pomocou kvalitatívnej obsahovej analýzy.",
+            "Je však nutné zdôrazniť dôležitý limit: tento článok vychádza výhradne z vydavateľom poskytnutého abstraktu, keďže úplný text štúdie nebol verifikovaný. Z tohto dôvodu nie je možné detailne posudzovať širšie štatistické súvislosti, hĺbku kódovania dát ani ďalšie metodické nuansy uvedené v plnom znení."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Na základe týchto poznatkov prináša WEBU redakčný návrh pre majiteľov malých firiem, tvorcov webov a manažérov. Pri navrhovaní interných portálov alebo intranetov je kľúčové zabezpečiť transparentnú komunikáciu pre zamestnancov vo výrobe aj v kanceláriách, aby sa predišlo pocitom nerovnosti pri zavádzaní nových digitálnych nástrojov.",
+            "V oblasti marketingu a správy pracovísk odporúčame jasne komunikovať hodnoty firmy. Ak digitálne inovácie alebo hybridné modely prinášajú výhody len časti tímu, webové rozhrania a firemné aplikácie by mali obsahovať kanály pre priamu spätnú väzbu, čo pomôže zmierniť obavy z interpersonálnej nespravodlivosti a nedostupnosti vedenia."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Štúdia prináša cenný pohľad na fungovanie rodinných podnikov a výzvy spojené s modernizáciou práce. Ukazuje sa, že legitimita povolania zohráva pri vnímaní spravodlivosti kľúčovú úlohu, ktorá presahuje jednoduchú rovnosť výsledkov.",
+            "Pre ďalší vývoj v praxi je však nevyhnutné sledovať kompletné texty odborných prác a overovať zistenia v širších podmienkach, pričom dôraz na férovú komunikáciu s každým zamestnancom zostáva základným stavebným kameňom úspechu."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Who Benefits from New Work? Employee Perceptions in Family Businesses",
+      "description": "An analysis of a study on blue and white-collar flexibility perceptions in family firms, featuring practical recommendations for WEBU.",
+      "lead": "The transformation toward new work creates both opportunities and challenges, affecting employees unevenly across roles. This editorial examines recent research published in the Journal of Family Business Management, while carefully considering the limits of available source data.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "The contemporary workplace is undergoing rapid shifts under the banner of new work. While desk-based workers frequently enjoy remote options and flexible hours, frontline and production employees often experience entirely different operational realities. This divide brings critical questions regarding workplace justice to the forefront of organizational management.",
+            "A recent study authored by David Maximilian Gerhard Fischer, Nevena Toporova, and Alwine Mohnen, published in November 2026, explores these dynamics closely. It investigates how family ownership contexts and occupational roles intersect to shape employee evaluations of organizational fairness."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the study examines how blue-collar and white-collar employees experience and perceive new work practices within family businesses. The primary analytical focus centers on organizational justice within this distinct corporate setting.",
+            "The authors conducted a comparative investigation across three German family firms and one non-family firm operating within traditional industries. The research was designed to uncover how occupational roles and organizational structures jointly shape employee responses to flexibility measures."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, the research reveals a notable paradox. Although blue-collar workers face restricted access to flexibility measures, they do not report perceiving distributive injustice, instead attributing these limitations to inherent occupational constraints.",
+            "Furthermore, interpersonal justice concerns emerge as a result of reduced decision-maker accessibility during hybrid work arrangements. The findings indicate that while implementation styles vary, core justice mechanisms remain consistent across different organizational contexts."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The study adopted a qualitative multiple-case study design relying on 27 semi-structured interviews conducted across three German family firms and one non-family firm. The resulting data were evaluated using qualitative content analysis.",
+            "However, an important limitation must be highlighted: this review relies exclusively on the publisher-supplied abstract without access to the verified full-text article. Consequently, readers should interpret these insights within the boundaries of the summary data, pending complete methodological scrutiny."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "Drawing on these insights, WEBU offers dedicated editorial recommendations for small business owners, web designers, and workplace managers. When deploying digital intranets or operational dashboards, companies must design interfaces that bridge the communication gap between deskless workers and remote staff.",
+            "In digital marketing and workplace management, clear communication of company values is essential. If new work policies benefit only a segment of the workforce, internal web portals should integrate dedicated feedback channels to counteract potential interpersonal justice issues and management disconnect."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The research offers valuable perspectives on the boundaries of family ownership and modern work implementation. It suggests that perceived occupational legitimacy dictates fairness judgments rather than mere outcome equality.",
+            "For ongoing organizational practice, maintaining open communication channels across all employment tiers remains imperative, ensuring that digital and structural transformations foster collective trust."
+          ]
+        }
+      ]
+    }
+  }
+}
