@@ -84,7 +84,7 @@ jobs:
         run: echo "due=$(python3 .github/scripts/journal_daily_status.py --due)" >> "$GITHUB_OUTPUT"
   publish:
     needs: validate
-    if: github.event.repository.private == false && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') || (github.event_name == 'push' && github.actor == github.repository_owner && contains(github.event.head_commit.message, '[journal-recover]')) || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner && inputs.action != 'notify-test'))
+    if: github.event.repository.private == false && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-recover]')) || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner && inputs.action != 'notify-test'))
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -191,7 +191,7 @@ jobs:
       - name: Denný pravdivý stav aj pri nepripravených článkoch alebo chybe vyhľadávania
         if: >-
           always() && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
-          (github.event_name == 'push' && github.actor == github.repository_owner && contains(github.event.head_commit.message, '[journal-recover]')) ||
+          (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-recover]')) ||
           (github.event_name == 'workflow_dispatch' && inputs.action == 'draft'))
         env:
           GH_TOKEN: ${{ github.token }}
