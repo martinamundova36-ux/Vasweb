@@ -101,7 +101,12 @@ def main():
     for path in (ROOT/"journal-drafts").glob("*.json"):
         source=json.loads(path.read_text())
         pending+=bool(source.get("drafted_at")==TODAY and not source.get("published_at") and not source.get("test_only"))
-    summary={"date":TODAY,"automatically_published":published,
+    all_published=sorted(
+        path.stem
+        for path in (ROOT/'journal-drafts').glob('*.json')
+        if (lambda item: item.get('published_at')==TODAY and item.get('approved_by') in ('abstract_automation','verified_automation'))(json.loads(path.read_text()))
+    )
+    summary={"date":TODAY,"automatically_published":all_published,"published_this_run":published,
                       "held_due_to_missing_review_or_gates":pending,
                       "publication_errors":held,"mode":"transparent_abstract_editorials"}
     report=ROOT/'journal-reports'/('automatic-publication-'+TODAY+'.json')

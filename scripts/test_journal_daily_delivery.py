@@ -9,8 +9,8 @@ import journal_approval as approval
 class DeliveryTests(unittest.TestCase):
  def test_due_skips_completed_day_and_retries_failures(self):
   with tempfile.TemporaryDirectory() as tmp, patch.object(daily,'ROOT',Path(tmp)):
-   self.assertFalse(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T06:59:00+00:00')))
-   self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T07:00:00+00:00')))
+   self.assertFalse(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T05:59:00+00:00')))
+   self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T06:07:00+00:00')))
    folder=Path(tmp)/'journal-reports/daily-delivery';folder.mkdir(parents=True)
    marker=folder/'2026-11-05.json';marker.write_text(json.dumps({'discovery_result':'failure'}))
    self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T08:17:00+00:00')))

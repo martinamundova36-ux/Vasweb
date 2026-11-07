@@ -21,7 +21,7 @@
     "search engine customer conversion"
   ],
   "paid_ai_enabled": false,
-  "schedule_note": "Daily target 08:00 Europe/Bratislava; catch-up checks at :17/:37 through 11:37, deduplicated by local-day delivery record; GitHub scheduling can be delayed",
+  "schedule_note": "Articles should be ready by 08:00 Europe/Bratislava. Preparation starts at 07:07; catch-up checks at :07/:27/:47 through 11:47. GitHub scheduling can be delayed or dropped.",
   "target_studies_per_day": 5,
   "approval_notifications": {
     "owner": "martinamundova36-ux",

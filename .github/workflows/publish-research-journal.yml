@@ -28,7 +28,7 @@ on:
       - 'scripts/test_free_journal.py'
       - 'journal-drafts/*.json'
   schedule:
-    - cron: '0,17,37 8-11 * * *'
+    - cron: '7,27,47 7-11 * * *'
       timezone: 'Europe/Bratislava'
   issue_comment:
     types: [created]
@@ -140,8 +140,8 @@ jobs:
             git push origin HEAD:main
             echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
-      - name: Po schválenom publikovaní vyžiadať existujúci GitHub Pages build
-        if: inputs.action == 'deploy' || steps.commit.outputs.changed == 'true'
+      - name: Ručne obnoviť Pages iba pri výslovnom deploy (push nasadzuje automaticky)
+        if: inputs.action == 'deploy'
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 .github/scripts/pages_api.py
