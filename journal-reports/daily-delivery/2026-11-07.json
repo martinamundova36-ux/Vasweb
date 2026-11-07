@@ -6,7 +6,9 @@
   "published_articles": 5,
   "generated_manuscripts": 5,
   "bibliographic_candidates": 5,
-  "discovery_result": "failure",
+  "discovery_result": "success",
   "github_notice_created": true,
-  "email_delivery": "not confirmed"
+  "email_delivery": "not confirmed",
+  "pages_deployed": true,
+  "pages_verified_run": "https://github.com/martinamundova36-ux/Vasweb/actions/runs/42358579167"
 }
