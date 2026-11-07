@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-07T09:03:05.354992+00:00",
+  "checked_at": "2026-11-07T09:05:21.442701+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "0,17,37 8-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
@@ -15,11 +15,10 @@
     "2026-11-07-7c8f2ad8a17c",
     "2026-11-07-43db15236ea1",
     "2026-11-07-8dfe25be4d3a",
-    "2026-11-07-4b26c13db879"
-  ],
-  "ready_bilingual_articles": [
+    "2026-11-07-4b26c13db879",
     "2026-11-06-9c4c4252e94d"
   ],
+  "ready_bilingual_articles": [],
   "pending_editorial_work": [
     {
       "id": "2026-11-04-5b5dc38594ea",
@@ -64,6 +63,7 @@
     "2026-11-06-439b1cc5fbf3",
     "2026-11-06-6ec3d67c0fa0",
     "2026-11-06-976f4ac7554a",
+    "2026-11-06-9c4c4252e94d",
     "2026-11-06-a508bd757266",
     "2026-11-07-43db15236ea1",
     "2026-11-07-4b26c13db879",

@@ -801,6 +801,38 @@
         "1280": "a6ec698e16a7c10cf0ff4323758390ee1dacc7ace5ee245b6bfca2f6bbca4a4f",
         "social": "7c1d1e103819116f6ad5b92f519a699973f8d258ced02972d0c41cd0e45750f9"
       }
+    },
+    {
+      "id": "commons-2283390bbd44a9",
+      "provider": "Wikimedia Commons",
+      "provider_id": "198260345",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Chirani_Signature_Hotel_Reception_Desk.png",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Chirani_Signature_Hotel_Reception_Desk.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Chiranisignaturehotel",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-07",
+      "original_sha256": "edd50769aa3a98e70124c2405a49ea84fa00d535c57f6f12ce6f3925ce73167a",
+      "topics": [
+        "tourism"
+      ],
+      "alt": {
+        "sk": "Hotelová recepcia ako prostredie podnikania v cestovnom ruchu",
+        "en": "Hotel reception in the tourism industry"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-2283390bbd44a9-640.webp",
+        "1280": "/assets/journal/commons-2283390bbd44a9-1280.webp",
+        "social": "/assets/journal/commons-2283390bbd44a9-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "67042fb9e9aecb6053ff17e7afc5c922e3cced335302c5293021ecb42dcdbd44",
+        "1280": "ac348fd76af61f8a6047a9fbb8cf6c761bc413bd81137377079cb0db161fd198",
+        "social": "db706617ec84c0225ef038eba8b2ec4dae4cf53f1373316b98d1b73b3b566751"
+      }
     }
   ],
   "assignments": {
@@ -827,6 +859,7 @@
     "blog-journal-review-2026-11-07-43db15236ea1.html": "commons-f331f018f40229",
     "blog-journal-review-2026-11-07-8dfe25be4d3a.html": "commons-25bf0d1524d2cd",
     "blog-journal-review-2026-11-07-4b26c13db879.html": "commons-6ee4892cf5ee1c",
-    "blog-journal-review-2026-11-07-7c8f2ad8a17c.html": "commons-c16f1d45c75cab"
+    "blog-journal-review-2026-11-07-7c8f2ad8a17c.html": "commons-c16f1d45c75cab",
+    "blog-journal-review-2026-11-06-9c4c4252e94d.html": "commons-2283390bbd44a9"
   }
 }
