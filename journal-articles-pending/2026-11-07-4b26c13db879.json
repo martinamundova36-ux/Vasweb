@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.1007/s43621-026-04806-1",
+  "generated_on": "2026-11-07",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Etická umelá inteligencia v riadení ľudských zdrojov: Bibliometrický prehľad",
+      "description": "Preskúmajte, ako štúdia analyzuje prienik etiky umelej inteligencie, HR a udržateľnosti prostredníctvom Scopus databázy a bibliometrických dát.",
+      "lead": "Súčasné pracoviská čelia rýchlej transformácii vďaka nasadzovaniu umelej inteligencie. Nová štúdia publikovaná v časopise Discover Sustainability prináša hĺbkový pohľad na to, ako riadenie ľudských zdrojov integruje etické princípy AI na dosiahnutie cieľov udržateľného rozvoja.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Moderné pracovné prostredie prechádza zásadnými zmenami, pričom umelá inteligencia sa stáva bežnou súčasťou každodenných procesov. S týmto technologickým pokrokom však prichádzajú aj závažné etické výzvy, najmä v oblasti riadenia ľudských zdrojov, kde rozhodnutia ovplyvňujú kariéru a životy zamestnancov.",
+            "Autori Rahmanwali Sahar a Munjiati Munawaroh sa vo svojom výskume zameriavajú na prepojenie medzi etickou umelou inteligenciou a udržateľným rozvojom pracovísk. Ich práca poskytuje cenný pohľad na teoretické a praktické výzvy, ktorým moderné organizácie čelia pri zavádzaní pokročilých technológií."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu sa táto štúdia zameriava na skúmanie vyvíjajúcej sa úlohy riadenia ľudských zdrojov pri manažmente etickej umelej inteligencie s cieľom podporiť dosiahnutie cieľov udržateľného rozvoja na pracovisku. Výskumníci aplikovali kombinovaný prístup, ktorý spája bibliometrickú analýzu a štúdium literatúry.",
+            "Podľa abstraktu bola analýza postavená na literatúre indexovanej v databáze Scopus. Bibliometrická zložka sa venovala sledovaniu publikačných trendov, príspevkov jednotlivých krajín a inštitúcií, ko-okurencií kľúčových slov a sietí spolupatričnosti autorov."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu odhalila analýza rastúci akademický záujem o prienik personalistiky, etiky AI a udržateľnosti. Významné príspevky pochádzajú z krajín ako India, Čína, Spojené štáty, Spojené kráľovstvo a Rumunsko, pričom medzi popredné inštitúcie patrili Symbiosis International Deemed University a University of Delhi.",
+            "Podľa abstraktu poukázala ko-okurencia kľúčových termínov na ústredné témy, medzi ktoré patrí riadenie ľudských zdrojov, umelá inteligencia, rozhodovanie, etické technológie a prediktívna analytika. Analýza ko-autorstva navyše odhalila miernu výskumnú spoluprácu s potenciálom pre globálny rozvoj."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Metodika výskumu, ako uvádza abstrakt, pozostávala z kombinácie bibliometrickej analýzy a systematického prehľadu literatúry. Sekcia literatúry skúmala koncepčné poznatky a praktické smerovania z najrelevantnejších odborných publikácií, pričom definovala aj odporúčania pre prax.",
+            "Je však dôležité zdôrazniť limity uvedené v abstrakte. Štúdia sa spolieha výlučne na publikácie indexované v databáze Scopus, čo mohlo vynechať relevantné štúdie z iných zdrojov alebo v iných než anglických jazykoch. Okrem toho bibliometrický prístup nezachytáva kvalitatívne dimenzie, ako sú kontextové či odvetvové špecifiká."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Z pohľadu našej redakcie WEBU prináša táto štúdia podnetné inšpirácie pre malé podniky a tvorcov digitálneho obsahu či marketingu. Pri nábore nových členov tímu alebo tvorbe personalizovaných marketingových kampaní prostredníctvom algoritmov by firmy mali dbať na transparentnosť a etickú nezaujatosť, aby neporušovali práva používateľov.",
+            "Weboví dizajnéri a marketéri by mali implementovať zásady digitálnej inklúzie a overovať dáta, ktoré vstupujú do analytických nástrojov. Na základe redakčných odporúcaní by majitelia malých firiem mali vytvoriť jasné interné pravidlá pre používanie AI nástrojov pri spracovaní zákazníckych dát a komunikácii."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Podľa abstraktu sa personalistika posúva od administratívnej funkcie k strategickému hráčovi, ktorý riadi etické nasadenie technológií v nábore, hodnotení výkonu a rozvoji organizácie. Autori navrhujú, aby HR pôsobilo ako etický strážca prostredníctvom pevných politík governance a podpory gramotnosti zamestnancov.",
+            "Budúci výskum by mal podľa abstraktu obsiahnuť širšie dátové súbory a empirické prípadové štúdie na prehĺbenie pochopenia etických postupov AI v rôznych organizačných kontextoch. Celkovo ide o dôležitý krok k udržateľnejšej a zodpovednejšej budúcnosti práce."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Ethical Artificial Intelligence in Human Resource Management: A Bibliometric Review",
+      "description": "Explore how this study examines the intersection of AI ethics, HRM, and sustainability using Scopus data and bibliometric methods.",
+      "lead": "Modern workplaces face rapid digital transformation driven by artificial intelligence. A new study published in Discover Sustainability offers deep insights into how human resource management integrates ethical AI principles to achieve sustainable development goals.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "The contemporary work environment undergoes fundamental shifts as artificial intelligence becomes a standard part of daily operations. Along with technological advancements come significant ethical challenges, particularly within human resource management where decisions impact careers and employee wellbeing.",
+            "Authors Rahmanwali Sahar and Munjiati Munawaroh focus their research on connecting ethical artificial intelligence with sustainable workplace practices. Their work provides valuable perspective on the theoretical and practical hurdles organizations encounter when adopting advanced tools."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the study explores the evolving role of human resource management in managing ethical artificial intelligence to support sustainable development goals in workplaces. The researchers applied a mixed-methods approach combining bibliometric and literature review methodologies.",
+            "According to the abstract, the analysis relied on Scopus-indexed literature. The bibliometric component examined publication trends, country and institutional contributions, keyword co-occurrence, and co-authorship networks among scholars worldwide."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, the analysis revealed increasing academic interest in the intersection of HRM, AI ethics, and sustainability, with significant contributions from India, China, the United States, the United Kingdom, and Romania. Leading affiliations included Symbiosis International Deemed University and the University of Delhi.",
+            "According to the abstract, keyword co-occurrence highlighted central themes such as human resource management, artificial intelligence, decision-making, ethical technology, and predictive analytics. Co-authorship analysis showed moderate research collaboration indicating potential for global networking."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The methodology, as noted in the abstract, merged bibliometric analysis with a systematic literature review. The literature review component examined conceptual insights and practical directions derived from highly relevant scholarly publications.",
+            "However, the abstract explicitly outlines key limitations. The study relies solely on Scopus-indexed publications, which may omit relevant studies from other databases or non-English literature. Additionally, the bibliometric approach fails to capture qualitative dimensions like contextual or industry-specific implementation challenges."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "From our WEBU editorial perspective, this study offers inspiring takeaways for small business owners, web designers, and digital marketers. When utilizing algorithms for recruitment, customer segmentation, or automated marketing campaigns, organizations must ensure transparency and algorithmic fairness to protect consumer rights.",
+            "Web developers and marketers should embed digital inclusivity principles and rigorously audit datasets fed into analytical systems. Based on editorial recommendations, small businesses should establish clear internal governance guidelines regarding how AI tools process customer and employee data."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "According to the abstract, human resource management is evolving from an administrative function into a strategic player guiding the ethical deployment of AI technologies in recruitment, performance management, and organizational development. Recommendations urge HR to act as an ethical gatekeeper.",
+            "Future research should incorporate broader datasets and empirical case studies, according to the abstract, to deepen the understanding of ethical AI practices across diverse organizational contexts and foster truly sustainable workplaces."
+          ]
+        }
+      ]
+    }
+  }
+}

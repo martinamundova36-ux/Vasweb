@@ -673,6 +673,134 @@
         "1280": "cc5c6a0a9e88c6e7664f994c3aea68601c14ea848d5df20f0465155a38c49411",
         "social": "fd89d5aa3b377828de329aeb8e19fff736510f94ece4cae9f96dc361a91beb2e"
       }
+    },
+    {
+      "id": "commons-f331f018f40229",
+      "provider": "Wikimedia Commons",
+      "provider_id": "117453710",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Katz_Men_-_Jackets._Pants._Shoes_-_shop_in_West_Baltimore,_MD.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Katz_Men_-_Jackets._Pants._Shoes_-_shop_in_West_Baltimore%2C_MD.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Middle river exports",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-07",
+      "original_sha256": "2fc47a4e4e26658466f91633a1437686d162b7e0f6751deb410d908cd9d0be5b",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Predajňa oblečenia",
+        "en": "Clothing store interior"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-f331f018f40229-640.webp",
+        "1280": "/assets/journal/commons-f331f018f40229-1280.webp",
+        "social": "/assets/journal/commons-f331f018f40229-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "4e3d906dd1e4f8a2f2b8c7daf358e989c2ed74a5e77261d5250e186d51787d36",
+        "1280": "61939148d4f34447b8d12e108ba5b0c8269b44e20bc7685bb06deb6281bdcf17",
+        "social": "0dcf5a505393ca65dd71295fea2657a07eb20628de502e23b71bb933cdc5c28a"
+      }
+    },
+    {
+      "id": "commons-25bf0d1524d2cd",
+      "provider": "Wikimedia Commons",
+      "provider_id": "160874389",
+      "source_page": "https://commons.wikimedia.org/wiki/File:President_Trump_and_Ukrainian_President_Zelenskyy_Clash_During_Meeting_in_Oval_Office,_Feb._28,_2025.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/President_Trump_and_Ukrainian_President_Zelenskyy_Clash_During_Meeting_in_Oval_Office%2C_Feb._28%2C_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "The White House",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain",
+      "commercial_use_verified_at": "2026-11-07",
+      "original_sha256": "b956cb08096f3c598bbff8bc58c234c7eab092d6e6e0035268f95a8330dc58b9",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "tím pri pracovnom stretnutí",
+        "en": "Team at an office meeting"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-25bf0d1524d2cd-640.webp",
+        "1280": "/assets/journal/commons-25bf0d1524d2cd-1280.webp",
+        "social": "/assets/journal/commons-25bf0d1524d2cd-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "406b13893ae00891f2ba6318b13e7b21f649c5dc247a0e3373570b685ae5a925",
+        "1280": "2449271e6dd0bf8ef8a5877c40e26d686f21f956857b2aa7cb2acd207a89bfbf",
+        "social": "0b5b227fab81528a554d74f2e8cc3e378102f9b6091f0d10fb8273edd30879a6"
+      }
+    },
+    {
+      "id": "commons-6ee4892cf5ee1c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "17306",
+      "source_page": "https://commons.wikimedia.org/wiki/File:IBM_Thinkpad_R51.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/IBM_Thinkpad_R51.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "André Karwath aka  Aka",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-07",
+      "original_sha256": "7682858b5d269829e0558fcfd18e58ff6055f1cafabc326504fe725a8e848dff",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s počítačovou technológiou",
+        "en": "Working with computer technology"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-6ee4892cf5ee1c-640.webp",
+        "1280": "/assets/journal/commons-6ee4892cf5ee1c-1280.webp",
+        "social": "/assets/journal/commons-6ee4892cf5ee1c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "e903afcdf869a27b0adb658a602e5ce5b54f9daeeed76f67efe3ee682d742a8d",
+        "1280": "18790b893fe62e51c8577741b697ea0de3db25b85e578713076e9bbe2901f44a",
+        "social": "8ff9935b8b88b727b3d833dbf647e34a5eaf0dc5e54ce967536a2826cfb19903"
+      }
+    },
+    {
+      "id": "commons-c16f1d45c75cab",
+      "provider": "Wikimedia Commons",
+      "provider_id": "153208747",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Clothing_shop_april_2006.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Clothing_shop_april_2006.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "billy verdin",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-07",
+      "original_sha256": "858b628d9293674d79e4fd309e75e20ba2f46148a5bc8e8222a5188565163678",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Predajňa oblečenia",
+        "en": "Clothing store interior"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-c16f1d45c75cab-640.webp",
+        "1280": "/assets/journal/commons-c16f1d45c75cab-1280.webp",
+        "social": "/assets/journal/commons-c16f1d45c75cab-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "36684a6681a4c97bebce5f3e9ca58a3ff5cff781d602f264092c849e255baa7f",
+        "1280": "a6ec698e16a7c10cf0ff4323758390ee1dacc7ace5ee245b6bfca2f6bbca4a4f",
+        "social": "7c1d1e103819116f6ad5b92f519a699973f8d258ced02972d0c41cd0e45750f9"
+      }
     }
   ],
   "assignments": {
@@ -695,6 +823,10 @@
     "blog-journal-review-2026-11-06-3268038cd03a.html": "commons-7629598121a89a",
     "blog-journal-review-2026-11-06-6ec3d67c0fa0.html": "commons-21e55ac07e8e9f",
     "blog-journal-review-2026-11-06-439b1cc5fbf3.html": "budget-review-reserve",
-    "blog-journal-review-2026-11-06-a508bd757266.html": "commons-1a74bb12a21718"
+    "blog-journal-review-2026-11-06-a508bd757266.html": "commons-1a74bb12a21718",
+    "blog-journal-review-2026-11-07-43db15236ea1.html": "commons-f331f018f40229",
+    "blog-journal-review-2026-11-07-8dfe25be4d3a.html": "commons-25bf0d1524d2cd",
+    "blog-journal-review-2026-11-07-4b26c13db879.html": "commons-6ee4892cf5ee1c",
+    "blog-journal-review-2026-11-07-7c8f2ad8a17c.html": "commons-c16f1d45c75cab"
   }
 }

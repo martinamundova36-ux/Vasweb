@@ -3158,6 +3158,606 @@
           }
         ]
       }
+    },
+    {
+      "id": "blog-journal-review-2026-11-07-43db15236ea1",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-07",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.36948/ijfmr.2026.v08i06.91538",
+          "apa7": "Sayed Wajid Peerzade (2026). Business Opportunities and Trends in India ‘Silver Market and Youth Premium Market’. International Journal For Multidisciplinary Research. https://doi.org/10.36948/ijfmr.2026.v08i06.91538",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-review-2026-11-07-43db15236ea1.html",
+          "title": "Indický strieborný a prémiový trh mládeže: Príležitosti a obmedzenia z pohľadu abstraktu",
+          "description": "Analýza štúdie o obchodných trendoch v Indii. Zameriava sa na strieborný trh a prémiový segment mládeže s dôrazom na limity dostupných dát.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-07",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "b90654e302ad03bc92d49988123a1cade6c96a929666eda86c0e0e3c07dcf92e"
+        },
+        "en": {
+          "path": "blog-journal-review-2026-11-07-43db15236ea1-en.html",
+          "title": "India's Silver Market and Youth Premium Market: Insights and Limits from the Abstract",
+          "description": "Editorial review of a study on Indian market trends, focusing on the silver market and youth premium segment while highlighting abstract limitations.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-07",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "a476651d1fa56bb003ce43c536eb7a14afaf046ad1578f577f29d9fe1d71b7e5"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-review-2026-11-07-4b26c13db879",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-07",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1007/s43621-026-04806-1",
+          "apa7": "Rahmanwali Sahar, Munjiati Munawaroh (2026). Ethical Artificial Intelligence in human resource management for sustainable workplaces a bibliometric and literature review. Discover Sustainability. https://doi.org/10.1007/s43621-026-04806-1",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-review-2026-11-07-4b26c13db879.html",
+          "title": "Etická umelá inteligencia v riadení ľudských zdrojov: Bibliometrický prehľad",
+          "description": "Preskúmajte, ako štúdia analyzuje prienik etiky umelej inteligencie, HR a udržateľnosti prostredníctvom Scopus databázy a bibliometrických dát.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-07",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "85c9d53b5019ad88532ff3823716a48f957f904ddc37ad93006ae2b21cef6fd3"
+        },
+        "en": {
+          "path": "blog-journal-review-2026-11-07-4b26c13db879-en.html",
+          "title": "Ethical Artificial Intelligence in Human Resource Management: A Bibliometric Review",
+          "description": "Explore how this study examines the intersection of AI ethics, HRM, and sustainability using Scopus data and bibliometric methods.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-07",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "e2bc4c5df9e445496fb1648b6a047771d2ce2aee0156678d1a3d802a84bbbd14"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-review-2026-11-07-7c8f2ad8a17c",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-07",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.56403/lejea.v5i2.542",
+          "apa7": "Rohmaniati Padang, Farida Giawa, Lulu Rayhan Hutagaol, Herniwati Gea, Riomas Sinurat (2026). <b>Pengaruh Online Customer Review terhadap Kepercayaan Konsumen dalam Berbelanja Online pada Aplikasi Tiktok</b>. Lead Journal of Economy and Administration. https://doi.org/10.56403/lejea.v5i2.542",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-review-2026-11-07-7c8f2ad8a17c.html",
+          "title": "Vplyv online recenzií na dôveru spotrebiteľov na TikToku: Čo hovorí nedávny výskum?",
+          "description": "Preskúmajte nové poznatky o vplyve online recenzií na dôveru spotrebiteľov v prostredí TikTok Shop a ich praktický význam pre digitálny marketing.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-07",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "327e27d1c0002e37d661fdcaf5d0ac698eb07286bd23d6ffcd32f51e18ebedea"
+        },
+        "en": {
+          "path": "blog-journal-review-2026-11-07-7c8f2ad8a17c-en.html",
+          "title": "The Impact of Online Customer Reviews on Consumer Trust on TikTok: Insights from Recent Research",
+          "description": "Explore new insights into how online customer reviews affect consumer trust within TikTok Shop and discover practical takeaways for digital marketing.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-07",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "e899429f6c565cef3144dfd2c534bab60bdf7f0955dec66ea66137b1db4ba92a"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-review-2026-11-07-8dfe25be4d3a",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-07",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.68715/3enhj493",
+          "apa7": "Moraa Ombachi, David Kiiru (2026). <b><i>WORK LIFE BALANCE AS A DRIVER OF EMPLOYEE PERFORMANCE: EVIDENCE FROM INSURANCE COMPANIES IN KENYA</i></b>. International Academic Journal of Economic and Financial Research. https://doi.org/10.68715/3enhj493",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-review-2026-11-07-8dfe25be4d3a.html",
+          "title": "Rovnováha medzi prácou a súkromím a výkon: Čo hovorí štúdia z Keni",
+          "description": "Analýza štúdie o vplyve rovnováhy medzi prácou a súkromím na výkon zamestnancov v poisťovniach. Praktické tipy pre moderný manažment a WEBU.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-07",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "ad99f0fcae0f390aa03f5eca464aabf5d36baa59debbfe8eccf52f959928cad2"
+        },
+        "en": {
+          "path": "blog-journal-review-2026-11-07-8dfe25be4d3a-en.html",
+          "title": "Work-Life Balance and Performance: Insights from a Kenyan Study",
+          "description": "Analyzing a study on work-life balance and employee performance in insurance companies. Practical management and WEBU recommendations.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-07",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "d1a3f954e5d11b87823969f0d1dc8edfb264f0d789d99bf48095588c67cc2b5c"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
     }
   ]
 }

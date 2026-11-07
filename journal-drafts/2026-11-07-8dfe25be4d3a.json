@@ -1,0 +1,164 @@
+{
+  "doi": "10.68715/3enhj493",
+  "title": "<b><i>WORK LIFE BALANCE AS A DRIVER OF EMPLOYEE PERFORMANCE: EVIDENCE FROM INSURANCE COMPANIES IN KENYA</i></b>",
+  "authors": [
+    "Moraa Ombachi",
+    "David Kiiru"
+  ],
+  "publisher": "Academic Publishers",
+  "venue": "International Academic Journal of Economic and Financial Research",
+  "source_date": "2026-11-07",
+  "type": "journal-article",
+  "url": "https://doi.org/10.68715/3enhj493",
+  "abstract_available": true,
+  "abstract_words": 251,
+  "selection_keywords": [
+    "organizational",
+    "productivity",
+    "workplace"
+  ],
+  "verified_at": "2026-11-07",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-07",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-07",
+    "source_url": "https://doi.org/10.68715/3enhj493",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-07",
+    "content_sha256": "e37ccced3a06b7bd4f4050d26b39bbf7a414c163c459177b641fb73a3396f98b",
+    "languages": {
+      "sk": {
+        "title": "Rovnováha medzi prácou a súkromím a výkon: Čo hovorí štúdia z Keni",
+        "description": "Analýza štúdie o vplyve rovnováhy medzi prácou a súkromím na výkon zamestnancov v poisťovniach. Praktické tipy pre moderný manažment a WEBU.",
+        "lead": "Diskusia o flexibilite v práci rezonuje naprieč všetkými odvetviami. Nová štúdia publikovaná v roku 2026 sa pozrela na to, ako work-life balance ovplyvňuje výkonnosť v kenskom poisťovníctve. Pozrime sa na to, čo odhalil dostupný abstrakt a čo si z toho môžu odniesť majitelia malých firiem či dizajnéri.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Moderný pracovný svet prechádza zásadnými zmenami a otázka, ako udržať vysokú produktivitu bez toho, aby trpel osobný život zamestnancov, je kľúčová. Téma rovnováhy medzi pracovným a súkromným životom sa stáva centrom záujmu nielen personálnych oddelení, ale aj vedenia firiem. V prostredí rýchlo sa meniacich trhov rastie tlak na hľadanie efektívnych modelov fungovania.",
+              "Nová štúdia, ktorej autormi sú Moraa Ombachi a David Kiiru, prináša pohľad na túto problematiku v špecifickom regióne. Publikovaná bola v International Academic Journal of Economic and Financial Research s DOI 10.68715/3enhj493. Pozrieme sa na to, aké dáta poskytuje dostupný abstrakt a čo z nich vyplýva.",
+              "Je dôležité hneď v úvode poznamenať, že pracujeme výhradne s publikovaným abstraktom. Úplný text štúdie nemáme k dispozícii, čo znamená, že naše hodnotenie vychádza len z týchto sumarizovaných údajov. Budeme preto obozretní pri interpretácii a vyhneme sa preceňovaniu neoverených záverov."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu bola hlavným cieľom tejto odbornej práce analýza vplyvu rovnováhy medzi prácou a súkromím na výkon zamestnancov v poisťovniach. Výskum sa zameral na konkrétne prostredie Nairobi City County v Keni. Autori chceli prepojiť pracovné praktiky s organizačnými výsledkami produktivity.",
+              "Konkrétne sa štúdia venovala štyrom hlavným oblastiam: flexibilnému teleworkingu, programom na podporu zdravia, rodinným politikám a udržiavaniu primeraného pracovného zaťaženia. Tieto prvky boli zvolené s cieľom vyplniť existujúce medzery v poznatkoch o workplace practices v danom regióne. Zámerom bolo zistiť, do akej miery formujú každodennú realitu zamestnancov.",
+              "Tento výber premenných presne kopíruje výzvy, ktorým čelia moderné organizácie po celom svete vrátane menších tímov. Skúmanie vzťahu medzi týmito faktormi a výkonom poskytuje cenný podklad pre manažérov, ktorí hľadajú cesty k efektívnejšiemu riadeniu ľudských zdrojov."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu vykázal regresný model silnú vysvetľovaciu schopnosť s hodnotou R² = 0.837, čo znamená, že sledované premenné v modeli vysvetľovali 83,7 % variácie výkonu zamestnancov. Autori v texte abstraktov konštatujú, že praktiky work-life balance pozitívne a významne ovplyvnili výkon zamestnancov v skúmaných poisťovniach.",
+              "Z pohľadu jednotlivých faktorov vykázal flexibilný teleworking najvyššiu neštandardizovanú koeficientovú hodnotu B = 0.462. Nasledovali primerané pracovné zaťaženie s B = 0.378, rodinnorodičovské politiky s B = 0.376 a wellness programy s B = 0.345. Všetky štyri uvedené prediktory boli v abstraktnom texte označené ako štatisticky významné pri hodnote p < 0.05.",
+              "Tieto štatistické ukazovatele podľa abstraktu naznačujú, že investície do flexibility a pohody zamestnancov korelujú s lepšími výsledkami. Je však nutné pripomenúť, že korelácia neznamená automaticky priamu kauzalitu a dáta pochádzajú zo špecifického sektora v Keni, takže ich nemožno bezhlavo aplikovať na slovenské prostredie."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Metodická časť popísaná v abstraktov využíva deskriptívny výskumný dizajn. Cieľová populácia pozostávala z 520 zamestnancov pracujúcich v 65 poisťovniach v Nairobi City County v Keni. Z tejto vzorky bola pomocou Yamaneho vzorca stanovená konkrétna vzorka 226 respondentov.",
+              "Primárne dáta boli zbierané pomocou pološtruktúrou nastavených dotazníkov. Následne boli analyzované prostredníctvom deskriptívnej štatistiky a analýzy viacerých regresií s cieľom určiť vzťahy medzi premennými. Tento štandardný kvantitatívny prístup pomohol mapovať vnímanie respondentov.",
+              "Hlavným limitom tohto prehľadu je fakt, že nepoznáme úplný text štúdie s DOI 10.68715/3enhj493. Spoliehame sa výlučne na sekundárny prístup k vydavateľom poskytnutému abstraktu. Nemáme overené detaily o tom, ako presne prebiehal zber dát alebo aké boli ďalšie kvalitatívne nuansy výskumu."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Ako redakčná odporúčania pre prevádzkovateľov webových stránok a malých firiem vyplývajúce z tejto témy navrhujeme jasnú komunikáciu pracovnej flexibility priamo na firemnom webe. Sekcia kariéry alebo o nás by mala transparentne prezentovať podporu rovnováhy medzi prácou a súkromím, čo slúži ako silný nástroj employer branding pre prilákanie talentov.",
+              "V oblasti dizajnu a webových aplikácií odporúčame implementovať nástroje, ktoré uľahčujú asynchrónnu prácu a prehľadné rozdelenie úloh. Keď malá firma alebo marketingová agentúra spravuje projekty cez dobre navrhnuté klientske rozhrania či interné dashboardy, znižuje sa chaos a tým aj zbytočné pracovné zaťaženie tímov, čo priamo súvisí so zisteniami štúdie.",
+              "Majitelia webov by tiež mali dbať na to, aby digitálne komunikačné kanály (ako chaty či task managery) rešpektovali pracovný čas a nepodporovali vyhorenie. Vytvorenie digitálnych pravidiel pre komunikáciu mimo pracovnej doby je praktickým krokom, ktorý zrkadlí myšlienku well-being iniciatív v reálnom podnikaní."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Autori štúdie podľa abstraktu dospeli k záveru, že work-life balance výrazne zvyšuje výkon zamestnancov v poisťovniach. Odporúčajú organizáciám prioritizovať flexibilný teleworking, komplexné wellness programy, rodinne priateľské politiky a spravodlivé rozdelenie práce. Tieto kroky majú viesť k redukcii stresu a udržateľnej výkonnosti.",
+              "Zároveň musíme zopakovať, že tieto závery pochádzajú z konkrétneho a špecifického kenského kontextu. Bez preštudovania celého textu a bez lokálnych dát na Slovensku slúžia tieto poznatky predovšetkým ako inšpiratívny pohľad na globálne trendy v riadení ľudských zdrojov.",
+              "Sledujte WEBU Journal pre ďalšie kritické analýzy nových vedeckých zistí, ktoré prepájajú akademický výskum s reálnymi potrebami moderného podnikania, dizajnu a manažmentu."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Work-Life Balance and Performance: Insights from a Kenyan Study",
+        "description": "Analyzing a study on work-life balance and employee performance in insurance companies. Practical management and WEBU recommendations.",
+        "lead": "Workplace flexibility and employee wellbeing remain at the forefront of modern organizational discussions. A newly highlighted study explores how work-life balance impacts performance within the insurance sector in Kenya. Let's examine what the available abstract reveals and what it means for digital businesses.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "The modern working environment is shifting rapidly, making the balance between professional output and personal wellbeing a critical leadership focus. Organizations across various sectors grapple with how to maintain high productivity without inducing burnout or dissatisfaction among staff members.",
+              "A study authored by Moraa Ombachi and David Kiiru sheds light on this dynamic within a specific market context. Published in the International Academic Journal of Economic and Financial Research under DOI 10.68715/3enhj493, the research investigates organizational practices and productivity outcomes.",
+              "It is important to state upfront that our analysis relies solely on the publisher-supplied abstract. Because we lack access to the complete article text, we must interpret these findings cautiously and avoid overstating unverified full-text claims."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the study examined the effect of work-life balance on employee performance specifically within insurance companies located in Nairobi City County, Kenya. The research sought to address existing knowledge gaps regarding workplace practices and organizational productivity.",
+              "Specifically, the authors assessed four key dimensions: flexible teleworking, wellness programs, family-friendly policies, and reasonable workloads. These variables were chosen to measure their influence on employee outcomes and overall workplace effectiveness within the targeted sector.",
+              "This selection of focus areas mirrors challenges faced by businesses globally, from corporate offices to small agencies. Investigating these specific variables provides structured insights into how structured support mechanisms interact with workforce output."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, the regression model demonstrated strong explanatory power with an R² value of 0.837, accounting for 83.7% of the variation in employee performance. The authors state that work-life balance practices positively and significantly influenced employee performance in the surveyed companies.",
+              "In terms of individual predictors, flexible teleworking exhibited the highest unstandardized coefficient at B = 0.462. This was followed by reasonable workloads at B = 0.378, family-friendly policies at B = 0.376, and wellness programs at B = 0.345. All four predictors were reported as statistically significant at p < 0.05.",
+              "While these statistical figures in the abstract indicate a strong association between the variables, we must remember that correlation does not equal causation. Furthermore, these findings originate from a distinct cohort in Kenya and cannot be directly generalized to other geographic regions or industries."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The study adopted a descriptive research design targeting a population of 520 employees across 65 insurance companies in Nairobi City County, Kenya. From this population, a sample of 226 respondents was determined utilizing Yamane's formula.",
+              "Primary data were gathered using semi-structured questionnaires and evaluated through descriptive statistics and multiple regression analysis to establish relationships among the variables. This structured quantitative approach allowed researchers to capture respondent perceptions effectively.",
+              "The primary limitation of this review is our reliance on secondary access to the publisher's abstract. Without reviewing the full text associated with DOI 10.68715/3enhj493, we cannot independently verify detailed survey administration procedures, qualitative context, or potential response biases."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "As an editorial recommendation for small business owners and web managers, we suggest transparently communicating workplace flexibility directly on company websites. Featuring clear descriptions of remote work options or employee support in the careers section acts as an effective employer branding tool.",
+              "In terms of web design and digital operations, businesses should implement project management tools that support asynchronous workflows. When small teams or marketing agencies utilize well-structured client interfaces and transparent task boards, operational chaos decreases, directly mirroring the concept of managing workloads reasonably.",
+              "Furthermore, website owners and managers should establish clear digital boundaries around communication tools to prevent constant connectivity. Setting organizational guidelines for off-hours messaging is a practical step that reinforces digital wellbeing and mirrors the study's focus on supportive practices."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study concluded that work-life balance significantly enhances employee performance within the insurance sector. The authors recommend prioritizing flexible teleworking, comprehensive wellness programs, family-friendly policies, and equitable workload distribution to foster sustainable productivity and reduce stress.",
+              "At the same time, we must reiterate that these conclusions apply to the studied demographic in Kenya and stem from a summarized abstract rather than a verified full text. They offer valuable conceptual perspectives rather than universal prescriptions.",
+              "Stay tuned to WEBU Journal for more critical analyses bridging academic research with practical applications in modern business management, digital design, and operational strategy."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.68715/3enhj493",
+        "apa7": "Moraa Ombachi, David Kiiru (2026). <b><i>WORK LIFE BALANCE AS A DRIVER OF EMPLOYEE PERFORMANCE: EVIDENCE FROM INSURANCE COMPANIES IN KENYA</i></b>. International Academic Journal of Economic and Financial Research. https://doi.org/10.68715/3enhj493",
+        "access": "abstract"
+      }
+    ]
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "e37ccced3a06b7bd4f4050d26b39bbf7a414c163c459177b641fb73a3396f98b",
+  "image_id": "commons-25bf0d1524d2cd",
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-07",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-review-2026-11-07-8dfe25be4d3a.html",
+    "https://www.webu.sk/blog-journal-review-2026-11-07-8dfe25be4d3a-en.html"
+  ]
+}

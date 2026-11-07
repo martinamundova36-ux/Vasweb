@@ -32,3 +32,11 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 - commons-18ced866ff2789: [Maria Neiva Almeida](https://commons.wikimedia.org/wiki/File:Office_Goats.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-1a74bb12a21718: [Harrison Keely](https://commons.wikimedia.org/wiki/File:A_Buckle_clothing_retail_store_at_The_Summit_shopping_mall_in_Birmingham,_Alabama.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-f331f018f40229: [Middle river exports](https://commons.wikimedia.org/wiki/File:Katz_Men_-_Jackets._Pants._Shoes_-_shop_in_West_Baltimore,_MD.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-25bf0d1524d2cd: [The White House](https://commons.wikimedia.org/wiki/File:President_Trump_and_Ukrainian_President_Zelenskyy_Clash_During_Meeting_in_Oval_Office,_Feb._28,_2025.jpg), licencia [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-6ee4892cf5ee1c: [André Karwath aka  Aka](https://commons.wikimedia.org/wiki/File:IBM_Thinkpad_R51.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-c16f1d45c75cab: [billy verdin](https://commons.wikimedia.org/wiki/File:Clothing_shop_april_2006.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.

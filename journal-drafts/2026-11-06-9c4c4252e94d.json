@@ -1,0 +1,158 @@
+{
+  "doi": "10.3390/merits6040035",
+  "title": "Adapting Knowledge and Human Resources to Digital Entrepreneurship in Tourism",
+  "authors": [
+    "Spyridon Avdimiotis",
+    "Ioannis Konstantinidis"
+  ],
+  "publisher": "MDPI AG",
+  "venue": "Merits",
+  "source_date": "2026-11-06",
+  "type": "journal-article",
+  "url": "https://doi.org/10.3390/merits6040035",
+  "abstract_available": true,
+  "abstract_words": 245,
+  "selection_keywords": [
+    "entrepreneurship",
+    "organizational"
+  ],
+  "verified_at": "2026-11-07",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-07",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-07",
+    "source_url": "https://doi.org/10.3390/merits6040035",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-07",
+    "content_sha256": "5aa8ab60fc2530cff8a57ff94f0bf2d7e807ea2233a228737e6fb023bfdcaf35",
+    "languages": {
+      "sk": {
+        "title": "Digitálne podnikanie v turizme: Adaptácia vedomostí a ľudských zdrojov",
+        "description": "Preskúmajte nové koncepčné prepojenie SECI modelu, kognitívnej deštrukcie a AI v turizme podľa abstraktu štúdie z roku 2026.",
+        "lead": "Digitálna transformácia v cestovnom ruchu a pohostinstve sa často vníma primárne cez technologické platformy a obchodné modely. Nová štúdia publikovaná v novembri 2026 v časopise Merits však podľa svojho abstraktu upriamuje pozornosť na kognitívne a organizačno-vzdelávacie procesy zamestnancov v malých a mikro podnikoch.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Cestovný ruch prechádza hlbokou digitálnou premenou, pričom sa doterajší výskum zameriaval najmä na zavádzanie technológií a adaptáciu biznis modelov. Podľa dostupného abstraktu štúdie od autorov Spyridona Avdimiotisa a Ioannisa Konstantinidisa však chýbala dostatočná pozornosť venovaná tomu, či sa ľudské zdroje dokážu prispôsobovať tempu zmien.",
+              "Tento nedostatok je obzvlášť vypuklý v malých a mikro podnikoch, ktoré dominujú sektoru turizmu. Autori preto v práci uverejnenej pod DOI 10.3390/merits6040035 prinášajú koncepčný prístup zameraný na integráciu teoretických rámcov.",
+              "Z pohľadu redakcie WEBU ide o kľúčový moment pre majiteľov webov a digitálnych agentúr. Technológie samy osebe nestačia, ak im ľudský faktor nestíha porozumieť a efektívne ich integrovať do každodennej praxe."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa štúdia zameriava na kognitívne a organizačno-vzdelávacie procesy, ktoré určujú, či sa pracovná sila dokáže adaptovať na technologické zmeny. Zvláštny dôraz kladie na mikro a malé podniky, kde je personálna kapacita obmedzená.",
+              "Metodologickým základom je syntéza teórií, prostredníctvom ktorej autori integrujú tri rôzne rámce. Každý z nich vysvetľuje inú úroveň problému adaptácie v digitálnom prostredí.",
+              "Konkrétne ide o SECI model premeny tichých vedomostí na explicitné, model kognitívnej tvorivej deštrukcie a výskum zameraný na fenomén AI sycophancy, teda sklon veľkých jazykových modelov súhlasiť s používateľmi."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu štúdia prináša tvrdenie, ktoré predtým samostatne nevyplynulo zo žiadneho z troch použitých modelov. Intenzita používania umelej inteligencie a hustota kontradikcií, ktorým zamestnanci čelia, sú dve odlišné premenné.",
+              "Vzťah medzi týmito premennými podľa abstraktu závisí od toho, ako sú nástroje umelej inteligencie konfigurované a ako manažéri navrhujú samotnú prácu. Integrácia viedla k formulovaniu desiatich výskumných téz.",
+              "Tieto tézy, z ktorých každá uvádza jediný smerový vzťah, sú doplnené o meraciu logiku určenú na empirické testovanie v budúcich výskumoch."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Autori v texte podľa abstraktu využili prístup teoretickej syntézy na prepojenie modelov SECI, Metacognitive Creative Destruction a poznatkov o AI sycophancy. Je však dôležité poznamenať, že ide o koncepčný príspevok.",
+              "Absencia overenej plnej verzie textu a detailných empirických dát v samotnom abstrakte znamená, že závery a navrhované tézy zatiaľ neboli podrobené praktickému testovaniu na reálnej vzorke podnikov.",
+              "Z redakčného pohľadu ide o limit, ktorý vyžaduje opatrnosť pri okamžitom preklápaní teoretických téz do firemnej praxe, kým nebudú publikované výsledky empirického overovania."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Ako redakčné odporúčanie pre malé podniky v turizme navrhujeme prepojenie teórie so správou webových stránok a tvorbou obsahu. Majitelia by nemali nechať generovať texty pre rezervačné systémy či blogy bez ľudskej revízie, aby predišli slepému prijímaniu výstupov z AI.",
+              "V oblasti marketingu odporúčame implementovať interné procesy zdieľania skúseností (SECI model v praxi). Zabezpečte, aby špecifické know-how o destinácii nezostalo v hlave jediného zamestnanca, ale premenilo sa na explicitné digitálne príručky pre celý tím.",
+              "Pri manažmente pracoviska je kľúčové vytvárať priestor pre konštruktívnu diskusiu a spochybňovanie zastaraných postupov, čím sa podporí mentálna adaptabilita zamestnancov na nové digitálne nástroje a rezervačné rozhrania."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Štúdia v závere podľa abstraktu konštatuje, že v podnikoch cestovného ruchu, kde služba závisí od tichých a zážitkových vedomostí, sú zamestnanci centrálnym zdrojom konkurenčnej výhody. Využitie tohto potenciálu si vyžaduje udržateľný personálny manažment orientovaný na človeka.",
+              "Hoci abstrakt neprináša konkrétne štatistické dáta, otvára dôležitú diskusiu o tom, že technológie v turizme musia ruka v ruke spolupracovať s kognitívnou pripravenosťou personálu.",
+              "WEBU bude tento smer výskumu ďalej sledovať a prinášať ďalšie praktické návody pre majiteľov webov a prevádzok v oblasti digitálnej transformácie."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Digital Entrepreneurship in Tourism: Knowledge and Human Resources Adaptation",
+        "description": "Explore the integration of SECI, cognitive destruction, and AI in tourism according to the abstract of the 2026 study.",
+        "lead": "The digital transformation of tourism and hospitality has predominantly been viewed through business models and technology platforms. However, a new study published in November 2026 in the journal Merits draws attention, according to its abstract, to the cognitive and organizational-learning processes of staff in small and micro enterprises.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "Tourism is undergoing a profound digital shift, with past research focusing heavily on technology adoption and business model changes. Yet, according to the available abstract by Spyridon Avdimiotis and Ioannis Konstantinidis, sufficient attention has been missing regarding whether human resources can adapt at the pace of technological transformation.",
+              "This gap is especially glaring in small and micro firms that dominate the tourism sector. The authors address this in their conceptual paper published under DOI 10.3390/merits6040035 by integrating multiple theoretical frameworks.",
+              "From a WEBU editorial perspective, this is a crucial milestone for website owners and digital agencies. Technologies alone are not enough if the human factor fails to understand and effectively integrate them into everyday workflows."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the study examines the cognitive and organizational-learning processes that determine whether the workforce can adapt to technological shifts. Special emphasis is placed on micro and small enterprises where personnel capacities remain constrained.",
+              "The methodological foundation relies on a theory-synthesis approach, integrating three distinct frameworks. Each framework explains a different level of the adaptation problem within a digital environment.",
+              "Specifically, these include the SECI model for tacit-to-explicit knowledge conversion, the Metacognitive Creative Destruction model, and research focusing on AI sycophancy—the tendency of large language models to agree with users."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, the study yields a claim that neither of the three models produced independently. AI use intensity and the density of contradiction that employees encounter are distinct variables.",
+              "The relationship between these variables depends, per the abstract, on how AI tools are configured and how managers design work tasks. This integration led to the formulation of ten distinct research propositions.",
+              "Each proposition states a single directional relationship, supported alongside a measurement logic intended for empirical testing in subsequent research."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The authors utilized a theory-synthesis approach to connect the SECI model, Metacognitive Creative Destruction, and AI sycophancy insights, as stated in the abstract. However, it must be noted that this is strictly a conceptual contribution.",
+              "The absence of a verified full-text article and detailed empirical data in the abstract means that conclusions and proposed propositions have not yet been subjected to practical testing on a real-world enterprise sample.",
+              "From an editorial standpoint, this represents a limitation requiring caution before directly translating theoretical propositions into business operations until empirical verification is published."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "As an editorial recommendation for small tourism businesses, we suggest bridging this theory with website management and content creation. Owners should never generate booking system texts or blogs without human review to avoid blindly accepting unverified AI outputs.",
+              "In digital marketing, we recommend implementing internal knowledge-sharing routines (putting the SECI model into action). Ensure that specific destination know-how does not remain siloed with a single employee but transforms into explicit digital guides for the entire team.",
+              "For workplace management, creating space for constructive discussions and challenging outdated practices is vital, thereby supporting staff mental adaptability toward new digital tools and reservation interfaces."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study concludes, according to the abstract, that in tourism businesses where services depend on tacit, experiential knowledge, staff members represent a central competitive advantage. Leveraging this requires sustainable, employee-centred human resource management.",
+              "Although the abstract lacks specific statistical data, it initiates a vital discussion regarding the necessity for technology in tourism to align seamlessly with staff cognitive readiness.",
+              "WEBU will continue to monitor this research direction and provide further practical guidance for web owners and operators navigating digital transformation."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.3390/merits6040035",
+        "apa7": "Spyridon Avdimiotis, Ioannis Konstantinidis (2026). Adapting Knowledge and Human Resources to Digital Entrepreneurship in Tourism. Merits. https://doi.org/10.3390/merits6040035",
+        "access": "abstract"
+      }
+    ]
+  }
+}
