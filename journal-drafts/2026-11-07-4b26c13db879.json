@@ -30,7 +30,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-07",
-    "content_sha256": "28770ef75f3e847b7b730952b4895655c0103b6ba20395ba384575bb8301521d",
+    "content_sha256": "14181cdd1ce35b247993cb79e55473ebc68d50fe1235c217defc892d75b8262a",
     "languages": {
       "sk": {
         "title": "Etická umelá inteligencia v riadení ľudských zdrojov: Bibliometrický prehľad",
@@ -48,14 +48,14 @@
             "heading": "Čo skúmala štúdia",
             "paragraphs": [
               "Podľa abstraktu sa táto štúdia zameriava na skúmanie vyvíjajúcej sa úlohy riadenia ľudských zdrojov pri manažmente etickej umelej inteligencie s cieľom podporiť dosiahnutie cieľov udržateľného rozvoja na pracovisku. Výskumníci aplikovali kombinovaný prístup, ktorý spája bibliometrickú analýzu a štúdium literatúry.",
-              "Podľa abstraktu bola analýza postavená na literatúre indexovanej v databáze Scopus. Bibliometrická zložka sa venovala sledovaniu publikačných trendov, príspevkov jednotlivých krajín a inštitúcií, ko-okurencií kľúčových slov a sietí spolupatričnosti autorov."
+              "Podľa abstraktu bola analýza postavená na literatúre indexovanej v databáze Scopus. Bibliometrická zložka sa venovala sledovaniu publikačných trendov, príspevkov jednotlivých krajín a inštitúcií, spoluvýskytu kľúčových slov a sietí spolupatričnosti autorov."
             ]
           },
           {
             "heading": "Hlavné zistenia a význam",
             "paragraphs": [
               "Podľa abstraktu odhalila analýza rastúci akademický záujem o prienik personalistiky, etiky AI a udržateľnosti. Významné príspevky pochádzajú z krajín ako India, Čína, Spojené štáty, Spojené kráľovstvo a Rumunsko, pričom medzi popredné inštitúcie patrili Symbiosis International Deemed University a University of Delhi.",
-              "Podľa abstraktu poukázala ko-okurencia kľúčových termínov na ústredné témy, medzi ktoré patrí riadenie ľudských zdrojov, umelá inteligencia, rozhodovanie, etické technológie a prediktívna analytika. Analýza ko-autorstva navyše odhalila miernu výskumnú spoluprácu s potenciálom pre globálny rozvoj."
+              "Podľa abstraktu poukázala spoluvýskyt kľúčových termínov na ústredné témy, medzi ktoré patrí riadenie ľudských zdrojov, umelá inteligencia, rozhodovanie, etické technológie a prediktívna analytika. Analýza spoluautorstva navyše odhalila miernu výskumnú spoluprácu s potenciálom pre globálny rozvoj."
             ]
           },
           {
@@ -68,14 +68,14 @@
           {
             "heading": "Praktický návrh WEBU",
             "paragraphs": [
-              "Z pohľadu našej redakcie WEBU prináša táto štúdia podnetné inšpirácie pre malé podniky a tvorcov digitálneho obsahu či marketingu. Pri nábore nových členov tímu alebo tvorbe personalizovaných marketingových kampaní prostredníctvom algoritmov by firmy mali dbať na transparentnosť a etickú nezaujatosť, aby neporušovali práva používateľov.",
-              "Weboví dizajnéri a marketéri by mali implementovať zásady digitálnej inklúzie a overovať dáta, ktoré vstupujú do analytických nástrojov. Na základe redakčných odporúcaní by majitelia malých firiem mali vytvoriť jasné interné pravidlá pre používanie AI nástrojov pri spracovaní zákazníckych dát a komunikácii."
+              "Z pohľadu našej redakcie WEBU prináša táto štúdia podnetné inšpirácie pre malé podniky a tvorcov digitálneho obsahu či marketingu. Pri nábore nových členov tímu alebo tvorbe personalizovaných marketingových kampaní prostredníctvom algoritmov by firmy mali dbať na transparentnosť a férovosť algoritmov, aby neporušovali práva používateľov.",
+              "Weboví dizajnéri a marketéri by mali implementovať zásady digitálnej inklúzie a overovať dáta, ktoré vstupujú do analytických nástrojov. Na základe redakčných odporúčaní by majitelia malých firiem mali vytvoriť jasné interné pravidlá pre používanie AI nástrojov pri spracovaní zákazníckych dát a komunikácii."
             ]
           },
           {
             "heading": "Záver",
             "paragraphs": [
-              "Podľa abstraktu sa personalistika posúva od administratívnej funkcie k strategickému hráčovi, ktorý riadi etické nasadenie technológií v nábore, hodnotení výkonu a rozvoji organizácie. Autori navrhujú, aby HR pôsobilo ako etický strážca prostredníctvom pevných politík governance a podpory gramotnosti zamestnancov.",
+              "Podľa abstraktu sa personalistika posúva od administratívnej funkcie k strategickému hráčovi, ktorý riadi etické nasadenie technológií v nábore, hodnotení výkonu a rozvoji organizácie. Autori navrhujú, aby HR pôsobilo ako etický strážca prostredníctvom jasných pravidiel riadenia a podpory gramotnosti zamestnancov.",
               "Budúci výskum by mal podľa abstraktu obsiahnuť širšie dátové súbory a empirické prípadové štúdie na prehĺbenie pochopenia etických postupov AI v rôznych organizačných kontextoch. Celkovo ide o dôležitý krok k udržateľnejšej a zodpovednejšej budúcnosti práce."
             ]
           }
@@ -89,8 +89,8 @@
           {
             "heading": "Introduction",
             "paragraphs": [
-              "The contemporary work environment undergoes fundamental shifts as artificial intelligence becomes a standard part of daily operations. Along with technological advancements come significant ethical challenges, particularly within human resource management where decisions impact careers and employee wellbeing.",
-              "Authors Rahmanwali Sahar and Munjiati Munawaroh focus their research on connecting ethical artificial intelligence with sustainable workplace practices. Their work provides valuable perspective on the theoretical and practical hurdles organizations encounter when adopting advanced tools."
+              "The contemporary work environment is undergoing fundamental shifts as artificial intelligence becomes a standard part of daily operations. Along with technological advancements come significant ethical challenges, particularly within human resource management where decisions impact careers and employee wellbeing.",
+              "Authors Rahmanwali Sahar and Munjiati Munawaroh focus their research on connecting ethical artificial intelligence with sustainable workplace practices. Their work provides a valuable perspective on the theoretical and practical hurdles organizations encounter when adopting advanced tools."
             ]
           },
           {
@@ -111,13 +111,13 @@
             "heading": "Methodology and limitations",
             "paragraphs": [
               "The methodology, as noted in the abstract, merged bibliometric analysis with a systematic literature review. The literature review component examined conceptual insights and practical directions derived from highly relevant scholarly publications.",
-              "However, the abstract explicitly outlines key limitations. The study relies solely on Scopus-indexed publications, which may omit relevant studies from other databases or non-English literature. Additionally, the bibliometric approach fails to capture qualitative dimensions like contextual or industry-specific implementation challenges."
+              "However, the abstract explicitly outlines key limitations. The study relies solely on Scopus-indexed publications, which may omit relevant studies from other databases or non-English literature. Additionally, the bibliometric approach may not capture qualitative dimensions like contextual or industry-specific implementation challenges."
             ]
           },
           {
             "heading": "WEBU practical proposal",
             "paragraphs": [
-              "From our WEBU editorial perspective, this study offers inspiring takeaways for small business owners, web designers, and digital marketers. When utilizing algorithms for recruitment, customer segmentation, or automated marketing campaigns, organizations must ensure transparency and algorithmic fairness to protect consumer rights.",
+              "From our WEBU editorial perspective, this study offers practical considerations for small business owners, web designers, and digital marketers. When utilizing algorithms for recruitment, customer segmentation, or automated marketing campaigns, organizations must ensure transparency and algorithmic fairness to protect consumer rights.",
               "Web developers and marketers should embed digital inclusivity principles and rigorously audit datasets fed into analytical systems. Based on editorial recommendations, small businesses should establish clear internal governance guidelines regarding how AI tools process customer and employee data."
             ]
           },
@@ -141,7 +141,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "28770ef75f3e847b7b730952b4895655c0103b6ba20395ba384575bb8301521d",
+  "approved_content_sha256": "14181cdd1ce35b247993cb79e55473ebc68d50fe1235c217defc892d75b8262a",
   "image_id": "commons-6ee4892cf5ee1c",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-07",

@@ -30,7 +30,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-06",
-    "content_sha256": "e00a7a858138ab5abc4f62759ed1891f42b1998912f8b74f1666a3ded9ec2c9f",
+    "content_sha256": "f4be14a198955044ed50b1fddcf8aac62541d30fb5d9acb88f88ba2939b845fa",
     "languages": {
       "sk": {
         "title": "Umelá inteligencia a zelené inovácie: Dve stránky jej vplyvu na firmy",
@@ -54,7 +54,7 @@
           {
             "heading": "Hlavné zistenia a význam",
             "paragraphs": [
-              "Podľa abstraktu má zavádzanie umelej inteligencie dvojsečný efekt na ambidextruálne zelené inovácie. AI významne podporuje prieskumné zelené inovácie tým, že presmerováva manažérsku pozornosť na strategické otázky orientované do budúcnosti.",
+              "Podľa abstraktu má zavádzanie umelej inteligencie dvojstranný účinok na ambidextruálne zelené inovácie. AI významne podporuje prieskumné zelené inovácie tým, že presmerováva manažérsku pozornosť na strategické otázky orientované do budúcnosti.",
               "Na druhej strane, podľa abstraktu AI potláča využívajúce zelené inovácie prostredníctvom inštitucionalizácie rutinnejších procesov a znižovania trvalej pozornosti venovanej čiastkovým vylepšeniam. Konfuciánske kultúrne zakotvenie, negatívne mediálne pokrytie a inštitucionálne vlastníctvo pritom podľa abstraktu posilňujú pozitívny vplyv AI na prieskumné inovácie a zmierňujú jej negatívny vplyv na tie využívajúce."
             ]
           },
@@ -62,7 +62,7 @@
             "heading": "Metodika a limity",
             "paragraphs": [
               "Autori vo výskume pracovali s panelovými údajmi čínskych kótovaných firiem a aplikovali regresné analýzy na testovanie svojich hypotéz. Celý teoretický rámec je postavený na perspektíve organizácie založenej na pozornosti.",
-              "Keďže máme k dispozícii iba vydavateľom poskytnutý abstrakt a neoverili sme si kompletný plný text článku, musíme brať do úvahy obmedzenia tohto zhrnutia. Absencia podrobných detailov o štatistických modeloch v samotnom abstrakte znamená, že závery musíme vnímať v medziach poskytnutého textu bez dodatočných kontextových dôkazov z plného znenia."
+              "Keďže máme k dispozícii iba vydavateľom poskytnutý abstrakt a neoverili sme úplný text článku, musíme brať do úvahy obmedzenia tohto zhrnutia. Absencia podrobných detailov o štatistických modeloch v samotnom abstrakte znamená, že závery musíme vnímať v medziach poskytnutého textu bez dodatočných kontextových dôkazov z plného znenia."
             ]
           },
           {
@@ -75,7 +75,7 @@
           {
             "heading": "Záver",
             "paragraphs": [
-              "Štúdia prináša cenné poznatky o tom, že umelá inteligencia funguje ako mechanizmus reštrukturalizácie pozornosti. Manažéri by mali dbať na vyváženú alokáciu pozornosti, aby neuprednostňovali len prieskumné inovácie na úkor bežných, no dôležitých zlepšení.",
+              "Štúdia prináša cenné poznatky o tom, že umelá inteligencia funguje ako mechanizmus reštrukturalizácie pozornosti. Manažéri by mali dbať na vyváženú rozdeľovanie pozornosti, aby neuprednostňovali len prieskumné inovácie na úkor bežných, no dôležitých zlepšení.",
               "Pre hlbšie pochopenie mechanizmov a širších súvislostí odporúčame preštudovať pôvodný článok s DOI: 10.1108/meq-04-2026-0236."
             ]
           }
@@ -141,7 +141,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "e00a7a858138ab5abc4f62759ed1891f42b1998912f8b74f1666a3ded9ec2c9f",
+  "approved_content_sha256": "f4be14a198955044ed50b1fddcf8aac62541d30fb5d9acb88f88ba2939b845fa",
   "image_id": "commons-b9e72fe0f57fa9",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-06",

@@ -30,12 +30,12 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-06",
-    "content_sha256": "8c57361a3881bcb0ba4a3ac8c1e6bcf71f972c26ce34cd55102c4f125d12782d",
+    "content_sha256": "bae6f2a6317d0db1b9f4d86c82df3a58e1f3abf1bdb8439ce1dd4408520ad2ee",
     "languages": {
       "sk": {
         "title": "Omnikanálový maloobchod a obavy o súkromie v móde",
         "description": "Prehľad štúdie o vplyve integrácie kanálov a obáv o súkromie na udržanie zákazníkov v módnom biznise. Prináša praktické tipy pre WEBU.",
-        "lead": "Súčasný módny maloobchod neustále hľadá rovnováhu medzi prepájaním nákupných kanálov a ochranou osobných údajov zákazníkov. Nový výskum prináša pohľad na to, ako zákazníkom uľahčiť obavy a udržať si ich vernosť prostredníctvom premyslenej integrácie.",
+        "lead": "Súčasný módny maloobchod neustále hľadá rovnováhu medzi prepájaním nákupných kanálov a ochranou osobných údajov zákazníkov. Nový výskum prináša pohľad na to, ako zmierniť obavy zákazníkov a udržať si ich vernosť prostredníctvom premyslenej integrácie.",
         "sections": [
           {
             "heading": "Úvod",
@@ -62,7 +62,7 @@
             "heading": "Metodika a limity",
             "paragraphs": [
               "Podľa abstraktu štúdia čerpá z modelu „Stimulus–Organism–Response“ a teórie kalkulu súkromia pri skúmaní správania spotrebiteľov v omnikanálovom maloobchode. Údaje boli zbierané formou osobných prieskumov od 600 zákazníkov generácie Y v Ankare.",
-              "Na analýzu priamych a nepriamych ciest v modeli bola použitá čiastočná štrukturálna modelovanie metodikou najmenších štvorcov. Zovšeobecniteľnosť je však podľa abstraktu obmedzená zameraním na jedinú metropolitnú oblasť, pričom plný text štúdie nemáme k dispozícii na podrobnejšie overenie."
+              "Na analýzu priamych a nepriamych ciest v modeli bolo použité modelovanie štruktúrnych rovníc metódou čiastočných najmenších štvorcov. Zovšeobecniteľnosť je však podľa abstraktu obmedzená zameraním na jedinú metropolitnú oblasť, pričom plný text štúdie nemáme k dispozícii na podrobnejšie overenie."
             ]
           },
           {
@@ -141,7 +141,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "8c57361a3881bcb0ba4a3ac8c1e6bcf71f972c26ce34cd55102c4f125d12782d",
+  "approved_content_sha256": "bae6f2a6317d0db1b9f4d86c82df3a58e1f3abf1bdb8439ce1dd4408520ad2ee",
   "image_id": "commons-1a74bb12a21718",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-06",

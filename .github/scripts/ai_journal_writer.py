@@ -73,6 +73,17 @@ CRITICAL accuracy rules:
 - Discuss unverified full text and limits of the abstract honestly.
 - Use helpful practical WEBU examples for owners of small businesses, web design, marketing and workplace management.
 - Produce substantial, readable copy, not filler or repeated template paragraphs.
+- Proofread BOTH complete language versions before returning JSON. Slovak must use
+  natural Slovak syntax, correct declension, agreement, punctuation and diacritics;
+  do not translate English idioms literally or leave English workplace jargon
+  when an established Slovak expression exists. Check singular/plural agreement
+  and every sentence for unfinished or contradictory wording.
+- English must be idiomatic, grammatical and consistent in its terminology;
+  avoid inflated, awkward or needlessly repetitive academic phrasing.
+- Compare SK and EN paragraph by paragraph: preserve the same numbers, evidence
+  limitations and cautions in both languages, while writing naturally in each.
+- In the final pass, fix typographical errors and malformed inflections, including
+  those introduced by rewriting; never send an unproofread translation.
 - No external references apart from the verified DOI.
 """
     request={"contents":[{"parts":[{"text":prompt}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.35,"maxOutputTokens":7000}}
