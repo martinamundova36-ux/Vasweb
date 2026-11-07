@@ -30,10 +30,10 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-07",
-    "content_sha256": "1f326e3911249b50434e361bbcbcda7fe642ea75c758cc40e33c850719e93c39",
+    "content_sha256": "628d6836473afba5e6a29624ab735b5030a8bc48ccb49f12a8fe97c81de1ad92",
     "languages": {
       "sk": {
-        "title": "Rovnováha medzi prácou a súkromím a výkon: Čo hovorí štúdia z Keni",
+        "title": "Rovnováha medzi prácou a súkromným životom: Čo ukazuje štúdia z Kene o pracovnom výkone",
         "description": "Analýza štúdie o vplyve rovnováhy medzi prácou a súkromím na výkon zamestnancov v poisťovniach. Praktické tipy pre moderný manažment a WEBU.",
         "lead": "Diskusia o flexibilite v práci rezonuje naprieč všetkými odvetviami. Nová štúdia publikovaná v roku 2026 sa pozrela na to, ako rovnováha medzi prácou a súkromím súvisí s výkonnosť v kenskom poisťovníctve. Pozrime sa na to, čo odhalil dostupný abstrakt a čo si z toho môžu odniesť majitelia malých firiem či dizajnéri.",
         "sections": [
@@ -153,7 +153,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "1f326e3911249b50434e361bbcbcda7fe642ea75c758cc40e33c850719e93c39",
+  "approved_content_sha256": "628d6836473afba5e6a29624ab735b5030a8bc48ccb49f12a8fe97c81de1ad92",
   "image_id": "commons-25bf0d1524d2cd",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-07",
