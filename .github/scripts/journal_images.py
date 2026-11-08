@@ -28,6 +28,54 @@ def validate_photo(photo,root=ROOT):
  for name in photo['files'].values():
   if not name.startswith('/assets/journal/') or not (root/name.lstrip('/')).is_file():raise ValueError('Local image missing: '+name)
 
+# Four source-matched real editorial photographs, individually checked on Pexels.
+# A photo is used once, with its original page/creator and license retained.
+CURATED_PEXELS={
+ '10.60027/jelr.2026.e2985':('8190815','a-group-of-people-having-a-meeting-in-the-office','Kampus Production','workplace','Tím odborníkov diskutuje pri digitálnej prezentácii','Professionals discuss a digital presentation in an office'),
+ '10.35816/jiksh.v15i2.426':('6129145','nurses-smiling-at-each-other','RDNE Stock project','workplace','Zdravotnícky tím spolupracuje v nemocničnom prostredí','Healthcare colleagues work together in a hospital'),
+ '10.55041/ijcope.v2i11.025':('27857668','a-display-of-vegetables-in-a-grocery-store','Chixpix','retail','Čerstvé potraviny vystavené v predajni','Fresh food on display in a grocery store'),
+ '10.55041/ijcope.v2i11.030':('7857559','female-business-partners-preparing-parcels','Kampus Production','retail','Príprava balíkov pre internetový obchod','Packing parcels for an online store'),
+}
+
+def acquire_curated_pexels_photo(source,data,root=ROOT):
+ """Download a DOI-matched, already license-checked non-AI stock photograph."""
+ from PIL import Image, ImageOps, UnidentifiedImageError
+ record=CURATED_PEXELS.get((source.get('doi') or '').lower())
+ if not record:return None
+ photo_id,slug,creator,topic,alt_sk,alt_en=record
+ source_page=f'https://www.pexels.com/photo/{slug}-{photo_id}/'
+ if any(p['source_page']==source_page for p in data['photos']):return None
+ download_url=f'https://images.pexels.com/photos/{photo_id}/pexels-photo-{photo_id}.jpeg?auto=compress&cs=tinysrgb&w=1600'
+ try:
+  req=urllib.request.Request(download_url,headers={'User-Agent':'WEBUJournal/2.0 (https://www.webu.sk/)'})
+  with urllib.request.urlopen(req,timeout=40) as response:original=response.read(15_000_001)
+  if len(original)>15_000_000:raise ValueError('Pexels photograph exceeds size limit')
+  image=Image.open(io.BytesIO(original));image.load()
+  if image.width<1280 or image.height<720:raise ValueError('Pexels photograph too small')
+  frame=ImageOps.fit(ImageOps.exif_transpose(image).convert('RGB'),(1280,720),method=Image.Resampling.LANCZOS)
+ except (OSError,ValueError,UnidentifiedImageError) as exc:
+  print('Curated Pexels photo unavailable',photo_id,type(exc).__name__,str(exc)[:100],file=sys.stderr)
+  return None
+ key='pexels-'+photo_id
+ paths={'640':'/assets/journal/'+key+'-640.webp','1280':'/assets/journal/'+key+'-1280.webp','social':'/assets/journal/'+key+'-social.jpg'}
+ hashes={}
+ for size,file in paths.items():
+  target=root/file.lstrip('/');target.parent.mkdir(parents=True,exist_ok=True)
+  optimized=frame.resize((640,360),Image.Resampling.LANCZOS) if size=='640' else frame
+  optimized.save(target,format='JPEG' if size=='social' else 'WEBP',quality=81,optimize=True)
+  hashes[size]=hashlib.sha256(target.read_bytes()).hexdigest()
+ item={'id':key,'provider':'Pexels','provider_id':photo_id,'source_page':source_page,
+       'download_url':download_url,'creator':creator,'license':'Pexels License',
+       'license_url':'https://www.pexels.com/license/',
+       'commercial_use_verified_at':dt.date.today().isoformat(),
+       'original_sha256':hashlib.sha256(original).hexdigest(),
+       'topics':[topic],'alt':{'sk':alt_sk,'en':alt_en},'width':1280,'height':720,
+       'files':paths,'illustrative':True,'optimized_sha256':hashes}
+ validate_photo(item,root);data['photos'].append(item)
+ with (root/'WEBU-JOURNAL-IMAGE-LICENSES.md').open('a',encoding='utf-8') as log:
+  log.write(f'\\n- {key}: [{creator}]({source_page}), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\\n')
+ return item
+
 def acquire_commons_photo(topics,data,root=ROOT):
  """Download a distinct commercially reusable Commons photo with source evidence.
 
@@ -104,9 +152,9 @@ def choose_for_source(source,root=ROOT):
  if existing:validate_photo(existing,root);return existing
  text=(source.get('title','')+' '+' '.join(source.get('selection_keywords',[]))).casefold()
  topics={topic for topic,terms in TOPICS.items() if any(term in text for term in terms)}
- used=set(data['assignments'].values());candidates=[p for p in data['photos'] if p['id'] not in used and not p.get('excluded_from_reuse') and topics.intersection(p['topics'])]
+ used=set(data['assignments'].values());candidates=[p for p in data['photos'] if p['id'] not in used and not p.get('excluded_from_reuse') and not IRRELEVANT_COMMONS_TITLE.search(p.get('source_page','').replace('_',' ')) and topics.intersection(p['topics'])]
  candidates.sort(key=lambda p:(-len(topics.intersection(p['topics'])),p['id']))
- photo=candidates[0] if candidates else acquire_commons_photo(topics,data,root)
+ photo=candidates[0] if candidates else (acquire_curated_pexels_photo(source,data,root) or acquire_commons_photo(topics,data,root))
  if not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')
  validate_photo(photo,root);data['assignments'][key]=photo['id'];save(data,root);return photo
 
