@@ -833,6 +833,38 @@
         "1280": "ac348fd76af61f8a6047a9fbb8cf6c761bc413bd81137377079cb0db161fd198",
         "social": "db706617ec84c0225ef038eba8b2ec4dae4cf53f1373316b98d1b73b3b566751"
       }
+    },
+    {
+      "id": "commons-359089123396ea",
+      "provider": "Wikimedia Commons",
+      "provider_id": "39936984",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Laptop_Arima_Tastatur_abgenommen.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Laptop_Arima_Tastatur_abgenommen.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Erkaha",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-08",
+      "original_sha256": "5fb284a5e2acca8c8aaebfcdc8f18572b21036a1ec0e850640650a9c150bbd79",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s počítačovou technológiou",
+        "en": "Working with computer technology"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-359089123396ea-640.webp",
+        "1280": "/assets/journal/commons-359089123396ea-1280.webp",
+        "social": "/assets/journal/commons-359089123396ea-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "6551d8346aeef1e77cc2632d69b10812abc34cb1f3571f234b72254f564c6b66",
+        "1280": "cf67876260612657552132f3d864214220e86153f7dbf176412898613dc4b7d8",
+        "social": "9f7cf15ab89c57f667e38db2ac2f3cb29e7bd6594b519a326cb7fad1422351cd"
+      }
     }
   ],
   "assignments": {
@@ -860,6 +892,7 @@
     "blog-journal-review-2026-11-07-8dfe25be4d3a.html": "commons-25bf0d1524d2cd",
     "blog-journal-review-2026-11-07-4b26c13db879.html": "commons-6ee4892cf5ee1c",
     "blog-journal-review-2026-11-07-7c8f2ad8a17c.html": "commons-c16f1d45c75cab",
-    "blog-journal-review-2026-11-06-9c4c4252e94d.html": "commons-2283390bbd44a9"
+    "blog-journal-review-2026-11-06-9c4c4252e94d.html": "commons-2283390bbd44a9",
+    "blog-journal-review-2026-11-08-6bf012b6ee0f.html": "commons-359089123396ea"
   }
 }

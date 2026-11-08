@@ -42,3 +42,5 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 - commons-c16f1d45c75cab: [billy verdin](https://commons.wikimedia.org/wiki/File:Clothing_shop_april_2006.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-2283390bbd44a9: [Chiranisignaturehotel](https://commons.wikimedia.org/wiki/File:Chirani_Signature_Hotel_Reception_Desk.png), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-359089123396ea: [Erkaha](https://commons.wikimedia.org/wiki/File:Laptop_Arima_Tastatur_abgenommen.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.

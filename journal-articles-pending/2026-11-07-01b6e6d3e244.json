@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.55041/ijcope.v2i11.025",
+  "generated_on": "2026-11-08",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Podpora predaja a konverzia wellness potravín v maloobchode: terénny pohľad",
+      "description": "Analýza maloobchodného predaja wellness potravín značky Nutrica na základe dostupného abstraktu a praktické odporúčania pre malé podniky.",
+      "lead": "Tento článok skúma maloobchodnú podporu predaja a konverziu zákazníkov pre wellness potravinové výrobky znački Nutrica. Východiskom pre naše úvahy sú výlučne údaje a obmedzenia uvedené v publikovanom abstrakte štúdie od autora Sahila Ujedeho z roku 2026.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Súčasný maloobchodný trh s potravinami zameranými na zdravý životný štýl prechádza dynamickým vývojom a vyžaduje si nové prístupy k zákazníkom. Malé podniky a prevádzky často hľadajú efektívne spôsoby, ako predstaviť inovatívne produkty priamo v mieste predaja. Prezentácia wellness sortimentu si vyžaduje osobitnú pozornosť voči potrebám a otázkam spotrebiteľov.",
+            "Tento článok prináša redakčný pohľad na publikovanú štúdiu, ktorá sa venovala praktickému predaju výrobkov Nutrica v maloobchode Sai Bazar v Mamurdi. Našou snahou je kriticky zhodnotiť dostupné informácie, poukázať na metodické limity abstraktu a ponúknuť užitočné odporúčania pre prax bez preberania neoverených tvrdení."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu sa štúdia zameriavala na to, ako sa v mieste predaja využívajú propagačné aktivity a osobné predajné techniky orientované na konkrétne potreby zákazníkov. Hlavným cieľom bolo podporiť zapojenie kupujúcich a dosiahnuť nákupnú konverziu pre wellness potravinové produkty značky Nutrica v maloobchode Sai Bazar v Mamurdi.",
+            "Autori, respektíve autor v texte abstraktu, venovali pozornosť praktickému priebehu predaja, najčastejším otázkam a námietkam zákazníkov. Dôraz sa kládol aj na samotnú úlohu a dôležitosť produktových znalostí pri interakciách medzi predajcom a zákazníkom v maloobchodnom prostredí."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu sa v terénnom opise uvádza, že ústrednými prvkami predajného procesu boli stručná komunikácia zameraná na zákazníka, aktívne počúvanie a dobrá znalosť produktov. Dôležitou súčasťou bolo aj poskytovanie odpovedí, ktoré boli špecificky prispôsobené konkrétnym námietkam kupujúcich.",
+            "Zároveň sa v zdrojovej správe podľa abstraktu zaznamenalo 247 zákazníckych interakcií a 192 konverzií. Ak tieto hodnoty vychádzajú z rovnakých definícií a sledovaného obdobia, implikovaný konverzný pomer dosahuje 77,7 percenta; tento údaj je však nutné vnímať ako predbežný, pretože podkladové dáta neboli zverejnené."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Metodika štúdie mala podľa abstraktu charakter prieskumnej, deskriptívnej prípadovej štúdie jednej prevádzky, ktorá vychádzala z dvojmesačnej predajnej stáže uskutočnenej od 1. júna do 31. júla 2026. Dôkazový materiál tvorili pozorovania stážistu, jeho predajné aktivity, denník aktivít a súhrn podnikových záznamov.",
+            "Je dôležité zdôrazniť limity, ktoré vyplývajú z dostupného abstraktu: nebol reportovaný žiadny štruktúrovaný dotazník, pravdepodobnostná vzorka ani kontrolovaný experiment. Správa tiež uvádza predaj 1 014 litrov, avšak táto miera vyžaduje objasnenie, keďže portfólio zahŕňalo oleje, med a arašidové maslo."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Pre majiteľov malých podnikov a tvorcov webových stránok odporúčame integrovať jasné informačné materiály a odpovede na časté námietky priamo do online prostredia. E-shopy môžu využiť krátke, na zákazníka orientované texty a transparentné popisy produktov, ktoré pomáhajú odbúrať pochybnosti pri nákupe potravín.",
+            "V oblasti digitálneho marketingu a manažmentu pracovného prostredia je vhodné zaviesť systematické zaznamenávanie interakcií a konverzií, podobne ako to naznačuje terénny prieskum. Zabezpečenie konzistentných metrík a školenie personálu v produktových znalostiach prispieva k lepšej dôvere zákazníkov a efektívnejšiemu predaju."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Publikovaná práca poskytuje zaujímavý praktický pohľad na propagáciu wellness potravín v konkrétnej maloobchodnej predajni v Indii. Jej prínos je však predovšetkým kontextový a prieskumný, pričom zistenia nemožno automaticky generalizovať na iné trhy či populácie.",
+            "Všetky závery je nutné interpretovať opatrne s ohľadom na obmedzený rozsah dostupných informácií v zdroji DOI: 10.55041/ijcope.v2i11.025. Pre prax ostáva kľúčové spájať osobný prístup, presné dáta a kvalitnú komunikáciu so zákazníkom."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Retail Sales Promotion and Wellness Food Conversion: A Field Perspective",
+      "description": "An analysis of wellness food retail sales based on the available abstract and practical recommendations for small businesses.",
+      "lead": "This article examines retail sales promotion and consumer conversion for Nutrica wellness food products. Our discussion is based exclusively on the data and limitations reported in the published abstract of the study by Sahil Ujede (2026).",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "The modern retail market for health-oriented food products is evolving rapidly and demands innovative approaches to consumer engagement. Small businesses and local outlets frequently search for effective ways to introduce novel products directly at the point of sale. Presenting a wellness portfolio requires careful attention to consumer needs and inquiries.",
+            "This article provides an editorial review of a published study that investigated the practical sale of Nutrica products at Sai Bazar in Mamurdi. Our objective is to critically evaluate the available information, highlight the methodological limits of the abstract, and offer useful practical recommendations without assuming unverified claims."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the study examined how point-of-sale promotions and need-based personal selling techniques are utilized to engage shoppers and support purchase conversion for Nutrica wellness-oriented food products at Sai Bazar in Mamurdi. The primary focus was on the practical selling process, customer questions, and objections.",
+            "The author also focused on the specific role and importance of product knowledge during retail interactions between sales personnel and shoppers within the store environment."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, the field account indicates that concise, customer-centred communication, active listening, and product familiarity were central to the selling process. Responses tailored specifically to address individual customer objections played an essential role.",
+            "Furthermore, the source report records 247 customer interactions and 192 conversions according to the abstract. If these counts use consistent definitions and refer to the same observation period, the implied descriptive conversion ratio is 77.7 percent; however, this figure must be treated as provisional because underlying records were not provided."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The study adopted an exploratory, descriptive single-site case-study design based on a two-month sales internship conducted from June 1 to July 31, 2026, according to the abstract. Evidence comprised the trainee's field observations, customer-facing selling activities, an activity diary, and a summary of outlet records.",
+            "It is essential to note the limitations derived from the abstract: no structured questionnaire, probability sample, or controlled experiment was reported. The report also lists 1,014 units sold in liters, but this measure requires clarification since the promoted portfolio included oils, honey, and peanut butter."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "For small business owners and web designers, we recommend integrating clear informational materials and answers to common objections directly into the digital environment. E-commerce platforms can benefit from short, customer-focused texts and transparent product descriptions that help reduce purchase hesitation for food items.",
+            "In digital marketing and workplace management, it is beneficial to implement systematic recording of customer interactions and conversions, echoing the practices noted in the field study. Ensuring consistent metrics and staff training in product knowledge fosters stronger customer trust and more effective sales."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The published paper provides a practice-based account of promoting wellness food products within a single retail outlet in India. Its contribution remains contextual and exploratory rather than statistically generalizable to other populations or markets.",
+            "All conclusions must be interpreted cautiously given the limited scope of information available in the source DOI: 10.55041/ijcope.v2i11.025. In practice, combining a personal approach, accurate data, and quality customer communication remains paramount."
+          ]
+        }
+      ]
+    }
+  }
+}

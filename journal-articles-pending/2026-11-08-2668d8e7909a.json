@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.60027/jelr.2026.e2985",
+  "generated_on": "2026-11-08",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Informačné líderstvo: Ako klíma na pracovisku ovplyvňuje digitálnu transformáciu",
+      "description": "Analýza štúdie o vplyve osobnosti a firemnej kultúry na informačné líderstvo v prostredí súkromného vysokého školstva.",
+      "lead": "Digitálna transformácia vyžaduje viac než len technológie; vyžaduje lídrov, ktorí vedia pracovať s dátami. Nová štúdia skúma, ako osobnosť a prostredie formujú túto schopnosť.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "V ére digitálnej transformácie sa informačné líderstvo stalo kľúčovou kompetenciou pre efektívne riadenie inštitúcií. Táto schopnosť zahŕňa strategické využívanie dát pri rozhodovaní a implementáciu digitálnych systémov.",
+            "Nová štúdia publikovaná v Journal of Education and Learning Reviews (DOI: 10.60027/jelr.2026.e2985) sa zameriava na to, ako sa osobnostné črty lídrov a organizačná klíma spájajú pri formovaní tohto typu vedenia."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Výskum sa podľa abstraktu zameral na súkromné vysoké školy v Thajsku, ktoré čelia silnému konkurenčnému tlaku. Cieľom bolo zistiť, či organizačná klíma sprostredkúva vzťah medzi osobnosťou správcov a ich schopnosťou viesť digitálnu agendu.",
+            "Autori použili kvantitatívny prierezový dizajn, pričom analyzovali dáta od 350 správcov. Osobnostné črty boli merané podľa modelu Big Five a organizačná klíma bola posudzovaná v rámci rámca digitálneho riadenia."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu štúdie majú osobnostné črty priamy vplyv na informačné líderstvo (β = 0,39). Významným zistením je však čiastočná mediácia: po započítaní vplyvu organizačnej klímy sa priamy efekt znížil na 0,23, zatiaľ čo nepriamy efekt cez klímu bol 0,18.",
+            "Organizačná klíma sa ukázala ako najsilnejší faktor (β = 0,54) s veľkým efektom. Model vysvetlil 55 % rozptylu v informačnom líderstve. Zaujímavé je, že seniorní správcovia boli viac ovplyvnení svojou osobnosťou, zatiaľ čo stredný manažment sa pri digitálnom riadení viac spoliehal na podpornú klímu."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Výskum využil štrukturálne modelovanie (SEM) a konfirmačnú faktorovú analýzu. Mediácia bola testovaná pomocou bootstrapingu s 5 000 resamplami, čo zvyšuje robustnosť štatistických odhadov.",
+            "Je dôležité poznamenať, že ide o abstrakt štúdie, ktorý neposkytuje úplný kontext o kultúrnych špecifikách thajského školstva. Výsledky preto nemožno automaticky generalizovať na iné odvetvia alebo geografické regióny bez ďalšieho overenia."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Pre majiteľov firiem a webových tímov z týchto zistení vyplýva, že investícia do digitálnych nástrojov nestačí. Ak chcete zlepšiť digitálne rozhodovanie, musíte budovať kultúru, ktorá inovácie podporuje, nielen hľadať 'ideálneho' lídra.",
+            "V praxi to znamená, že pri zavádzaní nových webových systémov alebo CRM by ste mali stredný manažment aktívne podporovať v otvorenej komunikácii. Vytvorte prostredie, kde sa chyby pri práci s dátami vnímajú ako učenie, nie ako zlyhanie, čím posilníte ich informačné líderstvo."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Štúdia potvrdzuje, že informačné líderstvo nie je len vrodenou vlastnosťou, ale je výrazne posilňované prostredím. Pre inštitúcie to znamená potrebu duálnej stratégie: rozvoj lídrov a systematické budovanie podpornej klímy.",
+            "Hoci sú výsledky z thajského prostredia špecifické, hlavná myšlienka – že organizačná klíma je kľúčovým multiplikátorom digitálnych schopností – zostáva univerzálnym ponaučením pre moderný manažment."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Informational Leadership: How Workplace Climate Shapes Digital Transformation",
+      "description": "An analysis of a study on how personality and organizational culture influence informational leadership in private higher education institutions.",
+      "lead": "Digital transformation requires more than just technology; it requires leaders who can navigate data. A new study examines how personality and environment shape this capability.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "In the era of digital transformation, informational leadership has become a critical competency for effective institutional governance. This capability involves the strategic use of data in decision-making and the implementation of digital systems.",
+            "A new study published in the Journal of Education and Learning Reviews (DOI: 10.60027/jelr.2026.e2985) examines how administrators' personality traits and organizational climate jointly shape this type of leadership."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the research focused on private higher education institutions in Thailand facing intense competitive pressures. The goal was to determine if organizational climate mediates the relationship between administrators' personality traits and their ability to lead digital agendas.",
+            "The authors employed a quantitative cross-sectional design, analyzing data from 350 administrators. Personality traits were measured using the Five-Factor Model, and organizational climate was assessed within a digital governance framework."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, personality traits significantly influenced informational leadership (β = 0.39). However, a significant finding is the partial mediation: after accounting for organizational climate, the direct effect decreased to 0.23, while the indirect effect through climate was 0.18.",
+            "Organizational climate exerted the strongest influence (β = 0.54) with a large effect size. The model explained 55% of the variance in informational leadership. Interestingly, senior administrators were more influenced by their disposition, whereas middle-level management relied more heavily on a supportive climate for digital enactment."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The research utilized Structural Equation Modeling (SEM) and Confirmatory Factor Analysis. Mediation was tested using bias-corrected bootstrapping with 5,000 resamples, which enhances the robustness of the statistical estimates.",
+            "It is important to note that this is an abstract of the study, which does not provide the full context of the cultural specifics of the Thai education sector. Consequently, the results cannot be automatically generalized to other industries or regions without further verification."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "For business owners and web teams, these findings suggest that investing in digital tools is not enough. To improve data-driven decision-making, you must build a culture that supports innovation rather than just searching for the 'ideal' leader.",
+            "In practice, when implementing new web systems or CRM platforms, you should actively support middle management in open communication. Create an environment where data-related errors are viewed as learning opportunities rather than failures, thereby strengthening their informational leadership."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The study confirms that informational leadership is not merely an innate trait but is significantly amplified by the environment. For institutions, this implies the need for a dual strategy: leadership development combined with systematic climate-building initiatives.",
+            "While the results from the Thai context are specific, the core insight—that organizational climate is a key multiplier of digital capabilities—remains a universal lesson for modern management."
+          ]
+        }
+      ]
+    }
+  }
+}

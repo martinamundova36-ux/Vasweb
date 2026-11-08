@@ -1,0 +1,160 @@
+{
+  "doi": "10.55041/ijcope.v2i11.030",
+  "title": "Beyond the First Purchase: An Integrated Framework for Customer Retention in Direct-to-Consumer E-Commerce",
+  "authors": [
+    "Sarvesh Bamnodkar",
+    "Shreya Bhujbal",
+    "Dr. Padmashree Chandak"
+  ],
+  "publisher": "Edtech Publishers (OPC) Private Limited",
+  "venue": "International Journal of Creative and Open Research in Engineering and Management",
+  "source_date": "2026-11-07",
+  "type": "journal-article",
+  "url": "https://doi.org/10.55041/ijcope.v2i11.030",
+  "abstract_available": true,
+  "abstract_words": 174,
+  "selection_keywords": [
+    "consumer",
+    "customer",
+    "e-commerce"
+  ],
+  "verified_at": "2026-11-08",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-08",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-08",
+    "source_url": "https://doi.org/10.55041/ijcope.v2i11.030",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-08",
+    "content_sha256": "fce83083519d5806c065d9461613ee976bc52a7d51404707df149b5b23728bd2",
+    "languages": {
+      "sk": {
+        "title": "Udržanie zákazníkov v D2C e-commerce: Integrovaný rámec a jeho hranice",
+        "description": "Analýza štúdie o retencii zákazníkov v D2C e-commerce z roku 2026. Skúmame teoretický rámec, metodické limity a praktické tipy pre váš web.",
+        "lead": "Priamy predaj spotrebiteľovi (D2C) prináša obrovské výzvy v oblasti vernosti zákazníkov. Nová štúdia publikovaná v novembri 2026 prináša koncepčný rámec, ktorý prepája teóriu očakávaní, dôvery a celoživotnú hodnotu zákazníka. Pozreli sme sa na to, čo tento text skutočne hovorí a kde má svoje limity.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Digitálne kanály v modernom elektronickom obchode umožňujú značkám nekonečné množstvo interakcií so spotrebiteľmi. Samotná prítomnosť v online priestore však automaticky nezaručuje, že zákazníci sa budú vracať a nakupovať opakovane. Budovanie trvalej lojality v prostredí direct-to-consumer (D2C) sa tak stáva kľúčovým faktorom pre dlhodobú udržateľnosť e-shopov.",
+              "Autori Sarvesh Bamnodkar, Shreya Bhujbal a Dr. Padmashree Chandak publikovali v novembri 2026 štúdiu v časopise International Journal of Creative and Open Research in Engineering and Management (DOI: 10.55041/ijcope.v2i11.030). Táto práca sa zameriava na vytvorenie integrovaného rámca pre udržanie zákazníkov a analyzuje faktory ovplyvňujúce ich opakované nákupy.",
+              "V tomto článku sa pozrieme na to, čo štúdia prináša, aké teoretické východiská využíva a aké obmedzenia vyplývajú z jej metodiky. Zároveň prepojíme akademické poznatky s konkrétnymi redakčnými odporúčaniami pre prevádzkovateľov malých a stredných webových projektov."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa štúdia venovala výzvam spojeným s udržaním zákazníkov v D2C e-commerce prostredí. Autori v texte konštatujú, že hoci digitálne kanály uľahčujú opakované kontakty, samy o sebe nezabezpečujú vernosť kupujúcich. Témy ako zákaznícke cesty, online angažovanosť a vernostné programy už boli predmetom mnohých skorších výskumov vrátane nedávnej metaanalýzy z roku 2026.",
+              "Hlavným cieľom publikácie preto nie je tvrdiť, že prepojenie týchto oblastí je úplne prevratné. Podľa abstraktu štúdia vyvíja koncepčný rámec citlivý na meranie, ktorý odlišuje marketingové aktivity zamerané na životný cyklus, mechanizmy odozvy zákazníkov a výsledky späté s retenciou.",
+              "Pri tvorbe tohto modelu autori čerpali z perspektívy zákazníckej cesty, teórie potvrdenia očakávaní, teórie záväzku a dôvery, ako aj z výskumu angažovanosti zákazníkov a ich celoživotnej hodnoty (CLV). Cieľom bolo objasniť, ako tieto rôznorodé konštrukty vzájomne súvisia."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu publikácia bližšie nešpecifikuje žiadne empirické testovanie navrhovaných vzťahov, keďže ide primárne o koncepčnú prácu. Význam štúdie nespočíva v štatistickom dokazovaní hypotéz na veľkej vzorke, ale v samotnom systematickom usporiadaní teoretických prístupov do jedného prehľadného rámca.",
+              "Autori v texte identifikujú aj kontextuálne podmienky, ktoré by mali formovať samotné vyhodnocovanie úspešnosti retencie. To znamená, že manažéri a tvorcovia stratégií by nemali uplatňovať univerzálne šablóny, ale prihliadať na špecifiká svojej cieľovej skupiny a fázu nákupného cyklu.",
+              "Zistenia naznačujú, že prepojenie teórie záväzku, dôvery a potvrdenia očakávaní dokáže poskytnúť lepšie pochopenie toho, prečo zákazníci opúšťajú značku po prvom nákupe. Ide o užitočný teoretický podklad pre ďalší výskum v oblasti digitálneho obchodu."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Je dôležité zdôrazniť, že ide o prácu s jasne vymedzenými limitmi. Podľa abstraktu autori využili cielenú a zámernú syntézu vybraných vedeckých zdrojov, ktoré získali prostredníctvom cielených vyhľadávaní v publikáciách, repozitároch a podľa referenčných zoznamov.",
+              "Štúdia výslovne nepredstavuje vyčerpávajúci systematický prehľad literatúry. Okrem toho platí kľúčový limit: navrhované vzťahy a prepojenia neboli empiricky testované na reálnych dátach alebo vzorkách zákazníkov.",
+              "V texte sa takisto neuvádzajú žiadne dôverné podnikové záznamy ani súkromné údaje zákazníkov. Pri akejkoľvek interpretácii záverov tohto článku či samotnej štúdie je nutné brať do úvahy, že ide o teoretický model, ktorý vyžaduje dodatočné overenie v praxi."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Na základe redakčnej reflexie teoretických východísk štúdie prinášame niekoľko praktických odporúčaní pre majiteľov malých webov a e-shopov. Prvým krokom je revízia sekcie po prvom nákupe – e-shopy často ignorujú zákazníka hneď po odoslaní tovaru, hoci vtedy je kľúčové potvrdiť jeho očakávania prostredníctvom užitočného obsahu a podpory.",
+              "V oblasti dizajnu a používateľskej skúsenosti (UX) odporúčame zjednodušiť prístup k histórii objednávok a vernostným benefitom priamo v používateľskom účte. Ak zákazník musí zložito hľadať informácie o svojich predchádzajúcich nákupoch, jeho dôvera a ochota vrátiť sa klesajú.",
+              "Pre manažment a marketingové tímy to znamená prejsť od krátkodobých zľavových kampaní k budovaniu dlhodobej dôvery. Nastavte si meranie metrík spätých so životnou hodnotou zákazníka (CLV) a investujte do personalizovanej komunikácie namiesto hromadného spamu."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Štúdia publikovaná v novembri 2026 prináša zaujímavý a užitočný teoretický pohľad na retenciu zákazníkov v D2C e-commerce. Ukazuje, že úspech v digitálnom prostredí nestojí len na náhodných nákupoch, ale na prepojení dôvery, očakávaní a správneho chápania životného cyklu spotrebiteľa.",
+              "Zároveň je však nevyhnutné vnímať limity tohto textu. Keďže ide o koncepčnú štúdiu bez empirického testovania, jej závery slúžia ako ideový základ, nie ako univerzálny návod s garantovanými výsledkami pre každý typ podnikania.",
+              "Dúfame, že tento prehľad vám pomôže lepšie kriticky hodnotiť odbornú literatúru a aplikovať overené princípy do vašich vlastných webových a marketingových stratégií."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Customer Retention in D2C E-Commerce: An Integrated Framework and Its Boundaries",
+        "description": "An analysis of the 2026 study on D2C customer retention. We examine the theoretical framework, methodological limits, and practical tips for your website.",
+        "lead": "Direct-to-consumer (D2C) sales present enormous challenges regarding customer loyalty. A new study published in November 2026 introduces a conceptual framework bridging expectation-confirmation theory, trust, and customer lifetime value. We examine what this text actually claims and where its limits lie.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "Digital channels in modern e-commerce provide brands with countless opportunities to interact with consumers. However, mere online presence does not automatically guarantee that customers will return and make repeat purchases. Building lasting loyalty in a direct-to-consumer (D2C) environment thus becomes a critical factor for the long-term sustainability of online stores.",
+              "Authors Sarvesh Bamnodkar, Shreya Bhujbal, and Dr. Padmashree Chandak published a study in November 2026 in the International Journal of Creative and Open Research in Engineering and Management (DOI: 10.55041/ijcope.v2i11.030). This work focuses on establishing an integrated framework for customer retention and analyzes factors influencing repeat purchases.",
+              "In this article, we examine what the study presents, its theoretical foundations, and the methodological limitations of the research. We also connect these academic insights with concrete editorial recommendations for owners of small and medium web projects."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the study addressed the challenges associated with customer retention in the D2C e-commerce environment. The authors state that while digital channels facilitate repeated interactions, they do not by themselves ensure repeat purchasing or durable loyalty. Topics such as customer journeys, online engagement, and loyalty programmes have already been examined in prior research, including a recent 2026 meta-analysis.",
+              "The main purpose of the paper is therefore not to claim that integrating these topics is inherently novel. According to the abstract, the paper develops a measurement-aware conceptual framework that distinguishes lifecycle-oriented marketing activities, customer-response mechanisms, and retention-related outcomes.",
+              "In developing this model, the authors drew on the customer-journey perspective, expectation-confirmation theory, commitment-trust theory, customer-engagement scholarship, and customer lifetime value research. The goal was to clarify how these constructs relate to one another."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, the publication does not specify any empirical testing of the proposed relationships, as it is primarily a conceptual work. The significance of the study lies not in statistically proving hypotheses on a large sample, but in systematically organizing theoretical approaches into a coherent framework.",
+              "The authors also identify contextual conditions that should shape the evaluation of retention success itself. This means managers and strategy creators should avoid universal templates and instead account for the specific characteristics of their target audience and shopping cycle stage.",
+              "The findings suggest that combining commitment-trust theory and expectation-confirmation theory provides a better understanding of why customers abandon a brand after an initial purchase. This serves as a useful theoretical foundation for further research in digital commerce."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "It is important to emphasize that this work has clearly defined boundaries. According to the abstract, the authors used a focused, purposive synthesis of selected scholarly sources identified through targeted publisher, repository, and DOI searches, as well as reference-list leads.",
+              "The study explicitly is not an exhaustive systematic review of the literature. Furthermore, a crucial limit applies: the proposed relationships and connections have not been empirically tested on real data or customer samples.",
+              "The text also uses no confidential company records or private customer data. When interpreting the conclusions of this article or the study itself, one must consider that this is a conceptual model requiring additional practical verification."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "Based on our editorial reflection of the study's theoretical foundations, we offer several practical recommendations for small business owners and e-commerce operators. The first step is to review the post-purchase section—online stores often ignore customers immediately after dispatch, even though confirming expectations through useful content and support at that moment is crucial.",
+              "In terms of design and user experience (UX), we recommend simplifying access to order history and loyalty benefits directly within the user account. If customers must laboriously search for past purchase information, their trust and willingness to return diminish.",
+              "For management and marketing teams, this means shifting from short-term discount campaigns to building long-term trust. Set up tracking for customer lifetime value (CLV) metrics and invest in personalized communication instead of mass spam."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study published in November 2026 offers an interesting and useful theoretical perspective on customer retention in D2C e-commerce. It demonstrates that success in the digital environment relies not on random transactions, but on connecting trust, expectations, and a proper understanding of the consumer lifecycle.",
+              "At the same time, it is essential to acknowledge the limits of this text. Because it is a conceptual study without empirical testing, its conclusions serve as a conceptual foundation rather than a universal manual with guaranteed results for every business type.",
+              "We hope this overview helps you better evaluate academic literature critically and apply proven principles to your own web and marketing strategies."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.55041/ijcope.v2i11.030",
+        "apa7": "Sarvesh Bamnodkar, Shreya Bhujbal, Dr. Padmashree Chandak (2026). Beyond the First Purchase: An Integrated Framework for Customer Retention in Direct-to-Consumer E-Commerce. International Journal of Creative and Open Research in Engineering and Management. https://doi.org/10.55041/ijcope.v2i11.030",
+        "access": "abstract"
+      }
+    ]
+  }
+}

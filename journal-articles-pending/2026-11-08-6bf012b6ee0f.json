@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.35712/aig.125126",
+  "generated_on": "2026-11-08",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Vedenie ošetrovateľstva a metrika výkonnosti pri umelej inteligencii v gastrointestinálnej chirurgii",
+      "description": "Preskúmajte nové prepojenie ošetrovateľského manažmentu, umelej inteligencije a chirurgickej starostlivosti na základe naratívneho prehľadu.",
+      "lead": "Umelá inteligencia preniká do moderného zdravotníctva, no jej skutočný vplyv na prácu sestier v gastrointestinálnej chirurgii zostáva podrobne nepreskúmaný. Podľa publikovaného abstraktu sa najnovší naratívny prehľad zameriava na úlohu ošetrovateľského vedenia a merateľné ukazovatele pri zavádzaní technologických inovácií.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Digitálna transformácia mení fungovanie nemocníc a klinických oddelení po celom svete. S nástupom pokročilých technológií do špecializovanej chirurgickej starostlivosti rastie dopyt po efektívnom riadení. Zistenia z nedávnej odbornej literatúry poukazujú na potrebu prepojiť moderné algoritmy s reálnou praxou pri lôžku pacienta.",
+            "Každá nová technológia prináša okrem prísľubov vyššej presnosti aj výzvy spojené s adaptáciou personálu. Ošetrovateľský personál tvorí základnú líniu v starostlivosti, a preto je kľúčové pochopiť, ako rôzne softvérové riešenia ovplyvňujú ich každodenné pracovné zaťaženie a rozhodovacie procesy."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu sa táto naratívna prehľadová štúdia zamerala na to, ako môže vedenie ošetrovateľstva podporiť bezpečné používanie umelej inteligencie v celom perioperatívnom procese. Autori sa sústredili na vyhodnocovanie vplyvu technológií prostredníctvom merateľných výsledkov citlivých na prácu sestry v oblasti gastrointestinálnej chirurgie.",
+            "Literatúra bola vyhľadávaná prostredníctvom databáz PubMed, Scopus a Web of Science. Dôraz sa kládol na recenzované štúdie, systematické prehľady, usmernenia, konsenzuálne vyhlásenia a implementačné rámce relevantné pre chirurgiu, ošetrovateľstvo a klinické rozhodovacie systémy."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu prehľad bližšie skúma predoperačné hodnotenie, intraoperatívnu koordináciu, pooperačné sledovanie a plánovanie prepustenia v náročných chirurgických prostrediach. Pozornosť sa venuje efektivite pracovných postupov, reakčným časom a včasnému rozpoznaniu možných komplikácií.",
+            "Medzi ďalšie sledované oblasti patria rizikovo stratifikovaná starostlivosť, kvalita dokumentácie, interdisciplinárna komunikácia, kognitívna záťaž a celková bezpečnosť pacientov. Uvedené zistenia naznačujú, že úspech technológie závisí od schopnosti pomôcť sestrám včas identifikovať riziká."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Autori zvolili formu naratívneho prehľadu literatúry z medzinárodných vedeckých databáz. Je dôležité poznamenať, že dostupný abstrakt neposkytuje podrobnosti o úplnom texte, presnom počte analyzovaných štúdií ani o konkrétnych štatistických metódach použitých pri primárnom výskume.",
+            "Navrhovaný rámec je v texte výslovne označený ako praktická, neoverená štruktúra pre budúce hodnotenie, nie ako hotový a validovaný merací nástroj. Jeho reálne využitie si vyžaduje prospektívnu validáciu a prispôsobenie miestnym podmienkam, personálnemu obsadeniu a digitálnej infraštruktúre."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Ako redakčná odporučená prax pre malé podniky a tvorcov webov to znamená, že zavádzanie nových softvérových nástrojov alebo automatizácie do interných procesov nesmie prebiehať bez zapojenia kľúčových zamestnancov. Podobne ako sestry v nemocnici, aj tím v malej firme potrebuje jasné usmernenia a postupné školenia, aby technológia znižovala stres, a nie zvyšovala administratívnu záťaž.",
+            "Pri tvorbe digitálnych rozhraní, marketingových dashboardov či nástrojov na správu pracoviska by majitelia webov mali dbať na to, aby systémy poskytovali prehľadné dáta v reálnom čase. Namiesto slepého spoliehania sa na automatické predikcie by mali procesy slúžiť na včasné odhalenie problémov a zlepšenie vzájomnej komunikácie v tíme."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Umelá inteligencia a moderné technológie prinášajú do špecializovanej starostlivosti obrovský potenciál, no ich reálny prínos úzkovisí s kvalitným vedením a podporou personálu. Podľa abstraktu by sa technológie nemali posudzovať iba cez matematickú prediktívnu presnosť, ale predovšetkým cez to, či skutočne pomáhajú ľuďom pracovať bezpečnejšie.",
+            "Budúcnosť klinickej praxe aj komerčného prostredia spočíva v rovnováhe medzi inováciami a ľudským faktorom. Budúci vývoj a postupy si vyžadujú dôkladné testovanie a citlivé zakomponovanie do existujúcich pracovných rutín."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Nursing Leadership and Performance Metrics in AI-Integrated Gastrointestinal Surgical Care",
+      "description": "Explore the intersection of nursing management, artificial intelligence, and surgical care based on a recent narrative review.",
+      "lead": "Artificial intelligence is increasingly integrated into complex surgical care, yet its practical impact on nursing work remains insufficiently defined. According to the abstract, a narrative review examines how nursing leadership can support safe AI use through measurable outcomes.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Digital transformation is reshaping hospitals and clinical departments worldwide. With advanced technologies entering specialized surgical care, the demand for effective leadership and governance is growing rapidly across healthcare systems.",
+            "Every technological innovation brings both promises of enhanced precision and operational challenges regarding staff adaptation. Because nursing personnel form the frontline of patient care, understanding how software solutions influence their daily workload is essential."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, this narrative review examined how nursing leadership can support the safe use of artificial intelligence across perioperative pathways. The authors focused on evaluating AI effects through measurable nursing-sensitive outcomes within gastrointestinal surgery.",
+            "Relevant literature was identified through PubMed, Scopus, and Web of Science. Emphasis was placed on peer-reviewed studies, systematic reviews, guidelines, consensus statements, and implementation frameworks associated with surgical care and clinical decision support."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, the review focuses on preoperative assessment, intraoperative coordination, postoperative surveillance, and discharge planning in high-acuity settings. Special attention is given to workflow efficiency, response times, and the early recognition of complications.",
+            "Additional evaluated aspects include risk-stratified care, documentation quality, interdisciplinary communication, cognitive workload, and overall patient safety. These insights suggest that technological success hinges on helping nurses recognize risks earlier."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The authors conducted a narrative literature review utilizing major academic databases. It is important to note that the accessible abstract does not provide details concerning the complete text, exact sample sizes, or specific statistical methodologies.",
+            "The proposed framework is explicitly described as a practical, non-validated structure for future evaluation rather than an established measurement instrument. Its practical application requires prospective validation and adaptation to local staffing and infrastructure."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "As an editorial recommendation for small businesses, web designers, and workplace managers, deploying new software tools or automation must never occur without active employee involvement. Much like clinical nurses, operational teams need clear guidance and progressive training so that digital tools reduce stress rather than add administrative friction.",
+            "When designing digital interfaces, marketing dashboards, or workplace management platforms, owners should ensure systems deliver transparent, actionable data. Rather than relying blindly on automated predictions, digital workflows should support early identification of operational bottlenecks and foster clearer team communication."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "Artificial intelligence offers tremendous potential for specialized care, but its true value depends heavily on supportive leadership and staff enablement. According to the abstract, AI should be judged not only by predictive performance, but by whether it helps personnel recognize risks earlier and deliver safer care.",
+            "The future of both clinical practice and workplace management relies on balancing technological innovation with human oversight. Future developments demand rigorous prospective validation before broad implementation."
+          ]
+        }
+      ]
+    }
+  }
+}
