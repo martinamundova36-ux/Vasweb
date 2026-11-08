@@ -44,3 +44,8 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 - commons-2283390bbd44a9: [Chiranisignaturehotel](https://commons.wikimedia.org/wiki/File:Chirani_Signature_Hotel_Reception_Desk.png), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-359089123396ea: [Erkaha](https://commons.wikimedia.org/wiki/File:Laptop_Arima_Tastatur_abgenommen.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- pexels-27857668: [Chixpix](https://www.pexels.com/photo/a-display-of-vegetables-in-a-grocery-store-27857668/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7857559: [Kampus Production](https://www.pexels.com/photo/female-business-partners-preparing-parcels-7857559/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-8190815: [Kampus Production](https://www.pexels.com/photo/a-group-of-people-having-a-meeting-in-the-office-8190815/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-6129145: [RDNE Stock project](https://www.pexels.com/photo/nurses-smiling-at-each-other-6129145/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n

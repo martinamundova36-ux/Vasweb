@@ -23,10 +23,6 @@
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
   "drafted_at": "2026-11-08",
-  "scientific_review_status": "needs_editorial_review",
-  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
-  "image_status": "needs_image",
-  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
   "editorial": {
     "status": "automated_abstract_editorial",
     "generated_by": "gemini_from_abstract",
@@ -156,5 +152,14 @@
         "access": "abstract"
       }
     ]
-  }
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "fce83083519d5806c065d9461613ee976bc52a7d51404707df149b5b23728bd2",
+  "image_id": "pexels-7857559",
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-08",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-review-2026-11-07-df35e72f1bee.html",
+    "https://www.webu.sk/blog-journal-review-2026-11-07-df35e72f1bee-en.html"
+  ]
 }

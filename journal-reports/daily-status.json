@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T09:14:19.393612+00:00",
+  "checked_at": "2026-11-08T09:18:35.431506+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 7-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
@@ -13,14 +13,13 @@
   "automatically_written_full_articles": 0,
   "automatically_prepared_abstract_editorials": 5,
   "published_today": [
-    "2026-11-08-6bf012b6ee0f"
-  ],
-  "ready_bilingual_articles": [
+    "2026-11-08-6bf012b6ee0f",
     "2026-11-07-01b6e6d3e244",
-    "2026-11-07-df35e72f1bee",
     "2026-11-08-2668d8e7909a",
-    "2026-11-08-43f80bceeb79"
+    "2026-11-08-43f80bceeb79",
+    "2026-11-07-df35e72f1bee"
   ],
+  "ready_bilingual_articles": [],
   "pending_editorial_work": [
     {
       "id": "2026-11-04-5b5dc38594ea",
@@ -67,10 +66,14 @@
     "2026-11-06-976f4ac7554a",
     "2026-11-06-9c4c4252e94d",
     "2026-11-06-a508bd757266",
+    "2026-11-07-01b6e6d3e244",
     "2026-11-07-43db15236ea1",
     "2026-11-07-4b26c13db879",
     "2026-11-07-7c8f2ad8a17c",
     "2026-11-07-8dfe25be4d3a",
+    "2026-11-07-df35e72f1bee",
+    "2026-11-08-2668d8e7909a",
+    "2026-11-08-43f80bceeb79",
     "2026-11-08-6bf012b6ee0f"
   ],
   "paid_ai_enabled": false,

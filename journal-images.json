@@ -865,6 +865,134 @@
         "1280": "cf67876260612657552132f3d864214220e86153f7dbf176412898613dc4b7d8",
         "social": "9f7cf15ab89c57f667e38db2ac2f3cb29e7bd6594b519a326cb7fad1422351cd"
       }
+    },
+    {
+      "id": "pexels-27857668",
+      "provider": "Pexels",
+      "provider_id": "27857668",
+      "source_page": "https://www.pexels.com/photo/a-display-of-vegetables-in-a-grocery-store-27857668/",
+      "download_url": "https://images.pexels.com/photos/27857668/pexels-photo-27857668.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Chixpix",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-08",
+      "original_sha256": "dd349c961581538e31d8978c72ed5aa44071eda9b3fcd430895b0e7027180f54",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Čerstvé potraviny vystavené v predajni",
+        "en": "Fresh food on display in a grocery store"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-27857668-640.webp",
+        "1280": "/assets/journal/pexels-27857668-1280.webp",
+        "social": "/assets/journal/pexels-27857668-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "33b6aab9d81bb3c2e1a2a9d3c67cda175a71848af316c4c3e718dfad8d6060a7",
+        "1280": "d365de4cca2c1469fdf5b9afee16656714d42b21370c81b5d668577e4316307f",
+        "social": "2762979e9b3b5938c8241e1ad862194794afc73a16c35b2ad0323e11b62350ed"
+      }
+    },
+    {
+      "id": "pexels-7857559",
+      "provider": "Pexels",
+      "provider_id": "7857559",
+      "source_page": "https://www.pexels.com/photo/female-business-partners-preparing-parcels-7857559/",
+      "download_url": "https://images.pexels.com/photos/7857559/pexels-photo-7857559.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Kampus Production",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-08",
+      "original_sha256": "f2e52404c7ca9cd2753a5bbba9ad8c4c303ba4354737f6359667fa3fa6a04dd3",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Príprava balíkov pre internetový obchod",
+        "en": "Packing parcels for an online store"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7857559-640.webp",
+        "1280": "/assets/journal/pexels-7857559-1280.webp",
+        "social": "/assets/journal/pexels-7857559-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "1b2dd385c6fc932fe376089b8fe0d1ec2e72bb2be7dfc1d96c5a3a2b93422380",
+        "1280": "0b64be98aac25a34411c53083281b3413667dfc77e3392b4e880351600597d61",
+        "social": "e8deb00fb064700118183b67556fdc2bf9644aafb9d2873bf956e7adc8ca1b8e"
+      }
+    },
+    {
+      "id": "pexels-8190815",
+      "provider": "Pexels",
+      "provider_id": "8190815",
+      "source_page": "https://www.pexels.com/photo/a-group-of-people-having-a-meeting-in-the-office-8190815/",
+      "download_url": "https://images.pexels.com/photos/8190815/pexels-photo-8190815.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Kampus Production",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-08",
+      "original_sha256": "fd9a33a4d8f67d6cf5ce7f79263e7d87beedaded9276dcdb9cc2cba6e3cb8daf",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Tím odborníkov diskutuje pri digitálnej prezentácii",
+        "en": "Professionals discuss a digital presentation in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-8190815-640.webp",
+        "1280": "/assets/journal/pexels-8190815-1280.webp",
+        "social": "/assets/journal/pexels-8190815-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "e8fc7ec32f257a9963bee83715b30d71a747f5c3cf2b3d7e4f0bb667c68f020b",
+        "1280": "c74e048b1e66c06b487d15ec354743febb0477cef32e69ec22954528ad50bca1",
+        "social": "1b479de9ec12684eb23491764fda2502f3e253bfc66ec29d9925d86810001676"
+      }
+    },
+    {
+      "id": "pexels-6129145",
+      "provider": "Pexels",
+      "provider_id": "6129145",
+      "source_page": "https://www.pexels.com/photo/nurses-smiling-at-each-other-6129145/",
+      "download_url": "https://images.pexels.com/photos/6129145/pexels-photo-6129145.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "RDNE Stock project",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-08",
+      "original_sha256": "06a8cc2c91ef5c9af570e3d55b3facecc638d2d2593d03f7b4133473a9005964",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Zdravotnícky tím spolupracuje v nemocničnom prostredí",
+        "en": "Healthcare colleagues work together in a hospital"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-6129145-640.webp",
+        "1280": "/assets/journal/pexels-6129145-1280.webp",
+        "social": "/assets/journal/pexels-6129145-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "5d15b6b66884f31287003236cdfca1c124e8b37f55dc9158794f3943b6666ad6",
+        "1280": "7f485525e00a404e5d5afd11c62cfc5f93cb00ea5d5d8e7ba7ae7514edfbce6b",
+        "social": "bd1cb1fd53e7304b2adf470359c8dd403885658308779bbc62382ce6b3966169"
+      }
     }
   ],
   "assignments": {
@@ -893,6 +1021,10 @@
     "blog-journal-review-2026-11-07-4b26c13db879.html": "commons-6ee4892cf5ee1c",
     "blog-journal-review-2026-11-07-7c8f2ad8a17c.html": "commons-c16f1d45c75cab",
     "blog-journal-review-2026-11-06-9c4c4252e94d.html": "commons-2283390bbd44a9",
-    "blog-journal-review-2026-11-08-6bf012b6ee0f.html": "commons-359089123396ea"
+    "blog-journal-review-2026-11-08-6bf012b6ee0f.html": "commons-359089123396ea",
+    "blog-journal-review-2026-11-07-01b6e6d3e244.html": "pexels-27857668",
+    "blog-journal-review-2026-11-07-df35e72f1bee.html": "pexels-7857559",
+    "blog-journal-review-2026-11-08-2668d8e7909a.html": "pexels-8190815",
+    "blog-journal-review-2026-11-08-43f80bceeb79.html": "pexels-6129145"
   }
 }
