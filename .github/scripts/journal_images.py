@@ -39,7 +39,10 @@ CURATED_PEXELS={
 
 def acquire_curated_pexels_photo(source,data,root=ROOT):
  """Download a DOI-matched, already license-checked non-AI stock photograph."""
- from PIL import Image, ImageOps, UnidentifiedImageError
+ try:
+  from PIL import Image, ImageOps, UnidentifiedImageError
+ except ImportError:
+  return None
  record=CURATED_PEXELS.get((source.get('doi') or '').lower())
  if not record:return None
  photo_id,slug,creator,topic,alt_sk,alt_en=record
@@ -73,7 +76,7 @@ def acquire_curated_pexels_photo(source,data,root=ROOT):
        'files':paths,'illustrative':True,'optimized_sha256':hashes}
  validate_photo(item,root);data['photos'].append(item)
  with (root/'WEBU-JOURNAL-IMAGE-LICENSES.md').open('a',encoding='utf-8') as log:
-  log.write(f'\\n- {key}: [{creator}]({source_page}), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\\n')
+  log.write(f'\n- {key}: [{creator}]({source_page}), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\\n')
  return item
 
 def acquire_commons_photo(topics,data,root=ROOT):
@@ -82,7 +85,10 @@ def acquire_commons_photo(topics,data,root=ROOT):
 If the API, explicit license or image validation fails, keep the article on hold.
 No unlicensed replacement or repeated image is ever used.
 """
- from PIL import Image, ImageOps, UnidentifiedImageError
+ try:
+  from PIL import Image, ImageOps, UnidentifiedImageError
+ except ImportError:
+  return None
  used_pages={p['source_page'] for p in data['photos']}
  for topic in sorted(topics,key=lambda t:(t=='business',t)) or ['business']:
   query,alt_sk,alt_en=COMMONS_SEARCH[topic]
