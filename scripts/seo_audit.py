@@ -68,6 +68,16 @@ def main():
   if len(names)>1:errors.append('Duplicate title: '+', '.join(names))
  for value,names in descs.items():
   if value and len(names)>1:warnings.append('Duplicate description: '+', '.join(names))
+ for url in sitemap:
+  u=urlsplit(url)
+  name=unquote(u.path.lstrip('/')) or 'index.html'
+  page=pages.get(name)
+  if u.scheme!='https' or u.netloc!='www.webu.sk' or u.query or u.fragment or not page:
+   errors.append('Invalid or missing sitemap page: '+url);continue
+  directives=(page.meta.get('robots','')+','+page.meta.get('googlebot','')).lower()
+  if 'noindex' in directives:errors.append(name+': noindex URL in sitemap')
+  if 'http-equiv="refresh"' in (ROOT/name).read_text().lower():errors.append(name+': redirected URL in sitemap')
+  if page.canon and page.canon!=[url]:errors.append(name+': non-canonical URL in sitemap')
  for name,p in articles.items():
   def fail(msg):errors.append(name+': '+msg)
   if p.h1!=1:fail('requires exactly one H1')
