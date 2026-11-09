@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-09",
+  "automatically_published": [
+    "2026-11-09-d1feddafc9fe"
+  ],
+  "published_this_run": [
+    "2026-11-09-d1feddafc9fe"
+  ],
+  "held_due_to_missing_review_or_gates": 4,
+  "publication_errors": [
+    {
+      "id": "2026-11-09-85c1caa8cfb7",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    },
+    {
+      "id": "2026-11-09-dd6b0ede6524",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    },
+    {
+      "id": "2026-11-09-f53865034b2c",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    }
+  ],
+  "mode": "transparent_abstract_editorials"
+}

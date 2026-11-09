@@ -1,25 +1,25 @@
 {
-  "checked_at": "2026-11-08T09:18:35.431506+00:00",
+  "checked_at": "2026-11-09T15:56:46.887967+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 7-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
   "preparation_start": "07:07 Europe/Bratislava",
   "backup_checks": "07:27, 07:47 and every :07/:27/:47 through 11:47; one daily delivery",
-  "next_scheduled_local": "2026-11-09T07:07:00+01:00",
-  "next_scheduled_utc": "2026-11-09T06:07:00+00:00",
+  "next_scheduled_local": "2026-11-10T07:07:00+01:00",
+  "next_scheduled_utc": "2026-11-10T06:07:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
   "generator_capability": "abstract_scoped_bilingual_editorials",
   "automatically_written_full_articles": 0,
-  "automatically_prepared_abstract_editorials": 5,
+  "automatically_prepared_abstract_editorials": 4,
   "published_today": [
-    "2026-11-08-6bf012b6ee0f",
-    "2026-11-07-01b6e6d3e244",
-    "2026-11-08-2668d8e7909a",
-    "2026-11-08-43f80bceeb79",
-    "2026-11-07-df35e72f1bee"
+    "2026-11-09-d1feddafc9fe"
   ],
-  "ready_bilingual_articles": [],
+  "ready_bilingual_articles": [
+    "2026-11-09-85c1caa8cfb7",
+    "2026-11-09-dd6b0ede6524",
+    "2026-11-09-f53865034b2c"
+  ],
   "pending_editorial_work": [
     {
       "id": "2026-11-04-5b5dc38594ea",
@@ -56,6 +56,10 @@
     {
       "id": "2026-11-05-e2f830a0e522",
       "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-09-25fe711e4a3b",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
     }
   ],
   "published_research_draft_ids": [
@@ -74,7 +78,8 @@
     "2026-11-07-df35e72f1bee",
     "2026-11-08-2668d8e7909a",
     "2026-11-08-43f80bceeb79",
-    "2026-11-08-6bf012b6ee0f"
+    "2026-11-08-6bf012b6ee0f",
+    "2026-11-09-d1feddafc9fe"
   ],
   "paid_ai_enabled": false,
   "scientific_review_limit": "Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review",

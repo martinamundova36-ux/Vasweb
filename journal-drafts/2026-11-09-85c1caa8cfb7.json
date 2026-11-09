@@ -1,0 +1,149 @@
+{
+  "doi": "10.55041/ijsmt.v2i11.020",
+  "title": "Role of Digital Technologies in Small Business: A Statistical Analysis of Adoption, Performance, and Growth Outcomes",
+  "authors": [
+    "S Kalyan Raj",
+    "Dr.Varala Ashwini",
+    "Dr. Nomula Chandan Babu"
+  ],
+  "publisher": "Edtech Publishers (OPC) Private Limited",
+  "venue": "International Journal of Science, Strategic Management and Technology",
+  "source_date": "2026-11-09",
+  "type": "journal-article",
+  "url": "https://doi.org/10.55041/ijsmt.v2i11.020",
+  "abstract_available": true,
+  "abstract_words": 239,
+  "selection_keywords": [
+    "customer",
+    "digital marketing",
+    "e-commerce",
+    "small business"
+  ],
+  "verified_at": "2026-11-09",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-09",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-09",
+    "source_url": "https://doi.org/10.55041/ijsmt.v2i11.020",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-09",
+    "content_sha256": "6a6f0c45879a712640070a03e7c4391464aaa5210a1e24208a97d7a84f40a22f",
+    "languages": {
+      "sk": {
+        "title": "Digitálne technológie a výkonnosť malých podnikov: Štatistický pohľad",
+        "description": "Prehľad štúdie o vplyve digitálnych nástrojov na malé podniky, vrátane štatistických zistení a praktických odporúčaní pre manažment.",
+        "lead": "Rýchle šírenie digitálnych technológií zásadne mení prostredie malých podnikov na celom svete. Podľa dostupného abstraktu nedávnej štúdie od autorov S. Kalyan Raj a kolektívu boli preskúmané kľúčové súvislosti medzi mierou digitalizácie a celkovou výkonnosťou firiem, pričom analýza prináša zaujímavé štatistické dáta.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Súčasné podnikateľské prostredie prechádza hlbokou transformáciou, ktorú poháňa nástup moderných informačných technológií. Sociálne siete, e-commerce platformy či cloudové riešenia prestali byť výsadou veľkých korporácií a stávajú sa bežnou súčasťou fungovania malých firiem.",
+              "Tento trend vyvoláva potrebu hlbšieho akademického preskúmania, aby sa presne zmeralo, aký reálny dopad má digitalizácia na rast, efektivitu a celkovú konkurencieschopnosť malých podnikov v rôznych trhových odvetviach."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa štúdia zameriavala na štatistické preskúmanie vzťahu medzi mierou adopcie digitálnych technológií a výkonnosťou malých podnikov. Tá bola v texte definovaná prostredníctvom rastu tržieb, dosahu na zákazníkov, prevádzkovej efektivity a profitability.",
+              "Autori na tento účel využili štruktúrovaný dotazník, ktorý vyplnilo vzorka 250 majiteľov a manažérov malých podnikov pôsobiacich v sektore maloobchodu, služieb a výroby. Dáta následne spracovali pomocou štatistického softvéru IBM SPSS Statistics."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu výsledky ukázali štatisticky významný a pozitívny vzťah medzi zavádzaním digitálnych technológií a celkovou výkonnosťou podniku, pričom hodnota korelačného koeficientu dosiahla r = 0,612 pri hladine významnosti p < 0,01.",
+              "Zároveň sa ukázalo, že adopcia digitálneho marketingu a finančných či platobných nástrojov predstavuje najsilnejšie prediktory výkonnosti. Tieto dva faktory podľa zistení spoločne vysvetľujú takmer 47 percent celkovej variance."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Metodologický prístup podľa abstraktu zahŕňal deskriptívnu štatistiku, analýzu reliability pomocou Cronbachovho alfu, Pearsonovu koreláciu, t-testy pre nezávislé vzorky, analýzu rozptylu ANOVA a viacerú lineárnu regresiu na vzorke 250 respondentov.",
+              "Keďže máme k dispozícii iba vydavateľom poskytnutý abstrakt bez overeného úplného textu štúdie, nemôžeme hodnotiť širšie kvalitatívne aspekty, detaily výberu vzorky ani podrobnosti znenia otázok v dotazníku, čo predstavuje prirodzený limit tohto príspevku."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Na základe témy štúdie odporúčame majiteľom malých webových stránok a e-shopov systematicky integrovať merateľné analytické nástroje a prehľadné mobilné platobné brány, ktoré zefektívnia nákupný proces a zvýšia dôveryhodnosť značky.",
+              "V oblasti online marketingu a správy pracovísk by mali firmy prejsť od náhodných aktivít k dátovo podloženému plánovaniu kampaní a využívaniu cloudových systémov na správu vzťahov so zákazníkmi, čo priamo prispieva k lepšej prevádzkovej efektivite."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Predmetná štúdia poukazuje na strategickú nevyhnutnosť digitálnej integrácie pre udržanie konkurencieschopnosti malých podnikov, pričom otvorene pomenúva aj pretrvávajúce bariéry spojené s nákladmi, digitálnou gramotnosťou a infraštruktúrou.",
+              "Hoci dáta naznačujú silnú väzbu medzi technológiami a úspechom, pre hlbšie pochopenie kauzality a aplikovateľnosti v špecifických regionálnych podmienkach je nevyhnutné sledovať ďalší výskum dostupný pod DOI 10.55041/ijsmt.v2i11.020."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Digital Technologies and Small Business Performance: A Statistical Overview",
+        "description": "An overview of a study examining the impact of digital tools on small businesses, featuring statistical findings and practical management insights.",
+        "lead": "The rapid spread of digital technologies is fundamentally reshaping the operating environment of small businesses worldwide. According to the available abstract of a recent study by S. Kalyan Raj and colleagues, key relationships between the extent of digitalization and overall business performance were investigated, yielding notable statistical data.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "The modern business landscape is undergoing a profound transformation driven by the rise of information technologies. Social media, e-commerce platforms, and cloud solutions are no longer exclusive to large corporations and have become standard components of small enterprise operations.",
+              "This trend creates a need for deeper academic inquiry to accurately measure the actual impact of digitalization on growth, efficiency, and overall competitiveness across various market sectors."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the study statistically examined the relationship between the extent of digital technology adoption and small business performance. Performance was measured through sales growth, customer reach, operational efficiency, and profitability.",
+              "To achieve this, the authors administered a structured survey to a sample of 250 small business owners and managers across retail, services, and manufacturing sectors, analyzing the data using IBM SPSS Statistics."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, the results indicated a statistically significant and positive relationship between digital technology adoption and overall business performance, with a correlation coefficient of r = 0.612 at p < 0.01.",
+              "Furthermore, regression analysis revealed that digital marketing adoption and financial or payment tools are the strongest predictors of performance, jointly explaining nearly 47 percent of the total variance."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The methodological approach described in the abstract included descriptive statistics, reliability analysis via Cronbach's Alpha, Pearson correlation, independent samples t-tests, one-way ANOVA, and multiple linear regression based on a sample of 250 respondents.",
+              "Because only the publisher-supplied abstract is available without the verified full text, we cannot evaluate broader qualitative aspects, sample selection details, or questionnaire wording specifics, which represents an inherent limitation."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "Building upon the study's theme, we recommend that small business website and e-commerce owners systematically integrate measurable analytics tools and streamlined mobile payment gateways to optimize the checkout process and enhance brand trust.",
+              "In digital marketing and workplace management, firms should transition from random activities to data-driven campaign planning and cloud-based CRM systems, which directly contribute to improved operational efficiency."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The reviewed study highlights the strategic necessity of digital technology integration for small business competitiveness while openly addressing persistent barriers related to cost, digital literacy, and infrastructure.",
+              "Although the data point to a strong association between technologies and success, further research accessible via DOI 10.55041/ijsmt.v2i11.020 is essential for understanding causality and specific regional applicability."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.55041/ijsmt.v2i11.020",
+        "apa7": "S Kalyan Raj, Dr.Varala Ashwini, Dr. Nomula Chandan Babu (2026). Role of Digital Technologies in Small Business: A Statistical Analysis of Adoption, Performance, and Growth Outcomes. International Journal of Science, Strategic Management and Technology. https://doi.org/10.55041/ijsmt.v2i11.020",
+        "access": "abstract"
+      }
+    ]
+  }
+}

@@ -993,6 +993,70 @@
         "1280": "7f485525e00a404e5d5afd11c62cfc5f93cb00ea5d5d8e7ba7ae7514edfbce6b",
         "social": "bd1cb1fd53e7304b2adf470359c8dd403885658308779bbc62382ce6b3966169"
       }
+    },
+    {
+      "id": "commons-be9a4de43d9934",
+      "provider": "Wikimedia Commons",
+      "provider_id": "160875328",
+      "source_page": "https://commons.wikimedia.org/wiki/File:President_Trump_Clashes_With_Ukrainian_President_Zelenskyy_During_Meeting_in_Oval_Office,_Feb._28,_2025.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/President_Trump_Clashes_With_Ukrainian_President_Zelenskyy_During_Meeting_in_Oval_Office%2C_Feb._28%2C_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "The White House",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain",
+      "commercial_use_verified_at": "2026-11-09",
+      "original_sha256": "aa756fe6d5628ef8418006da7c54a1e0b33609eb3fd5373a2e7e0095acab9a52",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "tím pri pracovnom stretnutí",
+        "en": "Team at an office meeting"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-be9a4de43d9934-640.webp",
+        "1280": "/assets/journal/commons-be9a4de43d9934-1280.webp",
+        "social": "/assets/journal/commons-be9a4de43d9934-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "be8b245bf48af378ce63fd4ece0a0abb4b984b04abda66580ee30cd81c54521f",
+        "1280": "133793619c70aa4efbd86a0ac47032da565ebf128bb56feeac6bdfb6a36639ff",
+        "social": "45c05e09c4e23d48d7a550cc2e440355dc31fc5b342e335f82040be397b44743"
+      }
+    },
+    {
+      "id": "commons-82a92c00117f4f",
+      "provider": "Wikimedia Commons",
+      "provider_id": "134156898",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ambassador_Burns_shaking_hands_with_Secretary_Yellen_upon_her_arrival_at_Beijing_airport.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Ambassador_Burns_shaking_hands_with_Secretary_Yellen_upon_her_arrival_at_Beijing_airport.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Ambassador of the United States of America to the People's Republic of China",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain",
+      "commercial_use_verified_at": "2026-11-09",
+      "original_sha256": "2a33849a4a1dafff3a8300be91b06c86728c67b404a96800157423a13af7bcca",
+      "topics": [
+        "trust"
+      ],
+      "alt": {
+        "sk": "Obchodné rokovanie a spolupráca",
+        "en": "Business negotiation and collaboration"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-82a92c00117f4f-640.webp",
+        "1280": "/assets/journal/commons-82a92c00117f4f-1280.webp",
+        "social": "/assets/journal/commons-82a92c00117f4f-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "a5c8be2dbdffec2055c70cc936f17e38f5c14f72ea3430aa6d09b2ee83c4f410",
+        "1280": "8af252154104dced9b3dfb5071c04b954be355848a326cc28071bc65abff2ac7",
+        "social": "3539075d97468e63c93c46f05f88b36f2396d66bc1981d0191146e15fe211acf"
+      }
     }
   ],
   "assignments": {
@@ -1025,6 +1089,8 @@
     "blog-journal-review-2026-11-07-01b6e6d3e244.html": "pexels-27857668",
     "blog-journal-review-2026-11-07-df35e72f1bee.html": "pexels-7857559",
     "blog-journal-review-2026-11-08-2668d8e7909a.html": "pexels-8190815",
-    "blog-journal-review-2026-11-08-43f80bceeb79.html": "pexels-6129145"
+    "blog-journal-review-2026-11-08-43f80bceeb79.html": "pexels-6129145",
+    "blog-journal-review-2026-11-09-25fe711e4a3b.html": "commons-be9a4de43d9934",
+    "blog-journal-review-2026-11-09-d1feddafc9fe.html": "commons-82a92c00117f4f"
   }
 }

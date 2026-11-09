@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.56015/gjikplp.v13i10.1386",
+  "generated_on": "2026-11-09",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Hodnotenie kapacít samosprávy pri vydávaní podnikateľských povolení: Pohľad cez OSS-RBA",
+      "description": "Analýza schopností úradu v Tanjungpinang pri systéme OSS-RBA. Článok poukazuje na výzvy, inovácie a dôsledky pre prax malých firiem.",
+      "lead": "Súčasné štúdie prinášajú cenné poznatky o tom, ako verejná správa zvláda implementáciu integrovaných systémov. Podľa abstraktu sa nedávny výskum zameral na analýzu kapacít úradu DPMPTSP v meste Tanjungpinang pri zavádzaní systému OSS-RBA, pričom odhalil silné stránky aj prekážky, ktoré ovplyvňujú každodenné podnikanie a fungovanie inštitúcií.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Efektívne fungovanie verejnej správy a transparentné povoľovacie procesy patria medzi základné piliere moderného podnikateľského prostredia. Bez ohľadu na to, v akej krajine sa nachádzame, podnikatelia potrebujú stabilné a predvídateľné podmienky pre svoje investície, čo úzko súvisí s digitálnou pripravenosťou úradov. Rýchlosť a spoľahlivosť vybavovania povolení priamo ovplyvňujú konkurencieschopnosť celého regiónu a schopnosť malých firiem rásť bez zbytočných administratívnych bŕzd.",
+            "Nový výskum publikovaný v časopise GOVERNANCE: Jurnal Ilmiah Kajian Politik Lokal dan Pembangunan sa venuje práve tejto tématike. Autori Ayu Lestari Tampubolon, Wayu Eko Yudiatmaja, Reza Gemilang a Firman Firman skúmajú, ako miestna samospráva v indonézskom meste Tanjungpinang zvláda implementáciu integrovaného systému OSS-RBA. Ich práca poskytuje cenný pohľad na mechanizmy, ktoré určujú úspech či neúspech modernizácie úradov v praxi."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu bolo hlavným cieľom tejto štúdie analyzovať kapacity Úradu investícií a integrovaných služieb na jednom mieste (DPMPTSP) v meste Tanjungpinang. Výskumníci zamerali svoju pozornosť na to, ako tento úrad implementuje integrovaný systém obchodného licencovania známy ako OSS-RBA. Snahou bolo pochopiť, aké vnútorné predpoklady a podmienky ovplyvňujú celkovú pripravenosť inštitúcie.",
+            "Metologická stránka výskumu sa opierala o kvalitatívny prístup a prípadovú štúdiu. Podľa abstraktu boli primárne údaje zbierané prostredníctvom hĺbkových rozhovorov a analýzy dokumentov. Následne sa na spracovanie dát použil interaktívny model, ktorý zahŕňal kondenzáciu údajov, ich vizuálne zobrazenie a záverečné vyvozenie záverov."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Výsledky výskumu prinášajú zaujímavý pohľad na to, z čoho sa skladá organizačná schopnosť úradu. Podľa abstraktu je táto schopnosť postavená na inštitucionálnych, ľudských, finančných, technických a politických pilieroch, pričom kľúčovú úlohu zohráva aj vedenie. Všetky tieto zložky musia byť navzájom integrované, aby dokázali efektívne podporovať fungovanie systému OSS-RBA.",
+            "Napriek týmto pevným základom však autori identifikovali viacero závažných obmedzení. Podľa abstraktu efektívnosť kapacít brzdí obmedzená koordinácia medzi jednotlivými inštitúciami, nerovnaká úroveň digitálnych kompetencií zamestnancov, občasné výpadky celoštátneho systému OSS-RBA a nedostatočná informovanosť verejnosti o postupoch licencovania založeného na rizikách."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Zvolená metodika poskytuje hĺbkový pohľad na skúmaný problém, no zároveň vyžaduje opatrnosť pri interpretácii. Podľa abstraktu autori využili kvalitatívny prístup, prípadovú štúdiu, hĺbkové rozhovory a analýzu dokumentov, pričom dáta spracovali prostredníctvom interaktívneho modelu. Tento postup je vhodný na mapovanie komplexných procesov v konkrétnej inštitúcii, no ťažko sa z neho generalizujú závery pre iné regióny.",
+            "Je dôležité zdôrazniť, že tento článok vychádza výhradne z dostupného abstraktu a nehodnotí kompletný text štúdie, keďže plné znenie nebolo nezávisle overené. Z tohto dôvodu sa v redakcii musíme vyhnúť akýmkoľvek širším zovšeobecneniam o stave verejnej správy mimo rámca explicitne uvedeného v abstrakte a takisto nemôžeme vyvodzovať priamu kauzalitu nad rámec popísaných zistení."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Hoci štúdia analyzuje konkrétny úrad v zahraničí, jej závery ponúkajú užitočné paralely pre majiteľov malých firiem, tvorcov webov a manažment. Zásadným ponaučením z výskumu je, že technologické riešenia zlyhávajú, ak používatelia nerozumejú pravidlám. Majitelia webov by preto mali klásť dôraz na maximálnu zrozumiteľnosť rozhraní, prehľadný UX dizajn a jednoduchú edukáciu zákazníkov prostredníctvom zrozumiteľných návodov.",
+            "V oblasti marketingu a správy pracoviska to znamená investovať do digitálnej gramotnosti tímu a jasnej internej komunikácie. Ak sa firmy pripájajú na externé štátne alebo partnerské systémy, mali by mať pripravené záložné procesy pre prípad výpadkov technológií. Transparentná asistencia zákazníkom a proaktívna podpora dokážu vykompenzovať mnohé nečistoty v digitálnych procesoch a posilniť dôveru klientov."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Súhrnne možno konštatovať, že štúdia autorov Tampubolon et al. poukazuje na zložitosť zavádzania integrovaných systémov do praxe verejnej správy. Podľa abstraktu zohráva inovácia a schopnosť manažmentu kľúčovú úlohu pri prekonávaní prekážok prostredníctvom asistencie a digitálnych médií. Výskum pripomína, že samotná digitalizácia nestačí bez podpory ľudí a kultivácie procesov.",
+            "Z redakčného pohľadu ide o cenný podnet na zamyslenie nad tým, ako technológie a ľudský faktor formujú úspech organizácií. Budúcnosť efektívnych služieb leží v neustálom zlepšovaní procesov a v odstraňovaní bariér, ktoré bránia plynulej komunikácii medzi inštitúciami a občanmi či podnikateľmi."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Assessing Local Government Capability in Delivering Public Service: Insights from Business Permits",
+      "description": "An analysis of DPMPTSP capabilities in Tanjungpinang regarding OSS-RBA. The article highlights challenges, innovations, and lessons for small businesses.",
+      "lead": "Contemporary studies provide valuable insights into how public administrations manage the implementation of integrated systems. According to the abstract, recent research analyzes the capabilities of the DPMPTSP office in Tanjungpinang City regarding the implementation of the OSS-RBA system, revealing both strengths and hurdles impacting everyday business and institutional operations.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Efficient public administration and transparent licensing procedures are fundamental pillars of a modern business environment. Regardless of the geographic context, entrepreneurs require stable and predictable conditions for their investments, which is closely tied to the digital readiness of public offices. The speed and reliability of permit processing directly influence the competitiveness of a region and the ability of small businesses to grow without unnecessary administrative roadblocks.",
+            "A new study published in GOVERNANCE: Jurnal Ilmiah Kajian Politik Lokal dan Pembangunan addresses this exact topic. Authors Ayu Lestari Tampubolon, Wayu Eko Yudiatmaja, Reza Gemilang, and Firman Firman investigate how the local government in Tanjungpinang City manages the implementation of the integrated OSS-RBA system. Their work offers valuable insights into the mechanisms that determine the success or failure of administrative modernization in practice."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the primary objective of this study was to analyze the capabilities of the Investment and One-Stop Integrated Service Office (DPMPTSP) of Tanjungpinang City. The researchers focused on how this office implements the integrated business licensing system known as OSS-RBA, seeking to understand the internal prerequisites and conditions influencing the institution's overall readiness.",
+            "The methodological approach of the research relied on a qualitative case study method. According to the abstract, primary data were collected through in-depth interviews and document analysis, which were subsequently processed using an interactive model consisting of data condensation, data display, and conclusion drawing."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "The research results offer an interesting perspective on the composition of organizational capability within the office. According to the abstract, this capability is built upon institutional, human resource, financial, technical, policy implementation, and leadership capabilities, all integrated to support the implementation of the OSS-RBA system.",
+            "Despite these solid foundations, however, the authors identified several severe constraints. According to the abstract, the effectiveness of these capabilities is constrained by limited inter-agency coordination, disparities in digital competencies among civil servants, disruptions to the nationally integrated OSS-RBA system, and insufficient public understanding of risk-based licensing procedures."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The chosen methodology provides an in-depth look at the investigated issue while demanding caution in interpretation. According to the abstract, the authors utilized a qualitative approach, a case study method, in-depth interviews, and document analysis, processing data via an interactive model. This approach is well suited for mapping complex processes within a specific institution, yet generalizing findings to other regions remains difficult.",
+            "It is important to emphasize that this article relies exclusively on the available abstract and does not evaluate the complete text of the study, as the full version has not been independently verified. Consequently, our editorial stance avoids broader generalizations about public administration beyond what is explicitly stated in the abstract, nor do we infer direct causality beyond the described findings."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "Although the study analyzes a specific foreign office, its conclusions offer useful parallels for small business owners, web designers, and managers. A fundamental lesson from the research is that technological solutions fail when users do not understand the rules. Website owners should therefore emphasize interface clarity, clean UX design, and straightforward customer education through accessible guides.",
+            "In the fields of marketing and workplace management, this translates into investing in team digital literacy and clear internal communication. If businesses connect to external government or partner systems, they should have backup procedures ready for potential technology outages. Transparent customer assistance and proactive support can compensate for many friction points in digital workflows and strengthen client trust."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "In summary, the study by Tampubolon et al. highlights the complexity of introducing integrated systems into public administration practice. According to the abstract, innovation management capability plays a key role in overcoming obstacles through service assistance, digital media utilization, and continuous improvement.",
+            "From an editorial perspective, this serves as a valuable prompt to reflect on how technology and the human factor shape organizational success. The future of efficient services lies in continuous process improvement and the removal of barriers that hinder smooth communication between institutions, citizens, and entrepreneurs."
+          ]
+        }
+      ]
+    }
+  }
+}
