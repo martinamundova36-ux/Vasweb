@@ -55,6 +55,23 @@ def request_with_retries(model,request,key):
         time.sleep(2**attempt * 2)
     raise RuntimeError("Retries exhausted")
 
+def validate_result(result):
+    if not isinstance(result,dict) or set(result)!={"sk","en"}:
+        raise ValueError("Missing bilingual output")
+    for lang,headings in (("sk",HEADINGS_SK),("en",HEADINGS_EN)):
+        article=result[lang]
+        if not isinstance(article,dict) or not article.get("title") or not 50<=len(article.get("description",""))<=160:
+            raise ValueError("Invalid article metadata "+lang)
+        sections=article.get("sections",[])
+        if not isinstance(sections,list) or [s.get("heading") for s in sections]!=headings:
+            raise ValueError("Article structure mismatch "+lang)
+        if not all(len(s.get("paragraphs",[]))>=2 for s in sections):
+            raise ValueError("Incomplete article section "+lang)
+        count=len(" ".join([article.get("lead","")]+[p for s in sections for p in s["paragraphs"]]).split())
+        if count<300:
+            raise ValueError("Article too short "+lang)
+    return result
+
 def generate(source,abstract,api_key,models):
     prompt="""Create TWO DISTINCT, polished, genuinely useful and original WEBU Journal editorial article drafts in Slovak and English.
 Return ONLY JSON with two properties 'sk' and 'en'. Each contains 'title', 'description' (50-160 chars), 'lead' and 'sections'.
@@ -87,31 +104,24 @@ CRITICAL accuracy rules:
 - No external references apart from the verified DOI.
 """
     request={"contents":[{"parts":[{"text":prompt}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.35,"maxOutputTokens":7000}}
-    payload=None
     errors=[]
     for model in models:
         try:
             payload=request_with_retries(model,request,api_key)
+            response_text=payload["candidates"][0]["content"]["parts"][0]["text"]
+            result=validate_result(json.loads(response_text))
             print("Gemini model used:",model)
-            break
+            return result
         except urllib.error.HTTPError as exc:
             if exc.code in (400,401,403):raise
             errors.append(model+": "+str(exc))
         except (urllib.error.URLError,TimeoutError) as exc:
             errors.append(model+": "+str(exc))
-    if payload is None:raise RuntimeError("All Gemini models failed: "+"; ".join(errors))
-    response_text=payload["candidates"][0]["content"]["parts"][0]["text"]
-    result=json.loads(response_text)
-    if set(result)!={"sk","en"}:raise ValueError("Missing bilingual output")
-    for lang,headings in (("sk",HEADINGS_SK),("en",HEADINGS_EN)):
-        article=result[lang]
-        if not article.get("title") or not 50<=len(article.get("description",""))<=160:raise ValueError("Invalid article metadata "+lang)
-        sections=article.get("sections",[])
-        if [s.get("heading") for s in sections]!=headings:raise ValueError("Article structure mismatch "+lang)
-        if not all(len(s.get("paragraphs",[]))>=2 for s in sections):raise ValueError("Incomplete article section "+lang)
-        count=len(" ".join([article.get("lead","")]+[p for s in sections for p in s["paragraphs"]]).split())
-        if count<300:raise ValueError("Article too short "+lang)
-    return result
+        except (ValueError,TypeError,KeyError,IndexError) as exc:
+            # A model can return malformed JSON or omit a required language.
+            # Never publish it; try another available free model instead.
+            errors.append(model+": invalid article output: "+str(exc))
+    raise RuntimeError("All available Gemini models failed: "+"; ".join(errors))
 
 def markdown(source,result):
     lines=["<!-- WEBU-AI-MANUSCRIPT-V1 -->","# WEBU Journal — automaticky pripravený odborný text / Automated editorial manuscript","",
@@ -141,6 +151,13 @@ def main():
         result={lang:{"title":"Example","lead":"Example","description":"Example description of at least fifty characters in length.","sections":[{"heading":heading,"paragraphs":["a","b"]} for heading in hs]} for lang,hs in (("sk",HEADINGS_SK),("en",HEADINGS_EN))}
         text=markdown(sample,result)
         assert "WEBU-AI-MANUSCRIPT-V1" in text and "Slovenská verzia" in text and "English version" in text
+        from unittest.mock import patch
+        for lang in ("sk","en"):
+            result[lang]["sections"][0]["paragraphs"]=["word "*170,"word "*170]
+        replies=iter([{"candidates":[{"content":{"parts":[{"text":"{invalid-json"}]}}]},
+                      {"candidates":[{"content":{"parts":[{"text":json.dumps(result)}]}}]}])
+        with patch(__name__+".request_with_retries",side_effect=lambda *a:next(replies)):
+            assert generate(sample,"A verified abstract","test-key",["first","second"])==result
         print("PASS: bilingual manuscript formatting, no publishing")
         return
     key=os.environ.get("GEMINI_API_KEY","")
