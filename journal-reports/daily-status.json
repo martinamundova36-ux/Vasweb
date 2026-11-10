@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-10T06:34:28.020740+00:00",
+  "checked_at": "2026-11-10T06:38:33.733950+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 7-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
@@ -11,9 +11,11 @@
   "daily_maximum": 5,
   "generator_capability": "abstract_scoped_bilingual_editorials",
   "automatically_written_full_articles": 0,
-  "automatically_prepared_abstract_editorials": 3,
+  "automatically_prepared_abstract_editorials": 5,
   "published_today": [
     "2026-11-10-9185874f456f",
+    "2026-11-10-f83258123193",
+    "2026-11-10-2b4c9deb9ee5",
     "2026-11-10-9715fd33f88b",
     "2026-11-10-d9e721367fff"
   ],
@@ -62,14 +64,6 @@
     {
       "id": "2026-11-09-25fe711e4a3b",
       "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
-    },
-    {
-      "id": "2026-11-10-2b4c9deb9ee5",
-      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
-    },
-    {
-      "id": "2026-11-10-f83258123193",
-      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
     }
   ],
   "published_research_draft_ids": [
@@ -90,9 +84,11 @@
     "2026-11-08-43f80bceeb79",
     "2026-11-08-6bf012b6ee0f",
     "2026-11-09-d1feddafc9fe",
+    "2026-11-10-2b4c9deb9ee5",
     "2026-11-10-9185874f456f",
     "2026-11-10-9715fd33f88b",
-    "2026-11-10-d9e721367fff"
+    "2026-11-10-d9e721367fff",
+    "2026-11-10-f83258123193"
   ],
   "paid_ai_enabled": false,
   "scientific_review_limit": "Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review",

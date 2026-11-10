@@ -21,8 +21,143 @@
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
   "drafted_at": "2026-11-10",
-  "scientific_review_status": "needs_editorial_review",
-  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-10",
+    "source_url": "https://doi.org/10.1108/jgm-06-2026-0070",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-10",
+    "content_sha256": "f0d5eaeb4012aeddeac3a0126fd48ee90e209c5316c9ffec7d9028ca5bfbd593",
+    "languages": {
+      "sk": {
+        "title": "Digitálna diplomacia a translokálna identita: Nové výzvy pre globálnu mobilitu",
+        "description": "Prehľad štúdie Isabel Barbosovej a Elizabeth Real de Oliveira o virtuálnych medzinárodných vyslaniach, digitálnej diplomacii a budovaní dôvery.",
+        "lead": "Súčasné globálne pracovné prostredie prináša nové formy medzinárodnej spolupráce, pričom virtuálne medzinárodné vyslania nahrádzajú tradičnú fyzickú relokáciu. Nová štúdia publikovaná v Journal of Global Mobility zohľadňuje teóriu práce s identitou a skúma, ako zamestnanci vyjednávajú svoju profesionálnu legitimitu z domáceho prostredia.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Rastúca závislosť nadnárodných korporácií od virtuálnych medzinárodných vyslaní otvára nové otázky o tom, ako si profesionáli udržiavajú svoju pozíciu bez fyzického presunu. Tradičné modely expatriácie sú často nahradzované prácou na diaľku, kde kľúčovú úlohu zohráva digitálna prítomnosť a prepojenie rôznych kultúrnych kontextov.",
+              "Podľa abstraktu štúdie, ktorú napísali Isabel Barbosa a Elizabeth Real de Oliveira v Journal of Global Mobility (DOI: 10.1108/jgm-06-2026-0070), sa pozornosť sústreďuje na to, ako zamestnanci bez fyzického presunu vyjednávajú profesionálnu legitimitu, spolupatričnosť a dôveru. Autorky sa opierajú o teóriu práce s identitou a nazerajú na tieto snahy ako na translokálnu prácu s identitou.",
+              "Tento redakčný článok WEBU Journal prináša pohľad na uvedené zistenia s dôrazom na obmedzenia vychádzajúce z dostupnosti abstraktu. Zároveň prepájame tieto akademické poznatky s praktickými odporúčaniami pre menšie tímy, webdizajn a riadenie virtuálneho pracovného prostredia."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa kvalitatívna štúdia zamerala na tri nadnárodné korporácie pôsobiace v sektoroch technológií, konzultácií a výroby. Výskum analyzoval skúsenosti zamestnancov, ktorí boli formálne poverení medzinárodnými úlohami, avšak bez plánovanej relokácie z ich domovskej základne.",
+              "Metodologický prístup opísaný v abstrakte zahŕňal realizáciu tridsiatich semoštruktúrovaných rozhovorov s týmito virtuálne vyslanými pracovníkmi. Na podnietenie diskusie o vzťahoch súvisiacich s vyslaním bola použitá vizuálna sieťová elicitácia a získané dáta sa analyzovali pomocou tímového tematického prístupu.",
+              "Je dôležité poznamenať, že tieto informácie vychádzajú výlučne z dostupného vydavateľského abstraktu a celý text štúdie nebol nezávisle overený. Preto je potrebné brať do úvahy obmedzenia týkajúce sa širšieho kontextu zozbieraných dát a presného rozsahu metodiky."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu prináša štúdia tri vzájomne prepojené témy translokálnej práce s identitou: translokálnu profesionalitu, digitálnu diplomaciu a vnímané psychologicky bezpečné začlenenie. Prvá téma zachytáva globálnu profesionálnu identitu, ktorú sa zamestnanci snažili udržať pri lokálnom pôsobení.",
+              "Druhá téma, digitálna diplomacia, podľa abstraktu zahŕňa zámernú vzťahovú prácu zameranú na budovanie a udržiavanie medzikultúrnej dôvery prostredníctvom digitálnych kanálov. Tretia téma sa týka podmienok sprostredkovaných vedúcimi pracovníkmi, ktoré podporujú alebo obmedzujú otvorenú komunikáciu a autentickú účasť.",
+              "Závery abstraktu naznačujú, že symbolická a sociálna blízkosť môže podporiť legitimitu bez relokácie, avšak pretrvávajúca marginalizácia a vzťahové napätie ukazujú, že tieto snahy zostávajú závislé od podpory organizácie a vedenia. Autorky prinášajú koncept translokálnej práce s identitou, ktorý prispieva k výskumu globálnej mobility."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Metodika tohto výskumu, ako je uvedená v abstrakte, sa spolieha na kvalitatívnu viacerých prípadov štúdiu v troch špecifických sektoroch. Využitie tridsiatich rozhovorov a vizuálnej sieťovej elicitácie poskytuje hĺbkový pohľad na skúsenosti vybraných zamestnancov.",
+              "Kritickým limitom tohto redakčného príspevku je fakt, že pracujeme iba s vydavateľským abstraktom. Úplné znenie štúdie nebolo verifikované, čo znamená, že nepoznáme všetky podrobnosti štatistických alebo hlbších kvalitatívnych väzieb, ktoré by úplný text mohol obsahovať.",
+              "Zároveň je nutné upozorniť, že zistenia z nadnárodných korporácií nemožno bezvýhradne aplikovať na akékoľvek iné prostredie, najmä nie na lokálne podmienky v iných regiónoch alebo na úplne odlišné štruktúry malých podnikov."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Pre majiteľov malých podnikov a manažérov digitálnych tímov ponúkajú zistenia štúdie cenné podnetné paralely. Pri tvorbe webových projektov a riadení marketingových kampaní na diaľku je kľúčové budovať transparentné digitálne prostredie, ktoré podporuje dôveru a otvorenú komunikáciu medzi členmi tímu.",
+              "V oblasti webdizajnu a správy webov to znamená vytvárať pre klienta i tím intuitívne komunikačné rozhrania a prehľadné sekcie, ktoré nahradia osobný kontakt. Podobne ako v koncepte digitálnej diplomacie je nutné vedome investovať do vzťahov prostredníctvom pravidelných online stretnutí a jasne definovaných procesov.",
+              "V riadení pracovísk na diaľku odporúčame zaviesť opatrenia na podporu psychologického bezpecia, aby sa zamestnanci necítili izolovaní. Udržiavanie pravidelného kontaktu a rešpektovanie rôznych kultúrnych zázemí pomáha prekonať pocit marginalizácie, ktorý štúdia spomína."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Virtuálne medzinárodné vyslania predstavujú modernú výzvu pre organizácie, ktoré sa spoliehajú na digitálnu spoluprácu namiesto fyzickej relokácie. Skúmaný koncept translokálnej práce s identitou poukazuje na to, že profesionálna legitimita a dôvera sú dosiahnuteľné, no vyžadujú si systematické úsilie.",
+              "Podľa abstraktu štúdie od Barbosovej a Real de Oliveira zostávajú tieto snahy citlivé na úroveň podpory zo strany vedenia a organizácie. Bez dostatočného zázemia môže dochádzať k vzťahovému napätiu a pocitom vylúčenia.",
+              "WEBU Journal odporúča manažérom, aby k digitálnej komunikácii pristupovali strategicky. Spojenie teoretických poznatkov s praktickými opatreniami v oblasti firemnej kultúry a digitálnych nástrojov je kľúčom k úspešnej spolupráci na diaľku."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Digital Diplomacy and Translocal Identity: New Challenges for Global Mobility",
+        "description": "An overview of the study by Isabel Barbosa and Elizabeth Real de Oliveira on virtual international assignments, digital diplomacy, and trust-building.",
+        "lead": "The contemporary global work environment introduces new forms of international collaboration, with virtual international assignments replacing traditional physical relocation. A new study published in the Journal of Global Mobility applies Identity Work Theory to examine how professionals negotiate professional legitimacy from their home base.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "The growing reliance of multinational corporations on virtual international assignments raises new questions about how professionals maintain their status without physical relocation. Traditional expatriation models are often replaced by remote work arrangements where digital presence and cross-cultural connectivity play a critical role.",
+              "According to the abstract of the study by Isabel Barbosa and Elizabeth Real de Oliveira in the Journal of Global Mobility (DOI: 10.1108/jgm-06-2026-0070), attention focuses on how employees without physical relocation negotiate professional legitimacy, belonging, and trust. The authors draw on Identity Work Theory and frame these efforts as translocal identity work.",
+              "This WEBU Journal editorial article provides an overview of these findings, emphasizing limitations arising from the availability of the abstract alone. We also connect these academic insights with practical recommendations for smaller teams, web design, and virtual workplace management."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the qualitative study focused on three multinational corporations operating across technology, consulting, and manufacturing sectors. The research analyzed the experiences of employees formally assigned to manage cross-border responsibilities without planned relocation from their home base.",
+              "The methodological approach described in the abstract involved conducting thirty semi-structured interviews with these virtually assigned workers. Visual network elicitation was used to prompt discussion of assignment-related relationships, and data were analyzed using a team-based thematic approach.",
+              "It is important to note that these details stem exclusively from the publisher-supplied abstract, and the complete study text has not been independently verified. Consequently, limitations regarding the broader data context and the exact scope of the methodology must be taken into account."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, the study highlights three interrelated themes of translocal identity work: translocal professionalism, digital diplomacy, and perceived psychologically safe inclusion. The first theme captures the global professional identity that employees sought to sustain while remaining locally based.",
+              "The second theme, digital diplomacy, involves deliberate relational labor according to the abstract, aimed at building and sustaining cross-cultural trust through digital channels. The third theme addresses leadership-mediated conditions supporting or constraining open voice and authentic participation.",
+              "The abstract's conclusions suggest that symbolic and social proximity can support professional legitimacy without relocation, yet persistent marginality and relational strain indicate that these efforts remain contingent on organizational and leadership support. The authors introduce the concept of translocal identity work, contributing to global mobility research."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The methodology of this research, as outlined in the abstract, relies on a qualitative multiple case study across three specific sectors. The use of thirty interviews and visual network elicitation provides deep insight into the experiences of selected employees.",
+              "A critical limitation of this editorial piece is that we work solely with the publisher abstract. The full text of the study was not verified, meaning we lack details on potential statistical correlations or deeper qualitative nuances that the complete text might contain.",
+              "Furthermore, it must be noted that findings derived from multinational corporations cannot be unconditionally generalized to any other setting, particularly local conditions in different regions or entirely distinct small business structures."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "For small business owners and digital team managers, the study's findings offer valuable parallel insights. When creating web projects and managing remote marketing campaigns, it is crucial to build a transparent digital environment that fosters trust and open communication among team members.",
+              "In web design and website management, this translates to creating intuitive communication interfaces and clear sections for clients and teams alike, replacing personal contact. Similarly to the concept of digital diplomacy, one must consciously invest in relationships through regular online meetings and clearly defined processes.",
+              "In remote workplace management, we recommend implementing measures to support psychological safety so that employees do not feel isolated. Maintaining regular contact and respecting diverse cultural backgrounds helps overcome the feelings of marginalization mentioned in the study."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "Virtual international assignments represent a modern challenge for organizations relying on digital collaboration instead of physical relocation. The examined concept of translocal identity work points out that professional legitimacy and trust are attainable, but they require systematic effort.",
+              "According to the abstract of Barbosa and Real de Oliveira's study, these efforts remain sensitive to the level of support provided by leadership and the organization. Without adequate backing, relational strain and feelings of exclusion may occur.",
+              "WEBU Journal advises managers to approach digital communication strategically. Combining theoretical insights with practical measures in corporate culture and digital tools is key to successful remote collaboration."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.1108/jgm-06-2026-0070",
+        "apa7": "Isabel Barbosa, Elizabeth Real de Oliveira (2026). Translocal identity work in virtual international assignments: digital diplomacy, psychological safety and cross-cultural trust. Journal of Global Mobility. https://doi.org/10.1108/jgm-06-2026-0070",
+        "access": "abstract"
+      }
+    ]
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "f0d5eaeb4012aeddeac3a0126fd48ee90e209c5316c9ffec7d9028ca5bfbd593",
   "image_id": "commons-da75beb2a96554",
-  "image_status": "licensed_catalog_assignment_pending_editorial_relevance_check"
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-10",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-review-2026-11-10-f83258123193.html",
+    "https://www.webu.sk/blog-journal-review-2026-11-10-f83258123193-en.html"
+  ]
 }

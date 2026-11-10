@@ -21,8 +21,131 @@
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
   "drafted_at": "2026-11-10",
-  "scientific_review_status": "needs_editorial_review",
-  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-10",
+    "source_url": "https://doi.org/10.1108/sej-12-2025-0296",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-10",
+    "content_sha256": "5f24a5d2e85ed8a60ac430de8d47c6b4c347c82fe70eda86b2a4ecb82c4bc465",
+    "languages": {
+      "sk": {
+        "title": "Neznáma rola univerzít v podpore sociálnych inovácií: Čo ukazuje nový výskum",
+        "description": "Nová štúdia odhaľuje, ako nemeckí sociálni podnikatelia vnímajú úlohu univerzít v ekosystéme, a prináša praktické odporúčania pre malé firmy.",
+        "lead": "Univerzity sú často vnímané ako kľúčové centrá vedomostí, no ich skutočný vplyv na sociálne podnikanie po fáze vzniku podniku zostáva otázny. Podľa nového výskumu publikovaného v Social Enterprise Journal sa dynamika tejto spolupráce radikálne mení s tým, ako podnik dospieva.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Sociálne inovácie a podnikanie rezonujú v modernej spoločnosti čoraz silnejšie, pričom pozornosť sa prirodzene upriamuje na akademickú pôdu. Univerzity disponujú obrovským potenciálom vzdelávať, prepájať a poskytovať zázemie pre vznik nových myšlienok, ktoré menia svet k lepšiemu.",
+              "Napriek tomu však existuje len málo dôkazov o tom, ako samotní zakladatelia sociálnych podnikov vnímajú prítomnosť a reálnu podporu akademických inštitúcií. Zistenia novej štúdie prinášajú cenný pohľad do tejto problematiky, ktorý presahuje bežné teoretické predpoklady."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa výskum autoriek Julie Berg-Postweiler a Carmen Leicht-Scholten zameral na to, ako sociálni podnikatelia skúsenostne vnímajú úlohu univerzít v rámci ekosystému sociálnych inovácií. Hlavným cieľom bolo preskúmať interakcie medzi podnikmi a akademickou sférou nielen počas počiatočnej fázy vzniku podniku, ale aj v neskoršom období.",
+              "Autorky vo svojom kvalitatívnom dizajne využili primárne dáta, pričom podľa dostupného textu abstraktu vykonali pätnásť rozhovorov s nemeckými sociálnymi podnikateľmi. Zozbierané výpovede následne analyzovali pomocou tematickej analýzy s cieľom identifikovať kľúčové vzorce a postoje."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Zistenia publikované v štúdii naznačujú, že univerzity môžu zohrávať významnú úlohu v ekosystéme sociálnych inovácií, pričom najvplyvnejšie sú najmä počas fázy zakladania podniku. Tento vplyv sa ukazuje ako obzvlášť silný pre študentských podnikateľov, ktorí priamo čerpajú z akademického prostredia.",
+              "Na druhej strane, podľa abstraktu sú univerzity v neskorších fázach vývoja podniku často vnímané ako menej aktívne. Napriek tomu mnohí sociálni podnikatelia vyjadrujú silný záujem o trvalú spoluprácu, pričom narážajú na bariéry, akými sú obmedzené informácie a absencia špecifických kontaktných miest."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Metodologický prístup štúdie sa opieral o hĺbkové skúmanie perspektív prostredníctvom spomínaných pätnástich rozhovorov s respondentmi z nemeckého prostredia. Keďže ide o kvalitatívny výskum zameraný na konkrétnu krajinu, prácu nemožno automaticky generalizovať na odlišné národné či kultúrne kontexty bez ďalšieho overenia.",
+              "Autori tohto redakčného článku zároveň pripomínajú dôležité obmedzenie, ktorým je absencia úplného textu štúdie v našich rukách. Čitatelia by mali brať do úvahy, že všetky spomenuté závery vychádzajú výlučne z vydavateľom poskytnutého abstraktového zhrnutia dostupného pod DOI: 10.1108/sej-12-2025-0296."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Závery štúdie otvárajú priestor pre redakčné odporúčania, ktoré malí podnikatelia, tvorcovia webov a manažéri môžu okamžite uviesť do praxe. Ak prevádzkujete malú firmu alebo e-shop, budovanie partnerstiev s lokálnymi školami prostredníctvom špeciálnej podstránky na webe s označením „Akademická spolupráca“ môže odstrániť bariéru chýbajúcich kontaktných bodov.",
+              "V oblasti marketingu a dizajnu webových stránok odporúčame vytvoriť jasne definovanú sekciu pre študentské stáže, výskumné projekty a zdieľanie know-how. V pracovnom prostredí to znamená zaviesť interné mentoringové programy pre mladých talentovaných ľudí, čím premostíte priepasť medzi teóriou a praxou presne tak, ako to chýba rozbiehajúcim sa sociálnym podnikom."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Rola univerzít v ekosystéme sociálnych inovácií prechádza podľa zistení výskumu pozoruhodnou premenou. Zatiaľ čo v počiatočných fázach pôsobia viditeľne a inšpiratívne, neskôr sa často stávajú tichými aktérmi, s ktorými je pretrvávajúca spolupráca náročná.",
+              "Tento posun od viditeľného k tichému partnerovi si vyžaduje pozornosť nielen zo strany univerzitného vedenia a tvorcov politík, ale aj samotných podnikateľov. Budúci úspech sociálnych inovácií bude závisieť práve od schopnosti odstrániť komunikačné bariéry a vytvoriť trvalé mosty medzi akademickou pôdou a praxou."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "The Unseen Role of Universities in Social Innovation: What New Research Reveals",
+        "description": "A new study explores how German social entrepreneurs perceive university involvement, offering practical insights for small business growth.",
+        "lead": "Universities are frequently viewed as vital hubs of knowledge, yet their lasting impact on social enterprises beyond the start-up phase remains ambiguous. According to a new study published in the Social Enterprise Journal, the dynamics of this collaboration shift dramatically as ventures mature.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "Social innovations and entrepreneurship resonate strongly in modern society, directing natural attention toward academic environments. Universities hold immense potential to educate, connect, and provide foundational support for novel ideas aimed at societal betterment.",
+              "Despite this, empirical evidence regarding how social enterprise founders themselves perceive the presence and real support of academic institutions has been scarce. Findings from a fresh study offer valuable insight into this dynamic, moving beyond common theoretical assumptions."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the research by authors Julia Berg-Postweiler and Carmen Leicht-Scholten investigated how social entrepreneurs experience the role of universities within the social innovation ecosystem. The primary objective was to explore interactions between ventures and academia both during the initial venture creation phase and through ongoing collaboration.",
+              "In terms of methodology, the authors utilized primary data by conducting fifteen interviews with German social entrepreneurs, which were subsequently analyzed using thematic analysis to uncover recurring patterns and perspectives."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "The findings published in the study indicate that universities can play a significant role within the social innovation ecosystem, proving especially influential during the founding phase. This impact is noted as particularly strong for student entrepreneurs who directly leverage academic surroundings.",
+              "On the other hand, according to the abstract, universities are often perceived as less active in later development stages of a social enterprise. Nevertheless, many social entrepreneurs express a strong interest in sustained collaboration while encountering barriers such as limited knowledge and a lack of specific contact points."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The study's design relied on exploring perspectives through the aforementioned fifteen interviews with participants situated exclusively in Germany. Because this is a qualitative investigation tailored to a specific national setting, the findings cannot be automatically generalized to different cultural or institutional contexts without further study.",
+              "The authors of this editorial piece also emphasize an important limitation: the full text of the study was not independently verified. Readers should note that all outlined conclusions derive strictly from the publisher-supplied abstract available under DOI: 10.1108/sej-12-2025-0296."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "The study's conclusions open the door to editorial recommendations that small business owners, web designers, and managers can readily implement. If you operate a small business or online store, building partnerships with local educational institutions via a dedicated website subpage labeled 'Academic Collaboration' can eliminate the barrier of missing contact points.",
+              "In terms of marketing and web design, we recommend establishing a clearly structured section outlining student internships, research projects, and knowledge-sharing opportunities. In workplace management, this translates to implementing internal mentoring programs for young talent, actively bridging the gap between theory and practice that scaling social ventures often miss."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The role of universities in the social innovation ecosystem undergoes a remarkable transformation according to the research. While they act as visible and inspiring actors during early phases, they frequently transition into silent partners later on, making sustained collaboration challenging.",
+              "This evolution from a visible actor to a silent one warrants renewed attention from university leadership, educators, policymakers, and practitioners alike. The future success of social innovations will depend heavily on our collective ability to remove communication barriers and construct lasting bridges between academia and enterprise."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.1108/sej-12-2025-0296",
+        "apa7": "Julia Berg-Postweiler, Carmen Leicht-Scholten (2026). Exploring the role of universities in fostering social innovation and social entrepreneurship: a study of German social entrepreneurs. Social Enterprise Journal. https://doi.org/10.1108/sej-12-2025-0296",
+        "access": "abstract"
+      }
+    ]
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "5f24a5d2e85ed8a60ac430de8d47c6b4c347c82fe70eda86b2a4ecb82c4bc465",
   "image_id": "commons-9c02775d9fdca4",
-  "image_status": "licensed_catalog_assignment_pending_editorial_relevance_check"
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-10",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-review-2026-11-10-2b4c9deb9ee5.html",
+    "https://www.webu.sk/blog-journal-review-2026-11-10-2b4c9deb9ee5-en.html"
+  ]
 }
