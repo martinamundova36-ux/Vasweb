@@ -52,3 +52,13 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 - commons-be9a4de43d9934: [The White House](https://commons.wikimedia.org/wiki/File:President_Trump_Clashes_With_Ukrainian_President_Zelenskyy_During_Meeting_in_Oval_Office,_Feb._28,_2025.jpg), licencia [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-82a92c00117f4f: [Ambassador of the United States of America to the People's Republic of China](https://commons.wikimedia.org/wiki/File:Ambassador_Burns_shaking_hands_with_Secretary_Yellen_upon_her_arrival_at_Beijing_airport.jpg), licencia [Public domain](https://commons.wikimedia.org/wiki/Commons:Licensing#Public_domain); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-3c1f48affd2c93: [Grenz](https://commons.wikimedia.org/wiki/File:Johannes_Grenzfurthner_laptop_monochrom_Office_2026.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-da75beb2a96554: [rawpixel.com](https://commons.wikimedia.org/wiki/File:Business_agreement_handshake_at_coffee_shop.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-9c02775d9fdca4: [Influence Media](https://commons.wikimedia.org/wiki/File:C4DI_interior_coworking_space_2025.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-60cb5c132fd50c: [Shixart1985](https://commons.wikimedia.org/wiki/File:Hands_typing_on_a_laptop_during_work_hours_in_a_modern_office_setting.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-52538f7636ab1c: [Harrison Keely](https://commons.wikimedia.org/wiki/File:Warby_Parker_eyeglasses_retail_store_interior_at_Washington_Union_Station.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.

@@ -1057,6 +1057,166 @@
         "1280": "8af252154104dced9b3dfb5071c04b954be355848a326cc28071bc65abff2ac7",
         "social": "3539075d97468e63c93c46f05f88b36f2396d66bc1981d0191146e15fe211acf"
       }
+    },
+    {
+      "id": "commons-3c1f48affd2c93",
+      "provider": "Wikimedia Commons",
+      "provider_id": "183479999",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Johannes_Grenzfurthner_laptop_monochrom_Office_2026.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Johannes_Grenzfurthner_laptop_monochrom_Office_2026.jpg/1920px-Johannes_Grenzfurthner_laptop_monochrom_Office_2026.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Grenz",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "commercial_use_verified_at": "2026-11-10",
+      "original_sha256": "05aefccdcdb1ea263ec125f99d5625bca2df7f60239fb6002becf63f7db66402",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-3c1f48affd2c93-640.webp",
+        "1280": "/assets/journal/commons-3c1f48affd2c93-1280.webp",
+        "social": "/assets/journal/commons-3c1f48affd2c93-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "2cbc0a5f620cdccfce121445ca0d9dbeb559b81522478f996f090a8cb20a1250",
+        "1280": "d51a472698d79292d91539c5b8114401f25d44b067f3b3f2a745fc7f24d1d067",
+        "social": "e628e6b2261bd58f6227475e295f1f0980279f7db3850612f7c0fd1f3557976b"
+      }
+    },
+    {
+      "id": "commons-da75beb2a96554",
+      "provider": "Wikimedia Commons",
+      "provider_id": "67537455",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Business_agreement_handshake_at_coffee_shop.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Business_agreement_handshake_at_coffee_shop.jpg/1920px-Business_agreement_handshake_at_coffee_shop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "rawpixel.com",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-10",
+      "original_sha256": "e5719c59c1a9ba89a187a135d5c24f65f41f0fcd4b8c99e5167b7cb65525d9a5",
+      "topics": [
+        "trust"
+      ],
+      "alt": {
+        "sk": "Obchodné rokovanie a spolupráca",
+        "en": "Business negotiation and collaboration"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-da75beb2a96554-640.webp",
+        "1280": "/assets/journal/commons-da75beb2a96554-1280.webp",
+        "social": "/assets/journal/commons-da75beb2a96554-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "f2fc7fadfdd7d875a69d95a872521ed568b1014491892f671228677dae96c97c",
+        "1280": "a01b5a542d81913aaf98d75196e2ec3bcf919d646212092585e03a0a55473ed6",
+        "social": "225dc9c5b23963306938764f6aaffc768b09d4239cb3c8656b8326b9bb772b4b"
+      }
+    },
+    {
+      "id": "commons-9c02775d9fdca4",
+      "provider": "Wikimedia Commons",
+      "provider_id": "170443181",
+      "source_page": "https://commons.wikimedia.org/wiki/File:C4DI_interior_coworking_space_2025.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/C4DI_interior_coworking_space_2025.jpg/1920px-C4DI_interior_coworking_space_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Influence Media",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "commercial_use_verified_at": "2026-11-10",
+      "original_sha256": "3c407614fdf80ee1090fbec0bbc527e49d67daa52a11a92828eeb5395af16358",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-9c02775d9fdca4-640.webp",
+        "1280": "/assets/journal/commons-9c02775d9fdca4-1280.webp",
+        "social": "/assets/journal/commons-9c02775d9fdca4-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "88d90462856187186af0f970508b7d7ca6310c93936de75dfb78ada107939769",
+        "1280": "5739803242e3ab20dbb58a0397e6bb2d8a0dcf4814c22db1a1d4ad301249d1a5",
+        "social": "cee60ab6b227ccf19b6d99052427545bd477194567aefbdc11a6c43c33677398"
+      }
+    },
+    {
+      "id": "commons-60cb5c132fd50c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "186069734",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Hands_typing_on_a_laptop_during_work_hours_in_a_modern_office_setting.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/Hands_typing_on_a_laptop_during_work_hours_in_a_modern_office_setting.jpg/1920px-Hands_typing_on_a_laptop_during_work_hours_in_a_modern_office_setting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-10",
+      "original_sha256": "27c8bdd6eab46fc3f25340195266b9c4ae3f7a76a01138fb527d3b8fd1ffd686",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-60cb5c132fd50c-640.webp",
+        "1280": "/assets/journal/commons-60cb5c132fd50c-1280.webp",
+        "social": "/assets/journal/commons-60cb5c132fd50c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "01639cb6ab994266ec5acc872bf3f181eaed75090f8dbce028dbdbda6c1c1f39",
+        "1280": "4a47ecdd660b07e0193dad496d6616024e83acfda0b1b507f2b14b40471e6ae4",
+        "social": "7ee206b6adca48058204dec20370d2863629706c22f63541bf7f353faff16898"
+      }
+    },
+    {
+      "id": "commons-52538f7636ab1c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "156423238",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Warby_Parker_eyeglasses_retail_store_interior_at_Washington_Union_Station.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Warby_Parker_eyeglasses_retail_store_interior_at_Washington_Union_Station.jpg/1920px-Warby_Parker_eyeglasses_retail_store_interior_at_Washington_Union_Station.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Harrison Keely",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "commercial_use_verified_at": "2026-11-10",
+      "original_sha256": "dd99238e5b0c52b8985db217a9ca787e610b4493a855552d6fc78e13356e60c0",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Interiér maloobchodnej predajne",
+        "en": "Retail store interior"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-52538f7636ab1c-640.webp",
+        "1280": "/assets/journal/commons-52538f7636ab1c-1280.webp",
+        "social": "/assets/journal/commons-52538f7636ab1c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "38955251ac47919aeba4b0cd3939a2cbd6d6ee4433f841ce046927bf47c81913",
+        "1280": "2d43a7283214b2c4729a5e8793c1631141d0955ae67d6e600dc04b442ba1f4e2",
+        "social": "38a4c7940557b4983f7aa2a8842423d7d182f6faca54ba79dc67679eafe8a7dd"
+      }
     }
   ],
   "assignments": {
@@ -1091,6 +1251,11 @@
     "blog-journal-review-2026-11-08-2668d8e7909a.html": "pexels-8190815",
     "blog-journal-review-2026-11-08-43f80bceeb79.html": "pexels-6129145",
     "blog-journal-review-2026-11-09-25fe711e4a3b.html": "commons-be9a4de43d9934",
-    "blog-journal-review-2026-11-09-d1feddafc9fe.html": "commons-82a92c00117f4f"
+    "blog-journal-review-2026-11-09-d1feddafc9fe.html": "commons-82a92c00117f4f",
+    "blog-journal-review-2026-11-10-9715fd33f88b.html": "commons-3c1f48affd2c93",
+    "blog-journal-review-2026-11-10-f83258123193.html": "commons-da75beb2a96554",
+    "blog-journal-review-2026-11-10-2b4c9deb9ee5.html": "commons-9c02775d9fdca4",
+    "blog-journal-review-2026-11-10-9185874f456f.html": "commons-60cb5c132fd50c",
+    "blog-journal-review-2026-11-10-d9e721367fff.html": "commons-52538f7636ab1c"
   }
 }
