@@ -4981,7 +4981,8 @@
       "publication": "automated_abstract_editorial",
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
-        "Slovak headline copyedited on 2026-11-10; scientific claims and original AI manuscript unchanged."
+        "Slovak headline copyedited on 2026-11-10; scientific claims and original AI manuscript unchanged.",
+        "Slovak copyedit 2026-11-10: corrected Medan city country from India to Indonesia and grammar; abstract-based claim review unchanged."
       ],
       "languages": {
         "sk": {
@@ -4993,7 +4994,7 @@
           "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "701bf531a2fda124ef9cccca4bcc696d5b792e436769f79557aef7193cf60e1c"
+          "content_sha256": "88ccdfd3809168f1620fb27cf7e81dabe9512f88751e0a418512eca0caa73a1d"
         },
         "en": {
           "path": "blog-journal-review-2026-11-10-9715fd33f88b-en.html",
@@ -5132,7 +5133,8 @@
       "publication": "automated_abstract_editorial",
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
-        "Slovak headline copyedited on 2026-11-10; scientific claims and original AI manuscript unchanged."
+        "Slovak headline copyedited on 2026-11-10; scientific claims and original AI manuscript unchanged.",
+        "Slovak grammar and wording copyedited on 2026-11-10; abstract-based claim review unchanged."
       ],
       "languages": {
         "sk": {
@@ -5144,7 +5146,7 @@
           "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "67b05738df09dd3753c76237d2facfa754d4114c89b37e4bfe0fe5bc96bf6998"
+          "content_sha256": "a5a499c1f68a76ed76611647bc691b03d2fa38a46151ebc3fb419e9bd3f7cb2c"
         },
         "en": {
           "path": "blog-journal-review-2026-11-10-d9e721367fff-en.html",
@@ -5433,7 +5435,8 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "Slovak grammar and wording copyedited on 2026-11-10; abstract-based claim review unchanged."
       ],
       "languages": {
         "sk": {
@@ -5442,10 +5445,10 @@
           "description": "Prehľad štúdie Isabel Barbosovej a Elizabeth Real de Oliveira o virtuálnych medzinárodných vyslaniach, digitálnej diplomacii a budovaní dôvery.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-10",
-          "modified_at": null,
+          "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "0e76931b4dc97a4411d962c2cc05225b3a7b9b3e0d7f2a6823700759a279ee4c"
+          "content_sha256": "0865f0f7b0795bf369094dcc860ee8f67fa17369903c42a39d9cfece515976d7"
         },
         "en": {
           "path": "blog-journal-review-2026-11-10-f83258123193-en.html",

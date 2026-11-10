@@ -29,7 +29,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-10",
-    "content_sha256": "f0d5eaeb4012aeddeac3a0126fd48ee90e209c5316c9ffec7d9028ca5bfbd593",
+    "content_sha256": "7f050756997c5b3fcd7941b97a42d1065ee5cd8b7e70e4dd3f60589d77c56b65",
     "languages": {
       "sk": {
         "title": "Digitálna diplomacia a translokálna identita: Nové výzvy pre globálnu mobilitu",
@@ -63,7 +63,7 @@
           {
             "heading": "Metodika a limity",
             "paragraphs": [
-              "Metodika tohto výskumu, ako je uvedená v abstrakte, sa spolieha na kvalitatívnu viacerých prípadov štúdiu v troch špecifických sektoroch. Využitie tridsiatich rozhovorov a vizuálnej sieťovej elicitácie poskytuje hĺbkový pohľad na skúsenosti vybraných zamestnancov.",
+              "Metodika výskumu podľa abstraktu vychádza z kvalitatívnej viacprípadovej štúdie v troch odvetviach. Využitie tridsiatich rozhovorov a vizuálnej sieťovej elicitácie poskytuje hĺbkový pohľad na skúsenosti vybraných zamestnancov.",
               "Kritickým limitom tohto redakčného príspevku je fakt, že pracujeme iba s vydavateľským abstraktom. Úplné znenie štúdie nebolo verifikované, čo znamená, že nepoznáme všetky podrobnosti štatistických alebo hlbších kvalitatívnych väzieb, ktoré by úplný text mohol obsahovať.",
               "Zároveň je nutné upozorniť, že zistenia z nadnárodných korporácií nemožno bezvýhradne aplikovať na akékoľvek iné prostredie, najmä nie na lokálne podmienky v iných regiónoch alebo na úplne odlišné štruktúry malých podnikov."
             ]
@@ -73,7 +73,7 @@
             "paragraphs": [
               "Pre majiteľov malých podnikov a manažérov digitálnych tímov ponúkajú zistenia štúdie cenné podnetné paralely. Pri tvorbe webových projektov a riadení marketingových kampaní na diaľku je kľúčové budovať transparentné digitálne prostredie, ktoré podporuje dôveru a otvorenú komunikáciu medzi členmi tímu.",
               "V oblasti webdizajnu a správy webov to znamená vytvárať pre klienta i tím intuitívne komunikačné rozhrania a prehľadné sekcie, ktoré nahradia osobný kontakt. Podobne ako v koncepte digitálnej diplomacie je nutné vedome investovať do vzťahov prostredníctvom pravidelných online stretnutí a jasne definovaných procesov.",
-              "V riadení pracovísk na diaľku odporúčame zaviesť opatrenia na podporu psychologického bezpecia, aby sa zamestnanci necítili izolovaní. Udržiavanie pravidelného kontaktu a rešpektovanie rôznych kultúrnych zázemí pomáha prekonať pocit marginalizácie, ktorý štúdia spomína."
+              "V riadení pracovísk na diaľku odporúčame zaviesť opatrenia na podporu psychologického bezpečia, aby sa zamestnanci necítili izolovaní. Udržiavanie pravidelného kontaktu a rešpektovanie rôznych kultúrnych zázemí pomáha prekonať pocit marginalizácie, ktorý štúdia spomína."
             ]
           },
           {
@@ -152,7 +152,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "f0d5eaeb4012aeddeac3a0126fd48ee90e209c5316c9ffec7d9028ca5bfbd593",
+  "approved_content_sha256": "7f050756997c5b3fcd7941b97a42d1065ee5cd8b7e70e4dd3f60589d77c56b65",
   "image_id": "commons-da75beb2a96554",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-10",

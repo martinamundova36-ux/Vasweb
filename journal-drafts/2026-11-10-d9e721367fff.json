@@ -30,12 +30,12 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-10",
-    "content_sha256": "6c8e7efc61ecf82d22d207169db17967611a0372aac079fdea33bfeb54f37fed",
+    "content_sha256": "ab4e704285797f525b924a5f0ba965cbfd0b6e50f75e8bf1ab15d510d445ba23",
     "languages": {
       "sk": {
-        "title": "Osobnosť, dizajn ciest a omnichannel dôvera v spoluvytváraní hodnoty",
+        "title": "Osobnostné črty, zákaznícka cesta a dôvera naprieč kanálmi pri spoločnej tvorbe hodnoty",
         "description": "Podľa abstraktu nová štúdia skúma vplyv osobnosti a dizajnu omnichannel nákupnej cesty na zákaznícke správanie v Indonézii.",
-        "lead": "Súčasný digitálny trh neustále hľadá odpovede na otázku, čo presne motivuje zákazníkov k aktívnemu zapojeniu a spoluvytváraniu hodnoty. Nová vedecká práca prináša zaujímavé pohľady na prepojenie individuálnych psychologických vlastností zákazníkov a štruktúrovaných služieb v omnichannel prostredí. V tomto článku sa pozrieme na to, čo presne text odautorov Karmila Jayanti, Kurniawati Kurniawati a Sri Vandayuli Riorini prináša a ako možno tieto zistenia aplikovať v praxi WEBU.",
+        "lead": "Súčasný digitálny trh neustále hľadá odpovede na otázku, čo presne motivuje zákazníkov k aktívnemu zapojeniu a spoluvytváraniu hodnoty. Nová vedecká práca prináša zaujímavé pohľady na prepojenie individuálnych psychologických vlastností zákazníkov a štruktúrovaných služieb v omnichannel prostredí. V tomto článku sa pozrieme na to, čo presne text od autorov Karmila Jayanti, Kurniawati Kurniawati a Sri Vandayuli Riorini prináša a ako možno tieto zistenia aplikovať v praxi WEBU.",
         "sections": [
           {
             "heading": "Úvod",
@@ -153,7 +153,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "6c8e7efc61ecf82d22d207169db17967611a0372aac079fdea33bfeb54f37fed",
+  "approved_content_sha256": "ab4e704285797f525b924a5f0ba965cbfd0b6e50f75e8bf1ab15d510d445ba23",
   "image_id": "commons-52538f7636ab1c",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-10",

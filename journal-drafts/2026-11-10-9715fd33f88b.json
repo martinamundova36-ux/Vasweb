@@ -30,10 +30,10 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-10",
-    "content_sha256": "a2a272e4a00f58e305de3340ab219275b15f8281da37ef470c78d64f94fe12c4",
+    "content_sha256": "751b63402475b634af128fa9629acaf7b5c8d53c48dd7a0ee6c0612bbfdb5c93",
     "languages": {
       "sk": {
-        "title": "Vplyv leadershipu a finančnej gramotnosti na produktivitu zamestnancov v malých a stredných podnikov",
+        "title": "Vedenie firmy a finančná gramotnosť: Súvislosť s produktivitou zamestnancov v malých podnikoch",
         "description": "Prehľad štúdie z Medan City ukazuje, ako leadership majiteľov a finančná gramotnosť vplývajú na produktivitu zamestnancov v MSME.",
         "lead": "Nová štúdia publikovaná v Jurnal Ilmiah Accusi skúma prepojenie medzi štýlom vedenia majiteľov podnikov, finančnou gramotnosťou a produktivitou zamestnancov v malých a stredných podnikoch. Prinášame pohľad na zistenia vyplývajúce z dostupného abstraktu a ich praktické uplatnenie v digitálnom prostredí a riadení firemných webov.",
         "sections": [
@@ -41,7 +41,7 @@
             "heading": "Úvod",
             "paragraphs": [
               "Malé a stredné podniky tvoria základ ekonomickej stability v mnohých regiónoch, pričom ich fungovanie výrazne závisí od kvality vedenia. Úspešné riadenie presahuje rámec bežných operatívnych úloh a vyžaduje si systematický prístup k rozvoju ľudského kapitálu. Vo WEBU sa dlhodobá udržateľnosť malých podnikov spája nielen s efektívnymi procesmi, ale aj s kvalitnou prezentáciou na internete.",
-              "Záujem o faktory ovplyvňujúce výkonnosť zamestnancov neustále rastie. Pozornosť odborníkov sa čoraz častejšie sústredí na prepojenie medzi manažérskymi schopnosťami majiteľov a internou gramotnosťou personálu. Práve táto dynamika tvorí jadro novej odbornej práce, ktorá analyzuje dáta z indického mesta Medan."
+              "Záujem o faktory ovplyvňujúce výkonnosť zamestnancov neustále rastie. Pozornosť odborníkov sa čoraz častejšie sústredí na prepojenie medzi manažérskymi schopnosťami majiteľov a internou gramotnosťou personálu. Práve táto dynamika tvorí jadro novej odbornej práce, ktorá analyzuje dáta z indonézskeho mesta Medan."
             ]
           },
           {
@@ -69,13 +69,13 @@
             "heading": "Praktický návrh WEBU",
             "paragraphs": [
               "Z pohľadu redakčných odporúčaní WEBU môžu malé podniky zužitkovať poznatky o vedení a finančnej gramotnosti prostredníctvom digitalizácie. Majitelia firiem by mali na svojich firemných webových stránkach vytvárať špeciálne interné sekcie alebo portály pre zamestnancov. Tieto klientske či zamestnanecké zóny môžu obsahovať vzdelávacie moduly zamerané na základy podnikových financií, prehľadné infografiky o nákladoch a zrozumiteľné materiály na zlepšenie pracovných výkonov.",
-              "V oblasti webdizajnu a marketingu odporúčame majiteľom malých firiem integrovať prehľadné dashboardy, ktoré zamestnancom vizuálne zobrazujú kľúčové ukazovateľa výkonnosti. Transparentná komunikácia firemných cieľov prostredníctvom modernej webovej stránky podporuje participatívny štýl vedenia, odbúra neistotu v tíme a pomáha udržiavať dlhodobú produktivitu bez ohľadu na geografické pôsobisko."
+              "V oblasti webdizajnu a marketingu odporúčame majiteľom malých firiem integrovať prehľadné dashboardy, ktoré zamestnancom vizuálne zobrazujú kľúčové ukazovatele výkonnosti. Transparentná komunikácia firemných cieľov prostredníctvom modernej webovej stránky podporuje participatívny štýl vedenia, odbúra neistotu v tíme a pomáha udržiavať dlhodobú produktivitu bez ohľadu na geografické pôsobisko."
             ]
           },
           {
             "heading": "Záver",
             "paragraphs": [
-              "Predstavená štúdia poukazuje na významné prepojenie medzi štýlom riadenia podniku, finančnou gramotnosťou a výslednou produktivitou personálu. Podľa dostupného abstraktu dáta potvrdzujú, že rozvoj schopností vedenia by mal byť sprevádzaný systematickým posilňovaním finančného povedomia zamestnancov. Tieto zistenia poskytujú cenný rámec pre ďalšie manažérske bádatelské aktivity v oblasti malého a stredného podnikania.",
+              "Predstavená štúdia poukazuje na významné prepojenie medzi štýlom riadenia podniku, finančnou gramotnosťou a výslednou produktivitou personálu. Podľa dostupného abstraktu dáta potvrdzujú, že rozvoj schopností vedenia by mal byť sprevádzaný systematickým posilňovaním finančného povedomia zamestnancov. Tieto zistenia poskytujú cenný rámec pre ďalšie manažérske výskumné aktivity v oblasti malého a stredného podnikania.",
               "Hoci štúdia prináša zaujímavé štatistické ukazovatele, pri jej aplikácii do praxe treba pamätať na limity prameniace z nedostupnosti plného textu. Redakcia WEBU odporúča majiteľom firiem kombinovať vedecké poznatky s vlastnými prevádzkovými potrebami, rozvíjať digitálne nástroje a transparentne komunikovať so svojím tímom pre dosiahnutie udržateľného rastu."
             ]
           }
@@ -141,7 +141,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "a2a272e4a00f58e305de3340ab219275b15f8281da37ef470c78d64f94fe12c4",
+  "approved_content_sha256": "751b63402475b634af128fa9629acaf7b5c8d53c48dd7a0ee6c0612bbfdb5c93",
   "image_id": "commons-3c1f48affd2c93",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-10",
