@@ -416,7 +416,7 @@
           "description": "Ako sprístupniť overiteľné informácie, ukážky práce a kontakt. Dôveryhodnosť webu odlišujeme od ochoty zaplatiť vyššiu cenu.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-01",
-          "modified_at": "2026-11-06T07:38:38.633364+00:00",
+          "modified_at": "2026-11-10",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
           "content_sha256": "ae98bc9c30f19a8300cc7c7d02b501520a07156f2d613352a197f31dddff32c1"
@@ -1545,7 +1545,7 @@
           "description": "Kontrolovaná štúdia s 26 účastníkmi skúma štýl AI konverzácie. Odlišujeme manipuláciu štýlu od osobnosti človeka a limitov preprintu.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
           "published_at": "2026-11-03",
-          "modified_at": "2026-11-06T07:38:38.634332+00:00",
+          "modified_at": "2026-11-10",
           "seo": "passed_static_checks",
           "links": "passed_local_checks",
           "content_sha256": "d26bdfbf5600ca262cba930a786ef149d0dcd9dae1c6deeeeefdaabf2756ed78"
@@ -3489,7 +3489,7 @@
           "description": "Preskúmajte nové poznatky o vplyve online recenzií na dôveru spotrebiteľov v prostredí TikTok Shop a ich praktický význam pre digitálny marketing.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-07",
-          "modified_at": null,
+          "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
           "content_sha256": "797e6c019a58aed42b93be39ab45de761aa2090d6f56e05fa88b7593ea93c775"
@@ -3639,7 +3639,7 @@
           "description": "Analýza štúdie o vplyve rovnováhy medzi prácou a súkromím na výkon zamestnancov v poisťovniach. Praktické tipy pre moderný manažment a WEBU.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-07",
-          "modified_at": null,
+          "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
           "content_sha256": "d6dc91ee110306b0bd8629987dea580218c191d32e83c52c166ce45ea3d266dc"
@@ -4689,7 +4689,7 @@
           "description": "Preskúmajte, ako vnímaná etika organizácie ovplyvňuje lojalitu zákazníkov podľa nedávnej štúdie z prostredia kolumbijského potravinárskeho trhu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-09",
-          "modified_at": null,
+          "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
           "content_sha256": "29f02c32dfca602278d8afbe8eda600a28624a3f913ff05222e30b4c5370cb52"
@@ -4839,7 +4839,7 @@
           "description": "Podľa abstraktu štúdia skúma, ako flexibilita ovplyvňuje záväzok a výkonnosť zamestnancov prostredníctvom autonómie, rovnováhy a spokojnosti.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-10",
-          "modified_at": null,
+          "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
           "content_sha256": "8d07ba43761fd60c63fa1bc000323d1ac67ac0f578488a0af5ba8e9f7c31e50e"
@@ -4980,19 +4980,20 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "Slovak headline copyedited on 2026-11-10; scientific claims and original AI manuscript unchanged."
       ],
       "languages": {
         "sk": {
           "path": "blog-journal-review-2026-11-10-9715fd33f88b.html",
-          "title": "Vplyv leadershipu a finančnej gramotnosti na produktivitu zamestnancov v malých a stredných podnikov",
+          "title": "Vedenie firmy a finančná gramotnosť: Súvislosť s produktivitou zamestnancov v malých podnikoch",
           "description": "Prehľad štúdie z Medan City ukazuje, ako leadership majiteľov a finančná gramotnosť vplývajú na produktivitu zamestnancov v MSME.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-10",
-          "modified_at": null,
+          "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "8f42ed749e1cb092b45c3ed1dcfe41a8de835cac8eec2be614ed0d95f7f841e7"
+          "content_sha256": "701bf531a2fda124ef9cccca4bcc696d5b792e436769f79557aef7193cf60e1c"
         },
         "en": {
           "path": "blog-journal-review-2026-11-10-9715fd33f88b-en.html",
@@ -5130,19 +5131,20 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "Slovak headline copyedited on 2026-11-10; scientific claims and original AI manuscript unchanged."
       ],
       "languages": {
         "sk": {
           "path": "blog-journal-review-2026-11-10-d9e721367fff.html",
-          "title": "Osobnosť, dizajn ciest a omnichannel dôvera v spoluvytváraní hodnoty",
+          "title": "Osobnostné črty, zákaznícka cesta a dôvera naprieč kanálmi pri spoločnej tvorbe hodnoty",
           "description": "Podľa abstraktu nová štúdia skúma vplyv osobnosti a dizajnu omnichannel nákupnej cesty na zákaznícke správanie v Indonézii.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-10",
-          "modified_at": null,
+          "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "9c97d57ea2df89d2a97bb86265fba978918eb630d9a546721c9099570e26d26b"
+          "content_sha256": "67b05738df09dd3753c76237d2facfa754d4114c89b37e4bfe0fe5bc96bf6998"
         },
         "en": {
           "path": "blog-journal-review-2026-11-10-d9e721367fff-en.html",
@@ -5280,19 +5282,20 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "Slovak headline copyedited on 2026-11-10; scientific claims and original AI manuscript unchanged."
       ],
       "languages": {
         "sk": {
           "path": "blog-journal-review-2026-11-10-2b4c9deb9ee5.html",
-          "title": "Neznáma rola univerzít v podpore sociálnych inovácií: Čo ukazuje nový výskum",
+          "title": "Univerzity a sociálne inovácie: Zistenia výskumu nemeckých sociálnych podnikateľov",
           "description": "Nová štúdia odhaľuje, ako nemeckí sociálni podnikatelia vnímajú úlohu univerzít v ekosystéme, a prináša praktické odporúčania pre malé firmy.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-10",
-          "modified_at": null,
+          "modified_at": "2026-11-10",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "8b6893c8492eb140fa451c2ea3b3a907dc5e0403ed905f07f7cc5509fafd2daf"
+          "content_sha256": "5551ee17d89b478ac9069ffcee78ae1123dcf6cc05f61c43ed7140b7e9c960e8"
         },
         "en": {
           "path": "blog-journal-review-2026-11-10-2b4c9deb9ee5-en.html",
