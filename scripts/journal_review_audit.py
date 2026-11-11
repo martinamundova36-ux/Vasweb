@@ -43,6 +43,11 @@ def audit(root=ROOT):
  # accessible in the footer, without interrupting the opening of the article.
  for page in root.glob('journal-2026-11-05-*.html'):
   raw=page.read_text()
+  if '<meta name="author" content="Martina Mundová">' not in raw or '<p class="webu-author-credit"' not in raw:
+   errors.append(page.name+': missing Martina Mundová author credit')
+  schemas=[json.loads(block) for block in re.findall(r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',raw,re.S)]
+  if not any(s.get('@type')=='BlogPosting' and s.get('author')=={'@type':'Person','name':'Martina Mundová'} for s in schemas):
+   errors.append(page.name+': missing person author in structured data')
   note=raw.find('<p class="webu-journal-footer-note">')
   footer=raw.find('<div class="footer">')
   if note<0 or footer<0 or note<footer:errors.append(page.name+': compact AI notice missing from the article footer')

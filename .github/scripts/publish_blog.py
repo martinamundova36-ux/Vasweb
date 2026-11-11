@@ -57,10 +57,10 @@ style = re.search(r"<style>.*?</style>", sample, re.S)
 if not style:
     raise SystemExit("Chýba štýl WEBU článkov.")
 url = "https://www.webu.sk/" + filename
-schema = json.dumps({"@context":"https://schema.org","@type":"BlogPosting","headline":title,"description":desc,"inLanguage":"sk","datePublished":datetime.date.today().isoformat(),"mainEntityOfPage":url,"publisher":{"@type":"Organization","name":"WEBU","url":"https://www.webu.sk/"}},ensure_ascii=False).replace("<", "\\u003c")
+schema = json.dumps({"@context":"https://schema.org","@type":"BlogPosting","headline":title,"description":desc,"inLanguage":"sk","datePublished":datetime.date.today().isoformat(),"mainEntityOfPage":url,"author":{"@type":"Person","name":"Martina Mundová"},"publisher":{"@type":"Organization","name":"WEBU","url":"https://www.webu.sk/"}},ensure_ascii=False).replace("<", "\\u003c")
 page = ('<!doctype html><html lang="sk"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        '<meta name="description" content="' + esc(desc) + '">'
+        '<meta name="description" content="' + esc(desc) + '"><meta name="author" content="Martina Mundová">'
         '<meta name="robots" content="index,follow">'
         '<link rel="canonical" href="' + esc(url) + '">'
         '<title>' + esc(title) + ' | WEBU Journal</title>'
@@ -70,7 +70,7 @@ page = ('<!doctype html><html lang="sk"><head><meta charset="utf-8">'
         '<main><div class="hero"><div class="wrap"><small>WEBU JOURNAL · ' + esc(category) + '</small>'
         '<h1>' + esc(title) + '</h1></div></div>'
         '<article class="wrap article"><p class="vw-lead">' + esc(desc) + '</p>'
-        + article_body + '<p style="margin-top:32px"><a href="/blog.html">← Všetky články WEBU Journal</a></p>'
+        + article_body + '<p class="webu-author-credit" style="margin-top:32px;padding-top:14px;border-top:1px solid #d7dfeb;color:#42536a">Autor: <strong>Martina Mundová</strong></p><p style="margin-top:32px"><a href="/blog.html">← Všetky články WEBU Journal</a></p>'
         '</article><div class="cta"><div class="wrap"><p>Viac o tvorbe webstránok</p>'
         '<a href="/sluzby.html">Pozrieť služby ↗</a></div></div></main>'
         '<footer>© WEBU · <a href="/ochrana-osobnych-udajov.html">Ochrana osobných údajov</a></footer>'

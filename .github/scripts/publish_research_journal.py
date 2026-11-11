@@ -110,11 +110,11 @@ def render(data,source,lang,filename,other):
              if english else "Článok vychádza z verejne dostupného abstraktu štúdie; úplný text ani recenzné konanie neboli nezávisle overené.")
     sections="".join("<section><h2>"+esc(sec["heading"])+"</h2>"+"".join("<p>"+esc(p)+"</p>" for p in sec["paragraphs"])+"</section>" for sec in data["sections"])
     citation=esc(source["authors"])+" ("+esc(source["date"])+"). "+esc(source["title"])+". "+esc(source["venue"])+"."
-    schema=json.dumps({"@context":"https://schema.org","@type":"BlogPosting","headline":title,"description":description,"datePublished":str(TODAY),"dateModified":str(TODAY),"inLanguage":lang,"mainEntityOfPage":url,"citation":source["doi"],"publisher":{"@type":"Organization","name":"WEBU","url":BASE}},ensure_ascii=False).replace("<","\\u003c")
+    schema=json.dumps({"@context":"https://schema.org","@type":"BlogPosting","headline":title,"description":description,"datePublished":str(TODAY),"dateModified":str(TODAY),"inLanguage":lang,"mainEntityOfPage":url,"citation":source["doi"],"author":{"@type":"Person","name":"Martina Mundová"},"publisher":{"@type":"Organization","name":"WEBU","url":BASE}},ensure_ascii=False).replace("<","\\u003c")
     # Original SVG visual: no third-party image rights needed.
     visual='<svg role="img" aria-label="WEBU Journal research illustration" viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg"><rect width="800" height="180" fill="#0c1930"/><circle cx="660" cy="90" r="65" fill="none" stroke="#f4c766" stroke-width="3"/><path d="M70 115h500M90 85h400M130 55h280" stroke="#f4c766" stroke-width="3" opacity=".7"/></svg>'
     return ('<!doctype html><html lang="'+lang+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-      '<title>'+esc(title)+' | WEBU Journal</title><meta name="description" content="'+esc(description)+'">'
+      '<title>'+esc(title)+' | WEBU Journal</title><meta name="description" content="'+esc(description)+'"><meta name="author" content="Martina Mundová">'
       '<meta name="robots" content="index,follow"><link rel="canonical" href="'+esc(url)+'">'
       '<link rel="alternate" hreflang="'+lang+'" href="'+esc(url)+'">'
       '<link rel="alternate" hreflang="'+("sk" if english else "en")+'" href="'+esc(other_url)+'">'
@@ -124,7 +124,7 @@ def render(data,source,lang,filename,other):
       '</head><body><header><a href="/'+('blog-en.html' if english else 'blog.html')+'">WEBU Journal · '+back+'</a> · <a href="/'+other+'">'+("Slovenčina" if english else "English")+'</a></header>'
       '<main>'+visual+'<p><small>'+esc(source["category"])+' · '+str(TODAY)+'</small></p><h1>'+esc(title)+'</h1><p>'+esc(description)+'</p>'
       +sections+'<section><h2>'+source_label+'</h2><p>'+citation+' <a rel="noopener noreferrer" href="'+esc(source["doi"])+'">DOI</a></p>'
-      '<p class="note">'+caution+'</p></section></main><footer>© WEBU · <a href="/'+('blog-en.html' if english else 'blog.html')+'">'+back+'</a></footer>'
+      '<p class="note">'+caution+'</p></section><p class="webu-author-credit" style="margin:28px auto 10px;padding:14px 0;border-top:1px solid #d7dfeb;color:#42536a">'+('Author: ' if english else 'Autor: ')+'<strong>Martina Mundová</strong></p></main><footer>© WEBU · <a href="/'+('blog-en.html' if english else 'blog.html')+'">'+back+'</a></footer>'
       '<script src="/privacy.js" defer></script></body></html>')
 
 def publish(source,pair):

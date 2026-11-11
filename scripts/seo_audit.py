@@ -80,6 +80,9 @@ def main():
   if page.canon and page.canon!=[url]:errors.append(name+': non-canonical URL in sitemap')
  for name,p in articles.items():
   def fail(msg):errors.append(name+': '+msg)
+  raw=(ROOT/name).read_text()
+  if p.meta.get('author')!='Martina Mundová':fail('incorrect author meta tag')
+  if '<p class="webu-author-credit"' not in raw or 'Martina Mundová</strong>' not in raw:fail('missing visible Martina Mundová author credit')
   if p.h1!=1:fail('requires exactly one H1')
   if 'noindex' in (p.meta.get('robots','')+p.meta.get('googlebot','')).lower():fail('noindex article')
   if SITE+name not in sitemap:fail('not in sitemap')
@@ -94,6 +97,7 @@ def main():
    except (ValueError,AttributeError):pass
   if len(schemas)!=1:fail('requires one BlogPosting')
   for obj in schemas:
+   if obj.get('author')!={'@type':'Person','name':'Martina Mundová'}:fail('incorrect BlogPosting person author')
    for field in ('headline','description','datePublished','author','publisher','mainEntityOfPage'):
     if not obj.get(field):fail('missing '+field)
    try:
