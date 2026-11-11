@@ -46,6 +46,6 @@
     "skip_publication_on_failed_checks": true,
     "absolute_accuracy_guaranteed": false
   },
-  "manual_recovery_requested_on": "2026-11-08",
-  "manual_recovery_reason": "Owner requested five new bilingual WEBU Journal articles; rerun scheduled publish with existing verification gates."
+  "manual_recovery_requested_on": "2026-11-11",
+  "manual_recovery_reason": "Owner requested five new bilingual WEBU Journal articles on 2026-11-11; rerun the verified DOI editorial publisher without paid APIs."
 }
