@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-11",
+  "automatically_published": [
+    "2026-11-10-b50cc67a8040",
+    "2026-11-10-f808d55e23b7",
+    "2026-11-11-26a34383cca8",
+    "2026-11-11-4b113d342526",
+    "2026-11-11-f5fc5be353bc"
+  ],
+  "published_this_run": [
+    "2026-11-10-b50cc67a8040",
+    "2026-11-10-f808d55e23b7",
+    "2026-11-11-26a34383cca8",
+    "2026-11-11-4b113d342526",
+    "2026-11-11-f5fc5be353bc"
+  ],
+  "held_due_to_missing_review_or_gates": 0,
+  "publication_errors": [],
+  "mode": "transparent_abstract_editorials"
+}

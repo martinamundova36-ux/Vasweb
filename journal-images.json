@@ -1217,6 +1217,166 @@
         "1280": "2d43a7283214b2c4729a5e8793c1631141d0955ae67d6e600dc04b442ba1f4e2",
         "social": "38a4c7940557b4983f7aa2a8842423d7d182f6faca54ba79dc67679eafe8a7dd"
       }
+    },
+    {
+      "id": "commons-8353ae103c039c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "144493404",
+      "source_page": "https://commons.wikimedia.org/wiki/File:LaCuCa_card_reader_-_payment_terminal_at_supermarket_register.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/LaCuCa_card_reader_-_payment_terminal_at_supermarket_register.jpg/1920px-LaCuCa_card_reader_-_payment_terminal_at_supermarket_register.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Syced",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-11",
+      "original_sha256": "6e0a8de129d2952f3b6782ee8e2572a539aa79b65b9fb8046bf935b1b5a90594",
+      "topics": [
+        "payments"
+      ],
+      "alt": {
+        "sk": "Platobná karta pri notebooku",
+        "en": "Payment card near a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-8353ae103c039c-640.webp",
+        "1280": "/assets/journal/commons-8353ae103c039c-1280.webp",
+        "social": "/assets/journal/commons-8353ae103c039c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "18bf3373a117816eec693824a176dd8ebe1d94767aa7b1a95314c69a27d61524",
+        "1280": "0d5c2066b6471c0312858ec003da1077e173b49a9aa7579e208675ff621ada70",
+        "social": "87a48fd8c7068bf1c156506494abca2d4682822a8d689c2a32b4c3b3a10f0e88"
+      }
+    },
+    {
+      "id": "commons-bdc89b57bc2120",
+      "provider": "Wikimedia Commons",
+      "provider_id": "62271638",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Plant_in_a_coworking_space_(Unsplash).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Plant_in_a_coworking_space_%28Unsplash%29.jpg/1920px-Plant_in_a_coworking_space_%28Unsplash%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Dan Gold  danielcgold",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-11",
+      "original_sha256": "306df90ae8a0a2d64c792ccf5ad7a373b63f4e849a08b42929cc9c6787d3a25f",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-bdc89b57bc2120-640.webp",
+        "1280": "/assets/journal/commons-bdc89b57bc2120-1280.webp",
+        "social": "/assets/journal/commons-bdc89b57bc2120-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "31a01301a46d1c1ff9528a8bc2cd55b692278954ca35ecd5f8449ad2e293f290",
+        "1280": "0f3084eafeb0f2bc1e561c4f707a97d37dc6d5028ed4977a2e543ce5bf6f4582",
+        "social": "5de2427db755ee61b139b514bbac97e56b0270c525066154f7cb48ca3da3e45b"
+      }
+    },
+    {
+      "id": "commons-67d9d1f2fb3aab",
+      "provider": "Wikimedia Commons",
+      "provider_id": "186777186",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Business_professional_working_on_laptop_in_a_bright_office_space.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Business_professional_working_on_laptop_in_a_bright_office_space.jpg/1920px-Business_professional_working_on_laptop_in_a_bright_office_space.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-11",
+      "original_sha256": "cabe69caffbdd296aef5b7df5e0a4b7acc8623cb1fc011420445d00b79c25b6e",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-67d9d1f2fb3aab-640.webp",
+        "1280": "/assets/journal/commons-67d9d1f2fb3aab-1280.webp",
+        "social": "/assets/journal/commons-67d9d1f2fb3aab-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "a7d6635f7690573e09cffc240e1cb97bef243649da989dcf3d27e1b4228710f1",
+        "1280": "632cf8560111f74e8677c09f3e3f7408ea8927c8a3c346b472af88795fcb8267",
+        "social": "a9affb40ce16ba72161180031306042ae044850d291adc4058b7788f8b2b3ff4"
+      }
+    },
+    {
+      "id": "commons-7b23e3817c621c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "101801633",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Home_office_(suporte_para_laptop_em_papel%C3%A3o)_(4875984286).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Home_office_%28suporte_para_laptop_em_papel%C3%A3o%29_%284875984286%29.jpg/1920px-Home_office_%28suporte_para_laptop_em_papel%C3%A3o%29_%284875984286%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Wagner Tamanaha  from Sao Paulo, Brazil",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "commercial_use_verified_at": "2026-11-11",
+      "original_sha256": "1f3164953054e7ae87c0028358186f48086fabfb4c32bfa6a662e42fe01f4823",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-7b23e3817c621c-640.webp",
+        "1280": "/assets/journal/commons-7b23e3817c621c-1280.webp",
+        "social": "/assets/journal/commons-7b23e3817c621c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "3c4baa7b00750a6a729d341243e045f6d0c5f0502bfe6c6aeed778791db1d43b",
+        "1280": "0aaa6c36ca12b58be2442a84a7279595272a5ebd21228009bfee6db7ee705963",
+        "social": "9fdf8fec3b1b4c90a36e57c18725e1dee93421ff7b15c8a1c7d02c3d37a55357"
+      }
+    },
+    {
+      "id": "commons-f0291c7a2843e5",
+      "provider": "Wikimedia Commons",
+      "provider_id": "98123977",
+      "source_page": "https://commons.wikimedia.org/wiki/File:New_laptop_stickers,_the_office,_Burbank,_California,_USA.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/New_laptop_stickers%2C_the_office%2C_Burbank%2C_California%2C_USA.jpg/1920px-New_laptop_stickers%2C_the_office%2C_Burbank%2C_California%2C_USA.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Cory Doctorow",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "commercial_use_verified_at": "2026-11-11",
+      "original_sha256": "97bba47f6a99acf9b3235a25a773cb0bbb50208241b758bf354202aff36f924c",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-f0291c7a2843e5-640.webp",
+        "1280": "/assets/journal/commons-f0291c7a2843e5-1280.webp",
+        "social": "/assets/journal/commons-f0291c7a2843e5-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "4aa255d258e5dc7a019352713a3e097118b1a7f9479920eb6ba659d11bd14a5f",
+        "1280": "d838d6490c8becc4908b916fef56e8f2c2bf4cce8ca2d24c57ca3148ee573195",
+        "social": "9da4131327c924f2fa52603fd1fe308529373e3d1f4ad941826411e01587982b"
+      }
     }
   ],
   "assignments": {
@@ -1256,6 +1416,11 @@
     "blog-journal-review-2026-11-10-f83258123193.html": "commons-da75beb2a96554",
     "blog-journal-review-2026-11-10-2b4c9deb9ee5.html": "commons-9c02775d9fdca4",
     "blog-journal-review-2026-11-10-9185874f456f.html": "commons-60cb5c132fd50c",
-    "blog-journal-review-2026-11-10-d9e721367fff.html": "commons-52538f7636ab1c"
+    "blog-journal-review-2026-11-10-d9e721367fff.html": "commons-52538f7636ab1c",
+    "blog-journal-review-2026-11-11-4b113d342526.html": "commons-8353ae103c039c",
+    "blog-journal-review-2026-11-10-b50cc67a8040.html": "commons-bdc89b57bc2120",
+    "blog-journal-review-2026-11-11-26a34383cca8.html": "commons-67d9d1f2fb3aab",
+    "blog-journal-review-2026-11-10-f808d55e23b7.html": "commons-7b23e3817c621c",
+    "blog-journal-review-2026-11-11-f5fc5be353bc.html": "commons-f0291c7a2843e5"
   }
 }

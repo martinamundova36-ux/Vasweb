@@ -1,0 +1,118 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.1108/jcm-12-2025-8656",
+  "generated_on": "2026-11-11",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Algoritmické rozhodovacie cesty v mobilných nákupoch: Nové pohľady z Throughput Model štúdie",
+      "description": "Preskúmajte, ako štúdia z Journal of Consumer Marketing analyzuje rozhodovacie procesy Gen Z v mobilných aplikáciách s využitím Throughput Model.",
+      "lead": "Súčasné nákupné prostredie v mobilných aplikáciách sa čoraz viac spolieha na umelú inteligenciu, personalizované odporúčania a kurátorstvo informácií. Tradičné lineárne modely však často nedokážu zachytiť, ako moderné rozhrania menia správanie spotrebiteľov. Nová štúdia publikovaná vo vestníku Journal of Consumer Marketing prináša pohľad na tieto procesy pomocou Throughput Model.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Mobilné nákupné prostredie prechádza výraznou transformáciou, pričom umelá inteligencia zohráva kľúčovú úlohu pri personalizácii odporúčaní, kurátorstve produktových informácií a podpore nákupných rozhodnutí. Tieto technologické zmeny však prinášajú aj výzvy pre pochopenie toho, ako spotrebitelia reálne interagujú s rozhraniami aplikácií a prechádzajú od prvej interakcie k samotnej kúpe.",
+            "Existujúce modely rozhodovania spotrebiteľov často vychádzajú z lineárnej, fázovej logiky, ktorá nedokáže adekvátne zachytiť komplexitu moderného digitálneho prostredia. Takýto prístup opomína skutočnosť, že rozhrania poháňané umelou inteligenciou dokážu nákupné dráhy skracovať, predlžovať alebo inak rekonfigurovať.",
+            "V reakcii na tieto medzery sa nová odborná štúdia zamerala na konceptualizáciu a empirickú validáciu odlišných algoritmických rozhodovacích ciest. Autori Waymond Rodgers, Tam Nguyen, Van Bao Pham a Alberto Lopez publikovali svoje zistenia v Journal of Consumer Marketing pod DOI 10.1108/jcm-12-2025-8656."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu bolo hlavným účelom tejto štúdie použiť Throughput Model (TPM) na konceptualizáciu a empirickú validáciu odlišných algoritmických rozhodovacích ciest. V týchto cestách vzájomne pôsobia vnímanie, vyhľadávanie informácií a hodnotiaci úsudok s cieľom utvárať nákupné úmysly v kontexte nákupov cez mobilné aplikácie.",
+            "Autori v rámci výskumného dizajnu a metodiky zbierali údaje prostredníctvom prieskumu. Podľa abstraktu bol tento zber realizovaný na vzorke spotrebiteľov patriacich do generácie Z, ktorí mali nedávne skúsenosti s nakupovaním cez mobilné aplikácie.",
+            "Na analýzu zozbieraných dát štúdia uplatnila modelovanie štrukturálnych rovníc pomocou čiastočných najmenších štvorcov (PLS-SEM) a mediačnú analýzu. Tieto štatistické postupy boli využité na testovanie TPM a odhad jedno-, dvoj- a trojkrokových rozhodovacích ciest v elektronickom obchode prostredníctvom mobilných zariadení s podporou umelej inteligencie."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu vnímanie, vyhľadávanie informácií a úsudok vykazujú v modeli významné účinky. Zistenia ďalej ukazujú, že hodnotiaci úsudok vystupuje do popredia ako centrálny integračný mechanizmus, ktorý prepojuje vstupy na vstupe s výsledným nákupným úmyslom.",
+            "Výsledky publikované v štúdii podľa abstraktu demonštrujú, že mobilné rozhrania s podporou umelej inteligencie dokážu súčasne podporovať impulzívne, efektívnosťou riadené a tiež dôkladnejšie deliberatívne rozhodovacie architektúry.",
+            "Pokiaľ ide o pôvodnosť a hodnotu výskumu, autori uvádzajú, že ide o prvú empirickú operucionalizáciu TPM v oblasti mobilného obchodu. Štúdia prekonceptualizúva nákupné rozhodnutia ako koexistujúce algoritmické cesty a poskytuje marketérom diagnostický rámec na segmentáciu spotrebiteľov."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Metodologický prístup štúdie sa opiera o kvantitatívny zber dát formou prieskumu medzi spotrebiteľmi generácie Z a využíva čiastočné najmenšie štvorce spolu s mediačnou analýzou. Tieto nástroje umožnili autorom testovať teoretický model TPM a odhadovať viackrokové cesty v nákupných aplikáciách.",
+            "Je však nutné zdôrazniť dôležité obmedzenia vyplývajúce z dostupnosti zdrojov. Keďže plný text štúdie nebol kompletne overený nad rámec zverejneného abstraktu, nie je možné z dostupných informácií posúdiť detailné štatistické výstupy, presné veľkosti vzorky či špecifické podmienky zberu dát.",
+            "Z tohto dôvodu je nevyhnutné pristupovať k záverom opatrne, brať do úvahy limity sekundárneho prístupu k textu a nevyvodzovať z nich priame kauzálne závery pre odlišné demografické skupiny, ako je vzorka skúmaná v pôvodnom výskume."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Na základe poznatkov o tom, že mobilné rozhrania podporujú rôzne typy rozhodovania, prinášame redakčné odporúčania pre tvorbu webov a e-shopov. Prevádzkovatelia malých podnikov a tvorcovia webových stránok by mali svoje mobilné rozhrania navrhovať tak, aby vyhovovali nielen rýchlym impulzívnym nákupom, ale aj hlbšiemu porovnávaniu produktov.",
+            "V oblasti marketingu a dizajnu odporúčame implementovať personalizačné prvky poháňané umelou inteligenciou, ktoré dokážu flexibilne prispôsobovať zobrazenie informácií. Ak používateľ vykazuje znaky efektívnosťou riadeného nákupu, rozhranie by malo minimalizovať kroky k dokončeniu transakcie.",
+            "Pre manažment pracovísk a vývojové tímy to znamená prehodnotiť spôsob testovania užívateľskej skúsenosti (UX). Namiesto predpokladu jedinej lineárnej cesty zákazníka je vhodné integrovať flexibilné testovacie scenáre, ktoré odzrkadľujú koexistujúce algoritmické cesty a rozmanité správanie rôznych segmentov publika."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Štúdia Waymonda Rodgersa a kolegov publikovaná v Journal of Consumer Marketing prináša cenný pohľad na fungovanie mobilného nakupovania cez priprismu Throughput Modelu. Ukazuje, že tradičné lineárne modely už nestačia na popísanie správania spotrebiteľov v ére umelej inteligencie.",
+            "Hoci dostupné informácie z abstraktu naznačujú dôležitú úlohu hodnotiaceho úsudku a existenciu viacerých nákupných dráh, pri aplikácii týchto zistení do praxe je nutné dbať na opatrnosť a rešpektovať metodické obmedzenia výskumu.",
+            "Budúci vývoj v oblasti digitálneho obchodu a tvorby webových aplikácií bude nepochybne vyžadovať ďalšie overovanie týchto modelov v reálnych podmienkach, čo umožní presnejšie reagovať na meniace sa potreby a správanie digitálnych spotrebiteľov."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Algorithmic Decision Pathways in Mobile App Shopping: Insights from a Throughput Model Study",
+      "description": "Explore how a Journal of Consumer Marketing study analyzes Gen Z mobile shopping behaviors using the Throughput Model framework.",
+      "lead": "Mobile shopping environments increasingly rely on artificial intelligence to personalize recommendations and curate product information. However, traditional linear models often fail to capture how modern digital interfaces alter actual consumer pathways. A new study published in the Journal of Consumer Marketing offers fresh insights into these processes using the Throughput Model.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "The mobile shopping landscape is undergoing a significant transformation, with artificial intelligence playing a pivotal role in personalizing recommendations, curating product information, and supporting purchase decisions. These technological shifts, however, also create challenges in understanding how consumers actually interact with app interfaces from initial engagement to final purchase.",
+            "Existing consumer decision-making models often rely on a linear, stage-based logic that fails to adequately capture the complexity of modern digital environments. Such approaches overlook the reality that AI-enabled interfaces can compress, extend, or otherwise reconfigure shopping pathways.",
+            "Addressing these literature gaps, a new scholarly study focused on conceptualizing and empirically validating distinct algorithmic decision pathways. Authors Waymond Rodgers, Tam Nguyen, Van Bao Pham, and Alberto Lopez published their findings in the Journal of Consumer Marketing under DOI 10.1108/jcm-12-2025-8656."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the purpose of this study was to use the Throughput Model (TPM) to conceptualize and empirically validate distinct algorithmic decision pathways through which perception, information search, and evaluative judgment interact to shape purchase intentions in mobile-app shopping contexts.",
+            "As part of their research design and methodology, the authors collected survey data. According to the abstract, this data was gathered from Gen Z consumers with recent mobile-app shopping experience.",
+            "To analyze the collected data, the study applied partial least squares structural equation modelling (PLS-SEM) and mediation analysis. These statistical procedures were used to test the TPM and estimate one-step, two-step, and three-step decision pathways in AI-enabled mobile commerce."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, perception, information search, and judgment each exert significant effects within the model. The findings further indicate that evaluative judgment emerges as the central integrative mechanism linking upstream inputs to purchase intention.",
+            "The results published in the study demonstrate, according to the abstract, that AI-enabled mobile interfaces simultaneously support impulsive, efficiency-driven, and deliberative decision architectures.",
+            "Regarding the originality and value of the research, the authors state that this study provides the first empirical operationalisation of the TPM in mobile-app commerce. It reconceptualizes purchase decisions as coexisting algorithmic pathways and offers marketers a diagnostic framework for consumer segmentation."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The methodological approach of the study relies on quantitative survey data collection among Gen Z consumers, utilizing partial least squares structural equation modelling and mediation analysis. These tools enabled the authors to test the theoretical TPM framework and estimate multi-step pathways in shopping applications.",
+            "However, it is necessary to highlight important limitations stemming from source availability. Because the full text of the study was not fully verified beyond the published abstract, detailed statistical outputs, exact sample sizes, and specific data collection conditions cannot be assessed from available information.",
+            "Consequently, conclusions must be approached with caution, taking into account the limitations of secondary text access, and direct causal claims should not be extrapolated to demographic groups outside the original study sample."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "Building on insights that mobile interfaces support diverse decision types, we provide editorial recommendations for web and e-commerce development. Small business owners and web designers should craft their mobile interfaces to accommodate both quick impulse purchases and deeper product comparisons.",
+            "In marketing and design, we recommend implementing AI-driven personalization elements that flexibly adapt information displays. If a user exhibits efficiency-driven shopping behaviors, the interface should minimize the steps required to complete a transaction.",
+            "For workplace management and development teams, this implies reassessing how user experience (UX) testing is conducted. Instead of assuming a single linear customer journey, it is beneficial to integrate flexible testing scenarios that reflect coexisting algorithmic pathways and diverse audience behaviors."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The study by Waymond Rodgers and colleagues, published in the Journal of Consumer Marketing, offers valuable insight into mobile shopping dynamics through the lens of the Throughput Model. It demonstrates that traditional linear models are no longer sufficient to describe consumer behavior in the age of artificial intelligence.",
+            "Although available abstract details indicate the crucial role of evaluative judgment and the existence of multiple shopping pathways, practical application of these findings requires caution and respect for the research methodology limitations.",
+            "Future developments in digital commerce and web application design will undoubtedly require further validation of these models under real-world conditions, enabling more precise adaptation to the changing needs and behaviors of digital consumers."
+          ]
+        }
+      ]
+    }
+  }
+}

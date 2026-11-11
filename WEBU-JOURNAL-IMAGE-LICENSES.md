@@ -62,3 +62,13 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 - commons-60cb5c132fd50c: [Shixart1985](https://commons.wikimedia.org/wiki/File:Hands_typing_on_a_laptop_during_work_hours_in_a_modern_office_setting.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-52538f7636ab1c: [Harrison Keely](https://commons.wikimedia.org/wiki/File:Warby_Parker_eyeglasses_retail_store_interior_at_Washington_Union_Station.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-8353ae103c039c: [Syced](https://commons.wikimedia.org/wiki/File:LaCuCa_card_reader_-_payment_terminal_at_supermarket_register.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-bdc89b57bc2120: [Dan Gold  danielcgold](https://commons.wikimedia.org/wiki/File:Plant_in_a_coworking_space_(Unsplash).jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-67d9d1f2fb3aab: [Shixart1985](https://commons.wikimedia.org/wiki/File:Business_professional_working_on_laptop_in_a_bright_office_space.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-7b23e3817c621c: [Wagner Tamanaha  from Sao Paulo, Brazil](https://commons.wikimedia.org/wiki/File:Home_office_(suporte_para_laptop_em_papel%C3%A3o)_(4875984286).jpg), licencia [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-f0291c7a2843e5: [Cory Doctorow](https://commons.wikimedia.org/wiki/File:New_laptop_stickers,_the_office,_Burbank,_California,_USA.jpg), licencia [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0); automaticky prevzaté ako ilustračná fotografia.

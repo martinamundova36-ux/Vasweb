@@ -1,23 +1,23 @@
 {
-  "checked_at": "2026-11-10T06:38:33.733950+00:00",
+  "checked_at": "2026-11-11T07:08:32.620129+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 7-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
   "preparation_start": "07:07 Europe/Bratislava",
   "backup_checks": "07:27, 07:47 and every :07/:27/:47 through 11:47; one daily delivery",
-  "next_scheduled_local": "2026-11-11T07:07:00+01:00",
-  "next_scheduled_utc": "2026-11-11T06:07:00+00:00",
+  "next_scheduled_local": "2026-11-12T07:07:00+01:00",
+  "next_scheduled_utc": "2026-11-12T06:07:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
   "generator_capability": "abstract_scoped_bilingual_editorials",
   "automatically_written_full_articles": 0,
   "automatically_prepared_abstract_editorials": 5,
   "published_today": [
-    "2026-11-10-9185874f456f",
-    "2026-11-10-f83258123193",
-    "2026-11-10-2b4c9deb9ee5",
-    "2026-11-10-9715fd33f88b",
-    "2026-11-10-d9e721367fff"
+    "2026-11-10-b50cc67a8040",
+    "2026-11-11-f5fc5be353bc",
+    "2026-11-10-f808d55e23b7",
+    "2026-11-11-26a34383cca8",
+    "2026-11-11-4b113d342526"
   ],
   "ready_bilingual_articles": [
     "2026-11-09-85c1caa8cfb7",
@@ -87,8 +87,13 @@
     "2026-11-10-2b4c9deb9ee5",
     "2026-11-10-9185874f456f",
     "2026-11-10-9715fd33f88b",
+    "2026-11-10-b50cc67a8040",
     "2026-11-10-d9e721367fff",
-    "2026-11-10-f83258123193"
+    "2026-11-10-f808d55e23b7",
+    "2026-11-10-f83258123193",
+    "2026-11-11-26a34383cca8",
+    "2026-11-11-4b113d342526",
+    "2026-11-11-f5fc5be353bc"
   ],
   "paid_ai_enabled": false,
   "scientific_review_limit": "Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review",

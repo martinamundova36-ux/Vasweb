@@ -1,0 +1,151 @@
+{
+  "doi": "10.14738/assrj.1311.12651",
+  "title": "Consumer Protection in Digital Payment Systems: Legal Challenges and Comparative Perspectives in Mongolia, China and South Korea",
+  "authors": [
+    "Khangal Erdenebat",
+    "Jankhor Sengeravdan"
+  ],
+  "publisher": "Scholar Publishing",
+  "venue": "Advances in Social Sciences Research Journal",
+  "source_date": "2026-11-11",
+  "type": "journal-article",
+  "url": "https://doi.org/10.14738/assrj.1311.12651",
+  "abstract_available": true,
+  "abstract_words": 368,
+  "selection_keywords": [
+    "consumer",
+    "customer"
+  ],
+  "verified_at": "2026-11-11",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-11",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-11",
+    "source_url": "https://doi.org/10.14738/assrj.1311.12651",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-11",
+    "content_sha256": "52e262e130b036fd293bc01185eb6fd900354dc1fdc16d3ef0c6fe893c82af09",
+    "languages": {
+      "sk": {
+        "title": "Ochrana spotrebiteľov v digitálnych platbách: Komparatívna štúdia z Mongolska, Číny a Južnej Kórey",
+        "description": "Analýza výziev v oblasti ochrany spotrebiteľov pri digitálnych platbách v Mongolsku, Číne a Južnej Kórei na základe dostupného abstraktu štúdie.",
+        "lead": "Digitálne platobné systémy radikálne menia finančné transakcie, no prinášajú aj nové bezpečnostné výzvy a riziká pre spotrebiteľov. Nová štúdia publikovaná v Advances in Social Sciences Research Journal prináša komparatívny pohľad na právne rámce v Mongolsku, Číne a Južnej Kórei, pričom analyzuje kľúčové oblasti od zodpovednosti za neoprávnené transakcie až po ochranu osobných údajov.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Rýchly rozvoj digitálnych platobných systémov prešiel hlbokou transformáciou, ktorá zlepšila pohodlie platieb a rozšírila prístup k finančným službám. Podľa abstraktu štúdie však toto rozširovanie elektronických peňaženiek, mobilných aplikácií a online platforiem prináša aj nové výzvy v oblasti ochrany spotrebiteľa.",
+              "Medzi hlavné riziká, ktorým dnes spotrebitelia čelia, patria neoprávnené transakcie, digitálne podvody, zneužitie osobných údajov, technické zlyhania a problémy pri získavaní finančnej kompenzácie. Pre webové projekty a prevádzkovateľov e-shopov to znamená nutnosť dbať na maximálnu bezpečnosť platobných brán."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Autori Khangal Erdenebat a Jankhor Sengeravdan sa vo svojej práci zamerali na vykonanie komparatívnej právnej analýzy ochrany spotrebiteľov v digitálnych platobných systémoch. Predmetom skúmania boli konkrétne právne rámce v Mongolsku, Číne a Južnej Kórei.",
+              "Podľa dostupného abstraktu štúdia skúma podobnosti a rozdiely medzi týmito jurisdikciami, identifikuje spoločné regulačné výzvy a hodnotí potenciálne právne mechanizmy na posilnenie ochrany spotrebiteľov v Mongolsku, pričom vychádza z dostupnej legislatívy a inštitucionálnych prístupov."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Analýza v jednotlivých krajinách sa podľa abstraktu opiera o špecifické právne predpisy, akými sú Zákon o národnom platobnom systéme v Mongolsku, nariadenie o nebankových finančných inštitúciách v Číne z roku 2024 či Zákon o elektronických finančných transakciách v Južnej Kórei.",
+              "Štúdia zdôrazňuje, že efektívna ochrana spotrebiteľa si vyžaduje viac než len formálne uznanie práv. Kľúčovú úlohu zohrávajú jasne definované mechanizmy zodpovednosti, transparentné povinnosti poskytovateľov a prístupné postupy riešenia sporov."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Pri hodnotení metodiky musíme vychádzať výhradne z textu abstraktu, keďže úplný text štúdie nemáme plne k dispozícii na verifikáciu všetkých detailov. Autori podľa abstraktu využili doktrinálne a komparatívne právne výskumné metódy.",
+              "Medzi hlavné limity nášho príspevku patrí skutočnosť, že pracujeme iba s vydavateľom poskytnutým abstraktom (DOI: 10.14738/assrj.1311.12651). Z tohto dôvodu nie je možné detailne posudzovať všetky empirické dáta ani širšie pozadia jednotlivých právnych systémov nad rámec uvedeného textu."
+            ]
+          },
+          {
+            "heading": "Praktický návrh WEBU",
+            "paragraphs": [
+              "Pre prevádzkovateľov malých a stredných webových stránok či e-shopov prináša redakcia WEBU odporúčanie dbať na integráciu overených a bezpečných platobných brán, ktoré minimalizujú riziko neoprávnených transakcií a technických zlyhaní. Webdesign by mal vždy jasne a transparentne informovať zákazníka o podmienkach platieb a riešenia reklamácií.",
+              "V oblasti marketingu a pracovného manažmentu je dôležité vzdelávať interné tímy o kybernetickej bezpečnosti a ochrane osobných údajov zákazníkov. Prevencia digitálnych podvodov a dodržiavanie štandardov pomáha budovať dôveru klientov v online prostredí."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Komparatívny pohľad na Mongolsko, Čínu a Južnú Kóreu ukazuje, že regulácia digitálnych platieb je dynamická a vyžaduje si neustálu pozornosť zákonodarcov. Zistenia štúdie poskytujú cenný právny základ pre identifikáciu medzier v regulácii.",
+              "Budúci vývoj v oblasti digitálnych platieb bude závisieť od schopnosti inštitúcií presadzovať konzistentnú reguláciu a chrániť koncové práva spotrebiteľov v globálnom online priestore."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Consumer Protection in Digital Payments: A Comparative Study of Mongolia, China, and South Korea",
+        "description": "An analysis of consumer protection challenges in digital payment systems across Mongolia, China, and South Korea based on study abstract.",
+        "lead": "Digital payment systems have transformed financial transactions, yet they introduce new security challenges and risks for consumers. A new study published in the Advances in Social Sciences Research Journal offers a comparative perspective on legal frameworks in Mongolia, China, and South Korea, examining key areas from unauthorized transaction liability to personal data protection.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "The rapid development of digital payment systems has transformed financial transactions, improving payment convenience and expanding financial access. According to the study abstract, however, the growing use of electronic wallets, mobile apps, and online platforms also generates new consumer protection challenges.",
+              "Key risks facing consumers today include unauthorized transactions, digital fraud, misuse of personal data, technical failures, and difficulties in obtaining compensation. For web projects and e-commerce operators, this highlights the absolute necessity of maintaining robust payment gateway security."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "Authors Khangal Erdenebat and Jankhor Sengeravdan conducted a comparative legal analysis of consumer protection within digital payment systems. The scope of their research specifically covered the legal frameworks of Mongolia, China, and South Korea.",
+              "According to the available abstract, the study examines similarities and differences among these jurisdictions, identifies common regulatory challenges, and evaluates potential legal mechanisms to strengthen consumer protection in Mongolia using relevant legislation and institutional approaches."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "The cross-country analysis relies on specific legal acts outlined in the abstract, such as the Law on National Payment System in Mongolia, non-bank financial institution regulations in China, and the Electronic Financial Transactions Act in South Korea.",
+              "The study emphasizes that effective consumer protection requires more than formal rights recognition. Well-defined liability mechanisms, transparent provider obligations, and accessible dispute resolution procedures play a pivotal role."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "When evaluating the methodology, we must rely exclusively on the provided abstract text since the full article was not independently verified beyond this scope. According to the abstract, the authors employed doctrinal and comparative legal research methods.",
+              "A key limitation of our editorial coverage is that we rely strictly on the publisher-supplied abstract (DOI: 10.14738/assrj.1311.12651). Consequently, detailed empirical data or broader contextual backgrounds cannot be independently scrutinized beyond what is stated in the text."
+            ]
+          },
+          {
+            "heading": "WEBU practical proposal",
+            "paragraphs": [
+              "For owners of small businesses, e-commerce websites, and web design projects, WEBU editorial recommends integrating verified, secure payment gateways to minimize the risk of unauthorized transactions and technical failures. Web interfaces should transparently communicate payment terms and dispute resolution policies.",
+              "In marketing and workplace management, teams should be regularly trained on cybersecurity and customer data protection protocols. Preventing digital fraud and adhering to compliance standards directly strengthens client trust in digital environments."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The comparative overview of Mongolia, China, and South Korea demonstrates that digital payment regulation is dynamic and requires continuous legislative attention. The study's findings provide a solid legal foundation for identifying regulatory gaps.",
+              "Future developments in digital finance will depend on institutional capacities to enforce consistent regulations and safeguard consumer rights within the evolving global online landscape."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.14738/assrj.1311.12651",
+        "apa7": "Khangal Erdenebat, Jankhor Sengeravdan (2026). Consumer Protection in Digital Payment Systems: Legal Challenges and Comparative Perspectives in Mongolia, China and South Korea. Advances in Social Sciences Research Journal. https://doi.org/10.14738/assrj.1311.12651",
+        "access": "abstract"
+      }
+    ]
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "52e262e130b036fd293bc01185eb6fd900354dc1fdc16d3ef0c6fe893c82af09",
+  "image_id": "commons-8353ae103c039c",
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-11",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-review-2026-11-11-4b113d342526.html",
+    "https://www.webu.sk/blog-journal-review-2026-11-11-4b113d342526-en.html"
+  ]
+}

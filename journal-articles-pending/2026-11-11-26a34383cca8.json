@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.1108/lodj-11-2025-1022",
+  "generated_on": "2026-11-11",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Vplyv štýlu vedenia na agilitu inžinierov: Čo hovorí nový výskum o algoritmoch a bezpečnosti",
+      "description": "Analýza štúdie o raste orientovanom vedení, psychologickom bezpečí a vplyve algoritmov v HR na základe dostupného abstraktu.",
+      "lead": "Nová štúdia publikovaná v Leadership & Organization Development Journal skkúma vzťah medzi rastovým nastavením vedúcich, psychologickým bezpečím a agilitou inžinierov. Pozrieme sa na to, čo podľa abstraktu prináša tento výskum a aké odporúčania z toho plynú pre prax v oblasti riadenia a tvorby webových projektov.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Súčasné riadenie tímov vo firmách, vrátane digitálnych agentúr a vývojových štúdií, čelí výzvam spojeným s rýchlym technologickým pokrokom. Popri zavádzaní nových nástrojov zohráva kľúčovú úlohu aj prístup samotných lídrov k rozvoju zamestnancov a zvládaniu zmien.",
+            "Nový výskum, ktorý zverejnili Heungsok Cha, Hyun-Jung Kim, Youmi Lee a Keunyoung Ji, prináša pohľad na to, ako nastavenie mysle vedúcich pracovníkov ovplyvňuje inžinierov a ich schopnosť implementovať nápady v praxi."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu sa výskum zameral na to, či je nastavenie mysle vedúcich na rast spojené s agilitou učenia sa inžinierov a implementáciou ich nápadov. Dôležitou súčasťou bolo sledovanie úlohy tímového psychologického bezpečia ako mediátora.",
+            "Autori zároveň skúmali, či tento proces oslabujú procesy ľudských zdrojov riadené algoritmickými a AI systémami, pričom využili terénnu štúdiu na vzorke 60 výskumno-vývojových tímov počas obdobia štyroch mesiacov."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu bola orientácia lídrov na rast pozitívne spojená s tímovým psychologickým bezpečím. To následne súviselo s agilitou učenia sa inžinierov a počtom implementovaných nápadov v skúmaných organizáciách.",
+            "Na druhej strane, vyššia intenzita algoritmického riadenia ľudských zdrojov bola podľa abstraktu negatívne spojená s psychologickým bezpečím a oslabovala pozitívny vzťah medzi nastavením lídra a tímovou klímou."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Metodika, ako ju opisuje abstrakt, zahŕňala viaczdrojový a viacvlnový zber dát naprieč 60 tímami. Zber prebiehal v rôznych fázach, pričom lídri a inžinieri reportovali rôzne premenné v odlišných časových bodoch.",
+            "Keďže máme k dispozícii iba vydavateľom poskytnutý abstrakt bez overeného plného textu, nemôžeme hodnotiť detailné štatistické testy, veľkosti efektov ani prípadné kauzálne závery mimo toho, čo autori explicitne uvádzajú."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "V rámci redakčných odporúčaní pre malé podniky a webové štúdiá to znamená, že pri zavádzaní automatizovaných nástrojov do riadenia by sme nemali zabúdať na ľudský faktor a otvorenú komunikáciu v tíme.",
+            "Pri tvorbe webov a digitálnych kampaní pomáha, ak tímy necítia strach z chýb a ak manažment podporuje experimentovanie, namiesto striktného spoliehania sa na automatizované metriky a algoritmy hodnotenia výkonu."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Predložená štúdia poukazuje na dôležitosť rovnováhy medzi modernými technologickými systémami v HR a udržiavaním bezpečného a rozvojového prostredia v tímoch.",
+            "Podrobnejšie informácie o výskume a jeho prepojení s praxou nájdete v pôvodnom článku pod DOI: 10.1108/lodj-11-2025-1022."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Leadership Style and Engineers' Learning Agility: What Research Says About Algorithms and Safety",
+      "description": "An analysis of a study on growth-mindset leadership, psychological safety, and algorithmic HRM based on the accessible abstract.",
+      "lead": "A new study published in the Leadership & Organization Development Journal explores the relationship between leaders' growth mindset, psychological safety, and engineers' learning agility. We examine what the abstract reveals and what practical takeaways emerge for workplace and web project management.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Modern team management in businesses, including digital agencies and development studios, faces challenges tied to rapid technological change. Alongside adopting new tools, the approach leaders take toward employee development and navigating change remains vital.",
+            "Fresh research published by Heungsok Cha, Hyun-Jung Kim, Youmi Lee, and Keunyoung Ji offers insight into how leaders' mindsets shape engineers and their ability to implement ideas in practice."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the study examined whether a leader's growth mindset is associated with engineers' learning agility and idea implementation. An important part of the model was observing the role of team psychological safety as a mediator.",
+            "The authors also investigated whether this climate pathway is weakened when human resource processes are more intensely mediated by algorithmic and AI systems, utilizing a multi-source field study across 60 research and development teams over four months."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, a leader's growth mindset was positively associated with team psychological safety, which in turn related positively to engineers' learning agility and idea-implementation counts.",
+            "On the other hand, higher algorithmic HRM intensity was, according to the abstract, negatively associated with psychological safety and attenuated the positive relationship between leader growth mindset and team climate."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The methodology described in the abstract involved a multi-source, multi-wave data collection across 60 teams. Data collection took place across different waves, with leaders and engineers reporting various variables at separate time points.",
+            "Because we only have access to the publisher-supplied abstract without a verified full text, we cannot evaluate detailed statistical tests, effect sizes, or causal claims beyond what the authors explicitly state."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "As an editorial recommendation for small businesses and web studios, integrating automated tools into management should not overshadow the human element and open team communication.",
+            "In web development and digital marketing, fostering an environment where teams do not fear mistakes and management supports experimentation yields better results than relying solely on automated performance metrics and algorithms."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The presented study highlights the importance of balancing modern technological HR systems with maintaining a safe, developmental team environment.",
+            "More details about the research and its connection to practice can be found in the original article under DOI: 10.1108/lodj-11-2025-1022."
+          ]
+        }
+      ]
+    }
+  }
+}
