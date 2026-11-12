@@ -137,7 +137,18 @@ $("regForm").addEventListener("submit",async e=>{
  finally{btn.disabled=false}
 });
 function paint(items){let r=$('records');r.replaceChildren();if(!items.length){r.textContent=t[10];return}for(let x of items){let d=document.createElement('div');d.className='item';let b=document.createElement('strong');b.textContent=x.title||'';d.append(b);if(x.detail){let s=document.createElement('div');s.className='small';s.textContent=x.detail;d.append(s)}if(x.download){let a=document.createElement('button');a.textContent=t[19];a.addEventListener('click',x.download);d.append(a)}r.append(d)}}
-async function list(table,filter){let q=db.from(table).select('*').eq('tenant_id',member.tenant_id).limit(100);if(filter)for(let [k,v] of Object.entries(filter))q=q.eq(k,v);let {data,error}=await q;if(error)throw error;return data||[]}
+async function list(table,filter){
+ const tenant=member.tenant_id,items=[];
+ for(let page=0;page<10;page++){
+  let q=db.from(table).select('*').eq('tenant_id',tenant).range(page*100,page*100+99);
+  if(filter)for(const [k,v] of Object.entries(filter))q=q.eq(k,v);
+  const {data,error}=await q;
+  if(error)throw error;
+  items.push(...(data||[]));
+  if(!data||data.length<100)break;
+ }
+ return items;
+}
 async function chooseOrganization(tenantId){
  const chosen=memberships.find(m=>m.tenant_id===tenantId);
  if(!chosen)return;
@@ -390,7 +401,7 @@ async function renderPanel(){
    if(latest.length)latest.forEach(x=>container.append(row(x.title,x.body)));
    else empty();
    if(!staff)message(label('financeNote'));
-   else message(lang==='en'?'Counts show up to the first 100 accessible records in each category.':'Prehľad zobrazuje maximálne prvých 100 dostupných záznamov v každej kategórii.');
+   else message(lang==='en'?'Counts reflect accessible records (up to 1,000 per category).':'Prehľad zobrazuje dostupné záznamy (najviac 1 000 v každej kategórii).');
    return;
   }
   container.replaceChildren();
