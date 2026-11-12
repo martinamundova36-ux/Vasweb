@@ -44,7 +44,27 @@ body.portal-open #app .item{padding:17px 0}
 .data-card strong{color:#142b4d}
 .empty-message{padding:29px;border:1px dashed #c9d9ec;border-radius:14px;text-align:center;color:#657b96;background:#f9fbff}
 .portal-open #app footer{margin-top:23px}
-@media(max-width:750px){body.portal-open .pane{padding:12px}body.portal-open #app .top{padding:20px;border-radius:15px}body.portal-open #app #tabs{flex-wrap:nowrap;overflow:auto;scrollbar-width:thin;padding-bottom:9px}body.portal-open #app #tabs .card{flex:0 0 auto;white-space:nowrap}body.portal-open #app .results{padding:17px;border-radius:15px}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.kpi{padding:15px;min-height:116px}.kpi strong{font-size:23px}.panelhead{margin-bottom:15px}.panelhead h3{font-size:22px}.staff-actions button{flex:1 1 120px}}</style></head><body>
+@media(max-width:750px){body.portal-open .pane{padding:12px}body.portal-open #app .top{padding:20px;border-radius:15px}body.portal-open #app #tabs{flex-wrap:nowrap;overflow:auto;scrollbar-width:thin;padding-bottom:9px}body.portal-open #app #tabs .card{flex:0 0 auto;white-space:nowrap}body.portal-open #app .results{padding:17px;border-radius:15px}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.kpi{padding:15px;min-height:116px}.kpi strong{font-size:23px}.panelhead{margin-bottom:15px}.panelhead h3{font-size:22px}.staff-actions button{flex:1 1 120px}}
+/* Identity / document inbox additions */
+.identity-grid{display:grid;grid-template-columns:minmax(125px,180px) 1fr;gap:22px;align-items:start}
+.avatar-box{aspect-ratio:1/1;border-radius:18px;display:flex;align-items:center;justify-content:center;background:#e3edf9;border:2px dashed #adbfda;color:#456c99;overflow:hidden;font-size:42px}
+.avatar-box img{width:100%;height:100%;object-fit:cover}
+.identity-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.readonly-value{border-radius:11px;padding:13px 15px;background:#f6f9fe;border:1px solid #dde8f3;min-height:46px;word-break:break-word}
+.file-area{background:#f7fafe;border:1px solid #dce7f3;border-radius:16px;padding:18px;margin:16px 0}
+.file-area h4{font-size:18px;color:#142b4d;margin:0 0 8px}
+.file-area p{font-size:14px;color:#667b95;margin:6px 0 14px}
+.file-area input[type=file]{margin:8px 0;padding:9px;background:white;max-width:100%}
+.file-area button,.file-item button{margin:9px 8px 0 0}
+.docgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.file-item{background:#f9fbff;border:1px solid #dae5f1;border-radius:15px;padding:19px;min-width:0}
+.file-item h4{margin:0 0 8px;font-size:18px}
+.file-item small{color:#59708b}
+.file-item .status-pill{display:inline-block}
+#records .file-item .btn-secondary{border:1px solid #bdcfe4}
+.policy-link{display:inline-block;padding:11px 0;color:#1c5f9e;text-decoration:underline}
+@media(max-width:650px){.identity-grid{grid-template-columns:1fr}.avatar-box{max-width:170px}.identity-fields{grid-template-columns:1fr}.docgrid{grid-template-columns:1fr}}
+</style></head><body>
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
 <div id="login" class="login"><select id="lang"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label>E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel">Heslo</label><input type="password" id="password" autocomplete="current-password" required><button id="signbtn" type="submit">Prihlásiť sa</button></form><p id="error" class="danger" aria-live="polite"></p><footer id="invite">Prístupové údaje vydáva recepcia po overení registrácie.</footer>
@@ -141,6 +161,10 @@ en:{overview:"Overview",installments:"Payment schedule",registrations:"Registrat
 ru:{overview:"Обзор",installments:"График платежей",registrations:"Регистрации",residents:"Жильцы",rooms:"Комнаты",payments:"Платежи",documents:"Документы",requests:"Заявки",cleaning:"Уборка",notices:"Объявления",roleStudent:"Кабинет студента",roleStaff:"Администрация ресепшена",welcome:"Добро пожаловать",dashboardStudent:"Проживание, документы и заявки в одном месте.",dashboardStaff:"Регистрации, заявки и работа общежития.",noData:"Записей пока нет.",rent:"Начисления",paid:"Учтённые платежи",next:"Открытые заявки",pending:"Ожидают проверки",roomsCount:"Комнаты",residentsCount:"Жильцы",cleaningCount:"Запросы на уборку",requestsCount:"Заявки",latest:"Новости",back:"Открыть",success:"Изменения сохранены.",error:"Не удалось сохранить.",create:"Добавить",save:"Сохранить",status:"Статус",notes:"Примечание ресепшена",price:"Цена (€)",dateTime:"Подтверждённая дата",requestNew:"Запросить уборку",roomNumber:"Комната",rentPeriod:"Период",due:"Срок оплаты",amount:"Сумма",approved:"Подтверждено",planNote:"Отображаются утверждённые графики платежей.",financeNote:"Это учтённые платежи, а не банковская выписка или итоговый баланс.",docsNote:"Личные документы видны только авторизованным жильцам.",approvalNote:"Ресепшен проверяет регистрацию по договору проживания.",confirmSave:"Сохранить изменение статуса?",time:"Желаемая дата",createNotice:"Новое объявление",language:"Язык",noticeTitle:"Заголовок",noticeBody:"Текст",documentsEmpty:"Нет доступных документов."},
 uk:{overview:"Огляд",installments:"Графік платежів",registrations:"Реєстрації",residents:"Мешканці",rooms:"Кімнати",payments:"Платежі",documents:"Документи",requests:"Заявки",cleaning:"Прибирання",notices:"Оголошення",roleStudent:"Кабінет студента",roleStaff:"Адміністрація рецепції",welcome:"Ласкаво просимо",dashboardStudent:"Проживання, документи та заявки в одному місці.",dashboardStaff:"Реєстрації, заявки та робота гуртожитку.",noData:"Записів немає.",rent:"Нарахування",paid:"Обліковані платежі",next:"Відкриті заявки",pending:"Очікують перевірки",roomsCount:"Кімнати",residentsCount:"Мешканці",cleaningCount:"Запити на прибирання",requestsCount:"Заявки",latest:"Оголошення",back:"Відкрити",success:"Зміни збережено.",error:"Не вдалося зберегти.",create:"Додати",save:"Зберегти",status:"Статус",notes:"Примітка рецепції",price:"Вартість (€)",dateTime:"Підтверджені дата й час",requestNew:"Замовити прибирання",roomNumber:"Кімната",rentPeriod:"Період",due:"Термін оплати",amount:"Сума",approved:"Підтверджено",planNote:"Відображаються затверджені графіки платежів.",financeNote:"Це зареєстровані платежі, а не банківська виписка або баланс.",docsNote:"Особисті документи доступні лише авторизованим мешканцям.",approvalNote:"Рецепція перевіряє реєстрації за договором проживання.",confirmSave:"Зберегти зміну статусу?",time:"Бажана дата",createNotice:"Нове оголошення",language:"Мова",noticeTitle:"Заголовок",noticeBody:"Текст",documentsEmpty:"Доступних документів немає."}
 };
+ui.sk.profile="Môj profil";
+ui.en.profile="My profile";
+ui.ru.profile="Мой профиль";
+ui.uk.profile="Мій профіль";
 const label=k=>(ui[lang]||ui.sk)[k]||ui.sk[k]||k;
 const make=(tag,cls,value)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(value!==undefined)e.textContent=String(value);return e};
 const money=n=>new Intl.NumberFormat(lang==='en'?'en-GB':'sk-SK',{style:'currency',currency:'EUR'}).format(Number(n)||0);
@@ -154,10 +178,172 @@ function row(title,detail,status){let d=make('div','item');d.append(make('strong
 function subheading(str){$('records').append(make('h4','section-subtitle',str))}
 function kpi(caption,value,details,go){const b=make('button','kpi');b.type='button';b.append(make('div','kpi-caption',caption),make('strong','',value),make('small','',details));if(go)b.addEventListener('click',()=>navigate(go));else b.disabled=true;return b}
 function navigate(next){tab=next;renderTabs();void renderPanel()}
-const icons={overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉'};
+const icons={profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉'};
+
+const docLabels = {
+ sk:{rules:"Ubytovací poriadok",gdpr:"Informácie o spracúvaní osobných údajov (GDPR)",signedRules:"Podpísaný ubytovací poriadok",signedGdpr:"Podpísané potvrdenie o oboznámení sa s GDPR",load:"Stiahnuť",upload:"Nahrať súbor",photo:"Profilová fotografia",profileInfo:"Overené údaje o tvojom ubytovaní",first:"Meno",last:"Priezvisko",room:"Číslo izby",email:"E-mail",noRoom:"Izba zatiaľ nie je priradená",manual:"Údaje potvrdzuje recepcia. Ak niektorý údaj nesedí, požiadaj o opravu cez Požiadavky.",photoHelp:"Fotografia JPG alebo PNG, maximálne 3 MB.",uploadHelp:"Nahraj podpísaný dokument ako PDF, JPG alebo PNG, maximálne 6 MB.",wait:"Čaká na kontrolu",approved:"Schválené",rejected:"Vrátené na opravu",missing:"Dokument zatiaľ recepcia nenahrala.",privacy:"Osobné údaje, fotografie a podpisy sú prístupné iba oprávneným osobám. Podrobnosti v informáciách GDPR.",uploadTemplate:"Nahrať aktuálne PDF",signedReceived:"Podpísané dokumenty od študentov",staffProfile:"Fotografie študentov",downloadForReview:"Zobraziť odovzdaný dokument",reviewApprove:"Schváliť",reviewReject:"Vrátiť na opravu",reviewNote:"Poznámka pri kontrole",viewPhoto:"Zobraziť fotografiu",requestCorrection:"Požiadať o opravu údajov",fileError:"Nahratie súboru zlyhalo. Skontroluj formát, veľkosť a oprávnenie.",fileSuccess:"Súbor bol bezpečne odoslaný.",adminTemplates:"Dokumenty na stiahnutie pre študentov",privateDocuments:"Ďalšie osobné dokumenty"},
+ en:{rules:"House rules",gdpr:"Personal data information (GDPR)",signedRules:"Signed house rules",signedGdpr:"Signed GDPR acknowledgement",load:"Download",upload:"Upload file",photo:"Profile photo",profileInfo:"Your verified accommodation details",first:"First name",last:"Last name",room:"Room number",email:"Email",noRoom:"Room not yet assigned",manual:"Reception verifies these details. If something is incorrect, send a correction request.",photoHelp:"JPG or PNG photo, up to 3 MB.",uploadHelp:"Upload the signed document as PDF, JPG or PNG, up to 6 MB.",wait:"Pending review",approved:"Approved",rejected:"Correction needed",missing:"Reception has not uploaded this document yet.",privacy:"Your data, photos and signatures are available only to authorized staff. See the GDPR notice.",uploadTemplate:"Upload current PDF",signedReceived:"Signed documents from residents",staffProfile:"Resident photos",downloadForReview:"View submitted document",reviewApprove:"Approve",reviewReject:"Return for correction",reviewNote:"Review note",viewPhoto:"View photo",requestCorrection:"Request correction",fileError:"Upload failed. Check file type, size and access.",fileSuccess:"File uploaded securely.",adminTemplates:"Documents for student download",privateDocuments:"Other personal documents"},
+ ru:{rules:"Правила проживания",gdpr:"Информация об обработке данных (GDPR)",signedRules:"Подписанные правила проживания",signedGdpr:"Подписанное ознакомление с GDPR",load:"Скачать",upload:"Загрузить",photo:"Фото профиля",profileInfo:"Проверенные данные проживания",first:"Имя",last:"Фамилия",room:"Номер комнаты",email:"Эл. почта",noRoom:"Комната пока не назначена",manual:"Данные подтверждает ресепшен. Для исправлений отправьте заявку.",photoHelp:"Фото JPG или PNG, максимум 3 МБ.",uploadHelp:"Загрузите подписанный PDF, JPG или PNG, максимум 6 МБ.",wait:"Ожидает проверки",approved:"Подтверждено",rejected:"Нужно исправить",missing:"Ресепшен пока не загрузил документ.",privacy:"Фото, подписи и личные данные доступны только уполномоченным сотрудникам.",uploadTemplate:"Загрузить актуальный PDF",signedReceived:"Подписанные документы",staffProfile:"Фото жильцов",downloadForReview:"Открыть документ",reviewApprove:"Подтвердить",reviewReject:"Вернуть на исправление",reviewNote:"Примечание",viewPhoto:"Открыть фото",requestCorrection:"Запросить исправление",fileError:"Ошибка загрузки. Проверьте формат и размер.",fileSuccess:"Файл загружен.",adminTemplates:"Документы для скачивания",privateDocuments:"Другие личные документы"},
+ uk:{rules:"Правила проживання",gdpr:"Інформація про персональні дані (GDPR)",signedRules:"Підписані правила проживання",signedGdpr:"Підтвердження ознайомлення з GDPR",load:"Завантажити",upload:"Завантажити файл",photo:"Фото профілю",profileInfo:"Перевірені дані проживання",first:"Ім’я",last:"Прізвище",room:"Номер кімнати",email:"Електронна пошта",noRoom:"Кімнату ще не призначено",manual:"Дані підтверджує рецепція. Для виправлень надішліть запит.",photoHelp:"Фото JPG або PNG, до 3 МБ.",uploadHelp:"Завантаж підписаний PDF, JPG або PNG, до 6 МБ.",wait:"Очікує перевірки",approved:"Схвалено",rejected:"Потребує виправлення",missing:"Рецепція ще не завантажила документ.",privacy:"Фото, підписи й особисті дані доступні тільки уповноваженим працівникам.",uploadTemplate:"Завантажити актуальний PDF",signedReceived:"Підписані документи",staffProfile:"Фото мешканців",downloadForReview:"Переглянути документ",reviewApprove:"Схвалити",reviewReject:"Повернути на виправлення",reviewNote:"Примітка",viewPhoto:"Переглянути фото",requestCorrection:"Попросити виправлення",fileError:"Помилка завантаження. Перевір формат і розмір.",fileSuccess:"Файл завантажено.",adminTemplates:"Документи для завантаження",privateDocuments:"Інші особисті документи"}
+};
+const dl=k=>(docLabels[lang]||docLabels.sk)[k]||docLabels.sk[k]||k;
+const privacyUrls={sk:'https://studenthousebratislavanew.wordpress.com/gdpr/',en:'https://studenthousebratislavanew.wordpress.com/en/privacy-policy/',ru:'https://studenthousebratislavanew.wordpress.com/ru/privacy-policy/',uk:'https://studenthousebratislavanew.wordpress.com/ua/privacy-policy/'};
+async function fileLink(id,tenant,openInline=false){
+ const {data,error}=await db.functions.invoke('residence-files',{body:{action:'download',tenant_id:tenant,file_id:id}});
+ if(error||!data?.ok||!data?.url){alert(dl('fileError'));return null;}
+ const url=new URL(data.url);
+ if(url.protocol!=='https:'||!url.hostname.endsWith('.supabase.co')){alert(dl('fileError'));return null;}
+ if(!openInline)window.open(url.href,'_blank','noopener,noreferrer');
+ return url.href;
+}
+async function sendFile(tenant,kind,file,button){
+ if(!file){alert(dl('fileError'));return false;}
+ const allowed=kind==='profile_photo'?['image/jpeg','image/png']:kind.endsWith('_template')?['application/pdf']:['application/pdf','image/jpeg','image/png'];
+ const maximum=kind==='profile_photo'?3000000:6000000;
+ if(!allowed.includes(file.type)||file.size>maximum||!file.size){alert(dl('fileError'));return false;}
+ button.disabled=true;
+ try{
+  const f=new FormData();f.append('action','upload');f.append('tenant_id',tenant);f.append('kind',kind);f.append('file',file);
+  const {data,error}=await db.functions.invoke('residence-files',{body:f});
+  if(error||!data?.ok){alert(dl('fileError'));return false;}
+  alert(dl('fileSuccess'));return true;
+ }catch(error){console.error('portal_file_upload_failed');alert(dl('fileError'));return false;}
+ finally{button.disabled=false;}
+}
+function uploadCard(tenant,kind,title,help,accept){
+ const card=make('div','file-area'),h=make('h4','',title),p=make('p','',help);
+ const input=make('input');input.type='file';input.accept=accept;input.setAttribute('aria-label',title);
+ const send=make('button','',dl('upload'));send.type='button';
+ send.addEventListener('click',async()=>{
+  if(!input.files?.length)return alert(dl('fileError'));
+  if(await sendFile(tenant,kind,input.files[0],send))void renderPanel();
+ });
+ card.append(h,p,input,send);
+ return card;
+}
+function readableStatus(x){
+ const lookup={pending:'wait',approved:'approved',rejected:'rejected'};
+ return dl(lookup[x]||x||'wait');
+}
+function templateCard(tenant,files,kind,title,staff){
+ const card=make('div','file-item');card.append(make('h4','',title));
+ const latest=files.find(x=>x.kind===kind&&x.active);
+ if(latest){
+  card.append(make('small','',latest.original_name));
+  const btn=make('button','btn-secondary',dl('load'));btn.type='button';
+  btn.addEventListener('click',()=>{void fileLink(latest.id,tenant)});
+  card.append(make('div','', ''),btn);
+ }else card.append(make('p','muted',dl('missing')));
+ if(staff)card.append(uploadCard(tenant,kind,dl('uploadTemplate'),kind==='gdpr_template'?dl('gdpr'):dl('rules'),'application/pdf'));
+ return card;
+}
+async function renderProfile(tenant){
+ heading(dl('profileInfo'),dl('manual'));
+ if(!resident){empty();return;}
+ const pieces=String(resident.full_name||'').trim().split(/\s+/);
+ const first=pieces.shift()||'—',surname=pieces.join(' ')||'—';
+ const [tenancies,rooms,files]=await Promise.all([
+  list('tenancies',{resident_id:resident.id}),
+  list('rooms'),
+  list('residence_portal_files')
+ ]);
+ const today=new Date().toISOString().slice(0,10);
+ const tenancy=tenancies.find(x=>x.starts_on<=today && x.ends_on>=today)||tenancies.slice().sort((a,b)=>String(b.starts_on).localeCompare(String(a.starts_on)))[0];
+ const room=tenancy?rooms.find(x=>x.id===tenancy.room_id):null;
+ const grid=make('div','identity-grid'),photo=make('div','avatar-box','👤'),details=make('div','identity-fields');
+ const photoRow=make('div');photoRow.append(photo);
+ for(const [name,value] of [[dl('first'),first],[dl('last'),surname],[dl('room'),room?.name||dl('noRoom')],[dl('email'),resident.email||user.email]]){
+  const cell=make('div');cell.append(make('label','',name),make('div','readonly-value',value));details.append(cell);
+ }
+ grid.append(photoRow,details);$('records').append(grid);
+ const avatar=files.find(x=>x.kind==='profile_photo'&&x.user_id===user.id&&x.active);
+ if(avatar){
+  const url=await fileLink(avatar.id,tenant,true);
+  if(url&&member?.tenant_id===tenant&&tab==='profile'){
+   photo.replaceChildren();const img=make('img');img.src=url;img.alt=dl('photo');img.referrerPolicy='no-referrer';img.loading='lazy';photo.append(img);
+  }
+ }
+ $('records').append(uploadCard(tenant,'profile_photo',dl('photo'),dl('photoHelp'),'image/jpeg,image/png'));
+ const ask=make('button','btn-secondary',dl('requestCorrection'));ask.type='button';
+ ask.addEventListener('click',()=>navigate('requests'));
+ $('records').append(ask);
+ message(dl('privacy'));
+ const policy=make('a','policy-link','GDPR');policy.href=privacyUrls[lang];policy.target='_blank';policy.rel='noopener noreferrer';$('records').append(policy);
+}
+async function renderResidentDocuments(tenant,staff,own){
+ heading(dl('adminTemplates'),dl('privacy'));
+ const files=await list('residence_portal_files');
+ const grid=make('div','docgrid');
+ grid.append(templateCard(tenant,files,'rules_template',dl('rules'),staff));
+ grid.append(templateCard(tenant,files,'gdpr_template',dl('gdpr'),staff));
+ $('records').append(grid);
+ if(!staff){
+  if(!own){empty(dl('manual'));return;}
+  subheading(dl('signedReceived'));
+  const submissions=files.filter(x=>x.user_id===user.id&&['signed_rules','signed_gdpr'].includes(x.kind))
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+  const cards=make('div','docgrid');
+  for(const [kind,title] of [['signed_rules',dl('signedRules')],['signed_gdpr',dl('signedGdpr')]]){
+   const c=make('div','file-item');c.append(make('h4','',title));
+   const found=submissions.filter(x=>x.kind===kind);
+   if(found.length){
+    for(const x of found.slice(0,4)){
+     const line=make('div','item');
+     line.append(make('small','',day(x.created_at)+' · '+x.original_name),make('div','', ''));
+     line.append(statusPill(readableStatus(x.review_status)));
+     if(x.staff_note)line.append(make('p','small',x.staff_note));
+     const see=make('button','btn-secondary',dl('load'));see.type='button';
+     see.addEventListener('click',()=>{void fileLink(x.id,tenant)});
+     line.append(see);c.append(line);
+    }
+   } else c.append(make('p','muted',dl('missing')));
+   c.append(uploadCard(tenant,kind,dl('upload'),dl('uploadHelp'),'application/pdf,image/jpeg,image/png'));
+   cards.append(c);
+  }
+  $('records').append(cards);
+ }else{
+  subheading(dl('signedReceived'));
+  const submissions=files.filter(x=>['signed_rules','signed_gdpr'].includes(x.kind))
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+  if(!submissions.length)empty();
+  const people=await list('residents');
+  for(const x of submissions){
+   const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
+   const box=row(name+' – '+dl(x.kind==='signed_rules'?'signedRules':'signedGdpr'),day(x.created_at)+' · '+x.original_name,readableStatus(x.review_status));
+   const actions=make('div','staff-actions');
+   const download=make('button','btn-secondary',dl('downloadForReview'));download.type='button';download.addEventListener('click',()=>{void fileLink(x.id,tenant)});actions.append(download);
+   if(x.review_status==='pending'||x.review_status==='rejected'){
+    const comment=make('input');comment.type='text';comment.maxLength=1000;comment.value=x.staff_note||'';comment.placeholder=dl('reviewNote');
+    const choose=async status=>{
+      const {data,error}=await db.functions.invoke('residence-files',{body:{action:'review',tenant_id:tenant,file_id:x.id,status,staff_note:comment.value}});
+      if(error||!data?.ok){alert(dl('fileError'));return;}
+      alert(label('success'));void renderPanel();
+    };
+    const approve=make('button','',dl('reviewApprove'));approve.type='button';approve.addEventListener('click',()=>{void choose('approved')});
+    const reject=make('button','btn-secondary',dl('reviewReject'));reject.type='button';reject.addEventListener('click',()=>{void choose('rejected')});
+    actions.append(comment,approve,reject);
+   }
+   box.append(actions);$('records').append(box);
+  }
+ }
+ subheading(dl('privateDocuments'));
+ const docs=(await list('documents')).filter(x=>x.upload_complete);
+ if(!docs.length)empty(label('documentsEmpty'));
+ for(const x of docs){
+  const item=row(x.title,x.language.toUpperCase()+' · v'+x.version);
+  const b=make('button','btn-secondary',t[19]);b.type='button';b.addEventListener('click',async()=>{
+   b.disabled=true;
+   const {data,error}=await db.functions.invoke('manage',{body:{action:'download',document_id:x.id}});
+   b.disabled=false;
+   if(error||!data?.url){alert('Download unavailable');return}
+   const dest=new URL(data.url);if(dest.protocol==='https:'&&dest.hostname.endsWith('.supabase.co'))window.open(dest.href,'_blank','noopener,noreferrer');
+  });item.append(b);$('records').append(item);
+ }
+}
+
 function renderTabs(){
  const isAdmin=isStaff();
- const keys=isAdmin?['overview','registrations','residents','rooms','payments','installments','documents','requests','cleaning','notices']:['overview','rooms','payments','installments','documents','requests','cleaning','notices'];
+ const keys=isAdmin?['overview','registrations','residents','rooms','payments','installments','documents','requests','cleaning','notices']:['overview','profile','rooms','payments','installments','documents','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label','Sections');parent.setAttribute('role','navigation');
  $('zone').textContent=isAdmin?label('roleStaff'):label('roleStudent');
  $('roleLabel').textContent=(organizationNames[member.tenant_id]||'Student House Bratislava')+' · '+user.email;
@@ -168,6 +354,7 @@ async function renderPanel(){
  if(!member)return;
  const tenant=member.tenant_id,staff=isStaff(),own=resident?.id;
  try {
+  if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='overview'){
    const sources=staff?['registration_requests','residents','rooms','service_requests','cleaning_bookings','announcements']:['tenancies','rent_charges','payments','cleaning_bookings','service_requests','announcements'];
    const outcomes=await Promise.all(sources.map(key=>list(key,staff?undefined:(['tenancies','rent_charges','payments','cleaning_bookings','service_requests'].includes(key)?{resident_id:own||'00000000-0000-0000-0000-000000000000'}:undefined))));
@@ -299,22 +486,7 @@ async function renderPanel(){
    });
    return;
   }
-  if(tab==='documents'){
-   heading(label('documents'),label('docsNote'));
-   const docs=(await list('documents')).filter(x=>x.upload_complete);
-   if(!docs.length){empty(label('documentsEmpty'));return}
-   for(const x of docs){
-    const e=row(x.title,x.language.toUpperCase()+' · v'+x.version);
-    const b=make('button','btn-secondary',t[19]);b.type='button';b.style.marginTop='12px';
-    b.addEventListener('click',async()=>{
-     b.disabled=true;const {data,error}=await db.functions.invoke('manage',{body:{action:'download',document_id:x.id}});
-     b.disabled=false;
-     if(error||!data?.url){alert('Download unavailable');return}
-     const dest=new URL(data.url);if(!dest.protocol.startsWith('http'))return;window.open(dest.href,'_blank','noopener');
-    });e.append(b);container.append(e);
-   }
-   return;
-  }
+  if(tab==='documents'){await renderResidentDocuments(tenant,staff,own);return;}
   if(tab==='notices'){
    heading(label('notices'),label('latest'));
    const announcements=(await list('announcements')).filter(x=>x.language===lang||x.language==='sk');
