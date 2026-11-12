@@ -55,7 +55,7 @@ Deno.serve(async req => {
   try{
     if(origin && !(await allowedOrigin(origin)))return fail("",403,"origin_forbidden");
     if(req.method==="OPTIONS"){
-      const res=response(origin,{ok:true},204);
+      const res=response(origin,{ok:true},200);
       return new Response(null,{status:204,headers:res.headers});
     }
     if(req.method!=="POST")return fail(origin,405,"method_not_allowed");
@@ -106,7 +106,7 @@ Deno.serve(async req => {
           ? "photos/"+tenant+"/"+user.id+"/"+objectId+"."+extension
           : "signed/"+tenant+"/"+user.id+"/"+kind+"/"+objectId+"."+extension;
       const {error:storedError}=await admin.storage.from(BUCKET).upload(objectPath,bytes,{
-        contentType:actual,cacheControl:"private, max-age=0",upsert:false
+        contentType:actual,cacheControl:"60",upsert:false
       });
       if(storedError){console.error("residence_file_storage_failure",storedError.name);return fail(origin,503,"storage_failed");}
       const isSingle=templates.has(kind)||kind==="profile_photo";
