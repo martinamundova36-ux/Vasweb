@@ -67,7 +67,12 @@ body.portal-open #app .item{padding:17px 0}
 </style></head><body>
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
-<div id="login" class="login"><select id="lang"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label>E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel">Heslo</label><input type="password" id="password" autocomplete="current-password" required><button id="signbtn" type="submit">Prihlásiť sa</button></form>
+<div id="login" class="login">
+<nav class="entry-switch" aria-label="Vstup do systému" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">
+<a id="residentEntryLink" href="/student-house-portal/" style="display:block;text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Študenti</a>
+<a id="staffEntryLink" href="/student-house-portal/?view=reception" style="display:block;text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Recepcia / Admin</a>
+</nav>
+<select id="lang"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label>E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel">Heslo</label><input type="password" id="password" autocomplete="current-password" required><button id="signbtn" type="submit">Prihlásiť sa</button></form>
 <button type="button" id="forgotPassword" style="background:#e6eef8;color:#142b4d;margin-top:12px;width:100%">Zabudnuté heslo?</button>
 <form id="passwordResetForm" class="hide">
 <label id="resetNewLabel" for="resetPasswordValue">Nové heslo (minimálne 12 znakov)</label>
@@ -114,8 +119,21 @@ ru:{forgot:"Забыли пароль? Отправить письмо",enter:"�
 uk:{forgot:"Забули пароль? Надіслати листа",enter:"Спочатку введіть електронну адресу вище.",sent:"Якщо акаунт існує, запит на відновлення пароля надіслано. Перевірте папку «Спам».",fail:"Не вдалося надіслати запит. Спробуйте пізніше.",title:"Новий пароль",intro:"Установіть надійний пароль WEBU Residence.",label:"Новий пароль (щонайменше 12 символів)",save:"Зберегти пароль",short:"Не менше 12 символів.",saveFail:"Не вдалося змінити пароль. Запросіть нове посилання."}
 };
 const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const staffEntryMode=new URLSearchParams(location.search).get('view')==='reception';
+const entryText={
+sk:{resident:"Študenti",staff:"Recepcia / Admin",title:"Prihlásenie recepcie",intro:"Zabezpečený vstup pre recepciu a administrátorov Student House Bratislava.",note:"Prístup je povolený iba schváleným zamestnancom recepcie. Registračný formulár je určený študentom.",denied:"Tento účet nemá oprávnenie recepcie."},
+en:{resident:"Residents",staff:"Reception / Admin",title:"Reception sign in",intro:"Secure sign in for authorized Student House Bratislava reception staff.",note:"Only approved reception staff can access this area. Registration is for residents.",denied:"This account does not have reception access."},
+ru:{resident:"Студенты",staff:"Ресепшен / Админ",title:"Вход для ресепшена",intro:"Защищённый вход для сотрудников ресепшена Student House Bratislava.",note:"Доступ только для уполномоченных сотрудников. Регистрация — для студентов.",denied:"У этой учётной записи нет доступа к ресепшену."},
+uk:{resident:"Студенти",staff:"Рецепція / Адмін",title:"Вхід для рецепції",intro:"Захищений вхід для співробітників рецепції Student House Bratislava.",note:"Доступ лише для уповноважених співробітників. Реєстрація — для студентів.",denied:"Цей обліковий запис не має доступу до рецепції."}
+};
 let lang=(new URLSearchParams(location.search).get('lang')||'sk').toLowerCase();if(!tr[lang])lang='sk';let t=tr[lang],db=null,user=null,member=null,resident=null,tab='overview',memberships=[],organizationNames={},resetMode=false;
-function translate(){const b=$('backToWebsite');const prefixes={sk:'',en:'en/',ru:'ru/',uk:'ua/'};const captions={sk:'← Späť na web Student House Bratislava',en:'← Back to Student House website',ru:'← Вернуться на сайт Student House',uk:'← Повернутися на сайт Student House'};b.href='https://studenthousebratislavanew.wordpress.com/'+prefixes[lang];b.textContent=captions[lang];t=tr[lang];document.documentElement.lang=lang;$('welcome').textContent=t[0];$('subtitle').textContent=t[1];$('sign').textContent=t[2];$('signbtn').textContent=t[2];$('intro').textContent=t[3];$('pwlabel').textContent=t[4];$('invite').textContent=t[5];$('zone').textContent=t[6];$('out').textContent=t[7];$('lang').value=lang;$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode){$('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro}}
+function translate(){const b=$('backToWebsite');const prefixes={sk:'',en:'en/',ru:'ru/',uk:'ua/'};const captions={sk:'← Späť na web Student House Bratislava',en:'← Back to Student House website',ru:'← Вернуться на сайт Student House',uk:'← Повернутися на сайт Student House'};b.href='https://studenthousebratislavanew.wordpress.com/'+prefixes[lang];b.textContent=captions[lang];t=tr[lang];document.documentElement.lang=lang;$('welcome').textContent=t[0];$('subtitle').textContent=t[1];$('sign').textContent=t[2];$('signbtn').textContent=t[2];$('intro').textContent=t[3];$('pwlabel').textContent=t[4];$('invite').textContent=t[5];$('zone').textContent=t[6];$('out').textContent=t[7];$('lang').value=lang;
+const e=entryText[lang];$('residentEntryLink').textContent=e.resident;$('staffEntryLink').textContent=e.staff;
+$('residentEntryLink').href='/student-house-portal/?lang='+lang;
+$('staffEntryLink').href='/student-house-portal/?view=reception&lang='+lang;
+for(const id of ['residentEntryLink','staffEntryLink']){const current=(staffEntryMode? id==='staffEntryLink':id==='residentEntryLink');$(id).style.background=current?'#142b4d':'#fff';$(id).style.color=current?'#fff':'#142b4d';if(current)$(id).setAttribute('aria-current','page');else $(id).removeAttribute('aria-current')}
+$('openRegistration').classList.toggle('hide',staffEntryMode);
+if(staffEntryMode&&!resetMode){$('sign').textContent=e.title;$('intro').textContent=e.intro;$('invite').textContent=e.note;}$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode){$('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro}}
 function translateRegister(){
  const r=R[lang];
  for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labRoom:"room",labContract:"contract",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=r[k];
@@ -786,7 +804,8 @@ async function signedIn(u){
  // The verified first administrator is provisioned server-side; no browser self-elevation.
  const {data:ms,error}=await db.from('organization_memberships')
   .select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50);
- if(error||!ms?.length){
+ if(error||!ms?.length || (staffEntryMode&&!ms.some(m=>m.role==='reception'||m.role==='org_admin'))){
+  if(staffEntryMode){await db.auth.signOut();await signedIn(null);$('error').textContent=entryText[lang].denied;return;}
   member=null;resident=null;memberships=[];organizationNames={};
   $('orgSelectorWrap').classList.add('hide');$('tabs').replaceChildren();$('records').textContent=t[9];return;
  }
