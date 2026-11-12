@@ -81,7 +81,7 @@ body.portal-open #app .item{padding:17px 0}
 <a id="residentEntryLink" href="/student-house-portal/" style="display:block;text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Študenti</a>
 <a id="staffEntryLink" href="/student-house-portal/?view=reception" style="display:block;text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Recepcia / Admin</a>
 </nav>
-<select id="lang"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label>E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel">Heslo</label><input type="password" id="password" autocomplete="current-password" required><button type="button" id="forgotPassword" style="background:transparent;color:#18588d;margin-top:9px;width:100%;text-align:right;text-decoration:underline;padding:8px 0">Zabudnuté heslo?</button><button id="signbtn" type="submit">Prihlásiť sa</button></form>
+<select id="lang"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label>E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel">Heslo</label><input type="password" id="password" autocomplete="current-password" required><button type="button" id="forgotPassword" style="background:transparent;color:#18588d;margin-top:9px;width:100%;text-align:center;text-decoration:underline;padding:8px 0;white-space:normal;overflow-wrap:anywhere">Zabudnuté heslo?</button><button id="signbtn" type="submit">Prihlásiť sa</button></form>
 <form id="passwordResetForm" class="hide">
 <label id="resetNewLabel" for="resetPasswordValue">Nové heslo (minimálne 12 znakov)</label>
 <input type="password" id="resetPasswordValue" autocomplete="new-password" minlength="12" maxlength="200" required>
@@ -892,5 +892,12 @@ $('passwordResetForm').addEventListener('submit',async e=>{
 });
 $('out').addEventListener('click',async()=>{await db.auth.signOut();member=null;resident=null;await signedIn(null)});
 if(!window.supabase||!K){$('error').textContent='Login service unavailable.';return}
-db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'pkce'}});db.auth.onAuthStateChange(event=>{if(event==='PASSWORD_RECOVERY')showPasswordRecovery()});db.auth.getUser().then(({data})=>{if(data?.user&&!resetMode)void signedIn(data.user)});
+db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'implicit'}});// Implicit recovery tokens can be redeemed in the mobile browser opened by Gmail.
+// PKCE recovery requires the code verifier stored in the *original* browser,
+// which is not available in Gmail's separate in-app browser.
+const recoveryRedirect=new URLSearchParams(window.location.hash.slice(1)).get('type')==='recovery';
+db.auth.onAuthStateChange((event,session)=>{
+ if(session && (event==='PASSWORD_RECOVERY'||(event==='INITIAL_SESSION'&&recoveryRedirect)))showPasswordRecovery();
+});
+db.auth.getUser().then(({data})=>{if(data?.user&&!resetMode)void signedIn(data.user)});
 })();</script></body></html>
