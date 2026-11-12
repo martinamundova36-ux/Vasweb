@@ -823,6 +823,7 @@ async function signedIn(u){
  await chooseOrganization(ids[0]);
 }
 $('lang').addEventListener('change',e=>{lang=e.target.value;translate();translateRegister();if(member){renderTabs();void renderPanel()}});translate();translateRegister();
+if(new URLSearchParams(location.search).get('view')==='register'&&!staffEntryMode)setRegistration(true);
 $('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=t[8];return}await signedIn(data.user)});
 function showPasswordRecovery(){
  resetMode=true;
