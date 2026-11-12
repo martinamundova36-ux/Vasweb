@@ -192,6 +192,17 @@ ui.ru.profile="Мой профиль";
 ui.uk.profile="Мій профіль";
 const label=k=>(ui[lang]||ui.sk)[k]||ui.sk[k]||k;
 const make=(tag,cls,value)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(value!==undefined)e.textContent=String(value);return e};
+const financeTerms={
+sk:{resident:"Študent",chargeAdd:"Pridať mesačný predpis",paymentAdd:"Zaevidovať overenú platbu",period:"Mesiac",amount:"Suma v €",date:"Dátum",due:"Splatnosť",method:"Spôsob platby",reference:"Referencia / variabilný symbol",bank:"Bankový prevod",cash:"Hotovosť",other:"Iné",saveCharge:"Uložiť predpis",savePayment:"Uložiť úhradu",saved:"Údaje boli uložené.",failed:"Zápis sa nepodaril. Skontroluj údaje alebo duplicitu.",needsResident:"Najprv schváľ registráciu študenta.",planAdd:"Schváliť splátkový kalendár",charge:"Predpis",title:"Názov splátkového kalendára",installments:"Počet splátok",savePlan:"Schváliť splátky",planAmount:"Súčet splátok sa musí rovnať celej sume vybraného predpisu.",balance:"Evidovaný rozdiel predpisov a prijatých úhrad",receipts:"Platby musí recepcia overiť pred zapísaním.",dates:"Termíny splátok",missingCharges:"Najprv vytvor predpis nájomného."},
+en:{resident:"Resident",chargeAdd:"Add rent charge",paymentAdd:"Record verified payment",period:"Month",amount:"Amount in €",date:"Date",due:"Due date",method:"Payment method",reference:"Payment reference",bank:"Bank transfer",cash:"Cash",other:"Other",saveCharge:"Save charge",savePayment:"Save payment",saved:"Saved successfully.",failed:"Unable to save. Check details or duplicates.",needsResident:"Approve a resident registration first.",planAdd:"Approve installment schedule",charge:"Rent charge",title:"Installment schedule title",installments:"Installments",savePlan:"Approve schedule",planAmount:"Installments must add up to the full charge amount.",balance:"Recorded difference between rent charges and payments",receipts:"Reception must verify payments before recording them.",dates:"Installment dates",missingCharges:"Create a rent charge first."},
+ru:{resident:"Жилец",chargeAdd:"Добавить начисление",paymentAdd:"Записать подтверждённую оплату",period:"Месяц",amount:"Сумма в €",date:"Дата",due:"Срок оплаты",method:"Способ оплаты",reference:"Назначение / номер платежа",bank:"Банковский перевод",cash:"Наличные",other:"Другое",saveCharge:"Сохранить начисление",savePayment:"Сохранить оплату",saved:"Сохранено.",failed:"Ошибка сохранения. Проверьте данные.",needsResident:"Сначала подтвердите регистрацию.",planAdd:"Утвердить график платежей",charge:"Начисление",title:"Название графика",installments:"Число платежей",savePlan:"Утвердить график",planAmount:"Сумма платежей должна равняться начислению.",balance:"Разница между начислениями и учтёнными оплатами",receipts:"Ресепшен проверяет оплаты до записи.",dates:"Даты платежей",missingCharges:"Сначала добавьте начисление."},
+uk:{resident:"Мешканець",chargeAdd:"Додати нарахування",paymentAdd:"Записати підтверджену оплату",period:"Місяць",amount:"Сума в €",date:"Дата",due:"Термін оплати",method:"Спосіб оплати",reference:"Призначення / номер платежу",bank:"Банківський переказ",cash:"Готівка",other:"Інше",saveCharge:"Зберегти нарахування",savePayment:"Зберегти платіж",saved:"Збережено.",failed:"Помилка збереження. Перевірте дані.",needsResident:"Спочатку підтвердіть реєстрацію.",planAdd:"Затвердити графік платежів",charge:"Нарахування",title:"Назва графіка",installments:"Кількість платежів",savePlan:"Затвердити графік",planAmount:"Сума платежів має дорівнювати нарахуванню.",balance:"Різниця між нарахуваннями та зареєстрованими оплатами",receipts:"Рецепція перевіряє платежі перед записом.",dates:"Дати платежів",missingCharges:"Спочатку створіть нарахування."}
+};
+const fin=k=>(financeTerms[lang]||financeTerms.sk)[k]||k;
+const labeled=(caption,input)=>{const wrap=make('div');wrap.append(make('label','',caption),input);return wrap};
+const selector=(rows,valueKey,labelText)=>{const sel=make('select');sel.required=true;for(const item of rows){const o=make('option','',labelText(item));o.value=item[valueKey];sel.append(o)}return sel};
+const euroInput=()=>{const x=make('input');x.type='number';x.min='0.01';x.max='100000';x.step='0.01';x.required=true;return x};
+const dateInput=()=>{const x=make('input');x.type='date';x.required=true;return x};
 const money=n=>new Intl.NumberFormat(lang==='en'?'en-GB':'sk-SK',{style:'currency',currency:'EUR'}).format(Number(n)||0);
 const day=s=>{if(!s)return '—';const date=new Date(String(s).slice(0,10)+'T12:00:00');return Number.isNaN(date.getTime())?String(s):date.toLocaleDateString(lang==='en'?'en-GB':'sk-SK')};
 const isStaff=()=>!!member&&member.role!=='student';
@@ -502,26 +513,107 @@ async function renderPanel(){
   if(tab==='payments'){
    heading(label('payments'),label('financeNote'));
    const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
-   const [charges,paid]=await Promise.all([list('rent_charges',filter),list('payments',filter)]);
+   const [charges,paid,people]=await Promise.all([list('rent_charges',filter),list('payments',filter),staff?list('residents'):Promise.resolve([])]);
+   const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
+   const residentLabel=id=>{const p=peopleById[id];return p?(p.full_name+' · '+(p.verified_room_number||'—')):'—'};
+   if(charges.length||paid.length){
+    const chargedCents=charges.reduce((acc,x)=>acc+Math.round(Number(x.amount)*100),0);
+    const paidCents=paid.reduce((acc,x)=>acc+Math.round(Number(x.amount)*100),0);
+    const summary=make('div','mini-note',fin('balance')+': '+money((chargedCents-paidCents)/100));
+    container.append(summary);
+   }
    subheading(label('rent'));
    if(!charges.length)empty();
-   for(const x of charges.sort((a,b)=>String(b.due_on).localeCompare(String(a.due_on))))container.append(row(x.period+' · '+money(x.amount),label('due')+': '+day(x.due_on)));
+   for(const x of charges.sort((a,b)=>String(b.due_on).localeCompare(String(a.due_on)))){
+    container.append(row((staff?residentLabel(x.resident_id)+' · ':'')+x.period+' · '+money(x.amount),fin('due')+': '+day(x.due_on)));
+   }
    subheading(label('paid'));
    if(!paid.length)empty();
-   for(const x of paid.sort((a,b)=>String(b.received_on).localeCompare(String(a.received_on))))container.append(row('✓ '+money(x.amount),day(x.received_on)+' · '+x.method));
+   for(const x of paid.sort((a,b)=>String(b.received_on).localeCompare(String(a.received_on)))){
+    container.append(row('✓ '+(staff?residentLabel(x.resident_id)+' · ':'')+money(x.amount),day(x.received_on)+' · '+x.method+' · '+x.reference));
+   }
+   if(staff){
+    if(!people.length){message(fin('needsResident'));return;}
+    const chooseResident=()=>selector(people,'id',p=>p.full_name+' · '+(p.verified_room_number||'—'));
+    const chargeForm=make('form','staff-form');chargeForm.append(make('strong','',fin('chargeAdd')));
+    const chargeResident=chooseResident(),month=make('input'),chargeAmount=euroInput(),due=dateInput();
+    month.type='month';month.required=true;month.value=new Date().toISOString().slice(0,7);
+    chargeForm.append(labeled(fin('resident'),chargeResident),labeled(fin('period'),month),labeled(fin('amount'),chargeAmount),labeled(fin('due'),due));
+    const saveCharge=make('button','',fin('saveCharge'));saveCharge.type='submit';chargeForm.append(saveCharge);
+    chargeForm.addEventListener('submit',async e=>{
+     e.preventDefault();saveCharge.disabled=true;
+     const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'charge',tenant_id:tenant,resident_id:chargeResident.value,period:month.value,amount:chargeAmount.value,due_on:due.value}});
+     if(error||!data?.ok){alert(fin('failed'));saveCharge.disabled=false;return}
+     alert(fin('saved'));void renderPanel();
+    });
+    container.append(chargeForm);
+    const paymentForm=make('form','staff-form');paymentForm.append(make('strong','',fin('paymentAdd')));
+    const payResident=chooseResident(),payAmount=euroInput(),received=dateInput(),method=make('select'),reference=make('input');
+    received.value=new Date().toISOString().slice(0,10);reference.required=true;reference.minLength=2;reference.maxLength=100;
+    for(const [v,name] of [['bank',fin('bank')],['cash',fin('cash')],['other',fin('other')]]){const option=make('option','',name);option.value=v;method.append(option)}
+    paymentForm.append(labeled(fin('resident'),payResident),labeled(fin('amount'),payAmount),labeled(fin('date'),received),labeled(fin('method'),method),labeled(fin('reference'),reference),make('p','muted',fin('receipts')));
+    const savePayment=make('button','',fin('savePayment'));savePayment.type='submit';paymentForm.append(savePayment);
+    paymentForm.addEventListener('submit',async e=>{
+     e.preventDefault();if(!confirm(fin('receipts')))return;savePayment.disabled=true;
+     const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'payment',tenant_id:tenant,resident_id:payResident.value,amount:payAmount.value,received_on:received.value,method:method.value,reference:reference.value}});
+     if(error||!data?.ok){alert(fin('failed'));savePayment.disabled=false;return}
+     alert(fin('saved'));void renderPanel();
+    });
+    container.append(paymentForm);
+   }
    return;
   }
   if(tab==='installments'){
    heading(label('installments'),label('planNote'));
    const plans=await list('installment_plans',staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'});
-   if(!plans.length){empty();return}
-   const items=await list('installment_items');
-   plans.forEach(p=>{
-     const entry=row(p.title,staff?'Resident ID: '+p.resident_id:'');
+   const [items,charges,people]=await Promise.all([
+     list('installment_items'),staff?list('rent_charges'):Promise.resolve([]),staff?list('residents'):Promise.resolve([])
+   ]);
+   const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
+   if(!plans.length)empty();
+   for(const p of plans){
+     const entry=row(p.title,staff?(peopleById[p.resident_id]?.full_name||'—'):'');
      const related=items.filter(x=>x.plan_id===p.id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
-     related.forEach(x=>entry.append(make('div','small',day(x.due_on)+' · '+money(x.amount))));
+     for(const x of related)entry.append(make('div','small',day(x.due_on)+' · '+money(x.amount)));
      container.append(entry);
-   });
+   }
+   if(staff){
+    const available=charges.filter(x=>!plans.some(p=>p.charge_id===x.id));
+    if(!available.length){message(fin('missingCharges'));return;}
+    const planForm=make('form','staff-form');planForm.append(make('strong','',fin('planAdd')));
+    const charge=selector(available,'id',x=>(peopleById[x.resident_id]?.full_name||'—')+' · '+x.period+' · '+money(x.amount));
+    const title=make('input');title.required=true;title.minLength=2;title.maxLength=150;
+    title.value=lang==='en'?'Agreed installment schedule':'Dohodnutý splátkový kalendár';
+    const count=make('input');count.type='number';count.min='2';count.max='12';count.value='2';count.required=true;
+    const schedule=make('div','data-list');
+    const rows=[];
+    const build=()=>{
+      schedule.replaceChildren();rows.length=0;
+      const selected=available.find(x=>x.id===charge.value);
+      const cents=Math.round(Number(selected?.amount||0)*100),n=Math.max(2,Math.min(12,Number(count.value)||2));
+      for(let j=0;j<n;j++){
+        const line=make('div','inline-grid'),date=dateInput(),sum=euroInput();
+        sum.value=((Math.floor(cents/n)+(j===n-1?cents%n:0))/100).toFixed(2);
+        date.value=selected?.due_on||'';
+        line.append(labeled(fin('date')+' '+(j+1),date),labeled(fin('amount'),sum));
+        schedule.append(line);rows.push({date,sum});
+      }
+    };
+    count.addEventListener('change',build);charge.addEventListener('change',build);build();
+    planForm.append(labeled(fin('charge'),charge),labeled(fin('title'),title),labeled(fin('installments'),count),make('p','muted',fin('planAmount')),schedule);
+    const savePlan=make('button','',fin('savePlan'));savePlan.type='submit';planForm.append(savePlan);
+    planForm.addEventListener('submit',async e=>{
+      e.preventDefault();savePlan.disabled=true;
+      const items=rows.map(r=>({amount:r.sum.value,due_on:r.date.value}));
+      const expected=Math.round(Number(available.find(x=>x.id===charge.value)?.amount||0)*100);
+      const actual=items.reduce((acc,x)=>acc+Math.round(Number(x.amount)*100),0);
+      if(actual!==expected){alert(fin('planAmount'));savePlan.disabled=false;return}
+      const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'plan',tenant_id:tenant,charge_id:charge.value,title:title.value,items}});
+      if(error||!data?.ok){alert(fin('failed'));savePlan.disabled=false;return}
+      alert(fin('saved'));void renderPanel();
+    });
+    container.append(planForm);
+   }
    return;
   }
   if(tab==='documents'){await renderResidentDocuments(tenant,staff,own);return;}
