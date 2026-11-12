@@ -500,6 +500,39 @@ async function renderPanel(){
       alert(label('success'));void renderPanel();
      });
      container.append(form);
+     const people=await list('residents');
+     if(people.length&&rooms.length){
+       const assign=make('form','staff-form');assign.append(make('strong','',lang==='en'?'Assign a resident to a room':'Priradiť študenta k izbe'));
+       const residentSelect=selector(people,'id',p=>p.full_name+' · '+(p.verified_room_number||'—'));
+       const roomSelect=selector(rooms,'id',r=>r.name+' · '+r.category+' ('+r.capacity+')');
+       const from=dateInput(),to=dateInput(),rent=euroInput(),dueDay=make('input');
+       dueDay.type='number';dueDay.min='1';dueDay.max='28';dueDay.step='1';dueDay.value='5';dueDay.required=true;
+       const fillDates=()=>{
+         const p=people.find(x=>x.id===residentSelect.value);
+         from.value=p?.accommodation_from||'';
+         to.value=p?.accommodation_to||'';
+         const room=rooms.find(x=>x.name===p?.verified_room_number);
+         if(room)roomSelect.value=room.id;
+       };
+       fillDates();residentSelect.addEventListener('change',fillDates);
+       const grid=make('div','inline-grid');
+       grid.append(labeled(fin('resident'),residentSelect),labeled(label('roomNumber'),roomSelect),
+         labeled(lang==='en'?'Start date':'Ubytovanie od',from),labeled(lang==='en'?'End date':'Ubytovanie do',to),
+         labeled(lang==='en'?'Monthly rent (€)':'Mesačné nájomné (€)',rent),
+         labeled(lang==='en'?'Rent due day':'Splatnosť v mesiaci (deň)',dueDay));
+       const saveRoom=make('button','',label('save'));saveRoom.type='submit';
+       assign.append(grid,saveRoom);
+       assign.addEventListener('submit',async e=>{
+         e.preventDefault();
+         if(to.value<from.value){alert(label('error'));return}
+         saveRoom.disabled=true;
+         const {data,error}=await db.from('tenancies').insert({tenant_id:tenant,resident_id:residentSelect.value,room_id:roomSelect.value,
+           starts_on:from.value,ends_on:to.value,rent:Number(rent.value),due_day:Number(dueDay.value)}).select('id');
+         if(error||!data?.length){alert(error?.code==='23514'?(lang==='en'?'The room is full or the resident already has accommodation during these dates.':'Izba je obsadená alebo má študent v tomto období už pridelené ubytovanie.'):label('error'));saveRoom.disabled=false;return}
+         alert(label('success'));void renderPanel();
+       });
+       container.append(assign);
+     }
    }else{
      const tenancies=own?await list('tenancies',{resident_id:own}):[];
      if(!tenancies.length){empty();return}
