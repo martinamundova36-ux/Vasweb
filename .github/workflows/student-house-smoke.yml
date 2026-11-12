@@ -1,0 +1,45 @@
+name: Student House public registration smoke test
+on:
+  push:
+    paths:
+      - 'student-house-portal/**'
+      - '.github/workflows/student-house-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-registration-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check login page JavaScript syntax and registration fields
+        run: |
+          node <<'JS'
+          const fs = require('node:fs');
+          const vm = require('node:vm');
+          const html = fs.readFileSync('student-house-portal/index.html','utf8');
+          const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).filter(Boolean);
+          if (!scripts.length) throw new Error('Inline JavaScript missing');
+          for (const source of scripts) new vm.Script(source);
+          for (const id of ['regFirst','regLast','regRoom','regContract','regFrom','regTo','regEmail','regPrivacy','regForm']) {
+            if (!html.includes('id="'+id+'"')) throw new Error('Missing registration field '+id);
+          }
+          if (!html.includes('functions/v1/register-student')) throw new Error('Missing submission endpoint');
+          console.log('HTML registration fields and inline JavaScript OK');
+          JS
+      - name: Check live public registration endpoint rejects invalid data
+        run: |
+          node <<'JS'
+          (async()=>{
+            const response = await fetch('https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student',{
+              method:'POST',
+              headers:{origin:'https://www.webu.sk','content-type':'application/json'},
+              body:JSON.stringify({privacy_acknowledged:false})
+            });
+            const body=await response.json();
+            if(response.status!==400 || body.error!=='invalid_fields'){
+              throw new Error('Unexpected endpoint response: '+response.status+' '+JSON.stringify(body));
+            }
+            console.log('Public endpoint validates requests and responds correctly');
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
