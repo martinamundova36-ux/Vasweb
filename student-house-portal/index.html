@@ -470,7 +470,9 @@ async function renderPanel(){
       if(!confirm(R[lang].confirm))return;
       approve.disabled=true;
       const {data,error}=await db.functions.invoke('manage',{body:{action:'invite',tenant_id:tenant,registration_id:x.id,role:'student',email:x.email,name:x.first_name+' '+x.last_name,room_number:x.room_number}});
-      if(error||data?.error){alert(R[lang].invitationError);approve.disabled=false;return}
+      if(error||!data?.ok){const smtp=['invitation_failed','password_email_failed'].includes(data?.error);
+       alert(R[lang].invitationError+(smtp?(lang==='en'?' Set up a free custom SMTP server in Supabase Auth before inviting external addresses.':' V Supabase Authentication treba nastaviť vlastné SMTP pre e-mailové adresy študentov mimo tímu projektu.'):''));
+       approve.disabled=false;return}
       alert(R[lang].sent);
       void renderPanel();
      });
