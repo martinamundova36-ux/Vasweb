@@ -67,7 +67,15 @@ body.portal-open #app .item{padding:17px 0}
 </style></head><body>
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
-<div id="login" class="login"><select id="lang"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label>E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel">Heslo</label><input type="password" id="password" autocomplete="current-password" required><button id="signbtn" type="submit">Prihlásiť sa</button></form><p id="error" class="danger" aria-live="polite"></p><footer id="invite">Prístupové údaje vydáva recepcia po overení registrácie.</footer>
+<div id="login" class="login"><select id="lang"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label>E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel">Heslo</label><input type="password" id="password" autocomplete="current-password" required><button id="signbtn" type="submit">Prihlásiť sa</button></form>
+<button type="button" id="forgotPassword" style="background:#e6eef8;color:#142b4d;margin-top:12px;width:100%">Zabudnuté heslo?</button>
+<form id="passwordResetForm" class="hide">
+<label id="resetNewLabel" for="resetPasswordValue">Nové heslo (minimálne 12 znakov)</label>
+<input type="password" id="resetPasswordValue" autocomplete="new-password" minlength="12" maxlength="200" required>
+<button id="resetSubmit" type="submit">Nastaviť nové heslo</button>
+<p id="resetMessage" role="status" aria-live="polite"></p>
+</form>
+<p id="error" class="danger" aria-live="polite"></p><footer id="invite">Prístupové údaje vydáva recepcia po overení registrácie.</footer>
 <button type="button" id="openRegistration" style="background:#e6eef8;color:#142b4d;margin-top:12px;width:100%">Registrácia</button>
 <section id="registration" class="hide">
 <h2 id="regTitle">Registrácia ubytovania</h2>
@@ -99,9 +107,15 @@ en:{open:"Register",title:"Accommodation registration",intro:"Anyone may submit 
 ru:{open:"Регистрация",title:"Регистрация проживания",intro:"Любой желающий может отправить форму. Ресепшен сверит данные с договором и только после проверки активирует вход.",first:"Имя",last:"Фамилия",email:"Электронная почта",room:"Номер комнаты",contract:"Номер договора проживания",from:"Проживание с",to:"Проживание до",privacy:"Я ознакомился(-ась) с информацией об обработке персональных данных.",send:"Отправить регистрацию",back:"Вернуться ко входу",ok:"Заявка отправлена. Ресепшен проверит данные и свяжется с вами.",invalid:"Проверьте данные и даты проживания.",error:"Не удалось отправить заявку. Попробуйте позже.",limited:"Слишком много попыток. Попробуйте позже.",staff:"Регистрации",approve:"Проверено – пригласить",confirm:"Вы сверили данные с действующим договором? Будет отправлено приглашение по электронной почте.",sent:"Приглашение отправлено.",invitationError:"Не удалось отправить приглашение.",pending:"Ожидает проверки"},
 uk:{open:"Реєстрація",title:"Реєстрація проживання",intro:"Форму може надіслати будь-хто. Рецепція перевірить дані за договором і тільки тоді активує вхід.",first:"Ім'я",last:"Прізвище",email:"Електронна пошта",room:"Номер кімнати",contract:"Номер договору проживання",from:"Проживання з",to:"Проживання до",privacy:"Я ознайомився(-лася) з інформацією про обробку персональних даних.",send:"Надіслати реєстрацію",back:"Повернутися до входу",ok:"Реєстрацію надіслано. Рецепція перевірить дані та зв'яжеться з вами.",invalid:"Перевірте дані та дати проживання.",error:"Не вдалося надіслати заявку. Спробуйте пізніше.",limited:"Забагато спроб. Спробуйте пізніше.",staff:"Реєстрації",approve:"Перевірено – надіслати запрошення",confirm:"Ви перевірили дані за чинним договором? На електронну пошту буде надіслано запрошення.",sent:"Запрошення надіслано.",invitationError:"Не вдалося надіслати запрошення.",pending:"Очікує перевірки"}
 };
+const PW={
+sk:{forgot:"Zabudnuté heslo? Poslať e-mail na obnovenie",enter:"Najprv zadaj e-mail vyššie.",sent:"Ak účet existuje, na jeho e-mail bola odoslaná žiadosť o obnovenie hesla. Skontroluj aj spam.",fail:"Odoslanie sa nepodarilo. Skontroluj e-mail a skús to neskôr.",title:"Nastaviť nové heslo",intro:"Zadaj bezpečné nové heslo pre WEBU Residence.",label:"Nové heslo (aspoň 12 znakov)",save:"Uložiť nové heslo",short:"Heslo musí mať aspoň 12 znakov.",saveFail:"Heslo sa nepodarilo zmeniť. Vyžiadaj nový odkaz."},
+en:{forgot:"Forgot password? Send a reset email",enter:"Enter your email address above first.",sent:"If the account exists, a password-reset email has been requested. Check your spam folder too.",fail:"Could not request the email. Please try again later.",title:"Set a new password",intro:"Choose a secure password for WEBU Residence.",label:"New password (at least 12 characters)",save:"Save new password",short:"Use at least 12 characters.",saveFail:"Password could not be changed. Request a new link."},
+ru:{forgot:"Забыли пароль? Отправить письмо",enter:"Сначала введите адрес электронной почты выше.",sent:"Если аккаунт существует, запрос на восстановление пароля отправлен. Проверьте папку «Спам».",fail:"Не удалось отправить запрос. Попробуйте позже.",title:"Новый пароль",intro:"Задайте безопасный пароль для WEBU Residence.",label:"Новый пароль (не менее 12 символов)",save:"Сохранить пароль",short:"Не менее 12 символов.",saveFail:"Не удалось изменить пароль. Запросите новую ссылку."},
+uk:{forgot:"Забули пароль? Надіслати листа",enter:"Спочатку введіть електронну адресу вище.",sent:"Якщо акаунт існує, запит на відновлення пароля надіслано. Перевірте папку «Спам».",fail:"Не вдалося надіслати запит. Спробуйте пізніше.",title:"Новий пароль",intro:"Установіть надійний пароль WEBU Residence.",label:"Новий пароль (щонайменше 12 символів)",save:"Зберегти пароль",short:"Не менше 12 символів.",saveFail:"Не вдалося змінити пароль. Запросіть нове посилання."}
+};
 const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let lang=(new URLSearchParams(location.search).get('lang')||'sk').toLowerCase();if(!tr[lang])lang='sk';let t=tr[lang],db=null,user=null,member=null,resident=null,tab='overview',memberships=[],organizationNames={};
-function translate(){const b=$('backToWebsite');const prefixes={sk:'',en:'en/',ru:'ru/',uk:'ua/'};const captions={sk:'← Späť na web Student House Bratislava',en:'← Back to Student House website',ru:'← Вернуться на сайт Student House',uk:'← Повернутися на сайт Student House'};b.href='https://studenthousebratislavanew.wordpress.com/'+prefixes[lang];b.textContent=captions[lang];t=tr[lang];document.documentElement.lang=lang;$('welcome').textContent=t[0];$('subtitle').textContent=t[1];$('sign').textContent=t[2];$('signbtn').textContent=t[2];$('intro').textContent=t[3];$('pwlabel').textContent=t[4];$('invite').textContent=t[5];$('zone').textContent=t[6];$('out').textContent=t[7];$('lang').value=lang}
+let lang=(new URLSearchParams(location.search).get('lang')||'sk').toLowerCase();if(!tr[lang])lang='sk';let t=tr[lang],db=null,user=null,member=null,resident=null,tab='overview',memberships=[],organizationNames={},resetMode=false;
+function translate(){const b=$('backToWebsite');const prefixes={sk:'',en:'en/',ru:'ru/',uk:'ua/'};const captions={sk:'← Späť na web Student House Bratislava',en:'← Back to Student House website',ru:'← Вернуться на сайт Student House',uk:'← Повернутися на сайт Student House'};b.href='https://studenthousebratislavanew.wordpress.com/'+prefixes[lang];b.textContent=captions[lang];t=tr[lang];document.documentElement.lang=lang;$('welcome').textContent=t[0];$('subtitle').textContent=t[1];$('sign').textContent=t[2];$('signbtn').textContent=t[2];$('intro').textContent=t[3];$('pwlabel').textContent=t[4];$('invite').textContent=t[5];$('zone').textContent=t[6];$('out').textContent=t[7];$('lang').value=lang;$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode){$('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro}}
 function translateRegister(){
  const r=R[lang];
  for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labRoom:"room",labContract:"contract",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=r[k];
@@ -606,6 +620,7 @@ async function renderPanel(){
 }
 
 async function signedIn(u){
+ if(resetMode)return;
  user=u;$('login').classList.toggle('hide',!!u);$('app').classList.toggle('hide',!u);
  document.body.classList.toggle('portal-open',!!u);
  if(!u){
@@ -614,6 +629,10 @@ async function signedIn(u){
   document.title='Student House Bratislava | Študentská zóna';return;
  }
  $('user').textContent=u.email;
+ // Server verifies the owner's confirmed Auth email and grants the first admin role once.
+ // Ordinary registrations and all other users receive no privileges from this RPC.
+ const {error:bootstrapError}=await db.rpc('activate_first_webu_admin');
+ if(bootstrapError)console.warn('admin_activation_check_failed',bootstrapError.code||'unknown');
  const {data:ms,error}=await db.from('organization_memberships')
   .select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50);
  if(error||!ms?.length){
@@ -635,7 +654,34 @@ async function signedIn(u){
 }
 $('lang').addEventListener('change',e=>{lang=e.target.value;translate();translateRegister();if(member){renderTabs();void renderPanel()}});translate();translateRegister();
 $('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=t[8];return}await signedIn(data.user)});
+function showPasswordRecovery(){
+ resetMode=true;
+ $('app').classList.add('hide');$('login').classList.remove('hide');
+ for(const id of ['form','forgotPassword','openRegistration','registration','invite'])$(id).classList.add('hide');
+ $('passwordResetForm').classList.remove('hide');
+ $('error').textContent='';
+ $('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro;
+}
+$('forgotPassword').addEventListener('click',async()=>{
+ const email=$('email').value.trim(),msg=$('error'),btn=$('forgotPassword');
+ if(!email||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent=PW[lang].enter;return}
+ if(!db){msg.textContent=PW[lang].fail;return}
+ btn.disabled=true;msg.textContent='';
+ const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:'https://www.webu.sk/student-house-portal/'});
+ msg.textContent=error?PW[lang].fail:PW[lang].sent;
+ btn.disabled=false;
+});
+$('passwordResetForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const pw=$('resetPasswordValue').value,msg=$('resetMessage'),btn=$('resetSubmit');
+ if(pw.length<12){msg.textContent=PW[lang].short;return}
+ btn.disabled=true;msg.textContent='';
+ const {error}=await db.auth.updateUser({password:pw});
+ if(error){msg.textContent=PW[lang].saveFail;btn.disabled=false;return}
+ await db.auth.signOut();
+ window.location.replace('https://www.webu.sk/student-house-portal/');
+});
 $('out').addEventListener('click',async()=>{await db.auth.signOut();member=null;resident=null;await signedIn(null)});
 if(!window.supabase||!K){$('error').textContent='Login service unavailable.';return}
-db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'pkce'}});db.auth.getUser().then(({data})=>{if(data?.user)void signedIn(data.user)});
+db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'pkce'}});db.auth.onAuthStateChange(event=>{if(event==='PASSWORD_RECOVERY')showPasswordRecovery()});db.auth.getUser().then(({data})=>{if(data?.user&&!resetMode)void signedIn(data.user)});
 })();</script></body></html>
