@@ -188,8 +188,8 @@ async function renderPanel(){
     const chargeTotal=(d.rent_charges||[]).reduce((v,x)=>v+Number(x.amount||0),0);
     const paidTotal=(d.payments||[]).reduce((v,x)=>v+Number(x.amount||0),0);
     cards.append(
-      kpi(label('rent'),money(chargeTotal),'','payments'),
-      kpi(label('paid'),money(paidTotal),'','payments'),
+      kpi(label('rent'),d.rent_charges.length?money(chargeTotal):'—','','payments'),
+      kpi(label('paid'),d.payments.length?money(paidTotal):'—','','payments'),
       kpi(label('cleaningCount'),d.cleaning_bookings.filter(x=>['requested','approved'].includes(x.status)).length,'','cleaning'),
       kpi(label('requestsCount'),d.service_requests.filter(x=>['new','in_progress'].includes(x.status)).length,'','requests')
     );
