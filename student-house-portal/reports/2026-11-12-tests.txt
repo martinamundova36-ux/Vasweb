@@ -2,13 +2,13 @@
 > test
 > cd .. && node tests/student-house.test.mjs && node tests/profile-rls.test.mjs && node tests/approval.test.mjs && node tests/manage.test.mjs
 
-✔ CSV handles BOM, quoted delimiters, multiline values and quotes (3.804154ms)
-✔ imports validate all rows before writes and never overwrite existing rooms (0.953162ms)
-✔ Excel export neutralizes spreadsheet formulas (0.440469ms)
-✔ room inventory retains all residents and only current stays (0.317025ms)
-✔ all inline application JavaScript parses (3.977047ms)
-✔ entrypoint role gates and session stores are separate (2.351938ms)
-✔ charge balances exclude reversed allocations and retain partial payments (0.545103ms)
+✔ CSV handles BOM, quoted delimiters, multiline values and quotes (2.626791ms)
+✔ imports validate all rows before writes and never overwrite existing rooms (0.81757ms)
+✔ Excel export neutralizes spreadsheet formulas (0.603118ms)
+✔ room inventory retains all residents and only current stays (0.405481ms)
+✔ all inline application JavaScript parses (4.493566ms)
+✔ entrypoint role gates and session stores are separate (2.425559ms)
+✔ charge balances exclude reversed allocations and retain partial payments (0.651957ms)
 ℹ tests 7
 ℹ suites 0
 ℹ pass 7
@@ -16,12 +16,14 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 34.339705
+ℹ duration_ms 31.312877
 PASS PostgreSQL: own profile only, foreign profile denied, expired session denied
 PASS 31 isolated PostgreSQL/RLS/ledger assertions
+PASS verified receipt FIFO: denied actor, partial and split allocations, duplicate rejection, unallocated overpayment credit, reversal-aware new allocations
 PASS atomic approval: denied actor, complete calendar, rollback, duplicate month, verified partial rent, tenancy, no fabricated payment, duplicate request, browser RPC denied
-(node:34362) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
-(Use `node --trace-warnings ...` to show where the warning was created)
 PASS 9 manage handler scenarios, including legacy invitation and private signed-download preservation (synthetic transport)
+(node:35954) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
 
 PASS 12 Chromium role/entrypoint/mobile-width scenarios with synthetic SDK; SK/EN/RU/UK switching checked.
+PASS 3 actual HTTPS public mobile Chromium entries: HTTP 200, build 20261112-atomic2, registration form visible only on registration entry, authenticated app hidden, zero page errors. No credentials entered.
