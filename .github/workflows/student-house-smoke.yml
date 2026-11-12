@@ -27,7 +27,7 @@ jobs:
           }
           if (!html.includes('functions/v1/register-student')) throw new Error('Missing submission endpoint');
           if (!html.includes('id="backToWebsite"') || !html.includes('position:sticky')) throw new Error('Persistent back to Student House link missing');
-          if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes("await import('./staff.js')") || !staff.includes('registration_id:person.id')) throw new Error('Real finance, private documents or verified approval missing');
+          if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes("await import('./staff.js?v=") || !staff.includes('registration_id:person.id')) throw new Error('Real finance, private documents or verified approval missing');
           if (!html.includes('id="orgSelector"') || !html.includes('chooseOrganization(')) throw new Error('Residence switcher missing');
           for(const name of ["installments","documents","registrations","payments","cleaning","notices","rooms","requests"]){
             if(name==='registrations'){if(!html.includes("['overview','registrations'") || !html.includes('renderStaffScreen(') || !staff.includes('registration_id:person.id'))throw new Error('Missing secure staff registration section');continue;}
@@ -44,7 +44,8 @@ jobs:
           const finance=fs.readFileSync('student-house-portal/supabase/residence-finance/index.ts','utf8');
           if(!finance.includes('auth.getUser()') || !finance.includes('residence_record_payment') || !finance.includes('residence_create_installment_plan')) throw new Error('Secured finance API implementation missing');
           const manage=fs.readFileSync('student-house-portal/supabase/manage/index.ts','utf8');
-          if(!manage.includes('registration_not_pending') || !manage.includes('verified_contract_number')) throw new Error('Reception verification contract logic missing');
+          const approval=fs.readFileSync('student-house-portal/supabase/migrations/20261112193508_atomic_registration_approval.sql','utf8');
+          if(!manage.includes('registration_not_pending') || !manage.includes('residence_approve_registration') || !approval.includes('verified_contract_number')) throw new Error('Reception verification contract logic missing');
           const edge = fs.readFileSync('student-house-portal/supabase/register-student/index.ts','utf8');
           if (!edge.includes('.not("verified_at","is",null)') || !edge.includes('tenant_id:tenantId')) throw new Error('Verified-domain tenant routing missing');
           console.log('Registration, multi-residence switcher and tenant routing checks passed');
@@ -119,3 +120,17 @@ jobs:
             console.log('Unauthenticated staff routes denied and cross-origin preflight OK');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
+
+  isolated-functional-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: tests/package-lock.json
+      - run: npm ci --prefix tests --ignore-scripts
+      - run: npm test --prefix tests
+      - run: npx --prefix tests playwright install --with-deps chromium
+      - run: npm run browser --prefix tests

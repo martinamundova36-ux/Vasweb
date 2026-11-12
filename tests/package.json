@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "cd .. && node tests/student-house.test.mjs && node tests/profile-rls.test.mjs && node tests/approval.test.mjs && node tests/manage.test.mjs",
+    "browser": "cd .. && node tests/browser.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.16",
+    "playwright": "1.62.1"
+  }
+}

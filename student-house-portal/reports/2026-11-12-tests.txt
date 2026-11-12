@@ -1,0 +1,27 @@
+
+> test
+> cd .. && node tests/student-house.test.mjs && node tests/profile-rls.test.mjs && node tests/approval.test.mjs && node tests/manage.test.mjs
+
+✔ CSV handles BOM, quoted delimiters, multiline values and quotes (3.804154ms)
+✔ imports validate all rows before writes and never overwrite existing rooms (0.953162ms)
+✔ Excel export neutralizes spreadsheet formulas (0.440469ms)
+✔ room inventory retains all residents and only current stays (0.317025ms)
+✔ all inline application JavaScript parses (3.977047ms)
+✔ entrypoint role gates and session stores are separate (2.351938ms)
+✔ charge balances exclude reversed allocations and retain partial payments (0.545103ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34.339705
+PASS PostgreSQL: own profile only, foreign profile denied, expired session denied
+PASS 31 isolated PostgreSQL/RLS/ledger assertions
+PASS atomic approval: denied actor, complete calendar, rollback, duplicate month, verified partial rent, tenancy, no fabricated payment, duplicate request, browser RPC denied
+(node:34362) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS 9 manage handler scenarios, including legacy invitation and private signed-download preservation (synthetic transport)
+
+PASS 12 Chromium role/entrypoint/mobile-width scenarios with synthetic SDK; SK/EN/RU/UK switching checked.

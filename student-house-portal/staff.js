@@ -20,6 +20,12 @@ const texts = {
  en: {search:'Search by name, email, room or contract',all:'Everyone',active:'Active',inactive:'Inactive',count:'Showing',open:'Open profile',back:'Back to residents',contract:'Contract number',period:'Accommodation period',state:'Account status',activeOne:'Active',inactiveOne:'Inactive',files:'Photo and signed documents',missing:'Not uploaded yet',photo:'Photo',rules:'Signed house rules',gdpr:'Signed GDPR acknowledgement',private:'Private document',pending:'Awaiting verification',invited:'Approved – invitation requested',rejected:'Rejected',allRegistrations:'All statuses',approve:'Verify and approve registration',reject:'Reject registration',approveConfirm:'Have you verified the name, room, contract and accommodation dates against the actual contract? Approval activates resident access and requests an invitation.',rejectConfirm:'Reject this pending registration?',inviteOK:'Registration approved; the server accepted the email request. Inbox delivery has not been verified.',failed:'Unable to save. Refresh the list before trying again.',emailFailed:'The invitation could not be sent. Approval has not been confirmed. Check Supabase email delivery; do not retry repeatedly.',rate:'Email sending is temporarily limited. Do not send another attempt now.',conflict:'This registration or membership has changed. Refresh the list.',refresh:'Refresh list',empty:'No records match this filter.',review:'Approve document',return:'Return for correction',note:'Document review note',reviewConfirm:'Confirm this document review result?',approved:'Approved',needsFix:'Returned for correction',view:'Open file',limit:'This list contains up to 1,000 accessible records, limited to your residence.',roleAdmin:'Student House administrator',roleReception:'Student House reception',noAccess:'Only administrators and reception can access this section.',fileFailed:'Unable to load documents. The profile remains available.',save:'Save room',room:'Room number',email:'Email',noRoom:'Unassigned',details:'Registration details',registered:'Submitted',saving:'Saving…'}
 };
 
+
+Object.assign(texts, {
+ ru:{search:'Поиск имени, почты, комнаты или договора',all:'Все',active:'Активные',inactive:'Неактивные',count:'Показано',open:'Открыть профиль',back:'Назад к студентам',contract:'Номер договора',period:'Период проживания',state:'Состояние аккаунта',activeOne:'Активен',inactiveOne:'Неактивен',files:'Фото и подписанные документы',missing:'Не загружено',photo:'Фото',rules:'Подписанные правила',gdpr:'Подписанное уведомление GDPR',private:'Личный документ',pending:'Ожидает проверки',invited:'Одобрено — письмо запрошено',rejected:'Отклонено',allRegistrations:'Все состояния',approve:'Проверить и одобрить регистрацию',reject:'Отклонить регистрацию',approveConfirm:'Данные проверены по фактическому договору? Подтвердить доступ и начисления?',rejectConfirm:'Отклонить заявку?',inviteOK:'Регистрация одобрена. Сервер принял запрос письма; доставка не проверена.',failed:'Не удалось сохранить. Обновите список.',emailFailed:'Запрос письма не принят. Проверьте почту Supabase. Не повторяйте запросы подряд.',rate:'Отправка писем временно ограничена.',conflict:'Заявка или членство изменились. Обновите список.',refresh:'Обновить список',empty:'Нет подходящих записей.',review:'Одобрить документ',return:'Вернуть на исправление',note:'Комментарий проверки',reviewConfirm:'Подтвердить результат проверки?',approved:'Одобрено',needsFix:'Требуется исправление',view:'Открыть файл',limit:'До 1 000 записей только вашего общежития.',roleAdmin:'Администратор Student House',roleReception:'Ресепшен Student House',noAccess:'Только для администрации и ресепшена.',fileFailed:'Документы не загрузились. Профиль доступен.',save:'Сохранить комнату',room:'Номер комнаты',email:'Почта',noRoom:'Не назначена',details:'Данные заявки',registered:'Отправлено',saving:'Сохранение…'},
+ uk:{search:'Пошук імені, пошти, кімнати або договору',all:'Усі',active:'Активні',inactive:'Неактивні',count:'Показано',open:'Відкрити профіль',back:'Назад до студентів',contract:'Номер договору',period:'Період проживання',state:'Стан облікового запису',activeOne:'Активний',inactiveOne:'Неактивний',files:'Фото й підписані документи',missing:'Не завантажено',photo:'Фото',rules:'Підписані правила',gdpr:'Підписане повідомлення GDPR',private:'Особистий документ',pending:'Очікує перевірки',invited:'Схвалено — лист запитано',rejected:'Відхилено',allRegistrations:'Усі стани',approve:'Перевірити й схвалити реєстрацію',reject:'Відхилити реєстрацію',approveConfirm:'Дані перевірено за фактичним договором? Підтвердити доступ і нарахування?',rejectConfirm:'Відхилити заявку?',inviteOK:'Реєстрацію схвалено. Сервер прийняв запит листа; доставку не перевірено.',failed:'Не вдалося зберегти. Оновіть перелік.',emailFailed:'Запит листа не прийнято. Перевірте пошту Supabase. Не повторюйте запити поспіль.',rate:'Надсилання листів тимчасово обмежено.',conflict:'Заявка або членство змінилися. Оновіть перелік.',refresh:'Оновити перелік',empty:'Немає відповідних записів.',review:'Схвалити документ',return:'Повернути на виправлення',note:'Коментар перевірки',reviewConfirm:'Підтвердити результат перевірки?',approved:'Схвалено',needsFix:'Потрібне виправлення',view:'Відкрити файл',limit:'До 1 000 записів лише вашого гуртожитку.',roleAdmin:'Адміністратор Student House',roleReception:'Рецепція Student House',noAccess:'Лише для адміністрації та рецепції.',fileFailed:'Документи не завантажилися. Профіль доступний.',save:'Зберегти кімнату',room:'Номер кімнати',email:'Пошта',noRoom:'Не призначена',details:'Дані заявки',registered:'Надіслано',saving:'Збереження…'}
+});
+
 function ui(ctx) {
   const words = texts[ctx.lang] || texts.sk;
   const el = (tag, cls, text) => {const node = document.createElement(tag); if (cls) node.className = cls; if (text !== undefined) node.textContent = String(text); return node;};
@@ -43,7 +49,7 @@ export async function renderStaffScreen(ctx) {
  ctx.root.append(refresh, ctx.notice);
  const filters = el('div','staff-filters');
  const search = el('input'); search.type='search';search.placeholder=w.search;search.setAttribute('aria-label',w.search);
- const select = el('select');select.setAttribute('aria-label',ctx.section==='residents'?w.state:'Stav registrácie');
+ const select = el('select');select.setAttribute('aria-label',ctx.section==='residents'?w.state:w.allRegistrations);
  const options=ctx.section==='residents'?[['all',w.all],['active',w.active],['inactive',w.inactive]]:[['pending',w.pending],['invited',w.invited],['rejected',w.rejected],['all',w.allRegistrations]];
  for(const [value,label] of options){const o=el('option','',label);o.value=value;select.append(o);}
  const count=el('p','muted');count.setAttribute('aria-live','polite');
@@ -67,20 +73,47 @@ export async function renderStaffScreen(ctx) {
     const details=el('dl','identity-fields');details.append(field(w.contract,person.contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.registered,ctx.day(person.created_at)));card.append(details);
     if(person.status==='pending'){
      const actions=el('div','staff-actions');
-     const approve=button(w.approve,()=>{void decide(person,true,actions);},'');
+     const approve=button(w.approve,()=>{approvalEditor(person,actions);},'');
      const reject=button(w.reject,()=>{void decide(person,false,actions);});actions.append(approve,reject);card.append(actions);
     }
    }
    results.append(card);
   }
  };
- async function decide(person,approve,actions){
+ function approvalEditor(person,actions){
+  if(actions.querySelector('form'))return;
+  const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Skontrolujte každú sumu a splatnosť podľa zmluvy, najmä neúplné mesiace. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Check each amount and due date against the contract, especially partial months. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, особенно неполные месяцы. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, особливо неповні місяці. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
+  const form=el('form','staff-form'),rent=el('input'),due=el('input'),schedule=el('div');
+  rent.type='number';rent.min='0.01';rent.max='100000';rent.step='0.01';rent.required=true;
+  due.type='number';due.min='1';due.max='28';due.step='1';due.value='5';due.required=true;
+  for(const [title,input] of [[labels[0],rent],[labels[1],due]]){const label=el('label','',title);label.append(input);form.append(label);}
+  const prepare=button(labels[2],()=>{
+   if(!rent.reportValidity()||!due.reportValidity())return;
+   schedule.replaceChildren(el('p','mini-note',labels[3]));
+   const start=String(person.accommodation_from||'').slice(0,7),end=String(person.accommodation_to||'').slice(0,7);
+   if(!/^\d{4}-\d{2}$/.test(start)||!/^\d{4}-\d{2}$/.test(end)||start>end){status(w.failed,true);return;}
+   const rows=[];let period=start;
+   while(period<=end&&rows.length<121){
+    const amount=el('input'),date=el('input');amount.type='number';amount.min='0.01';amount.max='100000';amount.step='0.01';amount.value=rent.value;amount.required=true;amount.setAttribute('aria-label',period+' €');
+    date.type='date';date.value=period+'-'+String(due.value).padStart(2,'0');date.required=true;date.setAttribute('aria-label',period);
+    const line=el('label','',period);line.append(amount,date);schedule.append(line);rows.push({period,amount,date});
+    const [year,month]=period.split('-').map(Number);period=month===12?String(year+1)+'-01':String(year)+'-'+String(month+1).padStart(2,'0');
+   }
+   if(period<=end){status(w.failed,true);return;}
+   const approve=el('button','',labels[4]);approve.type='submit';schedule.append(approve);
+   form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;void decide(person,true,actions,{verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:rows.map(r=>({period:r.period,amount:Number(r.amount.value),due_on:r.date.value}))});};
+  });
+  // Any base-term edit requires a fresh explicit review of the proposed calendar.
+  for(const input of [rent,due])input.addEventListener('input',()=>{schedule.replaceChildren();form.onsubmit=e=>e.preventDefault();});
+  form.append(prepare,schedule);form.onsubmit=e=>e.preventDefault();actions.append(form);
+ }
+ async function decide(person,approve,actions,verified={}){
   if(pendingAction||!ctx.isCurrent()||!confirm(approve?w.approveConfirm:w.rejectConfirm))return;
   pendingAction=true;for(const b of actions.querySelectorAll('button'))b.disabled=true;search.disabled=true;select.disabled=true;
   let success=false;
   try{
    let response;
-   if(approve)response=await ctx.db.functions.invoke('manage',{body:{action:'invite',tenant_id:ctx.tenant,registration_id:person.id,role:'student',email:person.email,name:[person.first_name,person.last_name].join(' '),room_number:person.room_number}});
+   if(approve)response=await ctx.db.functions.invoke('manage',{body:{action:'invite',tenant_id:ctx.tenant,registration_id:person.id,role:'student',email:person.email,name:[person.first_name,person.last_name].join(' '),room_number:person.room_number,...verified}});
    else response=await ctx.db.from('registration_requests').update({status:'rejected'}).eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id');
    if(!ctx.isCurrent())return;
    if(response.error||(approve?!response.data?.ok:!response.data?.length)){

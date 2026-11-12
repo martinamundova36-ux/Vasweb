@@ -1,0 +1,1 @@
+alter policy downloads_through_audited_server on storage.objects using(bucket_id<>'residence-private' or exists(select 1 from public.documents d where d.object_path=name and not d.upload_complete and d.uploaded_by=auth.uid() and private.has_role(d.tenant_id,array['org_admin','reception']::public.member_role[])));

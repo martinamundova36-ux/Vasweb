@@ -1,0 +1,2 @@
+-- Only the original uploader can discard their incomplete files. Published documents are protected.
+create policy discard_pending_upload on storage.objects for delete to authenticated using(bucket_id='residence-private' and exists(select 1 from public.documents d where d.object_path=name and not d.upload_complete and d.uploaded_by=auth.uid() and private.has_role(d.tenant_id,array['org_admin','reception']::public.member_role[])));

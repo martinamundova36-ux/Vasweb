@@ -1,0 +1,13 @@
+create function private.invitation_only() returns trigger language plpgsql set search_path='' as $$begin if new.invited_at is null then raise exception 'Invitation required';end if;return new;end$$;
+revoke all on function private.invitation_only() from public,anon,authenticated;
+create trigger residence_invitation_only before insert on auth.users for each row execute function private.invitation_only();
+create function private.immutable_tenant() returns trigger language plpgsql set search_path='' as $$begin if new.tenant_id<>old.tenant_id then raise exception 'Tenant is immutable';end if;return new;end$$;
+revoke all on function private.immutable_tenant() from public,anon,authenticated;
+create trigger tenant_immutable before update on public.residents for each row execute function private.immutable_tenant();
+create trigger tenant_immutable before update on public.rooms for each row execute function private.immutable_tenant();
+create trigger tenant_immutable before update on public.tenancies for each row execute function private.immutable_tenant();
+create trigger tenant_immutable before update on public.announcements for each row execute function private.immutable_tenant();
+create trigger tenant_immutable before update on public.organization_settings for each row execute function private.immutable_tenant();
+create function private.immutable_identity() returns trigger language plpgsql set search_path='' as $$begin if new.user_id<>old.user_id or new.id<>old.id then raise exception 'Identity is immutable';end if;return new;end$$;
+revoke all on function private.immutable_identity() from public,anon,authenticated;
+create trigger resident_identity before update on public.residents for each row execute function private.immutable_identity();

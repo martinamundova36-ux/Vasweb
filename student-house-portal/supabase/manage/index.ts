@@ -43,9 +43,11 @@ Deno.serve(async(req)=>{
     registration=request;
   }
 
+  if(registration&&(!Number.isFinite(body.verified_monthly_rent)||body.verified_monthly_rent<=0||!Number.isInteger(body.verified_due_day)||body.verified_due_day<1||body.verified_due_day>28||!Array.isArray(body.verified_schedule)||!body.verified_schedule.length||body.verified_schedule.length>121))return reply({error:'verified_schedule_required'},400);
+
   const email=String(body.email).trim().toLowerCase();
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
-  const redirect=portalOrigin+'/student-house-portal/';
+  const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'':'?view=reception');
   let uid:string|undefined,existingUser=false;
   const {data:inv,error:inviteError}=await service.auth.admin.inviteUserByEmail(email,{redirectTo:redirect});
   uid=inv?.user?.id;
@@ -66,33 +68,28 @@ Deno.serve(async(req)=>{
     const {error:resetError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
     if(resetError)return reply({error:'password_email_failed'},503);
   }
-  const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
-  if(checkError)throw checkError;
-  if(existing)return reply({error:'membership_exists'},409);
-  const {error:provisionError}=await service.rpc('provision_member',{p_actor:user.id,p_tenant:tenant,p_user:uid,p_role:role,p_name:residentName,p_email:email});
-  if(provisionError)throw provisionError;
-  if(role==='student'){
-    // Room number is entered by trusted staff or copied from the request they inspected.
-    const room=(registration?.room_number||String(body.room_number||'')).trim().normalize('NFC').slice(0,30);
-    const fields:Record<string,unknown>={verified_room_number:room};
-    if(registration){
-      fields.verified_contract_number=registration.contract_number;
-      fields.accommodation_from=registration.accommodation_from;
-      fields.accommodation_to=registration.accommodation_to;
+  if(registration){
+    const {error:approvalError}=await service.rpc('residence_approve_registration',{
+      p_actor:user.id,p_tenant:tenant,p_registration:registration.id,p_user:uid,
+      p_monthly_rent:body.verified_monthly_rent,p_due_day:body.verified_due_day,p_schedule:body.verified_schedule
+    });
+    if(approvalError)return reply({error:'approval_conflict'},409);
+  }else{
+    const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
+    if(checkError)throw checkError;
+    if(existing)return reply({error:'membership_exists'},409);
+    const {error:provisionError}=await service.rpc('provision_member',{p_actor:user.id,p_tenant:tenant,p_user:uid,p_role:role,p_name:residentName,p_email:email});
+    if(provisionError)throw provisionError;
+    if(role==='student'){
+      const room=String(body.room_number||'').trim().normalize('NFC').slice(0,30);
+      const {data:residentRows,error:residentError}=await service.from('residents').update({verified_room_number:room})
+        .eq('tenant_id',tenant).eq('user_id',uid).select('id');
+      if(residentError||!residentRows?.length)throw new Error('verified_resident_update_failed');
     }
-    const {data:residentRows,error:residentError}=await service.from('residents').update(fields)
-      .eq('tenant_id',tenant).eq('user_id',uid).select('id');
-    if(residentError||!residentRows?.length)throw new Error('verified_resident_update_failed');
   }
   const {error:profileError}=await service.from('profiles').update({display_name:residentName}).eq('id',uid);
   if(profileError)console.error('profile_display_name_update_failed',profileError.code);
 
-  if(registration){
-    const {data:marked,error:markError}=await service.from('registration_requests')
-      .update({status:'invited',reviewed_by:user.id,reviewed_at:new Date().toISOString()})
-      .eq('id',registration.id).eq('tenant_id',tenant).eq('status','pending').select('id');
-    if(markError||!marked?.length)console.error('registration_mark_failed',markError?.code||'not_updated');
-  }
   const {error:auditError}=await service.from('audit_logs').insert({
     tenant_id:tenant,actor_id:user.id,action:'RESIDENT_ACCESS_APPROVED',entity:'organization_memberships',entity_id:uid
   });if(auditError)console.error('invite_audit_failed',auditError.code);
