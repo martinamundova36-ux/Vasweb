@@ -84,6 +84,23 @@ body.portal-open #app .item{padding:17px 0}
 .password-status{min-height:22px;font-size:14px}
 #changePasswordForm{max-width:540px}
 #changePasswordForm button[type=submit]{margin-top:14px}
+.student-monthly-payment,.student-welcome,.student-quick-actions{margin:15px 0 22px;border:1px solid #d7e4f2;border-radius:16px;padding:20px;background:#f8fbff}
+.student-monthly-payment{background:#f0f6ff;border-left:5px solid #1f426c}
+.student-monthly-payment h4{margin:0 0 10px;font-size:19px}
+.student-monthly-balance{font-size:clamp(27px,4vw,40px);font-weight:850;color:#102b50;margin:9px 0}
+.student-payment-state{display:inline-flex;align-items:center;font-weight:800;font-size:13px;border-radius:99px;padding:6px 12px;background:#e3ecf6;color:#193d65}
+.student-payment-state.payment-late{background:#ffe7e5;color:#9e2929}
+.student-payment-state.payment-due{background:#fff1d9;color:#765018}
+.student-payment-state.payment-paid{background:#d9efe5;color:#176447}
+.student-payment-state.payment-partial,.student-payment-state.payment-plan{background:#e6ecff;color:#2a4a87}
+.student-data-line{margin:7px 0;line-height:1.6;overflow-wrap:anywhere}
+.student-quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;margin-top:12px}
+.student-quick-grid button{text-align:left;padding:14px;min-height:48px}
+.student-payment-row{border:1px solid #d9e5f1;border-radius:14px;padding:18px;margin:12px 0;background:#fbfdff}
+.student-payment-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.student-payment-head strong{font-size:18px}
+.student-payment-row h5{margin:14px 0 6px;font-size:14px}
+@media(max-width:650px){.student-monthly-payment,.student-welcome,.student-quick-actions{padding:16px}.student-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.student-quick-grid button{font-size:13px}}
 </style></head><body>
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
@@ -543,7 +560,7 @@ async function renderPanel(){
   if(tab==='account'){renderPasswordSettings();return;}
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='overview'){
-   const sources=staff?['registration_requests','residents','rooms','service_requests','cleaning_bookings','announcements']:['tenancies','rent_charges','payments','cleaning_bookings','service_requests','announcements'];
+   const sources=staff?['registration_requests','residents','rooms','service_requests','cleaning_bookings','announcements']:['tenancies','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','cleaning_bookings','service_requests','announcements'];
    const outcomes=await Promise.all(sources.map(key=>list(key,staff?undefined:(['tenancies','rent_charges','payments','cleaning_bookings','service_requests'].includes(key)?{resident_id:own||'00000000-0000-0000-0000-000000000000'}:undefined))));
    if(tenant!==member?.tenant_id)return;
    const d=Object.fromEntries(sources.map((key,i)=>[key,outcomes[i]]));
@@ -571,7 +588,14 @@ async function renderPanel(){
     if(tenancy)message('Ubytovanie: '+day(tenancy.starts_on)+' – '+day(tenancy.ends_on)+' · '+money(tenancy.rent)+'/mes.');
     else message(lang==='en'?'Your accommodation details will appear after reception assigns your room.':'Údaje o ubytovaní sa zobrazia po priradení izby recepciou.');
    }
-   container.append(cards);
+   if(!staff){
+    const studentUI=await import('/student-house-portal/student-finance.js?v=20261112-payments1');
+    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='overview')return;
+    studentUI.renderPaymentHighlight({root:container,resident,tenancies:d.tenancies,charges:d.rent_charges,allocations:d.payment_allocations,reversals:d.payment_reversals,plans:d.installment_plans,lang,onOpen:navigate});
+    studentUI.renderStudentWelcome({root:container,resident,tenancies:d.tenancies,lang,onOpen:navigate});
+    container.append(cards);
+    studentUI.renderStudentActions({root:container,lang,onOpen:navigate});
+   }else container.append(cards);
    subheading(label('latest'));
    const latest=(d.announcements||[]).filter(x=>x.language===lang||x.language==='sk').slice(-3).reverse();
    if(latest.length)latest.forEach(x=>container.append(row(x.title,x.body)));
@@ -711,7 +735,18 @@ async function renderPanel(){
    return;
   }
   if(tab==='installments'){
-   heading(label('installments'),label('planNote'));
+   heading(label('installments'),staff?label('planNote'):'');
+   if(!staff){
+    const filter={resident_id:own||'00000000-0000-0000-0000-000000000000'};
+    const [charges,allocations,reversals,plans,items]=await Promise.all([
+     list('rent_charges',filter),list('payment_allocations'),list('payment_reversals'),list('installment_plans',filter),list('installment_items')
+    ]);
+    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
+    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261112-payments1');
+    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
+    renderMonthlyCalendar({root:container,charges,allocations,reversals,plans,items,lang,onOpen:navigate});
+    return;
+   }
    const plans=await list('installment_plans',staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'});
    const [items,charges,people]=await Promise.all([
      list('installment_items'),staff?list('rent_charges'):Promise.resolve([]),staff?list('residents'):Promise.resolve([])
