@@ -18,6 +18,7 @@ jobs:
           const fs = require('node:fs');
           const vm = require('node:vm');
           const html = fs.readFileSync('student-house-portal/index.html','utf8');
+          const staff = fs.readFileSync('student-house-portal/staff.js','utf8');
           const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).filter(Boolean);
           if (!scripts.length) throw new Error('Inline JavaScript missing');
           for (const source of scripts) new vm.Script(source);
@@ -26,9 +27,10 @@ jobs:
           }
           if (!html.includes('functions/v1/register-student')) throw new Error('Missing submission endpoint');
           if (!html.includes('id="backToWebsite"') || !html.includes('position:sticky')) throw new Error('Persistent back to Student House link missing');
-          if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes('registration_id:x.id')) throw new Error('Real finance, private documents or verified approval missing');
+          if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes("await import('./staff.js')") || !staff.includes('registration_id:person.id')) throw new Error('Real finance, private documents or verified approval missing');
           if (!html.includes('id="orgSelector"') || !html.includes('chooseOrganization(')) throw new Error('Residence switcher missing');
           for(const name of ["installments","documents","registrations","payments","cleaning","notices","rooms","requests"]){
+            if(name==='registrations'){if(!html.includes("['overview','registrations'") || !html.includes('renderStaffScreen(') || !staff.includes('registration_id:person.id'))throw new Error('Missing secure staff registration section');continue;}
             if(!html.includes("tab==='"+name+"'"))throw new Error("Missing dashboard section: "+name);
           }
           if(!html.includes("portal-open") || !html.includes("function statusPill"))throw new Error('Authenticated interior layout missing');
