@@ -277,7 +277,7 @@ async function renderProfile(tenant){
  const room=tenancy?rooms.find(x=>x.id===tenancy.room_id):null;
  const grid=make('div','identity-grid'),photo=make('div','avatar-box','👤'),details=make('div','identity-fields');
  const photoRow=make('div');photoRow.append(photo);
- for(const [name,value] of [[dl('first'),first],[dl('last'),surname],[dl('room'),room?.name||resident.verified_room_number||dl('noRoom')],[dl('email'),resident.email||user.email]]){
+ for(const [name,value] of [[dl('first'),first],[dl('last'),surname],[dl('room'),room?.name||resident.verified_room_number||dl('noRoom')],[lang==='en'?'Accommodation Contract No.':'Číslo ubytovacej zmluvy',resident.verified_contract_number||'—'],[lang==='en'?'Accommodation period':'Dĺžka ubytovania',(resident.accommodation_from&&resident.accommodation_to)?day(resident.accommodation_from)+' – '+day(resident.accommodation_to):'—'],[dl('email'),resident.email||user.email]]){
   const cell=make('div');cell.append(make('label','',name),make('div','readonly-value',value));details.append(cell);
  }
  grid.append(photoRow,details);$('records').append(grid);
@@ -430,17 +430,16 @@ async function renderPanel(){
      approve.addEventListener('click',async()=>{
       if(!confirm(R[lang].confirm))return;
       approve.disabled=true;
-      const {data,error}=await db.functions.invoke('manage',{body:{action:'invite',tenant_id:tenant,role:'student',email:x.email,name:x.first_name+' '+x.last_name,room_number:x.room_number}});
+      const {data,error}=await db.functions.invoke('manage',{body:{action:'invite',tenant_id:tenant,registration_id:x.id,role:'student',email:x.email,name:x.first_name+' '+x.last_name,room_number:x.room_number}});
       if(error||data?.error){alert(R[lang].invitationError);approve.disabled=false;return}
-      const changed=await db.from('registration_requests').update({status:'invited',reviewed_by:user.id,reviewed_at:new Date().toISOString()}).eq('tenant_id',tenant).eq('id',x.id).select('id');
-      if(changed.error||!changed.data?.length)alert(R[lang].invitationError);else alert(R[lang].sent);
+      alert(R[lang].sent);
       void renderPanel();
      });
      const reject=make('button','btn-secondary',lang==='en'?'Reject':'Zamietnuť');reject.type='button';
      reject.addEventListener('click',async()=>{
       if(!confirm(lang==='en'?'Reject this registration?':'Zamietnuť túto registráciu?'))return;
       reject.disabled=true;
-      const {data,error}=await db.from('registration_requests').update({status:'rejected',reviewed_by:user.id,reviewed_at:new Date().toISOString()}).eq('tenant_id',tenant).eq('id',x.id).select('id');
+      const {data,error}=await db.from('registration_requests').update({status:'rejected'}).eq('tenant_id',tenant).eq('id',x.id).select('id');
       if(error||!data?.length){alert(label('error'));reject.disabled=false;return}
       void renderPanel();
      });
