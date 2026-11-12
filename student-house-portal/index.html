@@ -66,6 +66,13 @@ body.portal-open #app .item{padding:17px 0}
 @media(max-width:650px){.identity-grid{grid-template-columns:1fr}.avatar-box{max-width:170px}.identity-fields{grid-template-columns:1fr}.docgrid{grid-template-columns:1fr}}
 /* Existing staff area: searchable resident directory and complete private profiles. */
 .staff-filters[hidden]{display:none!important}.staff-filters{display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,220px);gap:12px;margin:20px 0 10px}.staff-directory{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:15px}.staff-person{border:1px solid #dce7f3;border-radius:15px;padding:20px;min-width:0;background:#fafcff}.staff-person h4{font-size:20px;margin:0 0 10px}.staff-person p{overflow-wrap:anywhere}.staff-person>button{display:block;margin-top:15px}.staff-person dl{font-size:13px;grid-template-columns:1fr}.staff-profile h3{font-size:25px}.staff-profile dd{margin:5px 0 14px}.staff-profile dt{font-size:13px;font-weight:700}.staff-profile .data-card>button{display:block;margin-top:12px}.staff-notice:empty{display:none}.staff-notice{overflow-wrap:anywhere}.staff-directory .readonly-value{padding:10px}.staff-person dd{margin:5px 0}.staff-profile .data-card{overflow-wrap:anywhere}@media(max-width:600px){.staff-filters{grid-template-columns:1fr}.staff-directory{grid-template-columns:1fr}.staff-person{padding:16px}}
+
+.password-tools{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.password-tools button{width:auto!important;flex:1 1 130px;margin:0!important;background:#e6eef8;color:#142b4d}
+.password-tools button:hover{background:#d3e3f4}
+.password-status{min-height:22px;font-size:14px}
+#changePasswordForm{max-width:540px}
+#changePasswordForm button[type=submit]{margin-top:14px}
 </style></head><body>
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
@@ -79,7 +86,10 @@ body.portal-open #app .item{padding:17px 0}
 <form id="passwordResetForm" class="hide">
 <label id="resetNewLabel" for="resetPasswordValue">Nové heslo (minimálne 12 znakov)</label>
 <input type="password" id="resetPasswordValue" autocomplete="new-password" minlength="12" maxlength="200" required>
-<button id="resetSubmit" type="submit">Nastaviť nové heslo</button>
+<label id="resetConfirmLabel" for="resetConfirmValue">Potvrdiť nové heslo</label>
+<input type="password" id="resetConfirmValue" autocomplete="new-password" minlength="12" maxlength="200" required>
+<div class="password-tools"><button id="resetGenerate" type="button">Vygenerovať heslo</button><button id="resetCopy" type="button">Skopírovať heslo</button><button id="resetShow" type="button">Zobraziť heslo</button></div>
+<button id="resetSubmit" type="submit'>Nastaviť nové heslo</button>
 <p id="resetMessage" role="status" aria-live="polite"></p>
 </form>
 <p id="error" class="danger" aria-live="polite"></p><footer id="invite">Prístupové údaje vydáva recepcia po overení registrácie.</footer>
@@ -120,6 +130,27 @@ en:{forgot:"Forgot password? Send a reset email",enter:"Enter your email address
 ru:{forgot:"Забыли пароль? Отправить письмо",enter:"Сначала введите адрес электронной почты выше.",sent:"Если аккаунт существует, запрос на восстановление пароля отправлен. Проверьте папку «Спам».",fail:"Не удалось отправить запрос. Попробуйте позже.",title:"Новый пароль",intro:"Задайте безопасный пароль для WEBU Residence.",label:"Новый пароль (не менее 12 символов)",save:"Сохранить пароль",short:"Не менее 12 символов.",saveFail:"Не удалось изменить пароль. Запросите новую ссылку."},
 uk:{forgot:"Забули пароль? Надіслати листа",enter:"Спочатку введіть електронну адресу вище.",sent:"Якщо акаунт існує, запит на відновлення пароля надіслано. Перевірте папку «Спам».",fail:"Не вдалося надіслати запит. Спробуйте пізніше.",title:"Новий пароль",intro:"Установіть надійний пароль WEBU Residence.",label:"Новий пароль (щонайменше 12 символів)",save:"Зберегти пароль",short:"Не менше 12 символів.",saveFail:"Не вдалося змінити пароль. Запросіть нове посилання."}
 };
+
+const PASSWORD_LABELS={"account":["Heslo a bezpečnosť","Password & security","Пароль и безопасность","Пароль і безпека"],"description":["Pre zmenu hesla zadaj staré a nové heslo. Ak staré nevieš, použi obnovu cez e-mail.","Enter your current and new password. Forgot the current one? Use email recovery.","Введите старый и новый пароль. Если старый забыт, восстановите по почте.","Введіть старий і новий пароль. Якщо старий забули, відновіть поштою."],"old":["Staré heslo","Current password","Старый пароль","Старий пароль"],"new":["Nové heslo (minimálne 12 znakov)","New password (at least 12 characters)","Новый пароль (от 12 символов)","Новий пароль (від 12 символів)"],"confirm":["Potvrdiť nové heslo","Confirm new password","Подтвердить новый пароль","Підтвердити новий пароль"],"generate":["Vygenerovať silné heslo","Generate strong password","Создать надёжный пароль","Згенерувати надійний пароль"],"copy":["Skopírovať heslo","Copy password","Копировать пароль","Скопіювати пароль"],"show":["Zobraziť heslo","Show password","Показать пароль","Показати пароль"],"hide":["Skryť heslo","Hide password","Скрыть пароль","Приховати пароль"],"save":["Zmeniť heslo","Change password","Изменить пароль","Змінити пароль"],"missing":["Najprv zadaj alebo vygeneruj heslo.","Enter or generate a password first.","Сначала введите или создайте пароль.","Спочатку введіть або згенеруйте пароль."],"mismatch":["Nové heslá sa nezhodujú.","New passwords do not match.","Пароли не совпадают.","Нові паролі не збігаються."],"same":["Nové heslo musí byť iné ako pôvodné.","New password must differ from the current one.","Пароль должен отличаться от старого.","Пароль має відрізнятися від старого."],"wrong":["Staré heslo je nesprávne.","Current password is incorrect.","Неверный старый пароль.","Неправильний старий пароль."],"ok":["Heslo bolo úspešne zmenené.","Password updated successfully.","Пароль изменён.","Пароль успішно змінено."],"fail":["Heslo sa nepodarilo zmeniť.","Password could not be changed.","Не удалось изменить пароль.","Не вдалося змінити пароль."],"generated":["Heslo bolo vygenerované. Bezpečne si ho ulož.","Password generated. Save it securely.","Пароль создан. Сохраните его надёжно.","Пароль згенеровано. Збережіть його надійно."],"copied":["Heslo je skopírované. Bezpečne si ho ulož.","Password copied. Store it securely.","Пароль скопирован. Сохраните его.","Пароль скопійовано. Збережіть його."],"copyFail":["Skopírovanie zlyhalo. Zobraz heslo a skopíruj ho ručne.","Copy failed. Show the password and copy manually.","Ошибка копирования. Покажите пароль и скопируйте вручную.","Не вдалося скопіювати. Покажіть пароль і скопіюйте вручну."]};
+const pwdText=key=>PASSWORD_LABELS[key][({sk:0,en:1,ru:2,uk:3}[lang]??0)];
+function createStrongPassword(){
+ if(!window.crypto?.getRandomValues)throw Error('Secure random unavailable');
+ const groups=['ABCDEFGHJKLMNPQRSTUVWXYZ','abcdefghijkmnopqrstuvwxyz','23456789','!@#$%*-_?'];
+ const chars=groups.join(''),random=new Uint32Array(48);window.crypto.getRandomValues(random);
+ const out=groups.map((g,i)=>g[random[i]%g.length]);
+ for(let i=4;i<20;i++)out.push(chars[random[i]%chars.length]);
+ for(let i=19,j=20;i>0;i--,j++){const k=random[j]%(i+1);[out[i],out[k]]=[out[k],out[i]]}
+ return out.join('');
+}
+function togglePassword(inputs,button){
+ const show=inputs[0].type==='password';inputs.forEach(el=>el.type=show?'text':'password');
+ button.textContent=pwdText(show?'hide':'show');button.setAttribute('aria-pressed',String(show));
+}
+async function copyPasswordValue(input,status){
+ if(!input.value){status.textContent=pwdText('missing');return}
+ try{await navigator.clipboard.writeText(input.value);status.textContent=pwdText('copied')}
+ catch{input.type='text';input.focus();input.select();status.textContent=pwdText('copyFail')}
+}
 const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const staffEntryMode=new URLSearchParams(location.search).get('view')==='reception';
 const entryText={
@@ -135,7 +166,9 @@ $('residentEntryLink').href='/student-house-portal/?lang='+lang;
 $('staffEntryLink').href='/student-house-portal/?view=reception&lang='+lang;
 for(const id of ['residentEntryLink','staffEntryLink']){const current=(staffEntryMode? id==='staffEntryLink':id==='residentEntryLink');$(id).style.background=current?'#142b4d':'#fff';$(id).style.color=current?'#fff':'#142b4d';if(current)$(id).setAttribute('aria-current','page');else $(id).removeAttribute('aria-current')}
 $('openRegistration').classList.toggle('hide',staffEntryMode);
-if(staffEntryMode&&!resetMode){$('sign').textContent=e.title;$('intro').textContent=e.intro;$('invite').textContent=e.note;}$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode){$('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro}}
+if(staffEntryMode&&!resetMode){$('sign').textContent=e.title;$('intro').textContent=e.intro;$('invite').textContent=e.note;}$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode){$('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro}
+$('resetConfirmLabel').textContent=pwdText('confirm');$('resetGenerate').textContent=pwdText('generate');$('resetCopy').textContent=pwdText('copy');$('resetShow').textContent=pwdText($('resetPasswordValue').type==='password'?'show':'hide');
+}
 function translateRegister(){
  const r=R[lang];
  for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labRoom:"room",labContract:"contract",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=r[k];
@@ -206,6 +239,7 @@ en:{overview:"Overview",installments:"Payment schedule",registrations:"Registrat
 ru:{overview:"Обзор",installments:"График платежей",registrations:"Регистрации",residents:"Жильцы",rooms:"Комнаты",payments:"Платежи",documents:"Документы",requests:"Заявки",cleaning:"Уборка",notices:"Объявления",roleStudent:"Кабинет студента",roleStaff:"Администрация ресепшена",welcome:"Добро пожаловать",dashboardStudent:"Проживание, документы и заявки в одном месте.",dashboardStaff:"Регистрации, заявки и работа общежития.",noData:"Записей пока нет.",rent:"Начисления",paid:"Учтённые платежи",next:"Открытые заявки",pending:"Ожидают проверки",roomsCount:"Комнаты",residentsCount:"Жильцы",cleaningCount:"Запросы на уборку",requestsCount:"Заявки",latest:"Новости",back:"Открыть",success:"Изменения сохранены.",error:"Не удалось сохранить.",create:"Добавить",save:"Сохранить",status:"Статус",notes:"Примечание ресепшена",price:"Цена (€)",dateTime:"Подтверждённая дата",requestNew:"Запросить уборку",roomNumber:"Комната",rentPeriod:"Период",due:"Срок оплаты",amount:"Сумма",approved:"Подтверждено",planNote:"Отображаются утверждённые графики платежей.",financeNote:"Это учтённые платежи, а не банковская выписка или итоговый баланс.",docsNote:"Личные документы видны только авторизованным жильцам.",approvalNote:"Ресепшен проверяет регистрацию по договору проживания.",confirmSave:"Сохранить изменение статуса?",time:"Желаемая дата",createNotice:"Новое объявление",language:"Язык",noticeTitle:"Заголовок",noticeBody:"Текст",documentsEmpty:"Нет доступных документов."},
 uk:{overview:"Огляд",installments:"Графік платежів",registrations:"Реєстрації",residents:"Мешканці",rooms:"Кімнати",payments:"Платежі",documents:"Документи",requests:"Заявки",cleaning:"Прибирання",notices:"Оголошення",roleStudent:"Кабінет студента",roleStaff:"Адміністрація рецепції",welcome:"Ласкаво просимо",dashboardStudent:"Проживання, документи та заявки в одному місці.",dashboardStaff:"Реєстрації, заявки та робота гуртожитку.",noData:"Записів немає.",rent:"Нарахування",paid:"Обліковані платежі",next:"Відкриті заявки",pending:"Очікують перевірки",roomsCount:"Кімнати",residentsCount:"Мешканці",cleaningCount:"Запити на прибирання",requestsCount:"Заявки",latest:"Оголошення",back:"Відкрити",success:"Зміни збережено.",error:"Не вдалося зберегти.",create:"Додати",save:"Зберегти",status:"Статус",notes:"Примітка рецепції",price:"Вартість (€)",dateTime:"Підтверджені дата й час",requestNew:"Замовити прибирання",roomNumber:"Кімната",rentPeriod:"Період",due:"Термін оплати",amount:"Сума",approved:"Підтверджено",planNote:"Відображаються затверджені графіки платежів.",financeNote:"Це зареєстровані платежі, а не банківська виписка або баланс.",docsNote:"Особисті документи доступні лише авторизованим мешканцям.",approvalNote:"Рецепція перевіряє реєстрації за договором проживання.",confirmSave:"Зберегти зміну статусу?",time:"Бажана дата",createNotice:"Нове оголошення",language:"Мова",noticeTitle:"Заголовок",noticeBody:"Текст",documentsEmpty:"Доступних документів немає."}
 };
+ui.sk.account=PASSWORD_LABELS.account[0];ui.en.account=PASSWORD_LABELS.account[1];ui.ru.account=PASSWORD_LABELS.account[2];ui.uk.account=PASSWORD_LABELS.account[3];
 ui.sk.profile="Môj profil";
 ui.en.profile="My profile";
 ui.ru.profile="Мой профиль";
@@ -234,7 +268,7 @@ function row(title,detail,status){let d=make('div','item');d.append(make('strong
 function subheading(str){$('records').append(make('h4','section-subtitle',str))}
 function kpi(caption,value,details,go){const b=make('button','kpi');b.type='button';b.append(make('div','kpi-caption',caption),make('strong','',value),make('small','',details));if(go)b.addEventListener('click',()=>navigate(go));else b.disabled=true;return b}
 function navigate(next){tab=next;renderTabs();void renderPanel()}
-const icons={profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉'};
+const icons={account:'🔒',profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉'};
 
 const docLabels = {
  sk:{rules:"Ubytovací poriadok",gdpr:"Informácie o spracúvaní osobných údajov (GDPR)",signedRules:"Podpísaný ubytovací poriadok",signedGdpr:"Podpísané potvrdenie o oboznámení sa s GDPR",load:"Stiahnuť",upload:"Nahrať súbor",photo:"Profilová fotografia",profileInfo:"Overené údaje o tvojom ubytovaní",first:"Meno",last:"Priezvisko",room:"Číslo izby",email:"E-mail",noRoom:"Izba zatiaľ nie je priradená",manual:"Údaje potvrdzuje recepcia. Ak niektorý údaj nesedí, požiadaj o opravu cez Požiadavky.",photoHelp:"Fotografia JPG alebo PNG, maximálne 3 MB.",uploadHelp:"Nahraj podpísaný dokument ako PDF, JPG alebo PNG, maximálne 6 MB.",wait:"Čaká na kontrolu",approved:"Schválené",rejected:"Vrátené na opravu",missing:"Dokument zatiaľ recepcia nenahrala.",privacy:"Osobné údaje, fotografie a podpisy sú prístupné iba oprávneným osobám. Podrobnosti v informáciách GDPR.",uploadTemplate:"Nahrať aktuálne PDF",signedReceived:"Podpísané dokumenty od študentov",staffProfile:"Fotografie študentov",downloadForReview:"Zobraziť odovzdaný dokument",reviewApprove:"Schváliť",reviewReject:"Vrátiť na opravu",reviewNote:"Poznámka pri kontrole",viewPhoto:"Zobraziť fotografiu",requestCorrection:"Požiadať o opravu údajov",fileError:"Nahratie súboru zlyhalo. Skontroluj formát, veľkosť a oprávnenie.",fileSuccess:"Súbor bol bezpečne odoslaný.",adminTemplates:"Dokumenty na stiahnutie pre študentov",privateDocuments:"Ďalšie osobné dokumenty"},
@@ -427,19 +461,53 @@ async function renderResidentDocuments(tenant,staff,own){
 
 function renderTabs(){
  const isAdmin=isStaff();
- const keys=isAdmin?['overview','registrations','residents','rooms','payments','installments','documents','requests','cleaning','notices']:['overview','profile','rooms','payments','installments','documents','requests','cleaning','notices'];
+ const keys=isAdmin?['overview','registrations','residents','rooms','payments','installments','documents','requests','cleaning','notices','account']:['overview','profile','rooms','payments','installments','documents','requests','cleaning','notices','account'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label','Sections');parent.setAttribute('role','navigation');
  $('zone').textContent=isAdmin?(member.role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):label('roleStaff')):label('roleStudent');
  $('roleLabel').textContent=(organizationNames[member.tenant_id]||'Student House Bratislava')+' · '+user.email;
  for(const key of keys){const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+label(key));b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));parent.append(b)}
 }
 let renderGeneration=0;
+
+function renderPasswordSettings(){
+ const c=$('records');c.replaceChildren();heading(pwdText('account'),pwdText('description'));
+ const form=make('form');form.id='changePasswordForm';
+ function field(id,text,ac){const wrap=make('div'),lab=make('label','',text),input=make('input');lab.htmlFor=id;input.id=id;input.type='password';input.autocomplete=ac;input.required=true;input.maxLength=200;wrap.append(lab,input);return {wrap,input}}
+ const old=field('pwdOld',pwdText('old'),'current-password');
+ const fresh=field('pwdNew',pwdText('new'),'new-password');fresh.input.minLength=12;
+ const repeat=field('pwdConfirm',pwdText('confirm'),'new-password');repeat.input.minLength=12;
+ const actions=make('div','password-tools');
+ const gen=make('button','',pwdText('generate')),copy=make('button','',pwdText('copy')),show=make('button','',pwdText('show')),submit=make('button','',pwdText('save')),status=make('p','password-status');
+ for(const b of [gen,copy,show])b.type='button';submit.type='submit';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ gen.addEventListener('click',()=>{try{const password=createStrongPassword();fresh.input.value=password;repeat.input.value=password;status.textContent=pwdText('generated')}catch{status.textContent=pwdText('fail')}});
+ copy.addEventListener('click',()=>void copyPasswordValue(fresh.input,status));
+ show.addEventListener('click',()=>togglePassword([old.input,fresh.input,repeat.input],show));
+ form.addEventListener('submit',async e=>{
+  e.preventDefault();status.textContent='';
+  const current=old.input.value,next=fresh.input.value;
+  if(next.length<12){status.textContent=PW[lang].short;return}
+  if(next!==repeat.input.value){status.textContent=pwdText('mismatch');return}
+  if(next===current){status.textContent=pwdText('same');return}
+  if(!user?.email){status.textContent=pwdText('fail');return}
+  submit.disabled=true;
+  try{
+   const {error:authError}=await db.auth.signInWithPassword({email:user.email,password:current});
+   if(authError){status.textContent=pwdText('wrong');return}
+   const {error:saveError}=await db.auth.updateUser({password:next});
+   if(saveError){status.textContent=pwdText('fail');return}
+   form.reset();status.textContent=pwdText('ok');
+  }catch(error){console.error('password_update_error',error?.message||'unknown');status.textContent=pwdText('fail')}
+  finally{submit.disabled=false}
+ });
+ actions.append(gen,copy,show);form.append(old.wrap,fresh.wrap,repeat.wrap,actions,submit,status);c.append(form);
+}
 async function renderPanel(){
  const generation=++renderGeneration;
  const container=$('records');container.replaceChildren(make('p','muted','…'));
  if(!member)return;
  const tenant=member.tenant_id,staff=isStaff(),own=resident?.id;
  try {
+  if(tab==='account'){renderPasswordSettings();return;}
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='overview'){
    const sources=staff?['registration_requests','residents','rooms','service_requests','cleaning_bookings','announcements']:['tenancies','rent_charges','payments','cleaning_bookings','service_requests','announcements'];
@@ -792,9 +860,17 @@ function showPasswordRecovery(){
  $('app').classList.add('hide');$('login').classList.remove('hide');
  for(const id of ['form','forgotPassword','openRegistration','registration','invite'])$(id).classList.add('hide');
  $('passwordResetForm').classList.remove('hide');
+  $('resetPasswordValue').value='';$('resetConfirmValue').value='';$('resetMessage').textContent='';
  $('error').textContent='';
  $('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro;
 }
+
+$('resetGenerate').addEventListener('click',()=>{
+ try{const password=createStrongPassword();$('resetPasswordValue').value=password;$('resetConfirmValue').value=password;$('resetMessage').textContent=pwdText('generated')}
+ catch{$('resetMessage').textContent=pwdText('fail')}
+});
+$('resetCopy').addEventListener('click',()=>void copyPasswordValue($('resetPasswordValue'),$('resetMessage')));
+$('resetShow').addEventListener('click',()=>togglePassword([$('resetPasswordValue'),$('resetConfirmValue')],$('resetShow')));
 $('forgotPassword').addEventListener('click',async()=>{
  const email=$('email').value.trim(),msg=$('error'),btn=$('forgotPassword');
  if(!email||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent=PW[lang].enter;return}
@@ -807,6 +883,7 @@ $('forgotPassword').addEventListener('click',async()=>{
 $('passwordResetForm').addEventListener('submit',async e=>{
  e.preventDefault();
  const pw=$('resetPasswordValue').value,msg=$('resetMessage'),btn=$('resetSubmit');
+  if(pw!==$('resetConfirmValue').value){msg.textContent=pwdText('mismatch');return}
  if(pw.length<12){msg.textContent=PW[lang].short;return}
  btn.disabled=true;msg.textContent='';
  const {error}=await db.auth.updateUser({password:pw});
