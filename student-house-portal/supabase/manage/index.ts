@@ -23,35 +23,80 @@ Deno.serve(async(req)=>{
   }
   if(body.action!=='invite')return reply({error:'invalid_action'},400);
   if(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200)return reply({error:'invalid_data'},400);
+
   const role=body.role;if(!['student','reception','org_admin'].includes(role))return reply({error:'invalid_role'},400);
-  const {data:m}=await client.from('organization_memberships').select('role').eq('tenant_id',body.tenant_id).eq('user_id',user.id).eq('active',true).maybeSingle();
+  const tenant=body.tenant_id;
+  if(typeof tenant!=='string'||!/^[0-9a-f-]{36}$/i.test(tenant))return reply({error:'invalid_tenant'},400);
+  const {data:m,error:roleError}=await client.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
   const {data:p}=await client.from('platform_admins').select('user_id').eq('user_id',user.id).maybeSingle();
-  if(!(m?.role==='org_admin'||(m?.role==='reception'&&role==='student')||(p&&role==='org_admin')))return reply({error:'forbidden'},403);
-  // Redirects are never accepted from user input. Configure the single trusted origin server-side.
-  const redirect=portalOrigin+'/student-house-portal/';if(!redirect)return reply({error:'portal_origin_not_configured'},503);
-  const {data:inv,error:inviteError}=await service.auth.admin.inviteUserByEmail(body.email,{redirectTo:redirect});
-  let uid=inv?.user?.id;
-  if(inviteError){
-   if(!['email_exists','user_already_exists'].includes(inviteError.code||''))throw inviteError;
-   for(let page=1;page<=100&&!uid;page++){
-    const {data,error}=await service.auth.admin.listUsers({page,perPage:100});if(error)throw error;
-    uid=data.users.find(u=>u.email?.toLowerCase()===String(body.email).toLowerCase())?.id;
-    if(data.users.length<100)break;
-   }
+  if(roleError||!(m?.role==='org_admin'||(m?.role==='reception'&&role==='student')||(p&&role==='org_admin')))return reply({error:'forbidden'},403);
+
+  // Any resident may submit a public request, but only verified reception staff can approve it.
+  // Do not accept contract dates/numbers from a browser acting as an unverified resident.
+  let registration:Record<string,string>|null=null;
+  if(role==='student'&&body.registration_id){
+    if(typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))return reply({error:'invalid_registration'},400);
+    const {data:request,error:requestError}=await client.from('registration_requests')
+      .select('id,tenant_id,email,first_name,last_name,room_number,contract_number,accommodation_from,accommodation_to,status')
+      .eq('id',body.registration_id).eq('tenant_id',tenant).eq('status','pending').maybeSingle();
+    if(requestError||!request||request.email.toLowerCase()!==String(body.email).trim().toLowerCase())return reply({error:'registration_not_pending'},409);
+    registration=request;
   }
-  if(!uid)throw new Error('user_not_resolved');
-  const {data:existing}=await service.from('organization_memberships').select('role').eq('tenant_id',body.tenant_id).eq('user_id',uid).maybeSingle();
-  if(existing)return reply({error:'membership_exists'},409);
-  const {error:provisionError}=await service.rpc('provision_member',{p_actor:user.id,p_tenant:body.tenant_id,p_user:uid,p_role:role,p_name:body.name.trim(),p_email:body.email.trim().toLowerCase()});if(provisionError)throw provisionError;
-  // Room numbers are verified by reception, never read from student-controlled JWT metadata.
-  if(role==='student' && typeof body.room_number==='string'){
-    const room=body.room_number.trim().normalize('NFC');
-    if(room && room.length<=30){
-      const {error:roomError}=await service.from('residents').update({verified_room_number:room})
-        .eq('tenant_id',body.tenant_id).eq('user_id',uid);
-      if(roomError){console.error('resident_room_update_failed',roomError.code);throw roomError}
+
+  const email=String(body.email).trim().toLowerCase();
+  const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
+  const redirect=portalOrigin+'/student-house-portal/';
+  let uid:string|undefined,existingUser=false;
+  const {data:inv,error:inviteError}=await service.auth.admin.inviteUserByEmail(email,{redirectTo:redirect});
+  uid=inv?.user?.id;
+  if(inviteError){
+    const code=String(inviteError.code||'');
+    const duplicate=code==='email_exists'||code==='user_already_exists'||/already (been )?registered|already exists/i.test(inviteError.message||'');
+    if(!duplicate)return reply({error:'invitation_failed'},503);
+    existingUser=true;
+    for(let page=1;page<=100&&!uid;page++){
+      const {data,error}=await service.auth.admin.listUsers({page,perPage:100});if(error)throw error;
+      uid=data.users.find(u=>u.email?.toLowerCase()===email)?.id;
+      if(data.users.length<100)break;
     }
   }
-  return reply({ok:true});
+  if(!uid)return reply({error:'user_not_resolved'},503);
+  const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
+  if(checkError)throw checkError;
+  if(existing)return reply({error:'membership_exists'},409);
+  const {error:provisionError}=await service.rpc('provision_member',{p_actor:user.id,p_tenant:tenant,p_user:uid,p_role:role,p_name:residentName,p_email:email});
+  if(provisionError)throw provisionError;
+  if(role==='student'){
+    // Room number is entered by trusted staff or copied from the request they inspected.
+    const room=(registration?.room_number||String(body.room_number||'')).trim().normalize('NFC').slice(0,30);
+    const fields:Record<string,unknown>={verified_room_number:room};
+    if(registration){
+      fields.verified_contract_number=registration.contract_number;
+      fields.accommodation_from=registration.accommodation_from;
+      fields.accommodation_to=registration.accommodation_to;
+    }
+    const {data:residentRows,error:residentError}=await service.from('residents').update(fields)
+      .eq('tenant_id',tenant).eq('user_id',uid).select('id');
+    if(residentError||!residentRows?.length)throw new Error('verified_resident_update_failed');
+  }
+  const {error:profileError}=await service.from('profiles').update({display_name:residentName}).eq('id',uid);
+  if(profileError)console.error('profile_display_name_update_failed',profileError.code);
+
+  if(registration){
+    const {data:marked,error:markError}=await service.from('registration_requests')
+      .update({status:'invited',reviewed_by:user.id,reviewed_at:new Date().toISOString()})
+      .eq('id',registration.id).eq('tenant_id',tenant).eq('status','pending').select('id');
+    if(markError||!marked?.length)console.error('registration_mark_failed',markError?.code||'not_updated');
+  }
+  if(existingUser){
+    // An existing account does not receive a new invite; send a password setup/recovery email.
+    const {error:resetError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
+    if(resetError)return reply({error:'password_email_failed',account_created:true},503);
+  }
+  const {error:auditError}=await service.from('audit_logs').insert({
+    tenant_id:tenant,actor_id:user.id,action:'RESIDENT_ACCESS_APPROVED',entity:'organization_memberships',entity_id:uid
+  });if(auditError)console.error('invite_audit_failed',auditError.code);
+  return reply({ok:true,email_sent:true});
+
  }catch(e){console.error('manage_request_failed');return reply({error:'request_failed'},400)}
 });
