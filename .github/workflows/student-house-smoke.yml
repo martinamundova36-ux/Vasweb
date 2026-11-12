@@ -26,6 +26,12 @@ jobs:
           }
           if (!html.includes('functions/v1/register-student')) throw new Error('Missing submission endpoint');
           if (!html.includes('id="orgSelector"') || !html.includes('chooseOrganization(')) throw new Error('Residence switcher missing');
+          for(const name of ["installments","documents","registrations","payments","cleaning","notices","rooms","requests"]){
+            if(!html.includes("tab==='"+name+"'"))throw new Error("Missing dashboard section: "+name);
+          }
+          if(!html.includes("portal-open") || !html.includes("function statusPill"))throw new Error('Authenticated interior layout missing');
+          const preview=fs.readFileSync('student-house-portal/preview.html','utf8');
+          if(!preview.includes('UKÁŽKA VNÚTRA APLIKÁCIE') || !preview.includes('Iba ilustračné údaje'))throw new Error('Public interior demo is not labelled as fake data');
           if (!html.includes("select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50)")) throw new Error('Membership selector missing');
           const edge = fs.readFileSync('student-house-portal/supabase/register-student/index.ts','utf8');
           if (!edge.includes('.not("verified_at","is",null)') || !edge.includes('tenant_id:tenantId')) throw new Error('Verified-domain tenant routing missing');
