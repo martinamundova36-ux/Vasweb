@@ -27,3 +27,8 @@ PASS 9 manage handler scenarios, including legacy invitation and private signed-
 
 PASS 12 Chromium role/entrypoint/mobile-width scenarios with synthetic SDK; SK/EN/RU/UK switching checked.
 PASS 3 actual HTTPS public mobile Chromium entries: HTTP 200, build 20261112-atomic2, registration form visible only on registration entry, authenticated app hidden, zero page errors. No credentials entered.
+
+FOLLOW-UP ENTRY SEPARATION:
+PASS generated student/admin entry consistency and full isolated test suite.
+PASS 12 role/entrypoint/mobile/desktop scenarios on canonical student/admin paths, including hostile view parameters.
+PASS actual Supabase SDK with synthetic HTTP: same-browser switching, forced student sign-in, independent admin tab, hostile parameter and wrong-role persisted session; both mobile/desktop widths.

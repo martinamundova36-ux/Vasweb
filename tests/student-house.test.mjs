@@ -29,7 +29,7 @@ const html=fs.readFileSync('student-house-portal/index.html','utf8');
 test('all inline application JavaScript parses',()=>{for(const m of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi))if(m[1])new vm.Script(m[1]);});
 test('entrypoint role gates and session stores are separate',()=>{
  const code=html.slice(html.indexOf('const staffEntryMode='),html.indexOf('const portalMessages='));
- for(const staff of [false,true]){const context={URLSearchParams,location:{search:staff?'?view=reception':''}};
+ for(const staff of [false,true]){const context={URLSearchParams,document:{body:{dataset:{}}},location:{search:staff?'?view=reception':''}};
  vm.createContext(context);vm.runInContext(code+';globalThis.result={key:portalStorageKey,roles:["student","org_admin","reception","platform_admin",null].map(portalRoleAllowed)}',context);
  assert.equal(JSON.stringify(context.result.roles),JSON.stringify(staff?[false,true,true,false,false]:[true,false,false,false,false]));
  assert.equal(context.result.key.includes('-student-auth-token'),!staff);

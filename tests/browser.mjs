@@ -17,7 +17,7 @@ try{
    }
    return route.abort();
   });
-  await page.goto('https://portal.test/student-house-portal/'+(mode==='reception'?'?view=reception':''));
+  await page.goto('https://portal.test/student-house-portal/'+(mode==='reception'?'admin/?view=register':'student/?view=reception'));
   const allowed=mode==='student'?role==='student':role!=='student';
   if(allowed){
    await page.locator('#tabs button').first().waitFor();

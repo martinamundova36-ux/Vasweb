@@ -27,7 +27,7 @@ jobs:
           }
           if (!html.includes('functions/v1/register-student')) throw new Error('Missing submission endpoint');
           if (!html.includes('id="backToWebsite"') || !html.includes('position:sticky')) throw new Error('Persistent back to Student House link missing');
-          if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes("await import('./staff.js?v=") || !staff.includes('registration_id:person.id')) throw new Error('Real finance, private documents or verified approval missing');
+          if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes("await import('/student-house-portal/staff.js?v=") || !staff.includes('registration_id:person.id')) throw new Error('Real finance, private documents or verified approval missing');
           if (!html.includes('id="orgSelector"') || !html.includes('chooseOrganization(')) throw new Error('Residence switcher missing');
           for(const name of ["installments","documents","registrations","payments","cleaning","notices","rooms","requests"]){
             if(name==='registrations'){if(!html.includes("['overview','registrations'") || !html.includes('renderStaffScreen(') || !staff.includes('registration_id:person.id'))throw new Error('Missing secure staff registration section');continue;}
