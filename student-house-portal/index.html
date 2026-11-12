@@ -68,6 +68,7 @@ body.portal-open #app .item{padding:17px 0}
 .staff-filters[hidden]{display:none!important}.staff-filters{display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,220px);gap:12px;margin:20px 0 10px}.staff-directory{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:15px}.staff-person{border:1px solid #dce7f3;border-radius:15px;padding:20px;min-width:0;background:#fafcff}.staff-person h4{font-size:20px;margin:0 0 10px}.staff-person p{overflow-wrap:anywhere}.staff-person>button{display:block;margin-top:15px}.staff-person dl{font-size:13px;grid-template-columns:1fr}.staff-profile h3{font-size:25px}.staff-profile dd{margin:5px 0 14px}.staff-profile dt{font-size:13px;font-weight:700}.staff-profile .data-card>button{display:block;margin-top:12px}.staff-notice:empty{display:none}.staff-notice{overflow-wrap:anywhere}.staff-directory .readonly-value{padding:10px}.staff-person dd{margin:5px 0}.staff-profile .data-card{overflow-wrap:anywhere}@media(max-width:600px){.staff-filters{grid-template-columns:1fr}.staff-directory{grid-template-columns:1fr}.staff-person{padding:16px}}
 
 .password-field{position:relative}#password{padding-right:57px}#login #loginEye{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:44px;height:44px;min-width:44px;margin:0;padding:0;border:0;background:transparent;color:#375875;display:flex;justify-content:center;align-items:center;cursor:pointer;border-radius:8px}#login #loginEye:hover{background:#e8eef7}#login #loginEye:focus-visible{outline:3px solid #3378b9;outline-offset:1px}#loginEye[aria-pressed="true"] .eye-slash{display:none}
+.portal-account-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.btn-switch-portal{display:inline-flex;align-items:center;justify-content:center;padding:12px 15px;min-height:44px;border-radius:9px;background:#e8f0fb;color:#142b4d;text-decoration:none;font-size:14px;font-weight:700}.btn-switch-portal:hover,.btn-switch-portal:focus-visible{background:#cee1f9;text-decoration:underline}.portal-account-actions #out{min-height:44px}@media(max-width:500px){.portal-account-actions{width:100%}.portal-account-actions .btn-switch-portal,.portal-account-actions #out{flex:1 1 135px;text-align:center}}
 .password-tools{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
 .password-tools button{width:auto!important;flex:1 1 130px;margin:0!important;background:#e6eef8;color:#142b4d}
 .password-tools button:hover{background:#d3e3f4}
@@ -112,7 +113,7 @@ body.portal-open #app .item{padding:17px 0}
 <button id="regBack" type="button" style="background:#e6eef8;color:#142b4d;width:100%">Späť na prihlásenie</button>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Moja zóna</h2><p id="user" class="muted"></p><p id="roleLabel" class="muted" style="margin:4px 0 0"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie / Residence</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><button id="out" type="button">Odhlásiť sa</button></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
+<div id="app" class="hide"><div class="top"><div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Moja zóna</h2><p id="user" class="muted"></p><p id="roleLabel" class="muted" style="margin:4px 0 0"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie / Residence</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
 </main></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
 <script>
@@ -153,6 +154,15 @@ async function copyPasswordValue(input,status){
 }
 const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const staffEntryMode=new URLSearchParams(location.search).get('view')==='reception';
+// Student and reception use different stored sessions. Preserve the original admin session.
+const portalStorageKey=staffEntryMode?'sb-ydqchayscxntqdkzkynv-auth-token':'sb-ydqchayscxntqdkzkynv-student-auth-token';
+const portalRoleAllowed=role=>staffEntryMode?(role==='reception'||role==='org_admin'):role==='student';
+const portalMessages={
+ sk:{student:"Toto je účet recepcie alebo administrátora. Pre študentskú zónu sa prihlás samostatným schváleným študentským účtom.",staff:"Tento účet nemá oprávnenie recepcie.",switchStudent:"Prihlásiť sa ako študent",switchStaff:"Recepcia / Admin"},
+ en:{student:"This is a reception or admin account. Sign in with a separate approved student account to enter the student portal.",staff:"This account has no reception access.",switchStudent:"Sign in as a student",switchStaff:"Reception / Admin"},
+ ru:{student:"Это аккаунт ресепшена или администратора. Для входа в студенческую зону используйте отдельный подтверждённый аккаунт студента.",staff:"У аккаунта нет доступа ресепшена.",switchStudent:"Войти как студент",switchStaff:"Ресепшен / Админ"},
+ uk:{student:"Це обліковий запис рецепції або адміністратора. Для входу до студентської зони використайте окремий підтверджений обліковий запис студента.",staff:"Немає доступу рецепції.",switchStudent:"Увійти як студент",switchStaff:"Рецепція / Адмін"}
+};
 const entryText={
 sk:{resident:"Študenti",staff:"Recepcia / Admin",title:"Prihlásenie recepcie",intro:"Zabezpečený vstup pre recepciu a administrátorov Student House Bratislava.",note:"Prístup je povolený iba schváleným zamestnancom recepcie. Registračný formulár je určený študentom.",denied:"Tento účet nemá oprávnenie recepcie."},
 en:{resident:"Residents",staff:"Reception / Admin",title:"Reception sign in",intro:"Secure sign in for authorized Student House Bratislava reception staff.",note:"Only approved reception staff can access this area. Registration is for residents.",denied:"This account does not have reception access."},
@@ -166,6 +176,8 @@ $('residentEntryLink').href='/student-house-portal/?lang='+lang;
 $('staffEntryLink').href='/student-house-portal/?view=reception&lang='+lang;
 for(const id of ['residentEntryLink','staffEntryLink']){const current=(staffEntryMode? id==='staffEntryLink':id==='residentEntryLink');$(id).style.background=current?'#142b4d':'#fff';$(id).style.color=current?'#fff':'#142b4d';if(current)$(id).setAttribute('aria-current','page');else $(id).removeAttribute('aria-current')}
 $('openRegistration').classList.toggle('hide',staffEntryMode);
+$('switchPortal').textContent=staffEntryMode?portalMessages[lang].switchStudent:portalMessages[lang].switchStaff;
+$('switchPortal').href=staffEntryMode?'/student-house-portal/?lang='+lang:'/student-house-portal/?view=reception&lang='+lang;
 if(staffEntryMode&&!resetMode){$('sign').textContent=e.title;$('intro').textContent=e.intro;$('invite').textContent=e.note;}$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode){$('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro}
 $('resetConfirmLabel').textContent=pwdText('confirm');$('resetGenerate').textContent=pwdText('generate');$('resetCopy').textContent=pwdText('copy');$('resetShow').textContent=pwdText($('resetPasswordValue').type==='password'?'show':'hide');const eyeLabel=pwdText($('password').type==='password'?'show':'hide');$('loginEye').setAttribute('aria-label',eyeLabel);$('loginEye').title=eyeLabel;
 }
@@ -834,13 +846,20 @@ async function signedIn(u){
  // The verified first administrator is provisioned server-side; no browser self-elevation.
  const {data:ms,error}=await db.from('organization_memberships')
   .select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50);
- if(error||!ms?.length || (staffEntryMode&&!ms.some(m=>m.role==='reception'||m.role==='org_admin'))){
-  if(staffEntryMode){await db.auth.signOut();await signedIn(null);$('error').textContent=entryText[lang].denied;return;}
+ if(error||!ms?.length){
+  if(staffEntryMode){await db.auth.signOut({scope:'local'});await signedIn(null);$('error').textContent=portalMessages[lang].staff;return;}
   member=null;resident=null;memberships=[];organizationNames={};
   $('orgSelectorWrap').classList.add('hide');$('tabs').replaceChildren();$('records').textContent=t[9];return;
  }
- memberships=ms;
- const ids=[...new Set(ms.map(m=>m.tenant_id))];
+ const allowedMemberships=ms.filter(m=>portalRoleAllowed(m.role));
+ if(!allowedMemberships.length){
+  // Deny the wrong role without revoking the other portal's session.
+  await db.auth.signOut({scope:'local'});await signedIn(null);
+  $('error').textContent=staffEntryMode?portalMessages[lang].staff:portalMessages[lang].student;
+  return;
+ }
+ memberships=allowedMemberships;
+ const ids=[...new Set(allowedMemberships.map(m=>m.tenant_id))];
  const {data:orgs,error:orgError}=await db.from('organizations').select('id,name').in('id',ids).limit(50);
  if(orgError)console.error('organization_lookup_failed');
  organizationNames=Object.fromEntries((orgs||[]).map(o=>[o.id,o.name]));
@@ -892,9 +911,9 @@ $('passwordResetForm').addEventListener('submit',async e=>{
  await db.auth.signOut();
  window.location.replace('https://www.webu.sk/student-house-portal/');
 });
-$('out').addEventListener('click',async()=>{await db.auth.signOut();member=null;resident=null;await signedIn(null)});
+$('out').addEventListener('click',async()=>{await db.auth.signOut({scope:'local'});member=null;resident=null;await signedIn(null)});
 if(!window.supabase||!K){$('error').textContent='Login service unavailable.';return}
-db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'implicit'}});// Implicit recovery tokens can be redeemed in the mobile browser opened by Gmail.
+db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'implicit',storageKey:portalStorageKey}});// Implicit recovery tokens can be redeemed in the mobile browser opened by Gmail.
 // PKCE recovery requires the code verifier stored in the *original* browser,
 // which is not available in Gmail's separate in-app browser.
 const recoveryRedirect=new URLSearchParams(window.location.hash.slice(1)).get('type')==='recovery';
