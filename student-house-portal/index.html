@@ -232,14 +232,14 @@ async function fileLink(id,tenant,openInline=false){
  if(!openInline)window.open(url.href,'_blank','noopener,noreferrer');
  return url.href;
 }
-async function sendFile(tenant,kind,file,button){
+async function sendFile(tenant,kind,file,button,residentId=null){
  if(!file){alert(dl('fileError'));return false;}
  const allowed=kind==='profile_photo'?['image/jpeg','image/png']:kind.endsWith('_template')?['application/pdf']:['application/pdf','image/jpeg','image/png'];
  const maximum=kind==='profile_photo'?3000000:6000000;
  if(!allowed.includes(file.type)||file.size>maximum||!file.size){alert(dl('fileError'));return false;}
  button.disabled=true;
  try{
-  const f=new FormData();f.append('action','upload');f.append('tenant_id',tenant);f.append('kind',kind);f.append('file',file);
+  const f=new FormData();f.append('action','upload');f.append('tenant_id',tenant);f.append('kind',kind);f.append('file',file);if(residentId)f.append('resident_id',residentId);
   const {data,error}=await db.functions.invoke('residence-files',{body:f});
   if(error||!data?.ok){alert(dl('fileError'));return false;}
   alert(dl('fileSuccess'));return true;
@@ -363,6 +363,34 @@ async function renderResidentDocuments(tenant,staff,own){
   }
  }
  subheading(dl('privateDocuments'));
+ const residentDocs=files.filter(x=>x.kind==='resident_document'&&x.active&&(staff||x.user_id===user.id))
+   .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+ if(residentDocs.length){
+  for(const x of residentDocs){
+   const owner=staff?(await list('residents')).find(p=>p.id===x.resident_id)?.full_name:'';
+   const card=row(x.original_name,(owner?owner+' · ':'')+day(x.created_at));
+   const btn=make('button','btn-secondary',dl('load'));btn.type='button';
+   btn.addEventListener('click',()=>{void fileLink(x.id,tenant)});
+   card.append(btn);$('records').append(card);
+  }
+ }
+ if(staff){
+  const residents=await list('residents');
+  if(residents.length){
+   const form=make('form','staff-form');
+   form.append(make('strong','',lang==='en'?'Send a private document to a resident':'Nahrať osobný dokument študentovi'));
+   const owner=selector(residents,'id',x=>x.full_name+' · '+(x.verified_room_number||'—'));
+   const input=make('input');input.type='file';input.accept='application/pdf,image/jpeg,image/png';input.required=true;
+   const send=make('button','',dl('upload'));send.type='submit';
+   form.append(labeled(fin('resident'),owner),labeled(dl('upload'),input),make('p','muted',lang==='en'?'Private files will only be accessible to the selected resident and reception.':'Súbor uvidí len vybraný študent a recepcia.'),send);
+   form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!input.files?.length)return;
+    if(await sendFile(tenant,'resident_document',input.files[0],send,owner.value))void renderPanel();
+   });
+   $('records').append(form);
+  }
+ }
  const docs=(await list('documents')).filter(x=>x.upload_complete);
  if(!docs.length)empty(label('documentsEmpty'));
  for(const x of docs){
