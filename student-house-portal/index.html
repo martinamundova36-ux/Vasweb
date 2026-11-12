@@ -285,13 +285,15 @@ $("regForm").addEventListener("submit",async e=>{
 function paint(items){let r=$('records');r.replaceChildren();if(!items.length){r.textContent=t[10];return}for(let x of items){let d=document.createElement('div');d.className='item';let b=document.createElement('strong');b.textContent=x.title||'';d.append(b);if(x.detail){let s=document.createElement('div');s.className='small';s.textContent=x.detail;d.append(s)}if(x.download){let a=document.createElement('button');a.textContent=t[19];a.addEventListener('click',x.download);d.append(a)}r.append(d)}}
 async function list(table,filter){
  const tenant=member.tenant_id,items=[];
- for(let page=0;page<10;page++){
-  let q=db.from(table).select('*').eq('tenant_id',tenant).order('id').range(page*100,page*100+99);
+ const pageSize=500,maxPages=30;
+ const orderColumn=table==='resident_staff_details'?'resident_id':'id';
+ for(let page=0;page<maxPages;page++){
+  let q=db.from(table).select('*').eq('tenant_id',tenant).order(orderColumn).range(page*pageSize,page*pageSize+pageSize-1);
   if(filter)for(const [k,v] of Object.entries(filter))q=q.eq(k,v);
   const {data,error}=await q;
   if(error)throw error;
   items.push(...(data||[]));
-  if(!data||data.length<100)return items;
+  if(!data||data.length<pageSize)return items;
  }
  throw Error('result_limit_reached');
 }
