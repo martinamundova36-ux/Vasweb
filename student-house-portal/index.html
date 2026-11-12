@@ -21,7 +21,7 @@
 <button id="regBack" type="button" style="background:#e6eef8;color:#142b4d;width:100%">Späť na prihlásenie</button>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div><small>STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Moja zóna</h2><p id="user" class="muted"></p></div><button id="out" type="button">Odhlásiť sa</button></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
+<div id="app" class="hide"><div class="top"><div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Moja zóna</h2><p id="user" class="muted"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie / Residence</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><button id="out" type="button">Odhlásiť sa</button></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
 </main></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
 <script>
@@ -34,7 +34,7 @@ ru:{open:"Регистрация",title:"Регистрация проживан
 uk:{open:"Реєстрація",title:"Реєстрація проживання",intro:"Форму може надіслати будь-хто. Рецепція перевірить дані за договором і тільки тоді активує вхід.",first:"Ім'я",last:"Прізвище",email:"Електронна пошта",room:"Номер кімнати",contract:"Номер договору проживання",from:"Проживання з",to:"Проживання до",privacy:"Я ознайомився(-лася) з інформацією про обробку персональних даних.",send:"Надіслати реєстрацію",back:"Повернутися до входу",ok:"Реєстрацію надіслано. Рецепція перевірить дані та зв'яжеться з вами.",invalid:"Перевірте дані та дати проживання.",error:"Не вдалося надіслати заявку. Спробуйте пізніше.",limited:"Забагато спроб. Спробуйте пізніше.",staff:"Реєстрації",approve:"Перевірено – надіслати запрошення",confirm:"Ви перевірили дані за чинним договором? На електронну пошту буде надіслано запрошення.",sent:"Запрошення надіслано.",invitationError:"Не вдалося надіслати запрошення.",pending:"Очікує перевірки"}
 };
 const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let lang=(new URLSearchParams(location.search).get('lang')||'sk').toLowerCase();if(!tr[lang])lang='sk';let t=tr[lang],db=null,user=null,member=null,resident=null,tab='overview';
+let lang=(new URLSearchParams(location.search).get('lang')||'sk').toLowerCase();if(!tr[lang])lang='sk';let t=tr[lang],db=null,user=null,member=null,resident=null,tab='overview',memberships=[],organizationNames={};
 function translate(){t=tr[lang];document.documentElement.lang=lang;$('welcome').textContent=t[0];$('subtitle').textContent=t[1];$('sign').textContent=t[2];$('signbtn').textContent=t[2];$('intro').textContent=t[3];$('pwlabel').textContent=t[4];$('invite').textContent=t[5];$('zone').textContent=t[6];$('out').textContent=t[7];$('lang').value=lang}
 function translateRegister(){
  const r=R[lang];
@@ -72,8 +72,24 @@ $("regForm").addEventListener("submit",async e=>{
 });
 function paint(items){let r=$('records');r.replaceChildren();if(!items.length){r.textContent=t[10];return}for(let x of items){let d=document.createElement('div');d.className='item';let b=document.createElement('strong');b.textContent=x.title||'';d.append(b);if(x.detail){let s=document.createElement('div');s.className='small';s.textContent=x.detail;d.append(s)}if(x.download){let a=document.createElement('button');a.textContent=t[19];a.addEventListener('click',x.download);d.append(a)}r.append(d)}}
 async function list(table,filter){let q=db.from(table).select('*').eq('tenant_id',member.tenant_id).limit(100);if(filter)for(let [k,v] of Object.entries(filter))q=q.eq(k,v);let {data,error}=await q;if(error)throw error;return data||[]}
+async function chooseOrganization(tenantId){
+ const chosen=memberships.find(m=>m.tenant_id===tenantId);
+ if(!chosen)return;
+ member=chosen;resident=null;
+ const name=organizationNames[tenantId]||'Ubytovacie zariadenie';
+ $('orgLabel').textContent=name.toUpperCase();
+ document.title=name+' | Študentská zóna';
+ $('orgSelector').value=tenantId;
+ if(member.role==='student'){
+  const {data:rs,error}=await db.from('residents').select('*').eq('tenant_id',tenantId).eq('user_id',user.id).limit(1);
+  if(error){console.error('resident_lookup_failed');}
+  resident=rs?.[0]||null;
+ }
+ tab='overview';renderTabs();await renderPanel();
+}
+$('orgSelector').addEventListener('change',e=>{void chooseOrganization(e.target.value)});
 function renderTabs(){let staff=member.role!=='student';let all=staff?[['overview',11],['registrations',-1],['residents',18],['rooms',17],['payments',12],['documents',13],['requests',14],['cleaning',15],['notices',16]]:[['overview',11],['rooms',17],['payments',12],['documents',13],['requests',14],['cleaning',15],['notices',16]];$('tabs').replaceChildren();for(const [key,i] of all){let b=document.createElement('button');b.className='card'+(tab===key?' active':'');b.textContent=i===-1?R[lang].staff:t[i];b.addEventListener('click',()=>{tab=key;renderTabs();void renderPanel()});$('tabs').append(b)}}
-async function renderPanel(){let r=$('records');r.textContent='…';try{let staff=member.role!=='student',own=resident?.id;if(tab==='overview'){paint([{title:user.email,detail:member.role+' · Student House Bratislava'}]);return}
+async function renderPanel(){let r=$('records');r.textContent='…';try{let staff=member.role!=='student',own=resident?.id;if(tab==='overview'){paint([{title:user.email,detail:member.role+' · '+(organizationNames[member.tenant_id]||'Ubytovacie zariadenie')}]);return}
 if(tab==='registrations'&&staff){
  let rows=(await list("registration_requests")).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
  r.replaceChildren();
@@ -108,7 +124,33 @@ if(tab==='requests'||tab==='cleaning'){let table=tab==='requests'?'service_reque
 let f=document.createElement('form');f.className='report';if(tab==='requests'){f.innerHTML='<label>'+esc(t[22])+'</label><input id="req-subject" maxlength="160" required><label>'+esc(t[23])+'</label><textarea id="req-notes" maxlength="1500" required></textarea><label>Typ / Type</label><select id="req-type"><option value="maintenance">Maintenance</option><option value="documents">Documents</option><option value="parcel">Parcel</option><option value="other">Other</option></select>'}else{f.innerHTML='<label>'+esc(t[21])+'</label><input id="clean-date" type="date" required><label>Time / Čas</label><select id="clean-time"><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="anytime">Anytime</option></select><label>'+esc(t[23])+'</label><textarea id="clean-notes" maxlength="1500"></textarea>'}
 let b=document.createElement('button');b.type='submit';b.textContent=t[20];b.style.marginTop='15px';f.append(b);f.addEventListener('submit',async e=>{e.preventDefault();b.disabled=true;let payload={tenant_id:member.tenant_id,resident_id:own};if(tab==='requests')Object.assign(payload,{subject:$('req-subject').value,description:$('req-notes').value,category:$('req-type').value,status:'new',staff_note:''});else Object.assign(payload,{preferred_date:$('clean-date').value,preferred_window:$('clean-time').value,notes:$('clean-notes').value,status:'requested'});let {error}=await db.from(table).insert(payload);b.disabled=false;if(error){alert('Unable to submit');return}alert(t[24]);void renderPanel()});r.append(f);return;}
 }catch(e){console.error(e);r.textContent='Unable to load records.'}}
-async function signedIn(u){user=u;$('login').classList.toggle('hide',!!u);$('app').classList.toggle('hide',!u);if(!u)return;$('user').textContent=u.email;let {data:ms,error}=await db.from('organization_memberships').select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(1);if(error||!ms?.length){$('tabs').replaceChildren();$('records').textContent=t[9];return}member=ms[0];resident=null;if(member.role==='student'){let {data:rs}=await db.from('residents').select('*').eq('tenant_id',member.tenant_id).eq('user_id',u.id).limit(1);resident=rs?.[0]||null}tab='overview';renderTabs();await renderPanel()}
+async function signedIn(u){
+ user=u;$('login').classList.toggle('hide',!!u);$('app').classList.toggle('hide',!u);
+ if(!u){
+  member=null;resident=null;memberships=[];organizationNames={};
+  $('orgLabel').textContent='STUDENT HOUSE BRATISLAVA';$('orgSelectorWrap').classList.add('hide');
+  document.title='Student House Bratislava | Študentská zóna';return;
+ }
+ $('user').textContent=u.email;
+ const {data:ms,error}=await db.from('organization_memberships')
+  .select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50);
+ if(error||!ms?.length){
+  member=null;resident=null;memberships=[];organizationNames={};
+  $('orgSelectorWrap').classList.add('hide');$('tabs').replaceChildren();$('records').textContent=t[9];return;
+ }
+ memberships=ms;
+ const ids=[...new Set(ms.map(m=>m.tenant_id))];
+ const {data:orgs,error:orgError}=await db.from('organizations').select('id,name').in('id',ids).limit(50);
+ if(orgError)console.error('organization_lookup_failed');
+ organizationNames=Object.fromEntries((orgs||[]).map(o=>[o.id,o.name]));
+ const select=$('orgSelector');select.replaceChildren();
+ for(const id of ids){
+  const option=document.createElement('option');option.value=id;
+  option.textContent=organizationNames[id]||'Ubytovacie zariadenie';select.append(option);
+ }
+ $('orgSelectorWrap').classList.toggle('hide',ids.length<2);
+ await chooseOrganization(ids[0]);
+}
 $('lang').addEventListener('change',e=>{lang=e.target.value;translate();translateRegister();if(member){renderTabs();void renderPanel()}});translate();translateRegister();
 $('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=t[8];return}await signedIn(data.user)});
 $('out').addEventListener('click',async()=>{await db.auth.signOut();member=null;resident=null;await signedIn(null)});
