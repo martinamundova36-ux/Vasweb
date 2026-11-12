@@ -71,10 +71,11 @@ export function periodLedger({entry,year,month,charges=[],allocations=[],reversa
  return {kind,charged,paid,remaining,due:relevant.map(c=>c.due_on).sort()[0],count:relevant.length};
 }
 const monthCell=(state,lang,w)=>{
- const value=state.kind==='none'?'—':state.kind==='missing'?w.missingCharge:formatMoney(state.remaining/100,lang);
+ const value=state.kind==='none'?'—':state.kind==='missing'?w.missingCharge:formatMoney(state.charged/100,lang);
  const c=cell(value,'month-cell month-'+state.kind);
  if(['paid','partial','due','late','plan'].includes(state.kind)){
   c.append(el('span','month-status-label',w[state.kind]));
+  if(state.remaining>0&&state.remaining!==state.charged)c.append(el('span','month-status-label',formatMoney(state.remaining/100,lang)+' zostáva'));
   c.title=w.sum+': '+formatMoney(state.charged/100,lang)+' / '+formatMoney(state.paid/100,lang)+' · '+formatDate(state.due,lang);
  } else if(state.kind==='missing')c.title=w.missingCharge;
  return c;
