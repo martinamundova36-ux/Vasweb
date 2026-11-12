@@ -25,6 +25,8 @@ jobs:
             if (!html.includes('id="'+id+'"')) throw new Error('Missing registration field '+id);
           }
           if (!html.includes('functions/v1/register-student')) throw new Error('Missing submission endpoint');
+          if (!html.includes('id="backToWebsite"') || !html.includes('position:sticky')) throw new Error('Persistent back to Student House link missing');
+          if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes('registration_id:x.id')) throw new Error('Real finance, private documents or verified approval missing');
           if (!html.includes('id="orgSelector"') || !html.includes('chooseOrganization(')) throw new Error('Residence switcher missing');
           for(const name of ["installments","documents","registrations","payments","cleaning","notices","rooms","requests"]){
             if(!html.includes("tab==='"+name+"'"))throw new Error("Missing dashboard section: "+name);
@@ -35,8 +37,12 @@ jobs:
           const fileEndpoint=fs.readFileSync('student-house-portal/supabase/residence-files/index.ts','utf8');
           if(!fileEndpoint.includes('getUser()') || !fileEndpoint.includes('residence_portal_files') || !fileEndpoint.includes('verified_resident_required'))throw new Error('Private file security checks missing');
           const preview=fs.readFileSync('student-house-portal/preview.html','utf8');
-          if(!preview.includes('UKÁŽKA VNÚTRA APLIKÁCIE') || !preview.includes('Iba ilustračné údaje'))throw new Error('Public interior demo is not labelled as fake data');
+          if(!preview.includes('url=/student-house-portal/') || preview.includes('Iba ilustračné údaje'))throw new Error('Old illustrative demo was not redirected to real portal');
           if (!html.includes("select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50)")) throw new Error('Membership selector missing');
+          const finance=fs.readFileSync('student-house-portal/supabase/residence-finance/index.ts','utf8');
+          if(!finance.includes('auth.getUser()') || !finance.includes('residence_record_payment') || !finance.includes('residence_create_installment_plan')) throw new Error('Secured finance API implementation missing');
+          const manage=fs.readFileSync('student-house-portal/supabase/manage/index.ts','utf8');
+          if(!manage.includes('registration_not_pending') || !manage.includes('verified_contract_number')) throw new Error('Reception verification contract logic missing');
           const edge = fs.readFileSync('student-house-portal/supabase/register-student/index.ts','utf8');
           if (!edge.includes('.not("verified_at","is",null)') || !edge.includes('tenant_id:tenantId')) throw new Error('Verified-domain tenant routing missing');
           console.log('Registration, multi-residence switcher and tenant routing checks passed');
@@ -82,5 +88,32 @@ jobs:
             const data=await noAuth.json();
             if(noAuth.status!==401 || data.error!=='unauthorized')throw new Error('Private download without login not denied: '+noAuth.status+' '+JSON.stringify(data));
             console.log('Resident file endpoint CORS and unauthorized access tests passed');
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+
+      - name: Ensure unregistered users cannot access manager or financial endpoints
+        run: |
+          node <<'JS'
+          (async()=>{
+            const root='https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/';
+            for(const endpoint of ['manage','residence-finance']){
+              const response=await fetch(root+endpoint,{
+                method:'POST',
+                headers:{origin:'https://www.webu.sk','content-type':'application/json'},
+                body:JSON.stringify({action:'payment',tenant_id:'00000000-0000-0000-0000-000000000000'})
+              });
+              const data=await response.json();
+              if(response.status!==401 || data.error!=='unauthorized'){
+                throw new Error('Unprotected '+endpoint+' endpoint: '+response.status+' '+JSON.stringify(data));
+              }
+              const options=await fetch(root+endpoint,{
+                method:'OPTIONS',
+                headers:{origin:'https://www.webu.sk','access-control-request-method':'POST','access-control-request-headers':'authorization,content-type'}
+              });
+              if(![200,204].includes(options.status)||options.headers.get('access-control-allow-origin')!=='https://www.webu.sk'){
+                throw new Error('Unexpected authenticated endpoint preflight '+endpoint+': '+options.status);
+              }
+            }
+            console.log('Unauthenticated staff routes denied and cross-origin preflight OK');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
