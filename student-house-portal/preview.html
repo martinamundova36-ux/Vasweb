@@ -18,11 +18,12 @@ footer{padding:23px 5px;font-size:12px;color:#617188}
 (()=>{'use strict';
 const sample={
 student:{
+ profile:{title:'Môj profil',description:'Overené údaje študenta a možnosť nahrať profilovú fotografiu.',items:[['Fotografia študenta','JPG alebo PNG · do 3 MB · nahratie v zabezpečenej aplikácii'],['Meno','Ukážkové meno'],['Priezvisko','Ukážkové priezvisko'],['Číslo izby','A-101 · potvrdené recepciou'],['E-mail','Prihlásený študentský účet']]},
  overview:{title:'Vitajte v študentskej zóne',description:'Tu sa zobrazujú tvoje údaje po prihlásení.',stats:[['Moja izba','A-101'],['Nájomné','300 €'],['Evidované úhrady','300 €'],['Otvorené žiadosti','1']],items:[['Ubytovanie','Ilustračná zmluva · 01. 09. 2026 – 30. 06. 2027'],['Oznam recepcie','Nočný pokoj 22:00 – 06:00']]},
  rooms:{title:'Moja izba',description:'Údaje podľa tvojej ubytovacej zmluvy.',items:[['Izba A-101','Obdobie pobytu: 01. 09. 2026 – 30. 06. 2027'],['Mesačné nájomné','300 € · splatnosť podľa zmluvy']]},
  payments:{title:'Moje platby',description:'Zoznam predpisov a evidovaných úhrad.',items:[['Predpis nájomného','November 2026 · 300 € · splatné do 05. 11. 2026'],['Evidovaná úhrada','300 € · bankový prevod', 'Zaúčtované']]},
  installments:{title:'Splátkový kalendár',description:'Individuálne schválené splátky.',items:[['Ilustračný splátkový plán','15. 11. 2026 · 150 €'],['Druhá splátka','30. 11. 2026 · 150 €']]},
- documents:{title:'Moje dokumenty',description:'Súkromné súbory dostupné len tebe.',items:[['Ubytovacia zmluva','PDF · na stiahnutie po overení'],['Potvrdenie o ubytovaní','Dokument priradí recepcia']]},
+ documents:{title:'Moje dokumenty',description:'Stiahni platné dokumenty a odovzdaj podpísané PDF alebo fotografiu.',items:[['Ubytovací poriadok','PDF na stiahnutie · platné znenie nahráva recepcia'],['GDPR – informácie o ochrane údajov','PDF na stiahnutie · platné znenie nahráva recepcia'],['Podpísaný ubytovací poriadok','PDF, JPG alebo PNG · do 6 MB','Čaká na kontrolu'],['Podpísané potvrdenie GDPR','PDF, JPG alebo PNG · do 6 MB','Schválené']]},
  requests:{title:'Moje požiadavky',description:'Opravy, dokumenty a otázky pre recepciu.',items:[['Oprava okna','Nahlásené · spracúva recepcia','Nová požiadavka']]},
  cleaning:{title:'Upratovanie izby',description:'Požiadaj o upratovanie a sleduj potvrdenie termínu.',items:[['Žiadosť o upratovanie','Preferovaný dátum: 18. 11. 2026','Čaká na potvrdenie']]},
  notices:{title:'Oznamy',description:'Dôležité informácie recepcie.',items:[['Otváracie hodiny recepcie','Pondelok – piatok · 08:30 – 16:30'],['Pokyny pre študentov','Sleduj aktuálne oznamy a ubytovací poriadok']]}
@@ -34,12 +35,12 @@ reception:{
  rooms:{title:'Izby a kapacity',description:'Zoznam izieb podľa zariadenia.',items:[['A-101','Dvojlôžková · kapacita 2'],['A-102','Apartmán · kapacita 2']]},
  payments:{title:'Platby a nájomné',description:'Evidencia predpisov a úhrad.',items:[['Mesačný predpis','November 2026 · 300 €'],['Banková úhrada','Ukážková evidovaná platba · 300 €']]},
  installments:{title:'Splátkové kalendáre',description:'Schválené individuálne splátky študentov.',items:[['Ukážkový splátkový plán','2 splátky · 150 € + 150 €']]},
- documents:{title:'Dokumenty',description:'Spoločné a osobné dokumenty s riadeným prístupom.',items:[['Ubytovací poriadok','Verejný dokument'],['Osobná zmluva študenta','Prístup len pre konkrétneho študenta']]},
+ documents:{title:'Dokumenty',description:'Nahratie platných PDF, kontrola a schvaľovanie podpísaných súborov.',items:[['Ubytovací poriadok','Nahratie oficiálneho PDF pre študentov'],['Informácie GDPR','Nahratie schváleného PDF'],['Podpísaný ubytovací poriadok','Prijatý dokument študenta · schváliť / vrátiť na opravu','Čaká'],['Podpísané potvrdenie GDPR','Prijatý a overený dokument študenta','Schválené'],['Osobná zmluva študenta','Prístup len pre konkrétneho študenta']]},
  requests:{title:'Požiadavky študentov',description:'Zmeň stav a pridaj poznámku.',items:[['Nahlásená oprava okna','Stav: Nová · priradené recepcii','Nová'],['Potvrdenie o ubytovaní','Stav: Vybavuje sa','Prebieha']]},
  cleaning:{title:'Správa upratovania',description:'Potvrdzovanie termínov a cien.',items:[['Žiadosť o upratovanie','Izba A-101 · preferovaný termín 18. 11. 2026','Čaká'],['Schválené upratovanie','Cena a termín potvrdené recepciou','Schválené']]},
  notices:{title:'Oznamy',description:'Zverejňovanie správ pre študentov.',items:[['Recepcia – nové hodiny','Oznam v štyroch jazykoch'],['Víkendový režim','Pokyny k prístupovým kartám']]}
 }};
-const tabs={student:[['overview','Prehľad'],['rooms','Moja izba'],['payments','Platby'],['installments','Splátky'],['documents','Dokumenty'],['requests','Požiadavky'],['cleaning','Upratovanie'],['notices','Oznamy']],reception:[['overview','Prehľad'],['registrations','Registrácie'],['residents','Študenti'],['rooms','Izby'],['payments','Platby'],['installments','Splátky'],['documents','Dokumenty'],['requests','Požiadavky'],['cleaning','Upratovanie'],['notices','Oznamy']]};
+const tabs={student:[['overview','Prehľad'],['profile','Môj profil'],['rooms','Moja izba'],['payments','Platby'],['installments','Splátky'],['documents','Dokumenty'],['requests','Požiadavky'],['cleaning','Upratovanie'],['notices','Oznamy']],reception:[['overview','Prehľad'],['registrations','Registrácie'],['residents','Študenti'],['rooms','Izby'],['payments','Platby'],['installments','Splátky'],['documents','Dokumenty'],['requests','Požiadavky'],['cleaning','Upratovanie'],['notices','Oznamy']]};
 let role='student',active='overview';const $=id=>document.getElementById(id);
 function render(){
 $('heading').textContent=role==='student'?'Moja študentská zóna':'Administrácia recepcie';
