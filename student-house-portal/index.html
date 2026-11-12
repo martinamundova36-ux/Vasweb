@@ -753,10 +753,7 @@ async function signedIn(u){
   document.title='Student House Bratislava | Študentská zóna';return;
  }
  $('user').textContent=u.email;
- // Server verifies the owner's confirmed Auth email and grants the first admin role once.
- // Ordinary registrations and all other users receive no privileges from this RPC.
- const {error:bootstrapError}=await db.rpc('activate_first_webu_admin');
- if(bootstrapError)console.warn('admin_activation_check_failed',bootstrapError.code||'unknown');
+ // The verified first administrator is provisioned server-side; no browser self-elevation.
  const {data:ms,error}=await db.from('organization_memberships')
   .select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50);
  if(error||!ms?.length){
