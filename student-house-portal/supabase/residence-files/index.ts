@@ -10,7 +10,7 @@ const BUCKET = "residence-portal-files";
 const LEGACY = new Set(["https://www.webu.sk", "https://webu.sk"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const templates = new Set(["rules_template", "gdpr_template"]);
-const uploads = new Set(["profile_photo", "signed_rules", "signed_gdpr", ...templates]);
+const uploads = new Set(["profile_photo", "signed_rules", "signed_gdpr", "resident_document", ...templates]);
 const imageTypes = new Set(["image/jpeg", "image/png"]);
 const allTypes = new Set(["image/jpeg", "image/png", "application/pdf"]);
 
@@ -82,7 +82,7 @@ Deno.serve(async req => {
       if(!isMultipart)return fail(origin,400,"multipart_required");
       const kind=get("kind");
       if(!uploads.has(kind))return fail(origin,400,"invalid_kind");
-      if(templates.has(kind)&&!staff)return fail(origin,403,"staff_only");
+      if((templates.has(kind)||kind==="resident_document")&&!staff)return fail(origin,403,"staff_only");
       const file=body.get("file");
       if(!(file instanceof File)||file.size===0)return fail(origin,400,"file_required");
       const max=kind==="profile_photo"?3000000:6000000;
@@ -94,17 +94,28 @@ Deno.serve(async req => {
       const bytes=new Uint8Array(await file.arrayBuffer());
       const actual=detectMime(bytes);
       if(!actual||actual!==file.type)return fail(origin,400,"file_signature_invalid");
-      const resident = templates.has(kind)?null:(await client.from("residents")
-        .select("id").eq("tenant_id",tenant).eq("user_id",user.id)
-        .eq("active",true).maybeSingle()).data;
-      if(!templates.has(kind)&&!resident)return fail(origin,403,"verified_resident_required");
+      const recipientId=kind==="resident_document"?get("resident_id"):"";
+      if(kind==="resident_document"&&!UUID.test(recipientId))return fail(origin,400,"resident_required");
+      const {data:resident,error:residentError}=templates.has(kind)?{data:null,error:null}:await client.from("residents")
+        .select("id,user_id").eq("tenant_id",tenant).eq("user_id",kind==="resident_document"?"00000000-0000-0000-0000-000000000000":user.id)
+        .eq("active",true).maybeSingle();
+      let person=resident;
+      if(kind==="resident_document"){
+        const result=await client.from("residents").select("id,user_id").eq("tenant_id",tenant).eq("id",recipientId).eq("active",true).maybeSingle();
+        if(result.error||!result.data)return fail(origin,403,"verified_resident_required");
+        person=result.data;
+      }else if(residentError)return fail(origin,503,"resident_lookup_failed");
+      if(!templates.has(kind)&&!person)return fail(origin,403,"verified_resident_required");
+      const ownerId=kind==="resident_document"?person!.user_id:user.id;
       const extension=actual==="application/pdf"?"pdf":actual==="image/png"?"png":"jpg";
       const objectId=crypto.randomUUID();
       const objectPath=templates.has(kind)
         ? "templates/"+tenant+"/"+kind+"/"+objectId+"."+extension
-        : kind==="profile_photo"
-          ? "photos/"+tenant+"/"+user.id+"/"+objectId+"."+extension
-          : "signed/"+tenant+"/"+user.id+"/"+kind+"/"+objectId+"."+extension;
+        : kind==="resident_document"
+          ? "private/"+tenant+"/"+ownerId+"/"+objectId+"."+extension
+          : kind==="profile_photo"
+            ? "photos/"+tenant+"/"+user.id+"/"+objectId+"."+extension
+            : "signed/"+tenant+"/"+user.id+"/"+kind+"/"+objectId+"."+extension;
       const {error:storedError}=await admin.storage.from(BUCKET).upload(objectPath,bytes,{
         contentType:actual,cacheControl:"60",upsert:false
       });
@@ -125,8 +136,8 @@ Deno.serve(async req => {
       }
       const {data:record,error:savedError}=await admin.from("residence_portal_files").insert({
         tenant_id:tenant,
-        user_id:templates.has(kind)?null:user.id,
-        resident_id:resident?.id||null,
+        user_id:templates.has(kind)?null:ownerId,
+        resident_id:person?.id||null,
         kind,object_path:objectPath,original_name:cleanName(file.name||"document."+extension),
         content_type:actual,size_bytes:file.size,uploaded_by:user.id,
         review_status:kind.startsWith("signed_")?"pending":"not_applicable",active:true
@@ -137,6 +148,8 @@ Deno.serve(async req => {
         if(previousIds.length)await admin.from("residence_portal_files").update({active:true}).in("id",previousIds).eq("tenant_id",tenant);
         return fail(origin,503,"save_failed");
       }
+      const {error:auditError}=await admin.from("audit_logs").insert({tenant_id:tenant,actor_id:user.id,action:"PORTAL_FILE_UPLOADED",entity:"residence_portal_files",entity_id:record.id});
+      if(auditError)console.error("residence_file_audit_failed",auditError.code);
       return response(origin,{ok:true,file:record},201);
     }
     if(action==="download"){
@@ -149,6 +162,8 @@ Deno.serve(async req => {
         record.object_path,90,record.kind==="profile_photo"?undefined:{download:record.original_name}
       );
       if(signedError||!link?.signedUrl)return fail(origin,503,"download_unavailable");
+      const {error:auditError}=await admin.from("audit_logs").insert({tenant_id:tenant,actor_id:user.id,action:"PORTAL_FILE_SIGNED_DOWNLOAD",entity:"residence_portal_files",entity_id:fileId});
+      if(auditError)return fail(origin,503,"audit_unavailable");
       return response(origin,{ok:true,url:link.signedUrl});
     }
     if(action==="review"){
@@ -162,6 +177,8 @@ Deno.serve(async req => {
         .update({review_status:status,staff_note:note,reviewed_by:user.id,reviewed_at:new Date().toISOString()})
         .eq("tenant_id",tenant).eq("id",fileId);
       if(updatedError)return fail(origin,503,"review_failed");
+      const {error:auditError}=await admin.from("audit_logs").insert({tenant_id:tenant,actor_id:user.id,action:"PORTAL_FILE_REVIEWED_"+status.toUpperCase(),entity:"residence_portal_files",entity_id:fileId});
+      if(auditError)console.error("residence_file_review_audit_failed",auditError.code);
       return response(origin,{ok:true});
     }
     return fail(origin,400,"invalid_action");
