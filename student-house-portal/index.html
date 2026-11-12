@@ -8,6 +8,15 @@ body.portal-open main{width:100%;max-width:none}
 body.portal-open #app{background:transparent}
 body.portal-open #app .top{align-items:flex-start;background:linear-gradient(110deg,#142b4d,#1f426c);color:white;border-radius:22px;padding:clamp(24px,3vw,42px);box-shadow:0 12px 30px rgba(20,43,77,.12)}
 body.portal-open #app .top .muted{color:#d0deec}
+body.portal-open #app .top .portal-brand{min-width:0;flex:1 1 290px}
+body.portal-open #app .top #zone{font-size:clamp(22px,2.6vw,32px);line-height:1.2;margin:10px 0}
+body.portal-open #app .top .portal-role{font-size:14px;color:#fff;font-weight:700;margin:4px 0}
+body.portal-open #app .top .portal-email{font-size:13px;margin:3px 0;overflow-wrap:anywhere}
+body.portal-open #app .top .portal-account-actions{justify-content:flex-end}
+body.portal-open #app .top .portal-account-actions .btn-switch-portal{font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+body.portal-open #app .top .portal-account-actions #accountShortcut[aria-current="page"]{outline:3px solid #b5d5ff}
+@media(max-width:750px){body.portal-open #app .top .portal-account-actions{justify-content:stretch}body.portal-open #app .top .portal-account-actions .btn-switch-portal,body.portal-open #app .top .portal-account-actions #out{flex:1 1 130px}}
+
 body.portal-open #app #orgSelectorWrap label{color:#e4edf6}
 body.portal-open #app #orgSelector{max-width:360px}
 body.portal-open #app #out{background:#fff;color:#142b4d;box-shadow:0 3px 10px rgba(0,0,0,.12)}
@@ -113,7 +122,7 @@ body.portal-open #app .item{padding:17px 0}
 <button id="regBack" type="button" style="background:#e6eef8;color:#142b4d;width:100%">Späť na prihlásenie</button>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Moja zóna</h2><p id="user" class="muted"></p><p id="roleLabel" class="muted" style="margin:4px 0 0"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie / Residence</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie / Residence</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
 </main></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
 <script>
@@ -158,10 +167,10 @@ const staffEntryMode=new URLSearchParams(location.search).get('view')==='recepti
 const portalStorageKey=staffEntryMode?'sb-ydqchayscxntqdkzkynv-auth-token':'sb-ydqchayscxntqdkzkynv-student-auth-token';
 const portalRoleAllowed=role=>staffEntryMode?(role==='reception'||role==='org_admin'):role==='student';
 const portalMessages={
- sk:{student:"Toto je účet recepcie alebo administrátora. Pre študentskú zónu sa prihlás samostatným schváleným študentským účtom.",staff:"Tento účet nemá oprávnenie recepcie.",switchStudent:"Prihlásiť sa ako študent",switchStaff:"Recepcia / Admin"},
- en:{student:"This is a reception or admin account. Sign in with a separate approved student account to enter the student portal.",staff:"This account has no reception access.",switchStudent:"Sign in as a student",switchStaff:"Reception / Admin"},
- ru:{student:"Это аккаунт ресепшена или администратора. Для входа в студенческую зону используйте отдельный подтверждённый аккаунт студента.",staff:"У аккаунта нет доступа ресепшена.",switchStudent:"Войти как студент",switchStaff:"Ресепшен / Админ"},
- uk:{student:"Це обліковий запис рецепції або адміністратора. Для входу до студентської зони використайте окремий підтверджений обліковий запис студента.",staff:"Немає доступу рецепції.",switchStudent:"Увійти як студент",switchStaff:"Рецепція / Адмін"}
+ sk:{student:"Toto je účet recepcie alebo administrátora. Pre študentskú zónu sa prihlás samostatným schváleným študentským účtom.",staff:"Tento účet nemá oprávnenie recepcie.",switchStudent:"Študentské prihlásenie",switchStaff:"Recepcia / Admin"},
+ en:{student:"This is a reception or admin account. Sign in with a separate approved student account to enter the student portal.",staff:"This account has no reception access.",switchStudent:"Student sign-in",switchStaff:"Reception / Admin"},
+ ru:{student:"Это аккаунт ресепшена или администратора. Для входа в студенческую зону используйте отдельный подтверждённый аккаунт студента.",staff:"У аккаунта нет доступа ресепшена.",switchStudent:"Вход для студентов",switchStaff:"Ресепшен / Админ"},
+ uk:{student:"Це обліковий запис рецепції або адміністратора. Для входу до студентської зони використайте окремий підтверджений обліковий запис студента.",staff:"Немає доступу рецепції.",switchStudent:"Вхід для студентів",switchStaff:"Рецепція / Адмін"}
 };
 const entryText={
 sk:{resident:"Študenti",staff:"Recepcia / Admin",title:"Prihlásenie recepcie",intro:"Zabezpečený vstup pre recepciu a administrátorov Student House Bratislava.",note:"Prístup je povolený iba schváleným zamestnancom recepcie. Registračný formulár je určený študentom.",denied:"Tento účet nemá oprávnenie recepcie."},
@@ -234,7 +243,7 @@ async function chooseOrganization(tenantId){
  member=chosen;resident=null;
  const name=organizationNames[tenantId]||'Ubytovacie zariadenie';
  $('orgLabel').textContent=name.toUpperCase();
- document.title=name+' | Študentská zóna';
+ document.title=name+' | '+(member.role==='student'?dashboardLabel('student'):dashboardLabel('admin'));
  $('orgSelector').value=tenantId;
  if(member.role==='student'){
   const {data:rs,error}=await db.from('residents').select('*').eq('tenant_id',tenantId).eq('user_id',user.id).limit(1);
@@ -256,6 +265,13 @@ ui.sk.profile="Môj profil";
 ui.en.profile="My profile";
 ui.ru.profile="Мой профиль";
 ui.uk.profile="Мій профіль";
+const DASH={
+sk:{admin:"Administrácia Student House Bratislava",reception:"Recepcia Student House Bratislava",student:"Moja študentská zóna",adminRole:"Prihlásenie: správca",receptionRole:"Prihlásenie: recepcia",studentRole:"Prihlásenie: študent",adminOverview:"Prehľad administrácie",studentOverview:"Moje ubytovanie",account:"Nastavenia účtu"},
+en:{admin:"Student House Bratislava Administration",reception:"Student House Bratislava Reception",student:"My student portal",adminRole:"Signed in: Administrator",receptionRole:"Signed in: Reception",studentRole:"Signed in: Student",adminOverview:"Administration overview",studentOverview:"My accommodation",account:"Account settings"},
+ru:{admin:"Администрация Student House Bratislava",reception:"Ресепшен Student House Bratislava",student:"Мой студенческий кабинет",adminRole:"Вход: администратор",receptionRole:"Вход: ресепшен",studentRole:"Вход: студент",adminOverview:"Панель администрации",studentOverview:"Моё проживание",account:"Настройки аккаунта"},
+uk:{admin:"Адміністрація Student House Bratislava",reception:"Рецепція Student House Bratislava",student:"Мій студентський кабінет",adminRole:"Вхід: адміністратор",receptionRole:"Вхід: рецепція",studentRole:"Вхід: студент",adminOverview:"Огляд адміністрації",studentOverview:"Моє проживання",account:"Налаштування облікового запису"}
+};
+const dashboardLabel=k=>DASH[lang][k];
 const label=k=>(ui[lang]||ui.sk)[k]||ui.sk[k]||k;
 const make=(tag,cls,value)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(value!==undefined)e.textContent=String(value);return e};
 const financeTerms={
@@ -473,10 +489,12 @@ async function renderResidentDocuments(tenant,staff,own){
 
 function renderTabs(){
  const isAdmin=isStaff();
- const keys=isAdmin?['overview','registrations','residents','rooms','payments','installments','documents','requests','cleaning','notices','account']:['overview','profile','rooms','payments','installments','documents','requests','cleaning','notices','account'];
+ const keys=isAdmin?['overview','registrations','residents','rooms','payments','installments','documents','requests','cleaning','notices']:['overview','profile','rooms','payments','installments','documents','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label','Sections');parent.setAttribute('role','navigation');
- $('zone').textContent=isAdmin?(member.role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):label('roleStaff')):label('roleStudent');
- $('roleLabel').textContent=(organizationNames[member.tenant_id]||'Student House Bratislava')+' · '+user.email;
+ $('zone').textContent=!isAdmin?dashboardLabel('student'):member.role==='org_admin'?dashboardLabel('admin'):dashboardLabel('reception');
+ $('roleLabel').textContent=!isAdmin?dashboardLabel('studentRole'):member.role==='org_admin'?dashboardLabel('adminRole'):dashboardLabel('receptionRole');
+ $('accountShortcut').textContent='⚙ '+dashboardLabel('account');
+ $('accountShortcut').setAttribute('aria-current',tab==='account'?'page':'false');
  for(const key of keys){const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+label(key));b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));parent.append(b)}
 }
 let renderGeneration=0;
@@ -527,7 +545,7 @@ async function renderPanel(){
    if(tenant!==member?.tenant_id)return;
    const d=Object.fromEntries(sources.map((key,i)=>[key,outcomes[i]]));
    container.replaceChildren();
-   heading(label('welcome'),staff?label('dashboardStaff'):label('dashboardStudent'));
+   heading(staff?dashboardLabel('adminOverview'):dashboardLabel('studentOverview'),staff?label('dashboardStaff'):label('dashboardStudent'));
    const cards=make('div','kpi-grid');
    if(staff){
     cards.append(
@@ -872,6 +890,7 @@ async function signedIn(u){
  await chooseOrganization(ids[0]);
 }
 $('lang').addEventListener('change',e=>{lang=e.target.value;translate();translateRegister();if(member){renderTabs();void renderPanel()}});translate();translateRegister();
+$('accountShortcut').addEventListener('click',()=>{if(member)navigate('account')});
 if(new URLSearchParams(location.search).get('view')==='register'&&!staffEntryMode)setRegistration(true);
 $('loginEye').addEventListener('click',()=>{const input=$('password'),button=$('loginEye'),visible=input.type==='password';input.type=visible?'text':'password';button.setAttribute('aria-pressed',String(visible));const label=pwdText(visible?'hide':'show');button.setAttribute('aria-label',label);button.title=label;});
 $('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=t[8];return}await signedIn(data.user)});
