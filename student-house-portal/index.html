@@ -64,6 +64,8 @@ body.portal-open #app .item{padding:17px 0}
 #records .file-item .btn-secondary{border:1px solid #bdcfe4}
 .policy-link{display:inline-block;padding:11px 0;color:#1c5f9e;text-decoration:underline}
 @media(max-width:650px){.identity-grid{grid-template-columns:1fr}.avatar-box{max-width:170px}.identity-fields{grid-template-columns:1fr}.docgrid{grid-template-columns:1fr}}
+/* Existing staff area: searchable resident directory and complete private profiles. */
+.staff-filters[hidden]{display:none!important}.staff-filters{display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,220px);gap:12px;margin:20px 0 10px}.staff-directory{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:15px}.staff-person{border:1px solid #dce7f3;border-radius:15px;padding:20px;min-width:0;background:#fafcff}.staff-person h4{font-size:20px;margin:0 0 10px}.staff-person p{overflow-wrap:anywhere}.staff-person>button{display:block;margin-top:15px}.staff-person dl{font-size:13px;grid-template-columns:1fr}.staff-profile h3{font-size:25px}.staff-profile dd{margin:5px 0 14px}.staff-profile dt{font-size:13px;font-weight:700}.staff-profile .data-card>button{display:block;margin-top:12px}.staff-notice:empty{display:none}.staff-notice{overflow-wrap:anywhere}.staff-directory .readonly-value{padding:10px}.staff-person dd{margin:5px 0}.staff-profile .data-card{overflow-wrap:anywhere}@media(max-width:600px){.staff-filters{grid-template-columns:1fr}.staff-directory{grid-template-columns:1fr}.staff-person{padding:16px}}
 </style></head><body>
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
@@ -223,7 +225,7 @@ const euroInput=()=>{const x=make('input');x.type='number';x.min='0.01';x.max='1
 const dateInput=()=>{const x=make('input');x.type='date';x.required=true;return x};
 const money=n=>new Intl.NumberFormat(lang==='en'?'en-GB':'sk-SK',{style:'currency',currency:'EUR'}).format(Number(n)||0);
 const day=s=>{if(!s)return '—';const date=new Date(String(s).slice(0,10)+'T12:00:00');return Number.isNaN(date.getTime())?String(s):date.toLocaleDateString(lang==='en'?'en-GB':'sk-SK')};
-const isStaff=()=>!!member&&member.role!=='student';
+const isStaff=()=>!!member&&['org_admin','reception'].includes(member.role);
 function statusPill(s){const el=make('span','status-pill status-'+String(s||'').replace(/[^a-z_]/g,''),s||'—');return el}
 function heading(text,caption){let h=make('div','panelhead');let wrap=make('div');wrap.append(make('h3','',text));if(caption)wrap.append(make('p','',caption));h.append(wrap);$('records').append(h)}
 function empty(note){$('records').append(make('div','empty-message',note||label('noData')))}
@@ -427,11 +429,13 @@ function renderTabs(){
  const isAdmin=isStaff();
  const keys=isAdmin?['overview','registrations','residents','rooms','payments','installments','documents','requests','cleaning','notices']:['overview','profile','rooms','payments','installments','documents','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label','Sections');parent.setAttribute('role','navigation');
- $('zone').textContent=isAdmin?label('roleStaff'):label('roleStudent');
+ $('zone').textContent=isAdmin?(member.role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):label('roleStaff')):label('roleStudent');
  $('roleLabel').textContent=(organizationNames[member.tenant_id]||'Student House Bratislava')+' · '+user.email;
  for(const key of keys){const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+label(key));b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));parent.append(b)}
 }
+let renderGeneration=0;
 async function renderPanel(){
+ const generation=++renderGeneration;
  const container=$('records');container.replaceChildren(make('p','muted','…'));
  if(!member)return;
  const tenant=member.tenant_id,staff=isStaff(),own=resident?.id;
@@ -476,56 +480,14 @@ async function renderPanel(){
    return;
   }
   container.replaceChildren();
-  if(tab==='registrations'&&staff){
-   heading(label('registrations'),label('approvalNote'));
-   const registrations=(await list('registration_requests')).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
-   if(!registrations.length){empty();return}
-   for(const x of registrations){
-    const e=row(x.first_name+' '+x.last_name+' · '+x.room_number,x.email+' | Contract No. '+x.contract_number+' | '+day(x.accommodation_from)+' – '+day(x.accommodation_to),x.status);
-    if(x.status==='pending'){
-     const actions=make('div','staff-actions');const approve=make('button','',R[lang].approve);approve.type='button';
-     approve.addEventListener('click',async()=>{
-      if(!confirm(R[lang].confirm))return;
-      approve.disabled=true;
-      const {data,error}=await db.functions.invoke('manage',{body:{action:'invite',tenant_id:tenant,registration_id:x.id,role:'student',email:x.email,name:x.first_name+' '+x.last_name,room_number:x.room_number}});
-      if(error||!data?.ok){const smtp=['invitation_failed','password_email_failed'].includes(data?.error);
-       alert(R[lang].invitationError+(smtp?(lang==='en'?' Set up a free custom SMTP server in Supabase Auth before inviting external addresses.':' V Supabase Authentication treba nastaviť vlastné SMTP pre e-mailové adresy študentov mimo tímu projektu.'):''));
-       approve.disabled=false;return}
-      alert(R[lang].sent);
-      void renderPanel();
-     });
-     const reject=make('button','btn-secondary',lang==='en'?'Reject':'Zamietnuť');reject.type='button';
-     reject.addEventListener('click',async()=>{
-      if(!confirm(lang==='en'?'Reject this registration?':'Zamietnuť túto registráciu?'))return;
-      reject.disabled=true;
-      const {data,error}=await db.from('registration_requests').update({status:'rejected'}).eq('tenant_id',tenant).eq('id',x.id).select('id');
-      if(error||!data?.length){alert(label('error'));reject.disabled=false;return}
-      void renderPanel();
-     });
-     actions.append(approve,reject);e.append(actions);
-    }
-    container.append(e);
-   }
-   return;
-  }
-  if(tab==='residents'&&staff){
-   heading(label('residents'),lang==='en'?'Verified residents in this residence.':'Overení študenti priradení k tomuto zariadeniu.');
-   const people=await list('residents');if(!people.length){empty();return}
-   for(const x of people){
-    const e=row(x.full_name,x.email+' · '+(x.verified_room_number||dl('noRoom')));
-    const form=make('form','staff-form');
-    const number=make('input');number.maxLength=30;number.placeholder=dl('room');number.value=x.verified_room_number||'';
-    const button=make('button','',label('save'));button.type='submit';
-    form.append(make('label','',dl('room')),number,button);
-    form.addEventListener('submit',async event=>{
-     event.preventDefault();button.disabled=true;
-     const {data,error}=await db.from('residents').update({verified_room_number:number.value.trim()})
-       .eq('tenant_id',tenant).eq('id',x.id).select('id');
-     if(error||!data?.length){alert(label('error'));button.disabled=false;return}
-     alert(label('success'));void renderPanel();
-    });
-    e.append(form);container.append(e);
-   }
+  if(staff&&['registrations','residents'].includes(tab)){
+   const section=tab,role=member.role;
+   heading(label(section),role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):(lang==='en'?'Student House reception':'Recepcia Student House'));
+   const {renderStaffScreen}=await import('./staff.js');
+   if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
+   const root=make('div'),notice=make('p');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
+   await renderStaffScreen({root,notice,db,tenant,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
+    isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab===section&&isStaff()});
    return;
   }
   if(tab==='rooms'){
@@ -823,6 +785,7 @@ async function signedIn(u){
  await chooseOrganization(ids[0]);
 }
 $('lang').addEventListener('change',e=>{lang=e.target.value;translate();translateRegister();if(member){renderTabs();void renderPanel()}});translate();translateRegister();
+if(new URLSearchParams(location.search).get('view')==='register'&&!staffEntryMode)setRegistration(true);
 $('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=t[8];return}await signedIn(data.user)});
 function showPasswordRecovery(){
  resetMode=true;
