@@ -25,7 +25,11 @@ jobs:
             if (!html.includes('id="'+id+'"')) throw new Error('Missing registration field '+id);
           }
           if (!html.includes('functions/v1/register-student')) throw new Error('Missing submission endpoint');
-          console.log('HTML registration fields and inline JavaScript OK');
+          if (!html.includes('id="orgSelector"') || !html.includes('chooseOrganization(')) throw new Error('Residence switcher missing');
+          if (!html.includes("select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50)")) throw new Error('Membership selector missing');
+          const edge = fs.readFileSync('student-house-portal/supabase/register-student/index.ts','utf8');
+          if (!edge.includes('.not("verified_at","is",null)') || !edge.includes('tenant_id:tenantId')) throw new Error('Verified-domain tenant routing missing');
+          console.log('Registration, multi-residence switcher and tenant routing checks passed');
           JS
       - name: Check live public registration endpoint rejects invalid data
         run: |
@@ -40,6 +44,18 @@ jobs:
             if(response.status!==400 || body.error!=='invalid_fields'){
               throw new Error('Unexpected endpoint response: '+response.status+' '+JSON.stringify(body));
             }
-            console.log('Public endpoint validates requests and responds correctly');
+            const options = await fetch('https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student',{
+              method:'OPTIONS',headers:{origin:'https://www.webu.sk','access-control-request-method':'POST','access-control-request-headers':'content-type'}
+            });
+            if(options.status!==204 || options.headers.get('access-control-allow-origin')!=='https://www.webu.sk'){
+              throw new Error('Legacy origin CORS preflight failed: '+options.status);
+            }
+            const refused = await fetch('https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student',{
+              method:'OPTIONS',headers:{origin:'https://unverified.invalid','access-control-request-method':'POST'}
+            });
+            if(refused.status!==403 || refused.headers.get('access-control-allow-origin')){
+              throw new Error('Unverified origin was not rejected correctly: '+refused.status);
+            }
+            console.log('Public registration validation, legacy CORS, unverified origin rejection OK');
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
