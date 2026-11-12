@@ -101,6 +101,44 @@ body.portal-open #app .item{padding:17px 0}
 .student-payment-head strong{font-size:18px}
 .student-payment-row h5{margin:14px 0 6px;font-size:14px}
 @media(max-width:650px){.student-monthly-payment,.student-welcome,.student-quick-actions{padding:16px}.student-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.student-quick-grid button{font-size:13px}}
+.room-register{width:100%;min-width:0}
+.room-register h3{margin:0 0 8px;color:#142b4d}
+.room-register-count{font-weight:800;font-size:15px;padding:12px 16px;background:#eaf2fc;border-radius:12px}
+.room-register-controls{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:16px 0}
+.room-register-controls>input[type=search]{flex:1 1 240px;max-width:440px}
+.room-register-controls label{display:flex;flex-direction:column;gap:5px;margin:0;font-size:12px}
+.room-register-controls select{width:120px}
+.room-register-controls button{min-height:44px}
+.room-register-import{border:1px solid #d8e4f2;border-radius:12px;padding:12px 15px;margin:12px 0}
+.room-register-import summary{cursor:pointer;font-weight:750}
+.room-register-import input{max-width:460px}
+.room-register-notice{min-height:18px;color:#235483;font-weight:650}
+.room-register-scroll{width:100%;max-width:100%;max-height:min(70vh,880px);overflow:auto;border:1px solid #cfdaea;border-radius:13px;overscroll-behavior:contain;background:white;position:relative}
+.room-register-table{border-collapse:separate;border-spacing:0;min-width:2660px;white-space:nowrap;font-size:12px;text-align:left;width:100%}
+.room-register-table th,.room-register-table td{border-right:1px solid #dce5f0;border-bottom:1px solid #e1e9f3;padding:12px 10px;vertical-align:top;max-width:230px}
+.room-register-table th{position:sticky;top:0;z-index:3;background:#19385e;color:white;text-transform:uppercase;font-weight:800;font-size:11px;letter-spacing:.02em}
+.room-register-table th:first-child{left:0;z-index:5}
+.room-register-table td:first-child{position:sticky;left:0;z-index:2;background:#edf4fd;font-weight:800}
+.room-register-table .register-first td{border-top:2px solid #abc3df}
+.room-register-table tbody tr:nth-child(even) td:not(:first-child){background:#f7faff}
+.room-register-table tbody tr:hover td:not(:first-child){background:#eaf3ff}
+.room-register-table .month-cell{min-width:112px;font-weight:700;font-variant-numeric:tabular-nums}
+.room-register-table .month-status-label{display:block;white-space:normal;font-size:10px;max-width:110px;margin-top:4px;font-weight:600}
+.room-register-table .month-paid{color:#176346;background:#e5f5ed!important}
+.room-register-table .month-late{color:#a12a32;background:#fdeaea!important}
+.room-register-table .month-due{color:#795014;background:#fff3de!important}
+.room-register-table .month-partial,.room-register-table .month-plan{color:#284d8c;background:#e8efff!important}
+.room-register-table .month-missing{color:#657996;background:#f0f3f8!important}
+.room-register-table .register-placeholder td{color:#7b8798;background:#f4f6fa!important}
+.room-register-table .register-total{font-weight:850}
+.room-register-table .register-email{white-space:normal;overflow-wrap:anywhere;min-width:160px}
+.room-register-table .register-actions{min-width:155px}
+.room-register-table .register-actions button{margin:0 5px 5px 0;padding:7px 11px;font-size:12px}
+.room-register-table .register-edit{min-width:210px}
+.room-register-table .register-edit label{display:block;white-space:normal;font-size:11px;margin:7px 0}
+.room-register-table .register-edit input{width:100%;font-size:12px;padding:8px}
+.room-register-table .register-edit .small{white-space:normal}
+@media(max-width:700px){.room-register-scroll{max-height:65vh}.room-register-table th,.room-register-table td{padding:9px 8px}.room-register-controls>input[type=search]{max-width:none}.room-register-table{font-size:11px}}
 </style></head><body>
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
@@ -270,7 +308,7 @@ async function chooseOrganization(tenantId){
   if(error){console.error('resident_lookup_failed');}
   resident=rs?.[0]||null;
  }
- tab='overview';renderTabs();await renderPanel();
+ tab=isStaff()?'rooms':'overview';renderTabs();await renderPanel();
 }
 $('orgSelector').addEventListener('change',e=>{void chooseOrganization(e.target.value)});
 
@@ -509,13 +547,13 @@ async function renderResidentDocuments(tenant,staff,own){
 
 function renderTabs(){
  const isAdmin=isStaff();
- const keys=isAdmin?['overview','registrations','residents','rooms','payments','installments','documents','requests','cleaning','notices']:['overview','profile','rooms','payments','installments','documents','requests','cleaning','notices'];
+ const keys=isAdmin?['rooms','overview','registrations','residents','payments','installments','documents','requests','cleaning','notices']:['overview','profile','rooms','payments','installments','documents','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label','Sections');parent.setAttribute('role','navigation');
  $('zone').textContent=!isAdmin?dashboardLabel('student'):member.role==='org_admin'?dashboardLabel('admin'):dashboardLabel('reception');
  $('roleLabel').textContent=!isAdmin?dashboardLabel('studentRole'):member.role==='org_admin'?dashboardLabel('adminRole'):dashboardLabel('receptionRole');
  $('accountShortcut').textContent='⚙ '+dashboardLabel('account');
  $('accountShortcut').setAttribute('aria-current',tab==='account'?'page':'false');
- for(const key of keys){const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+label(key));b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));parent.append(b)}
+ for(const key of keys){const text=isAdmin&&key==='rooms'?({sk:'Excel evidencia',en:'Excel register',ru:'Таблица Excel',uk:'Таблиця Excel'}[lang]||'Excel evidencia'):label(key);const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+text);b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));parent.append(b)}
 }
 let renderGeneration=0;
 
@@ -619,8 +657,8 @@ async function renderPanel(){
    heading(label('rooms'),staff?label('roomsCount'):(lang==='en'?'Your accommodation details':'Údaje o tvojom ubytovaní'));
    const rooms=await list('rooms');
    if(staff){
-     const {renderRoomGrid}=await import('/student-house-portal/rooms.js?v=20261112-entry3');
-     await renderRoomGrid({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261112-excel1');
+     await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
      const title=make('input');title.placeholder=lang==='en'?'Room number':'Číslo izby';title.required=true;title.maxLength=100;
