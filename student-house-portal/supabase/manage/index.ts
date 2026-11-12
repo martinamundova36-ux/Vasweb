@@ -61,6 +61,11 @@ Deno.serve(async(req)=>{
     }
   }
   if(!uid)return reply({error:'user_not_resolved'},503);
+  // Never claim the registration was approved if the invitation/recovery email cannot be delivered.
+  if(existingUser){
+    const {error:resetError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
+    if(resetError)return reply({error:'password_email_failed'},503);
+  }
   const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
   if(checkError)throw checkError;
   if(existing)return reply({error:'membership_exists'},409);
@@ -87,11 +92,6 @@ Deno.serve(async(req)=>{
       .update({status:'invited',reviewed_by:user.id,reviewed_at:new Date().toISOString()})
       .eq('id',registration.id).eq('tenant_id',tenant).eq('status','pending').select('id');
     if(markError||!marked?.length)console.error('registration_mark_failed',markError?.code||'not_updated');
-  }
-  if(existingUser){
-    // An existing account does not receive a new invite; send a password setup/recovery email.
-    const {error:resetError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
-    if(resetError)return reply({error:'password_email_failed',account_created:true},503);
   }
   const {error:auditError}=await service.from('audit_logs').insert({
     tenant_id:tenant,actor_id:user.id,action:'RESIDENT_ACCESS_APPROVED',entity:'organization_memberships',entity_id:uid
