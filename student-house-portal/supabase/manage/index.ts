@@ -46,10 +46,10 @@ Deno.serve(async(req)=>{
       return reply({ok:true,email_sent:true});
     }
     if(resident.profile_password_activated_at)return reply({ok:true,already_active:true});
-    const {error:updateError}=await service.from('residents')
-      .update({profile_password_activated_at:new Date().toISOString()})
-      .eq('tenant_id',tenant).eq('id',resident.id).eq('user_id',user.id);
-    if(updateError)return reply({error:'activation_failed'},503);
+    const {data:activated,error:activationError}=await service.rpc('residence_activate_profile_password',{
+      p_tenant:tenant,p_user:user.id
+    });
+    if(activationError||activated!==true)return reply({error:'password_or_questionnaire_not_verified'},409);
     return reply({ok:true,profile_activated:true});
   }
   if(!['invite','resend_student_access'].includes(body.action))return reply({error:'invalid_action'},400);
