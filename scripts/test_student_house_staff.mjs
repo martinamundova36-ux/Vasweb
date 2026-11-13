@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {buildRegisterGroups} from '../student-house-portal/room-register.js';
 import { filterResidents, filterRegistrations, residentFiles, renderStaffScreen } from '../student-house-portal/staff.js';
 
 // In-memory DOM and synthetic records only. These are integration tests, not browser/login tests.
@@ -86,4 +87,49 @@ test('Portal JavaScript parses and restricts staff roles explicitly',()=>{
  const source=fs.readFileSync(new URL('../student-house-portal/index.html',import.meta.url),'utf8');
  new vm.Script(source.match(/<script>\n([\s\S]*?)<\/script>/)[1]);
  assert.ok(source.includes("['org_admin','reception'].includes(member.role)"));
+});
+
+test('Approval shows a check mark and opens the approved room in the correct calendar year',async()=>{
+ let opened;
+ const f=fixture('registrations',{userId:'receipt-staff',openRooms:(room,date)=>{opened={room,date};}});
+ await renderStaffScreen(f.ctx);await approveFixture(f);
+ assert.match(f.ctx.notice.textContent,/✓ Registrácia úspešne schválená/);
+ assert.match(f.ctx.notice.textContent,/Študent, izba a splátkový kalendár sú uložené/);
+ assert.equal(f.ctx.notice.className,'staff-notice staff-approval-success');
+ findButton(f.ctx.notice,'Otvoriť študenta v Excel evidencii').listeners.click();
+ assert.deepEqual(opened,{room:'125',date:'2026-09-01'});
+ assert.equal(f.root.querySelector('select').value,'invited');
+ assert.match(f.root.textContent,/✓ Schválená/);
+});
+test('Failed approval never displays a success check or Excel confirmation',async()=>{
+ const f=fixture('registrations',{userId:'failed-staff',openRooms:()=>{},db:{functions:{invoke:async()=>({data:{error:'approval_conflict'}})}}});
+ await renderStaffScreen(f.ctx);await approveFixture(f);
+ assert.doesNotMatch(f.ctx.notice.textContent,/✓ Registrácia úspešne schválená/);
+ assert.equal(findButton(f.ctx.notice,'Otvoriť študenta v Excel evidencii'),undefined);
+});
+test('Changing the rent after calendar preparation clearly requests a new preview',async()=>{
+ const f=fixture('registrations');await renderStaffScreen(f.ctx);
+ findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
+ const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu'),form=prepare.parent,rent=form.querySelectorAll('input')[0];
+ rent.value='300';prepare.listeners.click();
+ assert.ok(findButton(form,'Schváliť overenú zmluvu a predpisy'));
+ rent.value='350';rent.listeners.input();
+ assert.match(form.textContent,/Nájomné alebo deň splatnosti sa zmenili/);
+ assert.equal(findButton(form,'Schváliť overenú zmluvu a predpisy'),undefined);
+ form.onsubmit({preventDefault(){}});
+ assert.ok(findButton(form,'Schváliť overenú zmluvu a predpisy'));
+ assert.equal(f.calls.length,0);
+});
+test('Reloaded registrations can show the current staff member’s recent database-confirmed approval',async()=>{
+ const approved={...registration,status:'invited',reviewed_by:'staff-reload',reviewed_at:new Date().toISOString()};
+ const f=fixture('registrations',{userId:'staff-reload',list:async table=>table==='registration_requests'?[approved]:table==='rooms'?[{name:'125',capacity:2}]:[]});
+ await renderStaffScreen(f.ctx);
+ assert.match(f.ctx.notice.textContent,/✓ Registrácia úspešne schválená/);
+ assert.match(f.ctx.notice.textContent,/Doručenie pozvánky treba overiť samostatne/);
+});
+test('A future approved resident appears in the Excel year of their stay',()=>{
+ const data={rooms:[{id:'room-001',name:'001',capacity:2}],residents:[{...person,id:'future',verified_room_number:'001',accommodation_from:'2027-02-01',accommodation_to:'2027-07-01'}],tenancies:[{resident_id:'future',room_id:'room-001',starts_on:'2027-02-01',ends_on:'2027-07-01'}]};
+ assert.equal(buildRegisterGroups({...data,year:2026})[0].entries.filter(e=>e.person).length,0);
+ assert.equal(buildRegisterGroups({...data,year:2027})[0].entries.filter(e=>e.person).length,1);
+ assert.equal(buildRegisterGroups({...data,year:2027})[0].entries.find(e=>e.person).person.id,'future');
 });
