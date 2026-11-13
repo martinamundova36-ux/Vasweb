@@ -35,7 +35,8 @@ for(const width of [390,1440]){
  const page=await context.newPage();
  await page.goto('https://portal.test/student-house-portal/admin/');
  await page.locator('#app:not(.hide)').waitFor();assert.match(await page.locator('#zone').innerText(),/Administrácia/);assert.equal(await page.locator('#user').innerText(),admin.user.email);
- await page.locator('#switchPortal').click();
+ assert.equal(await page.locator('#switchPortal').isVisible(),false,'Staff interface keeps the student entry separate');
+ await page.goto('https://portal.test/student-house-portal/student/?signin=1');
  await page.locator('#login:not(.hide)').waitFor();assert.equal(await page.locator('#app').isVisible(),false);assert.equal(await page.locator('#sign').innerText(),'Študentské prihlásenie');
  await page.locator('#email').fill(student.user.email);await page.locator('#password').fill('synthetic-test-only-password');await page.locator('#signbtn').click();
  await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja študentská zóna');assert.equal(await page.locator('#user').innerText(),student.user.email);assert.equal(await page.locator('#tabs button').filter({hasText:'Registrácie'}).count(),0);
@@ -45,5 +46,5 @@ for(const width of [390,1440]){
  assert.equal(await staffTab.locator('#user').innerText(),admin.user.email);assert.ok(await staffTab.locator('#app').isVisible());
  await context.close();
 }
-console.log('PASS actual Supabase SDK, same-browser admin/student switching, forced student sign-in, independent parallel tabs, hostile view query and wrong-role stored session (two viewports; synthetic HTTP only)');
+console.log('PASS actual Supabase SDK, same-browser separate admin/student entries, forced student sign-in, independent parallel tabs, hostile view query and wrong-role stored session (two viewports; synthetic HTTP only)');
 }finally{await browser.close()}

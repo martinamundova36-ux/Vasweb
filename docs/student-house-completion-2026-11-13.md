@@ -21,7 +21,7 @@ Existujúci projekt Vasweb a Supabase ydqchayscxntqdkzkynv sú zachované. Nová
 - Nové izolované PostgreSQL testy: kapacity upratovania, prekrytie, uvoľnenie kapacity, oprávnenia; pripomienky, deduplikácia, čiastočné úhrady, storná, splátky a potlačenie zastaranej správy; ochrana posledného administrátora.
 - V produkčnej databáze s ROLLBACK: súkromné správy, stavová história, izolácia študentov a organizácií, upratovanie; atomická registrácia a rollback po chybnej odpovedi; neúplný dotazník, koncept a čas servera. Tieto testy nezanechali platby, dlhy, dokumenty ani notifikačné správy.
 - Reálna HTTP registrácia označená TEST E2E na vlastný Gmail alias: HTTP 201, stav pending, odpovede a GDPR čas uložené, účet existuje a má hash hesla, čaká na overenie e-mailu. Nemá pridelenú izbu, nájom, splátky ani prijaté platby.
-- Recepčné aj študentské potvrdenie novej testovacej žiadosti majú vo fronte výsledok accepted (SMTP prijatie, nie dôkaz doručenia do schránky).
+- Recepčné aj študentské potvrdenie novej testovacej žiadosti majú vo fronte výsledok accepted. Študentské potvrdenie bolo následne otvorené priamo v Gmaili; overený príjemca je martinamundova36+residence-e2e-20261113@gmail.com, čas správy 13. 11. 2026 21:12 UTC (22:12 Bratislava). Tým je potvrdené aj reálne doručenie tejto správy.
 - XLSX sa skutočne otvoril cez openpyxl; overené číselné bunky, diakritika, XML escaping, textové vzorce a fixované záhlavie.
 - Priamo v prihlásenej produkčnej recepcii zobrazené XLSX tlačidlo, finančné ukazovatele, prázdny kalendár dostupných termínov a existujúci ubytovací poriadok. Chyba triedenia nastavení pripomienok bola nájdená v tomto teste a opravená.
 
