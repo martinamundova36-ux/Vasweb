@@ -228,16 +228,10 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 <label for="regFirst" id="labFirst">Meno</label><input id="regFirst" autocomplete="given-name" maxlength="80" required>
 <label for="regLast" id="labLast">Priezvisko</label><input id="regLast" autocomplete="family-name" maxlength="80" required>
 <label for="regEmail" id="labEmail">E-mail</label><input id="regEmail" type="email" autocomplete="email" maxlength="254" required>
-<fieldset class="reg-section"><legend id="regPersonalTitle">Osobné údaje študenta</legend>
+<fieldset class="reg-section"><legend id="regPersonalTitle">Kontaktné údaje – Krok 1</legend>
 <div class="reg-fields">
 <label for="regPhone" id="labPhone">Telefónne číslo</label><input id="regPhone" type="tel" autocomplete="tel" maxlength="60" placeholder="+421 ..." required>
-<label for="regNationality" id="labNationality">Národnosť</label><input id="regNationality" maxlength="80" autocomplete="country-name" required>
-<label for="regGender" id="labGender">Pohlavie (nepovinné)</label><select id="regGender"><option value="">Nechcem uviesť</option><option value="female">Žena</option><option value="male">Muž</option><option value="other">Iné</option></select>
-<label for="regBirth" id="labBirth">Dátum narodenia</label><input type="date" id="regBirth" autocomplete="bday" required>
-<label for="regAddress" id="labAddress">Trvalá adresa</label><textarea id="regAddress" rows="3" maxlength="500" autocomplete="street-address" required></textarea>
-<label for="regSchool" id="labSchool">Škola / univerzita (nepovinné)</label><input id="regSchool" maxlength="250">
-<label for="regParent" id="labParent">Kontaktný e-mail rodiča (nepovinné)</label><input type="email" id="regParent" maxlength="254">
-</div></fieldset>
+</div><p class="muted">Ostatné osobné údaje a fotografiu doplníš až v dotazníku na druhej stránke po schválení recepciou.</p></fieldset>
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
 <div class="reg-fields">
 <label for="regRoomType" id="labRoomType">Preferovaný typ izby</label><select id="regRoomType"><option value="">Bez preferencie</option><option value="Š2">Š2</option><option value="D2">D2</option><option value="D2V">D2V</option><option value="SUI 2">SUI 2</option><option value="M1">M1</option><option value="M2">M2</option><option value="Š1+1">Š1+1</option><option value="Š2+1">Š2+1</option><option value="Š2+2">Š2+2</option></select>
@@ -355,17 +349,16 @@ const REG_PASSWORD_WORDS={
 };
 
 const REG_EXT={
- sk:{personal:'Osobné údaje študenta',stay:'Požiadavka na ubytovanie',phone:'Telefónne číslo',nationality:'Národnosť',gender:'Pohlavie (nepovinné)',birth:'Dátum narodenia',address:'Trvalá adresa – ulica, mesto, PSČ, krajina',school:'Škola / univerzita (nepovinné)',parent:'Kontaktný e-mail rodiča (nepovinné)',roomType:'Preferovaný typ izby',arrival:'Predpokladaný príchod',staff:'Číslo zmluvy, konečné pridelenie izby, depozit, poplatky a mesačné platby doplní recepcia. Po schválení doplníš osobný dotazník a vložíš fotografiu.',room:'Preferované číslo izby (ak ho poznáš)',any:'Bez preferencie',private:'Nechcem uviesť',female:'Žena',male:'Muž',other:'Iné'},
- en:{personal:'Student personal information',stay:'Accommodation request',phone:'Telephone number',nationality:'Nationality',gender:'Gender (optional)',birth:'Date of birth',address:'Permanent address – street, city, postcode, country',school:'School / university (optional)',parent:'Parent contact email (optional)',roomType:'Preferred room type',arrival:'Expected arrival date',staff:'Reception assigns the contract number, final room, deposit, fees and monthly payment plan. After approval, complete your questionnaire and upload a photo.',room:'Preferred room number (if known)',any:'No preference',private:'Prefer not to say',female:'Female',male:'Male',other:'Other'},
- ru:{personal:'Личные данные студента',stay:'Заявка на проживание',phone:'Номер телефона',nationality:'Гражданство',gender:'Пол (необязательно)',birth:'Дата рождения',address:'Адрес постоянного проживания',school:'Учебное заведение (необязательно)',parent:'Эл. почта родителя (необязательно)',roomType:'Предпочтительный тип комнаты',arrival:'Предполагаемая дата приезда',staff:'Номер договора, комнату, депозит, платежи и сборы определяет рецепция. После одобрения заполните анкету и загрузите фото.',room:'Желаемый номер комнаты (если известен)',any:'Без предпочтений',private:'Не указывать',female:'Женщина',male:'Мужчина',other:'Другое'},
- uk:{personal:'Особисті дані студента',stay:'Заявка на проживання',phone:'Номер телефону',nationality:'Громадянство',gender:'Стать (необов’язково)',birth:'Дата народження',address:'Постійна адреса',school:'Навчальний заклад (необов’язково)',parent:'Ел. пошта батьків (необов’язково)',roomType:'Бажаний тип кімнати',arrival:'Очікувана дата прибуття',staff:'Номер договору, кімнату, депозит, збори і щомісячні платежі призначає рецепція. Після схвалення заповніть анкету та завантажте фото.',room:'Бажаний номер кімнати (якщо відомий)',any:'Без переваг',private:'Не вказувати',female:'Жінка',male:'Чоловік',other:'Інше'}
+ sk:{personal:'Kontaktné údaje – Krok 1',stay:'Požiadavka na ubytovanie',phone:'Telefónne číslo',nationality:'Národnosť',gender:'Pohlavie (nepovinné)',birth:'Dátum narodenia',address:'Trvalá adresa – ulica, mesto, PSČ, krajina',school:'Škola / univerzita (nepovinné)',parent:'Kontaktný e-mail rodiča (nepovinné)',roomType:'Preferovaný typ izby',arrival:'Predpokladaný príchod',staff:'Číslo zmluvy, konečné pridelenie izby, depozit, poplatky a mesačné platby doplní recepcia. Po schválení doplníš osobný dotazník a vložíš fotografiu.',room:'Preferované číslo izby (ak ho poznáš)',any:'Bez preferencie',private:'Nechcem uviesť',female:'Žena',male:'Muž',other:'Iné'},
+ en:{personal:'Contact information – Step 1',stay:'Accommodation request',phone:'Telephone number',nationality:'Nationality',gender:'Gender (optional)',birth:'Date of birth',address:'Permanent address – street, city, postcode, country',school:'School / university (optional)',parent:'Parent contact email (optional)',roomType:'Preferred room type',arrival:'Expected arrival date',staff:'Reception assigns the contract number, final room, deposit, fees and monthly payment plan. After approval, complete your questionnaire and upload a photo.',room:'Preferred room number (if known)',any:'No preference',private:'Prefer not to say',female:'Female',male:'Male',other:'Other'},
+ ru:{personal:'Контакты – шаг 1',stay:'Заявка на проживание',phone:'Номер телефона',nationality:'Гражданство',gender:'Пол (необязательно)',birth:'Дата рождения',address:'Адрес постоянного проживания',school:'Учебное заведение (необязательно)',parent:'Эл. почта родителя (необязательно)',roomType:'Предпочтительный тип комнаты',arrival:'Предполагаемая дата приезда',staff:'Номер договора, комнату, депозит, платежи и сборы определяет рецепция. После одобрения заполните анкету и загрузите фото.',room:'Желаемый номер комнаты (если известен)',any:'Без предпочтений',private:'Не указывать',female:'Женщина',male:'Мужчина',other:'Другое'},
+ uk:{personal:'Контакти – крок 1',stay:'Заявка на проживання',phone:'Номер телефону',nationality:'Громадянство',gender:'Стать (необов’язково)',birth:'Дата народження',address:'Постійна адреса',school:'Навчальний заклад (необов’язково)',parent:'Ел. пошта батьків (необов’язково)',roomType:'Бажаний тип кімнати',arrival:'Очікувана дата прибуття',staff:'Номер договору, кімнату, депозит, збори і щомісячні платежі призначає рецепція. Після схвалення заповніть анкету та завантажте фото.',room:'Бажаний номер кімнати (якщо відомий)',any:'Без переваг',private:'Не вказувати',female:'Жінка',male:'Чоловік',other:'Інше'}
 };
 function translateRegister(){
  const r=R[lang];
  const ext=REG_EXT[lang]||REG_EXT.sk;
- for(const [id,key] of Object.entries({regPersonalTitle:'personal',regStayTitle:'stay',labPhone:'phone',labNationality:'nationality',labGender:'gender',labBirth:'birth',labAddress:'address',labSchool:'school',labParent:'parent',labRoomType:'roomType',labArrival:'arrival',regStaffOnly:'staff'}))$(id).textContent=ext[key];
+ for(const [id,key] of Object.entries({regPersonalTitle:'personal',regStayTitle:'stay',labPhone:'phone',labRoomType:'roomType',labArrival:'arrival',regStaffOnly:'staff'}))$(id).textContent=ext[key];
  $('regRoomType').options[0].textContent=ext.any;
- for(const [index,key] of [[0,'private'],[1,'female'],[2,'male'],[3,'other']])$('regGender').options[index].textContent=ext[key];
  for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labRoom:"room",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
 }
 let regOpen=false;
@@ -393,10 +386,9 @@ $("regForm").addEventListener("submit",async e=>{
  const payload={
   first_name:$("regFirst").value.trim(),last_name:$("regLast").value.trim(),email:$("regEmail").value.trim(),
   room_number:$("regRoom").value.trim(),preferred_room_type:$("regRoomType").value,
-  telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),
-  gender:$("regGender").value,date_of_birth:$("regBirth").value,
-  permanent_address:$("regAddress").value.trim(),school:$("regSchool").value.trim(),
-  parent_contact_email:$("regParent").value.trim(),expected_arrival:$("regArrival").value,
+  telephone:$("regPhone").value.trim(),nationality:'',gender:'',date_of_birth:'',
+  permanent_address:'',school:'',parent_contact_email:'',
+  expected_arrival:$("regArrival").value,
   accommodation_from:from,accommodation_to:to,privacy_acknowledged:$("regPrivacy").checked,website:$("regWebsite").value
  };
  btn.disabled=true;
