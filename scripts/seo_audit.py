@@ -63,8 +63,25 @@ def main():
    target=ROOT/unquote(u.path.lstrip('/')) if u.path.startswith('/') else (ROOT/name).parent/unquote(u.path)
    if not target.exists():errors.append(name+': broken local link '+link)
   for raw in p.json:
-   try:json.loads(raw)
+   try:
+    obj=json.loads(raw)
+    if not name.startswith('ukazky/'):
+     for node in obj.get('@graph',[obj]) if isinstance(obj,dict) else []:
+      if node.get('@type') in ('WebPage','CollectionPage','ContactPage','AboutPage'):
+       if node.get('url')!=expected:errors.append(name+': structured page URL differs from canonical')
+       if node.get('inLanguage')!=p.lang:errors.append(name+': structured page language differs from HTML')
    except ValueError:errors.append(name+': invalid JSON-LD')
+  if name in ('index.html','index-en.html'):
+   nodes=[]
+   for raw in p.json:
+    try:
+     obj=json.loads(raw)
+     if isinstance(obj,dict):nodes.extend(obj.get('@graph',[obj]))
+    except ValueError:continue
+   for kind in ('WebSite','WebPage'):
+    matches=[node for node in nodes if node.get('@type')==kind]
+    if len(matches)!=1:errors.append(name+': requires one '+kind+' entity')
+    if kind=='WebSite' and any(node.get('url')!=SITE for node in matches):errors.append(name+': WebSite URL must be the domain home page')
  for value,names in titles.items():
   if len(names)>1:errors.append('Duplicate title: '+', '.join(names))
  for value,names in descs.items():
