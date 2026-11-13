@@ -279,7 +279,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 <button id="pendingBack" type="button" class="btn-secondary" style="margin-top:14px">Späť na prihlásenie</button>
 </section>
 <section id="questionnaireGateway" class="hide" aria-live="polite">
- <div class="step2-preview-header"><div class="step2-kicker">STUDENT HOUSE BRATISLAVA · KROK 2 Z 3</div><select id="step2PreviewLang" aria-label="Jazyk dotazníka"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select></div>
+ <div class="step2-preview-header"><div id="step2Kicker" class="step2-kicker">STUDENT HOUSE BRATISLAVA · KROK 2 Z 3</div><select id="step2PreviewLang" aria-label="Jazyk dotazníka"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select></div>
  <h2 id="step2PreviewTitle">Osobný dotazník študenta</h2>
  <p id="step2PreviewIntro" class="muted">Toto je náhľad dotazníka. Na vyplnenie a odoslanie použite osobnú pozvánku zaslanú recepciou po schválení registrácie.</p>
  <p id="step2PreviewNotice" class="step2-gate-note" role="status">Bez schválenej e-mailovej pozvánky nie je možné zapisovať osobné údaje. Recepcia vidí dotazník iba vo svojej administrácii.</p>
@@ -374,6 +374,7 @@ function translateQuestionnairePreview(){
  if(!questionnaireEntryMode)return;
  const words=QUESTIONNAIRE_PREVIEW[lang]||QUESTIONNAIRE_PREVIEW.sk;
  $('step2PreviewLang').value=lang;
+ $('step2Kicker').textContent='STUDENT HOUSE BRATISLAVA · '+(lang==='en'?'STEP 2 OF 3':lang==='ru'?'ШАГ 2 ИЗ 3':lang==='uk'?'КРОК 2 З 3':'KROK 2 Z 3');
  $('step2PreviewTitle').textContent=words.title;
  $('step2PreviewIntro').textContent=words.intro;
  $('step2PreviewNotice').textContent=words.notice;
@@ -412,8 +413,8 @@ $('openRegistration').classList.toggle('hide',staffEntryMode);
  if(questionnaireEntryMode){
   $('openRegistration').classList.add('hide');
   translateQuestionnairePreview();
-  $('welcome').textContent=lang==='en'?'Step 2 · Student questionnaire':'Krok 2 · Osobný dotazník';
-  $('subtitle').textContent=lang==='en'?'Your application has been approved. Complete your questionnaire to continue.':'Tvoja registrácia bola schválená. Vyplň dotazník a pokračuj do profilu.';
+  $('welcome').textContent=lang==='en'?'Step 2 · Student questionnaire':lang==='ru'?'Шаг 2 · Анкета студента':lang==='uk'?'Крок 2 · Анкета студента':'Krok 2 · Osobný dotazník';
+  $('subtitle').textContent=lang==='en'?'Once reception approves your registration, use your email invitation to complete this questionnaire.':lang==='ru'?'После одобрения ресепшеном откройте приглашение, чтобы заполнить анкету.':lang==='uk'?'Після схвалення рецепцією відкрийте запрошення, щоб заповнити анкету.':'Po schválení registrácie recepciou otvor pozvánku z e-mailu a vyplň dotazník.';
  }
 $('switchPortal').textContent=staffEntryMode?portalMessages[lang].switchStudent:portalMessages[lang].switchStaff;
 $('switchPortal').href=staffEntryMode?'/student-house-portal/student/?lang='+lang+'&signin=1':'/student-house-portal/admin/?lang='+lang;
