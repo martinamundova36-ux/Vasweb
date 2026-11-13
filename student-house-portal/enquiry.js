@@ -19,8 +19,8 @@ export async function renderStudentEnquiry(ctx){
  ctx.root.append(root);root.append(n('h3','',t.title),n('p','muted',
   (ctx.lang==='en'?'Step 2 of 3: ':ctx.lang==='sk'?'Krok 2 z 3: ':'')+t.intro));
  root.append(n('p','enquiry-status',ctx.lang==='en'?
-  'Your password was created when you accepted the reception invitation. Complete this questionnaire and upload your photo to continue to the documents.':
-  'Heslo si si vytvoril(a) pri prijatí pozvánky od recepcie. Dokonči dotazník, vlož fotografiu a pokračuj na dokumenty.'));
+  'Step 2 of 3: Reception approved your registration. Complete and submit the questionnaire and photo. A second email will then invite you to choose your student-profile password.':
+  'Krok 2 z 3: Recepcia schválila registráciu. Vyplň a odošli dotazník s fotografiou. Až potom dostaneš druhý e-mail na vytvorenie hesla do študentského profilu.'));
  if(!ctx.resident?.id){root.append(n('p','danger',t.notFound));return;}
  const {data:existing,error:readError}=await ctx.db.from('resident_enquiries').select('*')
    .eq('tenant_id',ctx.tenant).eq('resident_id',ctx.resident.id).maybeSingle();
@@ -139,8 +139,12 @@ export async function renderStudentEnquiry(ctx){
    status.textContent=review?.review_status==='needs_correction'
      ?(ctx.lang==='en'?'Corrected questionnaire submitted to reception.':'Opravený dotazník je odoslaný na kontrolu recepcii.')
      :t.saved;
-   if(!actionRow.querySelector('.enquiry-completed')){
-    const next=n('button','btn-secondary enquiry-completed',ctx.lang==='en'?'Continue to student zone':ctx.lang==='ru'?'Перейти в кабинет':ctx.lang==='uk'?'До кабінету студента':'Pokračovať do študentskej zóny');
+   if(ctx.isOnboarding){
+    // Automatically move to step three only after the questionnaire and private
+    // photograph have both been saved. The invitation is a separate email.
+    await ctx.onComplete?.();
+   }else if(!actionRow.querySelector('.enquiry-completed')){
+    const next=n('button','btn-secondary enquiry-completed',ctx.lang==='en'?'Continue to documents':ctx.lang==='ru'?'К документам':ctx.lang==='uk'?'До документів':'Pokračovať na dokumenty');
     next.type='button';next.addEventListener('click',()=>ctx.onComplete?.());
     actionRow.append(next);
    }

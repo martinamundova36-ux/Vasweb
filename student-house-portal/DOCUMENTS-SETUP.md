@@ -4,13 +4,14 @@ Existujúca aplikácia WEBU Residence / Student House Bratislava.
 
 ## Presné poradie
 
-1. **Verejná registrácia:** študent zadá kontaktné údaje, preferovaný typ izby a pobyt. **Nezadáva číslo zmluvy ani heslo.** Žiadosť zostane `pending`; nevzniká žiadny prístup do študentského profilu.
-2. **Recepcia → Registrácie:** overí žiadosť, pridelí konkrétnu izbu a **číslo zmluvy** podľa vlastných podkladov, skontroluje nájomné a všetky mesačné predpisy a schváli registráciu.
-3. **Pozvánka e-mailom:** pri schválení systém odošle zabezpečenú pozvánku od Supabase Auth. Existujúcim účtom vytvoreným starým postupom odošle odkaz na nastavenie hesla. Po schválení sa dá pozvánka poslať opätovne cez **Registrácie → Znova poslať pozvánku**. Heslo neprechádza cez recepciu.
-4. **Študent → Krok 1:** cez pozvánku vytvorí vlastné heslo (aspoň 12 znakov). Prihlási sa do oddeleného študentského profilu.
-5. **Študent → Krok 2:** osobný dotazník je predvyplnený údajmi z registrácie; študent ich skontroluje, doplní a nahrá profilovú fotografiu. Odoslanie nastaví `student_submitted_at`, ktoré nie je nastavené len predvyplnením databázy.
-6. **Študent → Krok 3 / Dokumenty:** stiahne svoje **individuálne PDF zmluvy** od recepcie, všeobecný platný ubytovací poriadok a schválené GDPR informácie s podpisovým potvrdením. Vyplní a podpíše ich mimo portálu. Do súkromného úložiska pošle **podpísanú zmluvu**, **podpísaný ubytovací poriadok** a **podpísané potvrdenie o GDPR** (PDF/JPG/PNG; max. 6 MB každý).
-7. **Recepcia → Dokumenty:** vidí každé odovzdanie, stiahne ho a označí **schválené** alebo **vrátené na opravu** s poznámkou. Kým nie sú všetky tri schválené, študentské prihlásenie prednostne otvára dokumentovú sekciu.
+1. **Krok 1 – základná registrácia:** študent uvedie meno, priezvisko, e-mail, telefón, preferovanú izbu a termín ubytovania. **Nezadáva číslo zmluvy ani heslo.** Po odoslaní vidí samostatnú stránku **Čaká na schválenie recepciou**; nevzniká Auth účet ani prístup do profilu.
+2. **Schválenie recepciou:** recepcia preverí žiadosť, pridelí izbu a **číslo zmluvy**, skontroluje mesačné platby a schváli ju.
+3. **Prvá pozvánka / Krok 2 – dotazník:** recepcia odošle bezpečný link na samostatnú stránku `/student-house-portal/questionnaire/`. Link vytvorí dočasnú autorizovanú Auth session bez nutnosti vytvoriť heslo. Študent doplní dátum narodenia, národnosť, adresu, číslo dokladu, školu a ďalšie údaje, vloží fotografiu a klikne **Odoslať**. Študentský profil zostáva zamknutý.
+4. **Druhá pozvánka / Krok 3 – e-mail a heslo:** až keď je dotazník s fotografiou uložený, server odošle nový e-mail s odkazom na `/student-house-portal/student/?step=profile`. Študent uvedie svoj schválený e-mail a vyberie heslo (minimálne 12 znakov). Server overí existenciu hesla, dotazníka a fotografie, až potom aktivuje profil.
+5. **Študentská zóna → Dokumenty:** stiahne individuálnu zmluvu, aktuálny ubytovací poriadok a schválené GDPR informácie/potvrdenie. Vyplní a podpíše ich a nahrá **podpísanú zmluvu**, **ubytovací poriadok**, **GDPR potvrdenie** (PDF/JPG/PNG do 6 MB).
+6. **Recepcia → Dokumenty:** skontroluje všetky tri podpísané dokumenty; schváli alebo vráti na opravu s poznámkou. Študent vidí ich stavy.
+
+Existujúcim schváleným študentom sme pri migrácii zachovali prístup do profilu. Nové registrácie začínajú s neaktivovaným profilom. Ak prvý alebo druhý e-mail nedorazí, recepcia môže v časti Registrácie odoslať pozvánku na aktuálny krok opäť. Supabase Auth šablóna môže mať predvolený predmet „Pozvánka“ / „Obnovenie hesla“; šablóny e-mailov sa dajú neskôr pomenovať podľa krokov.
 
 ## Dokumenty musí recepcia pripraviť pred ostrým použitím
 
