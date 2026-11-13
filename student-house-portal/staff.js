@@ -101,6 +101,22 @@ export async function renderStaffScreen(ctx) {
        ['Typ izby – preferencia',q.preferred_room_type],['Plánovaný príchod',ctx.day(q.preferred_from)]])grid.append(field(label,value||'—'));
      box.append(summary,grid);card.append(box);
     }
+    if(person.status==='invited'){
+     const resend=button(ctx.lang==='en'?'Resend access invitation':'Znova poslať pozvánku na vytvorenie hesla',async()=>{
+      if(pendingAction||!ctx.isCurrent()||!confirm(ctx.lang==='en'?'Send a new password setup link to this approved resident?':'Poslať nový odkaz na vytvorenie hesla tomuto schválenému študentovi?'))return;
+      pendingAction=true;resend.disabled=true;
+      try{
+       const {data,error}=await ctx.db.functions.invoke('manage',{body:{
+        action:'resend_student_access',role:'student',tenant_id:ctx.tenant,registration_id:person.id
+       }});
+       status(!error&&data?.ok?
+        (ctx.lang==='en'?'Invitation sent to the approved resident.':'Pozvánka bola odoslaná na e-mail schváleného študenta.'):
+        (ctx.lang==='en'?'Invitation could not be sent. Check SMTP.':'Pozvánku sa nepodarilo poslať. Skontroluj SMTP.'),!!error||!data?.ok);
+      }catch{status(w.failed,true)}
+      finally{pendingAction=false;resend.disabled=false;}
+     });
+     card.append(resend);
+    }
     if(person.status==='correction_requested'){
      card.append(el('p','mini-note',cw.existing));
      if(person.correction_reason)card.append(el('p','',cw.reason+': '+person.correction_reason));
