@@ -63,7 +63,11 @@ export async function renderStudentEnquiry(ctx){
  });
  form.append(identity,grid,photoBox,privacy);
  const status=n('p','enquiry-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
- const submit=n('button','',t.save);submit.type='submit';form.append(submit,status);root.append(form);
+ const actionRow=n('div','enquiry-actions'),submit=n('button','',t.save);
+ submit.type='submit';
+ const print=n('button','btn-secondary',ctx.lang==='en'?'Print / Save as PDF':ctx.lang==='ru'?'Печать / Сохранить PDF':ctx.lang==='uk'?'Друк / Зберегти PDF':'Vytlačiť / Uložiť ako PDF');
+ print.type='button';print.addEventListener('click',()=>window.print());
+ actionRow.append(submit,print);form.append(actionRow,status);root.append(form);
  try{
   const files=await ctx.list('residence_portal_files');
   if(ctx.isCurrent()&&!photoInput.files?.length&&!previewUrl&&root.isConnected){
