@@ -1069,15 +1069,45 @@ async function renderPanel(){
       if(search){search.value=focus.room;search.dispatchEvent(new Event('input'));}
      }
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
-     const title=make('input');title.placeholder=lang==='en'?'Room number':'Číslo izby';title.required=true;title.maxLength=100;
-     const kind=make('input');kind.placeholder=lang==='en'?'Room type':'Typ izby';kind.required=true;kind.maxLength=100;
-     const cap=make('input');cap.type='number';cap.min='1';cap.max='20';cap.value='2';cap.required=true;
+     // "Add room" is for a NEW room number. The 64 existing rooms stay in the
+     // register above; selecting an existing number here would create a duplicate.
+     const title=make('input');title.placeholder=lang==='en'?'New room number':'Číslo novej izby';title.required=true;title.maxLength=30;
+     const kind=make('select');kind.required=true;kind.setAttribute('aria-label',lang==='en'?'Room category':'Kategória / typ izby');
+     const categories=[
+       ['',''],
+       ['M2','Manzard 2'],['Š1+1','Standard 1+1'],['SUI 2','Suite 2'],
+       ['D2','De Luxe 2'],['Š2','Standard 2'],['D2V','De Luxe 2V'],
+       ['M1','Manzard 1'],['Š2+1','Standard 2+1'],['Š2+2','Standard 2+2'],['bez okna',lang==='en'?'Without window':'Bez okna']
+     ];
+     for(const [value,title] of categories){
+       const option=make('option','',title||(lang==='en'?'Choose room type':'Vyber typ izby'));option.value=value;
+       kind.append(option);
+     }
+     const cap=make('select');cap.required=true;cap.setAttribute('aria-label',lang==='en'?'Room capacity':'Kapacita');
+     for(const value of [1,2,3,4]){
+       const option=make('option','',String(value));option.value=String(value);
+       cap.append(option);
+     }
+     const categoryCapacity={'M1':1,'bez okna':1,'Š2+1':3,'Š2+2':4};
+     kind.addEventListener('change',()=>{cap.value=String(categoryCapacity[kind.value]||2);});
+     kind.value='';cap.value='2';
+     const hint=make('p','muted',lang==='en'
+       ?'All existing rooms are managed in the register above. To add a new room, enter a number not already in use.'
+       :'Všetkých existujúcich 64 izieb je v evidencii vyššie. Novú izbu pridaj iba s doteraz nepoužitým číslom.');
      const grid=make('div','inline-grid');
      for(const [name,input] of [[label('roomNumber'),title],[lang==='en'?'Category':'Kategória',kind],[lang==='en'?'Capacity':'Kapacita',cap]]){const box=make('div');const l=make('label','',name);box.append(l,input);grid.append(box)}
-     const save=make('button','',label('create'));save.type='submit';form.append(grid,save);
+     const save=make('button','',label('create'));save.type='submit';form.append(grid,hint,save);
      form.addEventListener('submit',async e=>{
-      e.preventDefault();save.disabled=true;
-      const {data,error}=await db.from('rooms').insert({tenant_id:tenant,name:title.value.trim(),category:kind.value.trim(),capacity:Number(cap.value)}).select('id');
+      e.preventDefault();
+      if(!form.reportValidity())return;
+      const newRoom=title.value.trim();
+      if(rooms.some(existing=>existing.name.toLocaleLowerCase()===newRoom.toLocaleLowerCase())){
+       alert(lang==='en'?'This room is already in the register. Use its existing record.':'Táto izba už v evidencii existuje. Použi jej existujúci záznam.');
+       return;
+      }
+      if(!kind.value){alert(lang==='en'?'Choose a room type.':'Vyber typ izby.');return;}
+      save.disabled=true;
+      const {data,error}=await db.from('rooms').insert({tenant_id:tenant,name:newRoom,category:kind.value,capacity:Number(cap.value)}).select('id');
       if(error||!data?.length){alert(label('error'));save.disabled=false;return}
       alert(label('success'));void renderPanel();
      });
