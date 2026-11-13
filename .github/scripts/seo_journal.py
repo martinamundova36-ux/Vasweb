@@ -89,8 +89,10 @@ def main():
             if local.endswith(".html") and not (ROOT/local).exists():errors.append(p.name+": broken link "+local)
         for img in parser.images:
             if not img.get("alt"):warnings.append(p.name+": image missing alt")
-        hero=next((i for i in parser.images if i.get("src", "").startswith("/assets/journal/")),{})
-        image=SITE+hero["src"].lstrip("/") if hero else None
+        # Accept a verified Pexels editorial hero as well as optimized local photos.
+        # The old local-only check stripped image metadata from newly authored pages.
+        hero=next((i for i in parser.images if i.get("src", "").startswith(("/assets/journal/","https://images.pexels.com/photos/"))),{})
+        image=(SITE+hero["src"].lstrip("/") if hero["src"].startswith("/") else hero["src"]) if hero else None
         schema={"@context":"https://schema.org","@type":"BlogPosting","headline":title,"description":desc,"inLanguage":lang,"mainEntityOfPage":{"@type":"WebPage","@id":url},"url":url,"publisher":{"@type":"Organization","name":"WEBU","url":SITE},"author":{"@type":"Person","name":"Martina Mundová"}}
         schema['citation']=[h for h in parser.links if h.startswith(('https://doi.org/','https://www.w3.org/','https://developers.google.com/','https://www.itl.nist.gov/','https://openstax.org/','https://credibility.stanford.edu/','https://www.pcisecuritystandards.org/','https://web.dev/'))]
         if image:schema["image"]={"@type":"ImageObject","url":image,"width":1280,"height":720,"caption":hero.get("alt","")}
