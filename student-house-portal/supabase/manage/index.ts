@@ -56,6 +56,22 @@ Deno.serve(async(req)=>{
     if(activationError||activated!==true)return reply({error:'password_or_questionnaire_not_verified'},409);
     return reply({ok:true,profile_activated:true});
   }
+  if(['staff_list','staff_update'].includes(body.action)){
+   const tenant=body.tenant_id;
+   if(typeof tenant!=='string'||!/^[0-9a-f-]{36}$/i.test(tenant))return reply({error:'invalid_tenant'},400);
+   const {data:actor,error:actorError}=await client.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
+   if(actorError||actor?.role!=='org_admin')return reply({error:'forbidden'},403);
+   if(body.action==='staff_update'){
+    if(typeof body.user_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.user_id)||!['org_admin','reception'].includes(body.role)||typeof body.active!=='boolean')return reply({error:'invalid_data'},400);
+    const {data,error}=await service.rpc('residence_update_staff',{p_actor:user.id,p_tenant:tenant,p_user:body.user_id,p_role:body.role,p_active:body.active});
+    if(error||data!==true)return reply({error:'staff_update_failed'},409);return reply({ok:true});
+   }
+   const {data:members,error:membersError}=await client.from('organization_memberships').select('user_id,role,active').eq('tenant_id',tenant).in('role',['org_admin','reception']).limit(100);
+   if(membersError)return reply({error:'load_failed'},503);
+   const staff=[];
+   for(const member of members||[]){const {data,error}=await service.auth.admin.getUserById(member.user_id);if(error)return reply({error:'load_failed'},503);staff.push({...member,email:data.user?.email||''});}
+   return reply({ok:true,staff});
+  }
   if(!['invite','resend_student_access'].includes(body.action))return reply({error:'invalid_action'},400);
   if(body.action==='invite'&&(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200))return reply({error:'invalid_data'},400);
 
@@ -122,7 +138,7 @@ Deno.serve(async(req)=>{
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
   const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'questionnaire/':'?view=reception');
   let uid:string|undefined,existingUser=false,emailSent=false;
-  // New registrations have NO password. Reception approves the room, signed
+  // Pending accounts may already have an Auth password. Reception approves the room, signed
   // contract data and monthly rent. New email accounts receive a one-time invite.
   // Older applicants who previously created an Auth account receive a password
   // setup/recovery link only after the approval transaction succeeds.

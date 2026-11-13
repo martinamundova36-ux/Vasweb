@@ -819,10 +819,10 @@ async function renderProfile(tenant){
  if(!resident){empty();return;}
  const pieces=String(resident.full_name||'').trim().split(/\s+/);
  const first=pieces.shift()||'—',surname=pieces.join(' ')||'—';
- const [tenancies,rooms,files]=await Promise.all([
+ const [tenancies,rooms,files,enquiries]=await Promise.all([
   list('tenancies',{resident_id:resident.id}),
   list('rooms'),
-  list('residence_portal_files')
+  list('residence_portal_files'),list('resident_enquiries',{resident_id:resident.id})
  ]);
  const today=new Date().toISOString().slice(0,10);
  const tenancy=tenancies.find(x=>x.starts_on<=today && x.ends_on>=today)||tenancies.slice().sort((a,b)=>String(b.starts_on).localeCompare(String(a.starts_on)))[0];
@@ -832,8 +832,11 @@ async function renderProfile(tenant){
  for(const [name,value] of [[dl('first'),first],[dl('last'),surname],[dl('room'),room?.name||resident.verified_room_number||dl('noRoom')],[lang==='en'?'Accommodation Contract No.':'Číslo ubytovacej zmluvy',resident.verified_contract_number||'—'],[lang==='en'?'Accommodation period':'Dĺžka ubytovania',(resident.accommodation_from&&resident.accommodation_to)?day(resident.accommodation_from)+' – '+day(resident.accommodation_to):'—'],[dl('email'),resident.email||user.email]]){
   const cell=make('div');cell.append(make('label','',name),make('div','readonly-value',value));details.append(cell);
  }
+ const enquiry=enquiries[0]||{};
+ for(const [name,value]of [[({sk:'Dátum narodenia',en:'Date of birth',ru:'Дата рождения',uk:'Дата народження'})[lang],enquiry.date_of_birth?day(enquiry.date_of_birth):'—'],[({sk:'Štátna príslušnosť',en:'Nationality',ru:'Гражданство',uk:'Громадянство'})[lang],enquiry.nationality||'—'],[({sk:'Telefón',en:'Telephone',ru:'Телефон',uk:'Телефон'})[lang],enquiry.telephone||'—'],[({sk:'Typ ubytovania',en:'Accommodation type',ru:'Тип проживания',uk:'Тип проживання'})[lang],room?.category||enquiry.preferred_room_type||'—']]){const cell=make('div');cell.append(make('label','',name),make('div','readonly-value',value));details.append(cell);}
  grid.append(photoRow,details);$('records').append(grid);
  const avatar=files.find(x=>x.kind==='profile_photo'&&x.user_id===user.id&&x.active);
+ if(!avatar)photoRow.append(make('p','danger',({sk:'Doplň povinnú profilovú fotografiu.',en:'Please upload your required profile photo.',ru:'Загрузите обязательное фото профиля.',uk:'Завантажте обов’язкове фото профілю.'})[lang]));
  if(avatar){
   const url=await fileLink(avatar.id,tenant,true);
   if(url&&member?.tenant_id===tenant&&tab==='profile'){
@@ -1100,6 +1103,7 @@ function renderPasswordSettings(){
   finally{submit.disabled=false}
  });
  actions.append(gen,copy,show);form.append(old.wrap,fresh.wrap,repeat.wrap,actions,submit,status);c.append(form);
+ if(member?.role==='org_admin')void import('/student-house-portal/admin-management.js?v=20261113-staff1').then(m=>m.renderAdministration({root:c,db,tenant:member.tenant_id,lang,isCurrent:()=>tab==='account'&&member?.role==='org_admin'}));
 }
 async function sendProfileStepInvitation(tenant,button){
  if(button)button.disabled=true;
@@ -1125,7 +1129,7 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-draft1');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-complete2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
     isOnboarding:!resident.profile_password_activated_at,
@@ -1348,7 +1352,18 @@ async function renderPanel(){
    subheading(label('paid'));
    if(!paid.length)empty();
    for(const x of paid.sort((a,b)=>String(b.received_on).localeCompare(String(a.received_on)))){
-    container.append(row((reversed.has(x.id)?'↶ ':'✓ ')+(staff?residentLabel(x.resident_id)+' · ':'')+money(x.amount),day(x.received_on)+' · '+x.method+' · '+x.reference));
+    const paymentRow=row((reversed.has(x.id)?'↶ ':'✓ ')+(staff?residentLabel(x.resident_id)+' · ':'')+money(x.amount),day(x.received_on)+' · '+x.method+' · '+x.reference);
+    const reversal=reversals.find(r=>r.payment_id===x.id);
+    if(reversal)paymentRow.append(make('p','small',({sk:'Storno: ',en:'Reversal: ',ru:'Сторно: ',uk:'Сторно: '})[lang]+reversal.reason+' · '+day(reversal.created_at)));
+    if(member?.role==='org_admin'&&!reversed.has(x.id)){
+     const fix=make('details'),caption=make('summary','',({sk:'Opraviť chybnú úhradu – storno',en:'Correct erroneous receipt – reverse',ru:'Исправить платёж — сторно',uk:'Виправити платіж — сторно'})[lang]);
+     const form=make('form','staff-form'),reason=make('textarea');reason.required=true;reason.minLength=5;reason.maxLength=1000;
+     const reasonLabel=make('label','',({sk:'Dôvod opravy (povinný)',en:'Reason for correction (required)',ru:'Причина исправления (обязательно)',uk:'Причина виправлення (обов’язково)'})[lang]);reasonLabel.append(reason);
+     const reverse=make('button','',({sk:'Potvrdiť storno',en:'Confirm reversal',ru:'Подтвердить сторно',uk:'Підтвердити сторно'})[lang]);reverse.type='submit';form.append(reasonLabel,reverse);
+     form.onsubmit=async e=>{e.preventDefault();if(!form.reportValidity()||!confirm(({sk:'Stornovať túto evidovanú úhradu? Zostane v audite. Správnu platbu potom zaeviduj ako nový záznam.',en:'Reverse this recorded receipt? It remains in the audit. Record the corrected receipt as a new entry.',ru:'Сторнировать платёж? История сохранится. Верный платёж внесите новой записью.',uk:'Сторнувати платіж? Історія збережеться. Правильний платіж внесіть новим записом.'})[lang]))return;reverse.disabled=true;const {error}=await db.rpc('reverse_payment',{p_tenant:tenant,p_payment:x.id,p_reason:reason.value.trim()});if(error){alert(fin('failed'));reverse.disabled=false;}else void renderPanel();};
+     fix.append(caption,form);paymentRow.append(fix);
+    }
+    container.append(paymentRow);
    }
    if(staff){
     if(!people.length){message(fin('needsResident'));return;}

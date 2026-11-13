@@ -42,7 +42,7 @@ export async function renderStudentEnquiry(ctx){
  if(!ctx.isCurrent()||!root.isConnected)return;
  if(reviewError){root.append(n('p','danger',t.failed));return;}
  if(review?.review_status==='needs_correction'){
-  const changed=!!existing&&Date.parse(String(existing.updated_at||existing.created_at||''))>Date.parse(String(review.requested_at||''));
+  const changed=!!existing?.student_submitted_at&&Date.parse(String(existing.updated_at||existing.created_at||''))>Date.parse(String(review.requested_at||''));
   const warning=n('section','enquiry-identity');
   warning.append(n('strong','',changed
    ?(ctx.lang==='en'?'Corrections submitted; reception has not verified them yet.':'Opravený dotazník bol opätovne odoslaný. Čaká na kontrolu recepcie.')
@@ -105,6 +105,8 @@ export async function renderStudentEnquiry(ctx){
  });
  form.append(identity,grid,photoBox,privacy);
  const status=n('p','enquiry-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ for(const key of ['permanent_address','date_of_birth','nationality','identity_document_number','telephone','school','preferred_room_type','preferred_duration_months','preferred_from','preferred_to'])if(fields[key])fields[key].required=true;
+ fields.date_of_birth.max=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
  const actionRow=n('div','enquiry-actions'),submit=n('button','',t.save);
  submit.type='submit';
  const print=n('button','btn-secondary',ctx.lang==='en'?'Print / Save as PDF':ctx.lang==='ru'?'Печать / Сохранить PDF':ctx.lang==='uk'?'Друк / Зберегти PDF':'Vytlačiť / Uložiť ako PDF');

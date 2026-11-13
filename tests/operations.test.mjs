@@ -18,6 +18,8 @@ create function private.residence_enqueue_mail(uuid,text,text,text,text,text,tex
 await db.exec(readFileSync('docs/student-house-services-schema.sql','utf8'));
 await db.exec(readFileSync('docs/student-house-cleaning-capacity.sql','utf8'));
 await db.exec(readFileSync('docs/student-house-payment-reminders.sql','utf8'));
+await db.exec(`create function private.residence_staff_actor(t uuid,u uuid) returns boolean language sql as $$select exists(select 1 from public.organization_memberships where tenant_id=t and user_id=u and active and role in ('org_admin','reception'))$$`);
+await db.exec(readFileSync('docs/student-house-staff-management.sql','utf8'));
 const tenant='30000000-0000-0000-0000-000000000081',student='10000000-0000-0000-0000-000000000081',staff='10000000-0000-0000-0000-000000000082',session='20000000-0000-0000-0000-000000000081',staffSession='20000000-0000-0000-0000-000000000082',resident='40000000-0000-0000-0000-000000000081';
 await db.exec(`insert into auth.users(id,email,invited_at) values('${student}','student@example.invalid',now()),('${staff}','staff@example.invalid',now());insert into auth.sessions values('${session}','${student}',null),('${staffSession}','${staff}',null);insert into organizations(id,name,slug) values('${tenant}','Synthetic operations test','synthetic-operations');insert into organization_memberships(tenant_id,user_id,role) values('${tenant}','${student}','student'),('${tenant}','${staff}','reception');insert into residents(id,tenant_id,user_id,full_name,email,profile_password_activated_at) values('${resident}','${tenant}','${student}','Synthetic resident','student@example.invalid',now());insert into residence_reminder_settings(tenant_id) values('${tenant}');`);
 const claims=async(user,sid)=>{await db.exec('reset role');await db.query("select set_config('request.jwt.claims',$1,false)",[JSON.stringify({sub:user,role:'authenticated',session_id:sid})]);await db.exec('set role authenticated');};
@@ -51,5 +53,13 @@ const old=(await db.query('select id from residence_mail_outbox')).rows[0].id;
 assert.equal((await db.query('select residence_refresh_payment_reminder($1,$1) result',[old])).rows[0].result.send,false);
 await claims(student,session);assert.equal((await db.query('select * from residence_reminder_settings')).rows.length,0);
 await assert.rejects(db.query('select private.residence_queue_due_reminders()'),/permission denied/);
+await db.exec('reset role');
+await assert.rejects(db.query('select residence_update_staff($1,$2,$1,$3,false)',[staff,tenant,'reception']),/Forbidden/);
+await db.query("update organization_memberships set role='org_admin' where tenant_id=$1 and user_id=$2",[tenant,staff]);
+await assert.rejects(db.query('select residence_update_staff($1,$2,$1,$3,false)',[staff,tenant,'reception']),/Last administrator/);
+await db.query("update organization_memberships set role='reception' where tenant_id=$1 and user_id=$2",[tenant,student]);
+await db.query('select residence_update_staff($1,$2,$3,$4,false)',[staff,tenant,student,'reception']);
+assert.equal((await db.query('select active from organization_memberships where tenant_id=$1 and user_id=$2',[tenant,student])).rows[0].active,false);
+console.log('PASS: staff changes deny reception actors and preserve last administrator; authorized deactivation recorded.');
 console.log('PASS: PostgreSQL cleaning capacity, overlap, release, staff/student access; reminder dedupe, partial payments, reversals, installment balances, stale queue suppression, denied student scheduler. Synthetic isolated data only.');
 }finally{await db.close();}
