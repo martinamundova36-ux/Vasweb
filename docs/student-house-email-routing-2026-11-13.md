@@ -27,7 +27,7 @@ Všetkých 17 uložených nastavení bolo po zmene opätovne prečítaných a ov
 ## Zistené blokery a nedokončené časti
 
 - Supabase aj Gmail sú prihlásené. Auth SMTP ostáva smtp.gmail.com:587 so senderom martinamundova36@gmail.com; existujúce skryté heslo sa nečítalo ani nemenilo.
-- Nasadený residence-mail v1, manage v16 a registration-correction v3. Nový front residence_mail_outbox zachytáva nové registrácie, potvrdenie prijatia študentovi, schválenie, opravy, odovzdanie/kontrolu dotazníka, súbory a aktiváciu. Správy čakajú na doplnenie RESIDENCE_SMTP_PASSWORD do Edge Function Secrets. Toto je samostatné od Auth SMTP a zatiaľ neodosiela. Diagnostická správa čaká vo fronte.
+- Nasadený residence-mail v4, manage v16 a registration-correction v3. Nový front residence_mail_outbox zachytáva nové registrácie, potvrdenie prijatia študentovi, schválenie, opravy, odovzdanie/kontrolu dotazníka, súbory a aktiváciu. RESIDENCE_SMTP_PASSWORD je uložené v Edge Function Secrets, ale Gmail pri teste odmietol prihlásenie chybou EAUTH/535. Heslo ani jeho hodnota sa nečítali. Toto je samostatné od Auth SMTP; doručenie z tohto frontu zatiaľ nie je potvrdené. Diagnostická správa čaká vo fronte.
 - Centrálne smerovanie portálu: residence_mail_config.admin_email; original_admin_email uchováva pôvodnú adresu. temporary=true. Študentské správy používajú individuálny e-mail a nie admin_email. Bez hesiel v repozitári.
 - Opakovanie odosielania: cron residence-mail-retry každú minútu, najviac tri správy za 55 sekúnd; atomická rezervácia, opakovanie chýb najviac šesť pokusov. accepted znamená prijatie SMTP, NIE potvrdenie doručenia do schránky.
 - Server vyžaduje schválený dotazník novší než posledné odovzdanie pred pozvánkou na heslo aj aktiváciou. Verejná UI po odovzdaní čaká na kontrolu. Auth pozvánky a obnovy hesla sa nepresmerovali.
@@ -44,3 +44,11 @@ Po overení doručovania zmeniť iba to v uvedených Jetpack contact-form blokoc
 Pre portál zmeniť residence_mail_config.admin_email na original_admin_email a temporary=false. SMTP sender/user možno zmeniť iba s platnou konfiguráciou oficiálneho odosielateľa a bezpečne vloženým príslušným app password. Vyžaduje sa overenie skutočného doručenia.
 
 Nasadené DB migrácie: residence_operational_mail_outbox; require_reception_review_before_profile_activation; residence_mail_receipts_and_retry_schedule. Základ schémy je v docs/student-house-mail-schema.sql, serverová kontrola aktivácie je funkcia residence_activate_profile_password. Mailový front ani konfigurácia nemajú granty pre anon/authenticated; RLS bez verejných politík je zámerný zákaz prístupu.
+
+## Diagnostika po uložení SMTP secretu
+
+- Overená existencia RESIDENCE_SMTP_PASSWORD podľa názvu v Supabase; hodnota sa nečítala.
+- residence-mail v4 odstraňuje biele znaky pri kopírovaní Gmail app password. Konfigurácia prevádzkových upozornení je smtp.gmail.com:465 s implicitným TLS; Auth SMTP nastavenie sa nemenilo.
+- Tri diagnostické pokusy skončili smtp_EAUTH_535. SMTP správu neprijalo; diagnostika ostáva pending s odloženým opakovaním. Gmail vyhľadávanie zatiaľ nepotvrdilo prijatie tejto správy.
+- Kód ukladá iba bezpečný chybový kód a SMTP číselnú odpoveď; neloguje heslá ani celé chyby transportu.
+- Ďalší krok: používateľka bezpečne prepíše secret platným Gmail aplikačným heslom z účtu martinamundova36@gmail.com. Existujúce aplikačné heslo WEBU Residence používané Auth sa nemaže.
