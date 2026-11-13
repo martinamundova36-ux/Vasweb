@@ -7,3 +7,17 @@ export function chargeBalance(charge,allocations,reversals){
  const paid=allocations.filter(a=>a.charge_id===charge.id&&!reversed.has(a.payment_id)).reduce((n,a)=>n+cents(a.amount),0);
  return {paid,remaining:cents(charge.amount)-paid};
 }
+
+// Calendar arithmetic uses UTC only for date-only values; no DST-sensitive durations.
+export function advanceRentDueDate(period, dueDay=1){
+ if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(period)||!Number.isInteger(dueDay)||dueDay<1||dueDay>28)throw Error('invalid_schedule_date');
+ const [year,month]=period.split('-').map(Number);
+ if(year<1000||year>9999)throw Error('invalid_schedule_date');
+ return new Date(Date.UTC(year,month-2,dueDay)).toISOString().slice(0,10);
+}
+// Highlight the oldest unpaid due date, including rent payable one month ahead.
+export function paymentHighlightRows(rows,today){
+ const unpaid=rows.filter(r=>r.remaining>0).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period)));
+ if(unpaid.length)return unpaid.filter(r=>r.due_on===unpaid[0].due_on);
+ return rows.filter(r=>String(r.due_on).slice(0,7)===today.slice(0,7));
+}
