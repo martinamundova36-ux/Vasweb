@@ -3,10 +3,10 @@ import {csvCell,validateRoomImport} from './rooms.js';
 
 const EXPECTED_ROOMS=64;
 const labels={
-sk:{title:'EVIDENCIA UBYTOVANIA – EXCEL PREHĽAD',desc:'Všetky izby na jednom mieste. Mesiace posúvaj doprava; zobrazené sú iba overené predpisy a prijaté platby.',room:'Číslo izby',category:'Typ izby',capacity:'Kapacita',nationality:'Národnosť',first:'Meno',last:'Priezvisko',email:'E-mail',contract:'Číslo zmluvy',from:'Od',to:'Do',arrival:'Skutočný príchod',total:'Spolu za rok',action:'Údaje',missing:'Neoverená izba',placeholder:'Zatiaľ neevidovaná izba – doplň jej skutočné číslo a typ.',known:'Evidovaných izieb',missingCount:'Neoverené izby',search:'Hľadať izbu, meno alebo e-mail',year:'Rok splátkového kalendára',csv:'Stiahnuť Excel (CSV)',save:'Uložiť',cancel:'Zrušiť',edit:'Upraviť',open:'Profil',load:'Načítavam…',empty:'Žiadne záznamy podľa filtra.',due:'Na úhradu',late:'Po splatnosti',paid:'Uhradené',partial:'Čiastočne uhradené',plan:'Dohodnuté splátky',missingCharge:'Bez predpisu',notApplicable:'—',sum:'Predpis / uhradené',remaining:'zostáva',editHelp:'Údaje o zmluve, mene, e-maile a platbách sa menia len po overení recepciou. Tu môžeš doplniť národnosť a reálny príchod.',nationalityHelp:'Zadaj len overený údaj, neodhaduj ho podľa mena.',saveError:'Údaje sa nepodarilo uložiť. Skontroluj oprávnenia a pripojenie.',saveOk:'Údaje boli uložené.',importLabel:'Import nových izieb (CSV)',importHelp:'Súbor musí obsahovať name;category;capacity. Importuje iba nové a overené izby.',importConfirm:'Importovať nové izby?',importFail:'Import sa nepodaril. Skontroluj formát a duplicity.',importOver:'Počet evidovaných izieb by prekročil 64. Over skutočný zoznam.',filter:'Zobrazených izieb'},
-en:{title:'ACCOMMODATION REGISTER – EXCEL VIEW',desc:'All rooms in one register. Scroll horizontally to see the months; only verified charges and payments are shown.',room:'Room',category:'Room type',capacity:'Beds',nationality:'Nationality',first:'First name',last:'Last name',email:'E-mail',contract:'Contract',from:'From',to:'To',arrival:'Actual arrival',total:'Year total',action:'Details',missing:'Unverified room',placeholder:'Room not yet verified – add its real room number and type.',known:'Recorded rooms',missingCount:'Rooms to verify',search:'Search room, resident or email',year:'Payment calendar year',csv:'Download Excel (CSV)',save:'Save',cancel:'Cancel',edit:'Edit',open:'Profile',load:'Loading…',empty:'No matching records.',due:'Due',late:'Overdue',paid:'Paid',partial:'Partly paid',plan:'Approved installments',missingCharge:'No charge',notApplicable:'—',sum:'Charged / paid',remaining:'remaining',editHelp:'Names, contracts, email and payments are changed only after reception verification. Nationality and actual arrival can be added here.',nationalityHelp:'Enter verified information only; do not infer nationality from a name.',saveError:'Could not save. Check access and connection.',saveOk:'Saved.',importLabel:'Import new rooms (CSV)',importHelp:'File format: name;category;capacity. Only new verified rooms are added.',importConfirm:'Import verified rooms?',importFail:'Import failed. Check format and duplicates.',importOver:'This would exceed the expected 64 rooms. Verify the room list.',filter:'Rooms shown'},
-ru:{title:'РЕЕСТР ПРОЖИВАНИЯ — ТАБЛИЦА',desc:'Все комнаты в одной таблице. Месяцы находятся справа; показываются только проверенные начисления и оплаты.',room:'Комната',category:'Тип комнаты',capacity:'Мест',nationality:'Гражданство',first:'Имя',last:'Фамилия',email:'Почта',contract:'Договор',from:'С',to:'По',arrival:'Фактический заезд',total:'Всего за год',action:'Данные',missing:'Не проверено',placeholder:'Неподтверждённая комната — укажите фактический номер и тип.',known:'В базе',missingCount:'Требуют проверки',search:'Поиск комнаты, имени или почты',year:'Год графика',csv:'Скачать Excel (CSV)',save:'Сохранить',cancel:'Отмена',edit:'Изменить',open:'Профиль',load:'Загрузка…',empty:'Нет записей.',due:'К оплате',late:'Просрочено',paid:'Оплачено',partial:'Частично оплачено',plan:'Согласованные платежи',missingCharge:'Нет начисления',notApplicable:'—',sum:'Начислено / оплачено',remaining:'осталось',editHelp:'Имя, договор, почту и оплаты рецепция исправляет после проверки. Здесь можно добавить гражданство и дату заезда.',nationalityHelp:'Только проверенные данные.',saveError:'Не удалось сохранить.',saveOk:'Сохранено.',importLabel:'Импорт комнат (CSV)',importHelp:'name;category;capacity, только новые проверенные комнаты.',importConfirm:'Импортировать комнаты?',importFail:'Ошибка импорта.',importOver:'Более 64 комнат. Проверьте список.',filter:'Комнат показано'},
-uk:{title:'РЕЄСТР ПРОЖИВАННЯ — ТАБЛИЦЯ',desc:'Усі кімнати в одному реєстрі. Місяці праворуч, лише перевірені нарахування й оплати.',room:'Кімната',category:'Тип кімнати',capacity:'Місць',nationality:'Громадянство',first:'Ім’я',last:'Прізвище',email:'Пошта',contract:'Договір',from:'З',to:'До',arrival:'Фактичний приїзд',total:'Усього за рік',action:'Дані',missing:'Не перевірено',placeholder:'Непідтверджена кімната — додайте фактичний номер і тип.',known:'У базі',missingCount:'Потрібно перевірити',search:'Пошук кімнати, імені або пошти',year:'Рік графіка',csv:'Завантажити Excel (CSV)',save:'Зберегти',cancel:'Скасувати',edit:'Змінити',open:'Профіль',load:'Завантаження…',empty:'Немає записів.',due:'До сплати',late:'Прострочено',paid:'Сплачено',partial:'Частково сплачено',plan:'Узгоджені платежі',missingCharge:'Без нарахування',notApplicable:'—',sum:'Нараховано / сплачено',remaining:'залишилось',editHelp:'Ім’я, договір, пошту і платежі змінюють тільки після перевірки рецепції. Тут можна додати громадянство і дату приїзду.',nationalityHelp:'Вносьте лише перевірені дані.',saveError:'Не вдалося зберегти.',saveOk:'Збережено.',importLabel:'Імпорт кімнат (CSV)',importHelp:'name;category;capacity, лише нові перевірені кімнати.',importConfirm:'Імпортувати?',importFail:'Помилка імпорту.',importOver:'Більше 64 кімнат. Перевірте перелік.',filter:'Показано кімнат'}
+sk:{seq:'Č.',beds:'Lôžka',bedHelp:'Každé lôžko má vlastný riadok. Priradenie študenta ku konkrétnemu lôžku vyžaduje overenie recepciou.',title:'EVIDENCIA UBYTOVANIA – EXCEL PREHĽAD',desc:'Všetky izby na jednom mieste. Mesiace posúvaj doprava; zobrazené sú iba overené predpisy a prijaté platby.',room:'Číslo izby',category:'Typ izby',capacity:'Kapacita',nationality:'Národnosť',first:'Meno',last:'Priezvisko',email:'E-mail',contract:'Číslo zmluvy',from:'Od',to:'Do',arrival:'Skutočný príchod',total:'Spolu za rok',action:'Údaje',missing:'Neoverená izba',placeholder:'Zatiaľ neevidovaná izba – doplň jej skutočné číslo a typ.',known:'Evidovaných izieb',missingCount:'Neoverené izby',search:'Hľadať izbu, meno alebo e-mail',year:'Rok splátkového kalendára',csv:'Stiahnuť Excel (CSV)',save:'Uložiť',cancel:'Zrušiť',edit:'Upraviť',open:'Profil',load:'Načítavam…',empty:'Žiadne záznamy podľa filtra.',due:'Na úhradu',late:'Po splatnosti',paid:'Uhradené',partial:'Čiastočne uhradené',plan:'Dohodnuté splátky',missingCharge:'Bez predpisu',notApplicable:'—',sum:'Predpis / uhradené',remaining:'zostáva',editHelp:'Údaje o zmluve, mene, e-maile a platbách sa menia len po overení recepciou. Tu môžeš doplniť národnosť a reálny príchod.',nationalityHelp:'Zadaj len overený údaj, neodhaduj ho podľa mena.',saveError:'Údaje sa nepodarilo uložiť. Skontroluj oprávnenia a pripojenie.',saveOk:'Údaje boli uložené.',importLabel:'Import nových izieb (CSV)',importHelp:'Súbor musí obsahovať name;category;capacity. Importuje iba nové a overené izby.',importConfirm:'Importovať nové izby?',importFail:'Import sa nepodaril. Skontroluj formát a duplicity.',importOver:'Počet evidovaných izieb by prekročil 64. Over skutočný zoznam.',filter:'Zobrazených izieb'},
+en:{seq:'No.',beds:'Beds',bedHelp:'Every bed has its own row. A specific bed assignment must be verified by reception.',title:'ACCOMMODATION REGISTER – EXCEL VIEW',desc:'All rooms in one register. Scroll horizontally to see the months; only verified charges and payments are shown.',room:'Room',category:'Room type',capacity:'Beds',nationality:'Nationality',first:'First name',last:'Last name',email:'E-mail',contract:'Contract',from:'From',to:'To',arrival:'Actual arrival',total:'Year total',action:'Details',missing:'Unverified room',placeholder:'Room not yet verified – add its real room number and type.',known:'Recorded rooms',missingCount:'Rooms to verify',search:'Search room, resident or email',year:'Payment calendar year',csv:'Download Excel (CSV)',save:'Save',cancel:'Cancel',edit:'Edit',open:'Profile',load:'Loading…',empty:'No matching records.',due:'Due',late:'Overdue',paid:'Paid',partial:'Partly paid',plan:'Approved installments',missingCharge:'No charge',notApplicable:'—',sum:'Charged / paid',remaining:'remaining',editHelp:'Names, contracts, email and payments are changed only after reception verification. Nationality and actual arrival can be added here.',nationalityHelp:'Enter verified information only; do not infer nationality from a name.',saveError:'Could not save. Check access and connection.',saveOk:'Saved.',importLabel:'Import new rooms (CSV)',importHelp:'File format: name;category;capacity. Only new verified rooms are added.',importConfirm:'Import verified rooms?',importFail:'Import failed. Check format and duplicates.',importOver:'This would exceed the expected 64 rooms. Verify the room list.',filter:'Rooms shown'},
+ru:{seq:'№',beds:'Мест',bedHelp:'Каждому месту выделена отдельная строка; назначение конкретного места проверяет ресепшен.',title:'РЕЕСТР ПРОЖИВАНИЯ — ТАБЛИЦА',desc:'Все комнаты в одной таблице. Месяцы находятся справа; показываются только проверенные начисления и оплаты.',room:'Комната',category:'Тип комнаты',capacity:'Мест',nationality:'Гражданство',first:'Имя',last:'Фамилия',email:'Почта',contract:'Договор',from:'С',to:'По',arrival:'Фактический заезд',total:'Всего за год',action:'Данные',missing:'Не проверено',placeholder:'Неподтверждённая комната — укажите фактический номер и тип.',known:'В базе',missingCount:'Требуют проверки',search:'Поиск комнаты, имени или почты',year:'Год графика',csv:'Скачать Excel (CSV)',save:'Сохранить',cancel:'Отмена',edit:'Изменить',open:'Профиль',load:'Загрузка…',empty:'Нет записей.',due:'К оплате',late:'Просрочено',paid:'Оплачено',partial:'Частично оплачено',plan:'Согласованные платежи',missingCharge:'Нет начисления',notApplicable:'—',sum:'Начислено / оплачено',remaining:'осталось',editHelp:'Имя, договор, почту и оплаты рецепция исправляет после проверки. Здесь можно добавить гражданство и дату заезда.',nationalityHelp:'Только проверенные данные.',saveError:'Не удалось сохранить.',saveOk:'Сохранено.',importLabel:'Импорт комнат (CSV)',importHelp:'name;category;capacity, только новые проверенные комнаты.',importConfirm:'Импортировать комнаты?',importFail:'Ошибка импорта.',importOver:'Более 64 комнат. Проверьте список.',filter:'Комнат показано'},
+uk:{seq:'№',beds:'Ліжка',bedHelp:'Кожне ліжко має окремий рядок; призначення конкретного ліжка перевіряє рецепція.',title:'РЕЄСТР ПРОЖИВАННЯ — ТАБЛИЦЯ',desc:'Усі кімнати в одному реєстрі. Місяці праворуч, лише перевірені нарахування й оплати.',room:'Кімната',category:'Тип кімнати',capacity:'Місць',nationality:'Громадянство',first:'Ім’я',last:'Прізвище',email:'Пошта',contract:'Договір',from:'З',to:'До',arrival:'Фактичний приїзд',total:'Усього за рік',action:'Дані',missing:'Не перевірено',placeholder:'Непідтверджена кімната — додайте фактичний номер і тип.',known:'У базі',missingCount:'Потрібно перевірити',search:'Пошук кімнати, імені або пошти',year:'Рік графіка',csv:'Завантажити Excel (CSV)',save:'Зберегти',cancel:'Скасувати',edit:'Змінити',open:'Профіль',load:'Завантаження…',empty:'Немає записів.',due:'До сплати',late:'Прострочено',paid:'Сплачено',partial:'Частково сплачено',plan:'Узгоджені платежі',missingCharge:'Без нарахування',notApplicable:'—',sum:'Нараховано / сплачено',remaining:'залишилось',editHelp:'Ім’я, договір, пошту і платежі змінюють тільки після перевірки рецепції. Тут можна додати громадянство і дату приїзду.',nationalityHelp:'Вносьте лише перевірені дані.',saveError:'Не вдалося зберегти.',saveOk:'Збережено.',importLabel:'Імпорт кімнат (CSV)',importHelp:'name;category;capacity, лише нові перевірені кімнати.',importConfirm:'Імпортувати?',importFail:'Помилка імпорту.',importOver:'Більше 64 кімнат. Перевірте перелік.',filter:'Показано кімнат'}
 };
 const monthTitle=(year,month,lang)=>new Date(year,month-1,1).toLocaleDateString(lang==='en'?'en-GB':lang==='ru'?'ru-RU':lang==='uk'?'uk-UA':'sk-SK',{month:'short'});
 const localDate=()=>new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'});
@@ -23,32 +23,54 @@ const displayNames=(person,request)=>{
  return [first,text.slice(first.length).trim()||'—'];
 };
 
+// Room order and bed labels are transcribed from the original register's last 19 rooms.
+// A repeated label (e.g. 305 A) is a display label, not a verified assigned bed ID.
+const VERIFIED_TAIL=['211','212','213','214','215','216','217','305','306','307','308','309','310','311','312','313','314','315','101'];
+const VERIFIED_LABELS={
+ '305':['305 A','305 A','305 B'],
+ '306':['306 A','306 B'],'307':['307 A','307 B'],'308':['308 A','308 B'],
+ '310':['310 A','310 B','310 B'],'311':['311 C','311 C','311 P'],
+ '314':['314 1','314 1']
+};
+function sortedRooms(rooms) {
+ const tail=new Set(VERIFIED_TAIL);
+ const first=rooms.filter(r=>!tail.has(String(r.name))).sort((a,b)=>String(a.name).localeCompare(String(b.name),'sk',{numeric:true}));
+ const byName=new Map(rooms.map(r=>[String(r.name),r]));
+ return [...first,...VERIFIED_TAIL.map(name=>byName.get(name)).filter(Boolean)];
+}
+function bedName(room,index) {
+ // The windowless room 101 is shown without a bed suffix in the source register.
+ if(String(room.name)==='101')return '101';
+ const known=VERIFIED_LABELS[String(room.name)];
+ return known?.[index]||String(room.name)+' '+(index+1);
+}
 export function buildRegisterGroups({rooms=[],tenancies=[],residents=[],registrations=[],details=[],year,expected=EXPECTED_ROOMS}){
  const firstDay=String(year)+'-01-01',lastDay=String(year)+'-12-31';
- const people=new Map(residents.map(x=>[x.id,x]));
- const detailMap=new Map(details.map(x=>[x.resident_id,x]));
+ const people=new Map(residents.map(x=>[x.id,x])),detailMap=new Map(details.map(x=>[x.resident_id,x]));
  const approved=registrations.filter(r=>r.status==='invited');
  const approvedFor=p=>approved.find(r=>r.contract_number&&r.contract_number===p.verified_contract_number&&key(r.email)===key(p.email))||approved.find(r=>key(r.email)===key(p.email)&&r.first_name);
- const sorted=[...rooms].sort((a,b)=>String(a.name).localeCompare(String(b.name),'sk',{numeric:true}));
- const groups=sorted.map(room=>{
-  const stays=tenancies.filter(t=>t.room_id===room.id&&t.starts_on<=lastDay&&t.ends_on>=firstDay);
+ const sorted=sortedRooms(rooms);
+ const groups=sorted.map((room,pos)=>{
+  const stays=tenancies.filter(t=>t.room_id===room.id&&t.starts_on<=lastDay&&t.ends_on>=firstDay),seen=new Set();
   const entries=stays.flatMap(t=>{
    const person=people.get(t.resident_id);
-   return person?[{person,stay:t,reg:approvedFor(person),detail:detailMap.get(person.id)}]:[];
+   if(!person||seen.has(person.id))return [];
+   seen.add(person.id);return [{person,stay:t,reg:approvedFor(person),detail:detailMap.get(person.id)}];
   });
-  // Existing manually verified residents may lack a tenancy while reception completes their contract.
   for(const person of residents){
-   if(key(person.verified_room_number)!==key(room.name))continue;
-   if(tenancies.some(t=>t.resident_id===person.id))continue;
-   if(!dateInYear(person.accommodation_from,person.accommodation_to,String(year)))continue;
-   if(entries.some(x=>x.person.id===person.id))continue;
-   entries.push({person,stay:null,reg:approvedFor(person),detail:detailMap.get(person.id)});
+   if(key(person.verified_room_number)!==key(room.name)||tenancies.some(t=>t.resident_id===person.id)||!dateInYear(person.accommodation_from,person.accommodation_to,String(year))||seen.has(person.id))continue;
+   seen.add(person.id);entries.push({person,stay:null,reg:approvedFor(person),detail:detailMap.get(person.id)});
   }
   entries.sort((a,b)=>String(a.person.full_name).localeCompare(String(b.person.full_name),'sk'));
-  return {room,entries:entries.length?entries:[{person:null,stay:null,reg:null,detail:null}],placeholder:false};
+  const capacity=Math.max(1,Number(room.capacity)||1);
+  // Preserve the three displayed rows in the original 305 (Š2+2) register;
+  // its physical capacity remains 4 and is never silently changed.
+  const sourceRows=String(room.name)==='305'?3:capacity;
+  while(entries.length<sourceRows)entries.push({person:null,stay:null,reg:null,detail:null});
+  entries.forEach((e,i)=>{e.bedIndex=i+1;e.bedLabel=i<sourceRows?bedName(room,i):String(room.name)+' · '+(i+1);e.verifiedBedLabel=!!VERIFIED_LABELS[String(room.name)]?.[i]});
+  return {room,order:pos+1,entries,placeholder:false};
  });
- const missing=Math.max(0,expected-sorted.length);
- for(let i=0;i<missing;i++)groups.push({room:{id:null,name:'#'+(sorted.length+i+1),category:'',capacity:null},entries:[{person:null}],placeholder:true});
+ for(let i=groups.length;i<expected;i++)groups.push({room:{id:null,name:'#'+(i+1),category:'',capacity:null},order:i+1,entries:[{person:null,bedLabel:'#'+(i+1)}],placeholder:true});
  return groups;
 }
 function stayApplies(entry,period){
@@ -89,7 +111,7 @@ export async function renderExcelRegister(ctx){
  if(!ctx.isCurrent())return;
  const root=el('section','room-register');
  const title=el('h3','',w.title),intro=el('p','muted',w.desc);
- const counter=el('p','room-register-count',w.known+': '+rooms.length+' / '+EXPECTED_ROOMS+(rooms.length<EXPECTED_ROOMS?' · '+w.missingCount+': '+(EXPECTED_ROOMS-rooms.length):''));
+ const counter=el('p','room-register-count',w.known+': '+rooms.length+' / '+EXPECTED_ROOMS+' · '+w.beds+': '+rooms.reduce((total,r)=>total+(Number(r.capacity)||0),0)+(rooms.length<EXPECTED_ROOMS?' · '+w.missingCount+': '+(EXPECTED_ROOMS-rooms.length):''));
  const controls=el('div','room-register-controls');
  const search=el('input');search.type='search';search.placeholder=w.search;search.setAttribute('aria-label',w.search);
  const yearLabel=el('label','',w.year),yearSelect=el('select');yearSelect.setAttribute('aria-label',w.year);
@@ -107,8 +129,8 @@ export async function renderExcelRegister(ctx){
  const wrap=el('div','room-register-scroll');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',w.title);
  const table=el('table','room-register-table');wrap.append(table);
  const count=el('p','muted');
- root.append(title,intro,counter,controls,importArea,notice,count,wrap);ctx.root.append(root);
- const headings=[w.room,w.category,w.capacity,w.nationality,w.first,w.last,w.email,w.contract,w.from,w.to,w.arrival,...Array.from({length:12},(_,i)=>monthTitle(Number(yearSelect.value),i+1,ctx.lang)),w.total,w.action];
+ root.append(title,intro,counter,el('p','muted',w.bedHelp),controls,importArea,notice,count,wrap);ctx.root.append(root);
+ const headings=[w.seq,w.room,w.category,w.capacity,w.nationality,w.first,w.last,w.email,w.contract,w.from,w.to,w.arrival,...Array.from({length:12},(_,i)=>monthTitle(Number(yearSelect.value),i+1,ctx.lang)),w.total,w.action];
  let entries=[];
  const selectedYear=()=>Number(yearSelect.value)||nowYear;
  const lineValues=(group,entry)=>{
@@ -117,7 +139,7 @@ export async function renderExcelRegister(ctx){
   const sum=Array.from({length:12},(_,month)=>periodLedger({entry,year:selectedYear(),month:month+1,charges,allocations,reversals,plans}));
   const charged=sum.reduce((n,s)=>n+s.charged,0),paid=sum.reduce((n,s)=>n+s.paid,0);
   return {group,entry,first,last,sum,charged,paid,
-   values:[group.room.name,group.room.category||'—',group.room.capacity??'—',entry.detail?.nationality||'—',person?first:'—',person?last:'—',person?.email||'—',person?.verified_contract_number||'—',
+   values:[group.order,entry.bedLabel||group.room.name,group.room.category||'—',group.room.capacity??'—',entry.detail?.nationality||'—',person?first:'—',person?last:'—',person?.email||'—',person?.verified_contract_number||'—',
     stay?.starts_on||person?.accommodation_from||'—',stay?.ends_on||person?.accommodation_to||'—',entry.detail?.actual_arrival_on||'—',
     ...sum.map(s=>s.kind==='none'?'—':s.kind==='missing'?w.missingCharge:formatMoney(s.charged/100,ctx.lang)+' / '+formatMoney(s.paid/100,ctx.lang)+' ('+w[s.kind]+')'),
     charged?formatMoney(charged/100,ctx.lang)+' / '+formatMoney(paid/100,ctx.lang):'—','']
@@ -126,14 +148,14 @@ export async function renderExcelRegister(ctx){
  function filteredRows(){
   const all=buildRegisterGroups({rooms,tenancies,residents,registrations,details,year:selectedYear()});
   const needle=key(search.value);
-  return all.filter(g=>!needle||key([g.room.name,g.room.category,...g.entries.flatMap(e=>[e.person?.full_name,e.person?.email,e.person?.verified_contract_number])].join(' ')).includes(needle));
+  return all.filter(g=>!needle||key([g.room.name,g.room.category,...g.entries.flatMap(e=>[e.bedLabel,e.person?.full_name,e.person?.email,e.person?.verified_contract_number])].join(' ')).includes(needle));
  }
  function paint(){
   if(!ctx.isCurrent())return;
   const groups=filteredRows();
   entries=groups.flatMap(g=>g.entries.map(e=>lineValues(g,e)));
   count.textContent=w.filter+': '+groups.length+' / '+Math.max(EXPECTED_ROOMS,rooms.length);
-  headings.splice(11,12,...Array.from({length:12},(_,i)=>monthTitle(selectedYear(),i+1,ctx.lang)));
+  headings.splice(12,12,...Array.from({length:12},(_,i)=>monthTitle(selectedYear(),i+1,ctx.lang)));
   table.replaceChildren();
   const header=el('thead'),headerLine=el('tr');
   headings.forEach(h=>{const th=el('th','',h);th.scope='col';headerLine.append(th);});header.append(headerLine);table.append(header);
@@ -142,9 +164,9 @@ export async function renderExcelRegister(ctx){
   let groupNumber=-1;
   for(const record of entries){
    const {group,entry,first,last,sum,charged,paid}=record;
-   const tr=el('tr',group.placeholder?'register-placeholder':'');
+   const tr=el('tr',group.placeholder?'register-placeholder':group.order%2===0?'register-room-tinted':'register-room-clear');
    if(group!==entries[groupNumber]?.group){groupNumber=entries.indexOf(record);tr.classList.add('register-first');}
-   tr.append(cell(group.room.name+(group.placeholder?' · '+w.missing:''),'register-fixed-room'),cell(group.room.category||'—'),cell(group.room.capacity??'—'));
+   tr.append(cell(group.order+'.','register-order'),cell((entry.bedLabel||group.room.name)+(group.placeholder?' · '+w.missing:''),'register-fixed-room'),cell(group.room.category||'—'),cell(group.room.capacity??'—'));
    tr.append(cell(entry.detail?.nationality||'—'),cell(entry.person?first:'—'),cell(entry.person?last:'—'));
    const email=cell(entry.person?.email||'—');email.classList.add('register-email');tr.append(email);
    tr.append(cell(entry.person?.verified_contract_number||'—'),cell(formatDate(entry.stay?.starts_on||entry.person?.accommodation_from,ctx.lang)),cell(formatDate(entry.stay?.ends_on||entry.person?.accommodation_to,ctx.lang)),cell(formatDate(entry.detail?.actual_arrival_on,ctx.lang)));
@@ -184,7 +206,7 @@ export async function renderExcelRegister(ctx){
  }
  function exportRows(){
   const year=selectedYear();
-  const header=[w.room,w.category,w.capacity,w.nationality,w.first,w.last,w.email,w.contract,w.from,w.to,w.arrival,
+  const header=[w.seq,w.room,w.category,w.capacity,w.nationality,w.first,w.last,w.email,w.contract,w.from,w.to,w.arrival,
    ...Array.from({length:12},(_,i)=>monthTitle(year,i+1,ctx.lang)),w.total];
   const lines=[header,...entries.map(r=>r.values.slice(0,-1))];
   const output='\uFEFF'+lines.map(line=>line.map(csvCell).join(';')).join('\r\n');

@@ -143,6 +143,14 @@ body.portal-open #app .results:has(.room-register) .room-register{width:100%;max
 .room-register-table .register-edit label{display:block;white-space:normal;font-size:11px;margin:7px 0}
 .room-register-table .register-edit input{width:100%;font-size:12px;padding:8px}
 .room-register-table .register-edit .small{white-space:normal}
+.room-register-table th:first-child,.room-register-table td:first-child{width:52px;min-width:52px;max-width:52px;left:0}
+.room-register-table th:nth-child(2){position:sticky;left:52px;z-index:5;min-width:86px}
+.room-register-table td.register-fixed-room{position:sticky;left:52px;z-index:2;min-width:86px;font-weight:800;border-right:2px solid #b3c9b8}
+.room-register-table tbody tr.register-room-tinted td:not(.month-cell){background:#e4f1dc}
+.room-register-table tbody tr.register-room-clear td:not(.month-cell){background:#fff}
+.room-register-table tbody tr.register-room-tinted:hover td:not(.month-cell){background:#d5e9ca}
+.room-register-table tbody tr.register-room-clear:hover td:not(.month-cell){background:#edf5ec}
+
 @media(max-width:700px){.room-register-scroll{max-height:65vh}.room-register-table th,.room-register-table td{padding:9px 8px}.room-register-controls>input[type=search]{max-width:none}.room-register-table{font-size:11px}}
 
 /* Secure online student enquiry / mobile photograph picker */
