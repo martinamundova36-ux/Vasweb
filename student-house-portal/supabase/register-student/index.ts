@@ -1,9 +1,9 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.119.0";
 
-const URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SECRET = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const client = createClient(URL,SECRET,{auth:{persistSession:false}});
+const client = createClient(SUPABASE_URL,SECRET,{auth:{persistSession:false}});
 // Compatibility for the existing Student House registration until its domain goes live.
 const LEGACY_TENANT = "ae045243-98f0-4f22-a736-d33a92f9ba61";
 const LEGACY_ORIGINS = new Set(["https://www.webu.sk","https://webu.sk"]);
@@ -50,6 +50,8 @@ Deno.serve(async(request:Request)=>{
  if(request.method!=="POST") return safeResponse({error:"method_not_allowed"},405,origin);
  if(Number(request.headers.get("content-length")||"0")>8192) return safeResponse({error:"payload_too_large"},413,origin);
  try {
+  if(!(request.headers.get("content-type")||"").toLowerCase().includes("application/json"))
+    return safeResponse({error:"json_required"},415,origin);
   const body=await request.json();
   if(!body || typeof body!=="object")return safeResponse({error:"invalid_request"},400,origin);
   if(body.website) return safeResponse({ok:true},200,origin);
@@ -72,7 +74,7 @@ Deno.serve(async(request:Request)=>{
   const arrival=asText(body.expected_arrival,10);
   const genderValid=['','male','female','other'].includes(gender);
   const parentValid=!parent_contact_email||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(parent_contact_email);
-  if(!body.privacy_acknowledged || first_name.length<1 || last_name.length<1 ||
+  if(![true,"true"].includes(body.privacy_acknowledged) || first_name.length<1 || last_name.length<1 ||
     !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !genderValid || !parentValid ||
     (date_of_birth&&(!isDate(date_of_birth)||date_of_birth>new Date().toISOString().slice(0,10))) ||
     (arrival&&(!isDate(arrival)||arrival>accommodation_to)) ||
