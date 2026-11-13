@@ -1478,9 +1478,9 @@ async function renderPanel(){
   }
   if(tab==='requests'||tab==='cleaning'){
    const serviceTab=tab,serviceTenant=tenant;
-   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261113-capacity1');
+   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261113-photos2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
-   await renderServiceRequests({root:container,db,list,tenant,staff,resident,userId:user.id,lang,
+   await renderServiceRequests({root:container,db,list,tenant,staff,resident,userId:user.id,lang,openFile:id=>{void fileLink(id,tenant);},
     cleaning:serviceTab==='cleaning',day,money,
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===serviceTenant&&tab===serviceTab,
     refresh:()=>void renderPanel()});

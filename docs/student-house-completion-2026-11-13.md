@@ -8,6 +8,7 @@ Existujúci projekt Vasweb a Supabase ydqchayscxntqdkzkynv sú zachované. Nová
 - Žiadosť, osobné odpovede a databázové udalosti sa ukladajú v jednej transakcii. Pri zlyhaní ukladania sa úspech neoznámi. Súbežné žiadosti s rovnakým e-mailom sa serializujú.
 - Rozpracovaný dotazník sa dá uložiť bez fotografie a povinných polí. Odoslanie na kontrolu vyžaduje úplné údaje. Čas odovzdania nastavuje server, takže staré schválenie nemožno zneužiť spätným dátumom.
 - Profil dopĺňa dátum narodenia, občianstvo, telefón, typ ubytovania a upozornenie na chýbajúce foto.
+- Poruchy podporujú súkromné JPG/PNG prílohy. Server overuje vlastníka hlásenia, skutočný formát súboru a limit veľkosti; pri chybe fotografie sa nezatají, že samotné hlásenie bolo uložené.
 - Upratovanie má recepciou vypísané konkrétne termíny, kapacity a zdroje. Čakajúce aj potvrdené rezervácie obsadzujú kapacitu; zamietnutie a zrušenie ju uvoľnia. Databázový zámok kontroluje súbeh a prekrývanie rovnakého zdroja. Žiadne fiktívne dostupné termíny sa nevytvorili.
 - Jednotlivé splátky ukazujú uhradenú a zostávajúcu sumu podľa skutočných alokácií a storien. Uhradenie sa neodvodzuje od dátumu.
 - Recepcia má súhrn platieb dnes, do 7 dní, po splatnosti, predpisov, skutočných úhrad a zostávajúceho zostatku.

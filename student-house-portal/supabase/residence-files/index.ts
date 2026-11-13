@@ -12,7 +12,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-
 const templates = new Set(["rules_template", "gdpr_template"]);
 const signed = new Set(["signed_contract", "signed_rules", "signed_gdpr"]);
 const assignedByReception = new Set(["resident_document", "contract_draft"]);
-const uploads = new Set(["profile_photo", ...signed, ...assignedByReception, ...templates]);
+const uploads = new Set(["profile_photo", "fault_photo", ...signed, ...assignedByReception, ...templates]);
 const imageTypes = new Set(["image/jpeg", "image/png"]);
 const allTypes = new Set(["image/jpeg", "image/png", "application/pdf"]);
 
@@ -91,7 +91,7 @@ Deno.serve(async req => {
       if(file.size>max)return fail(origin,413,"file_too_large");
       if(!allTypes.has(file.type))return fail(origin,400,"file_type_not_supported");
       if((templates.has(kind)||kind==="contract_draft")&&file.type!=="application/pdf")return fail(origin,400,"pdf_required");
-      if(kind==="profile_photo"&&!imageTypes.has(file.type))return fail(origin,400,"image_required");
+      if((kind==="profile_photo"||kind==="fault_photo")&&!imageTypes.has(file.type))return fail(origin,400,"image_required");
       // File signatures must match the MIME declared by the browser.
       const bytes=new Uint8Array(await file.arrayBuffer());
       const actual=detectMime(bytes);
@@ -109,6 +109,12 @@ Deno.serve(async req => {
         person=result.data;
       }else if(residentError)return fail(origin,503,"resident_lookup_failed");
       if(!templates.has(kind)&&!person)return fail(origin,403,"verified_resident_required");
+      const requestId=kind==='fault_photo'?get('request_id'):null;
+      if(kind==='fault_photo'){
+       if(!requestId||!UUID.test(requestId))return fail(origin,400,'request_required');
+       const {data:request,error:requestError}=await client.from('service_requests').select('id').eq('tenant_id',tenant).eq('id',requestId).eq('resident_id',person!.id).maybeSingle();
+       if(requestError||!request)return fail(origin,403,'request_forbidden');
+      }
       const ownerId=receiverIsAssigned?person!.user_id:user.id;
       const extension=actual==="application/pdf"?"pdf":actual==="image/png"?"png":"jpg";
       const objectId=crypto.randomUUID();
@@ -142,7 +148,7 @@ Deno.serve(async req => {
         tenant_id:tenant,
         user_id:templates.has(kind)?null:ownerId,
         resident_id:person?.id||null,
-        kind,object_path:objectPath,original_name:cleanName(file.name||"document."+extension),
+        kind,service_request_id:requestId,object_path:objectPath,original_name:cleanName(file.name||"document."+extension),
         content_type:actual,size_bytes:file.size,uploaded_by:user.id,
         review_status:signed.has(kind)?"pending":"not_applicable",active:true
       }).select("id,kind,review_status").single();

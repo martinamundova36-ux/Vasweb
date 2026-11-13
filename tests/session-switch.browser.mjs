@@ -39,9 +39,9 @@ for(const width of [390,1440]){
  await page.goto('https://portal.test/student-house-portal/student/?signin=1');
  await page.locator('#login:not(.hide)').waitFor();assert.equal(await page.locator('#app').isVisible(),false);assert.equal(await page.locator('#sign').innerText(),'Študentské prihlásenie');
  await page.locator('#email').fill(student.user.email);await page.locator('#password').fill('synthetic-test-only-password');await page.locator('#signbtn').click();
- await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja študentská zóna');assert.equal(await page.locator('#user').innerText(),student.user.email);assert.equal(await page.locator('#tabs button').filter({hasText:'Registrácie'}).count(),0);
+ await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja zóna');assert.equal(await page.locator('#user').innerText(),student.user.email);assert.equal(await page.locator('#tabs button').filter({hasText:'Registrácie'}).count(),0);
  const staffTab=await context.newPage();await staffTab.goto('https://portal.test/student-house-portal/admin/');await staffTab.locator('#app:not(.hide)').waitFor();assert.equal(await staffTab.locator('#user').innerText(),admin.user.email);
- await page.goto('https://portal.test/student-house-portal/student/?view=reception');await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja študentská zóna');
+ await page.goto('https://portal.test/student-house-portal/student/?view=reception');await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja zóna');
  await page.evaluate(({key,value})=>localStorage.setItem(key,JSON.stringify(value)),{key:studentKey,value:admin});await page.reload();await page.waitForFunction(()=>document.querySelector('#error').textContent.length>0);assert.equal(await page.locator('#app').isVisible(),false);
  assert.equal(await staffTab.locator('#user').innerText(),admin.user.email);assert.ok(await staffTab.locator('#app').isVisible());
  await context.close();

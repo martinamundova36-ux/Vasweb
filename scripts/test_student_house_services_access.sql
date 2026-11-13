@@ -83,5 +83,24 @@ do $$begin
  if exists(select 1 from public.service_requests where id=(select id from service_test_ids where label='request')) or exists(select 1 from public.service_request_messages where request_id=(select id from service_test_ids where label='request')) then raise exception 'Cross-tenant access';end if;
 end$$;
 reset role;
-select 'PASS: service creation, urgent flag, status history, public replies, internal-note isolation, forged-status denial, other-student isolation, cross-tenant isolation, cleaning proposal; all fixtures rolled back' as result;
+insert into public.residence_portal_files(tenant_id,user_id,resident_id,kind,object_path,original_name,content_type,size_bytes,uploaded_by,review_status,service_request_id)
+ select o.id,u.id,u.resident_id,'fault_photo','qa/private/synthetic.png','SYNTHETIC.png','image/png',8,u.id,'not_applicable',q.id
+ from staff_test_orgs o cross join staff_test_users u cross join service_test_ids q where o.label='a' and u.label='student-a' and q.label='request';
+do $$begin
+ begin
+ insert into public.residence_portal_files(tenant_id,user_id,resident_id,kind,object_path,original_name,content_type,size_bytes,uploaded_by,review_status,service_request_id)
+ select o.id,u.id,u.resident_id,'fault_photo','qa/private/denied.png','DENIED.png','image/png',8,u.id,'not_applicable',q.id
+ from staff_test_orgs o cross join staff_test_users u cross join service_test_ids q where o.label='a' and u.label='student-a2' and q.label='request';
+ raise exception 'Foreign request photo accepted';
+ exception when invalid_parameter_value then null;end;
+end$$;
+select set_config('request.jwt.claims',jsonb_build_object('sub',id,'role','authenticated','session_id',session_id)::text,true) is not null as identity_set from staff_test_users where label='student-a';
+set local role authenticated;
+do $$begin if not exists(select 1 from public.residence_portal_files where kind='fault_photo' and service_request_id=(select id from service_test_ids where label='request')) then raise exception 'Owner cannot read photo';end if;end$$;
+reset role;
+select set_config('request.jwt.claims',jsonb_build_object('sub',id,'role','authenticated','session_id',session_id)::text,true) is not null as identity_set from staff_test_users where label='student-a2';
+set local role authenticated;
+do $$begin if exists(select 1 from public.residence_portal_files where kind='fault_photo' and service_request_id=(select id from service_test_ids where label='request')) then raise exception 'Other student sees fault photo';end if;end$$;
+reset role;
+select 'PASS: service creation, urgent flag, status history, public replies, internal-note isolation, forged-status denial, other-student isolation, cross-tenant isolation, cleaning proposal, private fault photo owner/foreign-file isolation; all fixtures rolled back' as result;
 rollback;

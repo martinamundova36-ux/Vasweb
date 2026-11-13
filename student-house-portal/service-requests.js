@@ -13,13 +13,14 @@ const capacityWords={
  ru:{slots:'Доступное время уборки',empty:'Ресепшен пока не опубликовал свободное время.',start:'Начало',end:'Конец',resource:'Уборщик / ресурс',capacity:'Количество бронирований',add:'Добавить время',close:'Закрыть время',free:'Свободные места',choose:'Выберите свободное время'},
  uk:{slots:'Доступний час прибирання',empty:'Рецепція ще не опублікувала вільний час.',start:'Початок',end:'Кінець',resource:'Прибиральник / ресурс',capacity:'Кількість бронювань',add:'Додати час',close:'Закрити час',free:'Вільні місця',choose:'Оберіть вільний час'}
 };
+const photoWords={sk:{photo:'Fotografia poruchy (JPG/PNG, max. 6 MB)',add:'Pridať fotografiu',open:'Otvoriť fotografiu',failed:'Hlásenie je uložené, fotografiu sa nepodarilo nahrať. Pridaj ju pri uloženom hlásení.'},en:{photo:'Problem photo (JPG/PNG, max 6 MB)',add:'Add photo',open:'Open photo',failed:'Your request was saved, but its photo could not be uploaded. Add it to the saved request.'},ru:{photo:'Фото неисправности (JPG/PNG, до 6 МБ)',add:'Добавить фото',open:'Открыть фото',failed:'Заявка сохранена, фото не загружено. Добавьте его к сохранённой заявке.'},uk:{photo:'Фото несправності (JPG/PNG, до 6 МБ)',add:'Додати фото',open:'Відкрити фото',failed:'Заявку збережено, фото не завантажено. Додайте його до збереженої заявки.'}};
 export const serviceWords=lang=>dictionaries[lang]||dictionaries.en;
 export const serviceStates=['new','accepted','in_progress','waiting_parts','resolved','closed','cancelled'];
 export const cleaningStates=['requested','proposed','approved','rejected','completed','cancelled'];
 export const bratislavaToday=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
 const dateTime=value=>value?new Intl.DateTimeFormat('sk-SK',{timeZone:'Europe/Bratislava',dateStyle:'short',timeStyle:'short'}).format(new Date(value)):'—';
 const element=(tag,value,cls)=>{const e=document.createElement(tag);if(value!==undefined)e.textContent=String(value);if(cls)e.className=cls;return e;};
-const field=(text,input)=>{const label=element('label',text);label.append(input);return label;};
+const field=(text,input)=>{const label=element('label',text);input.setAttribute('aria-label',text);label.append(input);return label;};
 const select=(items,value)=>{const s=element('select');for(const [key,label] of Object.entries(items)){const o=element('option',label);o.value=key;o.selected=key===value;s.append(o);}return s;};
 const textArea=(value='',limit=4000)=>{const e=element('textarea');e.rows=3;e.maxLength=limit;e.value=value;return e;};
 const input=(type,required=false)=>{const e=element('input');e.type=type;e.required=required;return e;};
@@ -28,6 +29,9 @@ const detail=(root,label,value)=>{if(value!==null&&value!==undefined&&value!==''
 
 export async function renderServiceRequests(ctx){
  const {root,db,list,tenant,staff,resident,userId,lang,isCurrent,refresh}=ctx;
+ const pw=photoWords[lang]||photoWords.en;
+ const validPhoto=file=>!file||(file.size>0&&file.size<=6000000&&['image/jpeg','image/png'].includes(file.type));
+ const uploadPhoto=async(id,file)=>{if(!validPhoto(file))throw Error('invalid_photo');const body=new FormData();body.append('action','upload');body.append('tenant_id',tenant);body.append('kind','fault_photo');body.append('request_id',id);body.append('file',file);const {data,error}=await db.functions.invoke('residence-files',{body});if(error||!data?.ok)throw Error('photo_failed');};
  const cleaning=ctx.cleaning,t=serviceWords(lang),table=cleaning?'cleaning_bookings':'service_requests';
  if(!isCurrent())return;root.replaceChildren();
  root.append(element('h3',cleaning?t.cleaning:t.requests),element('p',t.help,'muted'));
@@ -36,7 +40,7 @@ export async function renderServiceRequests(ctx){
  if(cleaning){const {data,error}=await db.rpc('residence_cleaning_availability',{p_tenant:tenant});if(error)throw error;slots=data||[];}
  const cw=capacityWords[lang]||capacityWords.en;
  const slotOptions=(selected='')=>Object.fromEntries([['',cw.choose],...slots.filter(s=>s.remaining>0||s.id===selected).map(s=>[s.id,dateTime(s.starts_at)+' – '+dateTime(s.ends_at)+' · '+s.resource+' · '+cw.free+': '+s.remaining])]);
- const [records,people,messages]=await Promise.all([list(table,filter),staff?list('residents'):Promise.resolve(resident?[resident]:[]),cleaning?Promise.resolve([]):list('service_request_messages')]);
+ const [records,people,messages,files]=await Promise.all([list(table,filter),staff?list('residents'):Promise.resolve(resident?[resident]:[]),cleaning?Promise.resolve([]):list('service_request_messages'),cleaning?Promise.resolve([]):list('residence_portal_files',{kind:'fault_photo'})]);
  if(!isCurrent())return;
  const room=id=>people.find(p=>p.id===id)?.verified_room_number||t.unassigned;
  const name=id=>people.find(p=>p.id===id)?.full_name||'';
@@ -87,6 +91,8 @@ export async function renderServiceRequests(ctx){
    });card.append(form);
   }
   if(!cleaning){
+   for(const file of files.filter(f=>f.active&&f.kind==='fault_photo'&&f.service_request_id===record.id)){const open=button(pw.open+' · '+file.original_name,'button');open.onclick=()=>ctx.openFile?.(file.id);card.append(open);}
+   if(!staff){const photo=input('file');photo.accept='image/jpeg,image/png';photo.setAttribute('aria-label',pw.photo);const add=button(pw.add,'button');add.onclick=async()=>{const f=photo.files?.[0];if(!f||!validPhoto(f)){report(t.failed,true);return;}add.disabled=true;try{await uploadPhoto(record.id,f);if(isCurrent())refresh();}catch{report(pw.failed,true);add.disabled=false;}};card.append(field(pw.photo,photo),add);}
    const history=element('details');history.append(element('summary',t.history));
    for(const msg of messages.filter(m=>m.request_id===record.id).sort((a,b)=>String(a.created_at).localeCompare(String(b.created_at))||String(a.id).localeCompare(String(b.id)))){
     const block=element('div',undefined,'document-flow-submitted');
@@ -111,7 +117,7 @@ export async function renderServiceRequests(ctx){
  if(staff||!resident)return;
  const form=element('form',undefined,'staff-form');form.append(element('h4',cleaning?t.cleaning:t.new));
  detail(form,t.room,resident.verified_room_number||t.unassigned);
- let subject,description,category,urgent,date,windowSelect,note,cleaningType,slotSelect;
+ let subject,description,category,urgent,date,windowSelect,note,cleaningType,slotSelect,faultPhoto;
  if(cleaning){
   date=input('date',true);date.min=bratislavaToday();windowSelect=select(t.windows,'anytime');cleaningType=select(t.types,'standard');note=textArea('',1500);
   slotSelect=select(slotOptions(),'');slotSelect.required=true;
@@ -119,17 +125,18 @@ export async function renderServiceRequests(ctx){
  }else{
   subject=input('text',true);subject.minLength=3;subject.maxLength=160;description=textArea('',4000);description.required=true;
   category=select(t.categories,'maintenance');urgent=input('checkbox');
-  form.append(field(t.subject,subject),field(t.description,description),field(t.category,category),field(t.urgent,urgent));
+  faultPhoto=input('file');faultPhoto.accept='image/jpeg,image/png';form.append(field(t.subject,subject),field(t.description,description),field(t.category,category),field(t.urgent,urgent),field(pw.photo,faultPhoto));
  }
  const submit=button(t.submit);submit.disabled=cleaning&&!slots.some(s=>s.remaining>0);form.append(submit);
  form.addEventListener('submit',async event=>{
   event.preventDefault();if(!isCurrent()||!form.reportValidity())return;submit.disabled=true;
   try{
+   const chosenPhoto=faultPhoto?.files?.[0];if(!validPhoto(chosenPhoto))throw Error('invalid_photo');
    const selectedSlot=cleaning?slots.find(s=>s.id===slotSelect.value):null;
    if(cleaning&&!selectedSlot)throw Error('slot_required');
    const payload=cleaning?{slot_id:selectedSlot.id,preferred_date:bratislavaLocalDateTime(selectedSlot.starts_at).slice(0,10),preferred_window:'anytime',cleaning_type:cleaningType.value,notes:note.value.trim(),status:'requested'}:{subject:subject.value.trim(),description:description.value.trim(),category:category.value,urgent:urgent.checked,status:'new',staff_note:''};
    const {data,error}=await db.from(table).insert({...payload,tenant_id:tenant,resident_id:resident.id}).select('id');
-   if(error||!data?.length)throw Error('save_failed');if(isCurrent()){report(t.success);refresh();}
+   if(error||!data?.length)throw Error('save_failed');if(chosenPhoto){try{await uploadPhoto(data[0].id,chosenPhoto);}catch{alert(pw.failed);}}if(isCurrent()){report(t.success);refresh();}
   }catch{report(t.failed,true);submit.disabled=false;}
  });root.append(form);
 }
