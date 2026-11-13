@@ -21,8 +21,8 @@ Deno.serve(async(req)=>{
    const {error:auditError}=await service.from('audit_logs').insert({tenant_id:doc.tenant_id,actor_id:user.id,action:'DOWNLOAD_SIGNED_60S',entity:'documents',entity_id:doc.id});if(auditError)throw auditError;
    return reply({url:data.signedUrl});
   }
-  if(body.action!=='invite')return reply({error:'invalid_action'},400);
-  if(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200)return reply({error:'invalid_data'},400);
+  if(!['invite','resend_student_access'].includes(body.action))return reply({error:'invalid_action'},400);
+  if(body.action==='invite'&&(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200))return reply({error:'invalid_data'},400);
 
   const role=body.role;if(!['student','reception','org_admin'].includes(role))return reply({error:'invalid_role'},400);
   const tenant=body.tenant_id;
@@ -30,6 +30,25 @@ Deno.serve(async(req)=>{
   const {data:m,error:roleError}=await client.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
   const {data:p}=await client.from('platform_admins').select('user_id').eq('user_id',user.id).maybeSingle();
   if(roleError||!(m?.role==='org_admin'||(m?.role==='reception'&&role==='student')||(p&&role==='org_admin')))return reply({error:'forbidden'},403);
+
+  if(body.action==='resend_student_access'){
+    if(role!=='student'||typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))
+      return reply({error:'invalid_data'},400);
+    const {data:record,error:recordError}=await client.from('registration_requests')
+      .select('email,status').eq('tenant_id',tenant).eq('id',body.registration_id)
+      .eq('status','invited').maybeSingle();
+    if(recordError||!record)return reply({error:'approved_registration_not_found'},404);
+    // The student is already approved. The recovery link serves as a secure
+    // password-setup/reentry link and is sent only to the approved email.
+    const {error:deliveryError}=await service.auth.resetPasswordForEmail(record.email,{
+      redirectTo:portalOrigin+'/student-house-portal/'
+    });
+    if(deliveryError){
+      console.error('student_access_resend_failed',deliveryError.code);
+      return reply({error:'invitation_failed'},503);
+    }
+    return reply({ok:true,email_sent:true});
+  }
 
   // Any resident may submit a public request, but only verified reception staff can approve it.
   // Do not accept contract dates/numbers from a browser acting as an unverified resident.
