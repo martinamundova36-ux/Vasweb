@@ -172,13 +172,12 @@ export async function renderStaffScreen(ctx) {
     const email=el('a','btn-secondary',cw.gmail);
     email.href=gmail;email.target='_blank';email.rel='noopener noreferrer';email.style.cssText='display:inline-block;padding:12px;margin:10px 10px 0 0';
     const copy=button(cw.copy,async()=>{
-     try{await navigator.clipboard.writeText(data.link);status(cw.copied);}
+     try{await navigator.clipboard.writeText(data.link);ctx.notice.append(el('p','mini-note',cw.copied));}
      catch{window.prompt(cw.copy,data.link);}
     });
     ctx.notice.append(el('p','mini-note',(data.recipient||person.email)+' · '+cw.expires),email,copy);
-    paint();
    }catch{if(ctx.isCurrent())status(cw.sendError,true);}
-   finally{pendingAction=false;send.disabled=false;}
+   finally{pendingAction=false;send.disabled=false;if(ctx.isCurrent()&&person.status==='correction_requested')paint();}
   });
  }
  function approvalEditor(person,actions){
