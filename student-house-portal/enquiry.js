@@ -53,7 +53,7 @@ export async function renderStudentEnquiry(ctx){
  const photoText=n('label','',t.selectPhoto);photoText.append(photoInput);
  preview.alt=t.photo;preview.hidden=true;preview.loading='lazy';
  photoBox.append(photoLabel,preview,photoText,photoHint);
- let previewUrl=null;
+ let previewUrl=null,hasSavedPhoto=false;
  photoInput.addEventListener('change',()=>{
   if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null;}
   const file=photoInput.files?.[0];
@@ -73,13 +73,14 @@ export async function renderStudentEnquiry(ctx){
   if(ctx.isCurrent()&&!photoInput.files?.length&&!previewUrl&&root.isConnected){
    const photo=files.filter(x=>x.kind==='profile_photo'&&x.active&&x.user_id===ctx.user.id)
      .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
-   if(photo){const href=await ctx.fileLink(photo.id,ctx.tenant,true);
+   if(photo){hasSavedPhoto=true;photoInput.required=false;const href=await ctx.fileLink(photo.id,ctx.tenant,true);
     if(href&&ctx.isCurrent()&&!photoInput.files?.length){preview.src=href;preview.hidden=false;}}
   }
  }catch{ /* Photo may be added later without blocking text form. */ }
  form.addEventListener('submit',async event=>{
   event.preventDefault();if(!form.reportValidity())return;
   const chosen=photoInput.files?.[0]||null;
+  if(!chosen&&!hasSavedPhoto){status.textContent=ctx.lang==='en'?'Please upload your student photograph before submitting.':'Pred odoslaním dotazníka vlož fotografiu študenta.';photoInput.focus();return;}
   if(!validatePhoto(chosen)){status.textContent=t.invalidPhoto;return;}
   const values={tenant_id:ctx.tenant,resident_id:ctx.resident.id,user_id:ctx.user.id};
   for(const [key,input]of Object.entries(fields)){
@@ -91,15 +92,23 @@ export async function renderStudentEnquiry(ctx){
   if(values.preferred_from&&values.preferred_to&&values.preferred_to<values.preferred_from){status.textContent=t.failed;return;}
   submit.disabled=true;status.textContent=t.saving;
   try{
-   const {error}=await ctx.db.from('resident_enquiries').upsert(values,{onConflict:'tenant_id,resident_id'}).select('id').single();
-   if(error){status.textContent=t.failed;return;}
+   // Upload photo to the existing private bucket before marking the questionnaire complete.
    if(chosen){
     const body=new FormData();body.append('action','upload');body.append('tenant_id',ctx.tenant);
     body.append('kind','profile_photo');body.append('file',chosen);
     const {data,error:uploadError}=await ctx.db.functions.invoke('residence-files',{body});
     if(uploadError||!data?.ok){status.textContent=t.photoFailed;return;}
-    photoInput.value='';status.textContent=t.saved;
-   }else status.textContent=t.savedWithoutPhoto;
+    hasSavedPhoto=true;photoInput.required=false;photoInput.value='';
+   }
+   const {error}=await ctx.db.from('resident_enquiries')
+     .upsert(values,{onConflict:'tenant_id,resident_id'}).select('id').single();
+   if(error){status.textContent=t.failed;return;}
+   status.textContent=t.saved;
+   if(!actionRow.querySelector('.enquiry-completed')){
+    const next=n('button','btn-secondary enquiry-completed',ctx.lang==='en'?'Continue to student zone':ctx.lang==='ru'?'Перейти в кабинет':ctx.lang==='uk'?'До кабінету студента':'Pokračovať do študentskej zóny');
+    next.type='button';next.addEventListener('click',()=>ctx.onComplete?.());
+    actionRow.append(next);
+   }
   }catch{status.textContent=t.failed;}finally{submit.disabled=false;}
  });
 }
