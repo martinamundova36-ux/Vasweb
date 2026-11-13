@@ -283,6 +283,85 @@ export async function renderStaffScreen(ctx) {
     const dataList=el('dl','identity-fields');
     for(const [name,value] of values)dataList.append(field(name,value||'—'));
     enquiryBox.append(dataList,el('p','mini-note',translated?'Student-submitted details; verify before using in the accommodation register.':'Údaje od študenta – pred prenosom do evidencie ich musí overiť recepcia.'));
+
+    const {data:review,error:reviewError}=await ctx.db.from('resident_enquiry_reviews')
+      .select('review_status,correction_reason,requested_at')
+      .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle();
+    if(!ctx.isCurrent()||!enquiryBox.isConnected)return;
+    const labels=ctx.lang==='en'?{
+      returned:'Questionnaire returned for correction',resubmitted:'Student resubmitted corrected questionnaire – awaiting review',
+      approved:'Questionnaire verified by reception',request:'Send questionnaire back for correction',
+      confirm:'Confirm the completed questionnaire',reason:'Describe exactly what needs to be corrected',
+      send:'Save correction request',minimum:'Write at least 10 characters explaining the correction.',
+      success:'The correction request was saved. Open Gmail to send the instructions to the student.',
+      accepted:'Questionnaire verified and approved.',fail:'The request could not be saved.',
+      gmail:'Open Gmail to notify student',mailSubject:'Student House Bratislava – correct your questionnaire',
+      mailBody:'Hello,\n\nReception reviewed your Student House Bratislava questionnaire and asks you to correct:\n\n',
+      mailEnd:'\n\nSign in and open Personal Questionnaire to make the changes:\nhttps://www.webu.sk/student-house-portal/student/?tab=enquiry\n\nRegards,\nStudent House Bratislava Reception'
+     }:{
+      returned:'Dotazník vrátený na opravu',resubmitted:'Študent opravil dotazník – čaká na opätovnú kontrolu',
+      approved:'Dotazník overený recepciou',request:'Poslať späť zle vyplnený dotazník',
+      confirm:'Schváliť správne vyplnený dotazník',reason:'Presne napíš, čo má študent opraviť',
+      send:'Uložiť žiadosť o opravu',minimum:'Uveď dôvod opravy (aspoň 10 znakov).',
+      success:'Požiadavka na opravu je uložená. Otvor Gmail a odošli študentovi upozornenie.',
+      accepted:'Dotazník bol schválený.',fail:'Nepodarilo sa uložiť požiadavku.',
+      gmail:'Otvoriť Gmail a upozorniť študenta',mailSubject:'Student House Bratislava – oprava dotazníka',
+      mailBody:'Ahoj,\n\npri kontrole tvojho osobného dotazníka Student House Bratislava sme zistili údaje, ktoré je potrebné opraviť:\n\n',
+      mailEnd:'\n\nPrihlás sa do študentskej zóny a otvor Osobný dotazník:\nhttps://www.webu.sk/student-house-portal/student/?tab=enquiry\n\nPo opätovnom odoslaní dotazník skontrolujeme.\n\nRecepcia Student House Bratislava'
+     };
+    if(reviewError){enquiryBox.append(el('p','danger',labels.fail));}
+    else{
+      if(review){
+       const corrected=review.review_status==='needs_correction'
+         && Date.parse(String(enquiry.updated_at||enquiry.created_at||''))>Date.parse(String(review.requested_at||''));
+       const label=review.review_status==='approved'?labels.approved:corrected?labels.resubmitted:labels.returned;
+       enquiryBox.append(el('p',review.review_status==='approved'?'mini-note':(corrected?'mini-note':'danger'),label));
+       if(review.correction_reason&&review.review_status==='needs_correction')
+        enquiryBox.append(el('p','mini-note',review.correction_reason));
+      }
+      const revise=el('form','staff-form');
+      const reason=el('textarea');reason.maxLength=1200;reason.minLength=10;reason.required=true;reason.rows=3;
+      reason.placeholder=labels.reason;reason.setAttribute('aria-label',labels.reason);
+      reason.value=review?.review_status==='needs_correction'?review.correction_reason||'':'';
+      const send=el('button','',labels.send);send.type='submit';
+      const reopen=button(labels.request,()=>{revise.hidden=!revise.hidden;if(!revise.hidden)reason.focus();});
+      revise.hidden=true;revise.append(reason,send);enquiryBox.append(reopen,revise);
+      revise.addEventListener('submit',async event=>{
+       event.preventDefault();if(!ctx.isCurrent())return;
+       const text=reason.value.trim();if(text.length<10){status(labels.minimum,true);return;}
+       send.disabled=true;
+       try{
+        const {data,error}=await ctx.db.from('resident_enquiry_reviews').upsert({
+         tenant_id:ctx.tenant,resident_id:person.id,review_status:'needs_correction',
+         correction_reason:text,requested_at:new Date().toISOString(),reviewed_by:ctx.userId
+        },{onConflict:'tenant_id,resident_id'}).select('review_status').single();
+        if(error||!data){status(labels.fail,true);return;}
+        status(labels.success);
+        revise.hidden=true;
+        const gmail='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(person.email||'')
+        +'&su='+encodeURIComponent(labels.mailSubject)
+        +'&body='+encodeURIComponent(labels.mailBody+text+labels.mailEnd);
+        const mail=el('a','btn-secondary',labels.gmail);
+        mail.href=gmail;mail.target='_blank';mail.rel='noopener noreferrer';
+        mail.style.cssText='display:inline-block;padding:12px;margin-top:12px';
+        enquiryBox.append(mail);
+       }catch{status(labels.fail,true);}finally{send.disabled=false;}
+      });
+      const approve=button(labels.confirm,async()=>{
+       if(!ctx.isCurrent())return;
+       approve.disabled=true;
+       try{
+        const {data,error}=await ctx.db.from('resident_enquiry_reviews').upsert({
+          tenant_id:ctx.tenant,resident_id:person.id,review_status:'approved',
+          correction_reason:'',requested_at:new Date().toISOString(),reviewed_by:ctx.userId
+        },{onConflict:'tenant_id,resident_id'}).select('review_status').single();
+        if(error||!data){status(labels.fail,true);return;}
+        status(labels.accepted);
+       }catch{status(labels.fail,true);}finally{approve.disabled=false;}
+      });
+      enquiryBox.append(approve);
+    }
+
    }
    if(typeof ctx.uploadPrivateDocument==='function'){
     const title=ctx.lang==='en'?'Upload completed paper questionnaire (PDF/JPG/PNG)':'Nahrať vyplnený papierový dotazník (PDF/JPG/PNG)';
