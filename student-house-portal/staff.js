@@ -1,3 +1,4 @@
+import {advanceRentDueDate} from './ledger.js';
 // Staff screens use the existing authenticated client and tenant-scoped server policies.
 export const normalize = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
 export function filterResidents(rows, query = '', status = 'all') {
@@ -248,10 +249,10 @@ export async function renderStaffScreen(ctx) {
   if(!person.contract_number||String(person.contract_number).trim().length<5){status(ctx.lang==='en'?'Assign a verified contract number first.':'Najprv priraď overené číslo zmluvy.',true);return;}
   if(!roomCatalog.some(r=>r.name===person.room_number)){status(ctx.lang==='en'?'Assign a verified room first.':'Najprv priraď overenú izbu.',true);return;}
   if(contractConflict(person)){status(ct.pending,true);return;}
-  const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Skontrolujte každú sumu a splatnosť podľa zmluvy, najmä neúplné mesiace. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Check each amount and due date against the contract, especially partial months. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, особенно неполные месяцы. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, особливо неповні місяці. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
+  const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Splatnosť je predvyplnená na 1. deň predchádzajúceho mesiaca (napr. december → 1. november). Skontrolujte každú sumu a dátum podľa zmluvy, najmä neúplné mesiace. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Due dates default to the selected day of the previous month (e.g. December → 1 November). Check every amount and date against the contract, especially partial months. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, особенно неполные месяцы. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, особливо неповні місяці. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
   const form=el('form','staff-form'),rent=el('input'),due=el('input'),schedule=el('div');
   rent.type='number';rent.min='0.01';rent.max='100000';rent.step='0.01';rent.required=true;
-  due.type='number';due.min='1';due.max='28';due.step='1';due.value='5';due.required=true;
+  due.type='number';due.min='1';due.max='28';due.step='1';due.value='1';due.required=true;
   for(const [title,input] of [[labels[0],rent],[labels[1],due]]){const label=el('label','',title);label.append(input);form.append(label);}
   const prepare=button(labels[2],()=>{
    if(!rent.reportValidity()||!due.reportValidity())return;
@@ -261,7 +262,7 @@ export async function renderStaffScreen(ctx) {
    const rows=[];let period=start;
    while(period<=end&&rows.length<121){
     const amount=el('input'),date=el('input');amount.type='number';amount.min='0.01';amount.max='100000';amount.step='0.01';amount.value=rent.value;amount.required=true;amount.setAttribute('aria-label',period+' €');
-    date.type='date';date.value=period+'-'+String(due.value).padStart(2,'0');date.required=true;date.setAttribute('aria-label',period);
+    date.type='date';date.value=advanceRentDueDate(period,Number(due.value));date.required=true;date.setAttribute('aria-label',period);
     const line=el('label','',period);line.append(amount,date);schedule.append(line);rows.push({period,amount,date});
     const [year,month]=period.split('-').map(Number);period=month===12?String(year+1)+'-01':String(year)+'-'+String(month+1).padStart(2,'0');
    }

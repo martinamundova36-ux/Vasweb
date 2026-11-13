@@ -1281,7 +1281,7 @@ async function renderPanel(){
        const residentSelect=selector(people,'id',p=>p.full_name+' · '+(p.verified_room_number||'—'));
        const roomSelect=selector(rooms,'id',r=>r.name+' · '+r.category+' ('+r.capacity+')');
        const from=dateInput(),to=dateInput(),rent=euroInput(),dueDay=make('input');
-       dueDay.type='number';dueDay.min='1';dueDay.max='28';dueDay.step='1';dueDay.value='5';dueDay.required=true;
+       dueDay.type='number';dueDay.min='1';dueDay.max='28';dueDay.step='1';dueDay.value='1';dueDay.required=true;
        const fillDates=()=>{
          const p=people.find(x=>x.id===residentSelect.value);
          from.value=p?.accommodation_from||'';
