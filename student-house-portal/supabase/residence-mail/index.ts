@@ -23,7 +23,7 @@ Deno.serve(async req=>{
    try{
     let link=job.link||base+(job.audience==='admin'?'admin/':'student/');
     if(job.auth_link_type){
-     const redirect=base+(job.auth_link_type==='recovery'?'student/?step=profile':'questionnaire/');
+     const redirect=base+(job.audience==='admin'?'admin/':job.auth_link_type==='recovery'?'student/?step=profile':'questionnaire/');
      const {data,error}=await db.auth.admin.generateLink({type:job.auth_link_type,email:job.recipient,options:{redirectTo:redirect}});
      if(error||!data?.properties?.action_link)throw new Error('auth_link_failed');
      link=data.properties.action_link;
