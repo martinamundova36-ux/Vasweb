@@ -427,6 +427,14 @@ ru:{resident:"Студенты",staff:"Ресепшен / Админ",title:"В�
 uk:{resident:"Студенти",staff:"Рецепція / Адмін",title:"Вхід для рецепції",intro:"Захищений вхід для співробітників рецепції Student House Bratislava.",note:"Доступ лише для уповноважених співробітників. Реєстрація — для студентів.",denied:"Цей обліковий запис не має доступу до рецепції."}
 };
 let lang=(new URLSearchParams(location.search).get('lang')||'sk').toLowerCase();if(!tr[lang])lang='sk';let t=tr[lang],db=null,user=null,member=null,resident=null,tab='overview',memberships=[],organizationNames={},resetMode=false;
+function translateRecovery(){
+ const messages={sk:['Tvoj schválený e-mail','Krok 3 · Aktivácia študentského profilu','Zadaj e-mail z pozvánky a vytvor si heslo do študentského profilu.'],en:['Your approved email','Step 3 · Activate student profile','Enter your approved email and create your student-profile password.'],ru:['Ваш подтверждённый e-mail','Шаг 3 · Активация профиля студента','Введите подтверждённый e-mail и создайте пароль профиля.'],uk:['Ваша підтверджена електронна адреса','Крок 3 · Активація профілю студента','Введіть підтверджену електронну адресу та створіть пароль профілю.']};
+ const words=messages[lang]||messages.sk;
+ $('resetEmailLabel').textContent=words[0];
+ const finalStage=new URLSearchParams(location.search).get('step')==='profile';
+ $('sign').textContent=finalStage?words[1]:PW[lang].title;
+ $('intro').textContent=finalStage?words[2]:PW[lang].intro;
+}
 function translate(){const b=$('backToWebsite');const prefixes={sk:'',en:'en/',ru:'ru/',uk:'ua/'};const captions={sk:'← Späť na web Student House Bratislava',en:'← Back to Student House website',ru:'← Вернуться на сайт Student House',uk:'← Повернутися на сайт Student House'};b.href='https://studenthousebratislavanew.wordpress.com/'+prefixes[lang];b.textContent=captions[lang];t=tr[lang];document.documentElement.lang=lang;$('welcome').textContent=t[0];$('subtitle').textContent=t[1];$('sign').textContent=t[2];$('signbtn').textContent=t[2];$('intro').textContent=t[3];$('pwlabel').textContent=t[4];$('invite').textContent=t[5];$('zone').textContent=t[6];$('out').textContent=t[7];$('lang').value=lang;$('appLang').value=lang;
 const e=entryText[lang];
 const entryTitles={sk:['Študentské prihlásenie','Administrácia Student House Bratislava'],en:['Student sign-in','Student House Bratislava Administration'],ru:['Вход для студентов','Администрация Student House Bratislava'],uk:['Вхід для студентів','Адміністрація Student House Bratislava']};
@@ -444,7 +452,7 @@ $('openRegistration').classList.toggle('hide',staffEntryMode);
  }
 $('switchPortal').textContent=staffEntryMode?portalMessages[lang].switchStudent:portalMessages[lang].switchStaff;
 $('switchPortal').href=staffEntryMode?'/student-house-portal/student/?lang='+lang+'&signin=1':'/student-house-portal/admin/?lang='+lang;
-if(staffEntryMode&&!resetMode){$('sign').textContent=e.title;$('intro').textContent=e.intro;$('invite').textContent=e.note;}$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode){$('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro}
+if(staffEntryMode&&!resetMode){$('sign').textContent=e.title;$('intro').textContent=e.intro;$('invite').textContent=e.note;}$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode)translateRecovery();
 $('resetConfirmLabel').textContent=pwdText('confirm');$('resetGenerate').textContent=pwdText('generate');$('resetCopy').textContent=pwdText('copy');syncPasswordEye('resetPasswordValue','resetEye');syncPasswordEye('resetConfirmValue','resetConfirmEye');const eyeLabel=pwdText($('password').type==='password'?'show':'hide');$('loginEye').setAttribute('aria-label',eyeLabel);$('loginEye').title=eyeLabel;
 }
 
@@ -1109,16 +1117,26 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-public-room-types5');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-mail-review6');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
     isOnboarding:!resident.profile_password_activated_at,
-    onComplete:()=>resident.profile_password_activated_at?navigate('documents'):sendProfileStepInvitation(tenant),
+    onComplete:()=>resident.profile_password_activated_at?navigate('documents'):navigate('await-profile'),
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='enquiry'});
    return;
   }
   if(tab==='await-profile'&&!staff){
    container.replaceChildren();
+   const {data:review}=await db.from('resident_enquiry_reviews').select('review_status,requested_at')
+    .eq('tenant_id',tenant).eq('resident_id',own).maybeSingle();
+   const {data:answers}=await db.from('resident_enquiries').select('student_submitted_at')
+    .eq('tenant_id',tenant).eq('resident_id',own).maybeSingle();
+   if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
+   if(review?.review_status!=='approved'||!answers?.student_submitted_at||Date.parse(review.requested_at)<Date.parse(answers.student_submitted_at)){
+    const messages={sk:['Dotazník čaká na kontrolu recepcie','Po schválení dostaneš pozvánku na aktiváciu profilu. Ak recepcia žiada opravu, otvor dotazník a doplň údaje.'],en:['Questionnaire awaiting reception review','After approval, you will receive your profile activation email. If corrections are requested, reopen the questionnaire.'],ru:['Анкета ожидает проверки','После одобрения вы получите письмо для активации профиля. Если нужны исправления, откройте анкету.'],uk:['Анкета очікує перевірки','Після схвалення ви отримаєте лист для активації профілю. Якщо потрібні виправлення, відкрийте анкету.']};
+    heading(...(messages[lang]||messages.sk));
+    const back=make('button','',({sk:'Otvoriť dotazník',en:'Open questionnaire',ru:'Открыть анкету',uk:'Відкрити анкету'})[lang]);back.type='button';back.addEventListener('click',()=>navigate('enquiry'));container.append(back);return;
+   }
    heading(lang==='en'?'Step 2 completed':'Dotazník odoslaný',
     lang==='en'?'A new email now opens your student profile.':'Teraz nasleduje samostatná pozvánka do študentského profilu.');
    container.append(make('p','',lang==='en'
@@ -1189,7 +1207,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):(lang==='en'?'Student House reception':'Recepcia Student House'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-public-room-types5');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-mail-review6');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('p');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
@@ -1570,10 +1588,7 @@ function showPasswordRecovery(){
  $('passwordResetForm').classList.remove('hide');
  $('resetPasswordValue').value='';$('resetConfirmValue').value='';$('resetMessage').textContent='';
  $('error').textContent='';
- const finalStage=new URLSearchParams(location.search).get('step')==='profile';
- $('sign').textContent=finalStage?(lang==='en'?'Step 3 · Activate student profile':'Krok 3 · Aktivácia študentského profilu'):PW[lang].title;
- $('intro').textContent=finalStage?(lang==='en'?'Enter your email and create your password.':'Zadaj e-mail z pozvánky a vytvor si heslo do študentského profilu.'):PW[lang].intro;
- $('resetEmailLabel').textContent=lang==='en'?'Your approved email':'Tvoj schválený e-mail';
+ translateRecovery();
  db.auth.getUser().then(({data})=>{if(data?.user&&resetMode)$('resetEmailValue').value=data.user.email||'';});
 }
 

@@ -226,7 +226,9 @@ export async function renderStaffScreen(ctx) {
     if(!ctx.isCurrent())return;
     if(error||!data?.ok||!data?.link){status(cw.sendError,true);return;}
     person.status='correction_requested';person.correction_reason=reason;
-    status(cw.prepared);
+    status(data.email_queued
+     ?({sk:'Registrácia bola vrátená. E-mail čaká vo fronte; doručenie ešte nie je potvrdené.',en:'Registration returned. Email queued; inbox delivery is not confirmed.',ru:'Заявка возвращена. Письмо в очереди; доставка не подтверждена.',uk:'Заявку повернуто. Лист у черзі; доставку не підтверджено.'})[ctx.lang]
+     :cw.prepared);
     const body=cw.body+reason+cw.bodyEnd+data.link+cw.closing;
     const gmail='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(data.recipient||person.email)
       +'&su='+encodeURIComponent(cw.subject)+'&body='+encodeURIComponent(body);
@@ -289,7 +291,7 @@ export async function renderStaffScreen(ctx) {
    const invitationEmailFailed=approve&&response.data?.email_sent===false;
    status(invitationEmailFailed
      ?(ctx.lang==='en'?'Registration approved but no invitation email was sent. Check SMTP and use Forgot password.':'Registrácia schválená, ale pozvánku sa nepodarilo odoslať. Skontroluj SMTP; študent si môže vyžiadať odkaz cez Zabudnuté heslo.')
-     :(approve?(ctx.lang==='en'?'Registration approved; email invitation sent.':'Registrácia schválená a pozvánka odoslaná.'):w.rejected));
+     :(approve?w.inviteOK:w.rejected));
    if(invitationEmailFailed){
     const subject='Student House Bratislava – '+(ctx.lang==='en'?'registration approved':'registrácia schválená');
     const body=ctx.lang==='en'

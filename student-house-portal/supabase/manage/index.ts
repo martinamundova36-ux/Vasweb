@@ -37,6 +37,10 @@ Deno.serve(async(req)=>{
       .eq('user_id',user.id).eq('kind','profile_photo').eq('active',true).limit(1);
     if(answersError||photoError||!answers?.student_submitted_at||!photos?.length)
       return reply({error:'questionnaire_not_completed'},409);
+    const {data:review,error:reviewError}=await client.from('resident_enquiry_reviews')
+      .select('review_status,requested_at').eq('tenant_id',tenant).eq('resident_id',resident.id).maybeSingle();
+    if(reviewError||review?.review_status!=='approved'||Date.parse(review.requested_at)<Date.parse(answers.student_submitted_at))
+      return reply({error:'questionnaire_awaiting_review'},409);
     if(body.action==='send_profile_invite'){
       if(resident.profile_password_activated_at)return reply({ok:true,already_active:true});
       const {error:mailError}=await service.auth.resetPasswordForEmail(user.email!,{
@@ -75,7 +79,11 @@ Deno.serve(async(req)=>{
       .select('id').eq('tenant_id',tenant).eq('email',record.email).eq('active',true).maybeSingle();
     const {data:answers}=account?await service.from('resident_enquiries')
       .select('student_submitted_at').eq('tenant_id',tenant).eq('resident_id',account.id).maybeSingle():{data:null};
-    const {error:deliveryError}=answers?.student_submitted_at
+    const {data:review}=account?await service.from('resident_enquiry_reviews')
+      .select('review_status,requested_at').eq('tenant_id',tenant).eq('resident_id',account.id).maybeSingle():{data:null};
+    const reviewed=answers?.student_submitted_at&&review?.review_status==='approved'&&
+      Date.parse(review.requested_at)>=Date.parse(answers.student_submitted_at);
+    const {error:deliveryError}=reviewed
       ?await service.auth.resetPasswordForEmail(record.email,{
         redirectTo:portalOrigin+'/student-house-portal/student/?step=profile'
       })

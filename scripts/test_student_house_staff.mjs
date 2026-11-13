@@ -14,6 +14,7 @@ class Element {
  append(...items){for(const item of items){item.parent=this;this.children.push(item);if(this.tagName==='select'&&this.children.length===1)this.value=item.value;}}
  replaceChildren(...items){for(const c of this.children)c.parent=null;this.children=[];this._text='';this.append(...items);}
  addEventListener(name,fn){this.listeners[name]=fn;}
+ reportValidity(){return true;}
  querySelectorAll(tag){return this.children.flatMap(c=>[...(c.tagName===tag?[c]:[]),...c.querySelectorAll(tag)]);}
  querySelector(tag){return this.querySelectorAll(tag)[0];}
  replaceWith(other){const parent=this.parent;if(!parent)return;const i=parent.children.indexOf(this);parent.children[i]=other;other.parent=parent;this.parent=null;}
@@ -27,10 +28,16 @@ const registration={id:'request-a',tenant_id:tenant,first_name:'Žofia',last_nam
 function fixture(section,overrides={}){
  const root=new Element('div');root.connected=true;
  const calls=[];
- const ctx={root,notice:new Element('p'),lang:'sk',tenant,role:'reception',section,day:x=>x||'—',success:'Saved',refresh:()=>{},isCurrent:()=>true,fileLink:()=>{},list:async table=>table==='residents'?[{...person}]:table==='registration_requests'?[{...registration}]:[],
+ const ctx={root,notice:new Element('p'),lang:'sk',tenant,role:'reception',section,day:x=>x||'—',success:'Saved',refresh:()=>{},isCurrent:()=>true,fileLink:()=>{},list:async table=>table==='residents'?[{...person}]:table==='registration_requests'?[{...registration}]:table==='rooms'?[{name:'125',category:'M2',capacity:2}]:[],
  db:{functions:{invoke:async(name,input)=>{calls.push({name,...input});return {data:{ok:true},error:null};}}},...overrides};return {ctx,calls,root};
 }
 const findButton=(root,label)=>root.querySelectorAll('button').find(b=>b.textContent===label);
+async function approveFixture(f){
+ findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
+ const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu');
+ const form=prepare.parent;const rent=form.querySelectorAll('input')[0];rent.value='300';
+ prepare.listeners.click();form.onsubmit({preventDefault(){}});await tick();
+}
 
 test('Search handles Slovak diacritics, multiple fields, status and empty results',()=>{
  const rows=[person,{...person,id:'b',active:false,full_name:'Peter Nový',verified_room_number:'200'}];
@@ -52,18 +59,18 @@ test('Student and unknown roles cannot load staff records',async()=>{
 });
 test('Registration approval uses existing server endpoint with tenant and student role',async()=>{
  const f=fixture('registrations');await renderStaffScreen(f.ctx);
- findButton(f.root,'Overiť a schváliť registráciu').listeners.click();await tick();
+ await approveFixture(f);
  assert.equal(f.calls.length,1);assert.equal(f.calls[0].name,'manage');assert.equal(f.calls[0].body.tenant_id,tenant);
  assert.equal(f.calls[0].body.registration_id,registration.id);assert.equal(f.calls[0].body.role,'student');
  assert.match(f.ctx.notice.textContent,/Doručenie.*nie je overené/);assert.equal(findButton(f.root,'Overiť a schváliť registráciu'),undefined);
 });
 test('Rejected approval confirmation performs no write',async()=>{
  const f=fixture('registrations');await renderStaffScreen(f.ctx);globalThis.confirm=()=>false;
- findButton(f.root,'Overiť a schváliť registráciu').listeners.click();await tick();globalThis.confirm=()=>true;assert.equal(f.calls.length,0);
+ await approveFixture(f);globalThis.confirm=()=>true;assert.equal(f.calls.length,0);
 });
 test('Email limit is visible, does not approve, and prevents blind retry',async()=>{
  let calls=0;const f=fixture('registrations',{db:{functions:{invoke:async()=>{calls++;return {data:{error:'over_email_send_rate_limit'}};}}}});
- await renderStaffScreen(f.ctx);const button=findButton(f.root,'Overiť a schváliť registráciu');button.listeners.click();await tick();
+ await renderStaffScreen(f.ctx);const button=findButton(f.root,'Overiť a schváliť registráciu');await approveFixture(f);
  assert.match(f.ctx.notice.textContent,/dočasne obmedzené/);assert.equal(button.disabled,true);assert.equal(calls,1);
 });
 test('Profile shows contract, room and dates with private document status',async()=>{

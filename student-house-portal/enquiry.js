@@ -28,8 +28,8 @@ export async function renderStudentEnquiry(ctx){
  ctx.root.append(root);root.append(n('h3','',t.title),n('p','muted',
   (ctx.lang==='en'?'Step 2 of 3: ':ctx.lang==='sk'?'Krok 2 z 3: ':'')+t.intro));
  root.append(n('p','enquiry-status',ctx.lang==='en'?
-  'Step 2 of 3: Reception approved your registration. Complete and submit the questionnaire and photo. A second email will then invite you to choose your student-profile password.':
-  'Krok 2 z 3: Recepcia schválila registráciu. Vyplň a odošli dotazník s fotografiou. Až potom dostaneš druhý e-mail na vytvorenie hesla do študentského profilu.'));
+  'Step 2 of 3: Reception approved your registration. Complete and submit the questionnaire and photo. After reception reviews and approves it, an email will invite you to choose your student-profile password.':
+  'Krok 2 z 3: Recepcia schválila registráciu. Vyplň a odošli dotazník s fotografiou. Po kontrole a schválení recepciou dostaneš e-mail na vytvorenie hesla do študentského profilu.'));
  if(!ctx.resident?.id){root.append(n('p','danger',t.notFound));return;}
  const {data:existing,error:readError}=await ctx.db.from('resident_enquiries').select('*')
    .eq('tenant_id',ctx.tenant).eq('resident_id',ctx.resident.id).maybeSingle();

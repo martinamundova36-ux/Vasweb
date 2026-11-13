@@ -76,9 +76,16 @@ Deno.serve(async(req:Request)=>{
     entity:"registration_requests",entity_id:registration
    });
    if(auditError)console.error("registration_correction_audit_failed",auditError.code);
+   const link="https://www.webu.sk/student-house-portal/correction/#token="+secret;
+   const {error:mailError}=await service.from('residence_mail_outbox').insert({
+    tenant_id:tenant,dedupe:'registration-correction:'+registration+':'+hash,
+    audience:'student',recipient:row.email,
+    subject:'Student House: oprava registrácie / registration correction',
+    body:'Recepcia vrátila registráciu na opravu. Otvor odkaz do 7 dní. / Reception returned your registration for correction. Open the link within 7 days. / Заявку нужно исправить. Ссылка действует 7 дней. / Заявку потрібно виправити. Посилання діє 7 днів.',link
+   });
+   if(mailError)console.error('registration_correction_mail_queue_failed',mailError.code);
    return reply(origin,{ok:true,recipient:row.email,
-    name:[row.first_name,row.last_name].join(" "),expires_at:expires,
-    link:"https://www.webu.sk/student-house-portal/correction/#token="+secret
+    name:[row.first_name,row.last_name].join(" "),expires_at:expires,email_queued:!mailError,link
    });
   }
   if(action!=="load"&&action!=="submit")return reply(origin,{error:"invalid_action"},400);
