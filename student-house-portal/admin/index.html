@@ -729,12 +729,26 @@ const df=k=>(documentFlowText[lang]||documentFlowText.sk)[k]||documentFlowText.s
 
 const privacyUrls={sk:'https://studenthousebratislavanew.wordpress.com/gdpr/',en:'https://studenthousebratislavanew.wordpress.com/en/privacy-policy/',ru:'https://studenthousebratislavanew.wordpress.com/ru/privacy-policy/',uk:'https://studenthousebratislavanew.wordpress.com/ua/privacy-policy/'};
 async function fileLink(id,tenant,openInline=false){
- const {data,error}=await db.functions.invoke('residence-files',{body:{action:'download',tenant_id:tenant,file_id:id}});
- if(error||!data?.ok||!data?.url){alert(dl('fileError'));return null;}
- const url=new URL(data.url);
- if(url.protocol!=='https:'||!url.hostname.endsWith('.supabase.co')){alert(dl('fileError'));return null;}
- if(!openInline)window.open(url.href,'_blank','noopener,noreferrer');
- return url.href;
+ // Reserve the PDF tab synchronously while still inside the user's click event.
+ // Opening a window only after the async signed URL arrives is blocked by some browsers.
+ const tab=openInline?null:window.open('about:blank','_blank');
+ if(tab)tab.opener=null;
+ try{
+  const {data,error}=await db.functions.invoke('residence-files',{body:{action:'download',tenant_id:tenant,file_id:id}});
+  if(error||!data?.ok||!data?.url)throw new Error('Document download failed');
+  const url=new URL(data.url);
+  if(url.protocol!=='https:'||!url.hostname.endsWith('.supabase.co'))throw new Error('Invalid document URL');
+  if(!openInline){
+   if(tab)tab.location.href=url.href;
+   else window.open(url.href,'_blank','noopener,noreferrer');
+  }
+  return url.href;
+ }catch(error){
+  if(tab)tab.close();
+  console.error('portal_document_download_failed');
+  alert(dl('fileError'));
+  return null;
+ }
 }
 async function sendFile(tenant,kind,file,button,residentId=null){
  if(!file){alert(dl('fileError'));return false;}
