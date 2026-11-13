@@ -68,8 +68,7 @@ begin
  insert into public.audit_logs(tenant_id,actor_id,action,entity,entity_id)
  values(p_tenant,p_actor,'REGISTRATION_CONTRACT_APPROVED','registration_requests',req.id::text);
  return new_tenancy;
-end $function$
-
+end $function$;
 
 revoke all on function public.residence_approve_registration(uuid,uuid,uuid,uuid,numeric,integer,jsonb) from public,anon,authenticated;
 grant execute on function public.residence_approve_registration(uuid,uuid,uuid,uuid,numeric,integer,jsonb) to service_role;
