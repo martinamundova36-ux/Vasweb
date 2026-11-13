@@ -1280,8 +1280,11 @@ function showPasswordRecovery(){
  $('passwordResetForm').classList.remove('hide');
  $('resetPasswordValue').value='';$('resetConfirmValue').value='';$('resetMessage').textContent='';
  $('error').textContent='';
- $('sign').textContent=invitationRedirect?(lang==='en'?'Student questionnaire · Step 1: Create your password':'Študentský dotazník · Krok 1: Vytvoriť heslo'):PW[lang].title;
- $('intro').textContent=invitationRedirect?(lang==='en'?'Your registration was approved. Set a password to open your profile, then complete the questionnaire and signed documents.':'Recepcia schválila registráciu. Vytvor si heslo, potom vyplň dotazník a odovzdaj podpísané dokumenty.'):PW[lang].intro;
+ const finalStage=new URLSearchParams(location.search).get('step')==='profile';
+ $('sign').textContent=finalStage?(lang==='en'?'Step 3 · Activate student profile':'Krok 3 · Aktivácia študentského profilu'):PW[lang].title;
+ $('intro').textContent=finalStage?(lang==='en'?'Enter your email and create your password.':'Zadaj e-mail z pozvánky a vytvor si heslo do študentského profilu.'):PW[lang].intro;
+ $('resetEmailLabel').textContent=lang==='en'?'Your approved email':'Tvoj schválený e-mail';
+ db.auth.getUser().then(({data})=>{if(data?.user&&resetMode)$('resetEmailValue').value=data.user.email||'';});
 }
 
 $('resetGenerate').addEventListener('click',()=>{
@@ -1339,10 +1342,24 @@ $('passwordResetForm').addEventListener('submit',async e=>{
    msg.textContent=lang==='sk'?'Odkaz na obnovu už nie je platný. Požiadaj o nový odkaz na prihlásení.':PW[lang].saveFail;
    btn.disabled=false;return;
   }
+  if($('resetEmailValue').value.trim().toLowerCase()!==String(identity.user.email||'').toLowerCase()){
+   msg.textContent=lang==='en'?'Enter your approved email.':'Zadaj e-mail schválený recepciou.';btn.disabled=false;return;
+  }
   const {error}=await db.auth.updateUser({password:pw});
   if(error){
    msg.textContent=lang==='sk'?'Zmenu hesla sa nepodarilo uložiť: '+(error.message||'skontroluj odkaz alebo heslo.') :PW[lang].saveFail;
    btn.disabled=false;return;
+  }
+  const {error:verifyError}=await db.auth.signInWithPassword({email:identity.user.email,password:pw});
+  if(verifyError){msg.textContent=PW[lang].saveFail;btn.disabled=false;return;}
+  if(new URLSearchParams(location.search).get('step')==='profile'){
+   const {data:people,error:residentError}=await db.from('residents')
+    .select('tenant_id').eq('user_id',identity.user.id).eq('active',true).limit(1);
+   if(residentError||!people?.length){msg.textContent=PW[lang].saveFail;btn.disabled=false;return;}
+   const {data:opened,error:openError}=await db.functions.invoke('manage',{
+    body:{action:'activate_profile',tenant_id:people[0].tenant_id}
+   });
+   if(openError||!opened?.ok){msg.textContent=lang==='en'?'Password saved, but profile activation failed. Contact reception.':'Heslo sa uložilo, ale aktivácia profilu zlyhala. Kontaktuj recepciu.';btn.disabled=false;return;}
   }
   // Redirect according to the verified account role, not the browser's entry link.
   const {data:roles,error:roleError}=await db.from('organization_memberships')
@@ -1351,7 +1368,7 @@ $('passwordResetForm').addEventListener('submit',async e=>{
   msg.style.color='#176346';
   msg.textContent=lang==='sk'?'Heslo bolo uložené. Teraz sa prihlás novým heslom.':'Password updated. Sign in with your new password.';
   await db.auth.signOut({scope:'local'});
-  window.location.replace('https://www.webu.sk/student-house-portal/'+(staff?'admin/':'student/')+'?signin=1'+(staff?'':'&tab=enquiry'));
+  window.location.replace('https://www.webu.sk/student-house-portal/'+(staff?'admin/':'student/')+'?signin=1');
  }catch(error){
   console.error('password_recovery_save_failed',error?.message||'unknown');
   msg.textContent=PW[lang].saveFail;btn.disabled=false;
