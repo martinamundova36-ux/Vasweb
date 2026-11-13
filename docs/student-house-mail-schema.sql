@@ -4,7 +4,7 @@ create table public.residence_mail_config (
  admin_email text not null,
  original_admin_email text not null default 'studenthouserecepcia@gmail.com',
  smtp_host text not null default 'smtp.gmail.com',
- smtp_port integer not null default 587 check(smtp_port in (465,587)),
+ smtp_port integer not null default 465 check(smtp_port in (465,587)),
  smtp_user text not null,
  sender_email text not null,
  sender_name text not null default 'Student House Bratislava',
