@@ -7,7 +7,16 @@ const words={
  ru:{title:'Анкета студента',intro:'Заполните анкету онлайн и добавьте фото. Доступ есть только у вас и уполномоченных сотрудников.',identity:'Проверенные данные',address:'Постоянный адрес',birth:'Дата рождения',nationality:'Гражданство',gender:'Пол',id:'Номер паспорта / удостоверения',telephone:'Телефон',parent:'Электронная почта родителя',school:'Учебное заведение в Братиславе',iban:'IBAN (необязательно)',room:'Предпочтительный тип комнаты',duration:'Срок проживания',from:'Дата заезда',to:'Дата выезда',photo:'Фотография студента',selectPhoto:'Загрузить фото онлайн (JPG/PNG до 3 МБ)',photoHint:'Фото хранится приватно и доступно только уполномоченным сотрудникам.',save:'Сохранить анкету и фото',saving:'Сохраняем…',saved:'Анкета и фото сохранены.',savedWithoutPhoto:'Анкета сохранена.',photoFailed:'Анкета сохранена, но загрузка фото не удалась.',failed:'Не удалось сохранить анкету.',invalidPhoto:'Только JPG/PNG, не больше 3 МБ.',notFound:'Заполнить можно после подтверждения регистрации.',privacy:'Конфиденциальность (GDPR)',download:'Скачать пустую анкету (PDF)',none:'Не выбрано',male:'Мужчина',female:'Женщина',other:'Другое',five:'5 месяцев',ten:'10 месяцев',twelve:'12 месяцев',current:'Текущее фото'},
  uk:{title:'Анкета студента',intro:'Заповніть анкету онлайн та додайте фото. Доступ є лише у вас і уповноважених працівників.',identity:'Перевірені дані',address:'Постійна адреса',birth:'Дата народження',nationality:'Громадянство',gender:'Стать',id:'Номер паспорта / посвідчення',telephone:'Телефон',parent:'Електронна адреса одного з батьків',school:'Навчальний заклад у Братиславі',iban:'IBAN (необов’язково)',room:'Бажаний тип кімнати',duration:'Тривалість проживання',from:'Дата заїзду',to:'Дата виїзду',photo:'Фотографія студента',selectPhoto:'Завантажити фото онлайн (JPG/PNG до 3 МБ)',photoHint:'Фото зберігається приватно та доступне лише уповноваженим працівникам.',save:'Зберегти анкету й фото',saving:'Зберігаємо…',saved:'Анкету й фото збережено.',savedWithoutPhoto:'Анкету збережено.',photoFailed:'Анкета збережена, але фото не вдалося завантажити.',failed:'Не вдалося зберегти анкету.',invalidPhoto:'Тільки JPG/PNG до 3 МБ.',notFound:'Заповніть після підтвердження реєстрації.',privacy:'Конфіденційність (GDPR)',download:'Завантажити порожню анкету (PDF)',none:'Не обрано',male:'Чоловік',female:'Жінка',other:'Інше',five:'5 місяців',ten:'10 місяців',twelve:'12 місяців',current:'Наявне фото'}
 };
-const rooms=['Š2','D2','D2V','SUI 2','M1','M2','Š1+1','Š2+1','Š2+2'];
+// Public room categories are displayed as on the Student House gallery.
+// Stored legacy Excel codes remain unchanged for reception and room allocation.
+const rooms=[
+ ['M2','Manzard 2'],
+ ['Š1+1','Standard 1+1'],
+ ['SUI 2','Suite 2'],
+ ['D2','De Luxe 2'],
+ ['Š2','Standard 2'],
+ ['D2V','De Luxe 2V']
+];
 const n=(tag,cls,txt)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(txt!=null)el.textContent=String(txt);return el};
 const wrap=(title,control)=>{const label=n('label','enquiry-label');label.append(n('span','',title),control);return label};
 function choices(items,value){const el=n('select');for(const [v,label]of items){const opt=n('option','',label);opt.value=v;el.append(opt)}el.value=value||'';return el}
@@ -72,7 +81,11 @@ export async function renderStudentEnquiry(ctx){
  add('parent_contact_email',t.parent,'email',254);
  add('school',t.school,'text',250);
  add('iban',t.iban,'text',80);
- fields.preferred_room_type=choices([['',t.none],...rooms.map(x=>[x,x])],existing?.preferred_room_type);
+ const selectedRoom=existing?.preferred_room_type||'';
+ const availableRooms=[['',t.none],...rooms];
+ // Keep legacy preferences visible when a resident edits an older questionnaire.
+ if(selectedRoom&&!rooms.some(([code])=>code===selectedRoom))availableRooms.push([selectedRoom,selectedRoom]);
+ fields.preferred_room_type=choices(availableRooms,selectedRoom);
  grid.append(wrap(t.room,fields.preferred_room_type));
  fields.preferred_duration_months=choices([['',t.none],['5',t.five],['10',t.ten],['12',t.twelve]],String(existing?.preferred_duration_months||''));
  grid.append(wrap(t.duration,fields.preferred_duration_months));
