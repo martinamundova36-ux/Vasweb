@@ -15,6 +15,16 @@ export function filterRegistrations(rows, query = '', status = 'pending') {
 export const residentFiles = (files, person) => files.filter(f => f.active &&
   f.tenant_id === person.tenant_id && (f.resident_id === person.id || (!f.resident_id && f.user_id === person.user_id)));
 
+const publicRoomTypeNames = {
+ 'M2':'Manzard 2',
+ 'Š1+1':'Standard 1+1',
+ 'SUI 2':'Suite 2',
+ 'D2':'De Luxe 2',
+ 'Š2':'Standard 2',
+ 'D2V':'De Luxe 2V'
+};
+const displayRoomType = code => publicRoomTypeNames[code] || code || '—';
+
 const texts = {
  sk: {search:'Hľadať podľa mena, e-mailu, izby alebo zmluvy',all:'Všetci',active:'Aktívni',inactive:'Neaktívni',count:'Zobrazené',open:'Otvoriť profil',back:'Späť na študentov',contract:'Číslo zmluvy',period:'Obdobie ubytovania',state:'Stav účtu',activeOne:'Aktívny',inactiveOne:'Neaktívny',files:'Fotografia a podpísané dokumenty',missing:'Zatiaľ nenahrané',photo:'Fotografia',rules:'Podpísaný ubytovací poriadok',gdpr:'Podpísané potvrdenie GDPR',private:'Osobný dokument',pending:'Čaká na overenie',invited:'Schválená – pozvánka vyžiadaná',rejected:'Zamietnutá',allRegistrations:'Všetky stavy',approve:'Overiť a schváliť registráciu',reject:'Zamietnuť registráciu',approveConfirm:'Overili ste meno, číslo izby, zmluvu a termín ubytovania oproti skutočnej zmluve? Schválenie aktivuje prístup študenta a vyžiada pozvánku.',rejectConfirm:'Zamietnuť túto čakajúcu registráciu?',inviteOK:'Registrácia bola schválená a server potvrdil požiadavku na e-mail. Doručenie do schránky nie je overené.',failed:'Zmenu sa nepodarilo uložiť. Obnovte prehľad pred ďalším pokusom.',emailFailed:'Pozvánku sa nepodarilo odoslať. Registrácia nie je potvrdená ako schválená. Skontrolujte odosielanie e-mailov v Supabase; neopakujte pokusy naslepo.',rate:'Odosielanie e-mailov je dočasne obmedzené. Ďalší pokus teraz neposielajte.',conflict:'Registrácia alebo členstvo sa už zmenili. Obnovte prehľad.',refresh:'Obnoviť prehľad',empty:'Žiadny záznam nezodpovedá filtru.',review:'Overiť dokument',return:'Vrátiť na opravu',note:'Poznámka k dokumentu',reviewConfirm:'Potvrdiť tento výsledok kontroly dokumentu?',approved:'Schválené',needsFix:'Vrátené na opravu',view:'Otvoriť súbor',limit:'Prehľad obsahuje najviac 1 000 dostupných záznamov. Údaje sú obmedzené na vaše zariadenie.',roleAdmin:'Správca Student House',roleReception:'Recepcia Student House',noAccess:'Táto sekcia je dostupná iba správcovi a recepcii.',fileFailed:'Dokumenty sa nepodarilo načítať. Profil zostáva dostupný.',save:'Uložiť izbu',room:'Číslo izby',email:'E-mail',noRoom:'Nepriradená',details:'Údaje registrácie',registered:'Odoslané',saving:'Ukladám…'},
  en: {search:'Search by name, email, room or contract',all:'Everyone',active:'Active',inactive:'Inactive',count:'Showing',open:'Open profile',back:'Back to residents',contract:'Contract number',period:'Accommodation period',state:'Account status',activeOne:'Active',inactiveOne:'Inactive',files:'Photo and signed documents',missing:'Not uploaded yet',photo:'Photo',rules:'Signed house rules',gdpr:'Signed GDPR acknowledgement',private:'Private document',pending:'Awaiting verification',invited:'Approved – invitation requested',rejected:'Rejected',allRegistrations:'All statuses',approve:'Verify and approve registration',reject:'Reject registration',approveConfirm:'Have you verified the name, room, contract and accommodation dates against the actual contract? Approval activates resident access and requests an invitation.',rejectConfirm:'Reject this pending registration?',inviteOK:'Registration approved; the server accepted the email request. Inbox delivery has not been verified.',failed:'Unable to save. Refresh the list before trying again.',emailFailed:'The invitation could not be sent. Approval has not been confirmed. Check Supabase email delivery; do not retry repeatedly.',rate:'Email sending is temporarily limited. Do not send another attempt now.',conflict:'This registration or membership has changed. Refresh the list.',refresh:'Refresh list',empty:'No records match this filter.',review:'Approve document',return:'Return for correction',note:'Document review note',reviewConfirm:'Confirm this document review result?',approved:'Approved',needsFix:'Returned for correction',view:'Open file',limit:'This list contains up to 1,000 accessible records, limited to your residence.',roleAdmin:'Student House administrator',roleReception:'Student House reception',noAccess:'Only administrators and reception can access this section.',fileFailed:'Unable to load documents. The profile remains available.',save:'Save room',room:'Room number',email:'Email',noRoom:'Unassigned',details:'Registration details',registered:'Submitted',saving:'Saving…'}
@@ -98,7 +108,7 @@ export async function renderStaffScreen(ctx) {
      for(const [label,value] of [['Telefón',q.telephone],['Národnosť',q.nationality],['Pohlavie',q.gender],
        ['Dátum narodenia',ctx.day(q.date_of_birth)],['Trvalá adresa',q.permanent_address],
        ['Škola',q.school],['Kontakt rodiča',q.parent_contact_email],
-       ['Typ izby – preferencia',q.preferred_room_type],['Plánovaný príchod',ctx.day(q.preferred_from)]])grid.append(field(label,value||'—'));
+       ['Typ izby – preferencia',displayRoomType(q.preferred_room_type)],['Plánovaný príchod',ctx.day(q.preferred_from)]])grid.append(field(label,value||'—'));
      box.append(summary,grid);card.append(box);
     }
     if(person.status==='invited'){
@@ -343,7 +353,7 @@ export async function renderStaffScreen(ctx) {
       [translated?'Parent contact email':'E-mail rodiča',enquiry.parent_contact_email],
       [translated?'School':'Škola',enquiry.school],
       ['IBAN',enquiry.iban],
-      [translated?'Preferred room':'Preferovaný typ izby',enquiry.preferred_room_type],
+      [translated?'Preferred room':'Preferovaný typ izby',displayRoomType(enquiry.preferred_room_type)],
       [translated?'Stay duration (months)':'Dĺžka pobytu (mesiace)',enquiry.preferred_duration_months],
       [translated?'Preferred arrival':'Preferovaný príchod',ctx.day(enquiry.preferred_from)],
       [translated?'Preferred departure':'Preferovaný odchod',ctx.day(enquiry.preferred_to)]
