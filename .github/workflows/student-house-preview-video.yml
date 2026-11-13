@@ -1,0 +1,48 @@
+name: Build Student House preview MP4
+
+on:
+  push:
+    branches:
+      - student-house-video-preview
+    paths:
+      - .github/workflows/student-house-preview-video.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-preview-video:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install conversion dependency
+        run: python -m pip install Pillow==11.3.0
+      - name: Convert source animation into a browser-ready MP4
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/sh-frames student-house-portal/assets
+          curl -fLsS --retry 3 "https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/bratislava-panorama-hq-1280.webp" -o /tmp/sh-original.webp
+          python - <<'PY'
+          from PIL import Image, ImageSequence
+          original = Image.open('/tmp/sh-original.webp')
+          assert original.is_animated and original.n_frames > 20, 'Source is not animated'
+          assert original.size == (1280, 560), f'Unexpected size: {original.size}'
+          for number, frame in enumerate(ImageSequence.Iterator(original)):
+              frame.convert('RGB').save(f'/tmp/sh-frames/{number:05d}.png', optimize=False)
+          print(f'Prepared {original.n_frames} frames at {original.size}')
+          PY
+          ffmpeg -hide_banner -loglevel error -y -framerate 10 -i /tmp/sh-frames/%05d.png -c:v libx264 -preset medium -crf 18 -pix_fmt yuv420p -movflags +faststart -an student-house-portal/assets/bratislava-preview.mp4
+          ffprobe -v error -show_entries format=duration,size:stream=codec_name,width,height -of json student-house-portal/assets/bratislava-preview.mp4
+      - name: Commit preview video only to isolated branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add student-house-portal/assets/bratislava-preview.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m "Add quality MP4 video for Student House WP preview"
+            git push origin HEAD:student-house-video-preview
+          fi
