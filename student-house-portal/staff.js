@@ -56,9 +56,7 @@ export async function renderStaffScreen(ctx) {
  filters.append(search,select);ctx.root.append(filters,count,el('p','small',w.limit));
  const results=el('div','staff-directory');ctx.root.append(results);
  const records=await ctx.list(ctx.section==='residents'?'residents':'registration_requests');
- const questionnaires=ctx.section==='registrations'?await ctx.list('registration_enquiries'):[];
  if(!ctx.isCurrent())return;
- const questionnairesByRegistration=new Map(questionnaires.map(x=>[x.registration_id,x]));
  let pendingAction=false;
  const paint=()=>{
   if(pendingAction)return;
@@ -73,43 +71,6 @@ export async function renderStaffScreen(ctx) {
    if(ctx.section==='residents')card.append(button(w.open,()=>{void profile(person);}));
    else{
     const details=el('dl','identity-fields');details.append(field(w.contract,person.contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.registered,ctx.day(person.created_at)));card.append(details);
-    const answer=questionnairesByRegistration.get(person.id);
-    if(answer){
-     const translations=({
-      sk:['Online osobný dotazník','Trvalá adresa','Dátum narodenia','Národnosť','Pohlavie','Číslo dokladu','Telefón','E-mail rodiča','Škola','IBAN','Preferovaný typ izby','Dĺžka pobytu','Preferovaný príchod','Preferovaný odchod','Zobraziť fotografiu','Načítanie fotografie sa nepodarilo.','Tieto údaje poskytol študent a pred použitím ich musí recepcia overiť.'],
-      en:['Online student questionnaire','Permanent address','Date of birth','Nationality','Sex / gender','ID / passport','Telephone','Parent email','School','IBAN','Preferred room type','Stay duration','Preferred arrival','Preferred departure','View photo','Could not load photo.','Student-submitted details; reception must verify them before use.'],
-      ru:['Онлайн-анкета','Адрес','Дата рождения','Гражданство','Пол','Документ','Телефон','Email родителя','Школа','IBAN','Тип комнаты','Срок','Заезд','Выезд','Показать фото','Не удалось загрузить фото.','Данные студента требуют проверки.'],
-      uk:['Онлайн-анкета','Адреса','Дата народження','Громадянство','Стать','Документ','Телефон','Email батьків','Школа','IBAN','Тип кімнати','Термін','Заїзд','Виїзд','Показати фото','Не вдалося завантажити фото.','Дані студента потрібно перевірити.']
-     })[ctx.lang]||[];
-     const answers=el('details','staff-form');
-     answers.append(el('summary','',translations[0]));
-     const list=el('dl','identity-fields');
-     const cells=[
-      answer.permanent_address,ctx.day(answer.date_of_birth),answer.nationality,answer.gender,
-      answer.identity_document_number,answer.telephone,answer.parent_contact_email,
-      answer.school,answer.iban,answer.preferred_room_type,
-      answer.preferred_duration_months?String(answer.preferred_duration_months):'',
-      ctx.day(answer.preferred_from),ctx.day(answer.preferred_to)
-     ];
-     cells.forEach((value,i)=>list.append(field(translations[i+1],value||'—')));
-     answers.append(list,el('p','mini-note',translations[16]));
-     if(answer.photo_object_path){
-      const photoButton=button(translations[14],async()=>{
-       photoButton.disabled=true;
-       const {data,error}=await ctx.db.functions.invoke('register-student',{body:{action:'registration_photo',registration_id:person.id}});
-       photoButton.disabled=false;
-       if(!ctx.isCurrent())return;
-       if(error||!data?.ok||!data?.url){status(translations[15],true);return;}
-       let url;try{url=new URL(data.url);}catch{status(translations[15],true);return;}
-       if(url.protocol!=='https:'||!url.hostname.endsWith('.supabase.co')){status(translations[15],true);return;}
-       let image=answers.querySelector('.staff-enquiry-photo');
-       if(!image){image=el('img','staff-enquiry-photo');image.alt=translations[14];image.style.cssText='display:block;width:135px;height:160px;object-fit:cover;border-radius:10px;border:1px solid #cbd8e8;margin:12px 0';answers.append(image);}
-       image.src=url.href;
-      });
-      answers.append(photoButton);
-     }
-     card.append(answers);
-    }
     if(person.status==='pending'){
      const actions=el('div','staff-actions');
      const approve=button(w.approve,()=>{approvalEditor(person,actions);},'');
