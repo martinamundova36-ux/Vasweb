@@ -139,8 +139,12 @@ export async function renderStudentEnquiry(ctx){
    status.textContent=review?.review_status==='needs_correction'
      ?(ctx.lang==='en'?'Corrected questionnaire submitted to reception.':'Opravený dotazník je odoslaný na kontrolu recepcii.')
      :t.saved;
-   if(!actionRow.querySelector('.enquiry-completed')){
-    const next=n('button','btn-secondary enquiry-completed',ctx.lang==='en'?'Continue to student zone':ctx.lang==='ru'?'Перейти в кабинет':ctx.lang==='uk'?'До кабінету студента':'Pokračovať do študentskej zóny');
+   if(ctx.isOnboarding){
+    // Automatically move to step three only after the questionnaire and private
+    // photograph have both been saved. The invitation is a separate email.
+    await ctx.onComplete?.();
+   }else if(!actionRow.querySelector('.enquiry-completed')){
+    const next=n('button','btn-secondary enquiry-completed',ctx.lang==='en'?'Continue to documents':ctx.lang==='ru'?'К документам':ctx.lang==='uk'?'До документів':'Pokračovať na dokumenty');
     next.type='button';next.addEventListener('click',()=>ctx.onComplete?.());
     actionRow.append(next);
    }
