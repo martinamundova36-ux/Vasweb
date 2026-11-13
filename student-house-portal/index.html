@@ -665,7 +665,7 @@ async function renderResidentDocuments(tenant,staff,own){
   }
  }
  subheading(dl('privateDocuments'));
- const residentDocs=files.filter(x=>['resident_document','contract_draft'].includes(x.kind)&&x.active&&(staff||x.user_id===user.id))
+ const residentDocs=files.filter(x=>['resident_document','contract_draft'].includes(x.kind)&&x.active&&(staff||x.kind==='resident_document')&&(staff||x.user_id===user.id))
    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
  if(residentDocs.length){
   for(const x of residentDocs){
@@ -1312,10 +1312,9 @@ $('passwordResetForm').addEventListener('submit',async e=>{
 });
 $('out').addEventListener('click',async()=>{await db.auth.signOut({scope:'local'});member=null;resident=null;await signedIn(null)});
 if(!window.supabase||!K){$('error').textContent='Login service unavailable.';return}
-db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'implicit',storageKey:portalStorageKey}});// Implicit recovery tokens can be redeemed in the mobile browser opened by Gmail.
-// PKCE recovery requires the code verifier stored in the *original* browser,
-// which is not available in Gmail's separate in-app browser.
+// Capture invitation or recovery intent before the Auth client consumes the URL token.
 const authLinkType=new URLSearchParams(window.location.hash.slice(1)).get('type');
+db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'implicit',storageKey:portalStorageKey}});
 const recoveryRedirect=authLinkType==='recovery';
 const invitationRedirect=authLinkType==='invite';
 db.auth.onAuthStateChange((event,session)=>{
@@ -1327,5 +1326,6 @@ db.auth.onAuthStateChange((event,session)=>{
   }
  }
 });
-if(new URLSearchParams(location.search).get('signin')!=='1')db.auth.getUser().then(({data})=>{if(data?.user&&!resetMode)void signedIn(data.user)});
+if(new URLSearchParams(location.search).get('signin')!=='1'&&!invitationRedirect&&!recoveryRedirect)
+ db.auth.getUser().then(({data})=>{if(data?.user&&!resetMode)void signedIn(data.user)});
 })();</script></body></html>
