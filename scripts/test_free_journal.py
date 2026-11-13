@@ -11,6 +11,14 @@ def rejected(call):
  except ValueError:return
  raise AssertionError('Unsafe publication input was accepted')
 def main():
+ from journal_images import credited_external_hero
+ from journal_review_records import digest
+ from sync_latest_journal import published
+ published_dates=published();latest_dates=sorted(published_dates.values(),reverse=True)[:5]
+ external={p.name:p.read_text() for p in ROOT.glob('blog-*.html') if credited_external_hero(p.read_text())}
+ for raw in external.values():
+  assert not credited_external_hero(raw.replace('https://www.pexels.com/license/','https://example.invalid/license/'))
+  assert not credited_external_hero(raw.replace('https://images.pexels.com/','https://example.invalid/'))
  source=next(json.loads(p.read_text()) for p in (ROOT/'journal-drafts').glob('*.json') if (json.loads(p.read_text()).get('editorial') or {}).get('scientific_review') and json.loads(p.read_text()).get('published_at'))
  # Freeze the archived review fixture date; real publication still uses today.
  m.NOW=datetime.date.fromisoformat(source["editorial"]["reviewed_at"])
@@ -53,6 +61,14 @@ def main():
   image_data['photos'].append(fixture)
   catalog.write_text(json.dumps(image_data,ensure_ascii=False,indent=2)+'\n')
   m.ROOT=test;m.publish(source)
+  for name,raw in external.items():
+   updated=(test/name).read_text()
+   assert credited_external_hero(updated)==credited_external_hero(raw)
+   assert digest(updated)==digest(raw),name+': existing editorial text changed during image preparation'
+  for listing in ('blog.html','blog-en.html'):
+   featured=__import__('re').findall(r'<a class="webu-new-story" href="([^"]+)"', (test/listing).read_text())
+   dates=[published_dates[Path(href).stem.removesuffix('-en')] for href in featured]
+   assert dates==latest_dates,listing+': newest one-off publications were displaced by old drafts'
   for lang in ('sk','en'):
    name=m.render(source,lang)[0];html=(test/name).read_text()
    assert source['editorial']['languages'][lang]['lead'] in html

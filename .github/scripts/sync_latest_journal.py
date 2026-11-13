@@ -12,7 +12,7 @@ import re
 ROOT = Path(__file__).resolve().parents[2]
 CARD = re.compile(r'<a class="(?:vw-journal-card|webu-new-story)" href="([^"]+)">.*?</a>', re.S)
 OLD_SECTION = re.compile(r'<!-- WEBU-LATEST-IN-LIST(?:-2026-11-05|:AUTOMATED) -->.*?(?=<div class="vw-journal-grid">)', re.S)
-PICTURE = re.compile(r'<picture\b.*?</picture>', re.S)
+PICTURE = re.compile(r'<picture\b.*?</picture>|<img\b[^>]*>', re.S)
 TITLE = re.compile(r'<h3>(.*?)</h3>', re.S)
 DESCRIPTION = re.compile(r'<p>(.*?)</p>', re.S)
 SMALL = re.compile(r'<small>(.*?)</small>', re.S)
@@ -57,6 +57,14 @@ def to_feature(raw, href, lang, date):
 
 def published():
     dates = {}
+    # One-off, reviewed publications have a register entry without a draft file.
+    register = ROOT / 'journal-reports/journal-audit-register.json'
+    for article in json.loads(register.read_text(encoding='utf-8'))['articles']:
+        if article.get('kind') == 'technical_fixture':
+            continue
+        for row in article.get('languages', {}).values():
+            stem = Path(row['path']).stem.removesuffix('-en')
+            dates[stem] = row['published_at'][:10]
     for path in (ROOT / 'journal-drafts').glob('*.json'):
         source = json.loads(path.read_text(encoding='utf-8'))
         if source.get('published_at') and source.get('editorial'):

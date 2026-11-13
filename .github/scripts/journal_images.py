@@ -3,6 +3,7 @@
 from pathlib import Path
 from urllib.parse import urlsplit, urlencode
 from html import escape, unescape
+from html.parser import HTMLParser
 import hashlib,io,json,re,datetime as dt,urllib.request,sys
 ROOT=Path(__file__).resolve().parents[2]
 SITE='https://www.webu.sk/'
@@ -176,12 +177,32 @@ def hero(photo,lang):
 def stylesheet(raw):
  raw=re.sub(r'<link\b[^>]*href=["\']/journal-images\.css["\'][^>]*>','',raw)
  return raw.replace('</head>','<link rel="stylesheet" href="/journal-images.css"></head>',1)
+def credited_external_hero(raw):
+ """Recognize an individually credited Pexels hero without allocating a new photo."""
+ match=re.search(r'<figure class="webu-hero">.*?</figure>',raw,re.S)
+ if not match:return None
+ class ImageMetadata(HTMLParser):
+  def __init__(self):super().__init__();self.images=[];self.links=[]
+  def handle_starttag(self,tag,attrs):
+   attrs=dict(attrs)
+   if tag=='img':self.images.append(attrs)
+   if tag=='a':self.links.append(attrs.get('href',''))
+ parsed=ImageMetadata();parsed.feed(match.group(0))
+ if len(parsed.images)!=1:return None
+ image=parsed.images[0];photo=re.fullmatch(r'https://images\.pexels\.com/photos/(\d+)/[^?]+(?:\?.*)?',image.get('src',''))
+ if not photo or not image.get('alt','').strip():return None
+ if any(image.get(k)!=v for k,v in {'width':'1280','height':'720','loading':'eager','fetchpriority':'high'}.items()):return None
+ if 'https://www.pexels.com/license/' not in parsed.links:return None
+ if not any(re.fullmatch(r'https://www\.pexels\.com/photo/[^/]*-'+photo[1]+r'/',link) for link in parsed.links):return None
+ return photo[1]
 def sync(root=ROOT):
  data=load(root);count=0
  for page in sorted(root.glob('blog-*.html')):
   if page.name=='blog-en.html':continue
   raw=page.read_text();photo=photo_for(page.name,data)
-  if not photo:raise ValueError(page.name+': needs licensed image assignment')
+  if not photo:
+   if credited_external_hero(raw):count+=1;continue
+   raise ValueError(page.name+': needs licensed image assignment or individually credited Pexels hero')
   validate_photo(photo,root);lang='en' if page.name.endswith('-en.html') else 'sk'
   raw=re.sub(r'<!-- WEBU-IMAGE-START -->.*?<!-- WEBU-IMAGE-END -->','',raw,flags=re.S)
   # Replace only the known legacy opening image, preserving editorial text.
@@ -200,6 +221,11 @@ def sync(root=ROOT):
     # individually sourced Pexels pictures, outside the newer image catalog.
     if name.startswith('journal-2026-11-05-') and '<picture' in match.group(0):
      return match.group(0)
+    article=root/name
+    if article.is_file():
+     external=credited_external_hero(article.read_text())
+     if external and re.search(r'https://images\.pexels\.com/photos/'+external+r'/',match.group(0)):
+      return match.group(0)
     raise ValueError('Card image missing: '+name)
    text=match.group(0);text=re.sub(r'<picture\b.*?</picture>|<img\b[^>]*>','',text,flags=re.S)
    end=text.index('>')+1;return text[:end]+picture(photo,lang)+text[end:]
@@ -209,6 +235,9 @@ def sync(root=ROOT):
    opening=match.group(1)
    href=re.search(r'href="([^"]+)"',opening)
    photo=photo_for(href.group(1),data) if href else None
+   if not photo and href:
+    article=root/urlsplit(href.group(1)).path.lstrip('/')
+    if article.is_file() and credited_external_hero(article.read_text()):return match.group(0).removesuffix('</a>')
    if not photo:photo=photo_for('blog-luxus.html',data)
    return opening+picture(photo,lang,True)+match.group(2)
   raw=re.sub(r'(<a\b[^>]*class="vw-journal-cover"[^>]*>)(?:<picture\b.*?</picture>|<img\b[^>]*>)(.*?)</a>',lambda m:cover(m)+'</a>',raw,flags=re.S)
