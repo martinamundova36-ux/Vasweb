@@ -497,10 +497,10 @@ function navigate(next){tab=next;renderTabs();void renderPanel()}
 const icons={account:'🔒',enquiry:'▤',profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉'};
 
 const docLabels = {
- sk:{rules:"Ubytovací poriadok",gdpr:"Informácie o spracúvaní osobných údajov (GDPR)",signedRules:"Podpísaný ubytovací poriadok",signedGdpr:"Podpísané potvrdenie o oboznámení sa s GDPR",load:"Stiahnuť",upload:"Nahrať súbor",photo:"Profilová fotografia",profileInfo:"Overené údaje o tvojom ubytovaní",first:"Meno",last:"Priezvisko",room:"Číslo izby",email:"E-mail",noRoom:"Izba zatiaľ nie je priradená",manual:"Údaje potvrdzuje recepcia. Ak niektorý údaj nesedí, požiadaj o opravu cez Požiadavky.",photoHelp:"Fotografia JPG alebo PNG, maximálne 3 MB.",uploadHelp:"Nahraj podpísaný dokument ako PDF, JPG alebo PNG, maximálne 6 MB.",wait:"Čaká na kontrolu",approved:"Schválené",rejected:"Vrátené na opravu",missing:"Dokument zatiaľ recepcia nenahrala.",privacy:"Osobné údaje, fotografie a podpisy sú prístupné iba oprávneným osobám. Podrobnosti v informáciách GDPR.",uploadTemplate:"Nahrať aktuálne PDF",signedReceived:"Podpísané dokumenty od študentov",staffProfile:"Fotografie študentov",downloadForReview:"Zobraziť odovzdaný dokument",reviewApprove:"Schváliť",reviewReject:"Vrátiť na opravu",reviewNote:"Poznámka pri kontrole",viewPhoto:"Zobraziť fotografiu",requestCorrection:"Požiadať o opravu údajov",fileError:"Nahratie súboru zlyhalo. Skontroluj formát, veľkosť a oprávnenie.",fileSuccess:"Súbor bol bezpečne odoslaný.",adminTemplates:"Dokumenty na stiahnutie pre študentov",privateDocuments:"Ďalšie osobné dokumenty"},
- en:{rules:"House rules",gdpr:"Personal data information (GDPR)",signedRules:"Signed house rules",signedGdpr:"Signed GDPR acknowledgement",load:"Download",upload:"Upload file",photo:"Profile photo",profileInfo:"Your verified accommodation details",first:"First name",last:"Last name",room:"Room number",email:"Email",noRoom:"Room not yet assigned",manual:"Reception verifies these details. If something is incorrect, send a correction request.",photoHelp:"JPG or PNG photo, up to 3 MB.",uploadHelp:"Upload the signed document as PDF, JPG or PNG, up to 6 MB.",wait:"Pending review",approved:"Approved",rejected:"Correction needed",missing:"Reception has not uploaded this document yet.",privacy:"Your data, photos and signatures are available only to authorized staff. See the GDPR notice.",uploadTemplate:"Upload current PDF",signedReceived:"Signed documents from residents",staffProfile:"Resident photos",downloadForReview:"View submitted document",reviewApprove:"Approve",reviewReject:"Return for correction",reviewNote:"Review note",viewPhoto:"View photo",requestCorrection:"Request correction",fileError:"Upload failed. Check file type, size and access.",fileSuccess:"File uploaded securely.",adminTemplates:"Documents for student download",privateDocuments:"Other personal documents"},
- ru:{rules:"Правила проживания",gdpr:"Информация об обработке данных (GDPR)",signedRules:"Подписанные правила проживания",signedGdpr:"Подписанное ознакомление с GDPR",load:"Скачать",upload:"Загрузить",photo:"Фото профиля",profileInfo:"Проверенные данные проживания",first:"Имя",last:"Фамилия",room:"Номер комнаты",email:"Эл. почта",noRoom:"Комната пока не назначена",manual:"Данные подтверждает ресепшен. Для исправлений отправьте заявку.",photoHelp:"Фото JPG или PNG, максимум 3 МБ.",uploadHelp:"Загрузите подписанный PDF, JPG или PNG, максимум 6 МБ.",wait:"Ожидает проверки",approved:"Подтверждено",rejected:"Нужно исправить",missing:"Ресепшен пока не загрузил документ.",privacy:"Фото, подписи и личные данные доступны только уполномоченным сотрудникам.",uploadTemplate:"Загрузить актуальный PDF",signedReceived:"Подписанные документы",staffProfile:"Фото жильцов",downloadForReview:"Открыть документ",reviewApprove:"Подтвердить",reviewReject:"Вернуть на исправление",reviewNote:"Примечание",viewPhoto:"Открыть фото",requestCorrection:"Запросить исправление",fileError:"Ошибка загрузки. Проверьте формат и размер.",fileSuccess:"Файл загружен.",adminTemplates:"Документы для скачивания",privateDocuments:"Другие личные документы"},
- uk:{rules:"Правила проживання",gdpr:"Інформація про персональні дані (GDPR)",signedRules:"Підписані правила проживання",signedGdpr:"Підтвердження ознайомлення з GDPR",load:"Завантажити",upload:"Завантажити файл",photo:"Фото профілю",profileInfo:"Перевірені дані проживання",first:"Ім’я",last:"Прізвище",room:"Номер кімнати",email:"Електронна пошта",noRoom:"Кімнату ще не призначено",manual:"Дані підтверджує рецепція. Для виправлень надішліть запит.",photoHelp:"Фото JPG або PNG, до 3 МБ.",uploadHelp:"Завантаж підписаний PDF, JPG або PNG, до 6 МБ.",wait:"Очікує перевірки",approved:"Схвалено",rejected:"Потребує виправлення",missing:"Рецепція ще не завантажила документ.",privacy:"Фото, підписи й особисті дані доступні тільки уповноваженим працівникам.",uploadTemplate:"Завантажити актуальний PDF",signedReceived:"Підписані документи",staffProfile:"Фото мешканців",downloadForReview:"Переглянути документ",reviewApprove:"Схвалити",reviewReject:"Повернути на виправлення",reviewNote:"Примітка",viewPhoto:"Переглянути фото",requestCorrection:"Попросити виправлення",fileError:"Помилка завантаження. Перевір формат і розмір.",fileSuccess:"Файл завантажено.",adminTemplates:"Документи для завантаження",privateDocuments:"Інші особисті документи"}
+ sk:{contract:"Ubytovacia zmluva",signedContract:"Podpísaná ubytovacia zmluva",onboarding:"Krok 3 z 3 – dokumenty na podpis",contractNeeded:"Individuálnu zmluvu ešte recepcia nenahrala.",contractUpload:"Nahrať individuálnu zmluvu (PDF)",rules:"Ubytovací poriadok",gdpr:"Informácie o spracúvaní osobných údajov (GDPR)",signedRules:"Podpísaný ubytovací poriadok",signedGdpr:"Podpísané potvrdenie o oboznámení sa s GDPR",load:"Stiahnuť",upload:"Nahrať súbor",photo:"Profilová fotografia",profileInfo:"Overené údaje o tvojom ubytovaní",first:"Meno",last:"Priezvisko",room:"Číslo izby",email:"E-mail",noRoom:"Izba zatiaľ nie je priradená",manual:"Údaje potvrdzuje recepcia. Ak niektorý údaj nesedí, požiadaj o opravu cez Požiadavky.",photoHelp:"Fotografia JPG alebo PNG, maximálne 3 MB.",uploadHelp:"Nahraj podpísaný dokument ako PDF, JPG alebo PNG, maximálne 6 MB.",wait:"Čaká na kontrolu",approved:"Schválené",rejected:"Vrátené na opravu",missing:"Dokument zatiaľ recepcia nenahrala.",privacy:"Osobné údaje, fotografie a podpisy sú prístupné iba oprávneným osobám. Podrobnosti v informáciách GDPR.",uploadTemplate:"Nahrať aktuálne PDF",signedReceived:"Podpísané dokumenty od študentov",staffProfile:"Fotografie študentov",downloadForReview:"Zobraziť odovzdaný dokument",reviewApprove:"Schváliť",reviewReject:"Vrátiť na opravu",reviewNote:"Poznámka pri kontrole",viewPhoto:"Zobraziť fotografiu",requestCorrection:"Požiadať o opravu údajov",fileError:"Nahratie súboru zlyhalo. Skontroluj formát, veľkosť a oprávnenie.",fileSuccess:"Súbor bol bezpečne odoslaný.",adminTemplates:"Dokumenty na stiahnutie pre študentov",privateDocuments:"Ďalšie osobné dokumenty"},
+ en:{contract:"Accommodation contract",signedContract:"Signed accommodation contract",onboarding:"Step 3 of 3 – sign and return documents",contractNeeded:"Reception has not uploaded your contract yet.",contractUpload:"Upload personal contract (PDF)",rules:"House rules",gdpr:"Personal data information (GDPR)",signedRules:"Signed house rules",signedGdpr:"Signed GDPR acknowledgement",load:"Download",upload:"Upload file",photo:"Profile photo",profileInfo:"Your verified accommodation details",first:"First name",last:"Last name",room:"Room number",email:"Email",noRoom:"Room not yet assigned",manual:"Reception verifies these details. If something is incorrect, send a correction request.",photoHelp:"JPG or PNG photo, up to 3 MB.",uploadHelp:"Upload the signed document as PDF, JPG or PNG, up to 6 MB.",wait:"Pending review",approved:"Approved",rejected:"Correction needed",missing:"Reception has not uploaded this document yet.",privacy:"Your data, photos and signatures are available only to authorized staff. See the GDPR notice.",uploadTemplate:"Upload current PDF",signedReceived:"Signed documents from residents",staffProfile:"Resident photos",downloadForReview:"View submitted document",reviewApprove:"Approve",reviewReject:"Return for correction",reviewNote:"Review note",viewPhoto:"View photo",requestCorrection:"Request correction",fileError:"Upload failed. Check file type, size and access.",fileSuccess:"File uploaded securely.",adminTemplates:"Documents for student download",privateDocuments:"Other personal documents"},
+ ru:{contract:"Договор проживания",signedContract:"Подписанный договор",onboarding:"Шаг 3 из 3 – документы",contractNeeded:"Договор ещё не загружен.",contractUpload:"Загрузить договор (PDF)",rules:"Правила проживания",gdpr:"Информация об обработке данных (GDPR)",signedRules:"Подписанные правила проживания",signedGdpr:"Подписанное ознакомление с GDPR",load:"Скачать",upload:"Загрузить",photo:"Фото профиля",profileInfo:"Проверенные данные проживания",first:"Имя",last:"Фамилия",room:"Номер комнаты",email:"Эл. почта",noRoom:"Комната пока не назначена",manual:"Данные подтверждает ресепшен. Для исправлений отправьте заявку.",photoHelp:"Фото JPG или PNG, максимум 3 МБ.",uploadHelp:"Загрузите подписанный PDF, JPG или PNG, максимум 6 МБ.",wait:"Ожидает проверки",approved:"Подтверждено",rejected:"Нужно исправить",missing:"Ресепшен пока не загрузил документ.",privacy:"Фото, подписи и личные данные доступны только уполномоченным сотрудникам.",uploadTemplate:"Загрузить актуальный PDF",signedReceived:"Подписанные документы",staffProfile:"Фото жильцов",downloadForReview:"Открыть документ",reviewApprove:"Подтвердить",reviewReject:"Вернуть на исправление",reviewNote:"Примечание",viewPhoto:"Открыть фото",requestCorrection:"Запросить исправление",fileError:"Ошибка загрузки. Проверьте формат и размер.",fileSuccess:"Файл загружен.",adminTemplates:"Документы для скачивания",privateDocuments:"Другие личные документы"},
+ uk:{contract:"Договір проживання",signedContract:"Підписаний договір",onboarding:"Крок 3 із 3 – документи",contractNeeded:"Договір ще не завантажено.",contractUpload:"Завантажити договір (PDF)",rules:"Правила проживання",gdpr:"Інформація про персональні дані (GDPR)",signedRules:"Підписані правила проживання",signedGdpr:"Підтвердження ознайомлення з GDPR",load:"Завантажити",upload:"Завантажити файл",photo:"Фото профілю",profileInfo:"Перевірені дані проживання",first:"Ім’я",last:"Прізвище",room:"Номер кімнати",email:"Електронна пошта",noRoom:"Кімнату ще не призначено",manual:"Дані підтверджує рецепція. Для виправлень надішліть запит.",photoHelp:"Фото JPG або PNG, до 3 МБ.",uploadHelp:"Завантаж підписаний PDF, JPG або PNG, до 6 МБ.",wait:"Очікує перевірки",approved:"Схвалено",rejected:"Потребує виправлення",missing:"Рецепція ще не завантажила документ.",privacy:"Фото, підписи й особисті дані доступні тільки уповноваженим працівникам.",uploadTemplate:"Завантажити актуальний PDF",signedReceived:"Підписані документи",staffProfile:"Фото мешканців",downloadForReview:"Переглянути документ",reviewApprove:"Схвалити",reviewReject:"Повернути на виправлення",reviewNote:"Примітка",viewPhoto:"Переглянути фото",requestCorrection:"Попросити виправлення",fileError:"Помилка завантаження. Перевір формат і розмір.",fileSuccess:"Файл завантажено.",adminTemplates:"Документи для завантаження",privateDocuments:"Інші особисті документи"}
 };
 const dl=k=>(docLabels[lang]||docLabels.sk)[k]||docLabels.sk[k]||k;
 const privacyUrls={sk:'https://studenthousebratislavanew.wordpress.com/gdpr/',en:'https://studenthousebratislavanew.wordpress.com/en/privacy-policy/',ru:'https://studenthousebratislavanew.wordpress.com/ru/privacy-policy/',uk:'https://studenthousebratislavanew.wordpress.com/ua/privacy-policy/'};
@@ -514,7 +514,7 @@ async function fileLink(id,tenant,openInline=false){
 }
 async function sendFile(tenant,kind,file,button,residentId=null){
  if(!file){alert(dl('fileError'));return false;}
- const allowed=kind==='profile_photo'?['image/jpeg','image/png']:kind.endsWith('_template')?['application/pdf']:['application/pdf','image/jpeg','image/png'];
+ const allowed=kind==='profile_photo'?['image/jpeg','image/png']:(kind.endsWith('_template')||kind==='contract_draft')?['application/pdf']:['application/pdf','image/jpeg','image/png'];
  const maximum=kind==='profile_photo'?3000000:6000000;
  if(!allowed.includes(file.type)||file.size>maximum||!file.size){alert(dl('fileError'));return false;}
  button.disabled=true;
@@ -590,16 +590,28 @@ async function renderResidentDocuments(tenant,staff,own){
  heading(dl('adminTemplates'),dl('privacy'));
  const files=await list('residence_portal_files');
  const grid=make('div','docgrid');
+ if(!staff){
+  $('records').append(make('h3','section-subtitle',dl('onboarding')));
+  const contract=files.filter(x=>x.kind==='contract_draft'&&x.active&&x.user_id===user.id)
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+  const c=make('div','file-item');c.append(make('h4','',dl('contract')));
+  if(contract){
+   c.append(make('p','small',contract.original_name));
+   const load=make('button','btn-secondary',dl('load'));load.type='button';
+   load.addEventListener('click',()=>{void fileLink(contract.id,tenant)});c.append(load);
+  }else c.append(make('p','muted',dl('contractNeeded')));
+  grid.append(c);
+ }
  grid.append(templateCard(tenant,files,'rules_template',dl('rules'),staff));
  grid.append(templateCard(tenant,files,'gdpr_template',dl('gdpr'),staff));
  $('records').append(grid);
  if(!staff){
   if(!own){empty(dl('manual'));return;}
   subheading(dl('signedReceived'));
-  const submissions=files.filter(x=>x.user_id===user.id&&['signed_rules','signed_gdpr'].includes(x.kind))
+  const submissions=files.filter(x=>x.user_id===user.id&&['signed_contract','signed_rules','signed_gdpr'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   const cards=make('div','docgrid');
-  for(const [kind,title] of [['signed_rules',dl('signedRules')],['signed_gdpr',dl('signedGdpr')]]){
+  for(const [kind,title] of [['signed_contract',dl('signedContract')],['signed_rules',dl('signedRules')],['signed_gdpr',dl('signedGdpr')]]){
    const c=make('div','file-item');c.append(make('h4','',title));
    const found=submissions.filter(x=>x.kind===kind);
    if(found.length){
@@ -619,13 +631,13 @@ async function renderResidentDocuments(tenant,staff,own){
   $('records').append(cards);
  }else{
   subheading(dl('signedReceived'));
-  const submissions=files.filter(x=>['signed_rules','signed_gdpr'].includes(x.kind))
+  const submissions=files.filter(x=>['signed_contract','signed_rules','signed_gdpr'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
   const people=await list('residents');
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
-   const box=row(name+' – '+dl(x.kind==='signed_rules'?'signedRules':'signedGdpr'),day(x.created_at)+' · '+x.original_name,readableStatus(x.review_status));
+   const box=row(name+' – '+dl(x.kind==='signed_contract'?'signedContract':x.kind==='signed_rules'?'signedRules':'signedGdpr'),day(x.created_at)+' · '+x.original_name,readableStatus(x.review_status));
    const actions=make('div','staff-actions');
    const download=make('button','btn-secondary',dl('downloadForReview'));download.type='button';download.addEventListener('click',()=>{void fileLink(x.id,tenant)});actions.append(download);
    if(x.review_status==='pending'||x.review_status==='rejected'){
@@ -643,7 +655,7 @@ async function renderResidentDocuments(tenant,staff,own){
   }
  }
  subheading(dl('privateDocuments'));
- const residentDocs=files.filter(x=>x.kind==='resident_document'&&x.active&&(staff||x.user_id===user.id))
+ const residentDocs=files.filter(x=>['resident_document','contract_draft'].includes(x.kind)&&x.active&&(staff||x.user_id===user.id))
    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
  if(residentDocs.length){
   for(const x of residentDocs){
@@ -668,6 +680,20 @@ async function renderResidentDocuments(tenant,staff,own){
     if(!input.files?.length)return;
     if(await sendFile(tenant,'resident_document',input.files[0],send,owner.value))void renderPanel();
    });
+   $('records').append(form);
+  }
+ }
+ if(staff){
+  const verified=await list('residents');
+  if(verified.length){
+   const form=make('form','staff-form'),owner=selector(verified,'id',p=>p.full_name+' · '+(p.verified_room_number||'—'));
+   const input=make('input');input.type='file';input.accept='application/pdf';input.required=true;
+   const submit=make('button','',dl('contractUpload'));submit.type='submit';
+   form.append(make('h4','',dl('contractUpload')),
+    make('p','muted',lang==='en'?'Only the chosen student and reception can download this PDF.':'Túto zmluvu uvidí iba vybraný študent a recepcia.'),
+    labeled(fin('resident'),owner),input,submit);
+   form.addEventListener('submit',async e=>{e.preventDefault();if(!input.files?.length)return;
+    if(await sendFile(tenant,'contract_draft',input.files[0],submit,owner.value))void renderPanel();});
    $('records').append(form);
   }
  }
@@ -797,7 +823,7 @@ async function renderPanel(){
    const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-return-review2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
-    onComplete:()=>navigate('overview'),
+    onComplete:()=>navigate('documents'),
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='enquiry'});
    return;
   }
