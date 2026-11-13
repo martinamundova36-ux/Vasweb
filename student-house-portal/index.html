@@ -1382,14 +1382,17 @@ db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:
 const recoveryRedirect=authLinkType==='recovery';
 const invitationRedirect=authLinkType==='invite';
 db.auth.onAuthStateChange((event,session)=>{
- if(session && (event==='PASSWORD_RECOVERY'||((event==='INITIAL_SESSION'||event==='SIGNED_IN')&&(recoveryRedirect||invitationRedirect)))){
+ if(session && (event==='PASSWORD_RECOVERY'||((event==='INITIAL_SESSION'||event==='SIGNED_IN')&&recoveryRedirect))){
   showPasswordRecovery();
   // Remove one-time recovery tokens from the address bar after Supabase accepted them.
   if(location.hash&&location.hash.includes('access_token=')){
    history.replaceState(null,'',location.pathname+location.search);
   }
  }
+ if(session && invitationRedirect && !recoveryRedirect && (event==='SIGNED_IN'||event==='INITIAL_SESSION')){
+  if(!resetMode)void signedIn(session.user);
+ }
 });
-if(new URLSearchParams(location.search).get('signin')!=='1'&&!invitationRedirect&&!recoveryRedirect)
+if(new URLSearchParams(location.search).get('signin')!=='1'&&!recoveryRedirect)
  db.auth.getUser().then(({data})=>{if(data?.user&&!resetMode)void signedIn(data.user)});
 })();</script></body></html>
