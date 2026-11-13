@@ -1,0 +1,63 @@
+name: Render premium Student House collage video
+
+on:
+  push:
+    branches:
+      - student-house-video-preview
+    paths:
+      - .github/workflows/student-house-premium-collage.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render-premium:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install video dependencies
+        run: python -m pip install pillow==11.3.0 imageio-ffmpeg==0.6.0
+      - name: Build cinematic web MP4 using original animated footage
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/sh-premium-frames student-house-portal/assets
+          curl -fL --retry 3 --retry-delay 2 \
+            "https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-premium-video-source.webp" \
+            -o /tmp/sh-original-animation.webp
+          python - <<'PY'
+          from PIL import Image, ImageSequence
+          original=Image.open('/tmp/sh-original-animation.webp')
+          assert original.is_animated and original.n_frames>=250, "Source does not include original motion"
+          assert original.size==(848,484), f"Unexpected source dimensions {original.size}"
+          for n, frame in enumerate(ImageSequence.Iterator(original)):
+              frame.convert('RGB').save(f'/tmp/sh-premium-frames/{n:05d}.png')
+          print(f'Exported {original.n_frames} original animation frames')
+          PY
+          FFMPEG="$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')"
+          "$FFMPEG" -hide_banner -loglevel error -y -framerate 20 \
+            -i /tmp/sh-premium-frames/%05d.png \
+            -filter_complex "[0:v]split=2[bg][fg];[bg]scale=1920:820:force_original_aspect_ratio=increase:flags=lanczos,crop=1920:820,boxblur=28:2,eq=brightness=-0.025:saturation=0.90[back];[fg]scale=1436:820:flags=lanczos,hqdn3d=0.8:0.7:1.5:1.2,unsharp=5:5:0.55:3:3:0.15,eq=contrast=1.045:saturation=1.055[front];[back][front]overlay=(W-w)/2:0:format=auto,format=yuv420p[out]" \
+            -map "[out]" -an -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p \
+            -movflags +faststart -g 40 -keyint_min 40 \
+            student-house-portal/assets/student-house-premium-collage-1920.mp4
+          "$FFMPEG" -hide_banner -loglevel error -y \
+            -ss 4 -i student-house-portal/assets/student-house-premium-collage-1920.mp4 \
+            -frames:v 1 -q:v 2 \
+            student-house-portal/assets/student-house-premium-collage-poster.jpg
+          test -s student-house-portal/assets/student-house-premium-collage-1920.mp4
+          test -s student-house-portal/assets/student-house-premium-collage-poster.jpg
+          file student-house-portal/assets/student-house-premium-collage-1920.mp4
+          ls -lh student-house-portal/assets/student-house-premium-collage*
+      - name: Save video on isolated preview branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add student-house-portal/assets/student-house-premium-collage-1920.mp4 student-house-portal/assets/student-house-premium-collage-poster.jpg
+          if ! git diff --cached --quiet; then
+            git commit -m "Render premium full-frame student house video for preview"
+            git push origin HEAD:student-house-video-preview
+          fi
