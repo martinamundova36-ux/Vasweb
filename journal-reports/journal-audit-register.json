@@ -6314,6 +6314,881 @@
           }
         ]
       }
+    },
+    {
+      "id": "blog-journal-2026-11-13-ai-v-malej-firme",
+      "kind": "research_commentary",
+      "review_status": "ai_source_excerpt_claim_comparison",
+      "reviewed_at": "2026-11-13",
+      "reviewer": "OpenAI Codex (AI-assisted source comparison; not human peer review)",
+      "source_records": [
+        {
+          "id": "primary-study",
+          "url": "https://doi.org/10.1108/EMJB-01-2026-0061",
+          "publisher_url": "https://www.emerald.com/emjb/article/doi/10.1108/EMJB-01-2026-0061/1389065/Activate-legitimize-embed-enacting-generative",
+          "apa7": "Siljeur, J., Schulte, N., & Kanbach, D. (2026). Activate, legitimize, embed: enacting generative artificial intelligence adoption in small and medium-sized enterprises. EuroMed Journal of Business. https://doi.org/10.1108/EMJB-01-2026-0061 https://doi.org/10.1108/EMJB-01-2026-0061",
+          "access": "abstract",
+          "accessed_at": "2026-11-13",
+          "evidence_summary": "Publisher abstract: 31 SME interviews, primarily Germany/France with South Africa/Vietnam; trust activation, legitimisation and embedding."
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {
+        "scope": "Primary-source bibliography and selected publisher sections compared against both language pages; no complete full-text review, data reanalysis or independent scientific peer review."
+      },
+      "results": [
+        "Publisher abstract: 31 SME interviews, primarily Germany/France with South Africa/Vietnam; trust activation, legitimisation and embedding."
+      ],
+      "practical_recommendations": "WEBU editorial suggestions are distinguished from empirical findings; efficacy of these suggestions was not verified.",
+      "image": "Existing attributed Pexels editorial image; no image changes.",
+      "publication": "existing_owner_published_article",
+      "notes": [
+        "Backfilled after an actual AI-assisted source comparison on 2026-11-13. Publication dates and visible content retained.",
+        "Checks cover stated samples, design, main associations, causal caveats and SK/EN correspondence. They do not certify scientific validity."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-2026-11-13-ai-v-malej-firme.html",
+          "title": "Ako zaviesť generatívnu AI do malej firmy bez chaosu",
+          "description": "Nový výskum identifikuje tri fázy prijímania generatívnej AI malými firmami. Čo z toho vyplýva pre slovenských podnikateľov?",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "e2d7418f4770bcf8db438e8569b0795c5b68632c8c985f9835b74ac308df4b88"
+        },
+        "en": {
+          "path": "blog-journal-2026-11-13-ai-v-malej-firme-en.html",
+          "title": "How Small Businesses Can Adopt Generative AI Without Chaos",
+          "description": "A 2026 qualitative study identifies three stages of generative AI adoption in SMEs. Evidence and practical recommendations.",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "fa243ea11c541a247b34da9741c8337a392805817c555e329658742e28faac6b"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Ako bol výskum postavený",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract: 31 SME interviews, primarily Germany/France with South Africa/Vietnam; trust activation, legitimisation and embedding."
+          },
+          {
+            "section": "Tri kroky, ktoré sa opakujú",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract: 31 SME interviews, primarily Germany/France with South Africa/Vietnam; trust activation, legitimisation and embedding."
+          },
+          {
+            "section": "Čo odporúča WEBU",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Technológia nie je celý systém",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limity a záver",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Vedecký zdroj",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ],
+        "en": [
+          {
+            "section": "How the research was conducted",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract: 31 SME interviews, primarily Germany/France with South Africa/Vietnam; trust activation, legitimisation and embedding."
+          },
+          {
+            "section": "Three connected stages",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract: 31 SME interviews, primarily Germany/France with South Africa/Vietnam; trust activation, legitimisation and embedding."
+          },
+          {
+            "section": "A practical WEBU approach",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Tools are not the whole system",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limits and conclusion",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Research source",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-2026-11-13-dovera-v-online-recenzie",
+      "kind": "research_commentary",
+      "review_status": "ai_source_excerpt_claim_comparison",
+      "reviewed_at": "2026-11-13",
+      "reviewer": "OpenAI Codex (AI-assisted source comparison; not human peer review)",
+      "source_records": [
+        {
+          "id": "primary-study",
+          "url": "https://doi.org/10.1177/21582440261474620",
+          "publisher_url": "https://journals.sagepub.com/doi/full/10.1177/21582440261474620",
+          "apa7": "Nguyen, D. N., & Bui, T. T. (2026). Information literacy and trust in online reviews: Evidence from restaurant choice decisions. SAGE Open. https://doi.org/10.1177/21582440261474620 https://doi.org/10.1177/21582440261474620",
+          "access": "selected_full_text_sections",
+          "accessed_at": "2026-11-13",
+          "evidence_summary": "Publisher sample and results sections: 479 respondents; positive IL–trust and trust–restaurant-choice paths; direct and indirect associations support partial mediation."
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {
+        "scope": "Primary-source bibliography and selected publisher sections compared against both language pages; no complete full-text review, data reanalysis or independent scientific peer review."
+      },
+      "results": [
+        "Publisher sample and results sections: 479 respondents; positive IL–trust and trust–restaurant-choice paths; direct and indirect associations support partial mediation."
+      ],
+      "practical_recommendations": "WEBU editorial suggestions are distinguished from empirical findings; efficacy of these suggestions was not verified.",
+      "image": "Existing attributed Pexels editorial image; no image changes.",
+      "publication": "existing_owner_published_article",
+      "notes": [
+        "Backfilled after an actual AI-assisted source comparison on 2026-11-13. Publication dates and visible content retained.",
+        "Checks cover stated samples, design, main associations, causal caveats and SK/EN correspondence. They do not certify scientific validity."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-2026-11-13-dovera-v-online-recenzie.html",
+          "title": "Dôvera v online recenzie: Prečo nestačí päť hviezdičiek",
+          "description": "Štúdia 479 zákazníkov spája informačnú gramotnosť s dôverou v online recenzie. Čo z toho vyplýva pre firmy?",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "98df3868f330001cf190c1d80898f48aee84b2d46fb6a4831613555a0b19fe6d"
+        },
+        "en": {
+          "path": "blog-journal-2026-11-13-dovera-v-online-recenzie-en.html",
+          "title": "Trust in Online Reviews: Why Five Stars Are Not Enough",
+          "description": "Research involving 479 restaurant customers links information literacy with online review trust and choice.",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "cf3c86b0c1c6d9b423d84e8fb908377e930aa58c0919a48600b5e913c670131c"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "O čo išlo vo výskume",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher sample and results sections: 479 respondents; positive IL–trust and trust–restaurant-choice paths; direct and indirect associations support partial mediation."
+          },
+          {
+            "section": "Čo vyplýva z výsledkov",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher sample and results sections: 479 respondents; positive IL–trust and trust–restaurant-choice paths; direct and indirect associations support partial mediation."
+          },
+          {
+            "section": "Ako budovať dôveryhodný web",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Čo merať v praxi",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limity a záver",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Vedecký zdroj",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ],
+        "en": [
+          {
+            "section": "What the study examined",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher sample and results sections: 479 respondents; positive IL–trust and trust–restaurant-choice paths; direct and indirect associations support partial mediation."
+          },
+          {
+            "section": "Main findings",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher sample and results sections: 479 respondents; positive IL–trust and trust–restaurant-choice paths; direct and indirect associations support partial mediation."
+          },
+          {
+            "section": "Building a trustworthy website",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "What to measure",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limits and conclusion",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Research source",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-2026-11-13-financna-gramotnost-v-podnikani",
+      "kind": "research_commentary",
+      "review_status": "ai_source_excerpt_claim_comparison",
+      "reviewed_at": "2026-11-13",
+      "reviewer": "OpenAI Codex (AI-assisted source comparison; not human peer review)",
+      "source_records": [
+        {
+          "id": "primary-study",
+          "url": "https://doi.org/10.1007/s44217-026-01547-1",
+          "publisher_url": "https://link.springer.com/article/10.1007/s44217-026-01547-1",
+          "apa7": "Purnomo, B. R., Ircan, W. H., & El Aziz, H. A. (2026). Practicing entrepreneurship builds financial literacy in undergraduate students. Discover Education, 5, 547. https://doi.org/10.1007/s44217-026-01547-1 https://doi.org/10.1007/s44217-026-01547-1",
+          "access": "selected_full_text_sections",
+          "accessed_at": "2026-11-13",
+          "evidence_summary": "Publisher methods/results: 288 Indonesian undergraduates; self-report questionnaire, group comparison and adjusted ordered probit model; higher scores with entrepreneurial experience."
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {
+        "scope": "Primary-source bibliography and selected publisher sections compared against both language pages; no complete full-text review, data reanalysis or independent scientific peer review."
+      },
+      "results": [
+        "Publisher methods/results: 288 Indonesian undergraduates; self-report questionnaire, group comparison and adjusted ordered probit model; higher scores with entrepreneurial experience."
+      ],
+      "practical_recommendations": "WEBU editorial suggestions are distinguished from empirical findings; efficacy of these suggestions was not verified.",
+      "image": "Existing attributed Pexels editorial image; no image changes.",
+      "publication": "existing_owner_published_article",
+      "notes": [
+        "Backfilled after an actual AI-assisted source comparison on 2026-11-13. Publication dates and visible content retained.",
+        "Checks cover stated samples, design, main associations, causal caveats and SK/EN correspondence. They do not certify scientific validity."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-2026-11-13-financna-gramotnost-v-podnikani.html",
+          "title": "Finančná gramotnosť v podnikaní: Prečo prax učí viac",
+          "description": "Výskum 288 študentov skúmal súvislosť medzi podnikateľskou skúsenosťou a finančnou gramotnosťou. Poznatky aj limity.",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "31d98ab731068545fe7f1445026095f34c1c092800d714ec2321252076cad01f"
+        },
+        "en": {
+          "path": "blog-journal-2026-11-13-financna-gramotnost-v-podnikani-en.html",
+          "title": "Financial Literacy in Entrepreneurship: Why Practice Matters",
+          "description": "A study of 288 students explores links between entrepreneurial experience and financial literacy, with practical lessons and limits.",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "a70fb612312fc14f5cc761d35c0af44f7a90c49b74ddadaedc53c5717f03c8c9"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Metodika štúdie",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher methods/results: 288 Indonesian undergraduates; self-report questionnaire, group comparison and adjusted ordered probit model; higher scores with entrepreneurial experience."
+          },
+          {
+            "section": "Čo výskum zistil",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher methods/results: 288 Indonesian undergraduates; self-report questionnaire, group comparison and adjusted ordered probit model; higher scores with entrepreneurial experience."
+          },
+          {
+            "section": "Jednoduché cvičenie pre podnikateľa",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Prax možno bezpečne simulovať",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limity a záver",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Vedecký zdroj",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ],
+        "en": [
+          {
+            "section": "Study design",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher methods/results: 288 Indonesian undergraduates; self-report questionnaire, group comparison and adjusted ordered probit model; higher scores with entrepreneurial experience."
+          },
+          {
+            "section": "What the researchers found",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher methods/results: 288 Indonesian undergraduates; self-report questionnaire, group comparison and adjusted ordered probit model; higher scores with entrepreneurial experience."
+          },
+          {
+            "section": "A useful exercise for founders",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Practice without unnecessary risk",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limits and conclusion",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Research source",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-2026-11-13-home-office-autonomia-a-zmysel",
+      "kind": "research_commentary",
+      "review_status": "ai_source_excerpt_claim_comparison",
+      "reviewed_at": "2026-11-13",
+      "reviewer": "OpenAI Codex (AI-assisted source comparison; not human peer review)",
+      "source_records": [
+        {
+          "id": "primary-study",
+          "url": "https://doi.org/10.1007/s11365-026-01209-6",
+          "publisher_url": "https://link.springer.com/article/10.1007/s11365-026-01209-6",
+          "apa7": "Domenech, T., & Danvila-del-Valle, I. (2026). The influence of telework on job satisfaction through autonomy and purpose. International Entrepreneurship and Management Journal, 22, 71. https://doi.org/10.1007/s11365-026-01209-6 https://doi.org/10.1007/s11365-026-01209-6",
+          "access": "abstract_and_introduction",
+          "accessed_at": "2026-11-13",
+          "evidence_summary": "Publisher abstract/introduction: survey of 380 Spanish hybrid/remote employees; SEM; fully remote workers report lower autonomy and purpose."
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {
+        "scope": "Primary-source bibliography and selected publisher sections compared against both language pages; no complete full-text review, data reanalysis or independent scientific peer review."
+      },
+      "results": [
+        "Publisher abstract/introduction: survey of 380 Spanish hybrid/remote employees; SEM; fully remote workers report lower autonomy and purpose."
+      ],
+      "practical_recommendations": "WEBU editorial suggestions are distinguished from empirical findings; efficacy of these suggestions was not verified.",
+      "image": "Existing attributed Pexels editorial image; no image changes.",
+      "publication": "existing_owner_published_article",
+      "notes": [
+        "Backfilled after an actual AI-assisted source comparison on 2026-11-13. Publication dates and visible content retained.",
+        "Checks cover stated samples, design, main associations, causal caveats and SK/EN correspondence. They do not certify scientific validity."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-2026-11-13-home-office-autonomia-a-zmysel.html",
+          "title": "Home office a spokojnosť v práci: Autonómia potrebuje zmysel",
+          "description": "Štúdia 380 pracovníkov porovnáva hybridný a plne vzdialený režim. Úloha autonómie a zmyslu práce.",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "9079dc2aca5b7c51cfb65681465097ea39ec4f26428e173c4ecb2c3b371fd164"
+        },
+        "en": {
+          "path": "blog-journal-2026-11-13-home-office-autonomia-a-zmysel-en.html",
+          "title": "Remote Work and Job Satisfaction: Autonomy Needs Purpose",
+          "description": "A study of 380 Spanish workers examines hybrid versus fully remote work through autonomy and organisational purpose.",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "f6b41f73ed8d896d91db723e32497182189793ae930babb690bb5456f5bac445"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Kto bol vo výskume",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract/introduction: survey of 380 Spanish hybrid/remote employees; SEM; fully remote workers report lower autonomy and purpose."
+          },
+          {
+            "section": "Čo štúdia naznačuje",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract/introduction: survey of 380 Spanish hybrid/remote employees; SEM; fully remote workers report lower autonomy and purpose."
+          },
+          {
+            "section": "Autonómia nie je len lokalita",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Čo môže spraviť manažér",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Obmedzenia a záver",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Vedecký zdroj",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ],
+        "en": [
+          {
+            "section": "Who was included",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract/introduction: survey of 380 Spanish hybrid/remote employees; SEM; fully remote workers report lower autonomy and purpose."
+          },
+          {
+            "section": "What the findings suggest",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract/introduction: survey of 380 Spanish hybrid/remote employees; SEM; fully remote workers report lower autonomy and purpose."
+          },
+          {
+            "section": "Autonomy is more than location",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Suggestions for managers",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limits and conclusion",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Research source",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-2026-11-13-rozsirena-realita-v-eshopoch",
+      "kind": "research_commentary",
+      "review_status": "ai_source_excerpt_claim_comparison",
+      "reviewed_at": "2026-11-13",
+      "reviewer": "OpenAI Codex (AI-assisted source comparison; not human peer review)",
+      "source_records": [
+        {
+          "id": "primary-study",
+          "url": "https://doi.org/10.1177/21582440261488932",
+          "publisher_url": "https://journals.sagepub.com/doi/10.1177/21582440261488932",
+          "apa7": "Le-Hoang, P. V., & Bui-Tuyet, P. (2026). The impact of augmented reality on user experience and online impulse buying intention: A hybrid SEM-ANN approach. SAGE Open. https://doi.org/10.1177/21582440261488932 https://doi.org/10.1177/21582440261488932",
+          "access": "abstract_and_plain_language_summary",
+          "accessed_at": "2026-11-13",
+          "evidence_summary": "Publisher abstract/plain-language summary: 382 Vietnam respondents; SEM/ANN; usefulness, authenticity and interactivity positive, risk negative; satisfaction and attitude predict impulse purchase intention."
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {
+        "scope": "Primary-source bibliography and selected publisher sections compared against both language pages; no complete full-text review, data reanalysis or independent scientific peer review."
+      },
+      "results": [
+        "Publisher abstract/plain-language summary: 382 Vietnam respondents; SEM/ANN; usefulness, authenticity and interactivity positive, risk negative; satisfaction and attitude predict impulse purchase intention."
+      ],
+      "practical_recommendations": "WEBU editorial suggestions are distinguished from empirical findings; efficacy of these suggestions was not verified.",
+      "image": "Existing attributed Pexels editorial image; no image changes.",
+      "publication": "existing_owner_published_article",
+      "notes": [
+        "Backfilled after an actual AI-assisted source comparison on 2026-11-13. Publication dates and visible content retained.",
+        "Checks cover stated samples, design, main associations, causal caveats and SK/EN correspondence. They do not certify scientific validity."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-2026-11-13-rozsirena-realita-v-eshopoch.html",
+          "title": "Rozšírená realita v e-shopoch: Čo ovplyvňuje nákup",
+          "description": "Nový výskum 382 respondentov skúma AR, užitočnosť, interaktivitu a nákupný zámer. Čo je dôležité pre e-shop?",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "11f982e07231f16ac8eb2e57a562771efaa65488f39f0863ae2ab76e6e603534"
+        },
+        "en": {
+          "path": "blog-journal-2026-11-13-rozsirena-realita-v-eshopoch-en.html",
+          "title": "Augmented Reality in E-Commerce: What Shapes Buying Decisions",
+          "description": "A study of 382 shoppers examines AR usefulness, interactivity, perceived risk and impulse buying intention.",
+          "language_review": "AI-assisted comparison of both versions for matching sample, study design, main findings and causal limitations; not certified translation.",
+          "published_at": "2026-11-13",
+          "modified_at": "2026-11-13",
+          "seo": "local indexability and bilingual metadata checks passed",
+          "links": "source DOI verified against publisher; local links audited",
+          "content_sha256": "1989eec7596576c9b160e36bca24983bcfe9780eeeb41fecfa192cc5a924334f"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Na čo sa zamerala štúdia",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract/plain-language summary: 382 Vietnam respondents; SEM/ANN; usefulness, authenticity and interactivity positive, risk negative; satisfaction and attitude predict impulse purchase intention."
+          },
+          {
+            "section": "Čo výsledky ukázali",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract/plain-language summary: 382 Vietnam respondents; SEM/ANN; usefulness, authenticity and interactivity positive, risk negative; satisfaction and attitude predict impulse purchase intention."
+          },
+          {
+            "section": "Kedy má AR zmysel pre e-shop",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Ako vyhodnotiť pilot",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limity a záver",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Vedecký zdroj",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Súvisiace články",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ],
+        "en": [
+          {
+            "section": "What the study examined",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract/plain-language summary: 382 Vietnam respondents; SEM/ANN; usefulness, authenticity and interactivity positive, risk negative; satisfaction and attitude predict impulse purchase intention."
+          },
+          {
+            "section": "What emerged",
+            "claim_kind": "publisher_excerpt_comparison",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Publisher abstract/plain-language summary: 382 Vietnam respondents; SEM/ANN; usefulness, authenticity and interactivity positive, risk negative; satisfaction and attitude predict impulse purchase intention."
+          },
+          {
+            "section": "When AR makes sense",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "How to measure a pilot",
+            "claim_kind": "editorial_recommendation",
+            "source_ids": [],
+            "comparison": "WEBU practical commentary is separated from study findings; no claim that these actions were tested in the cited study."
+          },
+          {
+            "section": "Limits and conclusion",
+            "claim_kind": "limitations",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Observational/qualitative findings are not presented as causal proof or universal effects; country/sample and intention-versus-behaviour limits preserved."
+          },
+          {
+            "section": "Research source",
+            "claim_kind": "bibliography",
+            "source_ids": [
+              "primary-study"
+            ],
+            "comparison": "Study title, authors, year and DOI compared with the primary publisher record."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          },
+          {
+            "section": "Related articles",
+            "claim_kind": "navigation",
+            "source_ids": [],
+            "comparison": "Related-article navigation, outside the scientific evidence claim."
+          }
+        ]
+      }
     }
   ]
 }
