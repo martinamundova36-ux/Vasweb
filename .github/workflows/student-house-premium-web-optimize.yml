@@ -28,7 +28,7 @@ jobs:
             -o /tmp/premium-original.mp4
           FFMPEG="$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')"
           "$FFMPEG" -hide_banner -loglevel error -y -i /tmp/premium-original.mp4 \
-            -vf "scale=1440:615:flags=lanczos" \
+            -vf "scale=1440:616:flags=lanczos" \
             -an -c:v libx264 -preset medium -crf 23 -maxrate 4500k -bufsize 9000k \
             -pix_fmt yuv420p -movflags +faststart -g 40 \
             student-house-portal/assets/student-house-premium-web-1440.mp4
