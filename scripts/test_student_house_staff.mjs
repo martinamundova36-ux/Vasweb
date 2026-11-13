@@ -133,3 +133,26 @@ test('A future approved resident appears in the Excel year of their stay',()=>{
  assert.equal(buildRegisterGroups({...data,year:2027})[0].entries.filter(e=>e.person).length,1);
  assert.equal(buildRegisterGroups({...data,year:2027})[0].entries.find(e=>e.person).person.id,'future');
 });
+
+test('Approval opens the missing contract editor; saving persists the number before calendar preparation',async()=>{
+ const request={...registration,contract_number:null};let savedPayload;
+ const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='residents'?[]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(payload){savedPayload=payload;return this;},eq(){return this;},select:async()=>({data:[{id:request.id,contract_number:'VERIFIED-555'}],error:null})}),functions:{invoke:async()=>({data:{ok:true}})}}});
+ await renderStaffScreen(f.ctx);findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
+ const editor=f.root.querySelectorAll('details').find(e=>e.querySelectorAll('input').some(i=>i.attributes['aria-label']==='Číslo zmluvy'));
+ assert.equal(editor.open,true);assert.match(editor.textContent,/Najprv zadaj číslo zmluvy/);
+ const field=editor.querySelector('input');field.value='VERIFIED-555';const form=editor.querySelector('form');
+ await form.listeners.submit({preventDefault(){}});
+ assert.deepEqual(savedPayload,{contract_number:'VERIFIED-555'});assert.match(f.root.textContent,/VERIFIED-555/);
+ findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
+ assert.ok(findButton(f.root,'Pripraviť predpisy na kontrolu'));
+});
+test('A failed contract save preserves the entered value and editor instead of asking for it again',async()=>{
+ const request={...registration,contract_number:null};
+ const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(){return this;},eq(){return this;},select:async()=>({data:null,error:{code:'42501'}})})}});
+ await renderStaffScreen(f.ctx);findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
+ const editor=f.root.querySelectorAll('details').find(e=>e.querySelectorAll('input').some(i=>i.attributes['aria-label']==='Číslo zmluvy'));
+ const field=editor.querySelector('input');field.value='KEEP-THIS-555';await editor.querySelector('form').listeners.submit({preventDefault(){}});
+ assert.equal(field.value,'KEEP-THIS-555');assert.ok(f.root.querySelectorAll('input').includes(field));
+ assert.equal(editor.open,true);assert.match(editor.textContent,/nepodarilo uložiť/);
+ assert.equal(findButton(editor,'Uložiť overené číslo zmluvy').disabled,false);
+});
