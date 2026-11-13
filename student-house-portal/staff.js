@@ -102,7 +102,7 @@ export async function renderStaffScreen(ctx) {
      box.append(summary,grid);card.append(box);
     }
     if(person.status==='invited'){
-     const resend=button(ctx.lang==='en'?'Resend access invitation':'Znova poslať pozvánku na vytvorenie hesla',async()=>{
+     const resend=button(ctx.lang==='en'?'Resend invitation for current step':'Znova poslať pozvánku na aktuálny krok',async()=>{
       if(pendingAction||!ctx.isCurrent()||!confirm(ctx.lang==='en'?'Send a new password setup link to this approved resident?':'Poslať nový odkaz na vytvorenie hesla tomuto schválenému študentovi?'))return;
       pendingAction=true;resend.disabled=true;
       try{
