@@ -16,7 +16,11 @@ const formatDate=(s)=>{if(!s)return '';const a=String(s).slice(0,10).split('-');
 export async function renderStudentEnquiry(ctx){
  const t=words[ctx.lang]||words.sk;
  const root=n('section','enquiry-area'),form=n('form','enquiry-form');
- ctx.root.append(root);root.append(n('h3','',t.title),n('p','muted',t.intro));
+ ctx.root.append(root);root.append(n('h3','',t.title),n('p','muted',
+  (ctx.lang==='en'?'Step 2 of 3: ':ctx.lang==='sk'?'Krok 2 z 3: ':'')+t.intro));
+ root.append(n('p','enquiry-status',ctx.lang==='en'?
+  'Your password was created when you accepted the reception invitation. Complete this questionnaire and upload your photo to continue to the documents.':
+  'Heslo si si vytvoril(a) pri prijatí pozvánky od recepcie. Dokonči dotazník, vlož fotografiu a pokračuj na dokumenty.'));
  if(!ctx.resident?.id){root.append(n('p','danger',t.notFound));return;}
  const {data:existing,error:readError}=await ctx.db.from('resident_enquiries').select('*')
    .eq('tenant_id',ctx.tenant).eq('resident_id',ctx.resident.id).maybeSingle();
@@ -107,7 +111,11 @@ export async function renderStudentEnquiry(ctx){
   const chosen=photoInput.files?.[0]||null;
   if(!chosen&&!hasSavedPhoto){status.textContent=ctx.lang==='en'?'Please upload your student photograph before submitting.':'Pred odoslaním dotazníka vlož fotografiu študenta.';photoInput.focus();return;}
   if(!validatePhoto(chosen)){status.textContent=t.invalidPhoto;return;}
-  const values={tenant_id:ctx.tenant,resident_id:ctx.resident.id,user_id:ctx.user.id,updated_at:new Date().toISOString()};
+  const now=new Date().toISOString();
+  // A prefilled questionnaire is not complete until the resident has actively
+  // reviewed and submitted it after accepting their password invitation.
+  const values={tenant_id:ctx.tenant,resident_id:ctx.resident.id,user_id:ctx.user.id,
+    updated_at:now,student_submitted_at:now};
   for(const [key,input]of Object.entries(fields)){
    let value=String(input.value||'').trim();
    if(['date_of_birth','preferred_from','preferred_to'].includes(key))value=value||null;
