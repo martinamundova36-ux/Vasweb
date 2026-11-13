@@ -109,7 +109,17 @@ export async function renderStudentEnquiry(ctx){
  submit.type='submit';
  const print=n('button','btn-secondary',ctx.lang==='en'?'Print / Save as PDF':ctx.lang==='ru'?'Печать / Сохранить PDF':ctx.lang==='uk'?'Друк / Зберегти PDF':'Vytlačiť / Uložiť ako PDF');
  print.type='button';print.addEventListener('click',()=>window.print());
- actionRow.append(submit,print);form.append(actionRow,status);root.append(form);
+ const draft=n('button','btn-secondary',({sk:'Uložiť rozpracovaný dotazník',en:'Save draft',ru:'Сохранить черновик',uk:'Зберегти чернетку'})[ctx.lang]||'Save draft');draft.type='button';
+ draft.addEventListener('click',async()=>{
+  if(!ctx.isCurrent())return;draft.disabled=true;submit.disabled=true;status.textContent=t.saving;
+  try{
+   const values={tenant_id:ctx.tenant,resident_id:ctx.resident.id,user_id:ctx.user.id,student_submitted_at:null};
+   for(const [key,input]of Object.entries(fields)){let value=String(input.value||'').trim();if(['date_of_birth','preferred_from','preferred_to'].includes(key))value=value||null;if(key==='preferred_duration_months')value=value?Number(value):null;values[key]=value;}
+   const {error}=await ctx.db.from('resident_enquiries').upsert(values,{onConflict:'tenant_id,resident_id'}).select('id').single();if(error)throw error;
+   status.textContent=({sk:'Rozpracovaný dotazník je uložený. Na kontrolu ho odošli po doplnení.',en:'Draft saved. Submit it for review when complete.',ru:'Черновик сохранён. Отправьте заполненную анкету на проверку.',uk:'Чернетку збережено. Надішліть заповнену анкету на перевірку.'})[ctx.lang]||t.savedWithoutPhoto;
+  }catch{status.textContent=t.failed;}finally{draft.disabled=false;submit.disabled=false;}
+ });
+ actionRow.append(draft,submit,print);form.append(actionRow,status);root.append(form);
  try{
   const files=await ctx.list('residence_portal_files');
   if(ctx.isCurrent()&&!photoInput.files?.length&&!previewUrl&&root.isConnected){

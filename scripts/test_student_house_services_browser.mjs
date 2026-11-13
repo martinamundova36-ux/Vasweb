@@ -16,7 +16,7 @@ try{
    const record={id:'request-a',resident_id:'resident-a',tenant_id:'tenant-a',subject:'Broken light',description:'Synthetic maintenance problem',status:cleaning?'requested':'new',staff_note:'',urgent:true,created_at:'2026-11-13T10:00:00Z',updated_at:'2026-11-13T10:00:00Z',preferred_date:'2026-11-20',preferred_window:'morning',cleaning_type:'standard',price_eur:null,scheduled_at:null};
    const resident={id:'resident-a',full_name:'Synthetic Student',verified_room_number:'125'};
    const query={update(payload){window.saved.push({action:'update',payload});return this;},eq(key,value){return this;},select(){return Promise.resolve({data:[{id:record.id}],error:null});},insert(payload){window.saved.push({action:'insert',payload});return Promise.resolve({data:[{id:'new'}],error:null});}};
-   await window.renderServiceRequests({root:document.getElementById('root'),db:{from:table=>query},list:async table=>table==='residents'?[resident]:table==='service_request_messages'?(staff?[{request_id:record.id,id:'private-a',created_at:'2026-11-13T11:00:00Z',body:'Private synthetic note',is_internal:true,message_kind:'reply'}]:[]):[record],tenant:'tenant-a',staff,cleaning,resident,userId:staff?'staff-a':'student-a',lang:'en',isCurrent:()=>true,refresh:()=>{window.refreshes++;},day:x=>x,money:x=>x+' EUR'});
+   await window.renderServiceRequests({root:document.getElementById('root'),db:{from:table=>query,rpc:async()=>({data:[{id:'slot-a',starts_at:'2027-07-20T08:00:00.000Z',ends_at:'2027-07-20T09:00:00.000Z',resource:'Synthetic cleaner',remaining:1}],error:null})},list:async table=>table==='residents'?[resident]:table==='service_request_messages'?(staff?[{request_id:record.id,id:'private-a',created_at:'2026-11-13T11:00:00Z',body:'Private synthetic note',is_internal:true,message_kind:'reply'}]:[]):[record],tenant:'tenant-a',staff,cleaning,resident,userId:staff?'staff-a':'student-a',lang:'en',isCurrent:()=>true,refresh:()=>{window.refreshes++;},day:x=>x,money:x=>x+' EUR'});
   },{staff,cleaning});
  }
  await fixture(true);
@@ -39,13 +39,13 @@ try{
  assert.equal(await page.evaluate(()=>saved[0].payload.resident_id),'resident-a');
  assert.equal(await page.evaluate(()=>saved[0].payload.category),'maintenance');
  await fixture(false,true);
- await page.getByLabel('Preferred date',{exact:true}).fill('2027-01-20');
+ await page.getByLabel('Available cleaning appointments',{exact:true}).selectOption('slot-a');
  await page.getByLabel('Cleaning type',{exact:true}).selectOption('deep');
  await page.getByRole('button',{name:'Submit request',exact:true}).click();
  assert.equal(await page.evaluate(()=>saved[0].payload.cleaning_type),'deep');
  await fixture(true,true);
  await page.getByLabel('Status',{exact:true}).selectOption('proposed');
- await page.getByLabel('Proposed or confirmed appointment',{exact:true}).fill('2027-07-20T10:00');
+ await page.getByLabel('Proposed or confirmed appointment',{exact:true}).selectOption('slot-a');
  await page.getByRole('button',{name:'Save changes',exact:true}).click();
  assert.equal(await page.evaluate(()=>saved[0].payload.scheduled_at),'2027-07-20T08:00:00.000Z');
  console.log('PASS: mobile browser forms, staff status update, internal note submission, student controls, cleaning type, alternate appointment in Bratislava timezone. Synthetic UI only.');

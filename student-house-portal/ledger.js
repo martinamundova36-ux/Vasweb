@@ -8,6 +8,15 @@ export function chargeBalance(charge,allocations,reversals){
  return {paid,remaining:cents(charge.amount)-paid};
 }
 
+// Verified money is distributed to agreed installments by due date, with stable ties.
+export function installmentBalances(items,paid){
+ let available=paid;
+ return [...items].sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.id).localeCompare(String(b.id))).map(item=>{
+  const amount=cents(item.amount),received=Math.min(amount,Math.max(0,available));available-=received;
+  return {...item,paid:received,remaining:amount-received};
+ });
+}
+
 // Calendar arithmetic uses UTC only for date-only values; no DST-sensitive durations.
 export function advanceRentDueDate(period, dueDay=1){
  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(period)||!Number.isInteger(dueDay)||dueDay<1||dueDay>28)throw Error('invalid_schedule_date');

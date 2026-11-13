@@ -1,4 +1,4 @@
-import {chargeBalance, cents, paymentHighlightRows} from './ledger.js';
+import {chargeBalance, cents, paymentHighlightRows, installmentBalances} from './ledger.js?v=20261113-installments1';
 
 // Presentation only: all amounts and identity come from tenant-scoped, RLS-protected records.
 // The browser must never create a payment, invent a rent charge or change a payment status.
@@ -17,9 +17,9 @@ const todaySK=()=>new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratis
 const getRows=({charges,allocations,reversals})=>(charges||[]).filter(c=>c.kind==='rent').map(c=>({...c,...chargeBalance(c,allocations||[],reversals||[])}));
 const paymentStatus=(record,today,hasPlan=false)=>{
  if(record.remaining<=0)return 'paid';
- if(hasPlan)return 'plan';
  if(record.due_on<today)return 'late';
  if(record.paid>0)return 'partial';
+ if(hasPlan)return 'plan';
  return 'due';
 };
 const action=(label,go)=>{const b=node('button','btn-secondary',label);b.type='button';b.addEventListener('click',go);return b};
@@ -37,11 +37,16 @@ export function renderStudentWelcome({root,resident,tenancies,lang,onOpen}){
  root.append(section);
 }
 
-export function renderPaymentHighlight({root,resident,tenancies,charges,allocations,reversals,plans,lang,onOpen}){
+export function renderPaymentHighlight({root,resident,tenancies,charges,allocations,reversals,plans,items,lang,onOpen}){
  const t=dict(lang),today=todaySK();
  const panel=node('section','student-monthly-payment');
  panel.setAttribute('aria-label',t.month);
- const rows=paymentHighlightRows(getRows({charges,allocations,reversals}),today);
+ const effective=getRows({charges,allocations,reversals}).flatMap(charge=>{
+  const plan=(plans||[]).find(p=>p.charge_id===charge.id);if(!plan)return [charge];
+  const schedule=installmentBalances((items||[]).filter(i=>i.plan_id===plan.id),charge.paid);
+  return schedule.length?schedule.map(i=>({...charge,...i})): [charge];
+ });
+ const rows=paymentHighlightRows(effective,today);
  panel.append(node('h4','',t.month+(rows.length?' · '+[...new Set(rows.map(r=>r.period))].map(p=>monthValue(p,lang)).join(', '):'')));
  if(!rows.length){
   panel.append(node('p','muted',!(tenancies||[]).length||!resident?t.unassigned:t.missing));
@@ -50,7 +55,7 @@ export function renderPaymentHighlight({root,resident,tenancies,charges,allocati
   const remaining=rows.reduce((v,r)=>v+r.remaining,0);
   const planIds=new Set((plans||[]).map(p=>p.charge_id));
   const hasPlan=rows.some(r=>planIds.has(r.id));
-  const state=remaining<=0?'paid':hasPlan?'plan':rows.some(r=>r.due_on<today)?'late':remaining<total?'partial':'due';
+  const state=remaining<=0?'paid':rows.some(r=>r.due_on<today)?'late':remaining<total?'partial':hasPlan?'plan':'due';
   panel.append(node('p','student-monthly-balance',currency(remaining/100,lang)));
   const status=node('span','student-payment-state payment-'+state,t[state]);status.setAttribute('role','status');panel.append(status);
   panel.append(summaryField(t.total,currency(total/100,lang)),summaryField(t.balance,currency(remaining/100,lang)));
@@ -76,7 +81,9 @@ export function renderMonthlyCalendar({root,charges,allocations,reversals,plans,
  const planned=new Map((plans||[]).map(p=>[p.charge_id,p]));
  const ordered=rows.sort((a,b)=>String(a.period).localeCompare(String(b.period))||String(a.due_on).localeCompare(String(b.due_on)));
  for(const r of ordered){
-  const plan=planned.get(r.id),state=paymentStatus(r,today,!!plan);
+  const plan=planned.get(r.id),schedule=plan?installmentBalances((items||[]).filter(i=>i.plan_id===plan.id),r.paid):[];
+  const pending=schedule.find(i=>i.remaining>0);
+  const state=paymentStatus(pending||r,today,!!plan);
   const line=node('article','student-payment-row');
   const heading=node('div','student-payment-head');
   heading.append(node('strong','',monthValue(r.period,lang)),node('span','student-payment-state payment-'+state,t[state]));
@@ -85,8 +92,14 @@ export function renderMonthlyCalendar({root,charges,allocations,reversals,plans,
   line.append(summaryField(t.payment,currency(r.paid/100,lang)),summaryField(t.balance,currency(r.remaining/100,lang)));
   if(plan){
    line.append(node('h5','',t.installments+': '+plan.title));
-   const schedule=(items||[]).filter(x=>x.plan_id===plan.id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
-   for(const installment of schedule)line.append(node('p','small',dateValue(installment.due_on,lang)+' · '+currency(installment.amount,lang)));
+   
+   for(const [index,installment] of schedule.entries()){
+    const row=node('div','student-payment-row');
+    const status=paymentStatus(installment,today);
+    row.append(node('strong','',String(index+1)+'. · '+dateValue(installment.due_on,lang)),node('span','student-payment-state payment-'+status,t[status]));
+    row.append(summaryField(t.amount,currency(installment.amount,lang)),summaryField(t.payment,currency(installment.paid/100,lang)),summaryField(t.balance,currency(installment.remaining/100,lang)));
+    line.append(row);
+   }
   }
   root.append(line);
  }

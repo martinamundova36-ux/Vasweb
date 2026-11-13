@@ -1,4 +1,5 @@
-import {chargeBalance, cents} from './ledger.js';
+import {downloadWorkbook} from './excel.js';
+import {chargeBalance, cents} from './ledger.js?v=20261113-installments1';
 import {csvCell,validateRoomImport} from './rooms.js';
 
 const EXPECTED_ROOMS=64;
@@ -123,7 +124,7 @@ export async function renderExcelRegister(ctx){
  const yearSet=new Set([nowYear-1,nowYear,nowYear+1,nowYear+2,...tenancies.flatMap(t=>[Number(t.starts_on?.slice(0,4)),Number(t.ends_on?.slice(0,4))])].filter(y=>Number.isInteger(y)&&y>=2020&&y<=2100));
  for(const y of [...yearSet].sort((a,b)=>a-b)){const o=el('option','',String(y));o.value=String(y);o.selected=y===nowYear;yearSelect.append(o)}
  yearLabel.append(yearSelect);
- const exportButton=button(w.csv,()=>exportRows());
+ const exportButton=button('Excel (.xlsx)',()=>exportRows());
  controls.append(search,yearLabel,exportButton);
  const importArea=el('details','room-register-import');
  const summary=el('summary','',w.importLabel),help=el('p','muted',w.importHelp);
@@ -229,9 +230,7 @@ export async function renderExcelRegister(ctx){
   const header=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,
    ...Array.from({length:12},(_,i)=>monthTitle(year,i+1,ctx.lang)),w.total];
   const lines=[header,...entries.map(r=>r.values.slice(0,-1))];
-  const output='\uFEFF'+lines.map(line=>line.map(csvCell).join(';')).join('\r\n');
-  const url=URL.createObjectURL(new Blob([output],{type:'text/csv;charset=utf-8'}));
-  const a=el('a');a.href=url;a.download='student-house-register-'+year+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+  downloadWorkbook('student-house-register-'+year,[{name:'Evidencia',rows:lines}]);
  }
  upload.addEventListener('change',async()=>{
   const file=upload.files?.[0];if(!file||!ctx.isCurrent())return;

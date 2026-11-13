@@ -16,6 +16,13 @@ Deno.serve(async req=>{
  const {data:config,error:configError}=await db.from('residence_mail_config').select('tenant_id,smtp_host,smtp_port,smtp_user,sender_email,sender_name');
  if(configError)return Response.json({ok:false},{status:503});
  for(const job of jobs){
+  const {data:reminder,error:reminderError}=await db.rpc('residence_refresh_payment_reminder',{p_id:job.id,p_lease:job.lease});
+  if(reminderError){
+   await db.rpc('residence_mail_finish',{p_id:job.id,p_lease:job.lease,p_result:'reminder_recheck_failed'});
+   continue;
+  }
+  if(!reminder?.send)continue;
+  job.body=reminder.body;
   const c=config?.find(c=>c.tenant_id===job.tenant_id);
   let result='configuration_missing',messageId:string|null=null;
   if(c){

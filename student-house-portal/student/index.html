@@ -279,10 +279,12 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 <fieldset class="reg-section"><legend id="regPersonalTitle">Kontaktné údaje – Krok 1</legend>
 <div class="reg-fields">
 <label for="regPhone" id="labPhone">Telefónne číslo</label><input id="regPhone" type="tel" autocomplete="tel" maxlength="60" placeholder="+421 ..." required>
-</div><p class="muted">Ostatné osobné údaje a fotografiu doplníš až v dotazníku na druhej stránke po schválení recepciou.</p></fieldset>
+<label for="regBirth" id="labBirth">Dátum narodenia</label><input id="regBirth" type="date" autocomplete="bday" required>
+<label for="regNationality" id="labNationality">Štátna príslušnosť</label><input id="regNationality" maxlength="80" required>
+</div><p class="muted">Ďalšie údaje a fotografiu doplníš po schválení recepciou.</p></fieldset>
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
 <div class="reg-fields">
-<label for="regRoomType" id="labRoomType">Preferovaný typ izby</label><select id="regRoomType"><option value="">Bez preferencie</option><option value="M2">Manzard 2</option><option value="Š1+1">Standard 1+1</option><option value="SUI 2">Suite 2</option><option value="D2">De Luxe 2</option><option value="Š2">Standard 2</option><option value="D2V">De Luxe 2V</option></select>
+<label for="regRoomType" id="labRoomType">Preferovaný typ izby</label><select id="regRoomType" required><option value="">Bez preferencie</option><option value="M2">Manzard 2</option><option value="Š1+1">Standard 1+1</option><option value="SUI 2">Suite 2</option><option value="D2">De Luxe 2</option><option value="Š2">Standard 2</option><option value="D2V">De Luxe 2V</option></select>
 <label for="regRoom" id="labRoom">Preferované číslo izby (ak ho poznáš)</label><select id="regRoom" aria-describedby="regRoomHelp"><option value="">Bez preferencie</option></select>
 <p id="regRoomHelp" class="reg-room-help">Toto je len preferencia. Voľnosť a pridelenie izby potvrdí recepcia.</p>
 <label for="regFrom" id="labFrom">Ubytovanie od</label><input id="regFrom" type="date" required>
@@ -292,6 +294,8 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 <p id="regStaffOnly" class="mini-note">Číslo ubytovacej zmluvy, konečné pridelenie izby, depozit, poplatky a mesačný platobný kalendár doplní výhradne recepcia Student House Bratislava. Po schválení si nahráš fotografiu a doplníš osobný dotazník.</p>
 </fieldset>
 
+<label for="regPassword" id="regPasswordLabel">Heslo (minimálne 12 znakov)</label><div class="password-field register-password-field"><input id="regPassword" type="password" autocomplete="new-password" minlength="12" maxlength="200" required><button type="button" id="regPasswordEye" class="field-eye" aria-label="Zobraziť heslo" aria-controls="regPassword" aria-pressed="false">👁</button></div>
+<label for="regPasswordConfirm" id="regPasswordConfirmLabel">Potvrdiť heslo</label><div class="password-field register-password-field"><input id="regPasswordConfirm" type="password" autocomplete="new-password" minlength="12" maxlength="200" required><button type="button" id="regPasswordConfirmEye" class="field-eye" aria-label="Zobraziť heslo" aria-controls="regPasswordConfirm" aria-pressed="false">👁</button></div>
 <div style="position:absolute;left:-9999px" aria-hidden="true"><label for="regWebsite">Website</label><input id="regWebsite" autocomplete="off" tabindex="-1"></div>
 <label style="display:flex;align-items:flex-start;gap:10px;font-weight:400;font-size:13px"><input type="checkbox" id="regPrivacy" required style="width:18px;flex:none;margin-top:3px"><span><span id="regPrivacyText">Oboznámil(a) som sa s informáciami o spracúvaní osobných údajov.</span> <a id="regPrivacyLink" href="https://studenthousebratislavanew.wordpress.com/gdpr/" target="_blank" rel="noopener noreferrer">GDPR</a></span></label>
 <button id="regSend" type="submit">Odoslať registráciu</button>
@@ -303,7 +307,7 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 <p style="font-weight:800;color:#1f587f">1 ✓ &nbsp; → &nbsp; 2 ○ &nbsp; → &nbsp; 3 ○</p>
 <h2 id="pendingHeading">Čaká na schválenie recepciou</h2>
 <p id="pendingMessage">Registrácia bola odoslaná. Po kontrole dostaneš pozvánku na ďalšiu stránku – osobný dotazník.</p>
-<p style="font-size:14px;color:#5a7189">Student House Bratislava · Žiadne heslo ani číslo zmluvy sa pri registrácii nevypĺňa.</p>
+<p style="font-size:14px;color:#5a7189">Student House Bratislava · Číslo zmluvy a izbu potvrdí recepcia.</p>
 </div>
 <button id="pendingBack" type="button" class="btn-secondary" style="margin-top:14px">Späť na prihlásenie</button>
 </section>
@@ -498,6 +502,8 @@ function translateRegister(){
  const ext=REG_EXT[lang]||REG_EXT.sk;
  for(const [id,key] of Object.entries({regPersonalTitle:'personal',regStayTitle:'stay',labPhone:'phone',labRoomType:'roomType',labArrival:'arrival',regStaffOnly:'staff'}))$(id).textContent=ext[key];
  $('regRoomType').options[0].textContent=ext.any;
+ const regLabels={sk:['Dátum narodenia','Štátna príslušnosť','Heslo (minimálne 12 znakov)','Potvrdiť heslo'],en:['Date of birth','Nationality','Password (at least 12 characters)','Confirm password'],ru:['Дата рождения','Гражданство','Пароль (не менее 12 символов)','Подтвердите пароль'],uk:['Дата народження','Громадянство','Пароль (не менше 12 символів)','Підтвердьте пароль']}[lang]||[];
+ ['labBirth','labNationality','regPasswordLabel','regPasswordConfirmLabel'].forEach((id,i)=>$(id).textContent=regLabels[i]);
  updateRoomPreferenceOptions();
  for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labRoom:"room",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
 }
@@ -512,8 +518,7 @@ function setRegistration(on){
 $("openRegistration").addEventListener("click",()=>setRegistration(true));
 $("regBack").addEventListener("click",()=>setRegistration(false));
 $("pendingBack").addEventListener("click",()=>setRegistration(false));
-// Public registration never creates a password or an Auth session. Only
-// reception can approve a request and send a one-time invitation to set it.
+// Auth stores the password; residence access stays closed until reception approval.
 const REG_SUBMITTED={
  sk:'Registráciu sme prijali. Pokyny pošleme na uvedený e-mail. Ak už registráciu máš, nevytvorili sme ďalšiu; dostaneš potvrdenie alebo odkaz na opravu pôvodnej žiadosti. Pozvánka na dotazník príde až po schválení recepciou.',
  en:'Your submission was received. Instructions will be emailed to the address provided. If you already have a registration, no duplicate was created; you will receive a receipt or correction link for the original request. Questionnaire access follows reception approval.',
@@ -524,11 +529,12 @@ $("regForm").addEventListener("submit",async e=>{
  e.preventDefault();
  const r=R[lang],from=$("regFrom").value,to=$("regTo").value,msg=$("regMessage"),btn=$("regSend");
  msg.textContent="";
- if(!from||!to||to<=from){msg.textContent=r.invalid;return;}
+ if(!from||!to||to<=from||$("regPassword").value!==$("regPasswordConfirm").value){msg.textContent=r.invalid;return;}
  const payload={
   first_name:$("regFirst").value.trim(),last_name:$("regLast").value.trim(),email:$("regEmail").value.trim(),
   room_number:$("regRoom").value.trim(),preferred_room_type:$("regRoomType").value,
-  telephone:$("regPhone").value.trim(),nationality:'',gender:'',date_of_birth:'',
+  telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),gender:'',date_of_birth:$("regBirth").value,
+  password:$("regPassword").value,password_confirmation:$("regPasswordConfirm").value,
   permanent_address:'',school:'',parent_contact_email:'',
   expected_arrival:$("regArrival").value,
   accommodation_from:from,accommodation_to:to,privacy_acknowledged:$("regPrivacy").checked,website:$("regWebsite").value
@@ -1120,7 +1126,7 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-mail-review6');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-draft1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
     isOnboarding:!resident.profile_password_activated_at,
@@ -1150,7 +1156,7 @@ async function renderPanel(){
    container.append(retry);return;
   }
   if(tab==='overview'){
-   const sources=staff?['registration_requests','residents','rooms','service_requests','cleaning_bookings','announcements']:['tenancies','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','cleaning_bookings','service_requests','announcements'];
+   const sources=staff?['registration_requests','residents','rooms','service_requests','cleaning_bookings','announcements']:['tenancies','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','installment_items','cleaning_bookings','service_requests','announcements'];
    const outcomes=await Promise.all(sources.map(key=>list(key,staff?undefined:(['tenancies','rent_charges','payments','cleaning_bookings','service_requests'].includes(key)?{resident_id:own||'00000000-0000-0000-0000-000000000000'}:undefined))));
    if(tenant!==member?.tenant_id)return;
    const d=Object.fromEntries(sources.map((key,i)=>[key,outcomes[i]]));
@@ -1179,9 +1185,9 @@ async function renderPanel(){
     else message(lang==='en'?'Your accommodation details will appear after reception assigns your room.':'Údaje o ubytovaní sa zobrazia po priradení izby recepciou.');
    }
    if(!staff){
-    const studentUI=await import('/student-house-portal/student-finance.js?v=20261112-payments1');
+    const studentUI=await import('/student-house-portal/student-finance.js?v=20261113-complete1');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='overview')return;
-    studentUI.renderPaymentHighlight({root:container,resident,tenancies:d.tenancies,charges:d.rent_charges,allocations:d.payment_allocations,reversals:d.payment_reversals,plans:d.installment_plans,lang,onOpen:navigate});
+    studentUI.renderPaymentHighlight({root:container,resident,tenancies:d.tenancies,charges:d.rent_charges,allocations:d.payment_allocations,reversals:d.payment_reversals,plans:d.installment_plans,items:d.installment_items,lang,onOpen:navigate});
     studentUI.renderStudentWelcome({root:container,resident,tenancies:d.tenancies,lang,onOpen:navigate});
     container.append(cards);
     studentUI.renderStudentActions({root:container,lang,onOpen:navigate});
@@ -1224,7 +1230,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261112-excel1');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261113-xlsx1');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){
@@ -1322,6 +1328,7 @@ async function renderPanel(){
   }
   if(tab==='payments'){
    heading(label('payments'),label('financeNote'));
+   if(staff){const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261113-finance1');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
    const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
    const [charges,paid,people,allocations,reversals]=await Promise.all([list('rent_charges',filter),list('payments',filter),staff?list('residents'):Promise.resolve([]),list('payment_allocations'),list('payment_reversals')]);
    const {cents,chargeBalance}=await import('/student-house-portal/ledger.js?v=20261112-entry5-authfix1');
@@ -1383,7 +1390,7 @@ async function renderPanel(){
      list('rent_charges',filter),list('payment_allocations'),list('payment_reversals'),list('installment_plans',filter),list('installment_items')
     ]);
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261112-payments1');
+    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261113-complete1');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
     renderMonthlyCalendar({root:container,charges,allocations,reversals,plans,items,lang,onOpen:navigate});
     return;
@@ -1457,7 +1464,7 @@ async function renderPanel(){
   }
   if(tab==='requests'||tab==='cleaning'){
    const serviceTab=tab,serviceTenant=tenant;
-   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261113-services1');
+   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261113-capacity1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    await renderServiceRequests({root:container,db,list,tenant,staff,resident,userId:user.id,lang,
     cleaning:serviceTab==='cleaning',day,money,
@@ -1555,7 +1562,7 @@ function syncPasswordEye(inputId,buttonId){
  button.setAttribute('aria-label',label);
  button.title=label;
 }
-for(const [inputId,buttonId] of [['resetPasswordValue','resetEye'],['resetConfirmValue','resetConfirmEye']]){
+for(const [inputId,buttonId] of [['resetPasswordValue','resetEye'],['resetConfirmValue','resetConfirmEye'],['regPassword','regPasswordEye'],['regPasswordConfirm','regPasswordConfirmEye']]){
  $(buttonId).addEventListener('click',()=>{
   const input=$(inputId);input.type=input.type==='password'?'text':'password';
   syncPasswordEye(inputId,buttonId);

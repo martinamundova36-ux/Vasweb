@@ -82,6 +82,8 @@ Deno.serve(async(request:Request)=>{
     !isDate(accommodation_from)||!isDate(accommodation_to)||accommodation_to<=accommodation_from) {
      return safeResponse({error:"invalid_fields"},400,origin);
   }
+  const wantsPassword=Object.hasOwn(body,'password');
+  if(wantsPassword&&(typeof body.password!=='string'||body.password.length<12||body.password.length>200||body.password!==body.password_confirmation||!telephone||!nationality||!date_of_birth||!preferred_room_type))return safeResponse({error:'invalid_fields'},400,origin);
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("cf-connecting-ip") || "unidentified";
   const secretKey=await crypto.subtle.importKey("raw",encoder.encode(SECRET),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
   const signature=await crypto.subtle.sign("HMAC",secretKey,encoder.encode(forwarded));
@@ -99,26 +101,18 @@ Deno.serve(async(request:Request)=>{
    catch{console.error("registration_receipt_queue_failed");return safeResponse({error:"temporarily_unavailable"},503,origin);}
    return safeResponse({ok:true},200,origin);
   }
-  const {data:created,error:registrationError}=await client.from("registration_requests")
-    .insert({tenant_id:tenantId,first_name,last_name,email,room_number:room_number||null,
-      contract_number:null,accommodation_from,accommodation_to,status:"pending"})
-    .select("id").single();
-  if(registrationError||!created?.id){console.error("registration_insert_failed",registrationError?.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
-  // These answers are private to reception until approval, then copied into
-  // the authenticated student's editable questionnaire in one approval transaction.
-  const {error:questionnaireError}=await client.from("registration_enquiries").insert({
-    registration_id:created.id,tenant_id:tenantId,
-    permanent_address,date_of_birth:date_of_birth||null,nationality,gender,
-    identity_document_number:"",telephone,parent_contact_email,
-    school,iban:"",preferred_room_type,preferred_duration_months:null,
-    preferred_from:arrival||accommodation_from,preferred_to:accommodation_to
-  });
-  if(questionnaireError){
-    console.error("registration_enquiry_insert_failed",questionnaireError.code);
-    // Roll back the public request if its private questionnaire could not be stored.
-    const {error:rollbackError}=await client.from("registration_requests").delete().eq("id",created.id).eq("tenant_id",tenantId);
-    if(rollbackError)console.error("registration_rollback_failed",rollbackError.code);
-    return safeResponse({error:"temporarily_unavailable"},503,origin);
+  let newUserId:string|null=null;
+  if(wantsPassword){
+   // Auth alone stores the password hash. Pending users have no residence membership.
+   const {data:account,error:accountError}=await client.auth.admin.createUser({email,password:body.password,email_confirm:false});
+   if(accountError||!account?.user?.id)return safeResponse({error:'account_exists_or_unavailable'},409,origin);
+   newUserId=account.user.id;
+  }
+  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,room_number,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival}});
+  if(registrationError||!created?.id){
+   console.error('registration_transaction_failed',registrationError?.code);
+   if(newUserId){const {error:cleanupError}=await client.auth.admin.deleteUser(newUserId);if(cleanupError)console.error('registration_auth_cleanup_failed',cleanupError.code);}
+   return safeResponse({error:'temporarily_unavailable'},503,origin);
   }
   return safeResponse({ok:true},201,origin);
  }catch(e){console.error("registration_invalid_request",e instanceof Error?e.name:"error");return safeResponse({error:"invalid_request"},400,origin)}
