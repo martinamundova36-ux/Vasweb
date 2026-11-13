@@ -205,6 +205,8 @@ body.portal-open #app .results:has(.room-register) .room-register{width:100%;max
 </nav>
 <select id="lang" aria-label="Jazyk rozhrania"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label for="email">E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel" for="password">Heslo</label><div class="password-field"><input type="password" id="password" autocomplete="current-password" required><button type="button" id="loginEye" aria-label="Zobraziť heslo" aria-pressed="false" title="Zobraziť heslo"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3l18 18"/></svg></button></div><button type="button" id="forgotPassword" style="background:transparent;color:#18588d;margin-top:9px;width:100%;text-align:center;text-decoration:underline;padding:8px 0;white-space:normal;overflow-wrap:anywhere">Zabudnuté heslo?</button><button id="signbtn" type="submit">Prihlásiť sa</button></form>
 <form id="passwordResetForm" class="hide">
+<label id="resetEmailLabel" for="resetEmailValue">E-mail študenta</label>
+<input id="resetEmailValue" type="email" autocomplete="email" maxlength="254" required>
 <label id="resetNewLabel" for="resetPasswordValue">Nové heslo (minimálne 12 znakov)</label>
 <div class="password-field"><input type="password" id="resetPasswordValue" autocomplete="new-password" minlength="12" maxlength="200" required><button type="button" class="field-eye" id="resetEye" aria-label="Zobraziť heslo" aria-pressed="false" aria-controls="resetPasswordValue" title="Zobraziť heslo"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3l18 18"/></svg></button></div>
 <label id="resetConfirmLabel" for="resetConfirmValue">Potvrdiť nové heslo</label>
@@ -250,7 +252,7 @@ body.portal-open #app .results:has(.room-register) .room-register{width:100%;max
 <button id="regBack" type="button" style="background:#e6eef8;color:#142b4d;width:100%">Späť na prihlásenie</button>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div class="portal-brand"><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
 </main></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
 <script>
@@ -302,6 +304,7 @@ async function copyPasswordValue(input,status){
  catch{input.type='text';input.focus();input.select();status.textContent=pwdText('copyFail')}
 }
 const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const questionnaireEntryMode=document.body.dataset.portalEntry==='questionnaire';
 const staffEntryMode=document.body.dataset.portalEntry==='admin'||(!document.body.dataset.portalEntry&&new URLSearchParams(location.search).get('view')==='reception');
 // Student and reception use different stored sessions. Preserve the original admin session.
 const portalStorageKey=staffEntryMode?'sb-ydqchayscxntqdkzkynv-auth-token':'sb-ydqchayscxntqdkzkynv-student-auth-token';
@@ -368,10 +371,10 @@ $("regBack").addEventListener("click",()=>setRegistration(false));
 // Public registration never creates a password or an Auth session. Only
 // reception can approve a request and send a one-time invitation to set it.
 const REG_SUBMITTED={
- sk:'Registrácia je odoslaná recepcii. Po schválení dostaneš e-mailovú pozvánku do študentského profilu, kde si vytvoríš heslo a vyplníš osobný dotazník.',
- en:'Registration submitted to reception. After approval you will receive an email invitation to set your password and complete your questionnaire.',
- ru:'Заявка отправлена на рецепцию. После одобрения вам придёт приглашение для создания пароля и заполнения анкеты.',
- uk:'Заявку надіслано на рецепцію. Після схвалення ви отримаєте запрошення для створення пароля та заповнення анкети.'
+ sk:'1. Registrácia odoslaná – čaká na recepciu. Po schválení dostaneš pozvánku na druhú stránku s dotazníkom. Až po jeho odoslaní príde druhý e-mail na vytvorenie hesla a vstup do profilu.',
+ en:'Step 1 submitted – awaiting reception approval. The first email opens Step 2, your questionnaire. After submitting it, a second email invites you to create your profile password.',
+ ru:'Шаг 1 отправлен, ожидайте подтверждения. Первая ссылка ведёт на анкету, вторая придёт после анкеты для создания пароля.',
+ uk:'Крок 1 надіслано, очікуйте схвалення. Перше посилання веде на анкету, друге — після анкети для створення пароля.'
 };
 $("regForm").addEventListener("submit",async e=>{
  e.preventDefault();
