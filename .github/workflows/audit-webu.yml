@@ -9,6 +9,8 @@ on:
       - '.github/scripts/audit_webu.py'
       - 'scripts/fragment_audit.py'
       - 'scripts/form_accessibility_audit.py'
+      - 'scripts/seo_audit.py'
+      - 'student-house-portal/**/*.html'
       - '.github/workflows/audit-webu.yml'
   workflow_dispatch:
   schedule:
