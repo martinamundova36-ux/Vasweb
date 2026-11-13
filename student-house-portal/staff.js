@@ -44,13 +44,22 @@ export async function failureCode(error, data) {
 
 export async function renderStaffScreen(ctx) {
  const {words:w,el,button,field,state,status,allowed} = ui(ctx);
+
+ const correctionLang={
+  sk:{state:'Vrátená na opravu',return:'Vrátiť študentovi na opravu',reissue:'Vytvoriť nový opravný odkaz',prompt:'Napíš študentovi, ktoré údaje má opraviť. Napríklad nesprávne číslo zmluvy, meno, dátumy alebo izbu.',reason:'Dôvod vrátenia',create:'Pripraviť bezpečný odkaz na opravu',prepared:'Registrácia je vrátená na opravu. E-mail sa ešte NEODOSLAL – otvor Gmail a správu odošli.',gmail:'Otvoriť Gmail s pripraveným e-mailom',copy:'Skopírovať opravný odkaz',copied:'Odkaz je skopírovaný.',subject:'Student House Bratislava – oprava registrácie',body:'Dobrý deň,\n\npri kontrole vašej registrácie Student House Bratislava sme zistili údaje, ktoré je potrebné opraviť:\n\n',bodyEnd:'\n\nOtvorte bezpečný odkaz a opravte údaje (platnosť 7 dní):\n',closing:'\n\nPo odoslaní sa registrácia vráti na kontrolu recepcii.\n\nRecepcia Student House Bratislava',sendError:'Nepodarilo sa vytvoriť odkaz. Obnov prehľad.',existing:'Čaká sa na opravu údajov študentom.',expires:'Platnosť odkazu: 7 dní. Nový odkaz zneplatní predošlý.',empty:'Dôvod opravy musí mať aspoň 10 znakov.'},
+  en:{state:'Returned for correction',return:'Return to student for correction',reissue:'Create new correction link',prompt:'Explain what the student needs to correct (contract number, name, dates, or room).',reason:'Correction reason',create:'Prepare secure correction link',prepared:'Registration returned for correction. Email has NOT been sent; open Gmail and send it.',gmail:'Open Gmail draft',copy:'Copy correction link',copied:'Link copied.',subject:'Student House Bratislava – registration correction',body:'Hello,\n\nReception needs you to correct the following details of your Student House Bratislava registration:\n\n',bodyEnd:'\n\nOpen this secure link within 7 days:\n',closing:'\n\nYour registration will return to reception for approval after submission.\n\nStudent House Bratislava Reception',sendError:'Unable to create link. Refresh and try again.',existing:'Waiting for the student to resubmit corrected details.',expires:'Link valid 7 days. Creating another link invalidates the previous one.',empty:'Please write at least 10 characters explaining the correction.'},
+  ru:{state:'Возвращено на исправление',return:'Вернуть студенту на исправление',reissue:'Новая ссылка для исправления',prompt:'Укажите, какие данные нужно исправить.',reason:'Причина',create:'Подготовить ссылку',prepared:'Регистрация возвращена. Письмо НЕ отправлено — откройте Gmail.',gmail:'Открыть Gmail',copy:'Копировать ссылку',copied:'Ссылка скопирована.',subject:'Student House Bratislava – исправление регистрации',body:'Здравствуйте!\n\nПожалуйста, исправьте следующие данные:\n\n',bodyEnd:'\n\nБезопасная ссылка (7 дней):\n',closing:'\n\nПосле исправления регистрация вернётся на проверку.',sendError:'Не удалось создать ссылку.',existing:'Ожидаем исправления.',expires:'Ссылка действует 7 дней.',empty:'Напишите причину исправления (не менее 10 символов).'},
+  uk:{state:'Повернуто на виправлення',return:'Повернути на виправлення',reissue:'Нове посилання',prompt:'Вкажіть, що потрібно виправити.',reason:'Причина',create:'Підготувати посилання',prepared:'Реєстрацію повернуто. Лист НЕ відправлено — відкрийте Gmail.',gmail:'Відкрити Gmail',copy:'Копіювати посилання',copied:'Посилання скопійовано.',subject:'Student House Bratislava – виправлення реєстрації',body:'Вітаємо!\n\nБудь ласка, виправте такі дані:\n\n',bodyEnd:'\n\nБезпечне посилання (7 днів):\n',closing:'\n\nПісля надсилання реєстрація повернеться на перевірку.',sendError:'Не вдалося створити посилання.',existing:'Очікуємо виправлення.',expires:'Посилання діє 7 днів.',empty:'Вкажіть причину (не менше 10 символів).'}
+ };
+ const cw=correctionLang[ctx.lang]||correctionLang.sk;
+ w.correction_requested=cw.state;
  if (!allowed) {ctx.root.replaceChildren(el('p','danger',w.noAccess));return;}
  const refresh = button(w.refresh, () => ctx.refresh());
  ctx.root.append(refresh, ctx.notice);
  const filters = el('div','staff-filters');
  const search = el('input'); search.type='search';search.placeholder=w.search;search.setAttribute('aria-label',w.search);
  const select = el('select');select.setAttribute('aria-label',ctx.section==='residents'?w.state:w.allRegistrations);
- const options=ctx.section==='residents'?[['all',w.all],['active',w.active],['inactive',w.inactive]]:[['pending',w.pending],['invited',w.invited],['rejected',w.rejected],['all',w.allRegistrations]];
+ const options=ctx.section==='residents'?[['all',w.all],['active',w.active],['inactive',w.inactive]]:[['pending',w.pending],['correction_requested',cw.state],['invited',w.invited],['rejected',w.rejected],['all',w.allRegistrations]];
  for(const [value,label] of options){const o=el('option','',label);o.value=value;select.append(o);}
  const count=el('p','muted');count.setAttribute('aria-live','polite');
  filters.append(search,select);ctx.root.append(filters,count,el('p','small',w.limit));
@@ -80,6 +89,11 @@ export async function renderStaffScreen(ctx) {
    if(ctx.section==='residents')card.append(button(w.open,()=>{void profile(person);}));
    else{
     const details=el('dl','identity-fields');details.append(field(w.contract,person.contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.registered,ctx.day(person.created_at)));card.append(details);
+    if(person.status==='correction_requested'){
+     card.append(el('p','mini-note',cw.existing));
+     if(person.correction_reason)card.append(el('p','',cw.reason+': '+person.correction_reason));
+     card.append(button(cw.reissue,()=>returnEditor(person,card)));
+    }
     if(person.status==='pending'){
      const conflict=contractConflict(person);
      const others=records.filter(x=>x.id!==person.id&&String(x.contract_number||'').trim()===String(person.contract_number||'').trim()).length;
@@ -121,12 +135,52 @@ export async function renderStaffScreen(ctx) {
      correction.append(summary,editForm);card.append(correction);
      const actions=el('div','staff-actions');
      const approve=button(w.approve,()=>{approvalEditor(person,actions);},'');
-     const reject=button(w.reject,()=>{void decide(person,false,actions);});actions.append(approve,reject);card.append(actions);
+     const reject=button(w.reject,()=>{void decide(person,false,actions);});
+     const returnButton=button(cw.return,()=>returnEditor(person,card));
+     actions.append(approve,reject,returnButton);card.append(actions);
     }
    }
    results.append(card);
   }
  };
+ function returnEditor(person,card){
+  if(card.querySelector('.registration-return-editor'))return;
+  const form=el('form','staff-form registration-return-editor');
+  const label=el('label','',cw.reason),explanation=el('textarea');
+  explanation.name='correction_reason';explanation.required=true;explanation.minLength=10;explanation.maxLength=1200;
+  explanation.rows=4;explanation.placeholder=cw.prompt;explanation.value=person.correction_reason||'';
+  label.append(explanation);
+  const send=el('button','',cw.create);send.type='submit';
+  form.append(label,el('p','mini-note',cw.expires),send);
+  card.append(form);explanation.focus();
+  form.addEventListener('submit',async event=>{
+   event.preventDefault();
+   if(pendingAction||!ctx.isCurrent())return;
+   const reason=explanation.value.trim();if(reason.length<10){status(cw.empty,true);return;}
+   pendingAction=true;send.disabled=true;
+   try{
+    const {data,error}=await ctx.db.functions.invoke('registration-correction',{
+     body:{action:'issue',tenant_id:ctx.tenant,registration_id:person.id,reason}
+    });
+    if(!ctx.isCurrent())return;
+    if(error||!data?.ok||!data?.link){status(cw.sendError,true);return;}
+    person.status='correction_requested';person.correction_reason=reason;
+    status(cw.prepared);
+    const body=cw.body+reason+cw.bodyEnd+data.link+cw.closing;
+    const gmail='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(data.recipient||person.email)
+      +'&su='+encodeURIComponent(cw.subject)+'&body='+encodeURIComponent(body);
+    const email=el('a','btn-secondary',cw.gmail);
+    email.href=gmail;email.target='_blank';email.rel='noopener noreferrer';email.style.cssText='display:inline-block;padding:12px;margin:10px 10px 0 0';
+    const copy=button(cw.copy,async()=>{
+     try{await navigator.clipboard.writeText(data.link);status(cw.copied);}
+     catch{window.prompt(cw.copy,data.link);}
+    });
+    ctx.notice.append(el('p','mini-note',(data.recipient||person.email)+' · '+cw.expires),email,copy);
+    paint();
+   }catch{if(ctx.isCurrent())status(cw.sendError,true);}
+   finally{pendingAction=false;send.disabled=false;}
+  });
+ }
  function approvalEditor(person,actions){
   if(actions.querySelector('form'))return;
   if(contractConflict(person)){status(ct.pending,true);return;}
