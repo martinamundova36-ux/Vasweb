@@ -122,6 +122,14 @@ export async function renderStaffScreen(ctx) {
     return;
    }
    person.status=approve?'invited':'rejected';success=true;status(approve?w.inviteOK:w.rejected);
+   // The manage Edge Function commits resident, tenancy and verified monthly charges
+   // in one database transaction before it returns ok. Offer direct verification.
+   if(approve&&typeof ctx.openRooms==='function'){
+    const openLabel=({"sk":"Otvoriť schválenú izbu v Excel evidencii","en":"Open approved room in the Excel register","ru":"Открыть комнату в таблице","uk":"Відкрити кімнату в таблиці"})[ctx.lang]||"Otvoriť schválenú izbu v Excel evidencii";
+    const open=button(openLabel,()=>ctx.openRooms(person.room_number,person.accommodation_from),'btn-secondary');
+    open.type='button';open.style.margin='10px 0 0';open.style.display='block';
+    ctx.notice.append(open);
+   }
   }catch{if(ctx.isCurrent())status(w.failed,true);}
   finally{
    pendingAction=false;if(ctx.isCurrent()){search.disabled=false;select.disabled=false;if(success)paint();}
