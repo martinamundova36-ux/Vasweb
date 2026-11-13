@@ -448,8 +448,11 @@ async function chooseOrganization(tenantId){
   ]);
   const needsCorrection=review?.review_status==='needs_correction'
    && Date.parse(String(questionnaire?.updated_at||questionnaire?.created_at||''))<=Date.parse(String(review.requested_at||''));
+  const isCompleted=!!questionnaire?.student_submitted_at&&!!photos?.length;
   const wantsEnquiry=new URLSearchParams(location.search).get('tab')==='enquiry';
-  if(!questionError&&!photoError&&!reviewError&&(!questionnaire?.student_submitted_at||!photos?.length||needsCorrection||wantsEnquiry)){
+  if(!resident.profile_password_activated_at){
+   tab=isCompleted&&!needsCorrection?'await-profile':'enquiry';
+  }else if(!questionError&&!photoError&&!reviewError&&(!isCompleted||needsCorrection||wantsEnquiry)){
    tab='enquiry';
   }else{
    const {data:sent,error:signedError}=await db.from('residence_portal_files')
@@ -460,6 +463,9 @@ async function chooseOrganization(tenantId){
     if(['signed_contract','signed_rules','signed_gdpr'].some(k=>!approved.has(k)))tab='documents';
    }
   }
+ }
+ if(questionnaireEntryMode&&resident?.profile_password_activated_at){
+  location.replace('/student-house-portal/student/?signin=1');return;
  }
  renderTabs();await renderPanel();startLiveSync();
 }
@@ -506,7 +512,10 @@ function message(note){$('records').append(make('p','mini-note',note))}
 function row(title,detail,status){let d=make('div','item');d.append(make('strong','',title));if(detail)d.append(make('div','small',detail));if(status)d.append(statusPill(status));return d}
 function subheading(str){$('records').append(make('h4','section-subtitle',str))}
 function kpi(caption,value,details,go){const b=make('button','kpi');b.type='button';b.append(make('div','kpi-caption',caption),make('strong','',value),make('small','',details));if(go)b.addEventListener('click',()=>navigate(go));else b.disabled=true;return b}
-function navigate(next){tab=next;renderTabs();void renderPanel()}
+function navigate(next){
+ if(!isStaff()&&!resident?.profile_password_activated_at&&!['enquiry','await-profile'].includes(next))return;
+ tab=next;renderTabs();void renderPanel();
+}
 const icons={account:'🔒',enquiry:'▤',profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉'};
 
 const docLabels = {
@@ -728,6 +737,15 @@ function renderTabs(){
  const isAdmin=isStaff();
  const keys=isAdmin?['rooms','overview','registrations','residents','payments','installments','documents','requests','cleaning','notices']:['overview','profile','enquiry','rooms','payments','installments','documents','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label','Sections');parent.setAttribute('role','navigation');
+ const inWizard=!isAdmin&&resident&&!resident.profile_password_activated_at;
+ const progress=$('wizardProgress');progress.classList.toggle('hide',!inWizard);
+ if(inWizard){
+  progress.textContent=lang==='en'
+   ?'1. Registration ✓    →    2. Questionnaire '+(tab==='enquiry'?'●':'✓')+'    →    3. Email & password'
+   :'1. Registrácia ✓    →    2. Dotazník '+(tab==='enquiry'?'●':'✓')+'    →    3. E-mail a heslo';
+  parent.classList.add('hide');$('accountShortcut').classList.add('hide');$('switchPortal').classList.add('hide');return;
+ }
+ parent.classList.remove('hide');$('accountShortcut').classList.remove('hide');$('switchPortal').classList.remove('hide');
  $('zone').textContent=!isAdmin?dashboardLabel('student'):member.role==='org_admin'?dashboardLabel('admin'):dashboardLabel('reception');
  $('roleLabel').textContent=!isAdmin?dashboardLabel('studentRole'):member.role==='org_admin'?dashboardLabel('adminRole'):dashboardLabel('receptionRole');
  $('accountShortcut').textContent='⚙ '+dashboardLabel('account');
@@ -823,6 +841,20 @@ function renderPasswordSettings(){
  });
  actions.append(gen,copy,show);form.append(old.wrap,fresh.wrap,repeat.wrap,actions,submit,status);c.append(form);
 }
+async function sendProfileStepInvitation(tenant,button){
+ if(button)button.disabled=true;
+ try{
+  const {data,error}=await db.functions.invoke('manage',{body:{action:'send_profile_invite',tenant_id:tenant}});
+  if(error||!data?.ok){
+   const warning=lang==='en'?'Questionnaire saved, but the profile invitation could not be sent. Try again or contact reception.':'Dotazník sa uložil, ale pozvánku do profilu sa nepodarilo odoslať. Skús znova alebo kontaktuj recepciu.';
+   if(button)alert(warning);
+   else {navigate('await-profile');$('records').append(make('p','danger',warning));}
+   return;
+  }
+  navigate('await-profile');
+ }catch{alert(lang==='en'?'Invitation could not be sent.':'Pozvánku sa nepodarilo odoslať.');}
+ finally{if(button)button.disabled=false;}
+}
 async function renderPanel(){
  const generation=++renderGeneration;
  const container=$('records');container.replaceChildren(make('p','muted','…'));
@@ -836,9 +868,21 @@ async function renderPanel(){
    const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-onboarding-documents3');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
-    onComplete:()=>navigate('documents'),
+    isOnboarding:!resident.profile_password_activated_at,
+    onComplete:()=>resident.profile_password_activated_at?navigate('documents'):sendProfileStepInvitation(tenant),
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='enquiry'});
    return;
+  }
+  if(tab==='await-profile'&&!staff){
+   container.replaceChildren();
+   heading(lang==='en'?'Step 2 completed':'Dotazník odoslaný',
+    lang==='en'?'A new email now opens your student profile.':'Teraz nasleduje samostatná pozvánka do študentského profilu.');
+   container.append(make('p','',lang==='en'
+    ?'Open the next email, enter your verified email and choose a password to activate your profile.'
+    :'Otvor ďalší e-mail, zadaj overený e-mail a zvoľ si heslo na aktivovanie profilu.'));
+   const retry=make('button','',lang==='en'?'Resend profile invitation':'Znova poslať pozvánku do profilu');
+   retry.type='button';retry.addEventListener('click',()=>{void sendProfileStepInvitation(tenant,retry);});
+   container.append(retry);return;
   }
   if(tab==='overview'){
    const sources=staff?['registration_requests','residents','rooms','service_requests','cleaning_bookings','announcements']:['tenancies','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','cleaning_bookings','service_requests','announcements'];
