@@ -22,9 +22,14 @@ jobs:
           const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(x=>x[1]).filter(Boolean);
           if (!scripts.length) throw new Error('Inline JavaScript missing');
           for (const source of scripts) new vm.Script(source);
-          for (const id of ['regFirst','regLast','regRoom','regContract','regFrom','regTo','regEmail','regPrivacy','regForm']) {
+          for (const id of ['regFirst','regLast','regRoom','regRoomType','regFrom','regTo','regEmail','regPrivacy','regForm']) {
             if (!html.includes('id="'+id+'"')) throw new Error('Missing registration field '+id);
           }
+          if (html.includes('id="regContract"')) throw new Error('Contract number must remain staff-only');
+          if (!html.includes('<select id="regRoom"') || !html.includes('<select id="regRoomType"'))
+            throw new Error('Room preferences must be dropdown controls, not free text');
+          if (!html.includes('const PUBLIC_ROOM_CATALOG=') || !html.includes('updateRoomPreferenceOptions'))
+            throw new Error('Filtered room dropdown data or handler missing');
           if (!html.includes('functions/v1/register-student')) throw new Error('Missing submission endpoint');
           if (!html.includes('id="backToWebsite"') || !html.includes('position:sticky')) throw new Error('Persistent back to Student House link missing');
           if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes("await import('/student-house-portal/staff.js?v=") || !staff.includes('registration_id:person.id')) throw new Error('Real finance, private documents or verified approval missing');
