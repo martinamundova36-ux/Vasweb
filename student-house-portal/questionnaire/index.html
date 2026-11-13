@@ -1009,7 +1009,7 @@ let renderGeneration=0;
 let pendingRoomFocus=null;
 
 // Automatic sync: approved registrations and verified accounting entries share one database.
-const LIVE_TABLES=['resident_enquiry_reviews','resident_enquiries','residence_portal_files','registration_requests','residents','rooms','tenancies','resident_staff_details','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','installment_items','cleaning_bookings','service_requests'];
+const LIVE_TABLES=['resident_enquiry_reviews','resident_enquiries','residence_portal_files','registration_requests','residents','rooms','tenancies','resident_staff_details','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','installment_items','cleaning_bookings','service_requests','service_request_messages'];
 let liveChannel=null,liveTimer=null,liveDebounce=null,liveBusy=false,livePending=false;
 function stopLiveSync(){
  if(liveTimer!==null){clearInterval(liveTimer);liveTimer=null;}
@@ -1169,8 +1169,8 @@ async function renderPanel(){
     cards.append(
       kpi(label('rent'),d.rent_charges.length?money(chargeTotal):'—','','payments'),
       kpi(label('paid'),d.payments.length?money(paidTotal):'—','','payments'),
-      kpi(label('cleaningCount'),d.cleaning_bookings.filter(x=>['requested','approved'].includes(x.status)).length,'','cleaning'),
-      kpi(label('requestsCount'),d.service_requests.filter(x=>['new','in_progress'].includes(x.status)).length,'','requests')
+      kpi(label('cleaningCount'),d.cleaning_bookings.filter(x=>['requested','proposed','approved'].includes(x.status)).length,'','cleaning'),
+      kpi(label('requestsCount'),d.service_requests.filter(x=>['new','accepted','in_progress','waiting_parts'].includes(x.status)).length,'','requests')
     );
     const tenancy=[...d.tenancies].sort((a,b)=>String(b.starts_on).localeCompare(String(a.starts_on)))[0];
     if(tenancy)message('Ubytovanie: '+day(tenancy.starts_on)+' – '+day(tenancy.ends_on)+' · '+money(tenancy.rent)+'/mes.');
@@ -1454,77 +1454,13 @@ async function renderPanel(){
    return;
   }
   if(tab==='requests'||tab==='cleaning'){
-   const cleaning=tab==='cleaning',table=cleaning?'cleaning_bookings':'service_requests';
-   heading(label(tab),cleaning?(staff?'Potvrdenie termínov a cien recepciou.':'Odoslanie žiadosti neznamená potvrdený termín ani cenu.'):(staff?'Spracovanie študentských požiadaviek.':'Kontaktuj recepciu cez novú požiadavku.'));
-   const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
-   const rows=(await list(table,filter)).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
-   if(!rows.length)empty();
-   for(const x of rows){
-    const info=cleaning?day(x.preferred_date)+' · '+x.preferred_window+(x.price_eur!==null?' · '+money(x.price_eur):''):(x.description||'');
-    const e=row(cleaning?label('cleaning')+' · '+day(x.preferred_date):x.subject,info,x.status);
-    if(x.notes)e.append(make('div','small',x.notes));
-    if(x.staff_note)e.append(make('div','small',label('notes')+': '+x.staff_note));
-    if(x.scheduled_at)e.append(make('div','small',label('dateTime')+': '+new Date(x.scheduled_at).toLocaleString()));
-    if(staff){
-     const form=make('form','staff-form');
-     const status=make('select');const valid=cleaning?['requested','approved','rejected','completed','cancelled']:['new','in_progress','resolved','cancelled'];
-     for(const value of valid){const opt=make('option','',value);opt.value=value;opt.selected=x.status===value;status.append(opt)}
-     const notes=make('textarea');notes.rows=2;notes.maxLength=cleaning?1500:4000;notes.value=x.staff_note||'';
-     form.append(make('label','',label('status')),status,make('label','',label('notes')),notes);
-     let price,time;
-     if(cleaning){
-      price=make('input');price.type='number';price.step='0.01';price.min='0';price.value=x.price_eur??'';
-      time=make('input');time.type='datetime-local';time.value=x.scheduled_at?new Date(new Date(x.scheduled_at).getTime()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16):'';
-      form.append(make('label','',label('price')),price,make('label','',label('dateTime')),time);
-     }
-     const save=make('button','',label('save'));save.type='submit';form.append(save);
-     form.addEventListener('submit',async event=>{
-      event.preventDefault();
-      if(!confirm(label('confirmSave')))return;
-      save.disabled=true;
-      const payload={status:status.value,staff_note:notes.value.trim()};
-      if(cleaning){
-       const amount=price.value.trim();
-       payload.price_eur=amount===''?null:Number(amount);
-       payload.scheduled_at=time.value?new Date(time.value).toISOString():null;
-      }
-      const {data,error}=await db.from(table).update(payload).eq('tenant_id',tenant).eq('id',x.id).select('id');
-      if(error||!data?.length){alert(label('error'));save.disabled=false;return}
-      alert(label('success'));void renderPanel();
-     });
-     e.append(form);
-    }
-    container.append(e);
-   }
-   if(!staff && own){
-    const form=make('form','staff-form');form.append(make('strong','',cleaning?label('requestNew'):t[20]));
-    if(!cleaning){
-     const subject=make('input');subject.minLength=3;subject.maxLength=160;subject.required=true;
-     const description=make('textarea');description.maxLength=1500;description.required=true;
-     const cat=make('select');for(const value of ['maintenance','documents','parcel','other']){const o=make('option','',value);o.value=value;cat.append(o)}
-     form.append(make('label','',t[22]),subject,make('label','',t[23]),description,make('label','','Typ / Type'),cat);
-     const send=make('button','',t[20]);send.type='submit';form.append(send);
-     form.addEventListener('submit',async event=>{
-      event.preventDefault();send.disabled=true;const {data,error}=await db.from('service_requests').insert({tenant_id:tenant,resident_id:own,subject:subject.value.trim(),description:description.value.trim(),category:cat.value,status:'new',staff_note:''}).select('id');
-      if(error||!data?.length){alert(label('error'));send.disabled=false;return}
-      alert(t[24]);void renderPanel();
-     });
-    }else{
-     const date=make('input');date.type='date';date.min=new Date().toISOString().slice(0,10);date.required=true;
-     const windowSelect=make('select');for(const [value,txt] of [['morning','Dopoludnia / Morning'],['afternoon','Popoludní / Afternoon'],['anytime','Kedykoľvek / Anytime']]){const o=make('option','',txt);o.value=value;windowSelect.append(o)}
-     const note=make('textarea');note.maxLength=1500;note.rows=3;
-     form.append(make('label','',label('time')),date,make('label','','Čas / Time'),windowSelect,make('label','',label('notes')),note);
-     const submit=make('button','',t[20]);submit.type='submit';form.append(submit);
-     form.addEventListener('submit',async event=>{
-      event.preventDefault();submit.disabled=true;
-      const {data,error}=await db.from('cleaning_bookings').insert({tenant_id:tenant,resident_id:own,preferred_date:date.value,preferred_window:windowSelect.value,notes:note.value.trim(),status:'requested'}).select('id');
-      if(error||!data?.length){alert(label('error'));submit.disabled=false;return}
-      alert(t[24]);void renderPanel();
-     });
-     form.append(make('p','mini-note',lang==='en'?'This is only a request; reception will confirm the price and appointment.':'Ide iba o žiadosť. Termín a cenu potvrdí recepcia.'));
-    }
-    container.append(form);
-   }
+   const serviceTab=tab,serviceTenant=tenant;
+   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261113-services1');
+   if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
+   await renderServiceRequests({root:container,db,list,tenant,staff,resident,userId:user.id,lang,
+    cleaning:serviceTab==='cleaning',day,money,
+    isCurrent:()=>generation===renderGeneration&&member?.tenant_id===serviceTenant&&tab===serviceTab,
+    refresh:()=>void renderPanel()});
    return;
   }
   empty();
