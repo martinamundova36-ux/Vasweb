@@ -37,13 +37,22 @@ jobs:
           test -s student-house-portal/assets/bratislava-preview.mp4
           file student-house-portal/assets/bratislava-preview.mp4
           ls -lh student-house-portal/assets/bratislava-preview.mp4
+      - name: Convert WordPress atmosphere GIF into a proper MP4
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 "https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-atmosfera-animacia.gif" -o /tmp/sh-atmosfera.gif
+          "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" -hide_banner -loglevel error -y -i /tmp/sh-atmosfera.gif -vf 'scale=960:-2:flags=lanczos,fps=18' -c:v libx264 -preset medium -crf 19 -pix_fmt yuv420p -movflags +faststart -an student-house-portal/assets/student-house-atmosfera-preview.mp4
+          test -s student-house-portal/assets/student-house-atmosfera-preview.mp4
+          file student-house-portal/assets/student-house-atmosfera-preview.mp4
+          ls -lh student-house-portal/assets/student-house-atmosfera-preview.mp4
       - name: Commit preview video only to isolated branch
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add student-house-portal/assets/bratislava-preview.mp4
+          git add student-house-portal/assets/bratislava-preview.mp4 student-house-portal/assets/student-house-atmosfera-preview.mp4
           if ! git diff --cached --quiet; then
             git commit -m "Add quality MP4 video for Student House WP preview"
             git push origin HEAD:student-house-video-preview
