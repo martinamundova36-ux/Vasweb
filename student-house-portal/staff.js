@@ -222,7 +222,22 @@ export async function renderStaffScreen(ctx) {
     status(['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending'].includes(code)?w.conflict:w.failed,true);
     return;
    }
-   person.status=approve?'invited':'rejected';success=true;status(approve?w.inviteOK:w.rejected);
+   person.status=approve?'invited':'rejected';success=true;
+   const useExistingPassword=approve&&response.data?.email_sent===false;
+   status(useExistingPassword
+     ?(ctx.lang==='en'?'Registration approved. Student signs in with their chosen password. Open Gmail to notify them.':'Registrácia schválená. Študent sa prihlási zvoleným heslom. Otvor Gmail a pošli mu oznámenie.')
+     :(approve?w.inviteOK:w.rejected));
+   if(useExistingPassword){
+    const subject='Student House Bratislava – '+(ctx.lang==='en'?'registration approved':'registrácia schválená');
+    const body=ctx.lang==='en'
+     ?'Hello,\n\nYour accommodation registration has been approved. Confirm your email address if needed, then sign in with your existing password here:\nhttps://www.webu.sk/student-house-portal/student/\n\nYour personal questionnaire and student photo will be available after sign-in.\n\nStudent House Bratislava Reception'
+     :'Ahoj,\n\nTvoja registrácia ubytovania bola schválená. Ak si ešte nepotvrdil(a) e-mail, potvrď ho. Potom sa prihlás heslom, ktoré si si zvolil(a), tu:\nhttps://www.webu.sk/student-house-portal/student/\n\nPo prihlásení vyplň osobný dotazník a vlož fotografiu.\n\nRecepcia Student House Bratislava';
+    const mail=el('a','btn-secondary',ctx.lang==='en'?'Open Gmail approval message':'Otvoriť Gmail – schválenie študenta');
+    mail.href='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(person.email)
+      +'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    mail.target='_blank';mail.rel='noopener noreferrer';mail.style.cssText='display:inline-block;padding:11px 13px;margin:10px 10px 0 0';
+    ctx.notice.append(mail);
+   }
    // The manage Edge Function commits resident, tenancy and verified monthly charges
    // in one database transaction before it returns ok. Offer direct verification.
    if(approve&&typeof ctx.openRooms==='function'){
@@ -312,10 +327,9 @@ export async function renderStaffScreen(ctx) {
     if(reviewError){enquiryBox.append(el('p','danger',labels.fail));}
     else{
       if(review){
-       const corrected=review.review_status==='needs_correction'
-         && Date.parse(String(enquiry.updated_at||enquiry.created_at||''))>Date.parse(String(review.requested_at||''));
-       const label=review.review_status==='approved'?labels.approved:corrected?labels.resubmitted:labels.returned;
-       enquiryBox.append(el('p',review.review_status==='approved'?'mini-note':(corrected?'mini-note':'danger'),label));
+       const corrected=Date.parse(String(enquiry.updated_at||enquiry.created_at||''))>Date.parse(String(review.requested_at||''));
+       const label=review.review_status==='approved'&&!corrected?labels.approved:corrected?labels.resubmitted:labels.returned;
+       enquiryBox.append(el('p',review.review_status==='approved'&&!corrected?'mini-note':(corrected?'mini-note':'danger'),label));
        if(review.correction_reason&&review.review_status==='needs_correction')
         enquiryBox.append(el('p','mini-note',review.correction_reason));
       }
