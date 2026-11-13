@@ -225,6 +225,18 @@ body[data-portal-entry="questionnaire"] .hero h1{font-size:clamp(29px,3vw,46px)}
 body[data-portal-entry="questionnaire"] #app .results{border:2px solid #c6ddf2}
 body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 @media(max-width:650px){#regForm .reg-fields{grid-template-columns:1fr}#regForm .reg-section{padding:12px}}
+
+/* Document workflow: signed files are uploaded by the authenticated resident. */
+.document-flow-intro{border:1px solid #bfd3e9;border-radius:16px;background:#eef5fc;padding:18px 22px;margin:14px 0 22px;color:#142b4d}
+.document-flow-intro h3{margin:0 0 8px;color:#142b4d}
+.document-flow-intro p{margin:0;line-height:1.65}
+.document-flow-card{display:flex;flex-direction:column;gap:14px}
+.document-flow-card>h3{margin:0;color:#142b4d}
+.document-flow-step{border-top:1px solid #dce6f1;padding-top:14px}
+.document-flow-step h4{margin:0 0 8px;font-size:16px;color:#142b4d}
+.document-flow-step .file-area{margin-top:10px}
+.document-flow-submitted{background:#f1f6fc;border:1px solid #dce6f1;border-radius:12px;padding:12px;margin:10px 0}
+.document-flow-submitted>*{margin:5px 0}
 </style><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="shortcut icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></head><body data-portal-entry="student">
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><div class="hero-photo-frame"><img class="hero-photo" src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-studenti-pri-dunaji.png" width="1842" height="854" loading="eager" decoding="async" alt="Ilustračná fotografia študentského života v Bratislave"></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
@@ -642,6 +654,79 @@ const docLabels = {
  uk:{contract:"Договір проживання",signedContract:"Підписаний договір",onboarding:"Крок 3 із 3 – документи",contractNeeded:"Договір ще не завантажено.",contractUpload:"Завантажити договір (PDF)",rules:"Правила проживання",gdpr:"Інформація про персональні дані (GDPR)",signedRules:"Підписані правила проживання",signedGdpr:"Підтвердження ознайомлення з GDPR",load:"Завантажити",upload:"Завантажити файл",photo:"Фото профілю",profileInfo:"Перевірені дані проживання",first:"Ім’я",last:"Прізвище",room:"Номер кімнати",email:"Електронна пошта",noRoom:"Кімнату ще не призначено",manual:"Дані підтверджує рецепція. Для виправлень надішліть запит.",photoHelp:"Фото JPG або PNG, до 3 МБ.",uploadHelp:"Завантаж підписаний PDF, JPG або PNG, до 6 МБ.",wait:"Очікує перевірки",approved:"Схвалено",rejected:"Потребує виправлення",missing:"Рецепція ще не завантажила документ.",privacy:"Фото, підписи й особисті дані доступні тільки уповноваженим працівникам.",uploadTemplate:"Завантажити актуальний PDF",signedReceived:"Підписані документи",staffProfile:"Фото мешканців",downloadForReview:"Переглянути документ",reviewApprove:"Схвалити",reviewReject:"Повернути на виправлення",reviewNote:"Примітка",viewPhoto:"Переглянути фото",requestCorrection:"Попросити виправлення",fileError:"Помилка завантаження. Перевір формат і розмір.",fileSuccess:"Файл завантажено.",adminTemplates:"Документи для завантаження",privateDocuments:"Інші особисті документи"}
 };
 const dl=k=>(docLabels[lang]||docLabels.sk)[k]||docLabels.sk[k]||k;
+
+const documentFlowText = {
+ "sk": {
+  "studentHeading": "Moje dokumenty – stiahnuť a odovzdať",
+  "introTitle": "Postup pri dokumentoch",
+  "intro": "1. Stiahni PDF od recepcie. 2. Dokument vytlač, vyplň a vlastnoručne podpíš. 3. Podpísaný dokument odfoť alebo naskenuj a nahraj späť do svojho profilu. Recepcia ho potom skontroluje.",
+  "stepDownload": "1. Stiahnuť dokument",
+  "stepPrint": "2. Vytlačiť a podpísať",
+  "stepUpload": "3. Nahrať podpísaný dokument",
+  "download": "Stiahnuť PDF",
+  "printHelp": "Otvor stiahnuté PDF, vytlač ho a podpíš. V prehliadači môžeš použiť tlač Ctrl + P. Odfotené strany musia byť úplne čitateľné.",
+  "awaiting": "Dokument ešte nepripravila recepcia. Nahratie podpísaného súboru bude dostupné po jeho zverejnení.",
+  "submitted": "Odovzdaný dokument",
+  "pending": "Súbor je odovzdaný a čaká na kontrolu recepciou.",
+  "approved": "Dokument je schválený. Nie je potrebné ho nahrávať znova.",
+  "rejected": "Recepcia dokument vrátila. Oprav ho a nahraj novú podpísanú verziu.",
+  "uploadHelp": "Nahraj všetky podpísané strany ako PDF, JPG alebo PNG, najviac 6 MB.",
+  "staffHelp": "Tu recepcia zverejňuje aktuálne vzory PDF. Podpísané dokumenty nahrávajú študenti vo svojich profiloch."
+ },
+ "en": {
+  "studentHeading": "My documents – download and submit",
+  "introTitle": "How to complete your documents",
+  "intro": "1. Download the PDF provided by reception. 2. Print, complete and sign it by hand. 3. Scan or photograph the signed document and upload it in your student account. Reception will review it.",
+  "stepDownload": "1. Download the document",
+  "stepPrint": "2. Print and sign",
+  "stepUpload": "3. Upload the signed document",
+  "download": "Download PDF",
+  "printHelp": "Open the PDF, print and sign it. Use Ctrl + P in your browser. Every photographed page must be clearly legible.",
+  "awaiting": "Reception has not provided this document yet. Upload will become available when it is published.",
+  "submitted": "Submitted document",
+  "pending": "Your document has been submitted and is awaiting reception review.",
+  "approved": "Document approved. No need to upload it again.",
+  "rejected": "Reception returned this document. Correct it and upload a new signed copy.",
+  "uploadHelp": "Upload all signed pages as PDF, JPG or PNG, up to 6 MB.",
+  "staffHelp": "Reception publishes current PDF templates here. Students upload signed copies from their own profiles."
+ },
+ "ru": {
+  "studentHeading": "Мои документы — скачать и отправить",
+  "introTitle": "Как оформить документы",
+  "intro": "1. Скачайте PDF от ресепшена. 2. Распечатайте, заполните и подпишите от руки. 3. Отсканируйте или сфотографируйте подписанный документ и загрузите его в личном кабинете. Ресепшен проверит файл.",
+  "stepDownload": "1. Скачать документ",
+  "stepPrint": "2. Распечатать и подписать",
+  "stepUpload": "3. Загрузить подписанный документ",
+  "download": "Скачать PDF",
+  "printHelp": "Откройте PDF, распечатайте и подпишите. В браузере нажмите Ctrl + P. Все страницы на фото должны быть читаемыми.",
+  "awaiting": "Ресепшен ещё не опубликовал документ. Загрузка будет доступна после публикации.",
+  "submitted": "Отправленный документ",
+  "pending": "Файл отправлен и ожидает проверки ресепшеном.",
+  "approved": "Документ одобрен. Повторная загрузка не нужна.",
+  "rejected": "Ресепшен вернул документ. Исправьте его и загрузите новую подписанную копию.",
+  "uploadHelp": "Загрузите все подписанные страницы в PDF, JPG или PNG, до 6 МБ.",
+  "staffHelp": "Ресепшен публикует актуальные PDF здесь. Жильцы загружают подписанные документы в своих кабинетах."
+ },
+ "uk": {
+  "studentHeading": "Мої документи — завантажити та подати",
+  "introTitle": "Як оформити документи",
+  "intro": "1. Завантаж PDF від рецепції. 2. Роздрукуй, заповни та підпиши власноруч. 3. Відскануй або сфотографуй підписаний документ і завантаж у свій профіль. Рецепція перевірить файл.",
+  "stepDownload": "1. Завантажити документ",
+  "stepPrint": "2. Роздрукувати та підписати",
+  "stepUpload": "3. Завантажити підписаний документ",
+  "download": "Завантажити PDF",
+  "printHelp": "Відкрий PDF, роздрукуй і підпиши. У браузері натисни Ctrl + P. Усі сторінки на фото мають бути чітко видимими.",
+  "awaiting": "Рецепція ще не опублікувала документ. Завантаження підписаної копії стане доступним після публікації.",
+  "submitted": "Поданий документ",
+  "pending": "Файл надіслано й він очікує перевірки рецепції.",
+  "approved": "Документ схвалено. Повторне завантаження не потрібне.",
+  "rejected": "Рецепція повернула документ. Виправ його та завантаж нову підписану копію.",
+  "uploadHelp": "Завантаж усі підписані сторінки у PDF, JPG або PNG, до 6 МБ.",
+  "staffHelp": "Рецепція публікує актуальні PDF тут. Студенти завантажують підписані документи зі своїх профілів."
+ }
+};
+const df=k=>(documentFlowText[lang]||documentFlowText.sk)[k]||documentFlowText.sk[k]||k;
+
 const privacyUrls={sk:'https://studenthousebratislavanew.wordpress.com/gdpr/',en:'https://studenthousebratislavanew.wordpress.com/en/privacy-policy/',ru:'https://studenthousebratislavanew.wordpress.com/ru/privacy-policy/',uk:'https://studenthousebratislavanew.wordpress.com/ua/privacy-policy/'};
 async function fileLink(id,tenant,openInline=false){
  const {data,error}=await db.functions.invoke('residence-files',{body:{action:'download',tenant_id:tenant,file_id:id}});
@@ -726,49 +811,64 @@ async function renderProfile(tenant){
  const policy=make('a','policy-link','GDPR');policy.href=privacyUrls[lang];policy.target='_blank';policy.rel='noopener noreferrer';$('records').append(policy);
 }
 async function renderResidentDocuments(tenant,staff,own){
- heading(dl('adminTemplates'),dl('privacy'));
+ heading(staff?dl('adminTemplates'):df('studentHeading'),dl('privacy'));
  const files=await list('residence_portal_files');
- const grid=make('div','docgrid');
- if(!staff){
-  $('records').append(make('h3','section-subtitle',dl('onboarding')));
-  const contract=files.filter(x=>x.kind==='contract_draft'&&x.active&&x.user_id===user.id)
-    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
-  const c=make('div','file-item');c.append(make('h4','',dl('contract')));
-  if(contract){
-   c.append(make('p','small',contract.original_name));
-   const load=make('button','btn-secondary',dl('load'));load.type='button';
-   load.addEventListener('click',()=>{void fileLink(contract.id,tenant)});c.append(load);
-  }else c.append(make('p','muted',dl('contractNeeded')));
-  grid.append(c);
- }
- grid.append(templateCard(tenant,files,'rules_template',dl('rules'),staff));
- grid.append(templateCard(tenant,files,'gdpr_template',dl('gdpr'),staff));
- $('records').append(grid);
  if(!staff){
   if(!own){empty(dl('manual'));return;}
-  subheading(dl('signedReceived'));
-  const submissions=files.filter(x=>x.user_id===user.id&&['signed_contract','signed_rules','signed_gdpr'].includes(x.kind))
-    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+  const intro=make('div','document-flow-intro');
+  intro.append(make('h3','',df('introTitle')),make('p','',df('intro')));
+  $('records').append(intro);
   const cards=make('div','docgrid');
-  for(const [kind,title] of [['signed_contract',dl('signedContract')],['signed_rules',dl('signedRules')],['signed_gdpr',dl('signedGdpr')]]){
-   const c=make('div','file-item');c.append(make('h4','',title));
-   const found=submissions.filter(x=>x.kind===kind);
-   if(found.length){
-    for(const x of found.slice(0,4)){
-     const line=make('div','item');
-     line.append(make('small','',day(x.created_at)+' · '+x.original_name),make('div','', ''));
-     line.append(statusPill(readableStatus(x.review_status)));
-     if(x.staff_note)line.append(make('p','small',x.staff_note));
-     const see=make('button','btn-secondary',dl('load'));see.type='button';
-     see.addEventListener('click',()=>{void fileLink(x.id,tenant)});
-     line.append(see);c.append(line);
-    }
-   } else c.append(make('p','muted',dl('missing')));
-   c.append(uploadCard(tenant,kind,dl('upload'),dl('uploadHelp'),'application/pdf,image/jpeg,image/png'));
-   cards.append(c);
+  const requirements=[
+   ['contract_draft','signed_contract',dl('contract'),dl('signedContract')],
+   ['rules_template','signed_rules',dl('rules'),dl('signedRules')],
+   ['gdpr_template','signed_gdpr',dl('gdpr'),dl('signedGdpr')]
+  ];
+  for(const [templateKind,signedKind,title,signedTitle] of requirements){
+   const template=files.filter(x=>x.kind===templateKind&&x.active&&(templateKind!=='contract_draft'||x.user_id===user.id))
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+   const submission=files.filter(x=>x.kind===signedKind&&x.active&&x.user_id===user.id)
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+   const card=make('div','file-item document-flow-card');
+   card.append(make('h3','',title));
+   const downloadStep=make('div','document-flow-step');
+   downloadStep.append(make('h4','',df('stepDownload')));
+   if(template){
+    downloadStep.append(make('p','small',template.original_name));
+    const button=make('button','btn-secondary',df('download'));button.type='button';
+    button.addEventListener('click',()=>{void fileLink(template.id,tenant)});
+    downloadStep.append(button);
+   }else downloadStep.append(make('p','muted',df('awaiting')));
+   card.append(downloadStep);
+   const printStep=make('div','document-flow-step');
+   printStep.append(make('h4','',df('stepPrint')),make('p','small',df('printHelp')));
+   card.append(printStep);
+   const uploadStep=make('div','document-flow-step');
+   uploadStep.append(make('h4','',df('stepUpload')));
+   if(submission){
+    const previous=make('div','document-flow-submitted');
+    previous.append(make('strong','',df('submitted')),make('p','small',day(submission.created_at)+' · '+submission.original_name));
+    previous.append(statusPill(readableStatus(submission.review_status)));
+    if(submission.staff_note)previous.append(make('p','small',submission.staff_note));
+    const open=make('button','btn-secondary',dl('load'));open.type='button';
+    open.addEventListener('click',()=>{void fileLink(submission.id,tenant)});
+    previous.append(open);uploadStep.append(previous);
+    if(submission.review_status==='approved')uploadStep.append(make('p','small',df('approved')));
+    else if(submission.review_status==='rejected')uploadStep.append(make('p','small',df('rejected')));
+    else uploadStep.append(make('p','small',df('pending')));
+   }
+   if(template&&(!submission||submission.review_status==='rejected')){
+    uploadStep.append(uploadCard(tenant,signedKind,signedTitle,df('uploadHelp'),'application/pdf,image/jpeg,image/png'));
+   }else if(!template&&!submission)uploadStep.append(make('p','muted',df('awaiting')));
+   card.append(uploadStep);cards.append(card);
   }
   $('records').append(cards);
  }else{
+  const intro=make('p','muted',df('staffHelp'));$('records').append(intro);
+  const grid=make('div','docgrid');
+  grid.append(templateCard(tenant,files,'rules_template',dl('rules'),true));
+  grid.append(templateCard(tenant,files,'gdpr_template',dl('gdpr'),true));
+  $('records').append(grid);
   subheading(dl('signedReceived'));
   const submissions=files.filter(x=>['signed_contract','signed_rules','signed_gdpr'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
@@ -793,6 +893,7 @@ async function renderResidentDocuments(tenant,staff,own){
    box.append(actions);$('records').append(box);
   }
  }
+
  subheading(dl('privateDocuments'));
  const residentDocs=files.filter(x=>['resident_document','contract_draft'].includes(x.kind)&&x.active&&(staff||x.kind==='resident_document')&&(staff||x.user_id===user.id))
    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
