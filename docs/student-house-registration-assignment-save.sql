@@ -6,3 +6,6 @@ create policy registration_pending_edits_guard on public.registration_requests a
 create trigger registration_assignment_audit after update of contract_number,room_number on public.registration_requests
  for each row when (old.contract_number is distinct from new.contract_number or old.room_number is distinct from new.room_number)
  execute function private.audit_write();
+
+-- The unified reception form also verifies stay dates before approval.
+grant update(accommodation_from,accommodation_to) on public.registration_requests to authenticated;
