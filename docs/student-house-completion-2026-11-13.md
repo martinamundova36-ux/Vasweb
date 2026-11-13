@@ -40,3 +40,9 @@ Toto NIE JE potvrdenie 100 % prevádzkovej pripravenosti.
 - Supabase upozorňuje na vypnutú ochranu proti uniknutým heslám. Nevykonali sme platený upgrade. Súkromné e-mailové tabuľky zámerne nemajú klientské politiky.
 
 Zdroj pravdy zostáva Supabase. Testovacia žiadosť E2E je jasne označená; nemenili sme skutočným študentom schválenia, zmluvy, dlhy ani úhrady.
+
+## Konečná regresná kontrola
+
+GitHub Actions beh 43510602382 pre commit b1d04beab5467376576f2d72309252843f9c5f3f skončil úspešne: verejné bezpečnostné kontroly, kompletné lokálne regresie, 12 Chromium scenárov rolí a vstupov, skutočný Supabase SDK s izolovaným HTTP a oddelenými reláciami, servisné formuláre v Chromium aj WebKit. Následná úprava finančných kariet používa existujúce responzívne triedy kpi-grid/kpi bez zmeny výpočtov. Tieto testy nie sú tvrdením o dokončenom produkčnom end-to-end procese ani testom fyzického iPhonu/Androidu.
+
+Overený beh: https://github.com/martinamundova36-ux/Vasweb/actions/runs/43510602382

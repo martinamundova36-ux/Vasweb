@@ -1332,7 +1332,7 @@ async function renderPanel(){
   }
   if(tab==='payments'){
    heading(label('payments'),label('financeNote'));
-   if(staff){const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261113-finance1');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
+   if(staff){const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261113-finance2');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
    const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
    const [charges,paid,people,allocations,reversals]=await Promise.all([list('rent_charges',filter),list('payments',filter),staff?list('residents'):Promise.resolve([]),list('payment_allocations'),list('payment_reversals')]);
    const {cents,chargeBalance}=await import('/student-house-portal/ledger.js?v=20261112-entry5-authfix1');
