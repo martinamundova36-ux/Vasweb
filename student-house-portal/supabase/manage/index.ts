@@ -56,10 +56,10 @@ Deno.serve(async(req)=>{
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
   const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'':'?view=reception');
   let uid:string|undefined,existingUser=false,emailSent=false;
-  // A student who selected a password via Supabase Auth during registration
-  // already has an Auth account, but has NO organization membership until approval.
-  // Re-inviting that address would send an unwanted password-reset email.
-  // Existing users retain their passwords; only brand-new users receive an invite.
+  // New registrations have NO password. Reception approves the room, signed
+  // contract data and monthly rent. New email accounts receive a one-time invite.
+  // Older applicants who previously created an Auth account receive a password
+  // setup/recovery link only after the approval transaction succeeds.
   if(registration){
     for(let page=1;page<=100&&!uid;page++){
       const {data,error:listError}=await service.auth.admin.listUsers({page,perPage:100});
@@ -87,7 +87,7 @@ Deno.serve(async(req)=>{
   }
   if(!uid)return reply({error:'user_not_resolved'},503);
   // Staff invites to an existing account retain the old recovery workflow.
-  // Student approvals never reset the password a student already selected.
+  // Student accounts created by the old form are not re-invited before approval.
   if(existingUser&&!registration){
     const {error:resetError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
     if(resetError)return reply({error:'password_email_failed'},503);
@@ -99,6 +99,13 @@ Deno.serve(async(req)=>{
       p_monthly_rent:body.verified_monthly_rent,p_due_day:body.verified_due_day,p_schedule:body.verified_schedule
     });
     if(approvalError)return reply({error:'approval_conflict'},409);
+    if(existingUser){
+      // Send access to existing legacy accounts only after approval is committed.
+      // The reset link opens the same secure create-password screen as an invite.
+      const {error:welcomeError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
+      if(welcomeError)console.error('student_access_email_failed',welcomeError.code);
+      else emailSent=true;
+    }
   }else{
     const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
     if(checkError)throw checkError;
