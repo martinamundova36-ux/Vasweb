@@ -20,7 +20,15 @@ try{
   await page.goto('https://portal.test/student-house-portal/'+(mode==='reception'?'admin/?view=register':'student/?view=reception'));
   const allowed=mode==='student'?role==='student':role!=='student';
   if(allowed){
-   await page.locator('#tabs button').first().waitFor();
+   try{await page.locator('#tabs button').first().waitFor({timeout:7000});}
+   catch(err){
+    console.error('ROLE-TEST-DIAGNOSTIC',JSON.stringify({role,mode,width,
+      pageErrors:errors,appVisible:await page.locator('#app').isVisible(),
+      loginVisible:await page.locator('#login').isVisible(),
+      error:await page.locator('#error').textContent(),
+      tabButtons:await page.locator('#tabs button').count()}));
+    throw err;
+   }
    const title=await page.locator('#zone').innerText();
    assert.ok(role==='student'?title.includes('študentská'):!title.includes('študentská'));
    for(const code of ['en','ru','uk','sk']){await page.locator('#appLang').selectOption(code);await page.waitForFunction(c=>document.documentElement.lang===c,code);assert.ok(await page.locator('#app').isVisible());assert.equal(await page.evaluate(()=>window.testStorageKey),(mode==='reception'?'sb-ydqchayscxntqdkzkynv-auth-token':'sb-ydqchayscxntqdkzkynv-student-auth-token'));}
