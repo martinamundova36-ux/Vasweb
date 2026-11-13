@@ -1,3 +1,4 @@
+import {queueExistingRegistrationReceipt} from './receipt.js';
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.119.0";
 
@@ -90,10 +91,14 @@ Deno.serve(async(request:Request)=>{
   if(!allowed)return safeResponse({error:"too_many_requests"},429,origin);
   const since = new Date(Date.now()-14*24*60*60*1000).toISOString();
   const {data:recent,error:recentError}=await client.from("registration_requests")
-    .select("id").eq("tenant_id",tenantId).eq("email",email)
-    .in("status",["pending","correction_requested"]).gte("created_at",since).limit(1);
+    .select("id,email,status,correction_token_hash,correction_expires_at").eq("tenant_id",tenantId).eq("email",email)
+    .in("status",["pending","correction_requested"]).gte("created_at",since).order("created_at",{ascending:false}).limit(1);
   if(recentError){console.error("registration_duplicate_check",recentError.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
-  if(recent?.length)return safeResponse({ok:true},200,origin);
+  if(recent?.length){
+   try{await queueExistingRegistrationReceipt(client,tenantId,recent[0]);}
+   catch{console.error("registration_receipt_queue_failed");return safeResponse({error:"temporarily_unavailable"},503,origin);}
+   return safeResponse({ok:true},200,origin);
+  }
   const {data:created,error:registrationError}=await client.from("registration_requests")
     .insert({tenant_id:tenantId,first_name,last_name,email,room_number:room_number||null,
       contract_number:null,accommodation_from,accommodation_to,status:"pending"})
