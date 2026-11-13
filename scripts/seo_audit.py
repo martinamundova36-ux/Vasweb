@@ -41,7 +41,8 @@ def main():
  titles={};descs={}
  for name,p in pages.items():
   redirect='http-equiv="refresh"' in (ROOT/name).read_text().lower()
-  if redirect:continue
+  # Private noindex application screens are not canonical SEO landing pages.
+  if redirect or 'noindex' in (p.meta.get('robots','')+','+p.meta.get('googlebot','')).lower():continue
   if not p.title.strip():errors.append(name+': missing title')
   if not p.meta.get('description'):warnings.append(name+': missing description')
   if p.h1!=1:warnings.append(name+': H1 count '+str(p.h1))
