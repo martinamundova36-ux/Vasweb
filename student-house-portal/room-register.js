@@ -39,6 +39,8 @@ function sortedRooms(rooms) {
  return [...first,...VERIFIED_TAIL.map(name=>byName.get(name)).filter(Boolean)];
 }
 function bedName(room,index) {
+ // The windowless room 101 is shown without a bed suffix in the source register.
+ if(String(room.name)==='101')return '101';
  const known=VERIFIED_LABELS[String(room.name)];
  return known?.[index]||String(room.name)+' '+(index+1);
 }
