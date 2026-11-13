@@ -245,6 +245,7 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 .student-documents-cta p{font-size:14px;color:#405776;margin:0 0 15px}
 .student-documents-cta button{min-height:44px}
 @media(max-width:650px){.student-documents-cta{padding:16px}.student-documents-cta button{width:100%}}
+.staff-approval-success{padding:20px;border:2px solid #29815b;border-radius:14px;background:#effaf3;color:#145234;margin:18px 0;scroll-margin-top:90px}.staff-approval-title{font-size:21px;display:block}.staff-approval-success p{margin:8px 0;overflow-wrap:anywhere}.staff-approval-success button{margin-top:10px}
 </style><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="shortcut icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></head><body data-portal-entry="student">
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a></header>
 <div class="wrap"><aside class="hero"><strong>▥ Student House <small>Bratislava</small></strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><div class="hero-photo-frame"><img class="hero-photo" src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-studenti-pri-dunaji.png" width="1842" height="854" loading="eager" decoding="async" alt="Ilustračná fotografia študentského života v Bratislave"></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
@@ -1208,9 +1209,9 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):(lang==='en'?'Student House reception':'Recepcia Student House'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-mail-review6');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-approval-receipt1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
-   const root=make('div'),notice=make('p');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
+   const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
     uploadPrivateDocument:(residentId,file,button)=>sendFile(tenant,'resident_document',file,button,residentId),
     openRooms:(roomNumber,startsOn)=>{pendingRoomFocus={room:String(roomNumber||''),year:Number(String(startsOn||'').slice(0,4))||null};navigate('rooms')},
