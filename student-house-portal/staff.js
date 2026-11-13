@@ -174,7 +174,8 @@ export async function renderStaffScreen(ctx) {
      const editForm=el('form','staff-form'),number=el('input');
      number.type='text';number.maxLength=60;number.minLength=5;number.required=true;number.value=person.contract_number||'';number.setAttribute('aria-label',w.contract);
      const saveNumber=el('button','',ct.save);saveNumber.type='submit';
-     editForm.append(el('p','mini-note',ct.verify),number,saveNumber);
+     const numberNotice=el('p','small');numberNotice.setAttribute('role','status');
+     editForm.append(el('p','mini-note',ct.verify),number,saveNumber,numberNotice);
      editForm.addEventListener('submit',async event=>{
       event.preventDefault();
       if(pendingAction||!ctx.isCurrent()||!editForm.reportValidity())return;
@@ -188,16 +189,16 @@ export async function renderStaffScreen(ctx) {
        status(ct.conflict,true);return;
       }
       if(!confirm(ct.verify))return;
-      pendingAction=true;saveNumber.disabled=true;
+      pendingAction=true;saveNumber.disabled=true;numberNotice.textContent=w.saving;let numberSaved=false;
       try{
        const {data,error}=await ctx.db.from('registration_requests').update({contract_number:corrected})
         .eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id,contract_number');
        if(!ctx.isCurrent())return;
-       if(error||data?.length!==1){status(w.failed,true);return;}
-       person.contract_number=corrected;
-       status(ct.saved);
-      }catch{if(ctx.isCurrent()){status(w.failed,true);revealNotice();}}
-      finally{pendingAction=false;saveNumber.disabled=false;if(ctx.isCurrent())paint();}
+       if(error||data?.length!==1){numberNotice.textContent=w.failed;status(w.failed,true);return;}
+       person.contract_number=data[0].contract_number||corrected;numberSaved=true;
+       status('✓ '+ct.saved);revealNotice();
+      }catch{if(ctx.isCurrent()){numberNotice.textContent=w.failed;status(w.failed,true);}}
+      finally{pendingAction=false;saveNumber.disabled=false;if(ctx.isCurrent()&&numberSaved)paint();}
      });
      correction.append(summary,editForm);card.append(correction);
      const roomEditor=el('details','staff-form'),roomSummary=el('summary','',ctx.lang==='en'?'Assign verified room':'Priradiť overenú izbu');
@@ -207,24 +208,26 @@ export async function renderStaffScreen(ctx) {
       const opt=el('option','',room.name+' · '+room.category+' ('+room.capacity+')');opt.value=room.name;roomInput.append(opt);
      }
      roomInput.value=roomCatalog.some(r=>r.name===person.room_number)?person.room_number:'';
-     roomInput.required=true;
+     roomInput.required=true;roomInput.setAttribute('aria-label',w.room);
      const saveRoom=el('button','',ctx.lang==='en'?'Save verified room':'Uložiť overenú izbu');saveRoom.type='submit';
-     roomForm.append(el('p','mini-note',ctx.lang==='en'?'Reception verifies the room before confirming a contract.':'Izbu preveruje a priraďuje recepcia.'),roomInput,saveRoom);
+     const roomNotice=el('p','small');roomNotice.setAttribute('role','status');
+     roomForm.append(el('p','mini-note',ctx.lang==='en'?'Reception verifies the room before confirming a contract.':'Izbu preveruje a priraďuje recepcia.'),roomInput,saveRoom,roomNotice);
      roomForm.addEventListener('submit',async e=>{
       e.preventDefault();if(pendingAction||!ctx.isCurrent()||!roomInput.reportValidity())return;
       if(!roomCatalog.some(r=>r.name===roomInput.value)){status(w.failed,true);return;}
-      pendingAction=true;saveRoom.disabled=true;
+      pendingAction=true;saveRoom.disabled=true;roomNotice.textContent=w.saving;let roomSaved=false;
       try{
        const {data,error}=await ctx.db.from('registration_requests').update({room_number:roomInput.value})
         .eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id,room_number');
-       if(error||data?.length!==1){status(w.failed,true);return;}
-       person.room_number=roomInput.value;status(ctx.success);
-      }catch{status(w.failed,true)}
-      finally{pendingAction=false;saveRoom.disabled=false;if(ctx.isCurrent())paint();}
+       if(!ctx.isCurrent())return;
+       if(error||data?.length!==1){roomNotice.textContent=w.failed;status(w.failed,true);return;}
+       person.room_number=data[0].room_number||roomInput.value;roomSaved=true;status('✓ '+ctx.success);revealNotice();
+      }catch{if(ctx.isCurrent()){roomNotice.textContent=w.failed;status(w.failed,true);}}
+      finally{pendingAction=false;saveRoom.disabled=false;if(ctx.isCurrent()&&roomSaved)paint();}
      });
      roomEditor.append(roomSummary,roomForm);card.append(roomEditor);
      const actions=el('div','staff-actions');
-     const approve=button(w.approve,()=>{approvalEditor(person,actions);},'');
+     const approve=button(w.approve,()=>{approvalEditor(person,actions,{contract:correction,contractInput:number,contractNotice:numberNotice,room:roomEditor,roomInput,roomNotice});},'');
      const reject=button(w.reject,()=>{void decide(person,false,actions);});
      const returnButton=button(cw.return,()=>returnEditor(person,card));
      actions.append(approve,reject,returnButton);card.append(actions);
@@ -272,10 +275,19 @@ export async function renderStaffScreen(ctx) {
    finally{pendingAction=false;send.disabled=false;if(ctx.isCurrent()&&person.status==='correction_requested')paint();}
   });
  }
- function approvalEditor(person,actions){
+ function approvalEditor(person,actions,editors={}){
   if(actions.querySelector('form'))return;
-  if(!person.contract_number||String(person.contract_number).trim().length<5){status(ctx.lang==='en'?'Assign a verified contract number first.':'Najprv priraď overené číslo zmluvy.',true);return;}
-  if(!roomCatalog.some(r=>r.name===person.room_number)){status(ctx.lang==='en'?'Assign a verified room first.':'Najprv priraď overenú izbu.',true);return;}
+  if(!person.contract_number||String(person.contract_number).trim().length<5){
+   const message=ctx.lang==='en'?'Enter the contract number and click Save verified contract number first.':'Najprv zadaj číslo zmluvy a klikni na Uložiť overené číslo zmluvy.';
+   status(message,true);if(editors.contract)editors.contract.open=true;
+   if(editors.contractNotice)editors.contractNotice.textContent=message;
+   editors.contract?.scrollIntoView?.({block:'center',behavior:'auto'});editors.contractInput?.focus?.();return;
+  }
+  if(!roomCatalog.some(r=>r.name===person.room_number)){
+   const message=ctx.lang==='en'?'Select a room and save the verified room first.':'Najprv vyber izbu a klikni na Uložiť overenú izbu.';
+   status(message,true);if(editors.room)editors.room.open=true;if(editors.roomNotice)editors.roomNotice.textContent=message;
+   editors.room?.scrollIntoView?.({block:'center',behavior:'auto'});editors.roomInput?.focus?.();return;
+  }
   if(contractConflict(person)){status(ct.pending,true);return;}
   const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Splatnosť je predvyplnená na 1. deň predchádzajúceho mesiaca (napr. december → 1. november). Skontrolujte každú sumu a dátum podľa zmluvy, najmä neúplné mesiace. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Due dates default to the selected day of the previous month (e.g. December → 1 November). Check every amount and date against the contract, especially partial months. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, особенно неполные месяцы. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, особливо неповні місяці. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
   const form=el('form','staff-form'),rent=el('input'),due=el('input'),schedule=el('div');
