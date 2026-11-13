@@ -22,6 +22,22 @@ export async function renderStudentEnquiry(ctx){
    .eq('tenant_id',ctx.tenant).eq('resident_id',ctx.resident.id).maybeSingle();
  if(!ctx.isCurrent()||!root.isConnected)return;
  if(readError){root.append(n('p','danger',t.failed));return;}
+
+ const {data:review,error:reviewError}=await ctx.db.from('resident_enquiry_reviews')
+   .select('review_status,correction_reason,requested_at').eq('tenant_id',ctx.tenant)
+   .eq('resident_id',ctx.resident.id).maybeSingle();
+ if(!ctx.isCurrent()||!root.isConnected)return;
+ if(reviewError){root.append(n('p','danger',t.failed));return;}
+ if(review?.review_status==='needs_correction'){
+  const changed=!!existing&&Date.parse(String(existing.updated_at||existing.created_at||''))>Date.parse(String(review.requested_at||''));
+  const warning=n('section','enquiry-identity');
+  warning.append(n('strong','',changed
+   ?(ctx.lang==='en'?'Corrections submitted; reception has not verified them yet.':'Opravený dotazník bol opätovne odoslaný. Čaká na kontrolu recepcie.')
+   :(ctx.lang==='en'?'Questionnaire returned for correction':'Dotazník vrátený recepciou na opravu')));
+  warning.append(n('p','',String(review.correction_reason||'')));
+  root.append(warning);
+ }
+
  const privacy=n('a','policy-link',t.privacy);
  privacy.href=(ctx.lang==='en'?'https://studenthousebratislavanew.wordpress.com/en/privacy-policy/':'https://studenthousebratislavanew.wordpress.com/gdpr/');
  privacy.target='_blank';privacy.rel='noopener noreferrer';
@@ -82,7 +98,7 @@ export async function renderStudentEnquiry(ctx){
   const chosen=photoInput.files?.[0]||null;
   if(!chosen&&!hasSavedPhoto){status.textContent=ctx.lang==='en'?'Please upload your student photograph before submitting.':'Pred odoslaním dotazníka vlož fotografiu študenta.';photoInput.focus();return;}
   if(!validatePhoto(chosen)){status.textContent=t.invalidPhoto;return;}
-  const values={tenant_id:ctx.tenant,resident_id:ctx.resident.id,user_id:ctx.user.id};
+  const values={tenant_id:ctx.tenant,resident_id:ctx.resident.id,user_id:ctx.user.id,updated_at:new Date().toISOString()};
   for(const [key,input]of Object.entries(fields)){
    let value=String(input.value||'').trim();
    if(['date_of_birth','preferred_from','preferred_to'].includes(key))value=value||null;
@@ -103,7 +119,9 @@ export async function renderStudentEnquiry(ctx){
    const {error}=await ctx.db.from('resident_enquiries')
      .upsert(values,{onConflict:'tenant_id,resident_id'}).select('id').single();
    if(error){status.textContent=t.failed;return;}
-   status.textContent=t.saved;
+   status.textContent=review?.review_status==='needs_correction'
+     ?(ctx.lang==='en'?'Corrected questionnaire submitted to reception.':'Opravený dotazník je odoslaný na kontrolu recepcii.')
+     :t.saved;
    if(!actionRow.querySelector('.enquiry-completed')){
     const next=n('button','btn-secondary enquiry-completed',ctx.lang==='en'?'Continue to student zone':ctx.lang==='ru'?'Перейти в кабинет':ctx.lang==='uk'?'До кабінету студента':'Pokračovať do študentskej zóny');
     next.type='button';next.addEventListener('click',()=>ctx.onComplete?.());
