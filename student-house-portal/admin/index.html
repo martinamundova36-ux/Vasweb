@@ -202,6 +202,8 @@ body[data-portal-entry="questionnaire"] main{width:100%;max-width:920px;margin:0
 body[data-portal-entry="questionnaire"] #login{width:100%;max-width:none;margin:0}
 body[data-portal-entry="questionnaire"] #login > :not(#questionnaireGateway){display:none!important}
 body[data-portal-entry="questionnaire"] #login #questionnaireGateway{display:block!important}
+.step2-preview-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.step2-preview-header select{width:auto;max-width:180px;font-size:14px;padding:9px}
 .step2-kicker{font-size:12px;letter-spacing:.08em;font-weight:850;color:#1e5487;margin-bottom:8px}
 #step2PreviewTitle{font-size:clamp(23px,2.5vw,34px);line-height:1.2;margin:8px 0}
 .step2-gate-note{padding:14px 16px;background:#eaf1fa;border-left:4px solid #3573aa;border-radius:8px;font-size:14px}
@@ -278,7 +280,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 <button id="pendingBack" type="button" class="btn-secondary" style="margin-top:14px">Späť na prihlásenie</button>
 </section>
 <section id="questionnaireGateway" class="hide" aria-live="polite">
- <div class="step2-kicker">STUDENT HOUSE BRATISLAVA · KROK 2 Z 3</div>
+ <div class="step2-preview-header"><div class="step2-kicker">STUDENT HOUSE BRATISLAVA · KROK 2 Z 3</div><select id="step2PreviewLang" aria-label="Jazyk dotazníka"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select></div>
  <h2 id="step2PreviewTitle">Osobný dotazník študenta</h2>
  <p id="step2PreviewIntro" class="muted">Toto je náhľad dotazníka. Na vyplnenie a odoslanie použite osobnú pozvánku zaslanú recepciou po schválení registrácie.</p>
  <p id="step2PreviewNotice" class="step2-gate-note" role="status">Bez schválenej e-mailovej pozvánky nie je možné zapisovať osobné údaje. Recepcia vidí dotazník iba vo svojej administrácii.</p>
@@ -372,6 +374,7 @@ function showQuestionnairePreviewNotice(key){
 function translateQuestionnairePreview(){
  if(!questionnaireEntryMode)return;
  const words=QUESTIONNAIRE_PREVIEW[lang]||QUESTIONNAIRE_PREVIEW.sk;
+ $('step2PreviewLang').value=lang;
  $('step2PreviewTitle').textContent=words.title;
  $('step2PreviewIntro').textContent=words.intro;
  $('step2PreviewNotice').textContent=words.notice;
@@ -1355,7 +1358,7 @@ async function signedIn(u){
  if(member&&portalRoleAllowed(member.role)){$('app').classList.remove('hide');document.body.classList.add('portal-open');}
 }
 function changeLanguage(e){lang=e.target.value;translate();translateRegister();if(member){renderTabs();void renderPanel()}}
-$('lang').addEventListener('change',changeLanguage);$('appLang').addEventListener('change',changeLanguage);translate();translateRegister();
+$('lang').addEventListener('change',changeLanguage);$('appLang').addEventListener('change',changeLanguage);$('step2PreviewLang').addEventListener('change',changeLanguage);translate();translateRegister();
 $('accountShortcut').addEventListener('click',()=>{if(member)navigate('account')});
 if(new URLSearchParams(location.search).get('view')==='register'&&!staffEntryMode)setRegistration(true);
 $('loginEye').addEventListener('click',()=>{const input=$('password'),button=$('loginEye'),visible=input.type==='password';input.type=visible?'text':'password';button.setAttribute('aria-pressed',String(visible));const label=pwdText(visible?'hide':'show');button.setAttribute('aria-label',label);button.title=label;});
