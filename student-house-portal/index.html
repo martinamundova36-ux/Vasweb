@@ -954,7 +954,7 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-flight-wizard4');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-public-room-types5');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
     isOnboarding:!resident.profile_password_activated_at,
@@ -1022,7 +1022,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):(lang==='en'?'Student House reception':'Recepcia Student House'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-flight-wizard4');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-public-room-types5');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('p');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
