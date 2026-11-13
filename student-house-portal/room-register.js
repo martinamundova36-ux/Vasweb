@@ -61,9 +61,11 @@ export function buildRegisterGroups({rooms=[],tenancies=[],residents=[],registra
   }
   entries.sort((a,b)=>String(a.person.full_name).localeCompare(String(b.person.full_name),'sk'));
   const capacity=Math.max(1,Number(room.capacity)||1);
-  // A room always shows one row per registered capacity, even if nobody is assigned yet.
-  while(entries.length<capacity)entries.push({person:null,stay:null,reg:null,detail:null});
-  entries.forEach((e,i)=>{e.bedIndex=i+1;e.bedLabel=i<capacity?bedName(room,i):String(room.name)+' · '+(i+1);e.verifiedBedLabel=!!VERIFIED_LABELS[String(room.name)]?.[i]});
+  // Preserve the three displayed rows in the original 305 (Š2+2) register;
+  // its physical capacity remains 4 and is never silently changed.
+  const sourceRows=String(room.name)==='305'?3:capacity;
+  while(entries.length<sourceRows)entries.push({person:null,stay:null,reg:null,detail:null});
+  entries.forEach((e,i)=>{e.bedIndex=i+1;e.bedLabel=i<sourceRows?bedName(room,i):String(room.name)+' · '+(i+1);e.verifiedBedLabel=!!VERIFIED_LABELS[String(room.name)]?.[i]});
   return {room,order:pos+1,entries,placeholder:false};
  });
  for(let i=groups.length;i<expected;i++)groups.push({room:{id:null,name:'#'+(i+1),category:'',capacity:null},order:i+1,entries:[{person:null,bedLabel:'#'+(i+1)}],placeholder:true});
@@ -160,7 +162,7 @@ export async function renderExcelRegister(ctx){
   let groupNumber=-1;
   for(const record of entries){
    const {group,entry,first,last,sum,charged,paid}=record;
-   const tr=el('tr',group.placeholder?'register-placeholder':'');
+   const tr=el('tr',group.placeholder?'register-placeholder':group.order%2===0?'register-room-tinted':'register-room-clear');
    if(group!==entries[groupNumber]?.group){groupNumber=entries.indexOf(record);tr.classList.add('register-first');}
    tr.append(cell(group.order+'.','register-order'),cell((entry.bedLabel||group.room.name)+(group.placeholder?' · '+w.missing:''),'register-fixed-room'),cell(group.room.category||'—'),cell(group.room.capacity??'—'));
    tr.append(cell(entry.detail?.nationality||'—'),cell(entry.person?first:'—'),cell(entry.person?last:'—'));
