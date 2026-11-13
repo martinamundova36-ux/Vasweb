@@ -1,0 +1,48 @@
+name: Optimize Student House premium video for web
+
+on:
+  push:
+    branches:
+      - student-house-video-preview
+    paths:
+      - .github/workflows/student-house-premium-web-optimize.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install bundled FFmpeg
+        run: python -m pip install imageio-ffmpeg==0.6.0
+      - name: Create fast-loading premium web version
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p student-house-portal/assets
+          curl -fLsS --retry 3 \
+            "https://raw.githubusercontent.com/martinamundova36-ux/Vasweb/student-house-video-preview/student-house-portal/assets/student-house-premium-collage-1920.mp4" \
+            -o /tmp/premium-original.mp4
+          FFMPEG="$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')"
+          "$FFMPEG" -hide_banner -loglevel error -y -i /tmp/premium-original.mp4 \
+            -vf "scale=1440:615:flags=lanczos" \
+            -an -c:v libx264 -preset medium -crf 23 -maxrate 4500k -bufsize 9000k \
+            -pix_fmt yuv420p -movflags +faststart -g 40 \
+            student-house-portal/assets/student-house-premium-web-1440.mp4
+          test -s student-house-portal/assets/student-house-premium-web-1440.mp4
+          file student-house-portal/assets/student-house-premium-web-1440.mp4
+          ls -lh student-house-portal/assets/student-house-premium-web-1440.mp4
+      - name: Save optimised video to isolated preview branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add student-house-portal/assets/student-house-premium-web-1440.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m "Optimize premium Student House moving video for fast web playback"
+            git push origin HEAD:student-house-video-preview
+          fi
