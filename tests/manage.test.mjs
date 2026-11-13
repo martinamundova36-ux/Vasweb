@@ -8,7 +8,7 @@ async function scenario(config={}){
  const query=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='organization_memberships'?{role:config.role||'reception'}:table==='documents'?(config.documentAllowed?{id:'d',tenant_id:'t',object_path:'t/private.pdf'}:null):table==='registration_requests'?{id:'50000000-0000-0000-0000-000000000001',email:'qa@example.invalid',first_name:'QA',last_name:'Student',room_number:'TEST',contract_number:'TEST-C1',accommodation_from:'2026-11-01',accommodation_to:'2026-11-30'}:table==='rooms'?{id:'r',name:'TEST'}:null,error:null}).then(ok)):()=>query(table)});
  const serviceQuery=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='residents'?[{id:'r'}]:null,error:null}).then(ok)):()=>serviceQuery(table)});
  const service={
-  auth:{admin:{inviteUserByEmail:async()=>{
+  auth:{admin:{listUsers:async()=>({data:{users:[]},error:null}),inviteUserByEmail:async()=>{
    calls.push('email');
    return config.mailFailure?{error:{code:'over_email_send_rate_limit'}}:{data:{user:{id:'u'}}};
   }}},
