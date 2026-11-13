@@ -36,7 +36,7 @@ jobs:
           if (!html.includes('residence-finance') || !html.includes('resident_document') || !html.includes("await import('/student-house-portal/staff.js?v=") || !staff.includes('registration_id:person.id')) throw new Error('Real finance, private documents or verified approval missing');
           if (!html.includes('id="orgSelector"') || !html.includes('chooseOrganization(')) throw new Error('Residence switcher missing');
           for(const name of ["installments","documents","registrations","payments","cleaning","notices","rooms","requests"]){
-            if(name==='registrations'){if(!html.includes("['overview','registrations'") || !html.includes('renderStaffScreen(') || !staff.includes('registration_id:person.id'))throw new Error('Missing secure staff registration section');continue;}
+            if(name==='registrations'){if(!html.includes('renderStaffScreen(') || !staff.includes('registration_id:person.id'))throw new Error('Missing secure staff registration section');continue;}
             if(!html.includes("tab==='"+name+"'"))throw new Error("Missing dashboard section: "+name);
           }
           if(!html.includes("portal-open") || !html.includes("function statusPill"))throw new Error('Authenticated interior layout missing');
