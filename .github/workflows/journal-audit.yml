@@ -16,6 +16,7 @@ on:
       - 'journal-reports/journal-audit-register.json'
       - 'assets/journal/**'
       - 'sitemap.xml'
+      - 'robots.txt'
       - '.github/workflows/journal-audit.yml'
   push:
     branches: [main]
@@ -31,6 +32,7 @@ on:
       - 'journal-reports/journal-audit-register.json'
       - 'assets/journal/**'
       - 'sitemap.xml'
+      - 'robots.txt'
       - '.github/workflows/journal-audit.yml'
   workflow_dispatch:
   schedule:
