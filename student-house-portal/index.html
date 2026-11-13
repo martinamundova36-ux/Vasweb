@@ -222,12 +222,6 @@ body.portal-open #app .results:has(.room-register) .room-register{width:100%;max
 <label for="regFirst" id="labFirst">Meno</label><input id="regFirst" autocomplete="given-name" maxlength="80" required>
 <label for="regLast" id="labLast">Priezvisko</label><input id="regLast" autocomplete="family-name" maxlength="80" required>
 <label for="regEmail" id="labEmail">E-mail</label><input id="regEmail" type="email" autocomplete="email" maxlength="254" required>
-<label for="regPassword" id="regPasswordLabel">Zvoliť heslo (aspoň 12 znakov)</label>
-<div class="password-field register-password-field"><input id="regPassword" type="password" autocomplete="new-password" minlength="12" maxlength="200" required><button type="button" class="field-eye" id="regPwdEye" aria-controls="regPassword" aria-label="Zobraziť heslo" aria-pressed="false"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3l18 18"/></svg></button></div>
-<label for="regConfirmPassword" id="regConfirmPasswordLabel">Potvrdiť heslo</label>
-<div class="password-field register-password-field"><input id="regConfirmPassword" type="password" autocomplete="new-password" minlength="12" maxlength="200" required><button type="button" class="field-eye" id="regConfirmPwdEye" aria-controls="regConfirmPassword" aria-label="Zobraziť heslo" aria-pressed="false"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3l18 18"/></svg></button></div>
-<p id="regPasswordInfo" class="muted" style="font-size:13px">Heslo sa bezpečne vytvorí v Supabase Auth. Pred schválením recepciou sa do študentskej zóny neprihlásiš. Over si aj e-mailovú schránku.</p>
-
 <fieldset class="reg-section"><legend id="regPersonalTitle">Osobné údaje študenta</legend>
 <div class="reg-fields">
 <label for="regPhone" id="labPhone">Telefónne číslo</label><input id="regPhone" type="tel" autocomplete="tel" maxlength="60" placeholder="+421 ..." required>
@@ -356,13 +350,10 @@ const REG_EXT={
 };
 function translateRegister(){
  const r=R[lang];
- const pw=REG_PASSWORD_WORDS[lang]||REG_PASSWORD_WORDS.sk;
- $("regPasswordLabel").textContent=pw.password;$("regConfirmPasswordLabel").textContent=pw.confirm;$("regPasswordInfo").textContent=pw.help;
  const ext=REG_EXT[lang]||REG_EXT.sk;
  for(const [id,key] of Object.entries({regPersonalTitle:'personal',regStayTitle:'stay',labPhone:'phone',labNationality:'nationality',labGender:'gender',labBirth:'birth',labAddress:'address',labSchool:'school',labParent:'parent',labRoomType:'roomType',labArrival:'arrival',regStaffOnly:'staff'}))$(id).textContent=ext[key];
  $('regRoomType').options[0].textContent=ext.any;
  for(const [index,key] of [[0,'private'],[1,'female'],[2,'male'],[3,'other']])$('regGender').options[index].textContent=ext[key];
- syncPasswordEye("regPassword","regPwdEye");syncPasswordEye("regConfirmPassword","regConfirmPwdEye");
  for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labRoom:"room",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
 }
 let regOpen=false;
@@ -374,21 +365,19 @@ function setRegistration(on){
 }
 $("openRegistration").addEventListener("click",()=>setRegistration(true));
 $("regBack").addEventListener("click",()=>setRegistration(false));
-for(const [inputId,buttonId] of [["regPassword","regPwdEye"],["regConfirmPassword","regConfirmPwdEye"]]){
- $(buttonId).addEventListener("click",()=>{
-  $(inputId).type=$(inputId).type==="password"?"text":"password";
-  syncPasswordEye(inputId,buttonId);
- });
-}
-let registeredAuthEmail="";
+// Public registration never creates a password or an Auth session. Only
+// reception can approve a request and send a one-time invitation to set it.
+const REG_SUBMITTED={
+ sk:'Registrácia je odoslaná recepcii. Po schválení dostaneš e-mailovú pozvánku do študentského profilu, kde si vytvoríš heslo a vyplníš osobný dotazník.',
+ en:'Registration submitted to reception. After approval you will receive an email invitation to set your password and complete your questionnaire.',
+ ru:'Заявка отправлена на рецепцию. После одобрения вам придёт приглашение для создания пароля и заполнения анкеты.',
+ uk:'Заявку надіслано на рецепцію. Після схвалення ви отримаєте запрошення для створення пароля та заповнення анкети.'
+};
 $("regForm").addEventListener("submit",async e=>{
  e.preventDefault();
- const r=R[lang],pw=REG_PASSWORD_WORDS[lang]||REG_PASSWORD_WORDS.sk,from=$("regFrom").value,to=$("regTo").value,msg=$("regMessage"),btn=$("regSend");
+ const r=R[lang],from=$("regFrom").value,to=$("regTo").value,msg=$("regMessage"),btn=$("regSend");
  msg.textContent="";
- const password=$("regPassword").value,confirmation=$("regConfirmPassword").value;
- if(password.length<12){msg.textContent=pw.weak;return;}
- if(password!==confirmation){msg.textContent=pw.mismatch;return;}
- if(!from||!to||to<=from){msg.textContent=r.invalid;return}
+ if(!from||!to||to<=from){msg.textContent=r.invalid;return;}
  const payload={
   first_name:$("regFirst").value.trim(),last_name:$("regLast").value.trim(),email:$("regEmail").value.trim(),
   room_number:$("regRoom").value.trim(),preferred_room_type:$("regRoomType").value,
@@ -400,38 +389,19 @@ $("regForm").addEventListener("submit",async e=>{
  };
  btn.disabled=true;
  try{
-  // Auth credentials go directly to Supabase Auth, NOT to registration_requests,
-  // admin Excel, audit tables, or the public registration Edge Function.
-  const email=payload.email.toLowerCase();
-  if(registeredAuthEmail!==email){
-   if(!window.supabase||!K){msg.textContent=pw.authFailed;return;}
-   const signupClient=window.supabase.createClient(U,K,{
-    auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,flowType:'implicit'}
-   });
-   msg.style.color="#142b4d";msg.textContent=pw.creating;
-   const {data:signup,error:signupError}=await signupClient.auth.signUp({
-    email,password,options:{emailRedirectTo:"https://www.webu.sk/student-house-portal/student/?signin=1"}
-   });
-   if(signupError){
-    msg.style.color="#a32c30";
-    msg.textContent=signupError.status===429?pw.authRate:pw.authFailed;
-    return;
-   }
-   if(signup?.session)await signupClient.auth.signOut({scope:"local"});
-   registeredAuthEmail=email;
-  }
-  msg.textContent=pw.sending;
   const response=await fetch("https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student",{
    method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store"
   });
   const body=await response.json();
   if(response.ok&&body.ok){
-   $("regForm").reset();registeredAuthEmail="";
-   msg.style.color="#226846";msg.textContent=pw.registered;
+   $("regForm").reset();
+   msg.style.color="#226846";msg.textContent=REG_SUBMITTED[lang]||REG_SUBMITTED.sk;
+  }else{
+   msg.style.color="#a32c30";
+   msg.textContent=response.status===429?r.limited:body?.error==="invalid_fields"?r.invalid:r.error;
   }
-  else{msg.style.color="#a32c30";msg.textContent=response.status===429?r.limited:body?.error==="invalid_fields"?r.invalid:pw.registrationFailed;}
- }catch(error){msg.style.color="#a32c30";msg.textContent=registeredAuthEmail?pw.registrationFailed:pw.authFailed;}
- finally{btn.disabled=false;$("regPassword").value="";$("regConfirmPassword").value="";}
+ }catch{msg.style.color="#a32c30";msg.textContent=r.error;}
+ finally{btn.disabled=false;}
 });
 function paint(items){let r=$('records');r.replaceChildren();if(!items.length){r.textContent=t[10];return}for(let x of items){let d=document.createElement('div');d.className='item';let b=document.createElement('strong');b.textContent=x.title||'';d.append(b);if(x.detail){let s=document.createElement('div');s.className='small';s.textContent=x.detail;d.append(s)}if(x.download){let a=document.createElement('button');a.textContent=t[19];a.addEventListener('click',x.download);d.append(a)}r.append(d)}}
 async function list(table,filter){
@@ -1227,7 +1197,8 @@ function showPasswordRecovery(){
  $('passwordResetForm').classList.remove('hide');
  $('resetPasswordValue').value='';$('resetConfirmValue').value='';$('resetMessage').textContent='';
  $('error').textContent='';
- $('sign').textContent=PW[lang].title;$('intro').textContent=PW[lang].intro;
+ $('sign').textContent=invitationRedirect?(lang==='en'?'Student questionnaire · Step 1: Create your password':'Študentský dotazník · Krok 1: Vytvoriť heslo'):PW[lang].title;
+ $('intro').textContent=invitationRedirect?(lang==='en'?'Your registration was approved. Set a password to open your profile, then complete the questionnaire and signed documents.':'Recepcia schválila registráciu. Vytvor si heslo, potom vyplň dotazník a odovzdaj podpísané dokumenty.'):PW[lang].intro;
 }
 
 $('resetGenerate').addEventListener('click',()=>{
@@ -1297,7 +1268,7 @@ $('passwordResetForm').addEventListener('submit',async e=>{
   msg.style.color='#176346';
   msg.textContent=lang==='sk'?'Heslo bolo uložené. Teraz sa prihlás novým heslom.':'Password updated. Sign in with your new password.';
   await db.auth.signOut({scope:'local'});
-  window.location.replace('https://www.webu.sk/student-house-portal/'+(staff?'admin/':'student/')+'?signin=1');
+  window.location.replace('https://www.webu.sk/student-house-portal/'+(staff?'admin/':'student/')+'?signin=1'+(staff?'':'&tab=enquiry'));
  }catch(error){
   console.error('password_recovery_save_failed',error?.message||'unknown');
   msg.textContent=PW[lang].saveFail;btn.disabled=false;
@@ -1308,9 +1279,11 @@ if(!window.supabase||!K){$('error').textContent='Login service unavailable.';ret
 db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'implicit',storageKey:portalStorageKey}});// Implicit recovery tokens can be redeemed in the mobile browser opened by Gmail.
 // PKCE recovery requires the code verifier stored in the *original* browser,
 // which is not available in Gmail's separate in-app browser.
-const recoveryRedirect=new URLSearchParams(window.location.hash.slice(1)).get('type')==='recovery';
+const authLinkType=new URLSearchParams(window.location.hash.slice(1)).get('type');
+const recoveryRedirect=authLinkType==='recovery';
+const invitationRedirect=authLinkType==='invite';
 db.auth.onAuthStateChange((event,session)=>{
- if(session && (event==='PASSWORD_RECOVERY'||(event==='INITIAL_SESSION'&&recoveryRedirect))){
+ if(session && (event==='PASSWORD_RECOVERY'||((event==='INITIAL_SESSION'||event==='SIGNED_IN')&&(recoveryRedirect||invitationRedirect)))){
   showPasswordRecovery();
   // Remove one-time recovery tokens from the address bar after Supabase accepted them.
   if(location.hash&&location.hash.includes('access_token=')){
