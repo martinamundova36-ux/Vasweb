@@ -276,44 +276,42 @@ export async function renderStaffScreen(ctx) {
   });
  }
  function approvalEditor(person,actions,editors={}){
-  if(actions.querySelector('form'))return;
-  if(!person.contract_number||String(person.contract_number).trim().length<5){
-   const message=ctx.lang==='en'?'Enter the contract number and click Save verified contract number first.':'Najprv zadaj číslo zmluvy a klikni na Uložiť overené číslo zmluvy.';
-   status(message,true);if(editors.contract)editors.contract.open=true;
-   if(editors.contractNotice)editors.contractNotice.textContent=message;
-   editors.contract?.scrollIntoView?.({block:'center',behavior:'auto'});editors.contractInput?.focus?.();return;
-  }
-  if(!roomCatalog.some(r=>r.name===person.room_number)){
-   const message=ctx.lang==='en'?'Select a room and save the verified room first.':'Najprv vyber izbu a klikni na Uložiť overenú izbu.';
-   status(message,true);if(editors.room)editors.room.open=true;if(editors.roomNotice)editors.roomNotice.textContent=message;
-   editors.room?.scrollIntoView?.({block:'center',behavior:'auto'});editors.roomInput?.focus?.();return;
-  }
-  if(contractConflict(person)){status(ct.pending,true);return;}
+  const existing=actions.querySelector('form');if(existing){existing.scrollIntoView?.({block:'center'});existing.querySelector('input')?.focus?.();return;}
   const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Splatnosť je predvyplnená na 1. deň predchádzajúceho mesiaca (napr. december → 1. november). Skontrolujte každú sumu a dátum podľa zmluvy, najmä neúplné mesiace. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Due dates default to the selected day of the previous month (e.g. December → 1 November). Check every amount and date against the contract, especially partial months. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, особенно неполные месяцы. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, особливо неповні місяці. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
   const form=el('form','staff-form'),rent=el('input'),due=el('input'),schedule=el('div');
   rent.type='number';rent.min='0.01';rent.max='100000';rent.step='0.01';rent.required=true;
   due.type='number';due.min='1';due.max='28';due.step='1';due.value='1';due.required=true;
   for(const [title,input] of [[labels[0],rent],[labels[1],due]]){const label=el('label','',title);label.append(input);form.append(label);}
+  const contract=el('input'),room=el('select'),from=el('input'),to=el('input');
+  contract.value=person.contract_number||editors.contractInput?.value||'';contract.required=true;contract.minLength=5;contract.maxLength=100;
+  for(const entry of roomCatalog){const option=el('option','',entry.name);option.value=entry.name;room.append(option);}room.value=person.room_number||'';room.required=true;
+  from.type=to.type='date';from.required=to.required=true;from.value=person.accommodation_from||'';to.value=person.accommodation_to||'';
+  const en=ctx.lang==='en';
+  for(const [title,input] of [[w.contract,contract],[w.room,room],[en?'Arrival':'Príchod',from],[en?'Departure':'Odchod',to]]){input.setAttribute('aria-label',title);const label=el('label','',title);label.append(input);form.append(label);}
+  const inline=el('p','mini-note');inline.setAttribute('role','status');form.append(inline);
   const prepareSchedule=()=>{
-   if(!rent.reportValidity()||!due.reportValidity())return;
+   if(!form.reportValidity())return;
+   if(contract.value.trim().length<5||!roomCatalog.some(r=>r.name===room.value)||!from.value||!to.value||from.value>=to.value){inline.textContent=en?'Complete the contract number, verified room and valid stay dates.':'Doplň číslo zmluvy (aspoň 5 znakov), overenú izbu a platný termín pobytu.';return;}
+   if(contractConflict({...person,contract_number:contract.value.trim()})){inline.textContent=ct.pending;return;}
+   inline.textContent='';
    schedule.replaceChildren(el('p','mini-note',labels[3]));
-   const start=String(person.accommodation_from||'').slice(0,7),end=String(person.accommodation_to||'').slice(0,7);
+   const start=String(from.value).slice(0,7),end=String(to.value).slice(0,7);
    if(!/^\d{4}-\d{2}$/.test(start)||!/^\d{4}-\d{2}$/.test(end)||start>end){status(w.failed,true);return;}
-   const rows=[];let period=start;
+   const rows=[],calendar=el('details'),calendarTitle=el('summary');calendar.append(calendarTitle);let period=start;
    while(period<=end&&rows.length<121){
     const amount=el('input'),date=el('input');amount.type='number';amount.min='0.01';amount.max='100000';amount.step='0.01';amount.value=rent.value;amount.required=true;amount.setAttribute('aria-label',period+' €');
     date.type='date';date.value=advanceRentDueDate(period,Number(due.value));date.required=true;date.setAttribute('aria-label',period);
-    const line=el('label','',period);line.append(amount,date);schedule.append(line);rows.push({period,amount,date});
+    const line=el('label','',period);line.append(amount,date);calendar.append(line);rows.push({period,amount,date});
     const [year,month]=period.split('-').map(Number);period=month===12?String(year+1)+'-01':String(year)+'-'+String(month+1).padStart(2,'0');
    }
    if(period<=end){status(w.failed,true);return;}
-   const approve=el('button','',labels[4]);approve.type='submit';schedule.append(approve);
-   form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;void decide(person,true,actions,{verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:rows.map(r=>({period:r.period,amount:Number(r.amount.value),due_on:r.date.value}))});};
+   const approve=el('button','',labels[4]);approve.type='submit';calendarTitle.textContent=(en?'Review monthly charges':'Skontrolovať mesačné predpisy')+' ('+rows.length+')';schedule.append(approve,calendar);
+   form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;void decide(person,true,actions,{verified_assignment:{contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from.value,accommodation_to:to.value},verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:rows.map(r=>({period:r.period,amount:Number(r.amount.value),due_on:r.date.value}))});};
   };
   const prepare=button(labels[2],prepareSchedule);
   const prepareOnSubmit=e=>{e.preventDefault();prepareSchedule();};
   // Editing a base term invalidates the preview, with an explicit next step.
-  for(const input of [rent,due])input.addEventListener('input',()=>{
+  for(const input of [rent,due,contract,room,from,to])input.addEventListener('input',()=>{
    schedule.replaceChildren(el('p','mini-note',approvalWords.dirty));form.onsubmit=prepareOnSubmit;
   });
   form.append(prepare,schedule);form.onsubmit=prepareOnSubmit;actions.append(form);
@@ -325,7 +323,16 @@ export async function renderStaffScreen(ctx) {
   status(w.saving);revealNotice();
   try{
    let response;
-   if(approve)response=await ctx.db.functions.invoke('manage',{body:{action:'invite',tenant_id:ctx.tenant,registration_id:person.id,role:'student',email:person.email,name:[person.first_name,person.last_name].join(' '),room_number:person.room_number,...verified}});
+   if(approve){
+    const {verified_assignment,...billing}=verified;
+    if(verified_assignment){
+     const {data,error}=await ctx.db.from('registration_requests').update(verified_assignment).eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id,contract_number,room_number,accommodation_from,accommodation_to');
+     if(!ctx.isCurrent())return;
+     if(error||data?.length!==1){status(w.failed,true);return;}
+     Object.assign(person,verified_assignment,data[0]);
+    }
+    response=await ctx.db.functions.invoke('manage',{body:{action:'invite',tenant_id:ctx.tenant,registration_id:person.id,role:'student',email:person.email,name:[person.first_name,person.last_name].join(' '),room_number:person.room_number,...billing}});
+   }
    else response=await ctx.db.from('registration_requests').update({status:'rejected'}).eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id');
    if(!ctx.isCurrent())return;
    if(response.error||(approve?!response.data?.ok:!response.data?.length)){
@@ -359,7 +366,8 @@ export async function renderStaffScreen(ctx) {
   }catch{if(ctx.isCurrent())status(w.failed,true);}
   finally{
    pendingAction=false;if(ctx.isCurrent()){search.disabled=false;select.disabled=false;if(success)paint();}
-   // A failed email request stays disabled until an explicit refresh, preventing blind retries.
+   // Preserve the completed form and allow correcting a failed assignment save.
+   if(ctx.isCurrent()&&!success)for(const b of actions.querySelectorAll('button'))b.disabled=false;
   }
  }
  async function profile(person){

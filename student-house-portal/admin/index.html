@@ -1210,7 +1210,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):(lang==='en'?'Student House reception':'Recepcia Student House'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-assignment-save2');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-single-approval3');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),

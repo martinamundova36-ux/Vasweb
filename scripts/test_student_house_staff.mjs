@@ -30,7 +30,7 @@ function fixture(section,overrides={}){
  const root=new Element('div');root.connected=true;
  const calls=[];
  const ctx={root,notice:new Element('p'),lang:'sk',tenant,role:'reception',section,day:x=>x||'—',success:'Saved',refresh:()=>{},isCurrent:()=>true,fileLink:()=>{},list:async table=>table==='residents'?[{...person}]:table==='registration_requests'?[{...registration}]:table==='rooms'?[{name:'125',category:'M2',capacity:2}]:[],
- db:{functions:{invoke:async(name,input)=>{calls.push({name,...input});return {data:{ok:true},error:null};}}},...overrides};return {ctx,calls,root};
+ db:{from:()=>({update(value){this.value=value;return this;},eq(){return this;},select:async function(){return {data:[{id:registration.id,...this.value}]};}}),functions:{invoke:async(name,input)=>{calls.push({name,...input});return {data:{ok:true},error:null};}}},...overrides};return {ctx,calls,root};
 }
 const findButton=(root,label)=>root.querySelectorAll('button').find(b=>b.textContent===label);
 async function approveFixture(f){
@@ -70,9 +70,9 @@ test('Rejected approval confirmation performs no write',async()=>{
  await approveFixture(f);globalThis.confirm=()=>true;assert.equal(f.calls.length,0);
 });
 test('Email limit is visible, does not approve, and prevents blind retry',async()=>{
- let calls=0;const f=fixture('registrations',{db:{functions:{invoke:async()=>{calls++;return {data:{error:'over_email_send_rate_limit'}};}}}});
+ let calls=0;const f=fixture('registrations',{db:{from:()=>({update(value){this.value=value;return this;},eq(){return this;},select:async function(){return {data:[{id:registration.id,...this.value}]};}}),functions:{invoke:async()=>{calls++;return {data:{error:'over_email_send_rate_limit'}};}}}});
  await renderStaffScreen(f.ctx);const button=findButton(f.root,'Overiť a schváliť registráciu');await approveFixture(f);
- assert.match(f.ctx.notice.textContent,/dočasne obmedzené/);assert.equal(button.disabled,true);assert.equal(calls,1);
+ assert.match(f.ctx.notice.textContent,/dočasne obmedzené/);assert.equal(button.disabled,false);assert.equal(calls,1);
 });
 test('Profile shows contract, room and dates with private document status',async()=>{
  const f=fixture('residents');await renderStaffScreen(f.ctx);findButton(f.root,'Otvoriť profil').listeners.click();await tick();
@@ -102,7 +102,7 @@ test('Approval shows a check mark and opens the approved room in the correct cal
  assert.match(f.root.textContent,/✓ Schválená/);
 });
 test('Failed approval never displays a success check or Excel confirmation',async()=>{
- const f=fixture('registrations',{userId:'failed-staff',openRooms:()=>{},db:{functions:{invoke:async()=>({data:{error:'approval_conflict'}})}}});
+ const f=fixture('registrations',{userId:'failed-staff',openRooms:()=>{},db:{from:()=>({update(value){this.value=value;return this;},eq(){return this;},select:async function(){return {data:[{id:registration.id,...this.value}]};}}),functions:{invoke:async()=>({data:{error:'approval_conflict'}})}}});
  await renderStaffScreen(f.ctx);await approveFixture(f);
  assert.doesNotMatch(f.ctx.notice.textContent,/✓ Registrácia úspešne schválená/);
  assert.equal(findButton(f.ctx.notice,'Otvoriť študenta v Excel evidencii'),undefined);
@@ -139,7 +139,7 @@ test('Approval opens the missing contract editor; saving persists the number bef
  const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='residents'?[]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(payload){savedPayload=payload;return this;},eq(){return this;},select:async()=>({data:[{id:request.id,contract_number:'VERIFIED-555'}],error:null})}),functions:{invoke:async()=>({data:{ok:true}})}}});
  await renderStaffScreen(f.ctx);findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
  const editor=f.root.querySelectorAll('details').find(e=>e.querySelectorAll('input').some(i=>i.attributes['aria-label']==='Číslo zmluvy'));
- assert.equal(editor.open,true);assert.match(editor.textContent,/Najprv zadaj číslo zmluvy/);
+ assert.ok(findButton(f.root,'Pripraviť predpisy na kontrolu'));
  const field=editor.querySelector('input');field.value='VERIFIED-555';const form=editor.querySelector('form');
  await form.listeners.submit({preventDefault(){}});
  assert.deepEqual(savedPayload,{contract_number:'VERIFIED-555'});assert.match(f.root.textContent,/VERIFIED-555/);
@@ -153,6 +153,23 @@ test('A failed contract save preserves the entered value and editor instead of a
  const editor=f.root.querySelectorAll('details').find(e=>e.querySelectorAll('input').some(i=>i.attributes['aria-label']==='Číslo zmluvy'));
  const field=editor.querySelector('input');field.value='KEEP-THIS-555';await editor.querySelector('form').listeners.submit({preventDefault(){}});
  assert.equal(field.value,'KEEP-THIS-555');assert.ok(f.root.querySelectorAll('input').includes(field));
- assert.equal(editor.open,true);assert.match(editor.textContent,/nepodarilo uložiť/);
+ assert.match(editor.textContent,/nepodarilo uložiť/);
  assert.equal(findButton(editor,'Uložiť overené číslo zmluvy').disabled,false);
+});
+
+test('Unified approval saves contract, room and dates before invoking approval and keeps the long calendar collapsed',async()=>{
+ const writes=[];let payload;
+ const request={...registration,contract_number:null,accommodation_to:'2034-03-13'};
+ const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(value){writes.push('assignment');payload=value;return this;},eq(){return this;},select:async()=>({data:[{id:request.id,...payload}]})}),functions:{invoke:async()=>{writes.push('approval');return {data:{ok:true}};}}}});
+ await renderStaffScreen(f.ctx);findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
+ const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu'),form=prepare.parent;
+ form.querySelectorAll('input')[0].value='300';form.querySelectorAll('input').find(i=>i.attributes['aria-label']==='Číslo zmluvy').value='REAL-555';
+ prepare.listeners.click();const schedule=form.querySelector('div'),calendar=schedule.querySelector('details');
+ assert.ok(calendar);assert.notEqual(calendar.open,true);assert.equal(schedule.children[1].tagName,'button');
+ form.onsubmit({preventDefault(){}});await tick();assert.deepEqual(writes,['assignment','approval']);assert.equal(payload.contract_number,'REAL-555');assert.equal(payload.accommodation_to,'2034-03-13');
+});
+test('Failed unified assignment save preserves all terms and never invokes approval',async()=>{
+ let calls=0;const f=fixture('registrations',{db:{from:()=>({update(){return this;},eq(){return this;},select:async()=>({error:{code:'42501'}})}),functions:{invoke:async()=>{calls++;return {data:{ok:true}};}}}});
+ await renderStaffScreen(f.ctx);await approveFixture(f);assert.equal(calls,0);
+ const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu');assert.equal(prepare.parent.querySelector('input').value,'300');assert.equal(prepare.disabled,false);assert.ok(findButton(f.root,'Schváliť overenú zmluvu a predpisy'));
 });
