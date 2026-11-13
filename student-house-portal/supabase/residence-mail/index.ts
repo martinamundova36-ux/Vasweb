@@ -8,7 +8,7 @@ const escape=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 // server-enqueued events may be sent. An atomic lease limits all callers together.
 Deno.serve(async req=>{
  if(req.method!=='POST')return new Response('Method not allowed',{status:405});
- const password=Deno.env.get('RESIDENCE_SMTP_PASSWORD');
+ const password=Deno.env.get('RESIDENCE_SMTP_PASSWORD')?.replace(/\s+/g,'');
  if(!password)return Response.json({ok:false,error:'smtp_not_configured'},{status:503});
  const {data:jobs,error}=await db.rpc('residence_mail_claim');
  if(error){console.error('mail_claim_failed',error.code);return Response.json({ok:false},{status:503});}
@@ -34,7 +34,12 @@ Deno.serve(async req=>{
     result='accepted';messageId=info.messageId;
    }catch(e){
     // Do not log transport errors: they may contain addresses or credentials.
-    result=e instanceof Error&&e.message==='auth_link_failed'?'auth_link_failed':'smtp_failed';
+    const failure=e as {code?:string;responseCode?:number;name?:string};
+    const safeCodes=['EAUTH','ECONNECTION','ETIMEDOUT','ESOCKET','EMESSAGE','EENVELOPE','ETLS','EDNS'];
+    const code=safeCodes.includes(failure.code||'')?failure.code:failure.name==='TypeError'?'TypeError':'unknown';
+    const response=Number.isInteger(failure.responseCode)?String(failure.responseCode):'0';
+    result=e instanceof Error&&e.message==='auth_link_failed'?'auth_link_failed':'smtp_'+code+'_'+response;
+    console.error('residence_mail_transport',code,response);
    }finally{transport.close();}
   }
   const {error:finishError}=await db.rpc('residence_mail_finish',{p_id:job.id,p_lease:job.lease,p_result:result,p_message_id:messageId});
