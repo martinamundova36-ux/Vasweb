@@ -106,6 +106,7 @@ def main():
     assert card_id and hero_id and card_id.group(1)==hero_id.group(1),name+': card image mismatch'
    assert img['src'] not in pictured,name+': two article cards share an image'
    pictured.add(img['src'])
-   assert card.index('<picture')<card.index('<h3'),name+': card image must precede heading'
+   image_pos=card.find('<picture') if '<picture' in card else card.find('<img')
+   assert image_pos>=0 and image_pos<card.index('<h3'),name+': card image must precede heading'
  print('PASS: '+str(count)+' article pages; unique photos per topic; SK/EN alt; licensed catalog hashes; responsive/lazy cards; eager heroes; OG/Twitter/BlogPosting images')
 if __name__=='__main__':main()
