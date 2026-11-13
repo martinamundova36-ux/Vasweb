@@ -961,7 +961,7 @@ async function renderResidentDocuments(tenant,staff,own){
   }
  }
  const docs=(await list('documents')).filter(x=>x.upload_complete);
- if(!docs.length)empty(label('documentsEmpty'));
+ if(docs.length)subheading(({sk:'Ďalšie dokumenty',en:'Additional documents',ru:'Дополнительные документы',uk:'Додаткові документи'}[lang]||'Ďalšie dokumenty'));
  for(const x of docs){
   const item=row(x.title,x.language.toUpperCase()+' · v'+x.version);
   const b=make('button','btn-secondary',t[19]);b.type='button';b.addEventListener('click',async()=>{
