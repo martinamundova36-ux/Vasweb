@@ -704,7 +704,7 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-photo1');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-photo2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='enquiry'});
