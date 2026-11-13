@@ -56,7 +56,16 @@ export async function renderStaffScreen(ctx) {
  filters.append(search,select);ctx.root.append(filters,count,el('p','small',w.limit));
  const results=el('div','staff-directory');ctx.root.append(results);
  const records=await ctx.list(ctx.section==='residents'?'residents':'registration_requests');
+ const verifiedResidents=ctx.section==='registrations'?await ctx.list('residents'):[];
  if(!ctx.isCurrent())return;
+ const contractTexts={
+   sk:{collision:'Pozor: číslo zmluvy už používa iný študent v izbe',same:'To isté číslo zmluvy sa nachádza aj v ďalších registráciách.',correct:'Opraviť číslo zmluvy podľa podpísanej zmluvy',save:'Uložiť overené číslo zmluvy',verify:'Zmeň číslo iba po porovnaní so skutočnou zmluvou.',conflict:'Toto číslo už existuje v evidencii. Over jeho správnosť.',saved:'Číslo zmluvy opravené. Teraz je potrebné registráciu schváliť.',invalid:'Číslo zmluvy musí obsahovať 5 až 60 znakov.',pending:'Registráciu zatiaľ nie je možné schváliť: číslo zmluvy sa už používa.'},
+   en:{collision:'Warning: another student already uses this contract number in room',same:'The contract number is also used in other registrations.',correct:'Correct contract number from signed agreement',save:'Save verified contract number',verify:'Change the number only after checking the signed agreement.',conflict:'This contract number is already used. Verify it first.',saved:'Contract number updated. Reception must still approve the registration.',invalid:'Contract number must contain 5–60 characters.',pending:'Approval blocked: contract number is already in use.'},
+   ru:{collision:'Номер договора уже используется в комнате',same:'Номер также встречается в других регистрациях.',correct:'Исправить номер договора',save:'Сохранить проверенный номер',verify:'Проверяйте номер по подписанному договору.',conflict:'Этот номер уже занят.',saved:'Номер исправлен, требуется подтверждение.',invalid:'Номер должен содержать от 5 до 60 символов.',pending:'Подтверждение заблокировано: номер уже занят.'},
+   uk:{collision:'Номер договору вже використовується в кімнаті',same:'Номер також зустрічається в інших реєстраціях.',correct:'Виправити номер договору',save:'Зберегти перевірений номер',verify:'Перевірте номер за підписаним договором.',conflict:'Цей номер уже використовується.',saved:'Номер виправлено, потрібне підтвердження.',invalid:'Номер має містити від 5 до 60 символів.',pending:'Підтвердження заблоковано: номер уже зайнятий.'}
+ };
+ const ct=contractTexts[ctx.lang]||contractTexts.sk;
+ const contractConflict=person=>verifiedResidents.find(x=>String(x.verified_contract_number||'').trim()===String(person.contract_number||'').trim()&&normalize(x.email)!==normalize(person.email));
  let pendingAction=false;
  const paint=()=>{
   if(pendingAction)return;
@@ -72,6 +81,44 @@ export async function renderStaffScreen(ctx) {
    else{
     const details=el('dl','identity-fields');details.append(field(w.contract,person.contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.registered,ctx.day(person.created_at)));card.append(details);
     if(person.status==='pending'){
+     const conflict=contractConflict(person);
+     const others=records.filter(x=>x.id!==person.id&&String(x.contract_number||'').trim()===String(person.contract_number||'').trim()).length;
+     if(conflict){
+      const warn=el('p','danger',ct.collision+' '+(conflict.verified_room_number||'—')+'.');
+      warn.setAttribute('role','alert');card.append(warn);
+     }
+     if(others)card.append(el('p','mini-note',ct.same+' ('+others+')'));
+     const correction=el('details','staff-form');
+     const summary=el('summary','',ct.correct);
+     const editForm=el('form','staff-form'),number=el('input');
+     number.type='text';number.maxLength=60;number.minLength=5;number.required=true;number.value=person.contract_number||'';number.setAttribute('aria-label',w.contract);
+     const saveNumber=el('button','',ct.save);saveNumber.type='submit';
+     editForm.append(el('p','mini-note',ct.verify),number,saveNumber);
+     editForm.addEventListener('submit',async event=>{
+      event.preventDefault();
+      if(pendingAction||!ctx.isCurrent()||!editForm.reportValidity())return;
+      const corrected=number.value.trim();
+      if(corrected.length<5||corrected.length>60){status(ct.invalid,true);return;}
+      if(corrected===person.contract_number){correction.open=false;return;}
+      if(verifiedResidents.some(x=>String(x.verified_contract_number||'').trim()===corrected&&normalize(x.email)!==normalize(person.email))){
+       status(ct.conflict,true);return;
+      }
+      if(records.some(x=>x.id!==person.id&&String(x.contract_number||'').trim()===corrected&&x.status==='invited')){
+       status(ct.conflict,true);return;
+      }
+      if(!confirm(ct.verify))return;
+      pendingAction=true;saveNumber.disabled=true;
+      try{
+       const {data,error}=await ctx.db.from('registration_requests').update({contract_number:corrected})
+        .eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id,contract_number');
+       if(!ctx.isCurrent())return;
+       if(error||data?.length!==1){status(w.failed,true);return;}
+       person.contract_number=corrected;
+       status(ct.saved);
+      }catch{if(ctx.isCurrent())status(w.failed,true);}
+      finally{pendingAction=false;saveNumber.disabled=false;if(ctx.isCurrent())paint();}
+     });
+     correction.append(summary,editForm);card.append(correction);
      const actions=el('div','staff-actions');
      const approve=button(w.approve,()=>{approvalEditor(person,actions);},'');
      const reject=button(w.reject,()=>{void decide(person,false,actions);});actions.append(approve,reject);card.append(actions);
@@ -82,6 +129,7 @@ export async function renderStaffScreen(ctx) {
  };
  function approvalEditor(person,actions){
   if(actions.querySelector('form'))return;
+  if(contractConflict(person)){status(ct.pending,true);return;}
   const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Skontrolujte každú sumu a splatnosť podľa zmluvy, najmä neúplné mesiace. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Check each amount and due date against the contract, especially partial months. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, особенно неполные месяцы. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, особливо неповні місяці. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
   const form=el('form','staff-form'),rent=el('input'),due=el('input'),schedule=el('div');
   rent.type='number';rent.min='0.01';rent.max='100000';rent.step='0.01';rent.required=true;
