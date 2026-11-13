@@ -1,0 +1,14 @@
+import {readFileSync} from 'node:fs';import {stripTypeScriptTypes} from 'node:module';import vm from 'node:vm';import assert from 'node:assert/strict';
+const source=stripTypeScriptTypes(readFileSync('student-house-portal/supabase/register-student/index.ts','utf8').replace(/^import .*;\n/gm,''));
+const payload={first_name:'Synthetic',last_name:'Applicant',email:'synthetic@example.invalid',telephone:'+421900000000',nationality:'Slovak',date_of_birth:'2001-01-02',preferred_room_type:'M2',accommodation_from:'2027-02-01',accommodation_to:'2027-07-01',privacy_acknowledged:true,password:'synthetic-test-only-123',password_confirmation:'synthetic-test-only-123'};
+async function run(change={},scenario='success'){
+ const writes=[];let handler;
+ const client={from:table=>{const q=new Proxy({then:(ok)=>Promise.resolve({data:[],error:null}).then(ok)},{get:(o,p)=>p==='then'?o.then:()=>q});return q;},rpc:async(name,args)=>{writes.push({name,args});if(name==='registration_rate_allowed')return {data:true};if(scenario==='db-error')return {error:{code:'XX000'}};return {data:{id:'request-a'}};},auth:{admin:{createUser:async data=>{writes.push({name:'createUser',data});return scenario==='auth-error'?{error:{code:'email_exists'}}:{data:{user:{id:'new-user'}}};},deleteUser:async id=>{writes.push({name:'deleteUser',id});return {};}}}};
+ vm.runInNewContext(source,{createClient:()=>client,queueExistingRegistrationReceipt:async()=>{},Deno:{env:{get:()=> 'synthetic-secret'},serve:h=>{handler=h;}},TextEncoder,URL,Response,Request,crypto,console:{error:()=>{}}});
+ const response=await handler(new Request('https://supabase.test/register-student',{method:'POST',headers:{origin:'https://www.webu.sk','content-type':'application/json'},body:JSON.stringify({...payload,...change})}));return {status:response.status,body:await response.json(),writes};
+}
+for(const change of [{password_confirmation:'mismatch'},{password:'short',password_confirmation:'short'},{date_of_birth:''},{telephone:''},{preferred_room_type:''}])assert.equal((await run(change)).status,400);
+const ok=await run();assert.equal(ok.status,201);assert.equal(ok.writes.filter(x=>x.name==='createUser').length,1);assert.equal(ok.writes.find(x=>x.name==='createUser').data.email_confirm,false);const data=ok.writes.find(x=>x.name==='residence_submit_registration').args.p_data;assert.equal(Object.hasOwn(data,'password'),false);assert.equal(Object.hasOwn(data,'password_confirmation'),false);
+const fail=await run({},'db-error');assert.equal(fail.status,503);assert.equal(fail.writes.filter(x=>x.name==='deleteUser').length,1);
+const existing=await run({},'auth-error');assert.equal(existing.status,409);assert.equal(existing.writes.filter(x=>x.name==='deleteUser').length,0);
+console.log('PASS: server password confirmation/required fields, Auth-only password, pending email confirmation, atomic request payload, DB failure cleanup and existing-account protection. Synthetic transports.');

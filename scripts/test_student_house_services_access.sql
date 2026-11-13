@@ -15,6 +15,7 @@ insert into public.residents(id,tenant_id,user_id,full_name,email)
  select u.resident_id,o.id,u.id,'Synthetic student',u.id::text||'@example.invalid'
  from staff_test_users u join staff_test_orgs o on o.label=case when u.label='student-b' then 'b' else 'a' end where u.label like 'student-%';
 
+insert into public.cleaning_slots(tenant_id,starts_at,ends_at,resource) select id,now()+interval '2 days',now()+interval '2 days 1 hour','Synthetic cleaner' from staff_test_orgs where label='a';
 create temporary table service_test_ids(label text,id uuid);
 grant select,insert on service_test_ids to authenticated;
 select set_config('request.jwt.claims',jsonb_build_object('sub',id,'role','authenticated','session_id',session_id)::text,true) is not null as identity_set from staff_test_users where label='student-a';
@@ -40,8 +41,8 @@ do $$begin
  update public.service_requests set status='closed' where id=(select id from service_test_ids where label='request');
  if found then raise exception 'Student changed request status';end if;
 end$$;
-insert into public.cleaning_bookings(tenant_id,resident_id,preferred_date,preferred_window,cleaning_type)
- select o.id,u.resident_id,(now() at time zone 'Europe/Bratislava')::date+1,'morning','deep' from staff_test_orgs o cross join staff_test_users u where o.label='a' and u.label='student-a';
+insert into public.cleaning_bookings(tenant_id,resident_id,preferred_date,preferred_window,cleaning_type,slot_id)
+ select o.id,u.resident_id,(now() at time zone 'Europe/Bratislava')::date+2,'morning','deep',(select id from public.residence_cleaning_availability(o.id) limit 1) from staff_test_orgs o cross join staff_test_users u where o.label='a' and u.label='student-a';
 reset role;
 select set_config('request.jwt.claims',jsonb_build_object('sub',id,'role','authenticated','session_id',session_id)::text,true) is not null as identity_set from staff_test_users where label='reception-a';
 set local role authenticated;

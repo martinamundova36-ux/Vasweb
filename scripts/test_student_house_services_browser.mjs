@@ -2,8 +2,9 @@
 import {createRequire} from 'node:module';
 import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
-const require=createRequire(import.meta.url),{chromium}=require('playwright');
-const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
+const require=createRequire(import.meta.url),{chromium,webkit}=require('playwright');
+for(const engine of [chromium,webkit]){
+const browser=await engine.launch({...(engine===chromium?{executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox']}:{}),headless:true});
 try{
  const page=await browser.newPage({viewport:{width:390,height:844}});
  page.on('dialog',dialog=>dialog.accept());
@@ -50,3 +51,5 @@ try{
  assert.equal(await page.evaluate(()=>saved[0].payload.scheduled_at),'2027-07-20T08:00:00.000Z');
  console.log('PASS: mobile browser forms, staff status update, internal note submission, student controls, cleaning type, alternate appointment in Bratislava timezone. Synthetic UI only.');
 }finally{await browser.close();}
+
+}

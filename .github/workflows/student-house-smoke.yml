@@ -53,7 +53,7 @@ jobs:
           const approval=fs.readFileSync('student-house-portal/supabase/migrations/20261112193508_atomic_registration_approval.sql','utf8');
           if(!manage.includes('registration_not_pending') || !manage.includes('residence_approve_registration') || !approval.includes('verified_contract_number')) throw new Error('Reception verification contract logic missing');
           const edge = fs.readFileSync('student-house-portal/supabase/register-student/index.ts','utf8');
-          if (!edge.includes('.not("verified_at","is",null)') || !edge.includes('tenant_id:tenantId')) throw new Error('Verified-domain tenant routing missing');
+          if (!edge.includes('.not("verified_at","is",null)') || !edge.includes('p_tenant:tenantId') || !edge.includes('residence_submit_registration')) throw new Error('Verified-domain tenant routing missing');
           console.log('Registration, multi-residence switcher and tenant routing checks passed');
           JS
       - name: Check live public registration endpoint rejects invalid data
@@ -138,5 +138,5 @@ jobs:
           cache-dependency-path: tests/package-lock.json
       - run: npm ci --prefix tests --ignore-scripts
       - run: npm test --prefix tests
-      - run: npx --prefix tests playwright install --with-deps chromium
+      - run: npx --prefix tests playwright install --with-deps chromium webkit
       - run: npm run browser --prefix tests

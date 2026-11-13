@@ -563,7 +563,7 @@ function paint(items){let r=$('records');r.replaceChildren();if(!items.length){r
 async function list(table,filter){
  const tenant=member.tenant_id,items=[];
  const pageSize=500,maxPages=30;
- const orderColumn=table==='resident_staff_details'?'resident_id':table==='registration_enquiries'?'registration_id':'id';
+ const orderColumn=table==='residence_reminder_settings'?'tenant_id':table==='resident_staff_details'?'resident_id':table==='registration_enquiries'?'registration_id':'id';
  for(let page=0;page<maxPages;page++){
   let q=db.from(table).select('*').eq('tenant_id',tenant).order(orderColumn).range(page*pageSize,page*pageSize+pageSize-1);
   if(filter)for(const [k,v] of Object.entries(filter))q=q.eq(k,v);

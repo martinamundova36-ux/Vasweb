@@ -33,7 +33,7 @@ try{
    assert.ok(role==='student'?title.includes('študentská'):!title.includes('študentská'));
    for(const code of ['en','ru','uk','sk']){await page.locator('#appLang').selectOption(code);await page.waitForFunction(c=>document.documentElement.lang===c,code);assert.ok(await page.locator('#app').isVisible());assert.equal(await page.evaluate(()=>window.testStorageKey),(mode==='reception'?'sb-ydqchayscxntqdkzkynv-auth-token':'sb-ydqchayscxntqdkzkynv-student-auth-token'));}
    if(role!=='student'){
-    await page.locator('#tabs button').filter({hasText:'Izby'}).click();
+    await page.locator('#tabs button').filter({hasText:'Excel'}).click();
     await page.locator('.room-grid tbody tr').first().waitFor();
     assert.equal(await page.locator('.room-grid tbody tr').count(),64);
     if(width===390)assert.ok(await page.locator('.room-grid table').evaluate(t=>t.parentElement.scrollWidth>t.parentElement.clientWidth));
