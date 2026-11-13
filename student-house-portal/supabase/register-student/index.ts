@@ -57,10 +57,25 @@ Deno.serve(async(request:Request)=>{
   const last_name=asText(body.last_name,80);
   const email=asText(body.email,254).toLowerCase();
   const room_number=asText(body.room_number,30);
-  const contract_number=asText(body.contract_number,60);
+  // Contract numbers and verified room assignments are written by reception only.
+  // Ignore any attempted contract_number in public submissions.
   const accommodation_from=asText(body.accommodation_from,10);
   const accommodation_to=asText(body.accommodation_to,10);
-  if(!body.privacy_acknowledged || first_name.length<1 || last_name.length<1 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || room_number.length<1 || contract_number.length<5 ||
+  const permanent_address=asText(body.permanent_address,500);
+  const nationality=asText(body.nationality,80);
+  const telephone=asText(body.telephone,60);
+  const gender=asText(body.gender,16);
+  const date_of_birth=asText(body.date_of_birth,10);
+  const school=asText(body.school,250);
+  const parent_contact_email=asText(body.parent_contact_email,254);
+  const preferred_room_type=asText(body.preferred_room_type,120);
+  const arrival=asText(body.expected_arrival,10);
+  const genderValid=['','male','female','other'].includes(gender);
+  const parentValid=!parent_contact_email||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(parent_contact_email);
+  if(!body.privacy_acknowledged || first_name.length<1 || last_name.length<1 ||
+    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !genderValid || !parentValid ||
+    (date_of_birth&&(!isDate(date_of_birth)||date_of_birth>new Date().toISOString().slice(0,10))) ||
+    (arrival&&(!isDate(arrival)||arrival>accommodation_to)) ||
     !isDate(accommodation_from)||!isDate(accommodation_to)||accommodation_to<=accommodation_from) {
      return safeResponse({error:"invalid_fields"},400,origin);
   }
@@ -71,12 +86,33 @@ Deno.serve(async(request:Request)=>{
   const {data:allowed,error:rateError}=await client.rpc("registration_rate_allowed",{p_hash});
   if(rateError){console.error("registration_rate_failure",rateError.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
   if(!allowed)return safeResponse({error:"too_many_requests"},429,origin);
-  const since = new Date(Date.now()-20*60*1000).toISOString();
-  const {data:recent,error:recentError}=await client.from("registration_requests").select("id").eq("tenant_id",tenantId).eq("email",email).eq("contract_number",contract_number).gte("created_at",since).limit(1);
+  const since = new Date(Date.now()-14*24*60*60*1000).toISOString();
+  const {data:recent,error:recentError}=await client.from("registration_requests")
+    .select("id").eq("tenant_id",tenantId).eq("email",email)
+    .in("status",["pending","correction_requested"]).gte("created_at",since).limit(1);
   if(recentError){console.error("registration_duplicate_check",recentError.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
   if(recent?.length)return safeResponse({ok:true},200,origin);
-  const {error}=await client.from("registration_requests").insert({tenant_id:tenantId,first_name,last_name,email,room_number,contract_number,accommodation_from,accommodation_to,status:"pending"});
-  if(error){console.error("registration_insert_failed",error.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
+  const {data:created,error:registrationError}=await client.from("registration_requests")
+    .insert({tenant_id:tenantId,first_name,last_name,email,room_number:room_number||null,
+      contract_number:null,accommodation_from,accommodation_to,status:"pending"})
+    .select("id").single();
+  if(registrationError||!created?.id){console.error("registration_insert_failed",registrationError?.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
+  // These answers are private to reception until approval, then copied into
+  // the authenticated student's editable questionnaire in one approval transaction.
+  const {error:questionnaireError}=await client.from("registration_enquiries").insert({
+    registration_id:created.id,tenant_id:tenantId,
+    permanent_address,date_of_birth:date_of_birth||null,nationality,gender,
+    identity_document_number:"",telephone,parent_contact_email,
+    school,iban:"",preferred_room_type,preferred_duration_months:null,
+    preferred_from:arrival||accommodation_from,preferred_to:accommodation_to
+  });
+  if(questionnaireError){
+    console.error("registration_enquiry_insert_failed",questionnaireError.code);
+    // Roll back the public request if its private questionnaire could not be stored.
+    const {error:rollbackError}=await client.from("registration_requests").delete().eq("id",created.id).eq("tenant_id",tenantId);
+    if(rollbackError)console.error("registration_rollback_failed",rollbackError.code);
+    return safeResponse({error:"temporarily_unavailable"},503,origin);
+  }
   return safeResponse({ok:true},201,origin);
  }catch(e){console.error("registration_invalid_request",e instanceof Error?e.name:"error");return safeResponse({error:"invalid_request"},400,origin)}
 });
