@@ -40,7 +40,7 @@ Deno.serve(async(req)=>{
     if(body.action==='send_profile_invite'){
       if(resident.profile_password_activated_at)return reply({ok:true,already_active:true});
       const {error:mailError}=await service.auth.resetPasswordForEmail(user.email!,{
-        redirectTo:portalOrigin+'/student-house-portal/student/'
+        redirectTo:portalOrigin+'/student-house-portal/student/?step=profile'
       });
       if(mailError){console.error('profile_invite_delivery_failed',mailError.code);return reply({error:'email_failed'},503);}
       return reply({ok:true,email_sent:true});
@@ -77,7 +77,7 @@ Deno.serve(async(req)=>{
       .select('student_submitted_at').eq('tenant_id',tenant).eq('resident_id',account.id).maybeSingle():{data:null};
     const {error:deliveryError}=answers?.student_submitted_at
       ?await service.auth.resetPasswordForEmail(record.email,{
-        redirectTo:portalOrigin+'/student-house-portal/student/'
+        redirectTo:portalOrigin+'/student-house-portal/student/?step=profile'
       })
       :await service.auth.signInWithOtp({email:record.email,options:{
         shouldCreateUser:false,emailRedirectTo:portalOrigin+'/student-house-portal/questionnaire/'
