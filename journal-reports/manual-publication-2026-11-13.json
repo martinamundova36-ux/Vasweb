@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-13",
+  "publication_type": "manual_bilingual_editorial",
+  "author": "Martina Mundová",
+  "scope": "Publisher research pages and abstracts read; no independent scientific peer review or reanalysis",
+  "photos": "Five unique real photos, externally hosted through Pexels CDN with per-photo credits",
+  "articles": [
+    {
+      "doi": "10.1108/EMJB-01-2026-0061",
+      "sk": "https://www.webu.sk/blog-journal-2026-11-13-ai-v-malej-firme.html",
+      "en": "https://www.webu.sk/blog-journal-2026-11-13-ai-v-malej-firme-en.html",
+      "photo": "https://www.pexels.com/photo/a-group-of-people-having-a-meeting-in-the-office-8117473/"
+    },
+    {
+      "doi": "10.1007/s44217-026-01547-1",
+      "sk": "https://www.webu.sk/blog-journal-2026-11-13-financna-gramotnost-v-podnikani.html",
+      "en": "https://www.webu.sk/blog-journal-2026-11-13-financna-gramotnost-v-podnikani-en.html",
+      "photo": "https://www.pexels.com/photo/person-calculating-on-a-notebook-6962993/"
+    },
+    {
+      "doi": "10.1177/21582440261474620",
+      "sk": "https://www.webu.sk/blog-journal-2026-11-13-dovera-v-online-recenzie.html",
+      "en": "https://www.webu.sk/blog-journal-2026-11-13-dovera-v-online-recenzie-en.html",
+      "photo": "https://www.pexels.com/photo/person-holding-mobile-phone-3632645/"
+    },
+    {
+      "doi": "10.1007/s11365-026-01209-6",
+      "sk": "https://www.webu.sk/blog-journal-2026-11-13-home-office-autonomia-a-zmysel.html",
+      "en": "https://www.webu.sk/blog-journal-2026-11-13-home-office-autonomia-a-zmysel-en.html",
+      "photo": "https://www.pexels.com/photo/a-woman-working-at-home-with-a-laptop-7078795/"
+    },
+    {
+      "doi": "10.1177/21582440261488932",
+      "sk": "https://www.webu.sk/blog-journal-2026-11-13-rozsirena-realita-v-eshopoch.html",
+      "en": "https://www.webu.sk/blog-journal-2026-11-13-rozsirena-realita-v-eshopoch-en.html",
+      "photo": "https://www.pexels.com/photo/digital-shopping-on-laptop-and-smartphone-29502371/"
+    }
+  ],
+  "deployment_status": "committed; public deployment to be checked"
+}

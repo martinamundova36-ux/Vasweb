@@ -72,3 +72,14 @@ Pexels povoľuje komerčné použitie na webe, blogu a v reklame. Fotografie sú
 - commons-7b23e3817c621c: [Wagner Tamanaha  from Sao Paulo, Brazil](https://commons.wikimedia.org/wiki/File:Home_office_(suporte_para_laptop_em_papel%C3%A3o)_(4875984286).jpg), licencia [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-f0291c7a2843e5: [Cory Doctorow](https://commons.wikimedia.org/wiki/File:New_laptop_stickers,_the_office,_Burbank,_California,_USA.jpg), licencia [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+
+## 13. 11. 2026 – 5 nových jedinečných ilustračných fotografií Pexels
+
+Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého Pexels CDN, teda nejde o lokálne optimalizované obrázky; pri budúcej migrácii treba zachovať autorov a licencie. Každý článok má samostatnú fotografiu.
+
+- blog-journal-2026-11-13-ai-v-malej-firme.html: Ivan S – https://www.pexels.com/photo/a-group-of-people-having-a-meeting-in-the-office-8117473/ – https://www.pexels.com/license/
+- blog-journal-2026-11-13-financna-gramotnost-v-podnikani.html: Mikhail Nilov – https://www.pexels.com/photo/person-calculating-on-a-notebook-6962993/ – https://www.pexels.com/license/
+- blog-journal-2026-11-13-dovera-v-online-recenzie.html: Lisa Fotios – https://www.pexels.com/photo/person-holding-mobile-phone-3632645/ – https://www.pexels.com/license/
+- blog-journal-2026-11-13-home-office-autonomia-a-zmysel.html: Kampus Production – https://www.pexels.com/photo/a-woman-working-at-home-with-a-laptop-7078795/ – https://www.pexels.com/license/
+- blog-journal-2026-11-13-rozsirena-realita-v-eshopoch.html: Julio Lopez – https://www.pexels.com/photo/digital-shopping-on-laptop-and-smartphone-29502371/ – https://www.pexels.com/license/
