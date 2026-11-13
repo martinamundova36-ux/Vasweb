@@ -21,8 +21,8 @@ Deno.serve(async(req)=>{
    const {error:auditError}=await service.from('audit_logs').insert({tenant_id:doc.tenant_id,actor_id:user.id,action:'DOWNLOAD_SIGNED_60S',entity:'documents',entity_id:doc.id});if(auditError)throw auditError;
    return reply({url:data.signedUrl});
   }
-  if(body.action!=='invite')return reply({error:'invalid_action'},400);
-  if(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200)return reply({error:'invalid_data'},400);
+  if(!['invite','resend_student_access'].includes(body.action))return reply({error:'invalid_action'},400);
+  if(body.action==='invite'&&(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200))return reply({error:'invalid_data'},400);
 
   const role=body.role;if(!['student','reception','org_admin'].includes(role))return reply({error:'invalid_role'},400);
   const tenant=body.tenant_id;
@@ -30,6 +30,25 @@ Deno.serve(async(req)=>{
   const {data:m,error:roleError}=await client.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
   const {data:p}=await client.from('platform_admins').select('user_id').eq('user_id',user.id).maybeSingle();
   if(roleError||!(m?.role==='org_admin'||(m?.role==='reception'&&role==='student')||(p&&role==='org_admin')))return reply({error:'forbidden'},403);
+
+  if(body.action==='resend_student_access'){
+    if(role!=='student'||typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))
+      return reply({error:'invalid_data'},400);
+    const {data:record,error:recordError}=await client.from('registration_requests')
+      .select('email,status').eq('tenant_id',tenant).eq('id',body.registration_id)
+      .eq('status','invited').maybeSingle();
+    if(recordError||!record)return reply({error:'approved_registration_not_found'},404);
+    // The student is already approved. The recovery link serves as a secure
+    // password-setup/reentry link and is sent only to the approved email.
+    const {error:deliveryError}=await service.auth.resetPasswordForEmail(record.email,{
+      redirectTo:portalOrigin+'/student-house-portal/'
+    });
+    if(deliveryError){
+      console.error('student_access_resend_failed',deliveryError.code);
+      return reply({error:'invitation_failed'},503);
+    }
+    return reply({ok:true,email_sent:true});
+  }
 
   // Any resident may submit a public request, but only verified reception staff can approve it.
   // Do not accept contract dates/numbers from a browser acting as an unverified resident.
@@ -56,10 +75,10 @@ Deno.serve(async(req)=>{
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
   const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'':'?view=reception');
   let uid:string|undefined,existingUser=false,emailSent=false;
-  // A student who selected a password via Supabase Auth during registration
-  // already has an Auth account, but has NO organization membership until approval.
-  // Re-inviting that address would send an unwanted password-reset email.
-  // Existing users retain their passwords; only brand-new users receive an invite.
+  // New registrations have NO password. Reception approves the room, signed
+  // contract data and monthly rent. New email accounts receive a one-time invite.
+  // Older applicants who previously created an Auth account receive a password
+  // setup/recovery link only after the approval transaction succeeds.
   if(registration){
     for(let page=1;page<=100&&!uid;page++){
       const {data,error:listError}=await service.auth.admin.listUsers({page,perPage:100});
@@ -87,7 +106,7 @@ Deno.serve(async(req)=>{
   }
   if(!uid)return reply({error:'user_not_resolved'},503);
   // Staff invites to an existing account retain the old recovery workflow.
-  // Student approvals never reset the password a student already selected.
+  // Student accounts created by the old form are not re-invited before approval.
   if(existingUser&&!registration){
     const {error:resetError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
     if(resetError)return reply({error:'password_email_failed'},503);
@@ -99,6 +118,13 @@ Deno.serve(async(req)=>{
       p_monthly_rent:body.verified_monthly_rent,p_due_day:body.verified_due_day,p_schedule:body.verified_schedule
     });
     if(approvalError)return reply({error:'approval_conflict'},409);
+    if(existingUser){
+      // Send access to existing legacy accounts only after approval is committed.
+      // The reset link opens the same secure create-password screen as an invite.
+      const {error:welcomeError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
+      if(welcomeError)console.error('student_access_email_failed',welcomeError.code);
+      else emailSent=true;
+    }
   }else{
     const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
     if(checkError)throw checkError;

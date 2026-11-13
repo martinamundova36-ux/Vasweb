@@ -101,6 +101,22 @@ export async function renderStaffScreen(ctx) {
        ['Typ izby – preferencia',q.preferred_room_type],['Plánovaný príchod',ctx.day(q.preferred_from)]])grid.append(field(label,value||'—'));
      box.append(summary,grid);card.append(box);
     }
+    if(person.status==='invited'){
+     const resend=button(ctx.lang==='en'?'Resend access invitation':'Znova poslať pozvánku na vytvorenie hesla',async()=>{
+      if(pendingAction||!ctx.isCurrent()||!confirm(ctx.lang==='en'?'Send a new password setup link to this approved resident?':'Poslať nový odkaz na vytvorenie hesla tomuto schválenému študentovi?'))return;
+      pendingAction=true;resend.disabled=true;
+      try{
+       const {data,error}=await ctx.db.functions.invoke('manage',{body:{
+        action:'resend_student_access',role:'student',tenant_id:ctx.tenant,registration_id:person.id
+       }});
+       status(!error&&data?.ok?
+        (ctx.lang==='en'?'Invitation sent to the approved resident.':'Pozvánka bola odoslaná na e-mail schváleného študenta.'):
+        (ctx.lang==='en'?'Invitation could not be sent. Check SMTP.':'Pozvánku sa nepodarilo poslať. Skontroluj SMTP.'),!!error||!data?.ok);
+      }catch{status(w.failed,true)}
+      finally{pendingAction=false;resend.disabled=false;}
+     });
+     card.append(resend);
+    }
     if(person.status==='correction_requested'){
      card.append(el('p','mini-note',cw.existing));
      if(person.correction_reason)card.append(el('p','',cw.reason+': '+person.correction_reason));
@@ -260,15 +276,15 @@ export async function renderStaffScreen(ctx) {
     return;
    }
    person.status=approve?'invited':'rejected';success=true;
-   const useExistingPassword=approve&&response.data?.email_sent===false;
-   status(useExistingPassword
-     ?(ctx.lang==='en'?'Registration approved. Student signs in with their chosen password. Open Gmail to notify them.':'Registrácia schválená. Študent sa prihlási zvoleným heslom. Otvor Gmail a pošli mu oznámenie.')
-     :(approve?w.inviteOK:w.rejected));
-   if(useExistingPassword){
+   const invitationEmailFailed=approve&&response.data?.email_sent===false;
+   status(invitationEmailFailed
+     ?(ctx.lang==='en'?'Registration approved but no invitation email was sent. Check SMTP and use Forgot password.':'Registrácia schválená, ale pozvánku sa nepodarilo odoslať. Skontroluj SMTP; študent si môže vyžiadať odkaz cez Zabudnuté heslo.')
+     :(approve?(ctx.lang==='en'?'Registration approved; email invitation sent.':'Registrácia schválená a pozvánka odoslaná.'):w.rejected));
+   if(invitationEmailFailed){
     const subject='Student House Bratislava – '+(ctx.lang==='en'?'registration approved':'registrácia schválená');
     const body=ctx.lang==='en'
-     ?'Hello,\n\nYour accommodation registration has been approved. Confirm your email address if needed, then sign in with your existing password here:\nhttps://www.webu.sk/student-house-portal/student/\n\nYour personal questionnaire and student photo will be available after sign-in.\n\nStudent House Bratislava Reception'
-     :'Ahoj,\n\nTvoja registrácia ubytovania bola schválená. Ak si ešte nepotvrdil(a) e-mail, potvrď ho. Potom sa prihlás heslom, ktoré si si zvolil(a), tu:\nhttps://www.webu.sk/student-house-portal/student/\n\nPo prihlásení vyplň osobný dotazník a vlož fotografiu.\n\nRecepcia Student House Bratislava';
+     ?'Hello,\n\nYour accommodation was approved. Use the Forgot password option at https://www.webu.sk/student-house-portal/student/ to request a password setup link. Then complete the questionnaire and upload your signed contract, house rules and GDPR acknowledgement.\n\nStudent House Bratislava Reception'
+     :'Ahoj,\n\nTvoja registrácia bola schválená. Na https://www.webu.sk/student-house-portal/student/ klikni na Zabudnuté heslo a vyžiadaj si odkaz na vytvorenie hesla. Potom vyplň dotazník a odošli podpísanú zmluvu, ubytovací poriadok a GDPR.\n\nRecepcia Student House Bratislava';
     const mail=el('a','btn-secondary',ctx.lang==='en'?'Open Gmail approval message':'Otvoriť Gmail – schválenie študenta');
     mail.href='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(person.email)
       +'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
@@ -434,18 +450,18 @@ export async function renderStaffScreen(ctx) {
   try{
    const allFiles=await ctx.list('residence_portal_files');if(!ctx.isCurrent()||!filesRoot.isConnected)return;
    const files=residentFiles(allFiles,person).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));filesRoot.replaceChildren();
-   for(const [kind,title] of [['profile_photo',w.photo],['signed_rules',w.rules],['signed_gdpr',w.gdpr]]){
+   for(const [kind,title] of [['profile_photo',w.photo],['signed_contract',ctx.lang==='en'?'Signed contract':'Podpísaná zmluva'],['signed_rules',w.rules],['signed_gdpr',w.gdpr]]){
     const items=files.filter(f=>f.kind===kind);if(!items.length){filesRoot.append(el('p','mini-note',title+': '+w.missing));continue;}
     for(const file of items)filesRoot.append(documentCard(file,title));
    }
-   for(const file of files.filter(f=>f.kind==='resident_document'))filesRoot.append(documentCard(file,w.private));
+   for(const file of files.filter(f=>f.kind==='resident_document'||f.kind==='contract_draft'))filesRoot.append(documentCard(file,f.kind==='contract_draft'?(ctx.lang==='en'?'Resident contract':'Ubytovacia zmluva'):w.private));
   }catch{if(ctx.isCurrent())filesRoot.replaceChildren(el('p','danger',w.fileFailed));}
  }
  function documentCard(file,title){
   const card=el('article','data-card');card.append(el('strong','',title),el('p','small',file.original_name+' · '+ctx.day(file.created_at)));
   if(file.kind!=='profile_photo')card.append(el('span','status-pill',file.review_status==='approved'?w.approved:file.review_status==='rejected'?w.needsFix:w.pending));
   card.append(button(w.view,()=>{if(ctx.isCurrent())void ctx.fileLink(file.id,ctx.tenant);}));
-  if(['signed_rules','signed_gdpr'].includes(file.kind)&&['pending','rejected'].includes(file.review_status)){
+  if(['signed_contract','signed_rules','signed_gdpr'].includes(file.kind)&&['pending','rejected'].includes(file.review_status)){
    const input=el('input');input.type='text';input.maxLength=1000;input.value=file.staff_note||'';input.setAttribute('aria-label',w.note);input.placeholder=w.note;
    const actions=el('div','staff-actions');
    const review=async result=>{
