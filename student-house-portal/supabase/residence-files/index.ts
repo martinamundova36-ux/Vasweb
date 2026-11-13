@@ -10,7 +10,9 @@ const BUCKET = "residence-portal-files";
 const LEGACY = new Set(["https://www.webu.sk", "https://webu.sk"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const templates = new Set(["rules_template", "gdpr_template"]);
-const uploads = new Set(["profile_photo", "signed_rules", "signed_gdpr", "resident_document", ...templates]);
+const signed = new Set(["signed_contract", "signed_rules", "signed_gdpr"]);
+const assignedByReception = new Set(["resident_document", "contract_draft"]);
+const uploads = new Set(["profile_photo", ...signed, ...assignedByReception, ...templates]);
 const imageTypes = new Set(["image/jpeg", "image/png"]);
 const allTypes = new Set(["image/jpeg", "image/png", "application/pdf"]);
 
@@ -82,37 +84,38 @@ Deno.serve(async req => {
       if(!isMultipart)return fail(origin,400,"multipart_required");
       const kind=get("kind");
       if(!uploads.has(kind))return fail(origin,400,"invalid_kind");
-      if((templates.has(kind)||kind==="resident_document")&&!staff)return fail(origin,403,"staff_only");
+      if((templates.has(kind)||assignedByReception.has(kind))&&!staff)return fail(origin,403,"staff_only");
       const file=body.get("file");
       if(!(file instanceof File)||file.size===0)return fail(origin,400,"file_required");
       const max=kind==="profile_photo"?3000000:6000000;
       if(file.size>max)return fail(origin,413,"file_too_large");
       if(!allTypes.has(file.type))return fail(origin,400,"file_type_not_supported");
-      if(templates.has(kind)&&file.type!=="application/pdf")return fail(origin,400,"pdf_required");
+      if((templates.has(kind)||kind==="contract_draft")&&file.type!=="application/pdf")return fail(origin,400,"pdf_required");
       if(kind==="profile_photo"&&!imageTypes.has(file.type))return fail(origin,400,"image_required");
       // File signatures must match the MIME declared by the browser.
       const bytes=new Uint8Array(await file.arrayBuffer());
       const actual=detectMime(bytes);
       if(!actual||actual!==file.type)return fail(origin,400,"file_signature_invalid");
-      const recipientId=kind==="resident_document"?get("resident_id"):"";
-      if(kind==="resident_document"&&!UUID.test(recipientId))return fail(origin,400,"resident_required");
+      const receiverIsAssigned=assignedByReception.has(kind);
+      const recipientId=receiverIsAssigned?get("resident_id"):"";
+      if(receiverIsAssigned&&!UUID.test(recipientId))return fail(origin,400,"resident_required");
       const {data:resident,error:residentError}=templates.has(kind)?{data:null,error:null}:await client.from("residents")
-        .select("id,user_id").eq("tenant_id",tenant).eq("user_id",kind==="resident_document"?"00000000-0000-0000-0000-000000000000":user.id)
+        .select("id,user_id").eq("tenant_id",tenant).eq("user_id",receiverIsAssigned?"00000000-0000-0000-0000-000000000000":user.id)
         .eq("active",true).maybeSingle();
       let person=resident;
-      if(kind==="resident_document"){
+      if(receiverIsAssigned){
         const result=await client.from("residents").select("id,user_id").eq("tenant_id",tenant).eq("id",recipientId).eq("active",true).maybeSingle();
         if(result.error||!result.data)return fail(origin,403,"verified_resident_required");
         person=result.data;
       }else if(residentError)return fail(origin,503,"resident_lookup_failed");
       if(!templates.has(kind)&&!person)return fail(origin,403,"verified_resident_required");
-      const ownerId=kind==="resident_document"?person!.user_id:user.id;
+      const ownerId=receiverIsAssigned?person!.user_id:user.id;
       const extension=actual==="application/pdf"?"pdf":actual==="image/png"?"png":"jpg";
       const objectId=crypto.randomUUID();
       const objectPath=templates.has(kind)
         ? "templates/"+tenant+"/"+kind+"/"+objectId+"."+extension
-        : kind==="resident_document"
-          ? "private/"+tenant+"/"+ownerId+"/"+objectId+"."+extension
+        : receiverIsAssigned
+          ? "private/"+tenant+"/"+ownerId+"/"+kind+"/"+objectId+"."+extension
           : kind==="profile_photo"
             ? "photos/"+tenant+"/"+user.id+"/"+objectId+"."+extension
             : "signed/"+tenant+"/"+user.id+"/"+kind+"/"+objectId+"."+extension;
@@ -120,11 +123,12 @@ Deno.serve(async req => {
         contentType:actual,cacheControl:"60",upsert:false
       });
       if(storedError){console.error("residence_file_storage_failure",storedError.name);return fail(origin,503,"storage_failed");}
-      const isSingle=templates.has(kind)||kind==="profile_photo";
+      const isSingle=templates.has(kind)||kind==="profile_photo"||kind==="contract_draft";
       const previousIds:string[]=[];
       if(isSingle){
         let query=admin.from("residence_portal_files").select("id").eq("tenant_id",tenant).eq("kind",kind).eq("active",true);
         if(kind==="profile_photo")query=query.eq("user_id",user.id);
+        if(kind==="contract_draft")query=query.eq("resident_id",person!.id);
         const {data:old,error:oldReadError}=await query;
         if(oldReadError){await admin.storage.from(BUCKET).remove([objectPath]);return fail(origin,503,"save_failed");}
         previousIds.push(...(old||[]).map(x=>x.id));
@@ -140,7 +144,7 @@ Deno.serve(async req => {
         resident_id:person?.id||null,
         kind,object_path:objectPath,original_name:cleanName(file.name||"document."+extension),
         content_type:actual,size_bytes:file.size,uploaded_by:user.id,
-        review_status:kind.startsWith("signed_")?"pending":"not_applicable",active:true
+        review_status:signed.has(kind)?"pending":"not_applicable",active:true
       }).select("id,kind,review_status").single();
       if(savedError){
         console.error("residence_file_record_failure",savedError.code);
@@ -172,7 +176,7 @@ Deno.serve(async req => {
       if(!UUID.test(fileId)||!["approved","rejected"].includes(status)||note.length>1000)return fail(origin,400,"invalid_review");
       const {data:record,error:readError}=await client.from("residence_portal_files")
         .select("id,kind").eq("tenant_id",tenant).eq("id",fileId).maybeSingle();
-      if(readError||!record||!["signed_rules","signed_gdpr"].includes(record.kind))return fail(origin,403,"forbidden");
+      if(readError||!record||!signed.has(record.kind))return fail(origin,403,"forbidden");
       const {error:updatedError}=await admin.from("residence_portal_files")
         .update({review_status:status,staff_note:note,reviewed_by:user.id,reviewed_at:new Date().toISOString()})
         .eq("tenant_id",tenant).eq("id",fileId);
