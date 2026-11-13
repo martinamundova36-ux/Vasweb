@@ -40,7 +40,7 @@ jobs:
             if(!html.includes("tab==='"+name+"'"))throw new Error("Missing dashboard section: "+name);
           }
           if(!html.includes("portal-open") || !html.includes("function statusPill"))throw new Error('Authenticated interior layout missing');
-          if(!html.includes("['overview','profile','rooms'") || !html.includes("renderProfile(tenant)") || !html.includes("renderResidentDocuments(tenant,staff,own)"))throw new Error('Profile or signed-document inbox missing');
+          if(!html.includes("renderProfile(tenant)") || !html.includes("renderResidentDocuments(tenant,staff,own)") || !html.includes("renderStudentEnquiry("))throw new Error('Profile, questionnaire or signed-document inbox missing');
           if(!html.includes("functions.invoke('residence-files'") || !html.includes("profile_photo") || !html.includes("signed_rules") || !html.includes("signed_gdpr"))throw new Error('Private uploads not integrated');
           const fileEndpoint=fs.readFileSync('student-house-portal/supabase/residence-files/index.ts','utf8');
           if(!fileEndpoint.includes('getUser()') || !fileEndpoint.includes('residence_portal_files') || !fileEndpoint.includes('verified_resident_required'))throw new Error('Private file security checks missing');
