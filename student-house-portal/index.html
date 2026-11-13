@@ -512,10 +512,10 @@ $("pendingBack").addEventListener("click",()=>setRegistration(false));
 // Public registration never creates a password or an Auth session. Only
 // reception can approve a request and send a one-time invitation to set it.
 const REG_SUBMITTED={
- sk:'1. Registrácia odoslaná – čaká na recepciu. Po schválení dostaneš pozvánku na druhú stránku s dotazníkom. Až po jeho odoslaní príde druhý e-mail na vytvorenie hesla a vstup do profilu.',
- en:'Step 1 submitted – awaiting reception approval. The first email opens Step 2, your questionnaire. After submitting it, a second email invites you to create your profile password.',
- ru:'Шаг 1 отправлен, ожидайте подтверждения. Первая ссылка ведёт на анкету, вторая придёт после анкеты для создания пароля.',
- uk:'Крок 1 надіслано, очікуйте схвалення. Перше посилання веде на анкету, друге — після анкети для створення пароля.'
+ sk:'Registráciu sme prijali. Pokyny pošleme na uvedený e-mail. Ak už registráciu máš, nevytvorili sme ďalšiu; dostaneš potvrdenie alebo odkaz na opravu pôvodnej žiadosti. Pozvánka na dotazník príde až po schválení recepciou.',
+ en:'Your submission was received. Instructions will be emailed to the address provided. If you already have a registration, no duplicate was created; you will receive a receipt or correction link for the original request. Questionnaire access follows reception approval.',
+ ru:'Заявка получена. Инструкции придут на указанную почту. Если заявка уже есть, новая не создаётся: вы получите подтверждение или ссылку для исправления исходной заявки. Приглашение к анкете придёт после одобрения.',
+ uk:'Заявку отримано. Інструкції надійдуть на вказану пошту. Якщо заявка вже є, нову не створено: ви отримаєте підтвердження або посилання для виправлення початкової заявки. Запрошення до анкети надійде після схвалення.'
 };
 $("regForm").addEventListener("submit",async e=>{
  e.preventDefault();
@@ -540,7 +540,7 @@ $("regForm").addEventListener("submit",async e=>{
    $("regForm").reset();
    $("registration").classList.add('hide');
    $("registrationPending").classList.remove('hide');
-   $("pendingHeading").textContent=lang==='en'?'Awaiting reception approval':lang==='ru'?'Ожидание подтверждения':lang==='uk'?'Очікування схвалення':'Čaká na schválenie recepciou';
+   $("pendingHeading").textContent=lang==='en'?'Registration received':lang==='ru'?'Заявка получена':lang==='uk'?'Заявку отримано':'Registrácia prijatá';
    $("pendingMessage").textContent=REG_SUBMITTED[lang]||REG_SUBMITTED.sk;
    $("pendingBack").textContent=lang==='en'?'Back to sign in':lang==='ru'?'Вернуться ко входу':lang==='uk'?'Повернутися до входу':'Späť na prihlásenie';
   }else{
