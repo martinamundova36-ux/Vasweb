@@ -151,7 +151,54 @@ export async function renderStaffScreen(ctx) {
     if(!ctx.isCurrent())return;if(error||!data?.length){status(w.failed,true);return;}
     person.verified_room_number=room.value.trim();status(ctx.success);details.children[1].querySelector('dd').textContent=room.value.trim()||w.noRoom;
    }catch{if(ctx.isCurrent())status(w.failed,true);}finally{save.disabled=false;}
-  });results.append(form,el('h4','section-subtitle',w.files));
+  });results.append(form);
+  const enquiryTitle=({sk:'Osobný dotazník študenta',en:'Student personal questionnaire',ru:'Анкета студента',uk:'Анкета студента'})[ctx.lang]||'Osobný dotazník študenta';
+  const enquiryBox=el('section','data-card');
+  enquiryBox.append(el('h4','section-subtitle',enquiryTitle));
+  results.append(enquiryBox);
+  try{
+   const {data:enquiry,error:enquiryError}=await ctx.db.from('resident_enquiries').select('*')
+     .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle();
+   if(!ctx.isCurrent()||!enquiryBox.isConnected)return;
+   if(enquiryError){enquiryBox.append(el('p','danger',w.failed));}
+   else if(!enquiry){enquiryBox.append(el('p','muted',ctx.lang==='en'?'The student has not completed the online questionnaire.':'Študent ešte nevyplnil online dotazník.'));}
+   else{
+    const translated=ctx.lang==='en';
+    const values=[
+      [translated?'Permanent address':'Trvalá adresa',enquiry.permanent_address],
+      [translated?'Date of birth':'Dátum narodenia',ctx.day(enquiry.date_of_birth)],
+      [translated?'Nationality':'Národnosť',enquiry.nationality],
+      [translated?'Sex / gender':'Pohlavie',enquiry.gender],
+      [translated?'ID card / passport':'Číslo dokladu',enquiry.identity_document_number],
+      [translated?'Telephone':'Telefón',enquiry.telephone],
+      [translated?'Parent contact email':'E-mail rodiča',enquiry.parent_contact_email],
+      [translated?'School':'Škola',enquiry.school],
+      ['IBAN',enquiry.iban],
+      [translated?'Preferred room':'Preferovaný typ izby',enquiry.preferred_room_type],
+      [translated?'Stay duration (months)':'Dĺžka pobytu (mesiace)',enquiry.preferred_duration_months],
+      [translated?'Preferred arrival':'Preferovaný príchod',ctx.day(enquiry.preferred_from)],
+      [translated?'Preferred departure':'Preferovaný odchod',ctx.day(enquiry.preferred_to)]
+    ];
+    const dataList=el('dl','identity-fields');
+    for(const [name,value] of values)dataList.append(field(name,value||'—'));
+    enquiryBox.append(dataList,el('p','mini-note',translated?'Student-submitted details; verify before using in the accommodation register.':'Údaje od študenta – pred prenosom do evidencie ich musí overiť recepcia.'));
+   }
+   if(typeof ctx.uploadPrivateDocument==='function'){
+    const title=ctx.lang==='en'?'Upload completed paper questionnaire (PDF/JPG/PNG)':'Nahrať vyplnený papierový dotazník (PDF/JPG/PNG)';
+    const uploadForm=el('form','staff-form');
+    const input=el('input');input.type='file';input.accept='application/pdf,image/jpeg,image/png';input.required=true;input.setAttribute('aria-label',title);
+    const submit=el('button','',ctx.lang==='en'?'Attach to student':'Priložiť k študentovi');submit.type='submit';
+    uploadForm.append(el('strong','',title),input,submit);
+    uploadForm.addEventListener('submit',async event=>{
+      event.preventDefault();
+      if(!input.files?.length||!ctx.isCurrent())return;
+      const ok=await ctx.uploadPrivateDocument(person.id,input.files[0],submit);
+      if(ok&&ctx.isCurrent()){status(ctx.success);input.value='';}
+    });
+    enquiryBox.append(uploadForm);
+   }
+  }catch(error){if(ctx.isCurrent())enquiryBox.append(el('p','danger',w.failed));}
+  results.append(el('h4','section-subtitle',w.files));
   const filesRoot=el('div','data-list', '…');results.append(filesRoot);
   try{
    const allFiles=await ctx.list('residence_portal_files');if(!ctx.isCurrent()||!filesRoot.isConnected)return;
