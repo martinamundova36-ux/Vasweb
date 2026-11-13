@@ -249,6 +249,15 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 </form><p id="regMessage" role="status" aria-live="polite"></p>
 <button id="regBack" type="button" style="background:#e6eef8;color:#142b4d;width:100%">Späť na prihlásenie</button>
 </section>
+<section id="registrationPending" class="hide" aria-live="polite">
+<div class="reg-section" style="padding:24px;border:1px solid #c7d9e8;border-radius:14px;background:#f2f8ff">
+<p style="font-weight:800;color:#1f587f">1 ✓ &nbsp; → &nbsp; 2 ○ &nbsp; → &nbsp; 3 ○</p>
+<h2 id="pendingHeading">Čaká na schválenie recepciou</h2>
+<p id="pendingMessage">Registrácia bola odoslaná. Po kontrole dostaneš pozvánku na ďalšiu stránku – osobný dotazník.</p>
+<p style="font-size:14px;color:#5a7189">Student House Bratislava · Žiadne heslo ani číslo zmluvy sa pri registrácii nevypĺňa.</p>
+</div>
+<button id="pendingBack" type="button" class="btn-secondary" style="margin-top:14px">Späť na prihlásenie</button>
+</section>
 </div>
 <div id="app" class="hide"><div class="top"><div class="portal-brand"><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení · Designed by WEBU</footer></div>
 </main></div></div>
@@ -366,10 +375,12 @@ function setRegistration(on){
  regOpen=on;
  for(const id of ["sign","intro","form","invite","error","openRegistration"])$(id).classList.toggle("hide",on);
  $("registration").classList.toggle("hide",!on);
+ $("registrationPending").classList.add('hide');
  $("regMessage").textContent="";
 }
 $("openRegistration").addEventListener("click",()=>setRegistration(true));
 $("regBack").addEventListener("click",()=>setRegistration(false));
+$("pendingBack").addEventListener("click",()=>setRegistration(false));
 // Public registration never creates a password or an Auth session. Only
 // reception can approve a request and send a one-time invitation to set it.
 const REG_SUBMITTED={
@@ -399,7 +410,11 @@ $("regForm").addEventListener("submit",async e=>{
   const body=await response.json();
   if(response.ok&&body.ok){
    $("regForm").reset();
-   msg.style.color="#226846";msg.textContent=REG_SUBMITTED[lang]||REG_SUBMITTED.sk;
+   $("registration").classList.add('hide');
+   $("registrationPending").classList.remove('hide');
+   $("pendingHeading").textContent=lang==='en'?'Awaiting reception approval':lang==='ru'?'Ожидание подтверждения':lang==='uk'?'Очікування схвалення':'Čaká na schválenie recepciou';
+   $("pendingMessage").textContent=REG_SUBMITTED[lang]||REG_SUBMITTED.sk;
+   $("pendingBack").textContent=lang==='en'?'Back to sign in':lang==='ru'?'Вернуться ко входу':lang==='uk'?'Повернутися до входу':'Späť na prihlásenie';
   }else{
    msg.style.color="#a32c30";
    msg.textContent=response.status===429?r.limited:body?.error==="invalid_fields"?r.invalid:r.error;
