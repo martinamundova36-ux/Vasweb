@@ -45,18 +45,19 @@ test('full Student House Bratislava branding in installable and Android apps', (
 
 
 test('Student House app and share preview never use root WEBU favicon', () => {
-  for (const path of ['student-house-portal/index.html', 'student-house-portal/student/index.html', 'student-house-portal/admin/index.html', 'student-house-portal/questionnaire/index.html', 'student-house-portal/offline.html', 'student-house-portal/correction/index.html', 'student-house-portal/preview.html']) {
+  const pages = ['student-house-portal/index.html', 'student-house-portal/student/index.html', 'student-house-portal/admin/index.html', 'student-house-portal/questionnaire/index.html', 'student-house-portal/offline.html', 'student-house-portal/correction/index.html', 'student-house-portal/preview.html'];
+  for (const path of pages) {
     const html = fs.readFileSync(path, 'utf8');
-    assert.match(html, /href="\\/student-house-portal\\/icons\\/icon\\.svg"/);
-    assert.doesNotMatch(html, /href="\\/favicon(?:\\.svg|-\\d+\\.png|\\.ico)"/);
-    assert.doesNotMatch(html, /href="\\/apple-touch-icon\\.png"/);
+    assert.ok(html.includes('href="/student-house-portal/icons/icon.svg"'), path + ' has Student House icon');
+    assert.ok(!html.includes('href="/favicon'), path + ' must not use WEBU root icon');
+    assert.ok(!html.includes('href="/apple-touch-icon.png"'), path + ' must not use WEBU Apple icon');
   }
-  for (const path of ['student-house-portal/index.html', 'student-house-portal/student/index.html', 'student-house-portal/admin/index.html', 'student-house-portal/questionnaire/index.html']) {
+  for (const path of pages.slice(0, 4)) {
     const html = fs.readFileSync(path, 'utf8');
-    assert.match(html, /property="og:image" content="https:\\/\\/www\\.webu\\.sk\\/student-house-portal\\/icons\\/icon-512\\.png"/);
-    assert.match(html, /property="og:site_name" content="Student House Bratislava"/);
-    assert.doesNotMatch(html, /by WEBU<\\/title>/);
+    assert.ok(html.includes('property="og:image" content="https://www.webu.sk/student-house-portal/icons/icon-512.png"'), path + ' has share image');
+    assert.ok(html.includes('property="og:site_name" content="Student House Bratislava"'), path + ' has Student House brand');
+    assert.ok(!html.includes('by WEBU</title>'), path + ' title must not contain WEBU');
   }
-  assert.doesNotMatch(share, /Created by WEBU/);
-  assert.doesNotMatch(native, /Created by WEBU/);
+  assert.ok(!share.includes('Created by WEBU'), 'Share message must not display WEBU');
+  assert.ok(!native.includes('Created by WEBU'), 'Native share message must not display WEBU');
 });
