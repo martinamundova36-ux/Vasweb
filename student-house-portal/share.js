@@ -7,7 +7,7 @@
   const publicUrl = 'https://www.webu.sk/student-house-portal/';
   const shareData = {
     title: 'Student House Bratislava',
-    text: 'Student House Bratislava. Created by WEBU.',
+    text: 'Student House Bratislava – študentská aplikácia a služby.',
     url: publicUrl
   };
   const show = message => {
