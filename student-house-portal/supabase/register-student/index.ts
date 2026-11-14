@@ -98,14 +98,17 @@ Deno.serve(async(request:Request)=>{
   if(recentError){console.error("registration_duplicate_check",recentError.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
   if(recent?.length){
    try{await queueExistingRegistrationReceipt(client,tenantId,recent[0]);}
-   catch{console.error("registration_receipt_queue_failed");return safeResponse({error:"temporarily_unavailable"},503,origin);}
-   return safeResponse({ok:true},200,origin);
+   catch{console.error("registration_receipt_queue_failed");}
+   return safeResponse({ok:true,already_registered:true},200,origin);
   }
   let newUserId:string|null=null;
   if(wantsPassword){
    // Auth alone stores the password hash. Pending users have no residence membership.
    const {data:account,error:accountError}=await client.auth.admin.createUser({email,password:body.password,email_confirm:false});
-   if(accountError||!account?.user?.id)return safeResponse({error:'account_exists_or_unavailable'},409,origin);
+   if(accountError||!account?.user?.id){
+    if(['email_exists','user_already_exists','identity_already_exists'].includes(String(accountError?.code||'')))return safeResponse({error:'email_already_registered'},409,origin);
+    return safeResponse({error:'account_exists_or_unavailable'},409,origin);
+   }
    newUserId=account.user.id;
   }
   const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,room_number,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival}});
@@ -114,6 +117,6 @@ Deno.serve(async(request:Request)=>{
    if(newUserId){const {error:cleanupError}=await client.auth.admin.deleteUser(newUserId);if(cleanupError)console.error('registration_auth_cleanup_failed',cleanupError.code);}
    return safeResponse({error:'temporarily_unavailable'},503,origin);
   }
-  return safeResponse({ok:true},201,origin);
+  return safeResponse({ok:true,already_registered:created.existing===true},created.existing===true?200:201,origin);
  }catch(e){console.error("registration_invalid_request",e instanceof Error?e.name:"error");return safeResponse({error:"invalid_request"},400,origin)}
 });
