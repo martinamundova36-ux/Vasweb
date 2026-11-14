@@ -42,3 +42,21 @@ test('full Student House Bratislava branding in installable and Android apps', (
   assert.match(install, /Student House Bratislava v Chrome/);
   assert.match(native, /Intent\.EXTRA_SUBJECT, "Student House Bratislava"/);
 });
+
+
+test('Student House app and share preview never use root WEBU favicon', () => {
+  for (const path of ['student-house-portal/index.html', 'student-house-portal/student/index.html', 'student-house-portal/admin/index.html', 'student-house-portal/questionnaire/index.html', 'student-house-portal/offline.html', 'student-house-portal/correction/index.html', 'student-house-portal/preview.html']) {
+    const html = fs.readFileSync(path, 'utf8');
+    assert.match(html, /href="\\/student-house-portal\\/icons\\/icon\\.svg"/);
+    assert.doesNotMatch(html, /href="\\/favicon(?:\\.svg|-\\d+\\.png|\\.ico)"/);
+    assert.doesNotMatch(html, /href="\\/apple-touch-icon\\.png"/);
+  }
+  for (const path of ['student-house-portal/index.html', 'student-house-portal/student/index.html', 'student-house-portal/admin/index.html', 'student-house-portal/questionnaire/index.html']) {
+    const html = fs.readFileSync(path, 'utf8');
+    assert.match(html, /property="og:image" content="https:\\/\\/www\\.webu\\.sk\\/student-house-portal\\/icons\\/icon-512\\.png"/);
+    assert.match(html, /property="og:site_name" content="Student House Bratislava"/);
+    assert.doesNotMatch(html, /by WEBU<\\/title>/);
+  }
+  assert.doesNotMatch(share, /Created by WEBU/);
+  assert.doesNotMatch(native, /Created by WEBU/);
+});
