@@ -1,0 +1,77 @@
+{
+  "id": "https://www.webu.sk/",
+  "name": "WEBU – tvorba webstránok",
+  "short_name": "WEBU",
+  "description": "Tvorba webstránok, portfólio, digitálne služby a WEBU Journal na jednom mieste.",
+  "lang": "sk",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b182d",
+  "theme_color": "#0b182d",
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Služby WEBU",
+      "short_name": "Služby",
+      "url": "/sluzby.html",
+      "icons": [
+        {
+          "src": "/favicon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Portfólio WEBU",
+      "short_name": "Portfólio",
+      "url": "/portfolio.html",
+      "icons": [
+        {
+          "src": "/favicon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "WEBU Journal",
+      "short_name": "Journal",
+      "url": "/blog.html",
+      "icons": [
+        {
+          "src": "/favicon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Kontaktovať WEBU",
+      "short_name": "Kontakt",
+      "url": "/kontakt.html",
+      "icons": [
+        {
+          "src": "/favicon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
