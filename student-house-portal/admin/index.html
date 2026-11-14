@@ -248,6 +248,11 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 @media(max-width:650px){.student-documents-cta{padding:16px}.student-documents-cta button{width:100%}}
 @media(max-width:750px){.staff-directory{grid-template-columns:minmax(0,1fr)!important}.staff-person{width:100%;box-sizing:border-box}.staff-actions{flex-wrap:wrap}.staff-actions>button{max-width:100%;white-space:normal}}
 .staff-approval-success{padding:20px;border:2px solid #29815b;border-radius:14px;background:#effaf3;color:#145234;margin:18px 0;scroll-margin-top:90px}.staff-approval-title{font-size:21px;display:block}.staff-approval-success p{margin:8px 0;overflow-wrap:anywhere}.staff-approval-success button{margin-top:10px}
+.student-notice-banner{margin:12px 0 18px;padding:14px 16px;border:1px solid #a9c9ea;border-radius:12px;background:#eaf3ff;color:#143257;font-weight:650}
+.student-notice-card{padding:15px;margin:10px 0;background:#fff;border:1px solid #c8d6e5;border-radius:12px}
+.student-notice-card.unread{border-left:5px solid #295f9a;background:#f0f7ff}
+.student-notice-card p{margin:8px 0}.student-notice-card small{color:#65768b}.student-notice-card button{margin-top:8px}
+.student-notice-card h4{margin:0}#studentNoticeBell[hidden]{display:none}
 </style><style>.backbar{gap:12px;justify-content:space-between;flex-wrap:wrap}.install-studenthouse{flex:0 0 auto;min-height:44px;background:#e9f2ff;color:#143257;border:1px solid #b5cbe5;border-radius:11px;padding:10px 14px;font-weight:750}.install-studenthouse:hover,.install-studenthouse:focus-visible{background:#d8e9ff;color:#143257}.install-studenthouse[hidden],.install-help[hidden]{display:none}.install-help{margin:0;padding:12px 20px;background:#dbeafe;color:#143257;text-align:center;font-size:14px;line-height:1.5;border-bottom:1px solid #b5cbe5}@media(max-width:750px){.install-studenthouse{width:100%}}.studenthouse-app-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-left:auto}.studenthouse-brand-credit{padding:20px 15px 26px;text-align:center;background:#eef3fa;color:#60758e;font:600 13px/1.5 system-ui,Arial}.studenthouse-brand-credit a{color:#142b4d;font-weight:800;text-decoration:underline;text-underline-offset:2px}.studenthouse-brand-credit a:hover,.studenthouse-brand-credit a:focus-visible{color:#23588d}@media(max-width:750px){.studenthouse-app-actions{width:100%;margin-left:0}.studenthouse-app-actions .install-studenthouse{flex:1 1 180px}}</style><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="shortcut icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></head><body data-portal-entry="admin">
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a><div class="studenthouse-app-actions"><button type="button" id="shareStudenthouse" class="install-studenthouse" aria-controls="studenthouseShareStatus">↗ Zdieľať Student House Bratislava</button><button type="button" id="installStudenthouse" class="install-studenthouse" aria-controls="studenthouseInstallHelp">📲 Nainštalovať Student House Bratislava</button></div></header><p class="install-help" id="studenthouseShareStatus" role="status" aria-live="polite" hidden></p><p class="install-help" id="studenthouseInstallHelp" role="status" aria-live="polite" hidden></p>
 <div class="wrap"><aside class="hero"><strong>▥ Student House Bratislava</strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><div class="hero-photo-frame"><img class="hero-photo" src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-studenti-pri-dunaji.png" width="1842" height="854" loading="eager" decoding="async" alt="Ilustračná fotografia študentského života v Bratislave"></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
@@ -307,7 +312,7 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 <div class="reg-section" style="padding:24px;border:1px solid #b7e5c7;border-radius:14px;background:#effcf3;text-align:center">
 <p aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:50%;background:#16703b;color:#fff;font-size:48px;font-weight:800;margin:0 auto 14px">✓</p>
 <h2 id="pendingHeading">Čaká na schválenie recepciou</h2>
-<p id="pendingMessage">Registrácia bola odoslaná. Po kontrole dostaneš pozvánku na ďalšiu stránku – osobný dotazník.</p>
+<p id="pendingMessage">Registrácia bola odoslaná. Po schválení recepciou sa prihlás svojím e-mailom a heslom. Upozornenie na dotazník uvidíš priamo v Studenthouse.</p>
 <p style="font-size:14px;color:#5a7189">Student House Bratislava · Číslo zmluvy a izbu potvrdí recepcia.</p>
 </div>
 <button id="pendingBack" type="button" class="btn-secondary" style="margin-top:14px">Späť na prihlásenie</button>
@@ -340,7 +345,7 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
  <a id="step2ReceptionLink" class="step2-staff-link" href="/student-house-portal/admin/">Recepcia / Admin</a>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div class="portal-brand"><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
 </main></div></div>
 <footer class="studenthouse-brand-credit">Created by <a href="https://www.webu.sk/" target="_blank" rel="noopener noreferrer">WEBU</a></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
@@ -522,8 +527,8 @@ $("regBack").addEventListener("click",()=>setRegistration(false));
 $("pendingBack").addEventListener("click",()=>setRegistration(false));
 // Auth stores the password; residence access stays closed until reception approval.
 const REG_SUBMITTED={
- sk:'Žiadosť o registráciu bola úspešne odoslaná a uložená. Čaká na schválenie recepciou. Pokyny prídu na tvoj e-mail po schválení.',
- en:'Your registration was successfully submitted and saved. It is awaiting reception approval. Further instructions will be sent by email.',
+ sk:'Žiadosť je uložená a čaká na schválenie recepciou. Po schválení sa prihlás svojím e-mailom a heslom. Výzva na osobný dotazník sa zobrazí priamo v Studenthouse.',
+ en:'Your application is awaiting reception approval. After approval, sign in with the email and password chosen during registration to continue the questionnaire inside Studenthouse.',
  ru:'Заявка успешно отправлена и сохранена. Она ожидает подтверждения ресепшеном. Инструкции придут по электронной почте.',
  uk:'Заявку успішно надіслано та збережено. Вона очікує схвалення рецепцією. Інструкції надійдуть електронною поштою.'
 };
@@ -655,7 +660,7 @@ async function chooseOrganization(tenantId){
  if(questionnaireEntryMode&&resident?.profile_password_activated_at){
   location.replace('/student-house-portal/student/?signin=1');return;
  }
- renderTabs();await renderPanel();startLiveSync();
+ renderTabs();updateOnboardingNotice();await renderPanel();void refreshStudentNoticeBadge();startLiveSync();
 }
 $('orgSelector').addEventListener('change',e=>{void chooseOrganization(e.target.value)});
 
@@ -700,11 +705,68 @@ function message(note){$('records').append(make('p','mini-note',note))}
 function row(title,detail,status){let d=make('div','item');d.append(make('strong','',title));if(detail)d.append(make('div','small',detail));if(status)d.append(statusPill(status));return d}
 function subheading(str){$('records').append(make('h4','section-subtitle',str))}
 function kpi(caption,value,details,go){const b=make('button','kpi');b.type='button';b.append(make('div','kpi-caption',caption),make('strong','',value),make('small','',details));if(go)b.addEventListener('click',()=>navigate(go));else b.disabled=true;return b}
-function navigate(next){
- if(!isStaff()&&!resident?.profile_password_activated_at&&!['enquiry','await-profile'].includes(next))return;
- tab=next;renderTabs();void renderPanel();
+
+const studentNoticeTitle={sk:'Upozornenia',en:'Notifications',ru:'Уведомления',uk:'Сповіщення'};
+async function refreshStudentNoticeBadge(){
+ const bell=$('studentNoticeBell');
+ if(!member||!user||isStaff()){bell.hidden=true;return;}
+ bell.hidden=false;
+ const tenant=member.tenant_id,uid=user.id;
+ const {count,error}=await db.from('notifications').select('id',{count:'exact',head:true})
+   .eq('tenant_id',tenant).eq('user_id',uid).is('read_at',null);
+ if(error||member?.tenant_id!==tenant||user?.id!==uid)return;
+ bell.textContent='🔔 '+(studentNoticeTitle[lang]||studentNoticeTitle.sk)+(count?' ('+count+')':'');
 }
-const icons={account:'🔒',enquiry:'▤',profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉'};
+function updateOnboardingNotice(){
+ const banner=$('studentOnboardingBanner');
+ const show=!isStaff()&&!!resident&&!resident.profile_password_activated_at&&tab==='enquiry';
+ banner.classList.toggle('hide',!show);
+ if(!show)return;
+ const text=lang==='en'
+   ?'✓ Your registration was approved. Complete the personal questionnaire and upload a photo without leaving Studenthouse.'
+   :'✓ Tvoja registrácia bola schválená. Vyplň osobný dotazník a nahraj fotografiu priamo v Studenthouse.';
+ banner.replaceChildren(document.createTextNode(text));
+}
+async function renderStudentNotifications(tenant,generation){
+ const container=$('records');
+ heading(studentNoticeTitle[lang]||studentNoticeTitle.sk,
+   lang==='en'?'Private messages from reception.':'Súkromné správy od recepcie.');
+ const {data,error}=await db.from('notifications').select('id,title,body,created_at,read_at')
+   .eq('tenant_id',tenant).eq('user_id',user.id)
+   .order('created_at',{ascending:false}).limit(50);
+ if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
+ if(error){container.append(make('p','danger',lang==='en'?'Unable to load notifications.':'Upozornenia sa nepodarilo načítať.'));return;}
+ if(!data?.length){container.append(make('p','muted',lang==='en'?'No notifications yet.':'Zatiaľ nemáš žiadne upozornenia.'));return;}
+ for(const note of data){
+  const card=make('article','student-notice-card'+(note.read_at?'':' unread'));
+  card.append(make('h4','',note.title),make('p','',note.body),
+   make('small','',note.created_at?new Date(note.created_at).toLocaleString(lang==='en'?'en-GB':'sk-SK'):''));
+  if(/dotazník|anket|questionnaire/i.test(note.title+' '+note.body)&&!resident?.profile_password_activated_at){
+   const action=make('button','btn-secondary',lang==='en'?'Continue questionnaire':'Pokračovať v dotazníku');
+   action.type='button';action.addEventListener('click',()=>navigate('enquiry'));card.append(action);
+  }
+  if(!note.read_at){
+   const mark=make('button','btn-secondary',lang==='en'?'Mark as read':'Označiť ako prečítané');
+   mark.type='button';
+   mark.addEventListener('click',async()=>{
+    mark.disabled=true;
+    const {data:updated,error:markError}=await db.from('notifications').update({read_at:new Date().toISOString()})
+     .eq('tenant_id',tenant).eq('user_id',user.id).eq('id',note.id).is('read_at',null).select('id');
+    if(markError||!updated?.length){mark.disabled=false;return;}
+    card.classList.remove('unread');mark.remove();void refreshStudentNoticeBadge();
+   });
+   card.append(mark);
+  }
+  container.append(card);
+ }
+}
+$('studentNoticeBell').addEventListener('click',()=>{if(member&&!isStaff())navigate('notifications');});
+
+function navigate(next){
+ if(!isStaff()&&!resident?.profile_password_activated_at&&!['enquiry','await-profile','notifications'].includes(next))return;
+ tab=next;renderTabs();updateOnboardingNotice();void renderPanel();
+}
+const icons={account:'🔒',enquiry:'▤',profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉',notifications:'🔔'};
 
 const docLabels = {
  sk:{contract:"Ubytovacia zmluva",signedContract:"Podpísaná ubytovacia zmluva",onboarding:"Krok 3 z 3 – dokumenty na podpis",contractNeeded:"Individuálnu zmluvu ešte recepcia nenahrala.",contractUpload:"Nahrať individuálnu zmluvu (PDF)",rules:"Ubytovací poriadok",gdpr:"Informácie o spracúvaní osobných údajov (GDPR)",signedRules:"Podpísaný ubytovací poriadok",signedGdpr:"Podpísané potvrdenie o oboznámení sa s GDPR",load:"Stiahnuť",upload:"Nahrať súbor",photo:"Profilová fotografia",profileInfo:"Overené údaje o tvojom ubytovaní",first:"Meno",last:"Priezvisko",room:"Číslo izby",email:"E-mail",noRoom:"Izba zatiaľ nie je priradená",manual:"Údaje potvrdzuje recepcia. Ak niektorý údaj nesedí, požiadaj o opravu cez Požiadavky.",photoHelp:"Fotografia JPG alebo PNG, maximálne 3 MB.",uploadHelp:"Najprv stiahni dokument od recepcie, vyplň ho a podpíš. Potom sem nahraj podpísané PDF alebo fotografiu (JPG/PNG), maximálne 6 MB.",wait:"Čaká na kontrolu",approved:"Schválené",rejected:"Vrátené na opravu",missing:"Dokument zatiaľ recepcia nenahrala.",privacy:"Osobné údaje, fotografie a podpisy sú prístupné iba oprávneným osobám. Podrobnosti v informáciách GDPR.",uploadTemplate:"Nahrať aktuálne PDF",signedReceived:"Podpísané dokumenty od študentov",staffProfile:"Fotografie študentov",downloadForReview:"Zobraziť odovzdaný dokument",reviewApprove:"Schváliť",reviewReject:"Vrátiť na opravu",reviewNote:"Poznámka pri kontrole",viewPhoto:"Zobraziť fotografiu",requestCorrection:"Požiadať o opravu údajov",fileError:"Nahratie súboru zlyhalo. Skontroluj formát, veľkosť a oprávnenie.",fileSuccess:"Súbor bol bezpečne odoslaný.",adminTemplates:"Správa PDF vzorov a kontrola dokumentov",privateDocuments:"Ďalšie osobné dokumenty"},
@@ -1063,14 +1125,14 @@ async function renderResidentDocuments(tenant,staff,own){
 
 function renderTabs(){
  const isAdmin=isStaff();
- const keys=isAdmin?['rooms','overview','registrations','residents','payments','installments','documents','requests','cleaning','notices']:['overview','profile','enquiry','documents','rooms','payments','installments','requests','cleaning','notices'];
+ const keys=isAdmin?['rooms','overview','registrations','residents','payments','installments','documents','requests','cleaning','notices']:['overview','notifications','profile','enquiry','documents','rooms','payments','installments','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label','Sections');parent.setAttribute('role','navigation');
  const inWizard=!isAdmin&&resident&&!resident.profile_password_activated_at;
  const progress=$('wizardProgress');progress.classList.toggle('hide',!inWizard);
  if(inWizard){
   progress.textContent=lang==='en'
-   ?'1. Registration ✓    →    2. Questionnaire '+(tab==='enquiry'?'●':'✓')+'    →    3. Email & password'
-   :'1. Registrácia ✓    →    2. Dotazník '+(tab==='enquiry'?'●':'✓')+'    →    3. E-mail a heslo';
+   ?'1. Registration ✓    →    2. Questionnaire '+(tab==='enquiry'?'●':'✓')+'    →    3. Profile activation'
+   :'1. Registrácia ✓    →    2. Dotazník '+(tab==='enquiry'?'●':'✓')+'    →    3. Aktivácia profilu';
   parent.classList.add('hide');$('accountShortcut').classList.add('hide');$('switchPortal').classList.add('hide');return;
  }
  parent.classList.remove('hide');$('accountShortcut').classList.remove('hide');$('switchPortal').classList.toggle('hide',isAdmin);
@@ -1081,13 +1143,13 @@ function renderTabs(){
  const documentTabNames=isAdmin
   ? {sk:'Správa dokumentov',en:'Manage documents',ru:'Управление документами',uk:'Керування документами'}
   : {sk:'Stiahnuť / nahrať',en:'Download / upload',ru:'Скачать / загрузить',uk:'Завантажити / надіслати'};
- for(const key of keys){const text=key==='documents'?(documentTabNames[lang]||documentTabNames.sk):key==='enquiry'?({sk:'Osobný dotazník',en:'Questionnaire',ru:'Анкета',uk:'Анкета'}[lang]||'Osobný dotazník'):isAdmin&&key==='rooms'?({sk:'Excel evidencia',en:'Excel register',ru:'Таблица Excel',uk:'Таблиця Excel'}[lang]||'Excel evidencia'):label(key);const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+text);b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));parent.append(b)}
+ for(const key of keys){const text=key==='notifications'?({sk:'Upozornenia',en:'Notifications',ru:'Уведомления',uk:'Сповіщення'}[lang]||'Upozornenia'):key==='documents'?(documentTabNames[lang]||documentTabNames.sk):key==='enquiry'?({sk:'Osobný dotazník',en:'Questionnaire',ru:'Анкета',uk:'Анкета'}[lang]||'Osobný dotazník'):isAdmin&&key==='rooms'?({sk:'Excel evidencia',en:'Excel register',ru:'Таблица Excel',uk:'Таблиця Excel'}[lang]||'Excel evidencia'):label(key);const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+text);b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));parent.append(b)}
 }
 let renderGeneration=0;
 let pendingRoomFocus=null;
 
 // Automatic sync: approved registrations and verified accounting entries share one database.
-const LIVE_TABLES=['resident_enquiry_reviews','resident_enquiries','residence_portal_files','registration_requests','residents','rooms','tenancies','resident_staff_details','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','installment_items','cleaning_bookings','service_requests','service_request_messages'];
+const LIVE_TABLES=['resident_enquiry_reviews','resident_enquiries','residence_portal_files','registration_requests','residents','rooms','tenancies','resident_staff_details','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','installment_items','cleaning_bookings','service_requests','service_request_messages','notifications'];
 let liveChannel=null,liveTimer=null,liveDebounce=null,liveBusy=false,livePending=false;
 function stopLiveSync(){
  if(liveTimer!==null){clearInterval(liveTimer);liveTimer=null;}
@@ -1132,7 +1194,7 @@ function startLiveSync(){
  stopLiveSync();if(!member||!db)return;
  const tenant=member.tenant_id;
  const channel=db.channel('residence-live-'+tenant+'-'+(isStaff()?'staff':'student'));
- for(const table of LIVE_TABLES)channel.on('postgres_changes',{event:'*',schema:'public',table,filter:'tenant_id=eq.'+tenant},()=>{if(member?.tenant_id===tenant)scheduleLiveRefresh();});
+ for(const table of LIVE_TABLES)channel.on('postgres_changes',{event:'*',schema:'public',table,filter:'tenant_id=eq.'+tenant},()=>{if(member?.tenant_id===tenant){scheduleLiveRefresh();if(table==='notifications')void refreshStudentNoticeBadge();}});
  channel.subscribe();liveChannel=channel;
  // 60-second fallback also refreshes when realtime is unavailable.
  liveTimer=setInterval(scheduleLiveRefresh,60000);
@@ -1198,6 +1260,7 @@ async function renderPanel(){
  if(!member)return;
  const tenant=member.tenant_id,staff=isStaff(),own=resident?.id;
  try {
+  if(tab==='notifications'&&!staff){container.replaceChildren();await renderStudentNotifications(tenant,generation);return;}
   if(tab==='account'){renderPasswordSettings();return;}
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
@@ -1222,12 +1285,27 @@ async function renderPanel(){
     heading(...(messages[lang]||messages.sk));
     const back=make('button','',({sk:'Otvoriť dotazník',en:'Open questionnaire',ru:'Открыть анкету',uk:'Відкрити анкету'})[lang]);back.type='button';back.addEventListener('click',()=>navigate('enquiry'));container.append(back);return;
    }
-   heading(lang==='en'?'Step 2 completed':'Dotazník odoslaný',
-    lang==='en'?'A new email now opens your student profile.':'Teraz nasleduje samostatná pozvánka do študentského profilu.');
+   heading(lang==='en'?'Questionnaire approved':'Dotazník schválený',
+    lang==='en'?'Continue without leaving Studenthouse.':'Pokračuj bez odchodu zo Studenthouse.');
    container.append(make('p','',lang==='en'
-    ?'Open the next email, enter your verified email and choose a password to activate your profile.'
-    :'Otvor ďalší e-mail, zadaj overený e-mail a zvoľ si heslo na aktivovanie profilu.'));
-   const retry=make('button','',lang==='en'?'Resend profile invitation':'Znova poslať pozvánku do profilu');
+    ?'Activate your profile using the password you chose during registration.'
+    :'Aktivuj svoj profil s heslom, ktoré si si vytvoril(a) pri registrácii.'));
+   const activate=make('button','',lang==='en'?'Activate my profile':'Aktivovať môj profil');
+   activate.type='button';
+   const feedback=make('p','muted');container.append(activate,feedback);
+   activate.addEventListener('click',async()=>{
+    activate.disabled=true;feedback.textContent='';
+    try{
+     const {data,error}=await db.functions.invoke('manage',{body:{action:'activate_profile',tenant_id:tenant}});
+     if(error||!data?.ok){
+      feedback.textContent=lang==='en'?'Unable to activate. Please contact reception.':'Aktivácia sa nepodarila. Kontaktuj recepciu.';return;
+     }
+     await chooseOrganization(tenant);
+    }catch{
+     feedback.textContent=lang==='en'?'Profile activation failed.':'Aktivácia profilu zlyhala.';
+    }finally{activate.disabled=false;}
+   });
+   const retry=make('button','btn-secondary',lang==='en'?'Send password recovery email (optional)':'Poslať odkaz na obnovu hesla (voliteľné)');
    retry.type='button';retry.addEventListener('click',()=>{void sendProfileStepInvitation(tenant,retry);});
    container.append(retry);return;
   }
@@ -1568,6 +1646,7 @@ async function signedIn(u){
  user=u;$('login').classList.toggle('hide',!!u);$('app').classList.add('hide');
  document.body.classList.remove('portal-open');
  if(!u){
+  $('studentNoticeBell').hidden=true;$('studentOnboardingBanner').classList.add('hide');
   stopLiveSync();member=null;resident=null;memberships=[];organizationNames={};
   $('orgLabel').textContent='STUDENT HOUSE BRATISLAVA';$('orgSelectorWrap').classList.add('hide');
   document.title='Student House Bratislava | Študentská zóna';return;
@@ -1610,7 +1689,7 @@ $('lang').addEventListener('change',changeLanguage);$('appLang').addEventListene
 $('accountShortcut').addEventListener('click',()=>{if(member)navigate('account')});
 if(new URLSearchParams(location.search).get('view')==='register'&&!staffEntryMode)setRegistration(true);
 $('loginEye').addEventListener('click',()=>{const input=$('password'),button=$('loginEye'),visible=input.type==='password';input.type=visible?'text':'password';button.setAttribute('aria-pressed',String(visible));const label=pwdText(visible?'hide':'show');button.setAttribute('aria-label',label);button.title=label;});
-$('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=t[8];return}queueSignedIn(data.user,true)});
+$('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=error.code==='email_not_confirmed'?(lang==='en'?'Your account is awaiting activation after reception approval. Contact reception if already approved.':'Účet ešte čaká na aktiváciu po schválení recepciou. Ak už je schválený, požiadaj recepciu o aktiváciu prihlásenia.'):t[8];return}queueSignedIn(data.user,true)});
 function showPasswordRecovery(){
  // INITIAL_SESSION and PASSWORD_RECOVERY may both fire on the same reset link.
  // Never clear a password already typed or generated after the first event.
