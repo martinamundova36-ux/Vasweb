@@ -1,4 +1,4 @@
-name: Studenthouse Android security smoke & test APK
+name: Student House Bratislava Android security smoke & test APK
 on:
   push:
     paths:
