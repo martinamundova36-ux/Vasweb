@@ -10,6 +10,14 @@ en:{seq:'No.',beds:'Beds',bedHelp:'Every bed has its own row. A specific bed ass
 ru:{seq:'№',beds:'Мест',bedHelp:'Каждому месту выделена отдельная строка; назначение конкретного места проверяет ресепшен.',title:'РЕЕСТР ПРОЖИВАНИЯ — ТАБЛИЦА',desc:'Все комнаты в одной таблице. Месяцы находятся справа; показываются только проверенные начисления и оплаты.',room:'Комната',category:'Тип комнаты',capacity:'Мест',nationality:'Гражданство',gender:'Пол',telephone:'Телефон',first:'Имя',last:'Фамилия',email:'Почта',contract:'Договор',from:'С',to:'По',arrival:'Фактический заезд',code:'Код комнаты',deposit:'Депозит',fridge:'Сбор холодильник',verification:'Проверочный сбор',administration:'Админ. сбор',masked:'Записан',feeHint:'Это учётные суммы, а не подтверждённые оплаты.',total:'Всего за год',action:'Данные',missing:'Не проверено',placeholder:'Неподтверждённая комната — укажите фактический номер и тип.',known:'В базе',missingCount:'Требуют проверки',search:'Поиск комнаты, имени или почты',year:'Год графика',csv:'Скачать Excel (CSV)',save:'Сохранить',cancel:'Отмена',edit:'Изменить',open:'Профиль',load:'Загрузка…',empty:'Нет записей.',due:'К оплате',late:'Просрочено',paid:'Оплачено',partial:'Частично оплачено',plan:'Согласованные платежи',missingCharge:'Нет начисления',notApplicable:'—',sum:'Начислено / оплачено',remaining:'осталось',editHelp:'Имя, договор, почту и оплаты рецепция исправляет после проверки. Здесь можно добавить гражданство и дату заезда.',nationalityHelp:'Только проверенные данные.',saveError:'Не удалось сохранить.',saveOk:'Сохранено.',importLabel:'Импорт комнат (CSV)',importHelp:'name;category;capacity, только новые проверенные комнаты.',importConfirm:'Импортировать комнаты?',importFail:'Ошибка импорта.',importOver:'Более 64 комнат. Проверьте список.',filter:'Комнат показано'},
 uk:{seq:'№',beds:'Ліжка',bedHelp:'Кожне ліжко має окремий рядок; призначення конкретного ліжка перевіряє рецепція.',title:'РЕЄСТР ПРОЖИВАННЯ — ТАБЛИЦЯ',desc:'Усі кімнати в одному реєстрі. Місяці праворуч, лише перевірені нарахування й оплати.',room:'Кімната',category:'Тип кімнати',capacity:'Місць',nationality:'Громадянство',gender:'Стать',telephone:'Телефон',first:'Ім’я',last:'Прізвище',email:'Пошта',contract:'Договір',from:'З',to:'До',arrival:'Фактичний приїзд',code:'Код кімнати',deposit:'Депозит',fridge:'Плата холодильник',verification:'Перевірочний збір',administration:'Адмін. збір',masked:'Збережено',feeHint:'Це облікові суми, а не підтверджені платежі.',total:'Усього за рік',action:'Дані',missing:'Не перевірено',placeholder:'Непідтверджена кімната — додайте фактичний номер і тип.',known:'У базі',missingCount:'Потрібно перевірити',search:'Пошук кімнати, імені або пошти',year:'Рік графіка',csv:'Завантажити Excel (CSV)',save:'Зберегти',cancel:'Скасувати',edit:'Змінити',open:'Профіль',load:'Завантаження…',empty:'Немає записів.',due:'До сплати',late:'Прострочено',paid:'Сплачено',partial:'Частково сплачено',plan:'Узгоджені платежі',missingCharge:'Без нарахування',notApplicable:'—',sum:'Нараховано / сплачено',remaining:'залишилось',editHelp:'Ім’я, договір, пошту і платежі змінюють тільки після перевірки рецепції. Тут можна додати громадянство і дату приїзду.',nationalityHelp:'Вносьте лише перевірені дані.',saveError:'Не вдалося зберегти.',saveOk:'Збережено.',importLabel:'Імпорт кімнат (CSV)',importHelp:'name;category;capacity, лише нові перевірені кімнати.',importConfirm:'Імпортувати?',importFail:'Помилка імпорту.',importOver:'Більше 64 кімнат. Перевірте перелік.',filter:'Показано кімнат'}
 };
+const fullRegisterFields={
+ sk:['Dátum narodenia','Trvalá adresa','Číslo dokladu','Škola','Kontakt rodiča','IBAN','Preferovaný typ izby','Dĺžka pobytu (mesiace)','Vlastná chladnička','Mesačný nájom','Prvý predpis spolu','Z prvej platby uhradené','Z prvej platby zostáva','Úplnosť evidencie'],
+ en:['Date of birth','Permanent address','Identity document','School','Parent contact','IBAN','Preferred room type','Duration (months)','Own refrigerator','Monthly rent','First charges total','First payment paid','First payment outstanding','Record completeness'],
+ ru:['Дата рождения','Постоянный адрес','Документ','Учебное заведение','Родительский контакт','IBAN','Тип комнаты','Срок (мес.)','Свой холодильник','Месячная аренда','Первый счёт всего','Оплачено по первому счёту','Остаток по первому счёту','Заполнение'],
+ uk:['Дата народження','Постійна адреса','Документ','Навчальний заклад','Контакт батьків','IBAN','Тип кімнати','Тривалість (міс.)','Власний холодильник','Місячний найм','Перший рахунок разом','Сплачено за першим рахунком','Залишок за першим рахунком','Повнота запису']
+};
+const refrigeratorAnswer=(value,lang)=>value===true?({sk:'Áno',en:'Yes',ru:'Да',uk:'Так'}[lang]||'Áno'):value===false?({sk:'Nie',en:'No',ru:'Нет',uk:'Ні'}[lang]||'Nie'):'—';
+const emptyOptional=lang=>({sk:'Nepovinné – neuvedené',en:'Optional – not provided',ru:'Необязательно',uk:'Необов’язково'}[lang]||'Nepovinné');
 const genderName=(value,lang)=>{
  const names={sk:{female:'Žena',male:'Muž',other:'Neuvádza'},en:{female:'Female',male:'Male',other:'Not specified'},ru:{female:'Женщина',male:'Мужчина',other:'Не указано'},uk:{female:'Жінка',male:'Чоловік',other:'Не вказано'}};
  return (names[lang]||names.sk)[value]||'—';
@@ -139,7 +147,7 @@ export async function renderExcelRegister(ctx){
  const table=el('table','room-register-table');wrap.append(table);
  const count=el('p','muted');
  root.append(title,intro,counter,el('p','muted',w.bedHelp),controls,importArea,notice,count,wrap);ctx.root.append(root);
- const headings=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,...Array.from({length:12},(_,i)=>monthTitle(Number(yearSelect.value),i+1,ctx.lang)),w.total,w.action];
+ const headings=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,...Array.from({length:12},(_,i)=>monthTitle(Number(yearSelect.value),i+1,ctx.lang)),w.total,...(fullRegisterFields[ctx.lang]||fullRegisterFields.sk),w.action];
  let entries=[];
  const selectedYear=()=>Number(yearSelect.value)||nowYear;
  const fee=(entry,key)=>entry.detail?.[key]===null||entry.detail?.[key]===undefined?'—':formatMoney(entry.detail[key],ctx.lang);
@@ -148,12 +156,45 @@ export async function renderExcelRegister(ctx){
   const [first,last]=displayNames(person,entry.reg);
   const sum=Array.from({length:12},(_,month)=>periodLedger({entry,year:selectedYear(),month:month+1,charges,allocations,reversals,plans}));
   const charged=sum.reduce((n,s)=>n+s.charged,0),paid=sum.reduce((n,s)=>n+s.paid,0);
-  return {group,entry,first,last,sum,charged,paid,
+  const q=entry.enquiry||{},start=String(stay?.starts_on||person?.accommodation_from||'').slice(0,7);
+  const initial=person&&start?charges.filter(c=>c.resident_id===person.id&&c.period===start&&['rent','deposit','administration_fee'].includes(c.kind)):[];
+  const initialBalances=initial.map(c=>chargeBalance(c,allocations,reversals));
+  const initialAmount=initial.reduce((v,c)=>v+cents(c.amount),0);
+  const initialPaid=initialBalances.reduce((v,c)=>v+c.paid,0);
+  const initialRemain=initialBalances.reduce((v,c)=>v+c.remaining,0);
+  const completeness={
+   'dátum narodenia':!!q.date_of_birth,
+   'národnosť':!!(entry.detail?.nationality||q.nationality),
+   'pohlavie':!!q.gender,
+   'telefón':!!q.telephone,
+   'trvalá adresa':!!q.permanent_address,
+   'číslo dokladu':!!q.identity_document_number,
+   'škola':!!q.school,
+   'typ izby':!!q.preferred_room_type,
+   'dĺžka pobytu':Number(q.preferred_duration_months)>0,
+   'termín pobytu':!!q.preferred_from&&!!q.preferred_to,
+   'vlastná chladnička':typeof q.own_refrigerator==='boolean',
+   'nájomné':!!stay?.rent,
+   'depozit 2× nájom':initial.some(c=>c.kind==='deposit'),
+   'administratívny poplatok 100 €':initial.some(c=>c.kind==='administration_fee')
+  };
+  const missing=person?Object.entries(completeness).filter(([,ok])=>!ok).map(([name])=>name):[];
+  const extras=[
+   q.date_of_birth||'—',q.permanent_address||'—',q.identity_document_number||'—',q.school||'—',
+   q.parent_contact_email||emptyOptional(ctx.lang),q.iban||emptyOptional(ctx.lang),q.preferred_room_type||'—',
+   q.preferred_duration_months||'—',refrigeratorAnswer(q.own_refrigerator,ctx.lang),
+   stay?.rent!=null?formatMoney(stay.rent,ctx.lang):'—',
+   initial.length?formatMoney(initialAmount/100,ctx.lang):'—',
+   initial.length?formatMoney(initialPaid/100,ctx.lang):'—',
+   initial.length?formatMoney(initialRemain/100,ctx.lang):'—',
+   !person?'—':missing.length?'Chýba: '+missing.join(', '):'Kompletné'
+  ];
+  return {group,entry,first,last,sum,charged,paid,extras,
    values:[group.order,entry.bedLabel||group.room.name,group.room.category||'—',group.room.capacity??'—',entry.detail?.nationality||entry.enquiry?.nationality||'—',genderName(entry.enquiry?.gender,ctx.lang),person?first:'—',person?last:'—',person?.email||'—',entry.enquiry?.telephone||'—',person?.verified_contract_number||'—',
     stay?.starts_on||person?.accommodation_from||'—',stay?.ends_on||person?.accommodation_to||'—',entry.detail?.actual_arrival_on||'—',
     entry.detail?.room_code?w.masked:'—',fee(entry,'deposit_eur'),fee(entry,'refrigerator_fee_eur'),fee(entry,'verification_fee_eur'),fee(entry,'administration_fee_eur'),
     ...sum.map(s=>s.kind==='none'?'—':s.kind==='missing'?w.missingCharge:formatMoney(s.charged/100,ctx.lang)+' / '+formatMoney(s.paid/100,ctx.lang)+' ('+w[s.kind]+')'),
-    charged?formatMoney(charged/100,ctx.lang)+' / '+formatMoney(paid/100,ctx.lang):'—','']
+    charged?formatMoney(charged/100,ctx.lang)+' / '+formatMoney(paid/100,ctx.lang):'—',...extras,'']
   };
  };
  function filteredRows(){
@@ -184,6 +225,7 @@ export async function renderExcelRegister(ctx){
    tr.append(cell(entry.detail?.room_code?w.masked:'—'),cell(fee(entry,'deposit_eur')),cell(fee(entry,'refrigerator_fee_eur')),cell(fee(entry,'verification_fee_eur')),cell(fee(entry,'administration_fee_eur')));
    for(const state of sum)tr.append(monthCell(state,ctx.lang,w));
    tr.append(cell(charged?formatMoney(charged/100,ctx.lang)+' / '+formatMoney(paid/100,ctx.lang):'—','register-total'));
+   for(const field of record.extras)tr.append(cell(field));
    const action=el('td','register-actions');
    if(group.placeholder){action.append(el('span','muted',w.placeholder));}
    else if(entry.person){action.append(button(w.edit,()=>openEditor(action,entry)));if(ctx.openResidents)action.append(button(w.open,ctx.openResidents));}
@@ -207,7 +249,8 @@ export async function renderExcelRegister(ctx){
   const accessLabel=el('label','',w.code),access=el('input');access.type='password';access.maxLength=60;access.autocomplete='off';access.value=entry.detail?.room_code||'';
   const show=button('👁',()=>{access.type=access.type==='password'?'text':'password';});show.title=w.code;accessLabel.append(access,show);form.append(accessLabel);
   for(const [key,label] of [['deposit_eur',w.deposit],['refrigerator_fee_eur',w.fridge],['verification_fee_eur',w.verification],['administration_fee_eur',w.administration]]){
-   const input=el('input');input.type='number';input.min='0';input.max='100000';input.step='0.01';input.value=entry.detail?.[key]??'';
+   const input=el('input');input.type='number';input.min='0';input.max='100000';input.step='0.01';input.value=key==='deposit_eur'&&Number(entry.stay?.rent)>0?Number((Number(entry.stay.rent)*2).toFixed(2)):key==='administration_fee_eur'?100:entry.detail?.[key]??'';
+    if(key==='deposit_eur'||key==='administration_fee_eur'){input.readOnly=true;input.title=ctx.lang==='en'?'Calculated from verified rent':'Automatický výpočet podľa overeného nájmu';}
    const wrap=el('label','',label);wrap.append(input);form.append(wrap);feeInputs[key]=input;
   }
   form.append(save,cancel);
@@ -232,7 +275,7 @@ export async function renderExcelRegister(ctx){
  function exportRows(){
   const year=selectedYear();
   const header=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,
-   ...Array.from({length:12},(_,i)=>monthTitle(year,i+1,ctx.lang)),w.total];
+   ...Array.from({length:12},(_,i)=>monthTitle(year,i+1,ctx.lang)),w.total,...(fullRegisterFields[ctx.lang]||fullRegisterFields.sk)];
   const lines=[header,...entries.map(r=>r.values.slice(0,-1))];
   downloadWorkbook('student-house-register-'+year,[{name:'Evidencia',rows:lines},...operationalSheets({
    residents,enquiries,reviews:extra.resident_enquiry_reviews,files:extra.residence_portal_files,registrations,
