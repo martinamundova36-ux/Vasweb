@@ -33,8 +33,8 @@
     }
     const ios = /iPad|iPhone|iPod/.test(navigator.userAgent);
     help.textContent = ios
-      ? 'Na iPhone otvor Studenthouse v Safari, klikni na Zdieľať a vyber Pridať na plochu.'
-      : 'Na Androide otvor Studenthouse v Chrome, klikni na menu ⋮ a zvoľ Inštalovať aplikáciu alebo Pridať na plochu.';
+      ? 'Na iPhone otvor Student House Bratislava v Safari, klikni na Zdieľať a vyber Pridať na plochu.'
+      : 'Na Androide otvor Student House Bratislava v Chrome, klikni na menu ⋮ a zvoľ Inštalovať aplikáciu alebo Pridať na plochu.';
     help.hidden = false;
   });
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
