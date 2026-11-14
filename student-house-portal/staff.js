@@ -477,6 +477,30 @@ export async function renderStaffScreen(ctx) {
        if(!ctx.isCurrent())return;
        approve.disabled=true;
        try{
+        // Do not accept an empty draft or an unsigned, photo-less questionnaire.
+        // Recheck live state; the student's answer may have changed since render.
+        const [submission,portrait,latestReview]=await Promise.all([
+         ctx.db.from('resident_enquiries').select('student_submitted_at')
+          .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle(),
+         ctx.db.from('residence_portal_files').select('id')
+          .eq('tenant_id',ctx.tenant).eq('resident_id',person.id)
+          .eq('user_id',person.user_id).eq('kind','profile_photo').eq('active',true).limit(1),
+         ctx.db.from('resident_enquiry_reviews').select('review_status,requested_at')
+          .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle()
+        ]);
+        if(submission.error||portrait.error||latestReview.error){status(labels.fail,true);return;}
+        if(!submission.data?.student_submitted_at||!portrait.data?.length){
+         status(({
+          sk:'Schválenie nie je možné: študent musí najprv odoslať vyplnený dotazník aj fotografiu.',
+          en:'Cannot approve: the student must submit the questionnaire and a photo first.',
+          ru:'Нельзя одобрить: студент должен отправить заполненную анкету и фотографию.',
+          uk:'Неможливо схвалити: студент має надіслати заповнену анкету та фотографію.'
+         })[ctx.lang]||labels.fail,true);return;
+        }
+        if(latestReview.data?.review_status==='approved'&&
+           Date.parse(latestReview.data.requested_at)>=Date.parse(submission.data.student_submitted_at)){
+         status(labels.accepted);return;
+        }
         const {data,error}=await ctx.db.from('resident_enquiry_reviews').upsert({
           tenant_id:ctx.tenant,resident_id:person.id,review_status:'approved',
           correction_reason:'',requested_at:new Date().toISOString(),reviewed_by:ctx.userId
