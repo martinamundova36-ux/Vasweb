@@ -507,7 +507,8 @@ export async function renderStaffScreen(ctx) {
          const required=['gender','permanent_address','date_of_birth','nationality','identity_document_number','telephone','school','preferred_room_type','preferred_duration_months','preferred_from','preferred_to'];
          const missing=required.filter(k=>!answers?.[k]);
          if(typeof answers?.own_refrigerator!=='boolean')missing.push('own_refrigerator');
-         if(!answers?.student_submitted_at||!portrait.data?.length||missing.length){
+         if(missing.length){status((ctx.lang==='en'?'The student must complete: ':'Študent musí doplniť: ')+missing.join(', '),true);return;}
+         if(!answers?.student_submitted_at||!portrait.data?.length){
          status(({
           sk:'Schválenie nie je možné: študent musí najprv odoslať vyplnený dotazník aj fotografiu.',
           en:'Cannot approve: the student must submit the questionnaire and a photo first.',
