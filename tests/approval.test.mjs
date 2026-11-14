@@ -19,6 +19,7 @@ create table registration_requests(id uuid primary key,tenant_id uuid not null r
 await db.exec(readFileSync('tests/fixtures/current-approval-helpers.sql','utf8'));
 await db.exec(`create trigger residence_tenancy_capacity_guard before insert or update on tenancies for each row execute function private.residence_tenancy_capacity_guard();`);
 await db.exec(readFileSync('student-house-portal/supabase/migrations/20261112193508_atomic_registration_approval.sql','utf8'));
+await db.exec(readFileSync('student-house-portal/supabase/migrations/20261114180250_atomic_registration_verified_assignment.sql','utf8'));
 const actor='10000000-0000-0000-0000-000000000011',student='10000000-0000-0000-0000-000000000012',tenant='30000000-0000-0000-0000-000000000011',request='50000000-0000-0000-0000-000000000011';
 await db.exec(`insert into auth.users(id,email,invited_at) values('${actor}','staff@example.invalid',now()),('${student}','applicant@example.invalid',now());
 insert into organizations(id,name,slug) values('${tenant}','Synthetic QA','atomic-qa');
@@ -65,5 +66,22 @@ assert.equal((await db.query(`select count(*)::int n from organization_membershi
 await db.exec('update rooms set capacity=2');await second();
 await assert.rejects(db.exec('update rooms set capacity=1'),/Room capacity below confirmed occupancy/);
 assert.equal((await db.query('select capacity from rooms')).rows[0].capacity,2);
+const student3='10000000-0000-0000-0000-000000000014',request3='50000000-0000-0000-0000-000000000013';
+await db.exec(`insert into auth.users(id,email,invited_at) values('${student3}','third@example.invalid',now());
+insert into rooms(tenant_id,name,category,capacity) values('${tenant}','TEST-2','Synthetic',1);
+insert into registration_requests(id,tenant_id,first_name,last_name,email,room_number,contract_number,accommodation_from,accommodation_to,status)
+ values('${request3}','${tenant}','Synthetic','Third','third@example.invalid',null,null,'2026-11-12','2026-12-31','pending');`);
+const verified={contract_number:'SYNTHETIC-C3',room_number:'TEST-2',accommodation_from:'2026-11-12',accommodation_to:'2026-12-31'};
+const approvalWithAssignment=(assignment=verified,rows=schedule,who=actor)=>
+ db.query('select residence_approve_registration_verified($1,$2,$3,$4,$5,$6,$7,$8)',[who,tenant,request3,student3,300,5,JSON.stringify(rows),JSON.stringify(assignment)]);
+await assert.rejects(approvalWithAssignment({...verified,contract_number:'x'}),/verified_assignment_required/);
+await assert.rejects(approvalWithAssignment(verified,[schedule[0]]),/incomplete_schedule/);
+assert.equal((await db.query('select contract_number from registration_requests where id=$1',[request3])).rows[0].contract_number,null,'Failed approval must not leave partial contract fields');
+await assert.rejects(approvalWithAssignment(verified,schedule,student3),/Forbidden/);
+await approvalWithAssignment();
+const row3=(await db.query('select status,room_number,contract_number from registration_requests where id=$1',[request3])).rows[0];
+assert.equal(row3.status,'invited');assert.equal(row3.room_number,'TEST-2');assert.equal(row3.contract_number,verified.contract_number);
+await assert.rejects(approvalWithAssignment(),/registration_not_pending/);
+console.log('PASS verified assignment is atomic with account/room/billing and repeat approvals are rejected');
 console.log('PASS atomic approval: denied actor, complete calendar, rollback, duplicate month, verified partial rent, tenancy, no fabricated payment, duplicate request, browser RPC denied');
 }finally{await db.close()}

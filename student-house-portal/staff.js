@@ -338,21 +338,17 @@ export async function renderStaffScreen(ctx) {
    let response;
    if(approve){
     const {verified_assignment,...billing}=verified;
-    if(verified_assignment){
-     const {data,error}=await ctx.db.from('registration_requests').update(verified_assignment).eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id,contract_number,room_number,accommodation_from,accommodation_to');
-     if(!ctx.isCurrent())return;
-     if(error||data?.length!==1){status(w.failed,true);return;}
-     Object.assign(person,verified_assignment,data[0]);
-    }
-    response=await ctx.db.functions.invoke('manage',{body:{action:'invite',tenant_id:ctx.tenant,registration_id:person.id,role:'student',email:person.email,name:[person.first_name,person.last_name].join(' '),room_number:person.room_number,...billing}});
+    // Save assignment, resident membership and payment calendar atomically on the server.
+    response=await ctx.db.functions.invoke('manage',{body:{action:'invite',tenant_id:ctx.tenant,registration_id:person.id,role:'student',email:person.email,name:[person.first_name,person.last_name].join(' '),room_number:verified_assignment?.room_number||person.room_number,verified_assignment,...billing}});
    }
    else response=await ctx.db.from('registration_requests').update({status:'rejected'}).eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id');
    if(!ctx.isCurrent())return;
    if(response.error||(approve?!response.data?.ok:!response.data?.length)){
     const code=await failureCode(response.error,response.data);
-    status(['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending'].includes(code)?w.conflict:w.failed,true);
+    status(code==='verified_assignment_required'?(ctx.lang==='en'?'Complete and verify contract, room and stay dates.':'Doplň overené číslo zmluvy, izbu a termín pobytu.'):['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending','approval_conflict','reception_assignment_required'].includes(code)?w.conflict:w.failed,true);
     return;
    }
+   if(approve&&verified.verified_assignment)Object.assign(person,verified.verified_assignment);
    person.status=approve?'invited':'rejected';success=true;
    const invitationEmailFailed=approve&&response.data?.email_sent===false;
    status(invitationEmailFailed

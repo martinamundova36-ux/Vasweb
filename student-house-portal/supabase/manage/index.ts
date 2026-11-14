@@ -116,19 +116,31 @@ Deno.serve(async(req)=>{
   // Any resident may submit a public request, but only verified reception staff can approve it.
   // Do not accept contract dates/numbers from a browser acting as an unverified resident.
   let registration:Record<string,string>|null=null;
+  let verifiedAssignment:{contract_number:string;room_number:string;accommodation_from:string;accommodation_to:string}|null=null;
   if(role==='student'&&body.registration_id){
     if(typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))return reply({error:'invalid_registration'},400);
     const {data:request,error:requestError}=await client.from('registration_requests')
       .select('id,tenant_id,email,first_name,last_name,room_number,contract_number,accommodation_from,accommodation_to,status')
       .eq('id',body.registration_id).eq('tenant_id',tenant).eq('status','pending').maybeSingle();
     if(requestError||!request||request.email.toLowerCase()!==String(body.email).trim().toLowerCase())return reply({error:'registration_not_pending'},409);
-    // Never invite a student before staff have verified the contract and assigned a real room.
-    if(typeof request.contract_number!=='string'||request.contract_number.trim().length<5||
-       typeof request.room_number!=='string'||!request.room_number.trim())
-      return reply({error:'reception_assignment_required'},409);
+    // New clients send one atomic verified assignment. Older client builds can
+    // still submit fields previously saved by reception, without interrupting service.
+    const raw=body.verified_assignment && typeof body.verified_assignment==='object'
+      && !Array.isArray(body.verified_assignment)?body.verified_assignment:request;
+    const contract_number=typeof raw.contract_number==='string'?raw.contract_number.trim():'';
+    const room_number=typeof raw.room_number==='string'?raw.room_number.trim():'';
+    const accommodation_from=typeof raw.accommodation_from==='string'?raw.accommodation_from:'';
+    const accommodation_to=typeof raw.accommodation_to==='string'?raw.accommodation_to:'';
+    const validDay=(date:string)=>/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(date)
+      && Number.isFinite(Date.parse(date+'T12:00:00Z'))
+      && new Date(date+'T12:00:00Z').toISOString().slice(0,10)===date;
+    if(contract_number.length<5||contract_number.length>100||room_number.length<1||room_number.length>30||
+       !validDay(accommodation_from)||!validDay(accommodation_to)||accommodation_to<=accommodation_from)
+      return reply({error:'verified_assignment_required'},400);
     const {data:confirmedRoom,error:roomError}=await client.from('rooms')
-      .select('id').eq('tenant_id',tenant).eq('name',request.room_number).maybeSingle();
+      .select('id').eq('tenant_id',tenant).eq('name',room_number).maybeSingle();
     if(roomError||!confirmedRoom)return reply({error:'reception_assignment_required'},409);
+    verifiedAssignment={contract_number,room_number,accommodation_from,accommodation_to};
     registration=request;
   }
 
@@ -198,9 +210,10 @@ Deno.serve(async(req)=>{
     emailSent=true;
   }
   if(registration){
-    const {error:approvalError}=await service.rpc('residence_approve_registration',{
+    const {error:approvalError}=await service.rpc('residence_approve_registration_verified',{
       p_actor:user.id,p_tenant:tenant,p_registration:registration.id,p_user:uid,
-      p_monthly_rent:body.verified_monthly_rent,p_due_day:body.verified_due_day,p_schedule:body.verified_schedule
+      p_monthly_rent:body.verified_monthly_rent,p_due_day:body.verified_due_day,p_schedule:body.verified_schedule,
+      p_assignment:verifiedAssignment
     });
     if(approvalError){
       // Clean up only the fresh, non-invited identity we just created.
