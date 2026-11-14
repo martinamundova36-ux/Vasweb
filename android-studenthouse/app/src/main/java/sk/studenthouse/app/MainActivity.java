@@ -54,6 +54,16 @@ public final class MainActivity extends Activity {
                 if (!request.isForMainFrame()) return false;
                 Uri uri = request.getUrl();
                 if (isTrustedPortal(uri)) return false;
+                // Fixed public app link only. Never pass page URLs, tokens or student data.
+                if ("studenthouse-share".equalsIgnoreCase(uri.getScheme())
+                    && "app".equalsIgnoreCase(uri.getHost())) {
+                    Intent send = new Intent(Intent.ACTION_SEND);
+                    send.setType("text/plain");
+                    send.putExtra(Intent.EXTRA_SUBJECT, "Studenthouse");
+                    send.putExtra(Intent.EXTRA_TEXT, "Studenthouse – Student House Bratislava. Created by WEBU.\n" + HOME);
+                    startActivity(Intent.createChooser(send, "Zdieľať Studenthouse"));
+                    return true;
+                }
                 String scheme = uri.getScheme();
                 // External links are opened outside Studenthouse. Never open file:, content:,
                 // javascript: or intent: URLs supplied by web content.
@@ -92,6 +102,7 @@ public final class MainActivity extends Activity {
 
         WebSettings settings = browser.getSettings();
         settings.setJavaScriptEnabled(true); // Existing online portal requires JavaScript.
+        settings.setUserAgentString(settings.getUserAgentString() + " StudenthouseAndroid/0.2");
         settings.setDomStorageEnabled(true); // Required for existing Supabase session.
         settings.setAllowFileAccess(false);
         settings.setAllowFileAccessFromFileURLs(false);

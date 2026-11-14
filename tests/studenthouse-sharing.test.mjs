@@ -1,0 +1,27 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+
+const main = fs.readFileSync('student-house-portal/index.html', 'utf8');
+const share = fs.readFileSync('student-house-portal/share.js', 'utf8');
+const native = fs.readFileSync('android-studenthouse/app/src/main/java/sk/studenthouse/app/MainActivity.java', 'utf8');
+
+test('share JavaScript syntax is valid', () => assert.doesNotThrow(() => new vm.Script(share)));
+test('all portal entry variants expose share button and WEBU credit', () => {
+  for (const path of ['student-house-portal/index.html', 'student-house-portal/student/index.html', 'student-house-portal/admin/index.html', 'student-house-portal/questionnaire/index.html']) {
+    const html = fs.readFileSync(path, 'utf8');
+    assert.match(html, /id="shareStudenthouse"/);
+    assert.match(html, /Created by <a href="https:\/\/www\.webu\.sk\/"/);
+    assert.match(html, /student-house-portal\/share\.js/);
+  }
+});
+test('share payload is a fixed public app link, never current page URL', () => {
+  assert.match(share, /const publicUrl = 'https:\/\/www\.webu\.sk\/student-house-portal\/'/);
+  assert.doesNotMatch(share, /location\.href\s*[,;}\)]|location\.search|location\.hash|document\.URL|document\.location/);
+  assert.match(share, /navigator\.share\(shareData\)/);
+  assert.match(native, /Intent\.ACTION_SEND/);
+  assert.match(native, /"studenthouse-share"\.equalsIgnoreCase\(uri\.getScheme\(\)\)/);
+  assert.match(native, /send\.putExtra\(Intent\.EXTRA_TEXT/);
+  assert.doesNotMatch(native, /addJavascriptInterface/);
+});
