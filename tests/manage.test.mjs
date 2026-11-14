@@ -46,7 +46,7 @@ r=await scenario({rpcFailure:true});
 assert.equal(r.status,409);assert.equal(r.body.ok,undefined);
 assert.deepEqual(r.calls,['create_user','residence_approve_registration_verified','delete_user'],'Do not email before a failed approval; clean up only the fresh identity');
 r=await scenario();assert.equal(r.status,200);
-assert.deepEqual(r.calls,['create_user','residence_approve_registration_verified','magiclink'],'Invite must follow DB commit');
+assert.deepEqual(r.calls,['create_user','residence_approve_registration_verified','residence_account_has_password','magiclink'],'Invite must follow DB commit');
 assert.equal(r.body.ok,true);assert.equal(r.body.email_sent,true);
 r=await scenario({existingAccount:true});
 assert.equal(r.status,200);assert.deepEqual(r.calls,['residence_approve_registration_verified','residence_account_has_password','magiclink'],'Preserve existing Auth credentials');
