@@ -45,7 +45,7 @@ Prevádzkové upozornenia zostávajú dočasne na martinamundova36@gmail.com. P�
 - Skutočný XLSX otvorený v openpyxl: 11 doplnkových listov, diakritika, bezpečný text začínajúci = a číselné finančné bunky. Žiadne produkčné osobné údaje sa na tento test nepoužili.
 - V produkčnom PostgreSQL vykonané transakcie s ROLLBACK: vrátenie bez dôvodu zamietnuté, vrátenie s auditom uložené, neaktuálne schválenie zamietnuté, následné platné schválenie, upozornenie na osobný kalendár správnemu vlastníkovi. Nezostali testovacie dokumenty, maily, platby ani úpravy študentov. Toto nie je prehliadačový E2E test.
 - Kontrola oprávnení RPC v produkcii: anon=false, authenticated=false, service_role=true.
-- Produkčný verejný portál a recepčné prihlásenie otvorené v skutočnom zdieľanom prehliadači. Recepcia vyžaduje nové prihlásenie; v tomto prehliadači nie je prevzatá relácia z predchádzajúceho rozhovoru.
+- Produkčný verejný portál a recepčné prihlásenie otvorené v skutočnom zdieľanom prehliadači. Po úvodnom načítaní sa obnovila existujúca relácia správcu martinamundova36@gmail.com; recepčné kroky uvedené nižšie boli následne vykonané priamo cez produkčné UI.
 - Lokálna browser sada sa nespustila: chýbajú požadované Playwright enginy. Ich inštalácia zlyhala na neplatnom alebo skrátenom stiahnutom ZIP. Tento výsledok nie je PASS.
 
 ## Nasadenie
@@ -54,9 +54,9 @@ Tri nové databázové migrácie aplikované v existujúcom Supabase projekte: r
 
 ## Otvorené časti
 
-1. Kompletná produkčná študentská cesta cez skutočne doručené odkazy a prihlásenú recepciu zatiaľ nepreukázaná. Je potrebné bezpečné prihlásenie v zdieľanom prehliadači a izolovaný testovací študent; obídenie schválenia priamou zmenou produkčných stavov sa nepoužilo.
+1. Kompletná produkčná študentská cesta je overená po formulár aktivácie hesla. Ďalší krok vyžaduje, aby heslo testovacieho účtu zadala používateľka pri prevzatí prehliadača. Až následne možno dokončiť dôkaz prihlásenia, spätného nahratia podpísaného technického súboru a študentských služieb. Obídenie schválenia priamou zmenou produkčných stavov sa nepoužilo.
 2. Finálna schválená GDPR dokumentácia, individuálne zmluvy a skutočné rozpisy upratovania musia prísť od prevádzkovateľa. Potvrdenie o ubytovaní je potrebné len pri príslušnom študentovi.
-3. Doručenie všetkých typov e-mailov do reálnej schránky nebolo v tejto iterácii potvrdené. Historických 15 accepted znamená prijatie SMTP serverom, nie dôkaz inboxu. Správa z 13. 11. uvádza jeden vtedy otvorený registračný e-mail; nové overenie sa zaň nevydáva.
+3. Priamo v Gmaili boli v tejto iterácii otvorené potvrdenie registrácie, nová výzva na opravu dotazníka, upozornenie na osobný dokument a nová aktivácia profilu testovacieho účtu. Úplná matica všetkých typov správ vrátane splatností a dokumentovej kontroly zatiaľ nie je potvrdená v inboxe. accepted sa naďalej neinterpretuje ako dôkaz doručenia ostatných správ.
 4. Evidencia skutočnej platby vyžaduje skutočný doklad. Produkčné platby sa nevymýšľali; čiastočné platby a storná boli overované izolovane.
 5. Inventár 66 verzus 64 vyžaduje potvrdenie dvoch neštandardných čísel.
 6. Fyzický Android a iPhone sa netestovali. Lokálne browser enginy chýbajú; verejný formulár a prihlásenie boli otvorené v dostupnom Chrome.
@@ -65,3 +65,23 @@ Tri nové databázové migrácie aplikované v existujúcom Supabase projekte: r
 Aplikácia: https://www.webu.sk/student-house-portal/
 Recepcia: https://www.webu.sk/student-house-portal/admin/
 Repozitár: https://github.com/martinamundova36-ux/Vasweb
+
+## Následné živé overenie a finálny bod pokračovania
+
+- Nasadené commity: [f0df0b2](https://github.com/martinamundova36-ux/Vasweb/commit/f0df0b279ffcd4f8a30af25f4a7f6521675f8b1a) a [8920605](https://github.com/martinamundova36-ux/Vasweb/commit/8920605687219752372ecd5c641b6e809c910e49). Verejná produkčná HTML obsahuje verziu staff.js 20261114-document-review2.
+- Prvý kompletný CI beh [43590067561](https://github.com/martinamundova36-ux/Vasweb/actions/runs/43590067561) a následný po oprave obnovovania [43590425737](https://github.com/martinamundova36-ux/Vasweb/actions/runs/43590425737) skončili success vrátane browser testov. GitHub Pages deployment [43590425323](https://github.com/martinamundova36-ux/Vasweb/actions/runs/43590425323) skončil success. Lokálne obmedzenie inštalácie Playwright zostáva zaznamenané vyššie.
+- V produkcii bol nájdený a opravený návrat otvoreného profilu na zoznam pri automatickom obnovení po zmene fokusu. Obnovovanie teraz chráni otvorený profil, schvaľovací formulár a formuláre s neuloženou zmenou. Nová regresia overuje aj stratu fokusu. Pri opakovanom živom teste zostal profil otvorený aj po prepnutí karty a uložení kontroly.
+- Pokračovalo sa na existujúcom účte TEST E2E Technicka skuska - ignorovat, martinamundova36+residence-e2e-20261113@gmail.com, rezident c072d9c5-7a04-412c-8f83-fa88fd8943dd. Nové účty ani platby sa kvôli testu nevytvárali. Úvodná registrácia a schválenie tohto účtu pochádzajú z predchádzajúcej práce; nevydávajú sa za novo zopakované kroky tejto iterácie.
+- V Gmaili bol opätovne otvorený registračný receipt z 13. 11. 21:12 podľa zobrazenia schránky, pre uvedený testovací alias.
+- Cez recepciu bol dotazník vrátený na opravu s jednoznačným dôvodom TEST E2E. DB uložila needs_correction. Nová správa bola reálne doručená a otvorená v Gmaili (zobrazený čas 11:33). Kliknutie na jej bezpečný odkaz prihlásilo správny testovací účet a otvorilo editovateľný dotazník s dôvodom opravy.
+- Študent opravil školu na TEST univerzita, odstránil neplatný nepovinný IBAN a nepoužiteľný nepovinný rodičovský kontakt. Existujúca fotografia zostala dostupná. Cez UI dotazník opätovne odoslal. Následne videl iba čakajúci krok a hlásenie Dotazník čaká na kontrolu recepcie, bez odomknutia ubytovacieho profilu.
+- Recepcia znovu otvorila testovací profil, videla opravené údaje a aktuálnu odoslanú verziu. Kliknutie na Schváliť správne vyplnený dotazník zobrazilo Dotazník bol schválený. DB potvrdila approved.
+- Aktivačný e-mail sa reálne doručil a bol otvorený v Gmaili (zobrazený čas 11:48). Jeho odkaz otvoril /student-house-portal/student/?step=profile# a formulár Krok 3 – Aktivácia študentského profilu s novým heslom, potvrdením a ikonami oka. Do heslových polí sa nič nezadalo; tento krok čaká na používateľku.
+- Recepcia vybrala práve uvedeného testovacieho študenta a nahrala TEST-E2E-technical-document.pdf ako schedule_draft. PDF je výslovne technický test, nie zmluva, faktúra, platba ani právny dokument; neobsahuje podpis. DB aj produkčná karta potvrdili súkromné priloženie. Upozornenie na nový dokument bolo reálne otvorené v Gmaili (zobrazený čas 11:46).
+- Kliknutie recepcie na stiahnutie technického PDF vydalo auditovaný súkromný odkaz a otvorilo pomocnú kartu, ale browser download udalosť na pôvodnej karte nebola zachytená. Úspešné uloženie PDF na zariadenie sa preto zatiaľ neoznačuje za preukázané. Študentské stiahnutie a vrátenie podpisu sa dokončí po aktivácii.
+- Reálnym tlačidlom Excel (.xlsx) bol stiahnutý produkčný workbook. openpyxl ho otvorilo a overilo všetkých 12 listov, fixované záhlavie, filtre a testovací riadok so školou TEST univerzita a stavom approved. Ide o skutočný export z prihlásenej recepcie, nie iba syntetický workbook.
+- Recepcia v časti Upratovanie skutočne zobrazuje Recepcia zatiaľ nevypísala voľný termín a žiadne objednávky. Dostupné termíny sa nevymýšľali.
+
+Aktuálny stav po živom teste: 10 žiadostí, 5 rezidentov, 3 aktivované profily, 1 odoslaný a teraz 1 schválený dotazník, 0 pôvodných documents, 3 portal_files (vrátane označeného technického PDF), 0 platieb, 66 izieb, 19 správ accepted, 0 termínov upratovania. Všetky nové trvalé testové zmeny sa týkajú označeného TEST E2E rezidenta.
+
+Časy uvedené v odsekoch o Gmaili sú presne časy zobrazené v schránke; jej nastavená zóna nebola overená. Nepoužívajú sa ako tvrdenie o lokálnom čase Bratislavy.
