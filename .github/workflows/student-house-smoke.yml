@@ -5,6 +5,8 @@ on:
       - 'student-house-portal/**'
       - '.github/workflows/student-house-smoke.yml'
       - 'tests/**'
+      - 'scripts/test_student_house_staff.mjs'
+      - 'scripts/build-student-house-entries.mjs'
   workflow_dispatch:
 permissions:
   contents: read
