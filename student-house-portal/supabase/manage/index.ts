@@ -137,7 +137,7 @@ Deno.serve(async(req)=>{
   const email=String(body.email).trim().toLowerCase();
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
   const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'questionnaire/':'?view=reception');
-  let uid:string|undefined,existingUser=false,emailSent=false;
+  let uid:string|undefined,existingUser=false,emailSent=false,createdForApproval=false;
   // Pending accounts may already have an Auth password. Reception approves the room, signed
   // contract data and monthly rent. New email accounts receive a one-time invite.
   // Older applicants who previously created an Auth account receive a password
@@ -152,12 +152,18 @@ Deno.serve(async(req)=>{
     }
   }
   if(!uid){
-    const {data:inv,error:inviteError}=await service.auth.admin.inviteUserByEmail(email,{redirectTo:redirect});
-    uid=inv?.user?.id;
-    if(inviteError){
-      const code=String(inviteError.code||'');
-      const duplicate=code==='email_exists'||code==='user_already_exists'||/already (been )?registered|already exists/i.test(inviteError.message||'');
-      if(!duplicate)return reply({error:'invitation_failed'},503);
+    // An approved registration must be committed before the first email goes out.
+    // Create an unconfirmed Auth identity without sending a premature invite.
+    const {data:created,error:createError}=registration
+      ?await service.auth.admin.createUser({email,email_confirm:false})
+      :{data:null,error:null};
+    if(registration&&!createError&&created?.user?.id){
+      uid=created.user.id;createdForApproval=true;
+    }else if(registration&&createError){
+      // Another request may have created the account concurrently.
+      const duplicate=['email_exists','user_already_exists'].includes(String(createError.code||''))||
+        /already (been )?registered|already exists/i.test(createError.message||'');
+      if(!duplicate)return reply({error:'identity_creation_failed'},503);
       existingUser=true;
       for(let page=1;page<=100&&!uid;page++){
         const {data,error:listError}=await service.auth.admin.listUsers({page,perPage:100});
@@ -165,7 +171,23 @@ Deno.serve(async(req)=>{
         uid=data.users.find(u=>u.email?.toLowerCase()===email)?.id;
         if(data.users.length<100)break;
       }
-    }else emailSent=true;
+    }
+    if(!registration){
+      const {data:inv,error:inviteError}=await service.auth.admin.inviteUserByEmail(email,{redirectTo:redirect});
+      uid=inv?.user?.id;
+      if(inviteError){
+        const duplicate=['email_exists','user_already_exists'].includes(String(inviteError.code||''))||
+          /already (been )?registered|already exists/i.test(inviteError.message||'');
+        if(!duplicate)return reply({error:'invitation_failed'},503);
+        existingUser=true;
+        for(let page=1;page<=100&&!uid;page++){
+          const {data,error:listError}=await service.auth.admin.listUsers({page,perPage:100});
+          if(listError)throw listError;
+          uid=data.users.find(u=>u.email?.toLowerCase()===email)?.id;
+          if(data.users.length<100)break;
+        }
+      }else emailSent=true;
+    }
   }
   if(!uid)return reply({error:'user_not_resolved'},503);
   // Staff invites to an existing account retain the old recovery workflow.
@@ -180,16 +202,23 @@ Deno.serve(async(req)=>{
       p_actor:user.id,p_tenant:tenant,p_registration:registration.id,p_user:uid,
       p_monthly_rent:body.verified_monthly_rent,p_due_day:body.verified_due_day,p_schedule:body.verified_schedule
     });
-    if(approvalError)return reply({error:'approval_conflict'},409);
-    if(existingUser){
-      // Legacy accounts use an email magic link for the questionnaire.
-      // They are not forced to set/reset their password until it is submitted.
-      const {error:welcomeError}=await service.auth.signInWithOtp({email,options:{
-        shouldCreateUser:false,emailRedirectTo:redirect
-      }});
-      if(welcomeError)console.error('student_access_email_failed',welcomeError.code);
-      else emailSent=true;
+    if(approvalError){
+      // Clean up only the fresh, non-invited identity we just created.
+      // Never delete an existing user's credentials on an approval conflict.
+      if(createdForApproval&&uid){
+        const {error:cleanupError}=await service.auth.admin.deleteUser(uid);
+        if(cleanupError)console.error('approval_identity_cleanup_failed',cleanupError.code);
+      }
+      console.error('residence_approval_rejected',approvalError.code);
+      return reply({error:'approval_conflict'},409);
     }
+    // A questionnaire link is sent only after the atomic SQL approval succeeds,
+    // for both old and newly created Auth users. Failed delivery is retryable.
+    const {error:welcomeError}=await service.auth.signInWithOtp({email,options:{
+      shouldCreateUser:false,emailRedirectTo:redirect
+    }});
+    if(welcomeError)console.error('student_access_email_failed',welcomeError.code);
+    else emailSent=true;
   }else{
     const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
     if(checkError)throw checkError;

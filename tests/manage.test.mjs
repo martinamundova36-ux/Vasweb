@@ -8,10 +8,18 @@ async function scenario(config={}){
  const query=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='organization_memberships'?{role:config.role||'reception'}:table==='documents'?(config.documentAllowed?{id:'d',tenant_id:'t',object_path:'t/private.pdf'}:null):table==='registration_requests'?{id:'50000000-0000-0000-0000-000000000001',email:'qa@example.invalid',first_name:'QA',last_name:'Student',room_number:'TEST',contract_number:'TEST-C1',accommodation_from:'2026-11-01',accommodation_to:'2026-11-30'}:table==='rooms'?{id:'r',name:'TEST'}:null,error:null}).then(ok)):()=>query(table)});
  const serviceQuery=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='residents'?[{id:'r'}]:null,error:null}).then(ok)):()=>serviceQuery(table)});
  const service={
-  auth:{admin:{listUsers:async()=>({data:{users:[]},error:null}),inviteUserByEmail:async()=>{
-   calls.push('email');
-   return config.mailFailure?{error:{code:'over_email_send_rate_limit'}}:{data:{user:{id:'u'}}};
-  }}},
+  auth:{
+   admin:{
+    listUsers:async()=>({data:{users:config.existingAccount?[{id:'u',email:'qa@example.invalid'}]:[]},error:null}),
+    createUser:async()=>{calls.push('create_user');return {data:{user:{id:'u'}},error:null};},
+    deleteUser:async()=>{calls.push('delete_user');return {error:null};},
+    inviteUserByEmail:async()=>{
+     calls.push('email');
+     return {data:{user:{id:'u'}},error:null};
+    }
+   },
+   signInWithOtp:async()=>{calls.push('magiclink');return {error:config.mailFailure?{code:'over_email_send_rate_limit'}:null};}
+  },
   from:serviceQuery,
   storage:{from:()=>({createSignedUrl:async()=>{calls.push('sign');return {data:{signedUrl:'https://private.test/synthetic'},error:null};}})},
   rpc:async(name,args)=>{calls.push(name);return {error:config.rpcFailure?{}:null};}
@@ -26,10 +34,20 @@ async function scenario(config={}){
 let r=await scenario({unauthorized:true});assert.equal(r.status,401);assert.deepEqual(r.calls,[]);
 r=await scenario({role:'student'});assert.equal(r.status,403);assert.deepEqual(r.calls,[]);
 r=await scenario({body:{verified_schedule:[]}});assert.equal(r.status,400);assert.deepEqual(r.calls,[]);
-r=await scenario({mailFailure:true});assert.equal(r.status,503);assert.deepEqual(r.calls,['email']);
-r=await scenario({rpcFailure:true});assert.equal(r.status,409);assert.equal(r.body.ok,undefined);
-r=await scenario();assert.equal(r.status,200);assert.deepEqual(r.calls,['email','residence_approve_registration']);assert.equal(r.body.ok,true);
-r=await scenario({body:{registration_id:undefined,room_number:'TEST'}});assert.equal(r.status,200);assert.deepEqual(r.calls,['email','provision_member']);
+r=await scenario({mailFailure:true});
+assert.equal(r.status,200,'Approval must not be lost when a post-commit email fails');
+assert.equal(r.body.ok,true);assert.equal(r.body.email_sent,false);
+assert.deepEqual(r.calls,['create_user','residence_approve_registration','magiclink']);
+r=await scenario({rpcFailure:true});
+assert.equal(r.status,409);assert.equal(r.body.ok,undefined);
+assert.deepEqual(r.calls,['create_user','residence_approve_registration','delete_user'],'Do not email before a failed approval; clean up only the fresh identity');
+r=await scenario();assert.equal(r.status,200);
+assert.deepEqual(r.calls,['create_user','residence_approve_registration','magiclink'],'Invite must follow DB commit');
+assert.equal(r.body.ok,true);assert.equal(r.body.email_sent,true);
+r=await scenario({existingAccount:true});
+assert.equal(r.status,200);assert.deepEqual(r.calls,['residence_approve_registration','magiclink'],'Preserve existing Auth credentials');
+r=await scenario({body:{registration_id:undefined,room_number:'TEST'}});
+assert.equal(r.status,200);assert.deepEqual(r.calls,['email','provision_member'],'Keep legacy manual staff invitations');
 r=await scenario({body:{action:'download',document_id:'d'}});assert.equal(r.status,403);assert.deepEqual(r.calls,[]);
 r=await scenario({documentAllowed:true,body:{action:'download',document_id:'d'}});assert.equal(r.status,200);assert.deepEqual(r.calls,['sign']);
-console.log('PASS 9 manage handler scenarios, including legacy invitation and private signed-download preservation (synthetic transport)');
+console.log('PASS 10 manage handler scenarios, post-approval invitation, rollback cleanup, and legacy staff invitations');

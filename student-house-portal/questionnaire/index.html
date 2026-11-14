@@ -1576,7 +1576,7 @@ $('lang').addEventListener('change',changeLanguage);$('appLang').addEventListene
 $('accountShortcut').addEventListener('click',()=>{if(member)navigate('account')});
 if(new URLSearchParams(location.search).get('view')==='register'&&!staffEntryMode)setRegistration(true);
 $('loginEye').addEventListener('click',()=>{const input=$('password'),button=$('loginEye'),visible=input.type==='password';input.type=visible?'text':'password';button.setAttribute('aria-pressed',String(visible));const label=pwdText(visible?'hide':'show');button.setAttribute('aria-label',label);button.title=label;});
-$('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=t[8];return}await signedIn(data.user)});
+$('form').addEventListener('submit',async e=>{e.preventDefault();$('error').textContent='';let btn=$('signbtn');btn.disabled=true;let {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});btn.disabled=false;if(error){$('error').textContent=t[8];return}queueSignedIn(data.user,true)});
 function showPasswordRecovery(){
  // INITIAL_SESSION and PASSWORD_RECOVERY may both fire on the same reset link.
  // Never clear a password already typed or generated after the first event.
@@ -1684,19 +1684,32 @@ if(!window.supabase||!K){$('error').textContent='Login service unavailable.';ret
 const authLinkType=new URLSearchParams(window.location.hash.slice(1)).get('type');
 db=window.supabase.createClient(U,K,{auth:{persistSession:true,autoRefreshToken:true,flowType:'implicit',storageKey:portalStorageKey}});
 const recoveryRedirect=authLinkType==='recovery';
-const invitationRedirect=authLinkType==='invite';
+// Auth resolves magic links asynchronously. A one-off getUser() can race the
+// redirect; use SIGNED_IN/INITIAL_SESSION for *all* authenticated link types.
+let authHydrationQueued=false;
+function queueSignedIn(account,explicit=false){
+ if(!account||resetMode||(!explicit&&new URLSearchParams(location.search).get('signin')==='1'))return;
+ if(user?.id===account.id&&member&&!$('app').classList.contains('hide'))return;
+ if(authHydrationQueued)return;
+ authHydrationQueued=true;
+ // Do not call Supabase APIs from within onAuthStateChange.
+ setTimeout(()=>{
+  authHydrationQueued=false;
+  if(!resetMode)void signedIn(account);
+ },0);
+}
 db.auth.onAuthStateChange((event,session)=>{
  if(session && (event==='PASSWORD_RECOVERY'||((event==='INITIAL_SESSION'||event==='SIGNED_IN')&&recoveryRedirect))){
   showPasswordRecovery();
-  // Remove one-time recovery tokens from the address bar after Supabase accepted them.
   if(location.hash&&location.hash.includes('access_token=')){
    history.replaceState(null,'',location.pathname+location.search);
   }
+  return;
  }
- if(session && invitationRedirect && !recoveryRedirect && (event==='SIGNED_IN'||event==='INITIAL_SESSION')){
-  if(!resetMode)void signedIn(session.user);
+ if(session&&!recoveryRedirect&&(event==='SIGNED_IN'||event==='INITIAL_SESSION')){
+  queueSignedIn(session.user);
  }
 });
 if(new URLSearchParams(location.search).get('signin')!=='1'&&!recoveryRedirect)
- db.auth.getUser().then(({data})=>{if(data?.user&&!resetMode)void signedIn(data.user)});
+ db.auth.getUser().then(({data})=>{if(data?.user)queueSignedIn(data.user)});
 })();</script></body></html>
