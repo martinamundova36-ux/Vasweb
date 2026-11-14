@@ -94,12 +94,12 @@ export async function renderStaffScreen(ctx) {
   ctx.notice.scrollIntoView?.({block:'center',behavior:'auto'});
   ctx.notice.focus?.({preventScroll:true});
  }
- function showApprovalReceipt(person,emailSent){
+ function showApprovalReceipt(person,emailSent,loginReady=false){
   ctx.notice.replaceChildren(el('strong','staff-approval-title',approvalWords.title),
    el('p','',[person.first_name,person.last_name].join(' ')+' · '+person.email),
    el('p','',w.room+': '+person.room_number+' · '+w.period+': '+ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),
    el('p','',approvalWords.saved),el('p','',approvalWords.year+': '+String(person.accommodation_from).slice(0,4)),
-   el('p','',emailSent===undefined?({sk:'Schválenie je uložené. Doručenie pozvánky treba overiť samostatne.',en:'Approval is saved. Check invitation delivery separately.',ru:'Одобрение сохранено. Доставку приглашения нужно проверить отдельно.',uk:'Схвалення збережено. Доставку запрошення потрібно перевірити окремо.'}[ctx.lang]||''):emailSent===false?({sk:'Pozvánka sa neodoslala. Recepcia musí znovu odoslať prístup.',en:'Invitation email was not sent. Reception must resend access.',ru:'Приглашение не отправлено. Ресепшен должен отправить его повторно.',uk:'Запрошення не надіслано. Рецепція має надіслати його повторно.'}[ctx.lang]||'') :w.inviteOK));
+   el('p','',loginReady?({sk:'Účet bol aktivovaný. Študent sa môže prihlásiť pôvodným heslom a pokračovať v dotazníku.',en:'Login activated. Student can sign in with their original password.',ru:'Вход активирован. Студент может войти с исходным паролем.',uk:'Вхід активовано. Студент може увійти зі своїм паролем.'}[ctx.lang]||''):emailSent===undefined?({sk:'Schválenie je uložené. Doručenie pozvánky treba overiť samostatne.',en:'Approval is saved. Check invitation delivery separately.',ru:'Одобрение сохранено. Доставку приглашения нужно проверить отдельно.',uk:'Схвалення збережено. Доставку запрошення потрібно перевірити окремо.'}[ctx.lang]||''):emailSent===false?({sk:'Pozvánka sa neodoslala. Recepcia musí znovu odoslať prístup.',en:'Invitation email was not sent. Reception must resend access.',ru:'Приглашение не отправлено. Ресепшен должен отправить его повторно.',uk:'Запрошення не надіслано. Рецепція має надіслати його повторно.'}[ctx.lang]||'') :w.inviteOK));
   ctx.notice.className='staff-notice staff-approval-success';
   if(typeof ctx.openRooms==='function')ctx.notice.append(button(approvalWords.open,()=>ctx.openRooms(person.room_number,person.accommodation_from),'btn-secondary'));
  }
@@ -155,6 +155,26 @@ export async function renderStaffScreen(ctx) {
       finally{pendingAction=false;resend.disabled=false;}
      });
      card.append(resend);
+    }
+    if(person.status==='invited'){
+     const activate=button(ctx.lang==='en'?'Activate student password access':'Aktivovať študentské prihlásenie',async()=>{
+      if(pendingAction||!ctx.isCurrent())return;
+      pendingAction=true;activate.disabled=true;
+      try{
+       const {data,error}=await ctx.db.functions.invoke('manage',{body:{
+        action:'activate_approved_login',role:'student',tenant_id:ctx.tenant,registration_id:person.id
+       }});
+       if(!error&&data?.login_ready){
+        status(ctx.lang==='en'?'Student login is active. No email is required.':'Prihlásenie je aktívne. Študent sa môže prihlásiť pôvodným heslom bez e-mailovej pozvánky.');
+       }else{
+        const code=await failureCode(error,data);
+        status(code==='password_setup_required'?
+          (ctx.lang==='en'?'This account has no password yet. Send a secure setup email.':'Účet ešte nemá heslo. Potrebný je bezpečný odkaz na jeho vytvorenie.'):w.failed,true);
+       }
+      }catch{status(w.failed,true)}
+      finally{pendingAction=false;activate.disabled=false;}
+     });
+     card.append(activate);
     }
     if(person.status==='correction_requested'){
      card.append(el('p','mini-note',cw.existing));
@@ -350,10 +370,13 @@ export async function renderStaffScreen(ctx) {
    }
    if(approve&&verified.verified_assignment)Object.assign(person,verified.verified_assignment);
    person.status=approve?'invited':'rejected';success=true;
-   const invitationEmailFailed=approve&&response.data?.email_sent===false;
-   status(invitationEmailFailed
-     ?(ctx.lang==='en'?'Registration approved but no invitation email was sent. Check SMTP and use Forgot password.':'Registrácia schválená, ale pozvánku sa nepodarilo odoslať. Skontroluj SMTP; študent si môže vyžiadať odkaz cez Zabudnuté heslo.')
-     :(approve?w.inviteOK:w.rejected));
+   const loginReady=approve&&response.data?.login_ready===true;
+   const invitationEmailFailed=approve&&!loginReady&&response.data?.email_sent===false;
+   status(loginReady
+     ?(ctx.lang==='en'?'Registration approved. Student can sign in with the original password and continue the questionnaire inside Studenthouse.':'Registrácia schválená. Študent sa môže prihlásiť heslom z registrácie a pokračovať v dotazníku v Studenthouse.')
+     :invitationEmailFailed
+       ?(ctx.lang==='en'?'Approved, but student login is not activated. Check password recovery.':'Registrácia schválená, ale prihlásenie nie je aktivované. Skontroluj obnovu hesla.')
+       :(approve?w.inviteOK:w.rejected));
    if(invitationEmailFailed){
     const subject='Student House Bratislava – '+(ctx.lang==='en'?'registration approved':'registrácia schválená');
     const body=ctx.lang==='en'
@@ -368,7 +391,7 @@ export async function renderStaffScreen(ctx) {
    // Show a durable receipt only after the server confirms the approval transaction.
    if(approve){
     approvalReceipts.set(receiptKey,{id:person.id,emailSent:!invitationEmailFailed});
-    showApprovalReceipt(person,!invitationEmailFailed);
+    showApprovalReceipt(person,!invitationEmailFailed,loginReady);
     select.value='invited';search.value=person.email;
    }
    revealNotice();
