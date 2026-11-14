@@ -280,7 +280,7 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 <fieldset class="reg-section"><legend id="regPersonalTitle">Kontaktné údaje – Krok 1</legend>
 <div class="reg-fields">
 <label for="regPhone" id="labPhone">Telefónne číslo</label><input id="regPhone" type="tel" autocomplete="tel" maxlength="60" placeholder="+421 ..." required>
-<label for="regBirth" id="labBirth">Dátum narodenia</label><input id="regBirth" type="date" autocomplete="bday" required>
+<label for="regBirth" id="labBirth">Dátum narodenia</label><input id="regBirth" type="text" inputmode="numeric" autocomplete="bday" placeholder="DD.MM.RRRR" pattern="\d{2}\.\d{2}\.\d{4}" maxlength="10" title="DD.MM.RRRR" required>
 <label for="regNationality" id="labNationality">Štátna príslušnosť</label><input id="regNationality" maxlength="80" required>
 </div><p class="muted">Ďalšie údaje a fotografiu doplníš po schválení recepciou.</p></fieldset>
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
@@ -304,8 +304,8 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 <button id="regBack" type="button" style="background:#e6eef8;color:#142b4d;width:100%">Späť na prihlásenie</button>
 </section>
 <section id="registrationPending" class="hide" aria-live="polite">
-<div class="reg-section" style="padding:24px;border:1px solid #c7d9e8;border-radius:14px;background:#f2f8ff">
-<p style="font-weight:800;color:#1f587f">1 ✓ &nbsp; → &nbsp; 2 ○ &nbsp; → &nbsp; 3 ○</p>
+<div class="reg-section" style="padding:24px;border:1px solid #b7e5c7;border-radius:14px;background:#effcf3;text-align:center">
+<p aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:50%;background:#16703b;color:#fff;font-size:48px;font-weight:800;margin:0 auto 14px">✓</p>
 <h2 id="pendingHeading">Čaká na schválenie recepciou</h2>
 <p id="pendingMessage">Registrácia bola odoslaná. Po kontrole dostaneš pozvánku na ďalšiu stránku – osobný dotazník.</p>
 <p style="font-size:14px;color:#5a7189">Student House Bratislava · Číslo zmluvy a izbu potvrdí recepcia.</p>
@@ -522,20 +522,50 @@ $("regBack").addEventListener("click",()=>setRegistration(false));
 $("pendingBack").addEventListener("click",()=>setRegistration(false));
 // Auth stores the password; residence access stays closed until reception approval.
 const REG_SUBMITTED={
- sk:'Registráciu sme prijali. Pokyny pošleme na uvedený e-mail. Ak už registráciu máš, nevytvorili sme ďalšiu; dostaneš potvrdenie alebo odkaz na opravu pôvodnej žiadosti. Pozvánka na dotazník príde až po schválení recepciou.',
- en:'Your submission was received. Instructions will be emailed to the address provided. If you already have a registration, no duplicate was created; you will receive a receipt or correction link for the original request. Questionnaire access follows reception approval.',
- ru:'Заявка получена. Инструкции придут на указанную почту. Если заявка уже есть, новая не создаётся: вы получите подтверждение или ссылку для исправления исходной заявки. Приглашение к анкете придёт после одобрения.',
- uk:'Заявку отримано. Інструкції надійдуть на вказану пошту. Якщо заявка вже є, нову не створено: ви отримаєте підтвердження або посилання для виправлення початкової заявки. Запрошення до анкети надійде після схвалення.'
+ sk:'Žiadosť o registráciu bola úspešne odoslaná a uložená. Čaká na schválenie recepciou. Pokyny prídu na tvoj e-mail po schválení.',
+ en:'Your registration was successfully submitted and saved. It is awaiting reception approval. Further instructions will be sent by email.',
+ ru:'Заявка успешно отправлена и сохранена. Она ожидает подтверждения ресепшеном. Инструкции придут по электронной почте.',
+ uk:'Заявку успішно надіслано та збережено. Вона очікує схвалення рецепцією. Інструкції надійдуть електронною поштою.'
 };
+const REG_ALREADY={
+ sk:'⚠ Tento e-mail už je zaregistrovaný alebo má odoslanú žiadosť. Novú žiadosť sme nevytvorili. Skontroluj e-mail (aj spam), prihlás sa alebo kontaktuj recepciu.',
+ en:'⚠ This email is already registered or already has an application. We did not create another one. Check your inbox (including spam), sign in, or contact reception.',
+ ru:'⚠ Этот e-mail уже зарегистрирован или заявка уже подана. Новую заявку не создали. Проверьте почту (и спам), войдите или обратитесь на ресепшен.',
+ uk:'⚠ Цей e-mail уже зареєстрований або заявку вже подано. Нову заявку не створено. Перевірте пошту (і спам), увійдіть або зверніться до рецепції.'
+};
+const REG_ACCOUNT_ERROR={
+ sk:'⚠ E-mail už môže byť zaregistrovaný alebo je vytvorenie účtu dočasne nedostupné. Skús prihlásenie, obnovu hesla alebo kontaktuj recepciu.',
+ en:'⚠ This email may already be registered, or account creation is temporarily unavailable. Try signing in, resetting your password, or contacting reception.',
+ ru:'⚠ Возможно, e-mail уже зарегистрирован или создание аккаунта временно недоступно. Попробуйте войти, восстановить пароль или обратиться на ресепшен.',
+ uk:'⚠ Можливо, e-mail уже зареєстрований або створення облікового запису тимчасово недоступне. Спробуйте увійти, відновити пароль або зверніться до рецепції.'
+};
+function normalizeBirthDate(value){
+ const m=/^(\d{2})\.(\d{2})\.(\d{4})$/.exec(value.trim());
+ if(!m)return null;
+ const iso=m[3]+'-'+m[2]+'-'+m[1],date=new Date(iso+'T12:00:00Z');
+ return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===iso&&iso<=new Date().toISOString().slice(0,10)?iso:null;
+}
+$("regBirth").addEventListener("input",e=>{
+ const digits=e.target.value.replace(/\D/g,'').slice(0,8);
+ e.target.value=digits.slice(0,2)+(digits.length>2?'.'+digits.slice(2,4):'')+(digits.length>4?'.'+digits.slice(4):'');
+});
+$("regForm").addEventListener("invalid",e=>{
+ const field=e.target,msg=$("regMessage");
+ const name=field.id==='regBirth'?$("labBirth").textContent:document.querySelector('label[for="'+field.id+'"]')?.textContent?.trim()||field.getAttribute('aria-label')||'–';
+ if(!msg.textContent){msg.style.color="#a32c30";msg.textContent=({sk:'Skontroluj povinné pole: ',en:'Check the required field: ',ru:'Проверьте обязательное поле: ',uk:'Перевірте обов’язкове поле: '}[lang]||'Skontroluj pole: ')+name;}
+},true);
+$("regForm").addEventListener("input",()=>{$("regMessage").textContent='';});
 $("regForm").addEventListener("submit",async e=>{
  e.preventDefault();
  const r=R[lang],from=$("regFrom").value,to=$("regTo").value,msg=$("regMessage"),btn=$("regSend");
  msg.textContent="";
- if(!from||!to||to<=from||$("regPassword").value!==$("regPasswordConfirm").value){msg.textContent=r.invalid;return;}
+ const date_of_birth=normalizeBirthDate($("regBirth").value);
+ if(!date_of_birth){msg.style.color="#a32c30";msg.textContent=({sk:'Zadaj platný dátum narodenia DD.MM.RRRR.',en:'Enter a valid birth date DD.MM.YYYY.',ru:'Введите верную дату рождения ДД.ММ.ГГГГ.',uk:'Введіть правильну дату народження ДД.ММ.РРРР.'}[lang]||'Zadaj platný dátum narodenia.');$("regBirth").focus();return;}
+ if(!from||!to||to<=from||$("regPassword").value!==$("regPasswordConfirm").value){msg.style.color="#a32c30";msg.textContent=r.invalid;return;}
  const payload={
   first_name:$("regFirst").value.trim(),last_name:$("regLast").value.trim(),email:$("regEmail").value.trim(),
   room_number:$("regRoom").value.trim(),preferred_room_type:$("regRoomType").value,
-  telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),gender:'',date_of_birth:$("regBirth").value,
+  telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),gender:'',date_of_birth,
   password:$("regPassword").value,password_confirmation:$("regPasswordConfirm").value,
   permanent_address:'',school:'',parent_contact_email:'',
   expected_arrival:$("regArrival").value,
@@ -547,16 +577,19 @@ $("regForm").addEventListener("submit",async e=>{
    method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store"
   });
   const body=await response.json();
-  if(response.ok&&body.ok){
+  if(response.ok&&body.ok&&(body.already_registered===true||response.status!==201)){
+   msg.style.color="#8a4b08";msg.textContent=REG_ALREADY[lang]||REG_ALREADY.sk;msg.scrollIntoView({block:"center"});
+  }else if(response.ok&&body.ok&&response.status===201){
    $("regForm").reset();
    $("registration").classList.add('hide');
    $("registrationPending").classList.remove('hide');
-   $("pendingHeading").textContent=lang==='en'?'Registration received':lang==='ru'?'Заявка получена':lang==='uk'?'Заявку отримано':'Registrácia prijatá';
+   $("pendingHeading").textContent=lang==='en'?'Registration submitted':lang==='ru'?'Заявка отправлена':lang==='uk'?'Заявку надіслано':'Žiadosť úspešne odoslaná';
    $("pendingMessage").textContent=REG_SUBMITTED[lang]||REG_SUBMITTED.sk;
    $("pendingBack").textContent=lang==='en'?'Back to sign in':lang==='ru'?'Вернуться ко входу':lang==='uk'?'Повернутися до входу':'Späť na prihlásenie';
   }else{
    msg.style.color="#a32c30";
-   msg.textContent=response.status===429?r.limited:body?.error==="invalid_fields"?r.invalid:r.error;
+   msg.textContent=response.status===429?r.limited:body?.error==="email_already_registered"?(REG_ALREADY[lang]||REG_ALREADY.sk):body?.error==="account_exists_or_unavailable"?(REG_ACCOUNT_ERROR[lang]||REG_ACCOUNT_ERROR.sk):body?.error==="invalid_fields"?r.invalid:r.error;
+    msg.scrollIntoView({block:"center"});
   }
  }catch{msg.style.color="#a32c30";msg.textContent=r.error;}
  finally{btn.disabled=false;}
