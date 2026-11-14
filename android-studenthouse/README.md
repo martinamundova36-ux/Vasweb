@@ -1,4 +1,4 @@
-# Studenthouse – bezpečná mobilná inštalácia
+# Student House Bratislava – bezpečná mobilná inštalácia
 
 The existing Student House Bratislava / WEBU Residence runs at
 **https://www.webu.sk/student-house-portal/** and uses the same Supabase backend.
@@ -44,4 +44,4 @@ Never commit signing private keys or production passwords to the repository.
 ## If the Android warning appears
 
 Tap **Cancel**. Install the web app from Chrome instead. Disabling
-"Install unknown apps" is not required for Studenthouse's web-app experience.
+"Install unknown apps" is not required for Student House Bratislava's web-app experience.
