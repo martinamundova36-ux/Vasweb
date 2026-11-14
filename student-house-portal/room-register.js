@@ -1,4 +1,4 @@
-import {operationalSheets} from './operational-export.js?v=20261114-full-register2';
+import {operationalSheets} from './operational-export.js?v=20261114-full-register3';
 import {downloadWorkbook} from './excel.js';
 import {chargeBalance, cents} from './ledger.js?v=20261113-installments1';
 import {csvCell,validateRoomImport} from './rooms.js';
