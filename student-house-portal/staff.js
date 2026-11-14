@@ -135,7 +135,7 @@ export async function renderStaffScreen(ctx) {
     if(q){
      const box=el('details','staff-form'),summary=el('summary','',ctx.lang==='en'?'Registration questionnaire':'Údaje z registrácie'),grid=el('dl','identity-fields');
      for(const [label,value] of [['Telefón',q.telephone],['Národnosť',q.nationality],['Pohlavie',q.gender],
-       ['Dátum narodenia',ctx.day(q.date_of_birth)],['Trvalá adresa',q.permanent_address],
+       ['Dátum narodenia',ctx.day(q.date_of_birth)],['Trvalá adresa',q.permanent_address],['Vlastná chladnička',q.own_refrigerator===true?'Áno':q.own_refrigerator===false?'Nie':'—'],
        ['Škola',q.school],['Kontakt rodiča',q.parent_contact_email],
        ['Typ izby – preferencia',displayRoomType(q.preferred_room_type)],['Plánovaný príchod',ctx.day(q.preferred_from)]])grid.append(field(label,value||'—'));
      box.append(summary,grid);card.append(box);
@@ -402,7 +402,8 @@ export async function renderStaffScreen(ctx) {
       [translated?'Permanent address':'Trvalá adresa',enquiry.permanent_address],
       [translated?'Date of birth':'Dátum narodenia',ctx.day(enquiry.date_of_birth)],
       [translated?'Nationality':'Národnosť',enquiry.nationality],
-      [translated?'Sex / gender':'Pohlavie',enquiry.gender],
+      [translated?'Sex / gender':'Pohlavie',enquiry.gender==='male'?(translated?'Male':'Muž'):enquiry.gender==='female'?(translated?'Female':'Žena'):enquiry.gender],
+       [translated?'Own refrigerator':'Vlastná chladnička',enquiry.own_refrigerator===true?(translated?'Yes':'Áno'):enquiry.own_refrigerator===false?(translated?'No':'Nie'):'—'],
       [translated?'ID card / passport':'Číslo dokladu',enquiry.identity_document_number],
       [translated?'Telephone':'Telefón',enquiry.telephone],
       [translated?'Parent contact email':'E-mail rodiča',enquiry.parent_contact_email],
@@ -480,7 +481,7 @@ export async function renderStaffScreen(ctx) {
         // Do not accept an empty draft or an unsigned, photo-less questionnaire.
         // Recheck live state; the student's answer may have changed since render.
         const [submission,portrait,latestReview]=await Promise.all([
-         ctx.db.from('resident_enquiries').select('student_submitted_at')
+         ctx.db.from('resident_enquiries').select('student_submitted_at,gender,own_refrigerator,permanent_address,date_of_birth,nationality,identity_document_number,telephone,school,preferred_room_type,preferred_duration_months,preferred_from,preferred_to')
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle(),
          ctx.db.from('residence_portal_files').select('id')
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id)
@@ -489,7 +490,11 @@ export async function renderStaffScreen(ctx) {
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle()
         ]);
         if(submission.error||portrait.error||latestReview.error){status(labels.fail,true);return;}
-        if(!submission.data?.student_submitted_at||!portrait.data?.length){
+        const answers=submission.data;
+         const required=['gender','permanent_address','date_of_birth','nationality','identity_document_number','telephone','school','preferred_room_type','preferred_duration_months','preferred_from','preferred_to'];
+         const missing=required.filter(k=>!answers?.[k]);
+         if(typeof answers?.own_refrigerator!=='boolean')missing.push('own_refrigerator');
+         if(!answers?.student_submitted_at||!portrait.data?.length||missing.length){
          status(({
           sk:'Schválenie nie je možné: študent musí najprv odoslať vyplnený dotazník aj fotografiu.',
           en:'Cannot approve: the student must submit the questionnaire and a photo first.',
