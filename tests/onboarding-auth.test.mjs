@@ -14,7 +14,7 @@ assert.match(callbackSource,/event==='INITIAL_SESSION'/);
 assert.match(callbackSource,/setTimeout\(/,'Auth callbacks must defer work');
 assert.match(html,/queueSignedIn\(data\.user,true\)/,'Manual sign-in must remain active');
 const staff=readFileSync('student-house-portal/staff.js','utf8');
-assert.match(staff,/if\(!submission\.data\?\.student_submitted_at\|\|!portrait\.data\?\.length\)/,'Reception must not approve unsubmitted questionnaires or missing photos');
+assert.match(staff,/if\(!answers\?\.student_submitted_at\|\|!portrait\.data\?\.length\)/,'Reception must not approve unsubmitted questionnaires or missing photos');
 assert.match(staff,/Date\.parse\(latestReview\.data\.requested_at\)>=Date\.parse\(submission\.data\.student_submitted_at\)/,'Repeat approval should not resend invitation');
 
 function scenario(type, event, manual=false){
