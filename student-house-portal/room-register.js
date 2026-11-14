@@ -278,7 +278,7 @@ export async function renderExcelRegister(ctx){
    ...Array.from({length:12},(_,i)=>monthTitle(year,i+1,ctx.lang)),w.total,...(fullRegisterFields[ctx.lang]||fullRegisterFields.sk)];
   const lines=[header,...entries.map(r=>r.values.slice(0,-1))];
   downloadWorkbook('student-house-register-'+year,[{name:'Evidencia',rows:lines},...operationalSheets({
-   residents,enquiries,reviews:extra.resident_enquiry_reviews,files:extra.residence_portal_files,registrations,
+   residents,enquiries,details,tenancies,reviews:extra.resident_enquiry_reviews,files:extra.residence_portal_files,registrations,
    cleaning:extra.cleaning_bookings,requests:extra.service_requests,charges,payments:extra.payments,
    allocations,reversals,plans,items:extra.installment_items,audit:extra.audit_logs
   })]);
