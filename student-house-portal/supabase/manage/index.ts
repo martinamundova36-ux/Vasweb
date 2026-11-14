@@ -72,7 +72,7 @@ Deno.serve(async(req)=>{
    for(const member of members||[]){const {data,error}=await service.auth.admin.getUserById(member.user_id);if(error)return reply({error:'load_failed'},503);staff.push({...member,email:data.user?.email||''});}
    return reply({ok:true,staff});
   }
-  if(!['invite','resend_student_access'].includes(body.action))return reply({error:'invalid_action'},400);
+  if(!['invite','resend_student_access','activate_approved_login'].includes(body.action))return reply({error:'invalid_action'},400);
   if(body.action==='invite'&&(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200))return reply({error:'invalid_data'},400);
 
   const role=body.role;if(!['student','reception','org_admin'].includes(role))return reply({error:'invalid_role'},400);
@@ -81,6 +81,32 @@ Deno.serve(async(req)=>{
   const {data:m,error:roleError}=await client.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
   const {data:p}=await client.from('platform_admins').select('user_id').eq('user_id',user.id).maybeSingle();
   if(roleError||!(m?.role==='org_admin'||(m?.role==='reception'&&role==='student')||(p&&role==='org_admin')))return reply({error:'forbidden'},403);
+
+  if(body.action==='activate_approved_login'){
+    if(role!=='student'||typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))
+      return reply({error:'invalid_data'},400);
+    const {data:approved,error:approvedError}=await client.from('registration_requests')
+      .select('id,email,status').eq('tenant_id',tenant).eq('id',body.registration_id)
+      .eq('status','invited').maybeSingle();
+    if(approvedError||!approved)return reply({error:'approved_registration_not_found'},404);
+    const {data:account,error:accountError}=await service.from('residents')
+      .select('user_id').eq('tenant_id',tenant).eq('active',true).ilike('email',approved.email).maybeSingle();
+    if(accountError||!account?.user_id)return reply({error:'resident_not_found'},409);
+    const {data:membership,error:memberError}=await service.from('organization_memberships')
+      .select('role,active').eq('tenant_id',tenant).eq('user_id',account.user_id).maybeSingle();
+    if(memberError||membership?.role!=='student'||membership?.active!==true)return reply({error:'membership_not_active'},409);
+    const {data:auth,error:authError}=await service.auth.admin.getUserById(account.user_id);
+    if(authError||auth?.user?.email?.toLowerCase()!==approved.email.toLowerCase())
+      return reply({error:'account_mismatch'},409);
+    const {data:hasPassword,error:passwordError}=await service.rpc('residence_account_has_password',{p_user:account.user_id});
+    if(passwordError)return reply({error:'password_check_failed'},503);
+    if(hasPassword!==true)return reply({error:'password_setup_required'},409);
+    if(!auth.user.email_confirmed_at){
+      const {error:confirmError}=await service.auth.admin.updateUserById(account.user_id,{email_confirm:true});
+      if(confirmError){console.error('approved_login_activation_failed',confirmError.code);return reply({error:'login_activation_failed'},503);}
+    }
+    return reply({ok:true,login_ready:true,email_sent:false});
+  }
 
   if(body.action==='resend_student_access'){
     if(role!=='student'||typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))
@@ -149,7 +175,7 @@ Deno.serve(async(req)=>{
   const email=String(body.email).trim().toLowerCase();
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
   const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'questionnaire/':'?view=reception');
-  let uid:string|undefined,existingUser=false,emailSent=false,createdForApproval=false;
+  let uid:string|undefined,existingUser=false,emailSent=false,createdForApproval=false,loginReady=false;
   // Pending accounts may already have an Auth password. Reception approves the room, signed
   // contract data and monthly rent. New email accounts receive a one-time invite.
   // Older applicants who previously created an Auth account receive a password
@@ -225,13 +251,21 @@ Deno.serve(async(req)=>{
       console.error('residence_approval_rejected',approvalError.code);
       return reply({error:'approval_conflict'},409);
     }
-    // A questionnaire link is sent only after the atomic SQL approval succeeds,
-    // for both old and newly created Auth users. Failed delivery is retryable.
-    const {error:welcomeError}=await service.auth.signInWithOtp({email,options:{
-      shouldCreateUser:false,emailRedirectTo:redirect
-    }});
-    if(welcomeError)console.error('student_access_email_failed',welcomeError.code);
-    else emailSent=true;
+    // Password-based registration is activated after the reception has approved identity and contract.
+    // Existing residents without a password still require the email-based recovery flow.
+    const {data:hasPassword,error:passwordError}=await service.rpc('residence_account_has_password',{p_user:uid});
+    if(!passwordError&&hasPassword===true){
+      const {error:confirmError}=await service.auth.admin.updateUserById(uid,{email_confirm:true});
+      if(!confirmError)loginReady=true;
+      else console.error('approved_login_activation_failed',confirmError.code);
+    }else if(passwordError)console.error('approved_password_check_failed',passwordError.code);
+    if(!loginReady){
+      const {error:welcomeError}=await service.auth.signInWithOtp({email,options:{
+        shouldCreateUser:false,emailRedirectTo:redirect
+      }});
+      if(welcomeError)console.error('student_access_email_failed',welcomeError.code);
+      else emailSent=true;
+    }
   }else{
     const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
     if(checkError)throw checkError;
@@ -251,7 +285,7 @@ Deno.serve(async(req)=>{
   const {error:auditError}=await service.from('audit_logs').insert({
     tenant_id:tenant,actor_id:user.id,action:'RESIDENT_ACCESS_APPROVED',entity:'organization_memberships',entity_id:uid
   });if(auditError)console.error('invite_audit_failed',auditError.code);
-  return reply({ok:true,email_sent:emailSent,existing_account:existingUser});
+  return reply({ok:true,email_sent:emailSent,login_ready:loginReady,existing_account:existingUser});
 
  }catch(e){console.error('manage_request_failed');return reply({error:'request_failed'},400)}
 });
