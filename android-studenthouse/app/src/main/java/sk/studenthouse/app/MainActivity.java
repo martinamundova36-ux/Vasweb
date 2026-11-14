@@ -60,7 +60,7 @@ public final class MainActivity extends Activity {
                     Intent send = new Intent(Intent.ACTION_SEND);
                     send.setType("text/plain");
                     send.putExtra(Intent.EXTRA_SUBJECT, "Student House Bratislava");
-                    send.putExtra(Intent.EXTRA_TEXT, "Student House Bratislava. Created by WEBU.\n" + HOME);
+                    send.putExtra(Intent.EXTRA_TEXT, "Student House Bratislava – študentská aplikácia.\n" + HOME);
                     startActivity(Intent.createChooser(send, "Zdieľať Student House Bratislava"));
                     return true;
                 }
