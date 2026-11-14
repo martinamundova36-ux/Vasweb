@@ -157,21 +157,30 @@ test('A failed contract save preserves the entered value and editor instead of a
  assert.equal(findButton(editor,'Uložiť overené číslo zmluvy').disabled,false);
 });
 
-test('Unified approval saves contract, room and dates before invoking approval and keeps the long calendar collapsed',async()=>{
+test('Unified approval sends contract, room, dates and calendar in one server request; calendar stays collapsed',async()=>{
  const writes=[];let payload;
  const request={...registration,contract_number:null,accommodation_to:'2034-03-13'};
- const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(value){writes.push('assignment');payload=value;return this;},eq(){return this;},select:async()=>({data:[{id:request.id,...payload}]})}),functions:{invoke:async()=>{writes.push('approval');return {data:{ok:true}};}}}});
+ const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(){writes.push('partial-write');return this;},eq(){return this;},select:async()=>({data:[]})}),functions:{invoke:async(_name,args)=>{writes.push('approval');payload=args.body;return {data:{ok:true}};}}}});
  await renderStaffScreen(f.ctx);findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
  const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu'),form=prepare.parent;
  form.querySelectorAll('input')[0].value='300';form.querySelectorAll('input').find(i=>i.attributes['aria-label']==='Číslo zmluvy').value='REAL-555';
  prepare.listeners.click();const schedule=form.querySelector('div'),calendar=schedule.querySelector('details');
- assert.ok(calendar);assert.notEqual(calendar.open,true);assert.equal(schedule.children[1].tagName,'button');
- form.onsubmit({preventDefault(){}});await tick();assert.deepEqual(writes,['assignment','approval']);assert.equal(payload.contract_number,'REAL-555');assert.equal(payload.accommodation_to,'2034-03-13');
+ assert.ok(calendar);assert.notEqual(calendar.open,true);
+ assert.ok(findButton(schedule,'Schváliť overenú zmluvu a predpisy'));
+ form.onsubmit({preventDefault(){}});await tick();
+ assert.deepEqual(writes,['approval'],'No client-side partial assignment writes before approval');
+ assert.equal(payload.verified_assignment.contract_number,'REAL-555');
+ assert.equal(payload.verified_assignment.accommodation_to,'2034-03-13');
+ assert.equal(payload.verified_schedule.length,89);
 });
-test('Failed unified assignment save preserves all terms and never invokes approval',async()=>{
- let calls=0;const f=fixture('registrations',{db:{from:()=>({update(){return this;},eq(){return this;},select:async()=>({error:{code:'42501'}})}),functions:{invoke:async()=>{calls++;return {data:{ok:true}};}}}});
- await renderStaffScreen(f.ctx);await approveFixture(f);assert.equal(calls,0);
- const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu');assert.equal(prepare.parent.querySelector('input').value,'300');assert.equal(prepare.disabled,false);assert.ok(findButton(f.root,'Schváliť overenú zmluvu a predpisy'));
+test('Failed atomic approval preserves all entered terms for a safe retry',async()=>{
+ let calls=0;const f=fixture('registrations',{db:{from:()=>({update(){throw Error('unexpected partial write')},eq(){return this;},select:async()=>({data:[]})}),functions:{invoke:async()=>{calls++;return {data:{error:'approval_conflict'}};}}}});
+ await renderStaffScreen(f.ctx);await approveFixture(f);assert.equal(calls,1);
+ const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu');
+ assert.equal(prepare.parent.querySelector('input').value,'300');
+ assert.equal(prepare.disabled,false);
+ assert.ok(findButton(f.root,'Schváliť overenú zmluvu a predpisy'));
+ assert.doesNotMatch(f.ctx.notice.textContent,/✓ Registrácia úspešne schválená/);
 });
 
 test('Automatic refresh preserves a resident profile and forms even after focus leaves the page',()=>{
