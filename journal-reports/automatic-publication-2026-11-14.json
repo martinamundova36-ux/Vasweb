@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-14",
+  "automatically_published": [
+    "2026-11-14-1dfd1b2dd1f6",
+    "2026-11-14-a18387e44cf6",
+    "2026-11-14-b93166869f08",
+    "2026-11-14-d95211bb56da",
+    "2026-11-14-dfdf49bd6a50"
+  ],
+  "published_this_run": [
+    "2026-11-14-1dfd1b2dd1f6",
+    "2026-11-14-a18387e44cf6",
+    "2026-11-14-b93166869f08",
+    "2026-11-14-d95211bb56da",
+    "2026-11-14-dfdf49bd6a50"
+  ],
+  "held_due_to_missing_review_or_gates": 0,
+  "publication_errors": [],
+  "mode": "transparent_abstract_editorials"
+}

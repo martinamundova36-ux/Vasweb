@@ -83,3 +83,13 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - blog-journal-2026-11-13-dovera-v-online-recenzie.html: Lisa Fotios – https://www.pexels.com/photo/person-holding-mobile-phone-3632645/ – https://www.pexels.com/license/
 - blog-journal-2026-11-13-home-office-autonomia-a-zmysel.html: Kampus Production – https://www.pexels.com/photo/a-woman-working-at-home-with-a-laptop-7078795/ – https://www.pexels.com/license/
 - blog-journal-2026-11-13-rozsirena-realita-v-eshopoch.html: Julio Lopez – https://www.pexels.com/photo/digital-shopping-on-laptop-and-smartphone-29502371/ – https://www.pexels.com/license/
+
+- commons-6c9d212c200f09: [Shixart1985](https://commons.wikimedia.org/wiki/File:Hands_in_handcuffs_in_front_of_a_laptop_during_a_digital_investigation_in_a_modern_office_setting.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-808986c87eac3b: [Louis Comfort Tiffany    /   Tiffany Studios   /   Tiffany Studios   /    Tiffany Studios](https://commons.wikimedia.org/wiki/File:Design_for_a_church_interior_MET_DP206037.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-ec1beda1216a51: [Rubiyj](https://commons.wikimedia.org/wiki/File:Tsohue_coworking_1F.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-0546f74b6714dd: [Shixart1985](https://commons.wikimedia.org/wiki/File:Elderly_woman_sitting_at_her_office_table_and_holding_a_cup_of_coffee_while_working_on_her_laptop._Croissant_and_a_donut_on_the_trays_next_to_her.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-b4265782fcd516: [Veikk0.ma](https://commons.wikimedia.org/wiki/File:A_grocery_store_bus_in_western_Finland_(interior_1).jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.

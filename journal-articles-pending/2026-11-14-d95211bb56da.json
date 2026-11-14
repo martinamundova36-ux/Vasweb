@@ -1,0 +1,118 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.46281/ijmri-2026-11-01-02",
+  "generated_on": "2026-11-14",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Dopad vybavovania reklamácií na správanie klientov: Čo odhaľuje nová štúdia z Indie",
+      "description": "Nová štúdia analyzuje, ako výsledky riešenia sťažností v bankách ovplyvňujú psychologické skreslenia a správanie zákazníkov v indickom meste Guwahatí.",
+      "lead": "S rozširovaním digitálneho bankovníctva rastie aj počet sťažností klientov, pričom transparentné riešenie sťažností je kľúčové pre ochranu spotrebiteľov. Podľa dostupného abstraktu štúdia od autorov Shraddha Sengupta a Amalesh Bhowal zverejnená v International Journal of Marketing Research Innovation (2026) skúma, ako výsledok reklamácie formuje následné psychologické skreslenia zákazníkov.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "S rozširovaním digitálneho bankovníctva čelia finančné inštitúcie rastúcemu počtu sťažností od svojich klientov. Úspešné a transparentné vybavovanie reklamácií sa stalo základným pilierom ochrany spotrebiteľov a budovania silných inštitúcií v modernom finančnom sektore.",
+            "Hoci predchádzajúci výskum často spájal proces riešenia sťažností so všeobecnou spokojnosťou a lojalitou zákazníkov, venoval len malú pozornosť tomu, ako samotný výsledok vyriešenej reklamácie ovplyvňuje dlhodobejšie úsudky a správanie klienta.",
+            "Cieľom tohto článku je priblížiť novú štúdiu, ktorá sa na túto problematiku pozrostrela prostredníctvom kvantitatívneho výskumu. Pozornosť budeme venovať hlavným zisteniam, metodickým limitom a možným praktickým aplikáciám pre prevádzkovateľov webov a malé podniky."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu sa štúdia zameriava na vplyv výsledkov vybavovania bankových sťažností na štyri špecifické post-rezolučné behaviorálne skreslenia: konfirmačné skreslenie, averziu k strate, sebavedomie a vyhýbanie sa sťažnostiam.",
+            "Autori zozbierali primárne dáta formou prierezového prieskumu prostredníctvom štruktúrovaného dotazníka. Výskumná vzorka podľa abstraktu zahŕňala 547 zákazníkov z 329 pobočiek 12 verejných a 12 súkromných bánk v meste Guwahatí v Indii.",
+            "Všetci oslovení respondenti mali osobnú skúsenosť s podaním formálnej sťažnosti v banke. Zozbierané dáta boli následne analyzované pomocou deskriptívnej štatistiky, Cronbachovho alfu a jednoduchej lineárnej regresie."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu výsledky ukazujú, že 56,3 % sťažností bolo plne vyriešených, 40,0 % čiastočne vyriešených a 3,7 % zostalo nevyriešených. Spoľahlivosť škál behaviorálnych skreslení bola overená, pričom hodnoty Cronbachovho alfu sa pohybovali od 0,781 do 0,893.",
+            "Výsledky analýzy podľa abstraktu naznačujú, že výsledok riešenia sťažnosti bol pozitívne spojený s konfirmačným skreslením, averziou k strate a nadmerným sebavedomím. Naopak, negatívna väzba sa prejavila pri vyhýbaní sa sťažnostiam.",
+            "Averzia k strate zaznamenala najvyššiu priemernú hodnotu, zatiaľ čo konfirmačné skreslenie malo najnižšiu. Štúdia v abstrakte uzatvára, že úspešné či neúspešné vyriešenie sťažnosti nie je len procedurálnym ukončením procesu, ale skutočnou behaviorálnou udalosťou."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Metodika štúdie sa opiera o kvantitatívny zber dát prostredníctvom štruktúrovaného dotazníka a prierezového prieskumu na vzorke 547 respondentov. Tento prístup umožňuje získať štruktuŕovaný pohľad na názory klientov v konkrétnom regióne.",
+            "Je však dôležité zdôrazniť viaceré limity plynúce z toho, že máme k dispozícii iba publikovaný abstrakt. Bez prístupu k plnému textu štúdie nemôžeme podrobne posúdiť úplné znenie otázok v dotazníku ani hlbšie kontrolné premenné.",
+            "Okrem toho sa dáta viažu na špecifický bankový trh v indickom meste Guwahatí, čo znamená, že zistenia nemožno bezvýhradne generalizovať na slovenské prostredie alebo iné odvetvia bez opory v ďalších dátach."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Z pohľadu WEBU a redakčných odporúčaní pre malé podniky a webdizajn je kľúčové vnímať riešenie reklamácií na webe nielen ako administratívnu povinnosť. E-shopy a firemné weby by mali proces vracania tovaru či riešenia sťažností navrhnúť maximálne transparentne a predvídateľne.",
+            "Keďže výskum poukazuje na silnú väzbu medzi výsledkom reklamácie a psychologickými skresleniami, ako je averzia k strate, správne nastavená komunikácia na webe dokáže zmierniť obavy zákazníkov. Pomáha jasné uvádzanie stavu reklamácie v zákazníckom účte a zrozumiteľné vysvetlenie každého kroku.",
+            "Pre marketing a správu webov to znamená budovať dôveru prostredníctvom proaktívnych notifikácií. Ak zákazník vidí, že jeho problém sa aktívne rieši a výsledok je komunikovaný férovo, znižuje sa riziko jeho budúcich obáv a vyhýbania sa nákupom."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Nová štúdia autorov Senguptha a Bhowala prináša cenný pohľad na to, ako vybavovanie sťažností formuje psychologické nastavenie zákazníkov v bankovom sektore. Podľa abstraktu ide o dôležitý príspevok k téme správania spotrebiteľov.",
+            "Napriek tomu, že výsledky poukazujú na silné štatistické vzťahy medzi riešením reklamácií a post-rezolučnými skresleniami, je nutné brať do úvahy regionálny kontext a obmedzenia vyplývajúce z dostupnosti iba krátkeho zhrnutia.",
+            "Pre prevádzkovateľov webových stránok a firiem zostáva hlavným ponaučením fakt, že transparentný prístup k sťažnostiam priamo ovplyvňuje dlhodobú dôveru a správanie zákazníkov v digitálnom prostredí."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "The Impact of Bank Complaint Resolution on Customer Behaviour: Insights from a New Study",
+      "description": "A new study examines how bank complaint outcomes influence psychological biases and customer behaviour in Guwahati, India.",
+      "lead": "With the rapid expansion of digital banking, customer complaints have increased significantly, making accountable grievance redressal central to consumer protection. According to the abstract, a study by Shraddha Sengupta and Amalesh Bhowal published in the International Journal of Marketing Research Innovation (2026) investigates how complaint resolution outcomes shape post-resolution customer biases.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "As digital banking continues to expand rapidly, financial institutions face a growing volume of customer complaints. Transparent and accountable grievance redressal has therefore become a cornerstone of consumer protection and strong institutional governance.",
+            "Although previous research frequently linked complaint handling to general customer satisfaction and loyalty, it paid limited attention to how the actual outcome of a resolved complaint shapes the customer's subsequent judgements and behaviour.",
+            "This article explores a recent quantitative study examining this exact dynamic, focusing on its main findings, methodological limitations, and practical takeaways for web platform operators and small businesses."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the study examines the influence of bank complaint resolution outcomes on four post-resolution behavioural biases: confirmation bias, loss aversion, overconfidence, and complaint avoidance.",
+            "Primary data were collected through a cross-sectional survey utilizing a structured questionnaire. The sample comprised 547 customers across 329 branches of 12 public-sector and 12 private-sector banks in Guwahati City, India.",
+            "All participating respondents had previously lodged a formal complaint with their bank. The collected data were subsequently analysed using descriptive statistics, Cronbach's alpha, and simple linear regression models."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, the results show that 56.3% of complaints were fully resolved, 40.0% partially resolved, and 3.7% not resolved. The reliability of the bias scales was confirmed, with Cronbach's alpha values ranging from 0.781 to 0.893.",
+            "The analysis indicates that complaint resolution outcomes were positively related to confirmation bias, loss aversion, and overconfidence. Conversely, a negative relationship was observed with complaint avoidance.",
+            "Loss aversion recorded the highest mean score, while confirmation bias recorded the lowest. The study suggests that resolving a complaint functions as a significant behavioural event rather than mere procedural closure within inclusive financial services."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The study relies on a quantitative research design utilizing a structured questionnaire and a cross-sectional survey administered to a sample of 547 respondents, providing a standardized view of customer perspectives.",
+            "However, several important limitations stem from the fact that our analysis is based strictly on the publisher-supplied abstract. Without access to the full text, we cannot independently verify the exact questionnaire items or control variables.",
+            "Furthermore, the data originate from a specific banking market in Guwahati City, India, meaning that findings cannot be generalized to other geographic regions, such as Slovakia, or different industries without supplementary local data."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "From a WEBU editorial perspective, small businesses and web designers should treat complaint handling on digital platforms not merely as an administrative obligation, but as a critical user experience milestone. E-commerce sites and corporate portals must design return and dispute resolution interfaces to be transparent and intuitive.",
+            "Since the research highlights a strong link between complaint outcomes and psychological biases like loss aversion, thoughtful web communication can actively mitigate customer anxiety. Providing clear status trackers in customer accounts and explaining each resolution step helps reassure users.",
+            "For marketing and web management, this means fostering trust through proactive notifications and transparent updates. When customers see their issues handled fairly, the psychological friction and hesitation regarding future online transactions diminish."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The new study by Sengupta and Bhowal offers valuable insights into how complaint resolution outcomes shape consumer psychology within the banking sector. According to the abstract, it highlights the behavioural weight of grievance redressal.",
+            "While the findings point to robust statistical associations between complaint outcomes and post-resolution biases, readers must consider the specific regional context and the intrinsic limitations of relying on an abstract summary.",
+            "For web platform operators and business owners, the key takeaway remains clear: transparent and accountable handling of customer disputes directly reinforces long-term trust and positive user behaviour in digital environments."
+          ]
+        }
+      ]
+    }
+  }
+}

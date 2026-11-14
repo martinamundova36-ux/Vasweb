@@ -1377,6 +1377,166 @@
         "1280": "d838d6490c8becc4908b916fef56e8f2c2bf4cce8ca2d24c57ca3148ee573195",
         "social": "9da4131327c924f2fa52603fd1fe308529373e3d1f4ad941826411e01587982b"
       }
+    },
+    {
+      "id": "commons-6c9d212c200f09",
+      "provider": "Wikimedia Commons",
+      "provider_id": "196191086",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Hands_in_handcuffs_in_front_of_a_laptop_during_a_digital_investigation_in_a_modern_office_setting.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Hands_in_handcuffs_in_front_of_a_laptop_during_a_digital_investigation_in_a_modern_office_setting.jpg/1920px-Hands_in_handcuffs_in_front_of_a_laptop_during_a_digital_investigation_in_a_modern_office_setting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-14",
+      "original_sha256": "9263039e60bf03cb502363d1a79fa2ed2db59855b49e8f9c456d4a1ebf0a129b",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-6c9d212c200f09-640.webp",
+        "1280": "/assets/journal/commons-6c9d212c200f09-1280.webp",
+        "social": "/assets/journal/commons-6c9d212c200f09-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "7eed613a2a5b515da3e98a1d66a032378e391fc26355032976b142e8ef0da0fb",
+        "1280": "75cb03ceb84fff69fa1bd23a8e51d54d876c5ac4e5ae34a16ca1edd3d6420121",
+        "social": "d9b12c24f2b0ecd4cf30dbb9b9a3b4d53e61f5a35d95efdb1590d7cc75a81290"
+      }
+    },
+    {
+      "id": "commons-808986c87eac3b",
+      "provider": "Wikimedia Commons",
+      "provider_id": "58742949",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Design_for_a_church_interior_MET_DP206037.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Design_for_a_church_interior_MET_DP206037.jpg/1920px-Design_for_a_church_interior_MET_DP206037.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Louis Comfort Tiffany    /   Tiffany Studios   /   Tiffany Studios   /    Tiffany Studios",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-14",
+      "original_sha256": "b08fad8e56fad46b1e442b4334f429ecf8ff0a7b6964313c7532f80366c5b966",
+      "topics": [
+        "branding"
+      ],
+      "alt": {
+        "sk": "Kreatívny dizajnérsky ateliér",
+        "en": "Creative design studio"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-808986c87eac3b-640.webp",
+        "1280": "/assets/journal/commons-808986c87eac3b-1280.webp",
+        "social": "/assets/journal/commons-808986c87eac3b-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "ba542c1af013ff216b7f1bf4920159de7c3b807891aa8998bcb08d3495806aa8",
+        "1280": "3df1f11af3449c129aa7990969efc71ad2c2b616fed041dc0a54b1889f62177e",
+        "social": "c99cbc5e55f4fb266d19ece52614c455e129f7076fb839fdb9aabfeeb365621d"
+      }
+    },
+    {
+      "id": "commons-ec1beda1216a51",
+      "provider": "Wikimedia Commons",
+      "provider_id": "56237777",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Tsohue_coworking_1F.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Tsohue_coworking_1F.jpg/1920px-Tsohue_coworking_1F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Rubiyj",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-14",
+      "original_sha256": "4e6e91091653ec1f0d9bdac8da1edfac67efd7f5a2d954d998b778bda5baccda",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-ec1beda1216a51-640.webp",
+        "1280": "/assets/journal/commons-ec1beda1216a51-1280.webp",
+        "social": "/assets/journal/commons-ec1beda1216a51-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "6019981fc39959b65b9aa4923d3e97e174e7938caeeb01f14994f4be23bb398e",
+        "1280": "ff2dc1d51ef36439eb16d01cd44ab81c571fdabf118f99f3ffe797cca6714884",
+        "social": "4c14b2ab733c86407d8e2318c874c9810762c23f6b535088326995009814d162"
+      }
+    },
+    {
+      "id": "commons-0546f74b6714dd",
+      "provider": "Wikimedia Commons",
+      "provider_id": "189825795",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Elderly_woman_sitting_at_her_office_table_and_holding_a_cup_of_coffee_while_working_on_her_laptop._Croissant_and_a_donut_on_the_trays_next_to_her.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Elderly_woman_sitting_at_her_office_table_and_holding_a_cup_of_coffee_while_working_on_her_laptop._Croissant_and_a_donut_on_the_trays_next_to_her.jpg/1920px-Elderly_woman_sitting_at_her_office_table_and_holding_a_cup_of_coffee_while_working_on_her_laptop._Croissant_and_a_donut_on_the_trays_next_to_her.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-14",
+      "original_sha256": "ec93c8c77b80a2ae46595588ec475c39d264ee6509236bd13759c75af61440b2",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-0546f74b6714dd-640.webp",
+        "1280": "/assets/journal/commons-0546f74b6714dd-1280.webp",
+        "social": "/assets/journal/commons-0546f74b6714dd-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "765ded071f97b84a8b89806fe910c992b6511bab6247cb90cf81c4c981dce67d",
+        "1280": "8c9d25e7c3dd0e07d9a1a74c3ed0db170b31364e41c0ce69002cf8d0d5aeedb6",
+        "social": "e11948a8cba3cefcbd6e49759c6e5701da87cb672452d47dbaa86955053dda8b"
+      }
+    },
+    {
+      "id": "commons-b4265782fcd516",
+      "provider": "Wikimedia Commons",
+      "provider_id": "109798520",
+      "source_page": "https://commons.wikimedia.org/wiki/File:A_grocery_store_bus_in_western_Finland_(interior_1).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/A_grocery_store_bus_in_western_Finland_%28interior_1%29.jpg/1920px-A_grocery_store_bus_in_western_Finland_%28interior_1%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Veikk0.ma",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-14",
+      "original_sha256": "7ab03ecd42ed44b5eee06e57735cfc2a9c6ac90d67203b9b02ecb5db29a7198a",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Interiér maloobchodnej predajne",
+        "en": "Retail store interior"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-b4265782fcd516-640.webp",
+        "1280": "/assets/journal/commons-b4265782fcd516-1280.webp",
+        "social": "/assets/journal/commons-b4265782fcd516-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "f96d67d0613357b1ea97b3052dc80a933d22412806fd3b3afc219af56d5f789e",
+        "1280": "eaa0e8f2b311928b46a7f3fdfab50186cd2476ca6e621358bc1a5fe714308774",
+        "social": "9a5360f9aa12556b77178f424b90d1d1e59ca6b34158d0a9f426716a6bf5c7fb"
+      }
     }
   ],
   "assignments": {
@@ -1421,6 +1581,11 @@
     "blog-journal-review-2026-11-10-b50cc67a8040.html": "commons-bdc89b57bc2120",
     "blog-journal-review-2026-11-11-26a34383cca8.html": "commons-67d9d1f2fb3aab",
     "blog-journal-review-2026-11-10-f808d55e23b7.html": "commons-7b23e3817c621c",
-    "blog-journal-review-2026-11-11-f5fc5be353bc.html": "commons-f0291c7a2843e5"
+    "blog-journal-review-2026-11-11-f5fc5be353bc.html": "commons-f0291c7a2843e5",
+    "blog-journal-review-2026-11-14-dfdf49bd6a50.html": "commons-6c9d212c200f09",
+    "blog-journal-review-2026-11-14-b93166869f08.html": "commons-808986c87eac3b",
+    "blog-journal-review-2026-11-14-a18387e44cf6.html": "commons-ec1beda1216a51",
+    "blog-journal-review-2026-11-14-1dfd1b2dd1f6.html": "commons-0546f74b6714dd",
+    "blog-journal-review-2026-11-14-d95211bb56da.html": "commons-b4265782fcd516"
   }
 }
