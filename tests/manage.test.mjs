@@ -6,7 +6,7 @@ const source=stripTypeScriptTypes(fs.readFileSync('student-house-portal/supabase
 async function scenario(config={}){
  let handler;const calls=[];
  const query=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='organization_memberships'?{role:config.role||'reception'}:table==='documents'?(config.documentAllowed?{id:'d',tenant_id:'t',object_path:'t/private.pdf'}:null):table==='registration_requests'?{id:'50000000-0000-0000-0000-000000000001',email:'qa@example.invalid',status:'invited',first_name:'QA',last_name:'Student',room_number:'TEST',contract_number:'TEST-C1',accommodation_from:'2026-11-01',accommodation_to:'2026-11-30'}:table==='rooms'?{id:'r',name:'TEST'}:null,error:null}).then(ok)):()=>query(table)});
- const serviceQuery=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='residents'?(config.body?.action==='activate_approved_login'?{user_id:'u'}:[{id:'r'}]):table==='organization_memberships'?{role:'student',active:true}:null,error:null}).then(ok)):()=>serviceQuery(table)});
+ const serviceQuery=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='residents'?(config.body?.action==='activate_approved_login'?{user_id:'u'}:[{id:'r'}]):table==='organization_memberships'?(config.body?.action==='activate_approved_login'?{role:'student',active:true}:null):null,error:null}).then(ok)):()=>serviceQuery(table)});
  const service={
   auth:{
    admin:{
