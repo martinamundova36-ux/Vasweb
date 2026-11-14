@@ -1201,7 +1201,7 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261113-complete2');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261114-fields2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
     isOnboarding:!resident.profile_password_activated_at,
@@ -1260,7 +1260,7 @@ async function renderPanel(){
     else message(lang==='en'?'Your accommodation details will appear after reception assigns your room.':'Údaje o ubytovaní sa zobrazia po priradení izby recepciou.');
    }
    if(!staff){
-    const studentUI=await import('/student-house-portal/student-finance.js?v=20261113-complete1');
+    const studentUI=await import('/student-house-portal/student-finance.js?v=20261114-fees2');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='overview')return;
     studentUI.renderPaymentHighlight({root:container,resident,tenancies:d.tenancies,charges:d.rent_charges,allocations:d.payment_allocations,reversals:d.payment_reversals,plans:d.installment_plans,items:d.installment_items,lang,onOpen:navigate});
     studentUI.renderStudentWelcome({root:container,resident,tenancies:d.tenancies,lang,onOpen:navigate});
@@ -1291,7 +1291,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261114-document-review2');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261114-intake-fees2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
@@ -1305,7 +1305,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261114-complete-export1');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261114-complete-export2');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){
@@ -1476,7 +1476,7 @@ async function renderPanel(){
      list('rent_charges',filter),list('payment_allocations'),list('payment_reversals'),list('installment_plans',filter),list('installment_items')
     ]);
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261113-complete1');
+    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261114-fees2');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
     renderMonthlyCalendar({root:container,charges,allocations,reversals,plans,items,lang,onOpen:navigate});
     return;
