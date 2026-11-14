@@ -562,7 +562,7 @@ function paint(items){let r=$('records');r.replaceChildren();if(!items.length){r
 async function list(table,filter){
  const tenant=member.tenant_id,items=[];
  const pageSize=500,maxPages=30;
- const orderColumn=table==='residence_reminder_settings'?'tenant_id':table==='resident_staff_details'?'resident_id':table==='registration_enquiries'?'registration_id':'id';
+ const orderColumn=table==='residence_reminder_settings'?'tenant_id':['resident_staff_details','resident_enquiry_reviews'].includes(table)?'resident_id':table==='registration_enquiries'?'registration_id':'id';
  for(let page=0;page<maxPages;page++){
   let q=db.from(table).select('*').eq('tenant_id',tenant).order(orderColumn).range(page*pageSize,page*pageSize+pageSize-1);
   if(filter)for(const [k,v] of Object.entries(filter))q=q.eq(k,v);
@@ -850,6 +850,10 @@ async function renderProfile(tenant){
  message(dl('privacy'));
  const policy=make('a','policy-link','GDPR');policy.href=privacyUrls[lang];policy.target='_blank';policy.rel='noopener noreferrer';$('records').append(policy);
 }
+function additionalDocumentTitle(kind){
+ const names={sk:['Splátkový kalendár','Podpísaný splátkový kalendár','Potvrdenie o ubytovaní (ak sa vyžaduje)','Podpísané potvrdenie o ubytovaní'],en:['Payment schedule','Signed payment schedule','Accommodation certificate (if required)','Signed accommodation certificate'],ru:['График платежей','Подписанный график платежей','Подтверждение проживания (если требуется)','Подписанное подтверждение проживания'],uk:['Графік платежів','Підписаний графік платежів','Підтвердження проживання (за потреби)','Підписане підтвердження проживання']};
+ return (names[lang]||names.sk)[['schedule_draft','signed_schedule','certificate_draft','signed_certificate'].indexOf(kind)];
+}
 async function renderResidentDocuments(tenant,staff,own){
  heading(staff?dl('adminTemplates'):df('studentHeading'),dl('privacy'));
  const files=await list('residence_portal_files');
@@ -862,13 +866,16 @@ async function renderResidentDocuments(tenant,staff,own){
   const requirements=[
    ['contract_draft','signed_contract',dl('contract'),dl('signedContract')],
    ['rules_template','signed_rules',dl('rules'),dl('signedRules')],
-   ['gdpr_template','signed_gdpr',dl('gdpr'),dl('signedGdpr')]
+   ['gdpr_template','signed_gdpr',dl('gdpr'),dl('signedGdpr')],
+   ['schedule_draft','signed_schedule',additionalDocumentTitle('schedule_draft'),additionalDocumentTitle('signed_schedule')],
+   ['certificate_draft','signed_certificate',additionalDocumentTitle('certificate_draft'),additionalDocumentTitle('signed_certificate')]
   ];
   for(const [templateKind,signedKind,title,signedTitle] of requirements){
-   const template=files.filter(x=>x.kind===templateKind&&x.active&&(templateKind!=='contract_draft'||x.user_id===user.id))
+   const template=files.filter(x=>x.kind===templateKind&&x.active&&(['rules_template','gdpr_template'].includes(templateKind)||x.user_id===user.id))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
    const submission=files.filter(x=>x.kind===signedKind&&x.active&&x.user_id===user.id)
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+   if(templateKind==='certificate_draft'&&!template&&!submission)continue;
    const card=make('div','file-item document-flow-card');
    card.append(make('h3','',title));
    const downloadStep=make('div','document-flow-step');
@@ -912,19 +919,21 @@ async function renderResidentDocuments(tenant,staff,own){
   grid.append(templateCard(tenant,files,'gdpr_template',dl('gdpr'),true));
   $('records').append(grid);
   subheading(dl('signedReceived'));
-  const submissions=files.filter(x=>['signed_contract','signed_rules','signed_gdpr'].includes(x.kind))
+  const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
   const people=await list('residents');
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
-   const box=row(name+' – '+dl(x.kind==='signed_contract'?'signedContract':x.kind==='signed_rules'?'signedRules':'signedGdpr'),day(x.created_at)+' · '+x.original_name,readableStatus(x.review_status));
+   const box=row(name+' – '+(additionalDocumentTitle(x.kind)||dl(x.kind==='signed_contract'?'signedContract':x.kind==='signed_rules'?'signedRules':'signedGdpr')),day(x.created_at)+' · '+x.original_name,readableStatus(x.review_status));
    const actions=make('div','staff-actions');
    const download=make('button','btn-secondary',dl('downloadForReview'));download.type='button';download.addEventListener('click',()=>{void fileLink(x.id,tenant)});actions.append(download);
    if(x.review_status==='pending'||x.review_status==='rejected'){
     const comment=make('input');comment.type='text';comment.maxLength=1000;comment.value=x.staff_note||'';comment.placeholder=dl('reviewNote');
     const choose=async status=>{
-      const {data,error}=await db.functions.invoke('residence-files',{body:{action:'review',tenant_id:tenant,file_id:x.id,status,staff_note:comment.value}});
+      comment.setCustomValidity(status==='rejected'&&comment.value.trim().length<3?({sk:'Uveď dôvod vrátenia na opravu (aspoň 3 znaky).',en:'Enter a correction reason (at least 3 characters).',ru:'Укажите причину возврата (не менее 3 символов).',uk:'Вкажіть причину повернення (не менше 3 символів).'})[lang]:'');
+      if(!comment.reportValidity())return;
+      const {data,error}=await db.functions.invoke('residence-files',{body:{action:'review',tenant_id:tenant,file_id:x.id,status,staff_note:comment.value,expected_status:x.review_status}});
       if(error||!data?.ok){alert(dl('fileError'));return;}
       alert(label('success'));void renderPanel();
     };
@@ -937,7 +946,7 @@ async function renderResidentDocuments(tenant,staff,own){
  }
 
  subheading(dl('privateDocuments'));
- const residentDocs=files.filter(x=>['resident_document','contract_draft'].includes(x.kind)&&x.active&&(staff||x.kind==='resident_document')&&(staff||x.user_id===user.id))
+ const residentDocs=files.filter(x=>['resident_document','contract_draft','schedule_draft','certificate_draft'].includes(x.kind)&&x.active&&(staff||x.kind==='resident_document')&&(staff||x.user_id===user.id))
    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
  if(residentDocs.length){
   for(const x of residentDocs){
@@ -954,13 +963,16 @@ async function renderResidentDocuments(tenant,staff,own){
    const form=make('form','staff-form');
    form.append(make('strong','',lang==='en'?'Send a private document to a resident':'Nahrať osobný dokument študentovi'));
    const owner=selector(residents,'id',x=>x.full_name+' · '+(x.verified_room_number||'—'));
+   const documentKind=selector([{id:'resident_document',name:dl('privateDocuments')},{id:'schedule_draft',name:additionalDocumentTitle('schedule_draft')},{id:'certificate_draft',name:additionalDocumentTitle('certificate_draft')}],'id',x=>x.name);
+   form.append(documentKind);
    const input=make('input');input.type='file';input.accept='application/pdf,image/jpeg,image/png';input.required=true;
+   documentKind.addEventListener('change',()=>{input.accept=documentKind.value==='resident_document'?'application/pdf,image/jpeg,image/png':'application/pdf';input.value='';});
    const send=make('button','',dl('upload'));send.type='submit';
    form.append(labeled(fin('resident'),owner),labeled(dl('upload'),input),make('p','muted',lang==='en'?'Private files will only be accessible to the selected resident and reception.':'Súbor uvidí len vybraný študent a recepcia.'),send);
    form.addEventListener('submit',async e=>{
     e.preventDefault();
     if(!input.files?.length)return;
-    if(await sendFile(tenant,'resident_document',input.files[0],send,owner.value))void renderPanel();
+    if(await sendFile(tenant,documentKind.value,input.files[0],send,owner.value))void renderPanel();
    });
    $('records').append(form);
   }
@@ -1219,7 +1231,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):(lang==='en'?'Student House reception':'Recepcia Student House'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261113-single-approval3');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261114-document-review1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
@@ -1233,7 +1245,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261113-xlsx1');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261114-complete-export1');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){

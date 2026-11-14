@@ -1,3 +1,4 @@
+import {operationalSheets} from './operational-export.js?v=20261114-1';
 import {downloadWorkbook} from './excel.js';
 import {chargeBalance, cents} from './ledger.js?v=20261113-installments1';
 import {csvCell,validateRoomImport} from './rooms.js';
@@ -113,6 +114,9 @@ export async function renderExcelRegister(ctx){
  const [rooms,tenancies,residents,registrations,details,enquiries,charges,allocations,reversals,plans]=await Promise.all(
   ['rooms','tenancies','residents','registration_requests','resident_staff_details','resident_enquiries','rent_charges','payment_allocations','payment_reversals','installment_plans'].map(name=>ctx.list(name))
  );
+ const extraNames=['resident_enquiry_reviews','residence_portal_files','cleaning_bookings','service_requests','payments','installment_items','audit_logs'];
+ const extraValues=await Promise.all(extraNames.map(name=>ctx.list(name)));
+ const extra=Object.fromEntries(extraNames.map((name,i)=>[name,extraValues[i]]));
  if(!ctx.isCurrent())return;
  const root=el('section','room-register');
  const title=el('h3','',w.title),intro=el('p','muted',w.desc);
@@ -230,7 +234,11 @@ export async function renderExcelRegister(ctx){
   const header=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,
    ...Array.from({length:12},(_,i)=>monthTitle(year,i+1,ctx.lang)),w.total];
   const lines=[header,...entries.map(r=>r.values.slice(0,-1))];
-  downloadWorkbook('student-house-register-'+year,[{name:'Evidencia',rows:lines}]);
+  downloadWorkbook('student-house-register-'+year,[{name:'Evidencia',rows:lines},...operationalSheets({
+   residents,enquiries,reviews:extra.resident_enquiry_reviews,files:extra.residence_portal_files,registrations,
+   cleaning:extra.cleaning_bookings,requests:extra.service_requests,charges,payments:extra.payments,
+   allocations,reversals,plans,items:extra.installment_items,audit:extra.audit_logs
+  })]);
  }
  upload.addEventListener('change',async()=>{
   const file=upload.files?.[0];if(!file||!ctx.isCurrent())return;

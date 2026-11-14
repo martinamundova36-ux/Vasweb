@@ -10,8 +10,8 @@ const BUCKET = "residence-portal-files";
 const LEGACY = new Set(["https://www.webu.sk", "https://webu.sk"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const templates = new Set(["rules_template", "gdpr_template"]);
-const signed = new Set(["signed_contract", "signed_rules", "signed_gdpr"]);
-const assignedByReception = new Set(["resident_document", "contract_draft"]);
+const signed = new Set(["signed_contract", "signed_rules", "signed_gdpr", "signed_schedule", "signed_certificate"]);
+const assignedByReception = new Set(["resident_document", "contract_draft", "schedule_draft", "certificate_draft"]);
 const uploads = new Set(["profile_photo", "fault_photo", ...signed, ...assignedByReception, ...templates]);
 const imageTypes = new Set(["image/jpeg", "image/png"]);
 const allTypes = new Set(["image/jpeg", "image/png", "application/pdf"]);
@@ -90,7 +90,7 @@ Deno.serve(async req => {
       const max=kind==="profile_photo"?3000000:6000000;
       if(file.size>max)return fail(origin,413,"file_too_large");
       if(!allTypes.has(file.type))return fail(origin,400,"file_type_not_supported");
-      if((templates.has(kind)||kind==="contract_draft")&&file.type!=="application/pdf")return fail(origin,400,"pdf_required");
+      if((templates.has(kind)||(assignedByReception.has(kind)&&kind!=="resident_document"))&&file.type!=="application/pdf")return fail(origin,400,"pdf_required");
       if((kind==="profile_photo"||kind==="fault_photo")&&!imageTypes.has(file.type))return fail(origin,400,"image_required");
       // File signatures must match the MIME declared by the browser.
       const bytes=new Uint8Array(await file.arrayBuffer());
@@ -129,12 +129,12 @@ Deno.serve(async req => {
         contentType:actual,cacheControl:"60",upsert:false
       });
       if(storedError){console.error("residence_file_storage_failure",storedError.name);return fail(origin,503,"storage_failed");}
-      const isSingle=templates.has(kind)||kind==="profile_photo"||kind==="contract_draft";
+      const isSingle=templates.has(kind)||kind==="profile_photo"||(assignedByReception.has(kind)&&kind!=="resident_document");
       const previousIds:string[]=[];
       if(isSingle){
         let query=admin.from("residence_portal_files").select("id").eq("tenant_id",tenant).eq("kind",kind).eq("active",true);
         if(kind==="profile_photo")query=query.eq("user_id",user.id);
-        if(kind==="contract_draft")query=query.eq("resident_id",person!.id);
+        if(assignedByReception.has(kind))query=query.eq("resident_id",person!.id);
         const {data:old,error:oldReadError}=await query;
         if(oldReadError){await admin.storage.from(BUCKET).remove([objectPath]);return fail(origin,503,"save_failed");}
         previousIds.push(...(old||[]).map(x=>x.id));
@@ -180,15 +180,20 @@ Deno.serve(async req => {
       if(!staff)return fail(origin,403,"staff_only");
       const fileId=get("file_id"), status=get("status"),note=get("staff_note");
       if(!UUID.test(fileId)||!["approved","rejected"].includes(status)||note.length>1000)return fail(origin,400,"invalid_review");
+      if(status==="rejected"&&note.trim().length<3)return fail(origin,400,"correction_reason_required");
       const {data:record,error:readError}=await client.from("residence_portal_files")
-        .select("id,kind").eq("tenant_id",tenant).eq("id",fileId).maybeSingle();
-      if(readError||!record||!signed.has(record.kind))return fail(origin,403,"forbidden");
-      const {error:updatedError}=await admin.from("residence_portal_files")
-        .update({review_status:status,staff_note:note,reviewed_by:user.id,reviewed_at:new Date().toISOString()})
-        .eq("tenant_id",tenant).eq("id",fileId);
-      if(updatedError)return fail(origin,503,"review_failed");
-      const {error:auditError}=await admin.from("audit_logs").insert({tenant_id:tenant,actor_id:user.id,action:"PORTAL_FILE_REVIEWED_"+status.toUpperCase(),entity:"residence_portal_files",entity_id:fileId});
-      if(auditError)console.error("residence_file_review_audit_failed",auditError.code);
+        .select("id,kind,review_status,active").eq("tenant_id",tenant).eq("id",fileId).maybeSingle();
+      if(readError||!record||!record.active||!signed.has(record.kind))return fail(origin,403,"forbidden");
+      const expected=get("expected_status")||record.review_status;
+      const {error:reviewError}=await admin.rpc("residence_review_portal_file",{
+        p_actor:user.id,p_tenant:tenant,p_file:fileId,p_status:status,p_note:note,p_expected_status:expected
+      });
+      if(reviewError){
+        if(reviewError.code==="40001")return fail(origin,409,"review_conflict");
+        if(reviewError.code==="22023")return fail(origin,400,"invalid_review");
+        if(reviewError.code==="42501")return fail(origin,403,"forbidden");
+        return fail(origin,503,"review_failed");
+      }
       return response(origin,{ok:true});
     }
     return fail(origin,400,"invalid_action");

@@ -515,25 +515,27 @@ export async function renderStaffScreen(ctx) {
   try{
    const allFiles=await ctx.list('residence_portal_files');if(!ctx.isCurrent()||!filesRoot.isConnected)return;
    const files=residentFiles(allFiles,person).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));filesRoot.replaceChildren();
-   for(const [kind,title] of [['profile_photo',w.photo],['signed_contract',ctx.lang==='en'?'Signed contract':'Podpísaná zmluva'],['signed_rules',w.rules],['signed_gdpr',w.gdpr]]){
+   for(const [kind,title] of [['profile_photo',w.photo],['signed_contract',ctx.lang==='en'?'Signed contract':'Podpísaná zmluva'],['signed_rules',w.rules],['signed_gdpr',w.gdpr],['signed_schedule',ctx.lang==='en'?'Signed payment schedule':'Podpísaný splátkový kalendár'],['signed_certificate',ctx.lang==='en'?'Signed accommodation certificate':'Podpísané potvrdenie o ubytovaní']]){
     const items=files.filter(f=>f.kind===kind);if(!items.length){filesRoot.append(el('p','mini-note',title+': '+w.missing));continue;}
     for(const file of items)filesRoot.append(documentCard(file,title));
    }
-   for(const file of files.filter(f=>f.kind==='resident_document'||f.kind==='contract_draft'))filesRoot.append(documentCard(file,f.kind==='contract_draft'?(ctx.lang==='en'?'Resident contract':'Ubytovacia zmluva'):w.private));
+   for(const file of files.filter(f=>['resident_document','contract_draft','schedule_draft','certificate_draft'].includes(f.kind)))filesRoot.append(documentCard(file,f.kind==='contract_draft'?(ctx.lang==='en'?'Resident contract':'Ubytovacia zmluva'):w.private));
   }catch{if(ctx.isCurrent())filesRoot.replaceChildren(el('p','danger',w.fileFailed));}
  }
  function documentCard(file,title){
   const card=el('article','data-card');card.append(el('strong','',title),el('p','small',file.original_name+' · '+ctx.day(file.created_at)));
-  if(file.kind!=='profile_photo')card.append(el('span','status-pill',file.review_status==='approved'?w.approved:file.review_status==='rejected'?w.needsFix:w.pending));
+  if(['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate'].includes(file.kind))card.append(el('span','status-pill',file.review_status==='approved'?w.approved:file.review_status==='rejected'?w.needsFix:w.pending));
   card.append(button(w.view,()=>{if(ctx.isCurrent())void ctx.fileLink(file.id,ctx.tenant);}));
-  if(['signed_contract','signed_rules','signed_gdpr'].includes(file.kind)&&['pending','rejected'].includes(file.review_status)){
+  if(['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate'].includes(file.kind)&&['pending','rejected'].includes(file.review_status)){
    const input=el('input');input.type='text';input.maxLength=1000;input.value=file.staff_note||'';input.setAttribute('aria-label',w.note);input.placeholder=w.note;
    const actions=el('div','staff-actions');
    const review=async result=>{
-    if(!ctx.isCurrent()||pendingAction||!confirm(w.reviewConfirm))return;pendingAction=true;
+    if(!ctx.isCurrent()||pendingAction)return;
+    input.setCustomValidity(result==='rejected'&&input.value.trim().length<3?({sk:'Uveď dôvod vrátenia na opravu (aspoň 3 znaky).',en:'Enter a correction reason (at least 3 characters).',ru:'Укажите причину возврата (не менее 3 символов).',uk:'Вкажіть причину повернення (не менше 3 символів).'})[ctx.lang]:'');
+    if(!input.reportValidity()||!confirm(w.reviewConfirm))return;pendingAction=true;
     for(const b of actions.querySelectorAll('button'))b.disabled=true;
     try{
-     const {data,error}=await ctx.db.functions.invoke('residence-files',{body:{action:'review',tenant_id:ctx.tenant,file_id:file.id,status:result,staff_note:input.value}});
+     const {data,error}=await ctx.db.functions.invoke('residence-files',{body:{action:'review',tenant_id:ctx.tenant,file_id:file.id,status:result,staff_note:input.value,expected_status:file.review_status}});
      if(!ctx.isCurrent())return;if(error||!data?.ok){status(w.failed,true);return;}
      file.review_status=result;file.staff_note=input.value;card.replaceWith(documentCard(file,title));status(ctx.success);
     }catch{if(ctx.isCurrent())status(w.failed,true);}finally{pendingAction=false;for(const b of actions.querySelectorAll('button'))b.disabled=false;}
