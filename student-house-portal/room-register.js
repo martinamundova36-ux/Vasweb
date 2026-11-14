@@ -174,6 +174,7 @@ export async function renderExcelRegister(ctx){
    'dĺžka pobytu':Number(q.preferred_duration_months)>0,
    'termín pobytu':!!q.preferred_from&&!!q.preferred_to,
    'vlastná chladnička':typeof q.own_refrigerator==='boolean',
+   'fotografia':!!(person&&extra.residence_portal_files.some(file=>file.resident_id===person.id&&file.kind==='profile_photo'&&file.active)),
    'nájomné':!!stay?.rent,
    'depozit 2× nájom':initial.some(c=>c.kind==='deposit'),
    'administratívny poplatok 100 €':initial.some(c=>c.kind==='administration_fee')
