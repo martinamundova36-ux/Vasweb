@@ -1,0 +1,48 @@
+name: Studenthouse Android APK
+on:
+  push:
+    paths:
+      - 'android-studenthouse/**'
+      - '.github/workflows/studenthouse-android.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out existing WEBU Residence repository
+        uses: actions/checkout@v4
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Build test APK
+        run: gradle -p android-studenthouse :app:assembleDebug --no-daemon
+      - name: Name downloadable file
+        run: cp android-studenthouse/app/build/outputs/apk/debug/app-debug.apk Studenthouse.apk
+      - name: Upload downloadable Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Studenthouse-Android-APK
+          path: Studenthouse.apk
+          if-no-files-found: error
+          retention-days: 90
+      - name: Publish one-time test APK pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="studenthouse-android-test-v0.1.0"
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" Studenthouse.apk \
+              --title "Studenthouse Android – testovacia verzia" \
+              --notes "Testovací Android APK obal existujúceho online portálu Studenthouse. Vyžaduje internet. APK je podpísaný debug kľúčom a nie je určený na distribúciu cez obchod Play." \
+              --prerelease
+          fi
