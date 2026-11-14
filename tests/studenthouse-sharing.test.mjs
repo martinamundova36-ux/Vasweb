@@ -25,3 +25,20 @@ test('share payload is a fixed public app link, never current page URL', () => {
   assert.match(native, /send\.putExtra\(Intent\.EXTRA_TEXT/);
   assert.doesNotMatch(native, /addJavascriptInterface/);
 });
+
+test('full Student House Bratislava branding in installable and Android apps', () => {
+  const manifest = JSON.parse(fs.readFileSync('student-house-portal/manifest.webmanifest', 'utf8'));
+  const androidManifest = fs.readFileSync('android-studenthouse/app/src/main/AndroidManifest.xml', 'utf8');
+  const offline = fs.readFileSync('student-house-portal/offline.html', 'utf8');
+  const install = fs.readFileSync('student-house-portal/install.js', 'utf8');
+  assert.equal(manifest.name, 'Student House Bratislava');
+  assert.equal(manifest.short_name, 'Student House Bratislava');
+  assert.match(androidManifest, /android:label="Student House Bratislava"/);
+  assert.match(main, /content="Student House Bratislava"/);
+  assert.match(main, /Zdieľať Student House Bratislava/);
+  assert.match(main, /Nainštalovať Student House Bratislava/);
+  assert.match(share, /title: 'Student House Bratislava'/);
+  assert.match(offline, /<h1>Student House Bratislava<\/h1>/);
+  assert.match(install, /Student House Bratislava v Chrome/);
+  assert.match(native, /Intent\.EXTRA_SUBJECT, "Student House Bratislava"/);
+});
