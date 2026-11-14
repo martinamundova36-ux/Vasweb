@@ -6,8 +6,8 @@
   if (!button || !status) return;
   const publicUrl = 'https://www.webu.sk/student-house-portal/';
   const shareData = {
-    title: 'Studenthouse',
-    text: 'Studenthouse – Student House Bratislava. Created by WEBU.',
+    title: 'Student House Bratislava',
+    text: 'Student House Bratislava. Created by WEBU.',
     url: publicUrl
   };
   const show = message => {
@@ -41,7 +41,7 @@
     if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
       try {
         await navigator.clipboard.writeText(publicUrl);
-        show('Odkaz na aplikáciu Studenthouse bol skopírovaný. Môžeš ho poslať ďalej.');
+        show('Odkaz na aplikáciu Student House Bratislava bol skopírovaný. Môžeš ho poslať ďalej.');
         return;
       } catch (_) {}
     }
