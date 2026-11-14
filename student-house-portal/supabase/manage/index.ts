@@ -90,7 +90,7 @@ Deno.serve(async(req)=>{
       .eq('status','invited').maybeSingle();
     if(approvedError||!approved)return reply({error:'approved_registration_not_found'},404);
     const {data:account,error:accountError}=await service.from('residents')
-      .select('user_id').eq('tenant_id',tenant).eq('active',true).ilike('email',approved.email).maybeSingle();
+      .select('user_id').eq('tenant_id',tenant).eq('active',true).eq('email',approved.email).maybeSingle();
     if(accountError||!account?.user_id)return reply({error:'resident_not_found'},409);
     const {data:membership,error:memberError}=await service.from('organization_memberships')
       .select('role,active').eq('tenant_id',tenant).eq('user_id',account.user_id).maybeSingle();
