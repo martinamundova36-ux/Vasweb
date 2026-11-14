@@ -205,7 +205,7 @@ Deno.serve(async(req)=>{
     if(approvalError){
       // Clean up only the fresh, non-invited identity we just created.
       // Never delete an existing user's credentials on an approval conflict.
-      if(createdForApproval){
+      if(createdForApproval&&uid){
         const {error:cleanupError}=await service.auth.admin.deleteUser(uid);
         if(cleanupError)console.error('approval_identity_cleanup_failed',cleanupError.code);
       }
