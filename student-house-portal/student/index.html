@@ -1041,6 +1041,8 @@ function stopLiveSync(){
  livePending=false;
 }
 function editingRecord(){
+ // Keep the reviewed profile and open approval/calendar form intact across focus and timer events.
+ if($('records').querySelector('.staff-profile,.staff-form,form[data-live-dirty="true"]'))return true;
  const x=document.activeElement;
  return !!(x&&$('records').contains(x)&&(x.matches('input,textarea,select,[contenteditable="true"]')||x.closest('.register-edit,.staff-form,.room-register-import')));
 }
@@ -1082,6 +1084,9 @@ function startLiveSync(){
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')scheduleLiveRefresh();});
 window.addEventListener('focus',scheduleLiveRefresh);
+for(const event of ['input','change'])$('records').addEventListener(event,e=>{
+ const form=e.target.closest?.('form');if(form)form.setAttribute('data-live-dirty','true');
+});
 $('records').addEventListener('focusout',()=>{if(livePending)setTimeout(()=>{if(livePending)scheduleLiveRefresh();},1100);});
 
 
@@ -1232,7 +1237,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House administrator':'Správca Student House'):(lang==='en'?'Student House reception':'Recepcia Student House'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261114-document-review1');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261114-document-review2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),

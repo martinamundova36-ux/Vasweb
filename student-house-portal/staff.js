@@ -426,7 +426,7 @@ export async function renderStaffScreen(ctx) {
       approved:'Questionnaire verified by reception',request:'Send questionnaire back for correction',
       confirm:'Confirm the completed questionnaire',reason:'Describe exactly what needs to be corrected',
       send:'Save correction request',minimum:'Write at least 10 characters explaining the correction.',
-      success:'The correction request was saved. Open Gmail to send the instructions to the student.',
+      success:'The correction request was saved. The notification is queued for automatic delivery.',
       accepted:'Questionnaire verified and approved.',fail:'The request could not be saved.',
       gmail:'Open Gmail to notify student',mailSubject:'Student House Bratislava – correct your questionnaire',
       mailBody:'Hello,\n\nReception reviewed your Student House Bratislava questionnaire and asks you to correct:\n\n',
@@ -436,7 +436,7 @@ export async function renderStaffScreen(ctx) {
       approved:'Dotazník overený recepciou',request:'Poslať späť zle vyplnený dotazník',
       confirm:'Schváliť správne vyplnený dotazník',reason:'Presne napíš, čo má študent opraviť',
       send:'Uložiť žiadosť o opravu',minimum:'Uveď dôvod opravy (aspoň 10 znakov).',
-      success:'Požiadavka na opravu je uložená. Otvor Gmail a odošli študentovi upozornenie.',
+      success:'Požiadavka na opravu je uložená. Upozornenie je pripravené na automatické odoslanie.',
       accepted:'Dotazník bol schválený.',fail:'Nepodarilo sa uložiť požiadavku.',
       gmail:'Otvoriť Gmail a upozorniť študenta',mailSubject:'Student House Bratislava – oprava dotazníka',
       mailBody:'Ahoj,\n\npri kontrole tvojho osobného dotazníka Student House Bratislava sme zistili údaje, ktoré je potrebné opraviť:\n\n',
@@ -470,13 +470,7 @@ export async function renderStaffScreen(ctx) {
         if(error||!data){status(labels.fail,true);return;}
         status(labels.success);
         revise.hidden=true;
-        const gmail='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(person.email||'')
-        +'&su='+encodeURIComponent(labels.mailSubject)
-        +'&body='+encodeURIComponent(labels.mailBody+text+labels.mailEnd);
-        const mail=el('a','btn-secondary',labels.gmail);
-        mail.href=gmail;mail.target='_blank';mail.rel='noopener noreferrer';
-        mail.style.cssText='display:inline-block;padding:12px;margin-top:12px';
-        enquiryBox.append(mail);
+
        }catch{status(labels.fail,true);}finally{send.disabled=false;}
       });
       const approve=button(labels.confirm,async()=>{

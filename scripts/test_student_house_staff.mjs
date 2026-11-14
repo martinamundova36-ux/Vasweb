@@ -173,3 +173,16 @@ test('Failed unified assignment save preserves all terms and never invokes appro
  await renderStaffScreen(f.ctx);await approveFixture(f);assert.equal(calls,0);
  const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu');assert.equal(prepare.parent.querySelector('input').value,'300');assert.equal(prepare.disabled,false);assert.ok(findButton(f.root,'Schváliť overenú zmluvu a predpisy'));
 });
+
+test('Automatic refresh preserves a resident profile and forms even after focus leaves the page',()=>{
+ const html=fs.readFileSync('student-house-portal/index.html','utf8');
+ const body=html.match(/function editingRecord\(\)\{([\s\S]*?)\n\}/)[1];
+ const run=(preserved,focused=false)=>vm.runInNewContext('(function(){'+body+'})()',{
+  $:()=>({querySelector:()=>preserved,contains:()=>focused}),document:{activeElement:focused?{matches:()=>true,closest:()=>null}:null}
+ });
+ assert.equal(run({className:'staff-profile'}),true);
+ assert.equal(run({className:'staff-form'}),true);
+ assert.equal(run({dataset:{liveDirty:'true'}}),true);
+ assert.equal(run(null,true),true);
+ assert.equal(run(null,false),false);
+});
