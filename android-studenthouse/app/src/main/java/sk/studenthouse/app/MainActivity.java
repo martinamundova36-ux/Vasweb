@@ -59,9 +59,9 @@ public final class MainActivity extends Activity {
                     && "app".equalsIgnoreCase(uri.getHost())) {
                     Intent send = new Intent(Intent.ACTION_SEND);
                     send.setType("text/plain");
-                    send.putExtra(Intent.EXTRA_SUBJECT, "Studenthouse");
-                    send.putExtra(Intent.EXTRA_TEXT, "Studenthouse – Student House Bratislava. Created by WEBU.\n" + HOME);
-                    startActivity(Intent.createChooser(send, "Zdieľať Studenthouse"));
+                    send.putExtra(Intent.EXTRA_SUBJECT, "Student House Bratislava");
+                    send.putExtra(Intent.EXTRA_TEXT, "Student House Bratislava. Created by WEBU.\n" + HOME);
+                    startActivity(Intent.createChooser(send, "Zdieľať Student House Bratislava"));
                     return true;
                 }
                 String scheme = uri.getScheme();
