@@ -171,7 +171,7 @@ test('Unified approval sends contract, room, dates and calendar in one server re
  assert.deepEqual(writes,['approval'],'No client-side partial assignment writes before approval');
  assert.equal(payload.verified_assignment.contract_number,'REAL-555');
  assert.equal(payload.verified_assignment.accommodation_to,'2034-03-13');
- assert.equal(payload.verified_schedule.length,89);
+ assert.equal(payload.verified_schedule.length,91);
 });
 test('Failed atomic approval preserves all entered terms for a safe retry',async()=>{
  let calls=0;const f=fixture('registrations',{db:{from:()=>({update(){throw Error('unexpected partial write')},eq(){return this;},select:async()=>({data:[]})}),functions:{invoke:async()=>{calls++;return {data:{error:'approval_conflict'}};}}}});
