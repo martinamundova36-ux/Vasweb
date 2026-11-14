@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify Studenthouse sharing and WEBU creator credit
         run: node --test tests/studenthouse-sharing.test.mjs
+      - name: Verify private student notifications and approved login
+        run: node --test tests/studenthouse-notifications.test.mjs
       - name: Check login page JavaScript syntax and registration fields
         run: |
           node <<'JS'
