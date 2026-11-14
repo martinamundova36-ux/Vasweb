@@ -1305,7 +1305,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261114-complete-export2');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261114-complete-export3');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){
