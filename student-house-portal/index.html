@@ -659,7 +659,7 @@ async function chooseOrganization(tenantId){
  if(questionnaireEntryMode&&resident?.profile_password_activated_at){
   location.replace('/student-house-portal/student/?signin=1');return;
  }
- renderTabs();await renderPanel();startLiveSync();
+ renderTabs();updateOnboardingNotice();await renderPanel();void refreshStudentNoticeBadge();startLiveSync();
 }
 $('orgSelector').addEventListener('change',e=>{void chooseOrganization(e.target.value)});
 
@@ -704,9 +704,66 @@ function message(note){$('records').append(make('p','mini-note',note))}
 function row(title,detail,status){let d=make('div','item');d.append(make('strong','',title));if(detail)d.append(make('div','small',detail));if(status)d.append(statusPill(status));return d}
 function subheading(str){$('records').append(make('h4','section-subtitle',str))}
 function kpi(caption,value,details,go){const b=make('button','kpi');b.type='button';b.append(make('div','kpi-caption',caption),make('strong','',value),make('small','',details));if(go)b.addEventListener('click',()=>navigate(go));else b.disabled=true;return b}
+
+const studentNoticeTitle={sk:'Upozornenia',en:'Notifications',ru:'Уведомления',uk:'Сповіщення'};
+async function refreshStudentNoticeBadge(){
+ const bell=$('studentNoticeBell');
+ if(!member||!user||isStaff()){bell.hidden=true;return;}
+ bell.hidden=false;
+ const tenant=member.tenant_id,uid=user.id;
+ const {count,error}=await db.from('notifications').select('id',{count:'exact',head:true})
+   .eq('tenant_id',tenant).eq('user_id',uid).is('read_at',null);
+ if(error||member?.tenant_id!==tenant||user?.id!==uid)return;
+ bell.textContent='🔔 '+(studentNoticeTitle[lang]||studentNoticeTitle.sk)+(count?' ('+count+')':'');
+}
+function updateOnboardingNotice(){
+ const banner=$('studentOnboardingBanner');
+ const show=!isStaff()&&!!resident&&!resident.profile_password_activated_at&&tab==='enquiry';
+ banner.classList.toggle('hide',!show);
+ if(!show)return;
+ const text=lang==='en'
+   ?'✓ Your registration was approved. Complete the personal questionnaire and upload a photo without leaving Studenthouse.'
+   :'✓ Tvoja registrácia bola schválená. Vyplň osobný dotazník a nahraj fotografiu priamo v Studenthouse.';
+ banner.replaceChildren(document.createTextNode(text));
+}
+async function renderStudentNotifications(tenant,generation){
+ const container=$('records');
+ heading(studentNoticeTitle[lang]||studentNoticeTitle.sk,
+   lang==='en'?'Private messages from reception.':'Súkromné správy od recepcie.');
+ const {data,error}=await db.from('notifications').select('id,title,body,created_at,read_at')
+   .eq('tenant_id',tenant).eq('user_id',user.id)
+   .order('created_at',{ascending:false}).limit(50);
+ if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
+ if(error){container.append(make('p','danger',lang==='en'?'Unable to load notifications.':'Upozornenia sa nepodarilo načítať.'));return;}
+ if(!data?.length){container.append(make('p','muted',lang==='en'?'No notifications yet.':'Zatiaľ nemáš žiadne upozornenia.'));return;}
+ for(const note of data){
+  const card=make('article','student-notice-card'+(note.read_at?'':' unread'));
+  card.append(make('h4','',note.title),make('p','',note.body),
+   make('small','',note.created_at?new Date(note.created_at).toLocaleString(lang==='en'?'en-GB':'sk-SK'):''));
+  if(/dotazník|anket|questionnaire/i.test(note.title+' '+note.body)&&!resident?.profile_password_activated_at){
+   const action=make('button','btn-secondary',lang==='en'?'Continue questionnaire':'Pokračovať v dotazníku');
+   action.type='button';action.addEventListener('click',()=>navigate('enquiry'));card.append(action);
+  }
+  if(!note.read_at){
+   const mark=make('button','btn-secondary',lang==='en'?'Mark as read':'Označiť ako prečítané');
+   mark.type='button';
+   mark.addEventListener('click',async()=>{
+    mark.disabled=true;
+    const {data:updated,error:markError}=await db.from('notifications').update({read_at:new Date().toISOString()})
+     .eq('tenant_id',tenant).eq('user_id',user.id).eq('id',note.id).is('read_at',null).select('id');
+    if(markError||!updated?.length){mark.disabled=false;return;}
+    card.classList.remove('unread');mark.remove();void refreshStudentNoticeBadge();
+   });
+   card.append(mark);
+  }
+  container.append(card);
+ }
+}
+$('studentNoticeBell').addEventListener('click',()=>{if(member&&!isStaff())navigate('notifications');});
+
 function navigate(next){
  if(!isStaff()&&!resident?.profile_password_activated_at&&!['enquiry','await-profile','notifications'].includes(next))return;
- tab=next;renderTabs();void renderPanel();
+ tab=next;renderTabs();updateOnboardingNotice();void renderPanel();
 }
 const icons={account:'🔒',enquiry:'▤',profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉',notifications:'🔔'};
 
@@ -1202,6 +1259,7 @@ async function renderPanel(){
  if(!member)return;
  const tenant=member.tenant_id,staff=isStaff(),own=resident?.id;
  try {
+  if(tab==='notifications'&&!staff){container.replaceChildren();await renderStudentNotifications(tenant,generation);return;}
   if(tab==='account'){renderPasswordSettings();return;}
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
@@ -1226,12 +1284,27 @@ async function renderPanel(){
     heading(...(messages[lang]||messages.sk));
     const back=make('button','',({sk:'Otvoriť dotazník',en:'Open questionnaire',ru:'Открыть анкету',uk:'Відкрити анкету'})[lang]);back.type='button';back.addEventListener('click',()=>navigate('enquiry'));container.append(back);return;
    }
-   heading(lang==='en'?'Step 2 completed':'Dotazník odoslaný',
-    lang==='en'?'A new email now opens your student profile.':'Teraz nasleduje samostatná pozvánka do študentského profilu.');
+   heading(lang==='en'?'Questionnaire approved':'Dotazník schválený',
+    lang==='en'?'Continue without leaving Studenthouse.':'Pokračuj bez odchodu zo Studenthouse.');
    container.append(make('p','',lang==='en'
-    ?'Open the next email, enter your verified email and choose a password to activate your profile.'
-    :'Otvor ďalší e-mail, zadaj overený e-mail a zvoľ si heslo na aktivovanie profilu.'));
-   const retry=make('button','',lang==='en'?'Resend profile invitation':'Znova poslať pozvánku do profilu');
+    ?'Activate your profile using the password you chose during registration.'
+    :'Aktivuj svoj profil s heslom, ktoré si si vytvoril(a) pri registrácii.'));
+   const activate=make('button','',lang==='en'?'Activate my profile':'Aktivovať môj profil');
+   activate.type='button';
+   const feedback=make('p','muted');container.append(activate,feedback);
+   activate.addEventListener('click',async()=>{
+    activate.disabled=true;feedback.textContent='';
+    try{
+     const {data,error}=await db.functions.invoke('manage',{body:{action:'activate_profile',tenant_id:tenant}});
+     if(error||!data?.ok){
+      feedback.textContent=lang==='en'?'Unable to activate. Please contact reception.':'Aktivácia sa nepodarila. Kontaktuj recepciu.';return;
+     }
+     await chooseOrganization(tenant);
+    }catch{
+     feedback.textContent=lang==='en'?'Profile activation failed.':'Aktivácia profilu zlyhala.';
+    }finally{activate.disabled=false;}
+   });
+   const retry=make('button','btn-secondary',lang==='en'?'Send password recovery email (optional)':'Poslať odkaz na obnovu hesla (voliteľné)');
    retry.type='button';retry.addEventListener('click',()=>{void sendProfileStepInvitation(tenant,retry);});
    container.append(retry);return;
   }
