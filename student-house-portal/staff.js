@@ -305,7 +305,20 @@ export async function renderStaffScreen(ctx) {
     const [year,month]=period.split('-').map(Number);period=month===12?String(year+1)+'-01':String(year)+'-'+String(month+1).padStart(2,'0');
    }
    if(period<=end){status(w.failed,true);return;}
-   const approve=el('button','',labels[4]);approve.type='submit';calendarTitle.textContent=(en?'Review monthly charges':'Skontrolovať mesačné predpisy')+' ('+rows.length+')';schedule.append(approve,calendar);
+   const paymentPreview=el('p','mini-note');
+    const showFirstPayment=()=>{
+     const firstRent=Number(rows[0]?.amount.value);
+     const monthly=Number(rent.value);
+     const deposit=Math.round(monthly*200)/100;
+     const total=firstRent+deposit+100;
+     paymentPreview.textContent=Number.isFinite(total)
+      ?(en?'First payment: '+firstRent.toFixed(2)+' € rent + '+deposit.toFixed(2)+' € deposit (2× rent) + 100.00 € admin fee = '+total.toFixed(2)+' €':
+       'Prvá platba: '+firstRent.toFixed(2)+' € nájom + '+deposit.toFixed(2)+' € depozit (2× nájom) + 100,00 € administratívny poplatok = '+total.toFixed(2)+' €')
+      :'';
+    };
+    rows[0]?.amount.addEventListener('input',showFirstPayment);
+    showFirstPayment();
+    const approve=el('button','',labels[4]);approve.type='submit';calendarTitle.textContent=(en?'Review monthly charges':'Skontrolovať mesačné predpisy')+' ('+rows.length+')';schedule.append(paymentPreview,approve,calendar);
    form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;void decide(person,true,actions,{verified_assignment:{contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from.value,accommodation_to:to.value},verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:rows.map(r=>({period:r.period,amount:Number(r.amount.value),due_on:r.date.value}))});};
   };
   const prepare=button(labels[2],prepareSchedule);
