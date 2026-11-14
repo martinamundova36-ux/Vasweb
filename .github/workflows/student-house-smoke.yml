@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify Studenthouse sharing and WEBU creator credit
+        run: node --test tests/studenthouse-sharing.test.mjs
       - name: Check login page JavaScript syntax and registration fields
         run: |
           node <<'JS'
