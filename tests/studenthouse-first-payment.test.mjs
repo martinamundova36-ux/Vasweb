@@ -9,6 +9,7 @@ const base={
  enquiries:[{resident_id:'synthetic',date_of_birth:'2001-02-01',gender:'female',nationality:'SK',telephone:'000',permanent_address:'Test Street',identity_document_number:'TEST',school:'Test University',preferred_room_type:'M2',preferred_duration_months:5,preferred_from:'2027-01-01',preferred_to:'2027-06-01',own_refrigerator:false}],
  tenancies:[{resident_id:'synthetic',rent:300,starts_on:'2027-01-01'}],
  details:[{resident_id:'synthetic',deposit_eur:600,administration_fee_eur:100}],
+ files:[{resident_id:'synthetic',kind:'profile_photo',active:true,original_name:'synthetic.jpg'}],
  charges:[
   {id:'rent',resident_id:'synthetic',kind:'rent',period:'2027-01',amount:300,due_on:'2026-12-01'},
   {id:'deposit',resident_id:'synthetic',kind:'deposit',period:'2027-01',amount:600,due_on:'2026-12-01'},
