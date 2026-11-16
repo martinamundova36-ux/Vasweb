@@ -126,6 +126,7 @@ def validate_editorial(source):
  return editorial
 
 def render(source,lang):
+ # Metadata title is shortened for search results; reviewed H1 and body stay verbatim.
  from seo_journal import seo_title
  from journal_url import article_names
  sk_name,en_name=article_names(source)
