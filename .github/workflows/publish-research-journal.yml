@@ -133,12 +133,30 @@ jobs:
         run: |
           git config user.name "WEBU Journal Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add journal-drafts/ journal-articles-pending/ journal-reports/ blog*.html sitemap.xml journal-images.json assets/journal/ WEBU-JOURNAL-IMAGE-LICENSES.md
+          git add -A -- journal-drafts/ journal-articles-pending/ journal-reports/ blog*.html sitemap.xml journal-images.json assets/journal/ WEBU-JOURNAL-IMAGE-LICENSES.md
           if ! git diff --cached --quiet; then
             git commit -m "WEBU Journal free editorial pipeline"
-            git pull --rebase origin main
-            git push origin HEAD:main
-            echo 'changed=true' >> "$GITHUB_OUTPUT"
+            # Tests and audits may leave unrelated tracked or untracked files dirty.
+            # Do not silently include those files in the Journal publication commit.
+            # Keep their changes in a temporary stash so git pull --rebase can run.
+            if [ -n "$(git status --porcelain)" ]; then
+              echo "::warning::Stashing remaining runner changes before publication rebase"
+              git status --short
+              git stash push --include-untracked -m "WEBU Journal runner leftovers ${GITHUB_RUN_ID}"
+            fi
+            # Concurrent pushes by other workflows must not silently discard the articles.
+            for attempt in 1 2 3; do
+              git pull --rebase origin main
+              if git push origin HEAD:main; then
+                echo 'changed=true' >> "$GITHUB_OUTPUT"
+                break
+              fi
+              if [ "$attempt" -eq 3 ]; then
+                echo "::error::Unable to publish after three Git push attempts"
+                exit 1
+              fi
+              sleep 3
+            done
           fi
       - name: Ručne obnoviť Pages iba pri výslovnom deploy (push nasadzuje automaticky)
         if: inputs.action == 'deploy'
