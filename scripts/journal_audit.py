@@ -71,7 +71,7 @@ def check(path):
     return errors, warnings
 
 def main():
-    files = sorted(p for p in ROOT.glob("blog-*.html") if p.name != "blog-en.html")
+    files = sorted(p for p in ROOT.glob("blog-*.html") if p.name != "blog-en.html" and 'http-equiv="refresh"' not in p.read_text().lower())
     all_errors, all_warnings = [], []
     # Legacy articles receive a non-blocking backlog report. Newly edited
     # blog pages must pass the structural checks before merging.
