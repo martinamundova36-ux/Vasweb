@@ -6,6 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'.github/scripts'))
 from journal_review_records import digest,REGISTER
 from seo_audit import Page
+from seo_journal import seo_title
 
 def audit(root=ROOT):
  data=json.loads((root/REGISTER).read_text());seen=set();errors=[]
@@ -25,7 +26,7 @@ def audit(root=ROOT):
    if '<p class="webu-journal-footer-note">' not in raw:errors.append(name+': compact AI transparency note missing from footer')
    if 'webu-review-transparency' in raw or 'webu-source-scope' in raw:errors.append(name+': oversized AI disclosure must not appear inside article body')
    if 'webu-journal-footer-note' in raw and raw.index('webu-journal-footer-note')<raw.index('WEBU-REVIEWED-CONTENT-END'):errors.append(name+': AI disclosure is not in footer')
-   if row['title'] not in raw or p.title!=row['title']+' | WEBU Journal':errors.append(name+': reviewed title mismatch')
+   if row['title'] not in raw or p.title not in (row['title']+' | WEBU Journal', seo_title(row['title'])):errors.append(name+': reviewed title mismatch')
    if p.meta.get('description')!=row['description']:errors.append(name+': reviewed description mismatch')
    if p.lang!=lang or p.h1!=1:errors.append(name+': language/H1 mismatch')
    if len(re.findall(r'<h2\b',raw))<7:errors.append(name+': incomplete editorial sections')
