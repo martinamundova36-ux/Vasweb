@@ -36,7 +36,7 @@ class Page(HTMLParser):
 def main():
  errors=[];warnings=[];pages={p.relative_to(ROOT).as_posix():Page(p.read_text()) for p in ROOT.rglob('*.html') if '.git' not in p.parts and not p.name.startswith('google')}
  sitemap={x.text for x in ET.parse(ROOT/'sitemap.xml').iter() if x.tag.endswith('}loc')}
- articles={name:p for name,p in pages.items() if name.startswith('blog-') and name!='blog-en.html'}
+ articles={name:p for name,p in pages.items() if name.startswith('blog-') and name!='blog-en.html' and 'http-equiv="refresh"' not in (ROOT/name).read_text().lower()}
  robots=RobotFileParser();robots.parse((ROOT/'robots.txt').read_text().splitlines())
  titles={};descs={}
  for name,p in pages.items():
