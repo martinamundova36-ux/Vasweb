@@ -126,7 +126,9 @@ def validate_editorial(source):
  return editorial
 
 def render(source,lang):
- en=lang=='en';key=identifier(source);name='blog-journal-review-'+key+('-en' if en else '')+'.html';other='blog-journal-review-'+key+('' if en else '-en')+'.html'
+ from journal_url import article_names
+ sk_name,en_name=article_names(source)
+ en=lang=='en';name=en_name if en else sk_name;other=sk_name if en else en_name
  title=('Research record: ' if en else 'Výskumný prehľad: ')+source['title'];desc=(('Bibliographic overview: ' if en else 'Bibliografický prehľad: ')+source['title'])[:155]
  esc=lambda x:html.escape(str(x),quote=True)
  citation='; '.join(source['authors'])+' ('+source['source_date']+'). '+source['title']+'. '+source['venue']+'. '+source['publisher']+'.'
