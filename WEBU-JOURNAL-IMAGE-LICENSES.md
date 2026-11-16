@@ -93,3 +93,13 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-0546f74b6714dd: [Shixart1985](https://commons.wikimedia.org/wiki/File:Elderly_woman_sitting_at_her_office_table_and_holding_a_cup_of_coffee_while_working_on_her_laptop._Croissant_and_a_donut_on_the_trays_next_to_her.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-b4265782fcd516: [Veikk0.ma](https://commons.wikimedia.org/wiki/File:A_grocery_store_bus_in_western_Finland_(interior_1).jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-7c921d46a438af: [Shixart1985](https://commons.wikimedia.org/wiki/File:A_woman_sits_at_a_desk_with_her_laptop,_deeply_focused_on_her_work_in_a_low-light_environment.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-bf232389b9890c: [Shixart1985](https://commons.wikimedia.org/wiki/File:Middle-aged_businesswoman_typing_on_laptop_at_home_office.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-868acebe949f5a: [Harrison Keely](https://commons.wikimedia.org/wiki/File:Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut,_Tennessee_03.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-e6f98f02ae1913: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_in_professional_attire_typing_on_laptop_with_handcuffs_on_desk_near_coffee_cup_in_modern_office_setting.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-4ea8a8b0a9e059: [Harrison Keely](https://commons.wikimedia.org/wiki/File:Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut,_Tennessee_02.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.

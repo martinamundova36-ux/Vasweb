@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.1680/jensu.26.00012",
+  "generated_on": "2026-11-16",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Digitálne dvojičky v stavebníctve: Cesta k udržateľnosti a pohode",
+      "description": "Analýza štúdie o využití AI digitálnych dvojičiek v projekte Nirmitee Tower a ich vplyv na efektivitu, odpad a komfort zamestnancov v praxi.",
+      "lead": "Integrácia umelej inteligencie do životného cyklu budov prináša merateľné výsledky. Skúmame, ako technológie menia nielen stavebníctvo, ale aj pracovné prostredie.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Digitálne dvojičky (DT) poháňané umelou inteligenciou sa čoraz častejšie spomínajú ako kľúč k udržateľnému manažmentu budov. Napriek tomu existuje len málo empirických dôkazov o ich komplexnom využití počas celého životného cyklu stavby, najmä v kontexte rozvíjajúcich sa ekonomík.",
+            "Štúdia Ananta Deogaonkara (2026) prináša cenný pohľad na túto problematiku prostredníctvom analýzy projektu Nirmitee Tower v strednej Indii. Tento článok rozoberá, ako prepojenie technických a ľudských ukazovateľov ovplyvňuje moderné stavebné projekty."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Výskum sa zameral na integráciu systému DT s podporou AI naprieč fázami návrhu, výstavby a prevádzky komerčného komplexu Nirmitee Tower. Išlo o projekt stredne veľkej stavebnej firmy, ktorý bol certifikovaný ako zelená stavba.",
+            "Autori použili metódu zmiešaného výskumu, ktorá kombinovala systémovú analytiku, metriky environmentálnej výkonnosti, pološtruktúrované rozhovory a prieskumy spokojnosti po nasťahovaní. Základné línie boli stanovené na základe porovnateľných projektov bez technológie DT."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu štúdie prinieslo nasadenie AI-DT systému výrazné zlepšenia v kľúčových oblastiach. Čas realizácie projektu sa skrátil o 21 % a množstvo stavebného odpadu kleslo o 35,9 %.",
+            "V oblasti prevádzky budovy došlo podľa abstraktu k zníženiu ročnej spotreby energie o 28,3 % a spotreby vody o 21,1 %. Okrem technických parametrov sa zaznamenalo aj 32-percentné zlepšenie v skóre komfortu obyvateľov budovy."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Štúdia je cenná najmä preto, že poskytuje validovaný rámec pre hodnotenie výkonnosti AI-DT systémov. Zároveň demonštruje zriedkavý prípad integrácie technológií v kontexte malých a stredných podnikov na rozvíjajúcich sa trhoch.",
+            "Je však dôležité poznamenať, že ide o prípadovú štúdiu jedného konkrétneho objektu. Keďže nemáme prístup k úplnému textu, limity metodiky, ako napríklad veľkosť vzorky respondentov v prieskumoch, zostávajú v rámci tohto zhrnutia nešpecifikované."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Pre majiteľov malých firiem a kancelárií odporúčame začať s digitalizáciou dát o spotrebe energií. Aj bez plnohodnotnej digitálnej dvojičky môže pravidelný monitoring a analýza dát viesť k úsporám, ktoré znižujú prevádzkové náklady.",
+            "V oblasti dizajnu pracovísk odporúčame využívať spätnú väzbu od zamestnancov formou pravidelných prieskumov spokojnosti. Prepojenie technických dát o prostredí (teplota, svetlo) s pocitmi ľudí v kancelárii je prvým krokom k vytvoreniu zdravšieho a produktívnejšieho pracovného prostredia."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Výsledky štúdie naznačujú, že integrácia AI a digitálnych dvojičiek nie je len technickou záležitosťou, ale nástrojom na dosahovanie cieľov udržateľného rozvoja OSN. Vplyv na efektivitu a komfort je podľa abstraktu nespochybniteľný.",
+            "Budúcnosť stavebníctva spočíva v prepojení dát s ľudskými potrebami. Hoci je technológia náročná na implementáciu, prínosy v podobe nižšej spotreby a vyššieho komfortu sú pre moderné podnikanie kľúčové."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Digital Twins in Construction: A Path to Sustainability and Well-being",
+      "description": "An analysis of the study on AI-driven digital twins in the Nirmitee Tower project and their impact on efficiency, waste, and occupant comfort.",
+      "lead": "Integrating artificial intelligence into the building lifecycle delivers measurable results. We explore how technology is transforming not just construction, but the workplace itself.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Artificial intelligence-driven digital twins (DTs) are increasingly promoted as a cornerstone for sustainable built asset management. However, empirical evidence regarding their full lifecycle application remains limited, particularly within emerging economy contexts.",
+            "The study by Anant Deogaonkar (2026) offers valuable insights through an analysis of the ‘Nirmitee Tower’ project in Central India. This article examines how the synthesis of technical and human-centric indicators influences modern construction projects."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "The research focused on the integration of an AI-enabled DT system across the design, construction, and operational stages of the Nirmitee Tower, a green-certified commercial complex developed by a mid-sized construction firm.",
+            "A mixed-methods case study approach was adopted, triangulating evidence from system analytics, environmental performance metrics, semi-structured interviews, and post-occupancy surveys. Baselines were established using comparable pre-DT projects."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, the deployment of the AI-DT system resulted in significant improvements. Project delivery time was reduced by 21%, and material waste decreased by 35.9%.",
+            "Regarding operational performance, the abstract reports a 28.3% reduction in annual energy use and a 21.1% reduction in water consumption. Furthermore, occupant comfort scores improved by 32%."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The study provides a validated, multi-dimensional assessment framework for AI-DT performance. It is particularly notable for demonstrating full lifecycle DT integration within a small- to medium-scale enterprise context.",
+            "It is important to note that this is a case study of a single asset. As we do not have access to the full text, specific methodological limitations, such as the exact sample size of survey respondents, remain unspecified in this summary."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "For small business owners and office managers, we recommend starting with the digitization of energy consumption data. Even without a full-scale digital twin, regular monitoring and data analysis can lead to savings that reduce operational overhead.",
+            "In terms of workplace design, we suggest leveraging employee feedback through regular satisfaction surveys. Correlating environmental data (such as temperature and lighting) with occupant experience is a vital first step toward creating a healthier, more productive workspace."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The study suggests that integrating AI and digital twins is not merely a technical endeavor but a tool for achieving UN Sustainable Development Goals. According to the abstract, the impact on efficiency and human well-being is significant.",
+            "The future of construction lies in bridging the gap between data and human needs. While technology implementation is demanding, the benefits in terms of reduced consumption and enhanced comfort are essential for modern business resilience."
+          ]
+        }
+      ]
+    }
+  }
+}

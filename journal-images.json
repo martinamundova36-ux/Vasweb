@@ -1537,6 +1537,166 @@
         "1280": "eaa0e8f2b311928b46a7f3fdfab50186cd2476ca6e621358bc1a5fe714308774",
         "social": "9a5360f9aa12556b77178f424b90d1d1e59ca6b34158d0a9f426716a6bf5c7fb"
       }
+    },
+    {
+      "id": "commons-7c921d46a438af",
+      "provider": "Wikimedia Commons",
+      "provider_id": "191635652",
+      "source_page": "https://commons.wikimedia.org/wiki/File:A_woman_sits_at_a_desk_with_her_laptop,_deeply_focused_on_her_work_in_a_low-light_environment.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/A_woman_sits_at_a_desk_with_her_laptop%2C_deeply_focused_on_her_work_in_a_low-light_environment.jpg/1920px-A_woman_sits_at_a_desk_with_her_laptop%2C_deeply_focused_on_her_work_in_a_low-light_environment.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-16",
+      "original_sha256": "a8b5f4e1c860a9dac1ea9cfe04bfee1155cc50f6a5f442c6c80157d2cda153da",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-7c921d46a438af-640.webp",
+        "1280": "/assets/journal/commons-7c921d46a438af-1280.webp",
+        "social": "/assets/journal/commons-7c921d46a438af-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "46b0955f92f2a005cfc2b6bc67742c4cbacc023037b84c39a5c62a274b5f870c",
+        "1280": "62838b3ad9eacf8498e1da03f03747c7de7b29383e5da8044a3b17ed49cd5753",
+        "social": "46238438597b019527ccee0aa2f884acc1145b96fc43f173e23467af90f60e19"
+      }
+    },
+    {
+      "id": "commons-bf232389b9890c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "186926180",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Middle-aged_businesswoman_typing_on_laptop_at_home_office.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Middle-aged_businesswoman_typing_on_laptop_at_home_office.jpg/1920px-Middle-aged_businesswoman_typing_on_laptop_at_home_office.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-16",
+      "original_sha256": "a4a8153189c0a16322999cb9b180eb6df02bb5bfb1d9ea810c5a127ba6131c6e",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-bf232389b9890c-640.webp",
+        "1280": "/assets/journal/commons-bf232389b9890c-1280.webp",
+        "social": "/assets/journal/commons-bf232389b9890c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "264f1a0fc0827c308d3598e81f64c0597e204be7e70b2a4ee5691a375380afdb",
+        "1280": "f423d485f4b45584f8672e30f2992e3ab9bd415c9fa885f83d8255eebd17c5c5",
+        "social": "144bf1c96c0a605703ac7992308df7dfc9f17d5904df8159bc8862a6550d1dbc"
+      }
+    },
+    {
+      "id": "commons-868acebe949f5a",
+      "provider": "Wikimedia Commons",
+      "provider_id": "179032618",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut,_Tennessee_03.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut%2C_Tennessee_03.jpg/1920px-Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut%2C_Tennessee_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Harrison Keely",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "commercial_use_verified_at": "2026-11-16",
+      "original_sha256": "fc57e6a8be739644b513665e4fafc098bc8e14592c0e6c88aae44924899c7a13",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Interiér maloobchodnej predajne",
+        "en": "Retail store interior"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-868acebe949f5a-640.webp",
+        "1280": "/assets/journal/commons-868acebe949f5a-1280.webp",
+        "social": "/assets/journal/commons-868acebe949f5a-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "6237d90eddd45c7d11dc62a2925ce294520391eadf5a9bde639139de76303feb",
+        "1280": "779ececf8466d46b492c6af3064464b9f7a8f12b3a038082ec7a61261b78a977",
+        "social": "9be193dff292f8628309e130d0a241adf4d76fd9c3935f4bae83f5955185b4bb"
+      }
+    },
+    {
+      "id": "commons-e6f98f02ae1913",
+      "provider": "Wikimedia Commons",
+      "provider_id": "186777210",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_in_professional_attire_typing_on_laptop_with_handcuffs_on_desk_near_coffee_cup_in_modern_office_setting.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Woman_in_professional_attire_typing_on_laptop_with_handcuffs_on_desk_near_coffee_cup_in_modern_office_setting.jpg/1920px-Woman_in_professional_attire_typing_on_laptop_with_handcuffs_on_desk_near_coffee_cup_in_modern_office_setting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-16",
+      "original_sha256": "c0019f566da7b0e17256170f02c8e5eca89172445f2817d98bfe4acad4eb8b86",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-e6f98f02ae1913-640.webp",
+        "1280": "/assets/journal/commons-e6f98f02ae1913-1280.webp",
+        "social": "/assets/journal/commons-e6f98f02ae1913-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "379572bb446448501f8b9767dbe2ea4448e95b8fe4646f6799bed001bf54df80",
+        "1280": "88c350ca763e1556f4fb4dc2c6b5693a5675c4ccf07fd216639a8f20bba981de",
+        "social": "921142af9c71e0104bf9c31d81af35723edcce5df02c6fa673120db855985dd1"
+      }
+    },
+    {
+      "id": "commons-4ea8a8b0a9e059",
+      "provider": "Wikimedia Commons",
+      "provider_id": "179032623",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut,_Tennessee_02.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut%2C_Tennessee_02.jpg/1920px-Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut%2C_Tennessee_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Harrison Keely",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "commercial_use_verified_at": "2026-11-16",
+      "original_sha256": "98c8a777cbb84781227d411e9d3ff52e11324ae7416f264ed124c1ed3a74929a",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Interiér maloobchodnej predajne",
+        "en": "Retail store interior"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-4ea8a8b0a9e059-640.webp",
+        "1280": "/assets/journal/commons-4ea8a8b0a9e059-1280.webp",
+        "social": "/assets/journal/commons-4ea8a8b0a9e059-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "e82c58207d7091ec7941d09385bd85dbe063521ca24d17ef42f570cdeee27778",
+        "1280": "928b2e5b151b33776b4108b5f048ed8d83475c0cc02978b81e7936a6e6349f1f",
+        "social": "5975df33f4111284555f6414b2f2c96283cf31b13a8a140075e6ba8b7a41a607"
+      }
     }
   ],
   "assignments": {
@@ -1586,6 +1746,11 @@
     "blog-journal-review-2026-11-14-b93166869f08.html": "commons-808986c87eac3b",
     "blog-journal-review-2026-11-14-a18387e44cf6.html": "commons-ec1beda1216a51",
     "blog-journal-review-2026-11-14-1dfd1b2dd1f6.html": "commons-0546f74b6714dd",
-    "blog-journal-review-2026-11-14-d95211bb56da.html": "commons-b4265782fcd516"
+    "blog-journal-review-2026-11-14-d95211bb56da.html": "commons-b4265782fcd516",
+    "blog-journal-review-2026-11-16-25727058de4b.html": "commons-7c921d46a438af",
+    "blog-journal-review-2026-11-16-bd24379eebae.html": "commons-bf232389b9890c",
+    "blog-journal-review-2026-11-16-6ffb5a7f7f16.html": "commons-868acebe949f5a",
+    "blog-journal-review-2026-11-16-b51ec5999818.html": "commons-e6f98f02ae1913",
+    "blog-journal-review-2026-11-16-1dc19f78f4bd.html": "commons-4ea8a8b0a9e059"
   }
 }
