@@ -6,7 +6,7 @@ from urllib.parse import urlsplit
 import html, json, re, sys, subprocess
 ROOT=Path(__file__).resolve().parents[2]
 SITE="https://www.webu.sk/"
-ARTICLES=sorted(p for p in ROOT.glob("blog-*.html") if p.name!="blog-en.html")
+ARTICLES=sorted(p for p in ROOT.glob("blog-*.html") if p.name!="blog-en.html" and 'http-equiv="refresh"' not in p.read_text(encoding="utf-8").lower())
 BEGIN="<!-- WEBU-SEO-START -->"
 END="<!-- WEBU-SEO-END -->"
 class Parser(HTMLParser):
