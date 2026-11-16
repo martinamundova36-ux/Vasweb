@@ -99,6 +99,7 @@ def main():
  for name,p in articles.items():
   def fail(msg):errors.append(name+': '+msg)
   raw=(ROOT/name).read_text()
+  if len(p.title)>60:fail('HTML SEO title exceeds 60 characters')
   if p.meta.get('author')!='Martina Mundová':fail('incorrect author meta tag')
   if '<p class="webu-author-credit"' not in raw or 'Martina Mundová</strong>' not in raw:fail('missing visible Martina Mundová author credit')
   if p.h1!=1:fail('requires exactly one H1')
