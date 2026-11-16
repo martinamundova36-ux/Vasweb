@@ -30,7 +30,8 @@ def main():
  for draft in (ROOT/'journal-drafts').glob('*.json'):
   source=json.loads(draft.read_text())
   if source.get('published_at') and source.get('editorial'):
-   published['blog-journal-review-'+draft.stem]=source['published_at']
+   from journal_url import article_names
+   published[article_names(source)[0].removesuffix('.html')]=source['published_at']
  for photo in data['photos']:
   validate_photo(photo,ROOT)
   for key,path in photo['files'].items():
@@ -41,7 +42,7 @@ def main():
   seen[value]=key
  external_seen={}
  for file in sorted(ROOT.glob('blog-*.html')):
-  if file.name=='blog-en.html':continue
+  if file.name=='blog-en.html' or 'http-equiv="refresh"' in file.read_text(encoding='utf-8').lower():continue
   raw=file.read_text();p=Page();p.feed(raw);photo=photo_for(file.name,data)
   lang='en' if file.name.endswith('-en.html') else 'sk'
   if photo:
