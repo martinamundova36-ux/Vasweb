@@ -199,7 +199,7 @@ def credited_external_hero(raw):
 def sync(root=ROOT):
  data=load(root);count=0
  for page in sorted(root.glob('blog-*.html')):
-  if page.name=='blog-en.html':continue
+  if page.name=='blog-en.html' or 'http-equiv="refresh"' in page.read_text(encoding='utf-8').lower():continue
   raw=page.read_text();photo=photo_for(page.name,data)
   if not photo:
    if credited_external_hero(raw):count+=1;continue
