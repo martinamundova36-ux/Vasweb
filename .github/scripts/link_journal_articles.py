@@ -3,7 +3,7 @@
 from pathlib import Path
 import re, html
 ROOT=Path(__file__).resolve().parents[2]
-ARTICLES=sorted(p for p in ROOT.glob("blog-*.html") if p.name not in ("blog.html","blog-en.html"))
+ARTICLES=sorted(p for p in ROOT.glob("blog-*.html") if p.name not in ("blog.html","blog-en.html") and 'http-equiv="refresh"' not in p.read_text(encoding="utf-8").lower())
 BEGIN="<!-- WEBU-RELATED-START -->"
 END="<!-- WEBU-RELATED-END -->"
 STOP={"ako","preco","prečo","ktore","ktoré","what","when","with","your","from","that","the","and","for","webu","journal","article","clanky","články","website","webstranka","webstránka","business","podnikanie"}
