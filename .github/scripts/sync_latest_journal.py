@@ -68,7 +68,8 @@ def published():
     for path in (ROOT / 'journal-drafts').glob('*.json'):
         source = json.loads(path.read_text(encoding='utf-8'))
         if source.get('published_at') and source.get('editorial'):
-            stem = 'blog-journal-review-' + path.stem
+            from journal_url import article_names
+            stem = article_names(source)[0].removesuffix('.html')
             dates[stem] = source['published_at']
     return dates
 
