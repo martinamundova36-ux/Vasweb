@@ -1286,7 +1286,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-04-93b063fd01b6",
+      "id": "blog-journal-ai-vo-firme-merajte-prinosy-aj-obavy-ludi",
       "kind": "research_commentary",
       "review_status": "full_text_claim_comparison",
       "reviewed_at": "2026-11-04",
@@ -1314,7 +1314,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-04-93b063fd01b6.html",
+          "path": "blog-journal-ai-vo-firme-merajte-prinosy-aj-obavy-ludi.html",
           "title": "AI vo firme: merajte prínosy aj obavy ľudí",
           "description": "Ako vyhodnotiť zavádzanie AI vo firme: čo skúma nová štúdia, kde má limity a ako pripraviť malý pilot s kontrolou kvality.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
@@ -1325,7 +1325,7 @@
           "content_sha256": "ffc60351ae13ed8eab761a13143bfa250a9361df7c0d4fc5b83253603f2312bb"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-04-93b063fd01b6-en.html",
+          "path": "blog-journal-ai-vo-firme-merajte-prinosy-aj-obavy-ludi-en.html",
           "title": "AI at work: measure benefits and employee concerns",
           "description": "A practical look at workplace AI: what a new study examines, where its limits lie and how to plan a small pilot with quality checks.",
           "language_review": "grammar, terminology, natural phrasing and scientific equivalence compared",
@@ -2410,7 +2410,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-06-3268038cd03a",
+      "id": "blog-journal-od-spatnej-vazby-k-dizajnu-preco-data-o-pouzivateloch-casto-neovplyvnuju-pri",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-06",
@@ -2434,7 +2434,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-06-3268038cd03a.html",
+          "path": "blog-journal-od-spatnej-vazby-k-dizajnu-preco-data-o-pouzivateloch-casto-neovplyvnuju-pri.html",
           "title": "Od spätnej väzby k dizajnu: Prečo dáta o používateľoch často neovplyvňujú priestor",
           "description": "Nová štúdia skúma, prečo validované hodnotiace nástroje zostávajú v praxi okrajové. Prinášame pohľad na interpretáciu dát a odporúčania pre WEBU.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -2445,7 +2445,7 @@
           "content_sha256": "94123c12b98d88703826dd95e312a88d160e6ce7b7320aa211dc138cdf1aa058"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-06-3268038cd03a-en.html",
+          "path": "blog-journal-od-spatnej-vazby-k-dizajnu-preco-data-o-pouzivateloch-casto-neovplyvnuju-pri-en.html",
           "title": "From Feedback to Design: Why User Data Often Fails to Shape Space",
           "description": "A new study examines why validated evaluation tools remain marginal in practice. We explore the interpretation gap and offer editorial recommendations.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -2560,7 +2560,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-06-976f4ac7554a",
+      "id": "blog-journal-umela-inteligencia-a-zelene-inovacie-dve-stranky-jej-vplyvu-na-firmy",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-06",
@@ -2584,7 +2584,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-06-976f4ac7554a.html",
+          "path": "blog-journal-umela-inteligencia-a-zelene-inovacie-dve-stranky-jej-vplyvu-na-firmy.html",
           "title": "Umelá inteligencia a zelené inovácie: Dve stránky jej vplyvu na firmy",
           "description": "Objavte, ako zavádzanie umelej inteligencie ovplyvňuje prieskumné a využívajúce zelené inovácie vo firmách podľa najnovšieho odborného výskumu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -2595,7 +2595,7 @@
           "content_sha256": "442b2a17c66549f02d5a4c57f47479bfa38933a1113ee5569397e8e92ba2ab26"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-06-976f4ac7554a-en.html",
+          "path": "blog-journal-umela-inteligencia-a-zelene-inovacie-dve-stranky-jej-vplyvu-na-firmy-en.html",
           "title": "Artificial Intelligence and Green Innovation: Two Sides of Its Impact on Firms",
           "description": "Explore how artificial intelligence adoption influences exploratory and exploitative green innovations based on recent scholarly management research.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -2710,7 +2710,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-06-439b1cc5fbf3",
+      "id": "blog-journal-konfiguracna-analyza-marketingovych-kompetencii-novych-farmarov-v-digitalnom",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-06",
@@ -2734,7 +2734,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-06-439b1cc5fbf3.html",
+          "path": "blog-journal-konfiguracna-analyza-marketingovych-kompetencii-novych-farmarov-v-digitalnom.html",
           "title": "Konfiguračná analýza marketingových kompetencií nových farmárov v digitálnom prostredí",
           "description": "Prehľad štúdie o kombináciách marketingových schopností nových farmárov na digitálnych platformách a praktické dôsledky pre malé podniky.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -2745,7 +2745,7 @@
           "content_sha256": "b6f0e8fcee87b2c15abe717cd931e768312d1db0491cea9434a2f20a3e507af6"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-06-439b1cc5fbf3-en.html",
+          "path": "blog-journal-konfiguracna-analyza-marketingovych-kompetencii-novych-farmarov-v-digitalnom-en.html",
           "title": "A Configurational Analysis of New Farmers' Marketing Competence and Performance",
           "description": "An overview of a study examining combinations of marketing capabilities among new farmers on digital platforms and practical implications for small businesses.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -2860,7 +2860,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-06-6ec3d67c0fa0",
+      "id": "blog-journal-kto-skutocne-profituje-z-noveho-pracovneho-stylu-spravodlivost-v-rodinnych-f",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-06",
@@ -2884,7 +2884,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-06-6ec3d67c0fa0.html",
+          "path": "blog-journal-kto-skutocne-profituje-z-noveho-pracovneho-stylu-spravodlivost-v-rodinnych-f.html",
           "title": "Kto skutočne profituje z nového pracovného štýlu? Spravodlivosť v rodinných firmách",
           "description": "Analýza štúdie o vnímaní flexibility modrými a bielymi goliermi v rodinných firmách, s praktickými odporúčaniami pre WEBU.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -2895,7 +2895,7 @@
           "content_sha256": "4969bf7fd46582b441fcfaff5f5720e78a7e3e665cd3ce0d507db65cd82d5cdb"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-06-6ec3d67c0fa0-en.html",
+          "path": "blog-journal-kto-skutocne-profituje-z-noveho-pracovneho-stylu-spravodlivost-v-rodinnych-f-en.html",
           "title": "Who Benefits from New Work? Employee Perceptions in Family Businesses",
           "description": "An analysis of a study on blue and white-collar flexibility perceptions in family firms, featuring practical recommendations for WEBU.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3010,7 +3010,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-06-a508bd757266",
+      "id": "blog-journal-omnikanalovy-maloobchod-a-obavy-o-sukromie-v-mode",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-06",
@@ -3034,7 +3034,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-06-a508bd757266.html",
+          "path": "blog-journal-omnikanalovy-maloobchod-a-obavy-o-sukromie-v-mode.html",
           "title": "Omnikanálový maloobchod a obavy o súkromie v móde",
           "description": "Prehľad štúdie o vplyve integrácie kanálov a obáv o súkromie na udržanie zákazníkov v módnom biznise. Prináša praktické tipy pre WEBU.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3045,7 +3045,7 @@
           "content_sha256": "3b303fa3542267c5cdd98149a66ace54956b94ea26c2650a71c80dbdc463538b"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-06-a508bd757266-en.html",
+          "path": "blog-journal-omnikanalovy-maloobchod-a-obavy-o-sukromie-v-mode-en.html",
           "title": "Omnichannel Integration and Privacy Concerns in Fashion Retail",
           "description": "An editorial review of a study examining how channel integration and privacy concerns affect fashion retail customer retention. With WEBU tips.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3160,7 +3160,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-07-43db15236ea1",
+      "id": "blog-journal-indicky-strieborny-a-premiovy-trh-mladeze-prilezitosti-a-obmedzenia-z-pohlad",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-07",
@@ -3184,7 +3184,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-07-43db15236ea1.html",
+          "path": "blog-journal-indicky-strieborny-a-premiovy-trh-mladeze-prilezitosti-a-obmedzenia-z-pohlad.html",
           "title": "Indický strieborný a prémiový trh mládeže: Príležitosti a obmedzenia z pohľadu abstraktu",
           "description": "Analýza štúdie o obchodných trendoch v Indii. Zameriava sa na strieborný trh a prémiový segment mládeže s dôrazom na limity dostupných dát.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3195,7 +3195,7 @@
           "content_sha256": "7d835533f4193144a8e8e91a9e0e39911f251b88ab35d55a58c339c0ea7d8cfa"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-07-43db15236ea1-en.html",
+          "path": "blog-journal-indicky-strieborny-a-premiovy-trh-mladeze-prilezitosti-a-obmedzenia-z-pohlad-en.html",
           "title": "India's Silver Market and Youth Premium Market: Insights and Limits from the Abstract",
           "description": "Editorial review of a study on Indian market trends, focusing on the silver market and youth premium segment while highlighting abstract limitations.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3310,7 +3310,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-07-4b26c13db879",
+      "id": "blog-journal-eticka-umela-inteligencia-v-riadeni-ludskych-zdrojov-bibliometricky-prehlad",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-07",
@@ -3334,7 +3334,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-07-4b26c13db879.html",
+          "path": "blog-journal-eticka-umela-inteligencia-v-riadeni-ludskych-zdrojov-bibliometricky-prehlad.html",
           "title": "Etická umelá inteligencia v riadení ľudských zdrojov: Bibliometrický prehľad",
           "description": "Preskúmajte, ako štúdia analyzuje prienik etiky umelej inteligencie, HR a udržateľnosti prostredníctvom Scopus databázy a bibliometrických dát.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3345,7 +3345,7 @@
           "content_sha256": "18e35df6819002ceeafc2848b98cf0f79c5b1ffa6d39bb0c64e484e3fc3bc96d"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-07-4b26c13db879-en.html",
+          "path": "blog-journal-eticka-umela-inteligencia-v-riadeni-ludskych-zdrojov-bibliometricky-prehlad-en.html",
           "title": "Ethical Artificial Intelligence in Human Resource Management: A Bibliometric Review",
           "description": "Explore how this study examines the intersection of AI ethics, HRM, and sustainability using Scopus data and bibliometric methods.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3460,7 +3460,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-07-7c8f2ad8a17c",
+      "id": "blog-journal-vplyv-online-recenzii-na-doveru-spotrebitelov-na-tiktoku-co-hovori-nedavny-v",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-07",
@@ -3484,7 +3484,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-07-7c8f2ad8a17c.html",
+          "path": "blog-journal-vplyv-online-recenzii-na-doveru-spotrebitelov-na-tiktoku-co-hovori-nedavny-v.html",
           "title": "Vplyv online recenzií na dôveru spotrebiteľov na TikToku: Čo hovorí nedávny výskum?",
           "description": "Preskúmajte nové poznatky o vplyve online recenzií na dôveru spotrebiteľov v prostredí TikTok Shop a ich praktický význam pre digitálny marketing.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3495,7 +3495,7 @@
           "content_sha256": "2465aeebc0a964e8e3f843b7b0525ee5734210e8705c8929e0c82316f12a8659"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-07-7c8f2ad8a17c-en.html",
+          "path": "blog-journal-vplyv-online-recenzii-na-doveru-spotrebitelov-na-tiktoku-co-hovori-nedavny-v-en.html",
           "title": "The Impact of Online Customer Reviews on Consumer Trust on TikTok: Insights from Recent Research",
           "description": "Explore new insights into how online customer reviews affect consumer trust within TikTok Shop and discover practical takeaways for digital marketing.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3610,7 +3610,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-07-8dfe25be4d3a",
+      "id": "blog-journal-rovnovaha-medzi-pracou-a-sukromnym-zivotom-co-ukazuje-studia-z-kene-o-pracov",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-07",
@@ -3634,7 +3634,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-07-8dfe25be4d3a.html",
+          "path": "blog-journal-rovnovaha-medzi-pracou-a-sukromnym-zivotom-co-ukazuje-studia-z-kene-o-pracov.html",
           "title": "Rovnováha medzi prácou a súkromným životom: Čo ukazuje štúdia z Kene o pracovnom výkone",
           "description": "Analýza štúdie o vplyve rovnováhy medzi prácou a súkromím na výkon zamestnancov v poisťovniach. Praktické tipy pre moderný manažment a WEBU.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3645,7 +3645,7 @@
           "content_sha256": "98dec26055fbca1ed190e5978c64a959d40dc1ccad84abeab61179531ffa00e3"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-07-8dfe25be4d3a-en.html",
+          "path": "blog-journal-rovnovaha-medzi-pracou-a-sukromnym-zivotom-co-ukazuje-studia-z-kene-o-pracov-en.html",
           "title": "Work-Life Balance and Performance: Insights from a Kenyan Study",
           "description": "Analyzing a study on work-life balance and employee performance in insurance companies. Practical management and WEBU recommendations.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3760,7 +3760,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-06-9c4c4252e94d",
+      "id": "blog-journal-digitalne-podnikanie-v-turizme-adaptacia-vedomosti-a-ludskych-zdrojov",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-07",
@@ -3784,7 +3784,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-06-9c4c4252e94d.html",
+          "path": "blog-journal-digitalne-podnikanie-v-turizme-adaptacia-vedomosti-a-ludskych-zdrojov.html",
           "title": "Digitálne podnikanie v turizme: Adaptácia vedomostí a ľudských zdrojov",
           "description": "Preskúmajte nové koncepčné prepojenie SECI modelu, kognitívnej deštrukcie a AI v turizme podľa abstraktu štúdie z roku 2026.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3795,7 +3795,7 @@
           "content_sha256": "c3b72822e706dd2e3eb1c8ec26350a74ccf192a1cf9e80d65c513880644903ed"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-06-9c4c4252e94d-en.html",
+          "path": "blog-journal-digitalne-podnikanie-v-turizme-adaptacia-vedomosti-a-ludskych-zdrojov-en.html",
           "title": "Digital Entrepreneurship in Tourism: Knowledge and Human Resources Adaptation",
           "description": "Explore the integration of SECI, cognitive destruction, and AI in tourism according to the abstract of the 2026 study.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3910,7 +3910,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-08-6bf012b6ee0f",
+      "id": "blog-journal-vedenie-osetrovatelstva-a-metrika-vykonnosti-pri-umelej-inteligencii-v-gastr",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-08",
@@ -3934,7 +3934,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-08-6bf012b6ee0f.html",
+          "path": "blog-journal-vedenie-osetrovatelstva-a-metrika-vykonnosti-pri-umelej-inteligencii-v-gastr.html",
           "title": "Vedenie ošetrovateľstva a metrika výkonnosti pri umelej inteligencii v gastrointestinálnej chirurgii",
           "description": "Preskúmajte nové prepojenie ošetrovateľského manažmentu, umelej inteligencie a chirurgickej starostlivosti na základe naratívneho prehľadu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -3945,7 +3945,7 @@
           "content_sha256": "fe83e990d5270d9dea89b07dd41ecd0ea707b1f23f9a54a9b947901808e9f6f8"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-08-6bf012b6ee0f-en.html",
+          "path": "blog-journal-vedenie-osetrovatelstva-a-metrika-vykonnosti-pri-umelej-inteligencii-v-gastr-en.html",
           "title": "Nursing Leadership and Performance Metrics in AI-Integrated Gastrointestinal Surgical Care",
           "description": "Explore the intersection of nursing management, artificial intelligence, and surgical care based on a recent narrative review.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4060,7 +4060,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-07-01b6e6d3e244",
+      "id": "blog-journal-podpora-predaja-a-konverzia-wellness-potravin-v-maloobchode-terenny-pohlad",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-08",
@@ -4084,7 +4084,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-07-01b6e6d3e244.html",
+          "path": "blog-journal-podpora-predaja-a-konverzia-wellness-potravin-v-maloobchode-terenny-pohlad.html",
           "title": "Podpora predaja a konverzia wellness potravín v maloobchode: terénny pohľad",
           "description": "Analýza maloobchodného predaja wellness potravín značky Nutrica na základe dostupného abstraktu a praktické odporúčania pre malé podniky.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4095,7 +4095,7 @@
           "content_sha256": "d4d578821b40f3378ba8111673203a3eadcea1a853b1cfd52282fa1bc42c034f"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-07-01b6e6d3e244-en.html",
+          "path": "blog-journal-podpora-predaja-a-konverzia-wellness-potravin-v-maloobchode-terenny-pohlad-en.html",
           "title": "Retail Sales Promotion and Wellness Food Conversion: A Field Perspective",
           "description": "An analysis of wellness food retail sales based on the available abstract and practical recommendations for small businesses.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4210,7 +4210,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-07-df35e72f1bee",
+      "id": "blog-journal-udrzanie-zakaznikov-v-d2c-e-commerce-integrovany-ramec-a-jeho-hranice",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-08",
@@ -4234,7 +4234,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-07-df35e72f1bee.html",
+          "path": "blog-journal-udrzanie-zakaznikov-v-d2c-e-commerce-integrovany-ramec-a-jeho-hranice.html",
           "title": "Udržanie zákazníkov v D2C e-commerce: Integrovaný rámec a jeho hranice",
           "description": "Analýza štúdie o retencii zákazníkov v D2C e-commerce z roku 2026. Skúmame teoretický rámec, metodické limity a praktické tipy pre váš web.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4245,7 +4245,7 @@
           "content_sha256": "bceca2ee9d6c7374683f6a824c485b814862d5e6b94ce242597bed81293aa385"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-07-df35e72f1bee-en.html",
+          "path": "blog-journal-udrzanie-zakaznikov-v-d2c-e-commerce-integrovany-ramec-a-jeho-hranice-en.html",
           "title": "Customer Retention in D2C E-Commerce: An Integrated Framework and Its Boundaries",
           "description": "An analysis of the 2026 study on D2C customer retention. We examine the theoretical framework, methodological limits, and practical tips for your website.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4360,7 +4360,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-08-2668d8e7909a",
+      "id": "blog-journal-informacne-liderstvo-ako-klima-na-pracovisku-ovplyvnuje-digitalnu-transforma",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-08",
@@ -4384,7 +4384,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-08-2668d8e7909a.html",
+          "path": "blog-journal-informacne-liderstvo-ako-klima-na-pracovisku-ovplyvnuje-digitalnu-transforma.html",
           "title": "Informačné líderstvo: Ako klíma na pracovisku ovplyvňuje digitálnu transformáciu",
           "description": "Analýza štúdie o vplyve osobnosti a firemnej kultúry na informačné líderstvo v prostredí súkromného vysokého školstva.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4395,7 +4395,7 @@
           "content_sha256": "e400b42544776f6933585d187d5c0a38a25f2b9fbd2b3dd8a7fba26247fe6392"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-08-2668d8e7909a-en.html",
+          "path": "blog-journal-informacne-liderstvo-ako-klima-na-pracovisku-ovplyvnuje-digitalnu-transforma-en.html",
           "title": "Informational Leadership: How Workplace Climate Shapes Digital Transformation",
           "description": "An analysis of a study on how personality and organizational culture influence informational leadership in private higher education institutions.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4510,7 +4510,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-08-43f80bceeb79",
+      "id": "blog-journal-demokraticky-styl-vedenia-a-vykonnost-sestier-co-hovori-nova-studia-z-indone",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-08",
@@ -4534,7 +4534,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-08-43f80bceeb79.html",
+          "path": "blog-journal-demokraticky-styl-vedenia-a-vykonnost-sestier-co-hovori-nova-studia-z-indone.html",
           "title": "Demokratický štýl vedenia a výkonnosť sestier: Čo hovorí nová štúdia z indonézskej nemocnice",
           "description": "Podľa abstraktu nedávnej štúdie z indonézskej nemocnice existuje významný vzťah medzi demokratickým štýlom vedenia a pracovným výkonom sestier.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4545,7 +4545,7 @@
           "content_sha256": "591f9a09698f8e1e5c678bb05fec6945135c7560ce33bd2300779bccf51f1490"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-08-43f80bceeb79-en.html",
+          "path": "blog-journal-demokraticky-styl-vedenia-a-vykonnost-sestier-co-hovori-nova-studia-z-indone-en.html",
           "title": "Democratic Leadership and Nurse Performance: Insights from an Indonesian Hospital Study",
           "description": "According to the abstract of a recent hospital study in Indonesia, democratic leadership shows a significant relationship with nurse performance.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4660,7 +4660,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-09-d1feddafc9fe",
+      "id": "blog-journal-etika-v-potravinarstve-a-lojalita-zakaznikov-co-hovori-novy-vyskum-o-vztahoc",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-09",
@@ -4684,7 +4684,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-09-d1feddafc9fe.html",
+          "path": "blog-journal-etika-v-potravinarstve-a-lojalita-zakaznikov-co-hovori-novy-vyskum-o-vztahoc.html",
           "title": "Etika v potravinárstve a lojalita zákazníkov: Čo hovorí nový výskum o vzťahoch so značkou",
           "description": "Preskúmajte, ako vnímaná etika organizácie ovplyvňuje lojalitu zákazníkov podľa nedávnej štúdie z prostredia kolumbijského potravinárskeho trhu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4695,7 +4695,7 @@
           "content_sha256": "0cfe6f5eb43e3f858906a2c355450112c53124244135edb1443c2b8db667153f"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-09-d1feddafc9fe-en.html",
+          "path": "blog-journal-etika-v-potravinarstve-a-lojalita-zakaznikov-co-hovori-novy-vyskum-o-vztahoc-en.html",
           "title": "Organisational Ethics and Customer Loyalty: What New Research Reveals About Brand Relationships",
           "description": "Explore how perceived organisational ethics influences customer loyalty based on a recent study from the Colombian food industry context.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4810,7 +4810,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-10-9185874f456f",
+      "id": "blog-journal-nova-tvar-angazovanosti-zamestnancov-flexibilita-na-pracovisku-a-jej-medze",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-10",
@@ -4834,7 +4834,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-10-9185874f456f.html",
+          "path": "blog-journal-nova-tvar-angazovanosti-zamestnancov-flexibilita-na-pracovisku-a-jej-medze.html",
           "title": "Nová tvár angažovanosti zamestnancov: Flexibilita na pracovisku a jej medze",
           "description": "Podľa abstraktu štúdia skúma, ako flexibilita ovplyvňuje záväzok a výkonnosť zamestnancov prostredníctvom autonómie, rovnováhy a spokojnosti.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4845,7 +4845,7 @@
           "content_sha256": "d43524fbad4d5bed8ce47e80a0d311eaef872f650bcc6357b8bfe399759e0fb4"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-10-9185874f456f-en.html",
+          "path": "blog-journal-nova-tvar-angazovanosti-zamestnancov-flexibilita-na-pracovisku-a-jej-medze-en.html",
           "title": "The New Face of Employee Engagement: Workplace Flexibility and Its Boundaries",
           "description": "According to the abstract, this study examines how flexibility shapes commitment and performance through autonomy, work-life balance, and satisfaction.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4960,7 +4960,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-10-9715fd33f88b",
+      "id": "blog-journal-vedenie-firmy-a-financna-gramotnost-suvislost-s-produktivitou-zamestnancov-v",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-10",
@@ -4986,7 +4986,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-10-9715fd33f88b.html",
+          "path": "blog-journal-vedenie-firmy-a-financna-gramotnost-suvislost-s-produktivitou-zamestnancov-v.html",
           "title": "Vedenie firmy a finančná gramotnosť: Súvislosť s produktivitou zamestnancov v malých podnikoch",
           "description": "Prehľad štúdie z Medan City ukazuje, ako leadership majiteľov a finančná gramotnosť vplývajú na produktivitu zamestnancov v MSME.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -4997,7 +4997,7 @@
           "content_sha256": "50358511b26942acde7300b0098176fc2d33725a3b5dc090194dfd8ac4888401"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-10-9715fd33f88b-en.html",
+          "path": "blog-journal-vedenie-firmy-a-financna-gramotnost-suvislost-s-produktivitou-zamestnancov-v-en.html",
           "title": "The Influence of Business Owner Leadership and Financial Literacy on Employee Productivity in MSMEs",
           "description": "An overview of a Medan City study examining how owner leadership and financial literacy affect employee productivity in MSMEs.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5112,7 +5112,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-10-d9e721367fff",
+      "id": "blog-journal-osobnostne-crty-zakaznicka-cesta-a-dovera-napriec-kanalmi-pri-spolocnej-tvor",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-10",
@@ -5138,7 +5138,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-10-d9e721367fff.html",
+          "path": "blog-journal-osobnostne-crty-zakaznicka-cesta-a-dovera-napriec-kanalmi-pri-spolocnej-tvor.html",
           "title": "Osobnostné črty, zákaznícka cesta a dôvera naprieč kanálmi pri spoločnej tvorbe hodnoty",
           "description": "Podľa abstraktu nová štúdia skúma vplyv osobnosti a dizajnu omnichannel nákupnej cesty na zákaznícke správanie v Indonézii.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5149,7 +5149,7 @@
           "content_sha256": "30bd628eafb4736588e9a6ce109e3f74ae770dc61ef4d50506fa5b9f609bfd2e"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-10-d9e721367fff-en.html",
+          "path": "blog-journal-osobnostne-crty-zakaznicka-cesta-a-dovera-napriec-kanalmi-pri-spolocnej-tvor-en.html",
           "title": "Personality, Journey Design, and Omnichannel Trust in Value Co-Creation",
           "description": "According to the abstract, a new study examines how personality and omnichannel journey design drive customer behavior in Indonesia.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5264,7 +5264,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-10-2b4c9deb9ee5",
+      "id": "blog-journal-univerzity-a-socialne-inovacie-zistenia-vyskumu-nemeckych-socialnych-podnika",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-10",
@@ -5289,7 +5289,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-10-2b4c9deb9ee5.html",
+          "path": "blog-journal-univerzity-a-socialne-inovacie-zistenia-vyskumu-nemeckych-socialnych-podnika.html",
           "title": "Univerzity a sociálne inovácie: Zistenia výskumu nemeckých sociálnych podnikateľov",
           "description": "Nová štúdia odhaľuje, ako nemeckí sociálni podnikatelia vnímajú úlohu univerzít v ekosystéme, a prináša praktické odporúčania pre malé firmy.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5300,7 +5300,7 @@
           "content_sha256": "ba250fb7d4f2e93376211164335cf0c8d679e9c245bffbe793c4b63d56d18c7f"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-10-2b4c9deb9ee5-en.html",
+          "path": "blog-journal-univerzity-a-socialne-inovacie-zistenia-vyskumu-nemeckych-socialnych-podnika-en.html",
           "title": "The Unseen Role of Universities in Social Innovation: What New Research Reveals",
           "description": "A new study explores how German social entrepreneurs perceive university involvement, offering practical insights for small business growth.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5415,7 +5415,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-10-f83258123193",
+      "id": "blog-journal-digitalna-diplomacia-a-translokalna-identita-nove-vyzvy-pre-globalnu-mobilit",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-10",
@@ -5440,7 +5440,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-10-f83258123193.html",
+          "path": "blog-journal-digitalna-diplomacia-a-translokalna-identita-nove-vyzvy-pre-globalnu-mobilit.html",
           "title": "Digitálna diplomacia a translokálna identita: Nové výzvy pre globálnu mobilitu",
           "description": "Prehľad štúdie Isabel Barbosovej a Elizabeth Real de Oliveira o virtuálnych medzinárodných vyslaniach, digitálnej diplomacii a budovaní dôvery.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5451,7 +5451,7 @@
           "content_sha256": "a75dd234351dee208b153d88031576e76c1f2189f36e2dc83212a1862bbe4070"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-10-f83258123193-en.html",
+          "path": "blog-journal-digitalna-diplomacia-a-translokalna-identita-nove-vyzvy-pre-globalnu-mobilit-en.html",
           "title": "Digital Diplomacy and Translocal Identity: New Challenges for Global Mobility",
           "description": "An overview of the study by Isabel Barbosa and Elizabeth Real de Oliveira on virtual international assignments, digital diplomacy, and trust-building.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5566,7 +5566,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-10-b50cc67a8040",
+      "id": "blog-journal-kulturna-kompetencia-v-organizaciach-cesta-k-inkluzivnemu-prostrediu",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-11",
@@ -5590,7 +5590,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-10-b50cc67a8040.html",
+          "path": "blog-journal-kulturna-kompetencia-v-organizaciach-cesta-k-inkluzivnemu-prostrediu.html",
           "title": "Kultúrna kompetencia v organizáciách: Cesta k inkluzívnemu prostrediu",
           "description": "Prehľad štúdie o kultúrnej kompetencii v mentálnom zdraví a redakčné odporúčania pre malé firmy a manažment pracovísk.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5601,7 +5601,7 @@
           "content_sha256": "055c0a27ce7d96df9a109a8c02eed7b1e8c71d16302b017b7b8c380d83e3eb41"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-10-b50cc67a8040-en.html",
+          "path": "blog-journal-kulturna-kompetencia-v-organizaciach-cesta-k-inkluzivnemu-prostrediu-en.html",
           "title": "Organizational Cultural Competence: A Roadmap for Inclusive Workplaces",
           "description": "An editorial overview of a study on cultural competence in mental health and practical workplace recommendations for small businesses.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5716,7 +5716,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-10-f808d55e23b7",
+      "id": "blog-journal-algoritmicke-rozhodovacie-cesty-v-mobilnych-nakupoch-nove-pohlady-z-throughp",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-11",
@@ -5740,7 +5740,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-10-f808d55e23b7.html",
+          "path": "blog-journal-algoritmicke-rozhodovacie-cesty-v-mobilnych-nakupoch-nove-pohlady-z-throughp.html",
           "title": "Algoritmické rozhodovacie cesty v mobilných nákupoch: Nové pohľady z Throughput Model štúdie",
           "description": "Preskúmajte, ako štúdia z Journal of Consumer Marketing analyzuje rozhodovacie procesy Gen Z v mobilných aplikáciách s využitím Throughput Model.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5751,7 +5751,7 @@
           "content_sha256": "8409a2206859ecafce352834cb2a329204a2874ec09c6ecd7a87c1936a7a7dde"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-10-f808d55e23b7-en.html",
+          "path": "blog-journal-algoritmicke-rozhodovacie-cesty-v-mobilnych-nakupoch-nove-pohlady-z-throughp-en.html",
           "title": "Algorithmic Decision Pathways in Mobile App Shopping: Insights from a Throughput Model Study",
           "description": "Explore how a Journal of Consumer Marketing study analyzes Gen Z mobile shopping behaviors using the Throughput Model framework.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5866,7 +5866,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-11-26a34383cca8",
+      "id": "blog-journal-vplyv-stylu-vedenia-na-agilitu-inzinierov-co-hovori-novy-vyskum-o-algoritmoc",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-11",
@@ -5890,7 +5890,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-11-26a34383cca8.html",
+          "path": "blog-journal-vplyv-stylu-vedenia-na-agilitu-inzinierov-co-hovori-novy-vyskum-o-algoritmoc.html",
           "title": "Vplyv štýlu vedenia na agilitu inžinierov: Čo hovorí nový výskum o algoritmoch a bezpečnosti",
           "description": "Analýza štúdie o raste orientovanom vedení, psychologickom bezpečí a vplyve algoritmov v HR na základe dostupného abstraktu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -5901,7 +5901,7 @@
           "content_sha256": "fd4968cb8dc06c35263b4137a29824c3bf2b0961cf773c1e79707dec79cf3b7b"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-11-26a34383cca8-en.html",
+          "path": "blog-journal-vplyv-stylu-vedenia-na-agilitu-inzinierov-co-hovori-novy-vyskum-o-algoritmoc-en.html",
           "title": "Leadership Style and Engineers' Learning Agility: What Research Says About Algorithms and Safety",
           "description": "An analysis of a study on growth-mindset leadership, psychological safety, and algorithmic HRM based on the accessible abstract.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -6016,7 +6016,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-11-4b113d342526",
+      "id": "blog-journal-ochrana-spotrebitelov-v-digitalnych-platbach-komparativna-studia-z-mongolska",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-11",
@@ -6040,7 +6040,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-11-4b113d342526.html",
+          "path": "blog-journal-ochrana-spotrebitelov-v-digitalnych-platbach-komparativna-studia-z-mongolska.html",
           "title": "Ochrana spotrebiteľov v digitálnych platbách: Komparatívna štúdia z Mongolska, Číny a Južnej Kórey",
           "description": "Analýza výziev v oblasti ochrany spotrebiteľov pri digitálnych platbách v Mongolsku, Číne a Južnej Kórei na základe dostupného abstraktu štúdie.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -6051,7 +6051,7 @@
           "content_sha256": "636c31e04a11a3a4411f2a6f6b84c48d14b116aaa70e0123428c3f842fe2ddee"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-11-4b113d342526-en.html",
+          "path": "blog-journal-ochrana-spotrebitelov-v-digitalnych-platbach-komparativna-studia-z-mongolska-en.html",
           "title": "Consumer Protection in Digital Payments: A Comparative Study of Mongolia, China, and South Korea",
           "description": "An analysis of consumer protection challenges in digital payment systems across Mongolia, China, and South Korea based on study abstract.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -6166,7 +6166,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-11-f5fc5be353bc",
+      "id": "blog-journal-umela-inteligencia-v-riadeni-projektovych-portfolii-co-odhaluje-novy-vyskum",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-11",
@@ -6190,7 +6190,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-11-f5fc5be353bc.html",
+          "path": "blog-journal-umela-inteligencia-v-riadeni-projektovych-portfolii-co-odhaluje-novy-vyskum.html",
           "title": "Umelá inteligencia v riadení projektových portfólií: Čo odhaľuje nový výskum",
           "description": "Preskúmali sme novú štúdiu o umelej inteligencii v riadení projektových portfólií. Pozrite sa, čo hovorí abstrakt a aké odporúčania prináša WEBU.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -6201,7 +6201,7 @@
           "content_sha256": "fc3ece7bc8ec9ef973253e25bea2add882b3fadc23c19696bbaca4cb0b25c3c7"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-11-f5fc5be353bc-en.html",
+          "path": "blog-journal-umela-inteligencia-v-riadeni-projektovych-portfolii-co-odhaluje-novy-vyskum-en.html",
           "title": "Artificial Intelligence in Project Portfolio Management: What New Research Reveals",
           "description": "We examined a new study on artificial intelligence in project portfolio management. Read what the abstract says and what WEBU recommends.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7191,7 +7191,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-14-1dfd1b2dd1f6",
+      "id": "blog-journal-transformacia-manazerskej-uctovnosti-v-ere-umelej-inteligencie-preskumanie-n",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-14",
@@ -7215,7 +7215,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-14-1dfd1b2dd1f6.html",
+          "path": "blog-journal-transformacia-manazerskej-uctovnosti-v-ere-umelej-inteligencie-preskumanie-n.html",
           "title": "Transformácia manažérskej účtovnosti v ére umelej inteligencie: Preskúmanie nových výziev",
           "description": "Prehľad štúdie o vplyve umelej inteligencije na manažérske účtovníctvo, nákladovú kontrolu a rozhodovanie s praktickými odporúčaniami pre WEBU.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7226,7 +7226,7 @@
           "content_sha256": "403e668236b8b154701b84ae97b4382c621160ad2aa163cd20ae03c49f20a42c"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-14-1dfd1b2dd1f6-en.html",
+          "path": "blog-journal-transformacia-manazerskej-uctovnosti-v-ere-umelej-inteligencie-preskumanie-n-en.html",
           "title": "Management Accounting Transformation in the Era of Artificial Intelligence: A Critical Review",
           "description": "An overview of a study examining AI's role in management accounting, cost control, and decision-making, featuring practical WEBU recommendations.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7341,7 +7341,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-14-a18387e44cf6",
+      "id": "blog-journal-digitalna-sledovatelnost-v-mliekarenskom-retazci-studia-a-redakcne-odporucan",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-14",
@@ -7365,7 +7365,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-14-a18387e44cf6.html",
+          "path": "blog-journal-digitalna-sledovatelnost-v-mliekarenskom-retazci-studia-a-redakcne-odporucan.html",
           "title": "Digitálna sledovateľnosť v mliekarenskom reťazci: Štúdia a redakčné odporúčania",
           "description": "Analýza kľúčových faktorov digitálnej sledovateľnosti mliekarenského reťazca a praktické odporúčania pre malé firmy a weby.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7376,7 +7376,7 @@
           "content_sha256": "efc303fafc799d4fa5937cd190745293807cc23a278d78d4a6248cf39567364d"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-14-a18387e44cf6-en.html",
+          "path": "blog-journal-digitalna-sledovatelnost-v-mliekarenskom-retazci-studia-a-redakcne-odporucan-en.html",
           "title": "Digital Traceability in the Dairy Supply Chain: Study Insights and Editorial Proposals",
           "description": "An analysis of key enablers for digital dairy supply chain traceability with practical recommendations for small businesses and websites.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7491,7 +7491,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-14-b93166869f08",
+      "id": "blog-journal-employer-branding-a-dostojna-praca-porovnanie-itc-limited-a-icici-bank",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-14",
@@ -7515,7 +7515,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-14-b93166869f08.html",
+          "path": "blog-journal-employer-branding-a-dostojna-praca-porovnanie-itc-limited-a-icici-bank.html",
           "title": "Employer branding a dôstojná práca: Porovnanie ITC Limited a ICICI Bank",
           "description": "Preskúmajte, ako diverzita, well-being a hodnotová ponuka zamestnávateľa formujú nábor talentov v rôznych odvetviach podľa nového výskumu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7526,7 +7526,7 @@
           "content_sha256": "7265589f88b58e102543907739db857235e0ebc9c58cc2566a9ff8977d7c4df8"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-14-b93166869f08-en.html",
+          "path": "blog-journal-employer-branding-a-dostojna-praca-porovnanie-itc-limited-a-icici-bank-en.html",
           "title": "Employer Branding and Decent Work: Comparing ITC Limited and ICICI Bank",
           "description": "Explore how diversity, well-being, and employee value propositions shape talent acquisition across industries based on new research.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7641,7 +7641,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-14-d95211bb56da",
+      "id": "blog-journal-dopad-vybavovania-reklamacii-na-spravanie-klientov-co-odhaluje-nova-studia-z",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-14",
@@ -7665,7 +7665,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-14-d95211bb56da.html",
+          "path": "blog-journal-dopad-vybavovania-reklamacii-na-spravanie-klientov-co-odhaluje-nova-studia-z.html",
           "title": "Dopad vybavovania reklamácií na správanie klientov: Čo odhaľuje nová štúdia z Indie",
           "description": "Nová štúdia analyzuje, ako výsledky riešenia sťažností v bankách ovplyvňujú psychologické skreslenia a správanie zákazníkov v indickom meste Guwahatí.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7676,7 +7676,7 @@
           "content_sha256": "25cd68bd89661cf1503096bf99ad5d8f0fb4f7be7b030130f8cfb5fbe3653053"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-14-d95211bb56da-en.html",
+          "path": "blog-journal-dopad-vybavovania-reklamacii-na-spravanie-klientov-co-odhaluje-nova-studia-z-en.html",
           "title": "The Impact of Bank Complaint Resolution on Customer Behaviour: Insights from a New Study",
           "description": "A new study examines how bank complaint outcomes influence psychological biases and customer behaviour in Guwahati, India.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7791,7 +7791,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-14-dfdf49bd6a50",
+      "id": "blog-journal-digitalna-kolposkopia-telemedicina-a-umela-inteligencia-v-modernom-skriningu",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-14",
@@ -7815,7 +7815,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-14-dfdf49bd6a50.html",
+          "path": "blog-journal-digitalna-kolposkopia-telemedicina-a-umela-inteligencia-v-modernom-skriningu.html",
           "title": "Digitálna kolposkopia, telemedicína a umelá inteligencia v modernom skríningu rakoviny krčka maternice",
           "description": "Prehľadová štúdia analyzuje pilotný projekt v Samarskej oblasti a prínos digitálnych technológií, telemedicíny a umelej inteligencie v skríningu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7826,7 +7826,7 @@
           "content_sha256": "8c1a959cf71265f7afa463f3e9a2cf9c684998d679b395b890f39f03d8c49ddb"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-14-dfdf49bd6a50-en.html",
+          "path": "blog-journal-digitalna-kolposkopia-telemedicina-a-umela-inteligencia-v-modernom-skriningu-en.html",
           "title": "Digital Colposcopy, Telemedicine, and Artificial Intelligence in Modern Cervical Screening",
           "description": "A review study analyzes a pilot project in the Samara Region, highlighting digital tools, telemedicine, and AI in screening programs.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7941,7 +7941,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-16-1dc19f78f4bd",
+      "id": "blog-journal-budovanie-lojality-v-kaviarniach-co-hovori-veda-o-marketingu-a-spokojnosti",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-16",
@@ -7965,7 +7965,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-16-1dc19f78f4bd.html",
+          "path": "blog-journal-budovanie-lojality-v-kaviarniach-co-hovori-veda-o-marketingu-a-spokojnosti.html",
           "title": "Budovanie lojality v kaviarniach: Čo hovorí veda o marketingu a spokojnosti",
           "description": "Analýza štúdie o vplyve komunitného marketingu a promo akcií na opakované nákupy zákazníkov v kaviarniach FORE Coffee v Indonézii.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -7976,7 +7976,7 @@
           "content_sha256": "267121f6cd1ff26d1d304d7cd318c0b50c24030ae701dcf1ce3ce5b6fd3c59e5"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-16-1dc19f78f4bd-en.html",
+          "path": "blog-journal-budovanie-lojality-v-kaviarniach-co-hovori-veda-o-marketingu-a-spokojnosti-en.html",
           "title": "Building Customer Loyalty: Insights on Marketing and Satisfaction",
           "description": "An analysis of a study on the impact of community-based marketing and promotions on repurchase intentions at FORE Coffee in Indonesia.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -8091,7 +8091,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-16-25727058de4b",
+      "id": "blog-journal-digitalne-dvojicky-v-stavebnictve-cesta-k-udrzatelnosti-a-pohode",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-16",
@@ -8115,7 +8115,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-16-25727058de4b.html",
+          "path": "blog-journal-digitalne-dvojicky-v-stavebnictve-cesta-k-udrzatelnosti-a-pohode.html",
           "title": "Digitálne dvojičky v stavebníctve: Cesta k udržateľnosti a pohode",
           "description": "Analýza štúdie o využití AI digitálnych dvojičiek v projekte Nirmitee Tower a ich vplyv na efektivitu, odpad a komfort zamestnancov v praxi.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -8126,7 +8126,7 @@
           "content_sha256": "5437302364f8b02f505869773db2e81c04b6395416322d46aa60def052d44c89"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-16-25727058de4b-en.html",
+          "path": "blog-journal-digitalne-dvojicky-v-stavebnictve-cesta-k-udrzatelnosti-a-pohode-en.html",
           "title": "Digital Twins in Construction: A Path to Sustainability and Well-being",
           "description": "An analysis of the study on AI-driven digital twins in the Nirmitee Tower project and their impact on efficiency, waste, and occupant comfort.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -8241,7 +8241,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-16-6ffb5a7f7f16",
+      "id": "blog-journal-digitalny-marketing-a-elektricke-motocykle-co-hovori-nova-studia-o-rozhodova",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-16",
@@ -8265,7 +8265,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-16-6ffb5a7f7f16.html",
+          "path": "blog-journal-digitalny-marketing-a-elektricke-motocykle-co-hovori-nova-studia-o-rozhodova.html",
           "title": "Digitálny marketing a elektrické motocykle: Čo hovorí nová štúdia o rozhodovaní kupujúcich",
           "description": "Analýza vzťahu medzi digitálnym marketingom, vplyvom influencerov, kvalitou produktov a nákupným správaním spotrebiteľov v Indonézii.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -8276,7 +8276,7 @@
           "content_sha256": "bed15e6d2808bff8adc24ff87b61d39f4598f6948054d122187443bef590bca4"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-16-6ffb5a7f7f16-en.html",
+          "path": "blog-journal-digitalny-marketing-a-elektricke-motocykle-co-hovori-nova-studia-o-rozhodova-en.html",
           "title": "Digital Marketing and Electric Motorcycles: What a New Study Reveals About Buyer Decisions",
           "description": "An analysis of the relationship between digital marketing, influencer impact, product quality, and consumer purchase decisions in Indonesia.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -8391,7 +8391,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-16-b51ec5999818",
+      "id": "blog-journal-buducnost-b2b-marketingu-ako-ai-meni-pravidla-hry",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-16",
@@ -8415,7 +8415,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-16-b51ec5999818.html",
+          "path": "blog-journal-buducnost-b2b-marketingu-ako-ai-meni-pravidla-hry.html",
           "title": "Budúcnosť B2B marketingu: Ako AI mení pravidlá hry",
           "description": "Analýza štúdie o strategickej transformácii B2B marketingu. Zistite, ako umelá inteligencia prepája interné kapacity s externými požiadavkami trhu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -8426,7 +8426,7 @@
           "content_sha256": "6a0334e2b41b3521d6e474e7fea7f920e945b8cf29b19d48ecdf1272c5bc15d2"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-16-b51ec5999818-en.html",
+          "path": "blog-journal-buducnost-b2b-marketingu-ako-ai-meni-pravidla-hry-en.html",
           "title": "The Future of B2B Marketing: How AI is Redefining Strategy",
           "description": "An analysis of a foresight study on B2B marketing transformation. Discover how AI acts as a connective node between internal capabilities and market demands.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -8541,7 +8541,7 @@
       }
     },
     {
-      "id": "blog-journal-review-2026-11-16-bd24379eebae",
+      "id": "blog-journal-toxicke-vedenie-a-odcudzenie-v-praci-co-hovori-nova-studia",
       "kind": "research_commentary",
       "review_status": "automated_abstract_only",
       "reviewed_at": "2026-11-16",
@@ -8565,7 +8565,7 @@
       ],
       "languages": {
         "sk": {
-          "path": "blog-journal-review-2026-11-16-bd24379eebae.html",
+          "path": "blog-journal-toxicke-vedenie-a-odcudzenie-v-praci-co-hovori-nova-studia.html",
           "title": "Toxické vedenie a odcudzenie v práci: Čo hovorí nová štúdia",
           "description": "Analýza vplyvu zneužívajúceho vedenia na zamestnancov. Ako stres a podpora organizácie formujú pracovné prostredie podľa najnovšieho výskumu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
@@ -8576,7 +8576,7 @@
           "content_sha256": "9f641bb9042dc3187aa6138f91fb360c0b2ba40ec95e4206e6a7239125370621"
         },
         "en": {
-          "path": "blog-journal-review-2026-11-16-bd24379eebae-en.html",
+          "path": "blog-journal-toxicke-vedenie-a-odcudzenie-v-praci-co-hovori-nova-studia-en.html",
           "title": "Abusive Supervision and Work Alienation: Insights from New Research",
           "description": "An analysis of how abusive leadership impacts employee alienation, stress, and the protective role of organizational support based on recent findings.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
