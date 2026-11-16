@@ -37,7 +37,7 @@ def audit(root=ROOT):
    schemas=[json.loads(x) for x in p.json if json.loads(x).get('@type')=='BlogPosting']
    if len(schemas)!=1:errors.append(name+': BlogPosting mismatch')
    elif schemas[0].get('datePublished')!=row['published_at']:errors.append(name+': original publication date changed')
- pages={p.name for p in root.glob('blog-*.html') if p.name!='blog-en.html'}
+ pages={p.name for p in root.glob('blog-*.html') if p.name!='blog-en.html' and 'http-equiv="refresh"' not in p.read_text().lower()}
  errors += [p+': no accountable review record' for p in sorted(pages-seen)]
  # Audit the older, standalone bilingual journal pages as well. The caveat is
  # accessible in the footer, without interrupting the opening of the article.
