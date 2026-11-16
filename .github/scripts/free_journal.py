@@ -126,6 +126,7 @@ def validate_editorial(source):
  return editorial
 
 def render(source,lang):
+ from seo_journal import seo_title
  from journal_url import article_names
  sk_name,en_name=article_names(source)
  en=lang=='en';name=en_name if en else sk_name;other=sk_name if en else en_name
