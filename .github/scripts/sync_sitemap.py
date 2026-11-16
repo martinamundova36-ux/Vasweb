@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Synchronize WEBU sitemap with canonical, indexable HTML pages."""
-from datetime import datetime
+from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 import subprocess
@@ -57,11 +57,13 @@ def content_last_modified(path):
         cwd=ROOT, capture_output=True, text=True, check=False,
     )
     if result.returncode != 0 or not result.stdout.strip():
-        return None
+        # A newly created article can enter the sitemap before its first commit.
+        # In that case, use the UTC generation date instead of omitting lastmod.
+        return datetime.now(timezone.utc).date().isoformat()
     try:
         return datetime.fromisoformat(result.stdout.strip()).date().isoformat()
     except ValueError:
-        return None
+        return datetime.now(timezone.utc).date().isoformat()
 
 
 ET.register_namespace("", "http://www.sitemaps.org/schemas/sitemap/0.9")
