@@ -18,6 +18,23 @@ class Parser(HTMLParser):
         if tag=="a" and d.get("href"):self.links.append(d["href"])
 def text(s):
     return html.unescape(re.sub(r"<[^>]+>","",s)).strip()
+def seo_title(title, limit=60):
+    """Short search-result title; never modify an article's visible H1."""
+    title = re.sub(r"\\s+", " ", html.unescape(title)).strip()
+    suffix = " | WEBU"
+    budget = limit - len(suffix)
+    if len(title) <= budget:
+        return title + suffix
+    # Prefer a complete, meaningful first clause to an arbitrary mid-word cut.
+    for separator in (": ", " – ", " — ", " - ", "? "):
+        head = title.split(separator, 1)[0].strip()
+        if 24 <= len(head) <= budget:
+            return head + suffix
+    candidate = title[:budget + 1].rsplit(" ", 1)[0].rstrip(" ,:;–—-")
+    if len(candidate) < 22:
+        candidate = title[:budget].rstrip(" ,:;–—-")
+    return candidate + suffix
+
 def meta(s,name):
     for tag in re.findall(r"<meta\b[^>]*>",s,re.I):
         if re.search(r'\bname=["\']'+name+r'["\']',tag,re.I):
@@ -79,6 +96,11 @@ def main():
             desc=text(m.group(1))[:155] if m else title
         desc=desc[:160]
         if not title:errors.append(p.name+": missing heading/title");continue
+        # SEO-only: the displayed headline and editorial text remain unchanged.
+        short_title=seo_title(title)
+        old_title=re.search(r"<title\\b[^>]*>.*?</title>",s,re.I|re.S)
+        if not old_title:errors.append(p.name+": missing HTML title");continue
+        s=s[:old_title.start()]+ "<title>"+html.escape(short_title)+"</title>" +s[old_title.end():]
         url=SITE+p.name
         other=alternate(p)
         parser=Parser();parser.feed(s)
