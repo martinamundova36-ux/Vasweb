@@ -157,7 +157,7 @@ No unlicensed replacement or repeated image is ever used.
 def choose_for_source(source,root=ROOT):
  """Allocate only an unused, reviewed catalog photo; otherwise hold for an editor."""
  from journal_url import article_names
-  data=load(root);key=article_names(source)[0]
+ data=load(root);key=article_names(source)[0]
  existing=photo_for(key,data)
  if existing:validate_photo(existing,root);return existing
  text=(source.get('title','')+' '+' '.join(source.get('selection_keywords',[]))).casefold()
