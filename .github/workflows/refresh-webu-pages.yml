@@ -1,0 +1,45 @@
+name: WEBU Pages - refresh deployed site
+
+# Trigger once on introduction of this workflow, or manually for future fixes.
+# This requests a rebuild of the existing Pages site; no domain or DNS changes.
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refresh-webu-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Request current main branch to be rebuilt by GitHub Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(mktemp)"
+          status="$(curl --silent --show-error --location \
+            --output "$response" --write-out '%{http_code}' \
+            --request POST \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/pages/builds")"
+          echo "Pages build API HTTP status: $status"
+          cat "$response" || true
+          case "$status" in
+            201|202|204) echo "GitHub Pages rebuild requested." ;;
+            400|403|404|409|422)
+              echo "::warning::Pages did not accept a branch-based build request. Check Settings > Pages and the existing deployment workflow."
+              exit 1
+              ;;
+            *) echo "::error::Pages rebuild request failed ($status)." ; exit 1 ;;
+          esac
