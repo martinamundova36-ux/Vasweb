@@ -27,13 +27,12 @@ PATCHES = {
  "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum.html": [
    ("Digitálny lídring", "Digitálne vedenie"),
    ("digitálnym lídringom", "digitálnym vedením"),
-   ("digitálneho lídringu", "digitálneho vedenia"),
    ("digitálny lídring", "digitálne vedenie"),
  ],
  "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab.html": [
    ("prištiepený abstrakt", "dostupný abstrakt"),
    ("využívat", "využívať"),
-   ("Zabezpečíte tak vyššiu dôveryhodnosť vašej značky a predídete neúmyselným stereotypom v digitálnom priestore.",
+   ("Zabezpečíte tak vyššiu dôveryhodnosť vašej značky a predijdete neúmyselným stereotypom v digitálnom priestore.",
     "Takýto postup môže prispieť k dôveryhodnejšej komunikácii značky a znížiť riziko stereotypného zobrazovania."),
  ],
  "blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s.html": [
