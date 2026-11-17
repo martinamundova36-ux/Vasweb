@@ -29,7 +29,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "b9d50aded48b5b0f45607b0f343b4d342e7da639a2a518619caae1f2df8c3e24",
+    "content_sha256": "9eb50ee757198dfa89885b85e4b0612c4d80dc37c60061b62d83bdfd8ef0563e",
     "languages": {
       "sk": {
         "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Čo ukazuje výskum",
@@ -71,7 +71,7 @@
           {
             "heading": "Podnikateľská relevancia a limity",
             "paragraphs": [
-              "Táto štúdia skúma etnovýchovu, kultúrnu identitu a gramotnosť v oblasti umelej inteligencie medzi aktérmi vzdelávania v Ekvádore. Nejde o výskum zákazníckeho správania, predaja ani podnikovej výkonnosti. Preto z nej nemožno odvodiť odporúčania na tvorbu webstránok alebo tvrdiť, že určité marketingové kroky preukázateľne zvyšujú dôveru.",
+              "Táto štúdia skúma etnovýchovu, kultúrnu identitu a gramotnosť v oblasti umelej inteligencie medzi aktérmi vzdelávania v Ekvádore. Nejde o výskum zákazníckeho správania, predaja ani podnikovej výkonnosti. Preto z nej nemožno vyvodzovať závery o účinnosti konkrétnych marketingových krokov alebo o raste dôvery zákazníkov.",
               "Nepriamy podnet pre podnikateľov, ktorí zavádzajú AI vo viacjazyčných alebo kultúrne rozmanitých tímoch, spočíva v otázke, či sa pri školení zohľadňujú zručnosti, identita a skúsenosti konkrétnych ľudí. Ide o redakčnú otázku vyvolanú témou štúdie, nie o výsledok, ktorý by autori testovali v podnikoch.",
               "Vzhľadom na malú a geograficky špecifickú vzorku je najzodpovednejšie ponechať závery v ich pôvodnom vzdelávacom kontexte. Na podnikateľské aplikácie by boli potrebné samostatné štúdie pracovných tímov a ich používania AI."
             ]
@@ -126,7 +126,7 @@
           {
             "heading": "Business relevance and limitations",
             "paragraphs": [
-              "This study examines ethnoeducation, cultural identity and AI literacy among educational participants in Ecuador. It does not investigate consumer behaviour, sales or firm performance. It therefore cannot support recommendations about website creation or claims that particular marketing practices improve brand trust.",
+              "This study examines ethnoeducation, cultural identity and AI literacy among educational participants in Ecuador. It does not investigate consumer behaviour, sales or firm performance. It therefore cannot establish the effectiveness of specific marketing practices or claims about greater customer trust.",
               "An indirect question for entrepreneurs introducing AI into multilingual or culturally diverse teams is whether training respects the skills, identities and experiences of the people involved. That is an editorial question suggested by the topic, not a result tested among businesses in this study.",
               "Given the small and geographically specific sample, the findings should remain grounded in their educational context. Any business application would require separate research with workplace teams and their actual use of AI."
             ]
@@ -152,7 +152,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "b9d50aded48b5b0f45607b0f343b4d342e7da639a2a518619caae1f2df8c3e24",
+  "approved_content_sha256": "9eb50ee757198dfa89885b85e4b0612c4d80dc37c60061b62d83bdfd8ef0563e",
   "image_id": "commons-166aa274f1a8f2",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
@@ -170,6 +170,11 @@
       "date": "2026-11-17",
       "scope": "Remove forced website-service promotions; add precise entrepreneur relevance; retain source findings and DOI",
       "independent_scientific_review": false
+    },
+    {
+      "date": "2026-11-17",
+      "scope": "Remove irrelevant website references, preserve original study findings",
+      "new_scientific_review": false
     }
   ]
 }
