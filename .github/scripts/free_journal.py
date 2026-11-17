@@ -102,6 +102,13 @@ def validate_editorial(source):
   if normal(editorial['languages']['sk'].get('title',''))==normal(editorial['languages']['en'].get('title','')):raise ValueError('SK and EN titles must be localized')
   if editorial.get('generated_by')!='gemini_from_abstract' or not editorial.get('generated_at'):raise ValueError('Automated generation provenance missing')
   if not editorial.get('references') or editorial['references'][0].get('url')!=source['url'] or not editorial['references'][0].get('apa7'):raise ValueError('DOI reference missing')
+  # Legacy published pages retain their original provenance and audit records.
+  # For NEW automated publications, enforce the stronger academic-editorial gate
+  # even when a caller bypasses the manuscript generation step.
+  if not source.get('published_at'):
+   from journal_quality import quality_issues
+   problems=quality_issues(editorial['languages'])
+   if problems:raise ValueError('New abstract-based article failed quality gate: '+'; '.join(problems))
   for lang,article in editorial['languages'].items():
    if not article.get('title') or not article.get('lead') or not 50<=len(article.get('description',''))<=160:raise ValueError('Automated metadata incomplete: '+lang)
    sections=article.get('sections',[])
