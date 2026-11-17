@@ -1,5 +1,13 @@
 # WEBU Journal — odborné a vedecké redakčné štandardy (od 17. 11. 2026)
 
+## Poslanie WEBU Journal – podpora podnikania
+
+WEBU Journal je **nezávislý výber najnovších zahraničných vedeckých výskumov pre podnikateľov**. Jeho hodnotou je objaviť relevantné štúdie, preložiť a stručne vysvetliť ich hlavné zistenia po slovensky (s anglickou verziou), uviesť kontext, limity, DOI a originálny zdroj a odlíšiť vedecké fakty od redakčného vysvetlenia. Nejde o plné preklady cudzích autorsky chránených štúdií ani o vlastnú recenzovanú vedeckú publikáciu.
+
+**Bez reklamy na tvorbu webstránok v článkoch.** WEBU zostáva vydavateľskou značkou a súčasne má oddelené služby; tvorba webov, ceny, portfólio a ponuky WEBU sa nesmú vsúvať do výskumných zhrnutí. Ak zdroj priamo neskúma webové služby, nie je dôvod ich uvádzať. Ak štúdia nemá presvedčivú súvislosť s podnikaním, automat nesmie násilne vytvoriť podnikateľský záver ani ju bezdôvodne publikovať.
+
+Hlavné oblasti: manažment a leadership, psychológia práce, správanie zákazníkov, marketing, financie, obchodné inovácie, organizačné vzdelávanie, AI v podnikaní a prevádzka firiem. **Najskôr overiť relevantnosť pre podnikateľov, potom písať.**
+
 ## Rozsah a tvrdenia
 
 WEBU Journal publikuje **odborné popularizačné komentáre a metodicky transparentné výskumné prehľady**. Toto samo osebe nie je recenzovaný vedecký časopis. Automaticky pripravený komentár na základe abstraktu NESMIE byť označený ako originálny výskum, systematické preskúmanie literatúry, nezávisle overená metaanalýza ani ako rukopis pripravený do vedeckého časopisu.
@@ -11,7 +19,7 @@ WEBU Journal publikuje **odborné popularizačné komentáre a metodicky transpa
 1. **Zdroj a identita:** overiť DOI a zhodu názvu, autorov, roku, časopisu, dátumu a vydavateľa priamo v Crossref a podľa možností na stránke vydavateľa. Záznam musí mať jasné bibliografické metadáta. DOI samo nezaručuje kvalitu štúdie.
 2. **Úroveň prístupu:** pri abstrakte uvádzať „podľa abstraktu“ a nespájať neoverené čísla, metódy alebo výsledky s plným textom. Nevyvodzovať kauzalitu z prierezových/korelačných dát. Rozlišovať primárny zdroj od komentára WEBU.
 3. **Hodnota pre čitateľa:** konkrétna výskumná otázka, presný kontext a vzorka, čo skutočne zistili autori, metodické hranice, aspoň jedna odlišná alternatívna interpretácia a samostatná aplikácia pre prax s overiteľným krokom alebo metrikou. Nepísať uniformné prázdne závery.
-4. **Jazyk a rozsah:** jazyková kontrola SK aj EN; nula zjavných pravopisných chýb a strojových výrazov. Pri nových automatických textoch technická hranica 700 zmysluplných slov na jazyk, praktická sekcia najmenej 120 slov. To je **redakčný filter, nie norma indexovania Googlom ani podmienka vedeckej publikácie**. Text sa NESMIE dopĺňať vatou len kvôli počtu slov.
+4. **Jazyk a rozsah:** jazyková kontrola SK aj EN; nula zjavných pravopisných chýb a strojových výrazov. Pri nových automatických textoch technická hranica 450 obsahovo hodnotných slov na jazyk, časť o relevantnosti pre podnikanie najmenej 80 slov. To je **redakčný filter, nie norma indexovania Googlom ani podmienka vedeckej publikácie**. Text sa NESMIE dopĺňať vatou len kvôli počtu slov.
 5. **Bilingválna zhoda:** rovnaký počet osôb, rovnaké štatistiky, rovnaké výhrady a vysvetlenie záverov v oboch verziách. V texte musí byť jednoznačne označené, čo je výsledok zdroja a čo je návrh redakcie.
 6. **Výsledná technická kontrola:** H1, jasný SEO title, meta description, bibliografia s DOI, schema.org BlogPosting, kanonická a hreflang URL, fotky s licenciou/alt, relevantné súvisiace odkazy a viditeľný skutočný autor. Každý zdroj/citácia sa musí vzťahovať ku konkrétnemu tvrdeniu.
 7. **Bezpečný proces:** pri chýbajúcom abstrakte, nepravdivom bibliografickom údaji, rozpore v číslach, nerozlíšenej kauzalite, nezrozumiteľnom preklade alebo nedostatku hodnoty publikovanie pozastaviť. Falošné „5/5 hotových“ nie je dovolené.
