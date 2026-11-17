@@ -29,19 +29,19 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "5b1f9057d4383c90e4e1390877cde9f4b4a891986c2edac0451611045acda093",
+    "content_sha256": "b9d50aded48b5b0f45607b0f343b4d342e7da639a2a518619caae1f2df8c3e24",
     "languages": {
       "sk": {
         "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Čo ukazuje výskum",
-        "description": "Preskúmali sme štúdiu z Esmeraldas o etnovýchove a umelej inteligencii. Prinášame redakčný rozbor a praktické odporúčania pre weby.",
-        "lead": "Súčasné vzdelávacie trendy čoraz viac prepájajú moderné technológie s lokálnou kultúrnou identitou a komunitným rozvojom. Nová štúdia publikovaná vo Frontiers in Education sa venuje vzťahu medzi digitálnou gramotnosťou a vodcovstvom mládeže. V tomto článku sa pozrieme na to, čo odhaľuje dostupný abstrakt a ako možno tieto poznatky eticky preniesť do online prostredia.",
+        "description": "Prehľad výskumu etnovýchovy a gramotnosti v oblasti AI v Ekvádore: hlavné zistenia, hranice abstraktu a otázky zodpovedného používania AI.",
+        "lead": "Súčasné vzdelávacie trendy čoraz viac prepájajú moderné technológie s lokálnou kultúrnou identitou a komunitným rozvojom. Nová štúdia publikovaná vo Frontiers in Education sa venuje vzťahu medzi digitálnou gramotnosťou a vodcovstvom mládeže. V tomto článku sa pozrieme na to, čo odhaľuje dostupný abstrakt a aké otázky vznikajú pri začleňovaní AI do rôznych spoločenských skupín.",
         "sections": [
           {
             "heading": "Úvod",
             "paragraphs": [
               "Digitálna transformácia prináša do vzdelávania nové výzvy, ktoré presahujú obyčajné ovládanie softvérových nástrojov. Moderná spoločnosť vyžaduje, aby si študenti a mladí lídri osvojili nielen technické zručnosti, ale aj kritické myslenie v online priestore. Práve prienik umelej inteligencie a kultúrnej identity otvára dôležitú diskusiu o tom, ako sa technológie integrujú do marginalizovaných alebo špecifických komunít.",
               "Medzinárodný výskum v tejto oblasti sa zameriava na hľadanie rovnováhy medzi globálnymi inováciami a lokálnymi hodnotami. Autori Narcisa Jessenia Medranda Morales a Robert Germán García Iturralde prinášajú pohľad na to, ako sa mladí ľudia v Ekvádore vyrovnávajú s týmito výzvami. Pozornosť venujú najmä vzdelávacím procesom a rozvoju schopností v oblasti umelej inteligencie.",
-              "Pre prevádzkovateľov webových stránok a tvorcov obsahu je dôležité sledovať, ako sa témy digitálnej inklúzie dotýkajú reálnych ľudí. Porozumenie tomu, že technológie nie sú kultúrne neutrálne, pomáha budovať otvorenejšie a prístupnejšie digitálne prostredie. Nasledujúce riadky rozoberajú zistenia dostupné v oficiálnom dokumente."
+              "Téma sa primárne týka vzdelávania, sociálnej inklúzie a gramotnosti v oblasti AI. Štúdia neskúma výsledky podnikania. Nasledujúci prehľad preto oddeľuje jej zistenia od širších otázok, ktoré si môžu klásť zamestnávatelia pri používaní AI."
             ]
           },
           {
@@ -69,11 +69,11 @@
             ]
           },
           {
-            "heading": "Praktický návrh WEBU",
+            "heading": "Podnikateľská relevancia a limity",
             "paragraphs": [
-              "Na základe redakčnej analýzy témy prinášame užitočné odporúčania pre prevádzkovateľov webov, malé podniky a tvorcov marketingového obsahu. Digitálna gramotnosť a etický prístup k technológiám by mali byť pevnou súčasťou správy webových stránok. Majitelia e-shopov a firemných portálov by mali dbať na to, aby texty a vizuály na webe reprezentovali rozmanitosť reálnych zákazníkov citlivým a rešpektujúcim spôsobom.",
-              "V oblasti tvorby obsahu a marketingu sa odporúča vyhnúť sa slepému spoliehaniu sa na generatívnu umelú inteligenciu pri vytváraní príbehov o menšinách alebo lokálnych komunitách. Namiesto automatizovaných fráz je vhodné zapojiť reálnych ľudí, autentické názory a dbať na etické štandardy. Takýto postup môže podporiť dôveryhodnú komunikáciu a znížiť riziko stereotypného zobrazovania v digitálnom priestore.",
-              "Pre manažment na pracovisku a správu webových projektov to znamená zaviesť interné pravidlá pre prácu s umelou inteligenciou. Tím by mal prejsť základným školením o tom, ako AI nástroje správne a kriticky využívať. Transparentná komunikácia so zákazníkmi o tom, kde a ako využívaťe technológie, buduje dlhodobú dôveru a posilňuje pozíciu webu na trhu."
+              "Táto štúdia skúma etnovýchovu, kultúrnu identitu a gramotnosť v oblasti umelej inteligencie medzi aktérmi vzdelávania v Ekvádore. Nejde o výskum zákazníckeho správania, predaja ani podnikovej výkonnosti. Preto z nej nemožno odvodiť odporúčania na tvorbu webstránok alebo tvrdiť, že určité marketingové kroky preukázateľne zvyšujú dôveru.",
+              "Nepriamy podnet pre podnikateľov, ktorí zavádzajú AI vo viacjazyčných alebo kultúrne rozmanitých tímoch, spočíva v otázke, či sa pri školení zohľadňujú zručnosti, identita a skúsenosti konkrétnych ľudí. Ide o redakčnú otázku vyvolanú témou štúdie, nie o výsledok, ktorý by autori testovali v podnikoch.",
+              "Vzhľadom na malú a geograficky špecifickú vzorku je najzodpovednejšie ponechať závery v ich pôvodnom vzdelávacom kontexte. Na podnikateľské aplikácie by boli potrebné samostatné štúdie pracovných tímov a ich používania AI."
             ]
           },
           {
@@ -88,7 +88,7 @@
       },
       "en": {
         "title": "Ethnoeducation, AI, and Youth in Ecuador: Insights from the Abstract",
-        "description": "We examine a study from Esmeraldas on ethnoeducation and artificial intelligence, offering editorial analysis and practical website recommendations.",
+        "description": "A summary of research on ethnoeducation and AI literacy in Ecuador: core findings, abstract limitations and questions for responsible AI use.",
         "lead": "Contemporary educational trends increasingly bridge modern technologies with local cultural identity and community development. A new study published in Frontiers in Education explores the relationship between digital literacy and youth leadership. In this article, we examine what the available abstract reveals and how these insights can be ethically translated into the online sphere.",
         "sections": [
           {
@@ -96,7 +96,7 @@
             "paragraphs": [
               "Digital transformation brings new challenges to education that extend far beyond simply mastering software tools. Modern society requires students and young leaders to acquire both technical skills and critical thinking in the online space. The intersection of artificial intelligence and cultural identity sparks a vital discussion on how technologies integrate into marginalized or specific communities.",
               "International research in this field focuses on balancing global innovations with local values. Authors Narcisa Jessenia Medranda Morales and Robert Germán García Iturralde offer insight into how young people in Ecuador cope with these challenges. They direct their attention particularly toward educational processes and the development of artificial intelligence capabilities.",
-              "For website owners and content creators, observing how digital inclusion touches real people is essential. Understanding that technologies are not culturally neutral helps build a more open and accessible digital environment. The following lines analyze the findings available in the official document."
+              "The study primarily concerns education, social inclusion and AI literacy, not business performance. The following summary distinguishes its actual findings from broader questions employers might consider when introducing AI."
             ]
           },
           {
@@ -124,11 +124,11 @@
             ]
           },
           {
-            "heading": "WEBU practical proposal",
+            "heading": "Business relevance and limitations",
             "paragraphs": [
-              "Based on our editorial analysis of the topic, we offer useful recommendations for website operators, small businesses, and marketing content creators. Digital literacy and an ethical approach to technology should be an integral part of website management. E-commerce and corporate portal owners should ensure that texts and visuals on their websites represent the diversity of real customers in a sensitive and respectful manner.",
-              "In content creation and marketing, relying blindly on generative artificial intelligence when crafting stories about minorities or local communities is discouraged. Instead of automated phrases, engaging real people, authentic opinions, and adhering to ethical standards is advisable. This ensures higher brand credibility and prevents unintended stereotypes in the digital space.",
-              "For workplace management and web project administration, this means establishing internal guidelines for working with artificial intelligence. The team should undergo basic training on how to use AI tools correctly and critically. Transparent communication with customers about where and how you utilize technology builds long-term trust and strengthens the website's market position."
+              "This study examines ethnoeducation, cultural identity and AI literacy among educational participants in Ecuador. It does not investigate consumer behaviour, sales or firm performance. It therefore cannot support recommendations about website creation or claims that particular marketing practices improve brand trust.",
+              "An indirect question for entrepreneurs introducing AI into multilingual or culturally diverse teams is whether training respects the skills, identities and experiences of the people involved. That is an editorial question suggested by the topic, not a result tested among businesses in this study.",
+              "Given the small and geographically specific sample, the findings should remain grounded in their educational context. Any business application would require separate research with workplace teams and their actual use of AI."
             ]
           },
           {
@@ -152,7 +152,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "5b1f9057d4383c90e4e1390877cde9f4b4a891986c2edac0451611045acda093",
+  "approved_content_sha256": "b9d50aded48b5b0f45607b0f343b4d342e7da639a2a518619caae1f2df8c3e24",
   "image_id": "commons-166aa274f1a8f2",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
@@ -165,6 +165,11 @@
       "date": "2026-11-17",
       "scope": "Jazyková korektúra a spresnenie nekauzálnych tvrdení; plný text štúdie nebol nanovo overený",
       "original_published_at": "2026-11-17"
+    },
+    {
+      "date": "2026-11-17",
+      "scope": "Remove forced website-service promotions; add precise entrepreneur relevance; retain source findings and DOI",
+      "independent_scientific_review": false
     }
   ]
 }
