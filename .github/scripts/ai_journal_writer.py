@@ -15,6 +15,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from zoneinfo import ZoneInfo
+from journal_quality import quality_issues
 
 ROOT=Path(__file__).resolve().parents[2]
 TODAY=dt.datetime.now(ZoneInfo("Europe/Bratislava")).date().isoformat()
@@ -70,6 +71,9 @@ def validate_result(result):
         count=len(" ".join([article.get("lead","")]+[p for s in sections for p in s["paragraphs"]]).split())
         if count<300:
             raise ValueError("Article too short "+lang)
+    problems = quality_issues(result)
+    if problems:
+        raise ValueError("Quality gate rejected manuscript: " + "; ".join(problems))
     return result
 
 def generate(source,abstract,api_key,models):
@@ -89,7 +93,22 @@ CRITICAL accuracy rules:
 - Separate WEBU's practical recommendations from study conclusions and label them editorial recommendations.
 - Discuss unverified full text and limits of the abstract honestly.
 - Use helpful practical WEBU examples for owners of small businesses, web design, marketing and workplace management.
-- Produce substantial, readable copy, not filler or repeated template paragraphs.
+- Produce a substantive, self-contained, evidence-limited expert editorial in EACH
+  language (usually 700-1100 useful words). Do not pad word counts: if an abstract
+  cannot support a meaningful discussion, the article must fail the quality gate.
+- Explain a real research question, study design, population and scope when given;
+  label information not supplied by the abstract as UNKNOWN instead of guessing.
+- Findings and methodology must distinguish observational association from causation.
+- Discuss plausible alternative explanations, generalizability limits, uncertainty,
+  confounders and what cannot be established without a full-text comparison.
+- Include a specific, reproducible WEBU example with steps and a measurable outcome
+  in the practical proposal, explicitly separate from the source's findings.
+- Add actual analytical value; avoid generic introductions, boilerplate conclusions,
+  empty predictions, filler, copied paragraphs, and unqualified superlatives.
+- No claims of independent scientific review, verified full-text reading, original
+  data collection, ethics approval, or guaranteed business effects.
+- Avoid marketing language. Write as a careful research-informed editor,
+  not as a machine that praises every new study.
 - Proofread BOTH complete language versions before returning JSON. Slovak must use
   natural Slovak syntax, correct declension, agreement, punctuation and diacritics;
   do not translate English idioms literally or leave English workplace jargon
@@ -99,6 +118,11 @@ CRITICAL accuracy rules:
   avoid inflated, awkward or needlessly repetitive academic phrasing.
 - Compare SK and EN paragraph by paragraph: preserve the same numbers, evidence
   limitations and cautions in both languages, while writing naturally in each.
+- Prohibit such mistakes as 'prištiepený abstrakt', 'konkrénte',
+  'zamestnanców', 'korelačního', 'lídring' or 'sklon k nostalgií'.
+  Use academic Slovak wording including digitálne vedenie and 'podľa abstraktu'.
+- Preserve all reported numbers precisely in both languages: identical sample sizes,
+  percentages and methodology. If the abstract lacks a statistic, never invent it.
 - In the final pass, fix typographical errors and malformed inflections, including
   those introduced by rewriting; never send an unproofread translation.
 - No external references apart from the verified DOI.
@@ -148,12 +172,29 @@ def main():
     if args.self_test:
         assert len(HEADINGS_SK)==len(HEADINGS_EN)==6
         sample={"doi":"10.1234/abc","title":"Example","authors":["A"],"venue":"Journal","source_date":"2026-01-01","url":"https://doi.org/10.1234/abc"}
-        result={lang:{"title":"Example","lead":"Example","description":"Example description of at least fifty characters in length.","sections":[{"heading":heading,"paragraphs":["a","b"]} for heading in hs]} for lang,hs in (("sk",HEADINGS_SK),("en",HEADINGS_EN))}
+        def fixture(lang, headings):
+            base = (
+                "Podľa abstraktu poznáme len obmedzený rozsah dôkazov. Praktický príklad "
+                "ukazuje postup merania, ale nejde o výsledok samotnej štúdie. "
+                "Redakčný prehľad preto skúma metodiku, podmienky a limity prenosu. "
+                if lang == "sk" else
+                "According to the abstract, available evidence is limited. A practical "
+                "example illustrates a measurement step but is not a study result. "
+                "This editorial explores methodology, context, and transferability. "
+            )
+            sections = []
+            for index, heading in enumerate(headings):
+                sections.append({"heading": heading,
+                                 "paragraphs": [base * 2 + f" {heading}: alpha.",
+                                                base * 2 + f" {heading}: beta."]})
+            return {"title": "Ukážkový odborný text" if lang == "sk" else "Research editorial sample",
+                    "description": "Testovacia anotácia zdrojovo ohraničeného odborného textu pre WEBU Journal." if lang == "sk" else
+                                   "A source-bound example used to verify the editorial quality safeguards.",
+                    "lead": base * 2, "sections": sections}
+        result={lang:fixture(lang,hs) for lang,hs in (("sk",HEADINGS_SK),("en",HEADINGS_EN))}
         text=markdown(sample,result)
         assert "WEBU-AI-MANUSCRIPT-V1" in text and "Slovenská verzia" in text and "English version" in text
         from unittest.mock import patch
-        for lang in ("sk","en"):
-            result[lang]["sections"][0]["paragraphs"]=["word "*170,"word "*170]
         replies=iter([{"candidates":[{"content":{"parts":[{"text":"{invalid-json"}]}}]},
                       {"candidates":[{"content":{"parts":[{"text":json.dumps(result)}]}}]}])
         with patch(__name__+".request_with_retries",side_effect=lambda *a:next(replies)):
