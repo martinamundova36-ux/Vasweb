@@ -9016,30 +9016,31 @@
       "publication": "automated_abstract_editorial",
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
-        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
+        "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review."
       ],
       "languages": {
         "sk": {
           "path": "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab.html",
           "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Čo ukazuje výskum",
-          "description": "Preskúmali sme štúdiu z Esmeraldas o etnovýchove a umelej inteligencii. Prinášame redakčný rozbor a praktické odporúčania pre weby.",
+          "description": "Prehľad výskumu etnovýchovy a gramotnosti v oblasti AI v Ekvádore: hlavné zistenia, hranice abstraktu a otázky zodpovedného používania AI.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "e90c9833cdb000c5dc964b801ba9099507b5fca17ab18a72883352318894f32e"
+          "content_sha256": "13537231f1d724d706be52e3bbf94636a7b956f2cf994ae89b14ddfc1143e1d4"
         },
         "en": {
           "path": "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab-en.html",
           "title": "Ethnoeducation, AI, and Youth in Ecuador: Insights from the Abstract",
-          "description": "We examine a study from Esmeraldas on ethnoeducation and artificial intelligence, offering editorial analysis and practical website recommendations.",
+          "description": "A summary of research on ethnoeducation and AI literacy in Ecuador: core findings, abstract limitations and questions for responsible AI use.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "acb25df312c390ffe21f0f12f19a9eba609ca02553bfb208909013a88403b640"
+          "content_sha256": "e03630a3659ff3890a9c2c6a6fc35289cbbee184b1b4ea05bb469e2caffdb734"
         }
       },
       "claim_review": {
@@ -9077,7 +9078,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "Praktický návrh WEBU",
+            "section": "Podnikateľská relevancia a limity",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
@@ -9127,7 +9128,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "WEBU practical proposal",
+            "section": "Business relevance and limitations",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
@@ -9167,7 +9168,8 @@
       "publication": "automated_abstract_editorial",
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
-        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
+        "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review."
       ],
       "languages": {
         "sk": {
@@ -9179,7 +9181,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "7d14bfd043fc669aff74dc9a95ece4dac6dea1610e3211108c61534fdcea0bae"
+          "content_sha256": "60c9cd955b8b59b9dc6d2d32dd4b997edebb1a56f40faee0c8a77d2d85165967"
         },
         "en": {
           "path": "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum-en.html",
@@ -9187,10 +9189,10 @@
           "description": "An analysis of a study examining digital leadership and performance in tourism SMEs, highlighting abstract limitations and practical insights.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "17d8c0f950caeecc6c580577cf405ba80f5511ec7043dca24fcd2c2ff5ab51b2"
+          "content_sha256": "929014d6043e3f17f3f4c6012134aab47c29273a68cab873a179dd1e004a7315"
         }
       },
       "claim_review": {
@@ -9228,7 +9230,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "Praktický návrh WEBU",
+            "section": "Podnikateľská relevancia a limity",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
@@ -9278,7 +9280,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "WEBU practical proposal",
+            "section": "Business relevance and limitations",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
