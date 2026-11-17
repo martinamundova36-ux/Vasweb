@@ -36,17 +36,10 @@ def main():
         en=item["lang"]=="en"
         heading="Related articles" if en else "Súvisiace články"
         links="".join('<li><a href="/'+html.escape(x["path"].name,quote=True)+'">'+html.escape(x["title"])+'</a></li>' for x in chosen)
-        services="services and web design" if en else "tvorbe webstránok a službách"
-        portfolio="portfolio of website projects" if en else "portfóliu realizácií"
-        contact="contact WEBU" if en else "kontaktujte WEBU"
-        servicepath="/sluzby-en.html" if en else "/sluzby.html"
-        portpath="/portfolio-en.html" if en else "/portfolio.html"
-        contactpath="/kontakt-en.html" if en else "/kontakt.html"
+        # Research readers see only genuinely related articles.
+        # No unsolicited WEBU services, website design, portfolio or contact ads.
         section=(BEGIN+'<aside class="webu-related" aria-label="'+heading+'" style="max-width:820px;margin:32px auto;padding:24px;border:1px solid #e4d4a9;border-radius:16px;background:#fffaf0;color:#17233a">'
-                 +'<h2 style="margin:0 0 12px;font-size:25px">'+heading+'</h2><ul style="padding-left:22px">'+links+'</ul>'
-                 +'<p style="font-size:15px">'+('Explore more about ' if en else 'Viac informácií o ')
-                 +'<a href="'+servicepath+'">'+services+'</a>, <a href="'+portpath+'">'+portfolio+'</a>; '
-                 +'<a href="'+contactpath+'">'+contact+'</a>.</p></aside>'+END)
+                 +'<h2 style="margin:0 0 12px;font-size:25px">'+heading+'</h2><ul style="padding-left:22px">'+links+'</ul></aside>'+END)
         s=item["content"]
         if BEGIN in s and END in s:
             s=re.sub(re.escape(BEGIN)+r".*?"+re.escape(END),lambda _:section,s,flags=re.S)
