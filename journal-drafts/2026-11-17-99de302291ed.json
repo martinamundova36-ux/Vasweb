@@ -29,7 +29,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "9eb50ee757198dfa89885b85e4b0612c4d80dc37c60061b62d83bdfd8ef0563e",
+    "content_sha256": "8882476042222e9411bc4a208ce378c3e10e880bc860cac813257e4044c41b85",
     "languages": {
       "sk": {
         "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Čo ukazuje výskum",
@@ -152,7 +152,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "9eb50ee757198dfa89885b85e4b0612c4d80dc37c60061b62d83bdfd8ef0563e",
+  "approved_content_sha256": "8882476042222e9411bc4a208ce378c3e10e880bc860cac813257e4044c41b85",
   "image_id": "commons-166aa274f1a8f2",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
