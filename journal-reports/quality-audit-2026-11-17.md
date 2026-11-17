@@ -1,5 +1,15 @@
 # WEBU Journal — redakčný audit historického obsahu (17. 11. 2026)
 
+## Aktualizácia po priamych opravách – 17. 11. 2026
+
+**Dokončené a priamo overené v GitHube:** sedem existujúcich slovenských článkov dostalo konkrétne jazykové a terminologické korektúry; tam, kde z dôkazov nevyplývala kauzalita, boli nesprávne silné odporúčania preformulované opatrnejšie. Upravili sa dve nepresné verejné nadpisové formulácie bez zmeny pôvodných URL. Päť dnes publikovaných zdrojových JSON záznamov bolo zosúladených s opraveným textom a znovu zahashovaných. Nové hashe všetkých siedmich upravených HTML článkov sa zhodujú s redakčným registrom; pôvodné kanonické URL zostali platné.
+
+**SEO titulky:** desať neúplných anglických SEO titulkov bolo nahradených zmysluplnými krátkymi formuláciami do 60 znakov; H1, URL a obsah anglických článkov zostali bez zásahu.
+
+**Neoverené:** verejné nasadenie a plné nezávislé preskúmanie všetkých vedeckých zdrojov zatiaľ nemožno potvrdiť. Historické články s jedným abstraktom sa nemenia na vedecké rukopisy iba opravou gramatiky. Zvyšné články ostávajú v odbornom backloge; bezpečne overovať tvrdenia z plných textov pred dopĺňaním poznatkov.
+
+Táto aktualizácia dokumentuje už uskutočnené zmeny; príklady chýb nižšie zachytávajú stav **pred opravou**.
+
 ## Čo bolo skutočne skontrolované
 
 - **118 verejne kanonických článkových URL** uvedených v `sitemap.xml`; každá strana bola načítaná z aktuálneho GitHub repozitára. Ide o 59 dvojjazyčných tematických dvojíc.
