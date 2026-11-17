@@ -31,7 +31,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "da0da45a6665bc9115fc48ff136392ec817c0cd3ffa5b7e62b2ef8bd433b776c",
+    "content_sha256": "aba440084f6f749be765e24056d9303d71315d0a303bbbdb5ba8eb81e2135906",
     "languages": {
       "sk": {
         "title": "Digitálna nostalgia a nákupný zámer: Ako minulosť formuje správanie mladých spotrebiteľov v online prostredí",
@@ -48,15 +48,15 @@
           {
             "heading": "Čo skúmala štúdia",
             "paragraphs": [
-              "Autori Kdv Prasad, Sunil Kadyan a Ved Srinivas publikovali v novembri 2026 štúdiu v časopise Young Consumers (DOI: 10.1108/yc-05-2026-3203). Podľa abstraktu bolo cieľom tohto výskumu pochopiť, ako sklon k nostalgií a zapojenie na sociálnych sieťach ovplyvňujú emocionálnu väzbu, vnímanú autenticitu, dôveru v značku a nákupný zámer v digitálne prepojenom prostredí.",
-              "Výskumníci v štúdii vychádzali z teoretického rámca podnet–organizmus–reakcia (SOR). V tomto modeli boli sklon k nostalgií a aktivita na sociálnych sieťach definované ako vstupné podnetové faktory, zatiaľ čo emocionálna väzba a vnímaná autenticita predstavovali vnútorné procesy organizmu."
+              "Autori Kdv Prasad, Sunil Kadyan a Ved Srinivas publikovali v novembri 2026 štúdiu v časopise Young Consumers (DOI: 10.1108/yc-05-2026-3203). Podľa abstraktu bolo cieľom tohto výskumu pochopiť, ako sklon k nostalgii a zapojenie na sociálnych sieťach ovplyvňujú emocionálnu väzbu, vnímanú autenticitu, dôveru v značku a nákupný zámer v digitálne prepojenom prostredí.",
+              "Výskumníci v štúdii vychádzali z teoretického rámca podnet–organizmus–reakcia (SOR). V tomto modeli boli sklon k nostalgii a aktivita na sociálnych sieťach definované ako vstupné podnetové faktory, zatiaľ čo emocionálna väzba a vnímaná autenticita predstavovali vnútorné procesy organizmu."
             ]
           },
           {
             "heading": "Hlavné zistenia a význam",
             "paragraphs": [
-              "Podľa abstraktu výsledky štúdie ukázali, že sklon k nostalgií pozitívne vplýva na emocionálnu väzbu spotrebiteľov a ich vnímanie autenticity. Okrem toho sa ukázalo, že zapojenie na sociálnych sieťach pozitívne ovplyvňuje samotnú emocionálnu väzbu k značke.",
-              "Autori v abstraktovom texte ďalej uvádzajú, že emocionálna väzba a vnímaná autenticita významne predikujú dôveru v značku, čo následne vedie k vyššej nákupnej zámere spotrebiteľov. Emocionálna väzba navyše podľa zistení plne sprostredkúva vplyv sklonu k nostalgií na dôveru v značku."
+              "Podľa abstraktu výsledky štúdie ukázali, že sklon k nostalgii pozitívne súvisí s emocionálnou väzbou spotrebiteľov a ich vnímanie autenticity. Okrem toho sa ukázalo, že zapojenie na sociálnych sieťach pozitívne súvisí so samotnou emocionálnou väzbou k značke.",
+              "Autori v abstraktovom texte ďalej uvádzajú, že emocionálna väzba a vnímaná autenticita významne predikujú dôveru v značku, čo podľa výsledkov súvisí s vyšším nákupným zámerom spotrebiteľov. Emocionálna väzba navyše podľa zistení plne sprostredkúva vplyv sklonu k nostalgii na dôveru v značku."
             ]
           },
           {
@@ -142,12 +142,19 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "da0da45a6665bc9115fc48ff136392ec817c0cd3ffa5b7e62b2ef8bd433b776c",
+  "approved_content_sha256": "aba440084f6f749be765e24056d9303d71315d0a303bbbdb5ba8eb81e2135906",
   "image_id": "commons-a8c2dab7dc67fd",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
   "published_urls": [
     "https://www.webu.sk/blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s.html",
     "https://www.webu.sk/blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s-en.html"
+  ],
+  "copyedit_history": [
+    {
+      "date": "2026-11-17",
+      "scope": "Jazyková korektúra a spresnenie nekauzálnych tvrdení; plný text štúdie nebol nanovo overený",
+      "original_published_at": "2026-11-17"
+    }
   ]
 }
