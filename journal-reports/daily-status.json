@@ -1,12 +1,12 @@
 {
-  "checked_at": "2026-11-17T08:10:07.666006+00:00",
+  "checked_at": "2026-11-17T14:18:16.180327+00:00",
   "timezone": "Europe/Bratislava",
-  "schedule": "7,27,47 7-11 * * *",
+  "schedule": "7,27,47 6-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
-  "preparation_start": "07:07 Europe/Bratislava",
-  "backup_checks": "07:27, 07:47 and every :07/:27/:47 through 11:47; one daily delivery",
-  "next_scheduled_local": "2026-11-18T07:07:00+01:00",
-  "next_scheduled_utc": "2026-11-18T06:07:00+00:00",
+  "preparation_start": "06:07 Europe/Bratislava",
+  "backup_checks": "Every :07/:27/:47 from 06:07 through 11:47; stop after 5 published articles",
+  "next_scheduled_local": "2026-11-18T06:07:00+01:00",
+  "next_scheduled_utc": "2026-11-18T05:07:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
   "generator_capability": "abstract_scoped_bilingual_editorials",
@@ -19,11 +19,7 @@
     "2026-11-17-7b1cd7a6ed9b",
     "2026-11-17-c5dba81c87a6"
   ],
-  "ready_bilingual_articles": [
-    "2026-11-09-85c1caa8cfb7",
-    "2026-11-09-dd6b0ede6524",
-    "2026-11-09-f53865034b2c"
-  ],
+  "ready_bilingual_articles": [],
   "pending_editorial_work": [
     {
       "id": "2026-11-04-5b5dc38594ea",
@@ -64,6 +60,18 @@
     {
       "id": "2026-11-09-25fe711e4a3b",
       "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-09-85c1caa8cfb7",
+      "reason": "New abstract-based article failed quality gate: sk: required research/limitations/practical sections missing; en: required research/limitations/practical sections missing"
+    },
+    {
+      "id": "2026-11-09-dd6b0ede6524",
+      "reason": "New abstract-based article failed quality gate: sk: required research/limitations/practical sections missing; en: required research/limitations/practical sections missing"
+    },
+    {
+      "id": "2026-11-09-f53865034b2c",
+      "reason": "New abstract-based article failed quality gate: sk: required research/limitations/practical sections missing; en: required research/limitations/practical sections missing"
     }
   ],
   "published_research_draft_ids": [

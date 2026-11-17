@@ -123,3 +123,10 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-2621074106fee6: [Basile Morin](https://commons.wikimedia.org/wiki/File:Entrance_lounge_and_reception_desks_of_the_Carlton_Hotel_Downtown_Core_Singapore.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-a28190661b5e89: [WAO Coworking](https://commons.wikimedia.org/wiki/File:Openspace_wao_coworking.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- pexels-4473903: [Ketut Subiyanto](https://www.pexels.com/photo/photo-of-mother-working-at-home-4473903/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7433835: [Vlada Karpovich](https://www.pexels.com/photo/employees-having-a-meeting-at-the-office-7433835/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7088485: [MART PRODUCTION](https://www.pexels.com/photo/photo-of-an-ob-gyn-looking-in-the-monitor-7088485/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-30719169: [David Toledo](https://www.pexels.com/photo/smiling-bank-employee-at-bbva-reception-desk-30719169/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7988219: [Mikhail Nilov](https://www.pexels.com/photo/people-having-a-business-meeting-in-the-office-7988219/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-8877381: [Mark Stebnicki](https://www.pexels.com/photo/women-sorting-tomatoes-on-a-production-line-8877381/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n

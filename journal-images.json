@@ -736,7 +736,9 @@
         "640": "406b13893ae00891f2ba6318b13e7b21f649c5dc247a0e3373570b685ae5a925",
         "1280": "2449271e6dd0bf8ef8a5877c40e26d686f21f956857b2aa7cb2acd207a89bfbf",
         "social": "0b5b227fab81528a554d74f2e8cc3e378102f9b6091f0d10fb8273edd30879a6"
-      }
+      },
+      "excluded_from_reuse": true,
+      "excluded_reason": "2026-11-17 editorial review: photo unrelated to the study topic"
     },
     {
       "id": "commons-6ee4892cf5ee1c",
@@ -1056,7 +1058,9 @@
         "640": "a5c8be2dbdffec2055c70cc936f17e38f5c14f72ea3430aa6d09b2ee83c4f410",
         "1280": "8af252154104dced9b3dfb5071c04b954be355848a326cc28071bc65abff2ac7",
         "social": "3539075d97468e63c93c46f05f88b36f2396d66bc1981d0191146e15fe211acf"
-      }
+      },
+      "excluded_from_reuse": true,
+      "excluded_reason": "2026-11-17 editorial review: photo unrelated to the study topic"
     },
     {
       "id": "commons-3c1f48affd2c93",
@@ -1408,7 +1412,9 @@
         "640": "7eed613a2a5b515da3e98a1d66a032378e391fc26355032976b142e8ef0da0fb",
         "1280": "75cb03ceb84fff69fa1bd23a8e51d54d876c5ac4e5ae34a16ca1edd3d6420121",
         "social": "d9b12c24f2b0ecd4cf30dbb9b9a3b4d53e61f5a35d95efdb1590d7cc75a81290"
-      }
+      },
+      "excluded_from_reuse": true,
+      "excluded_reason": "2026-11-17 editorial review: photo unrelated to the study topic"
     },
     {
       "id": "commons-808986c87eac3b",
@@ -1440,7 +1446,9 @@
         "640": "ba542c1af013ff216b7f1bf4920159de7c3b807891aa8998bcb08d3495806aa8",
         "1280": "3df1f11af3449c129aa7990969efc71ad2c2b616fed041dc0a54b1889f62177e",
         "social": "c99cbc5e55f4fb266d19ece52614c455e129f7076fb839fdb9aabfeeb365621d"
-      }
+      },
+      "excluded_from_reuse": true,
+      "excluded_reason": "2026-11-17 editorial review: photo unrelated to the study topic"
     },
     {
       "id": "commons-ec1beda1216a51",
@@ -1536,7 +1544,9 @@
         "640": "f96d67d0613357b1ea97b3052dc80a933d22412806fd3b3afc219af56d5f789e",
         "1280": "eaa0e8f2b311928b46a7f3fdfab50186cd2476ca6e621358bc1a5fe714308774",
         "social": "9a5360f9aa12556b77178f424b90d1d1e59ca6b34158d0a9f426716a6bf5c7fb"
-      }
+      },
+      "excluded_from_reuse": true,
+      "excluded_reason": "2026-11-17 editorial review: photo unrelated to the study topic"
     },
     {
       "id": "commons-7c921d46a438af",
@@ -1664,7 +1674,9 @@
         "640": "379572bb446448501f8b9767dbe2ea4448e95b8fe4646f6799bed001bf54df80",
         "1280": "88c350ca763e1556f4fb4dc2c6b5693a5675c4ccf07fd216639a8f20bba981de",
         "social": "921142af9c71e0104bf9c31d81af35723edcce5df02c6fa673120db855985dd1"
-      }
+      },
+      "excluded_from_reuse": true,
+      "excluded_reason": "2026-11-17 editorial review: photo unrelated to the study topic"
     },
     {
       "id": "commons-4ea8a8b0a9e059",
@@ -2017,6 +2029,198 @@
         "1280": "9fc325f1d6164671c18286097b0fc482c8fe383992d7da8b7d8d7cd2780837cb",
         "social": "0891f152cbc61708f214f2d885bf056a9e1bca8adf58eb134001119a3d521cb8"
       }
+    },
+    {
+      "id": "pexels-4473903",
+      "provider": "Pexels",
+      "provider_id": "4473903",
+      "source_page": "https://www.pexels.com/photo/photo-of-mother-working-at-home-4473903/",
+      "download_url": "https://images.pexels.com/photos/4473903/pexels-photo-4473903.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Ketut Subiyanto",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "3acba8220ff88178730deb0294149f2a8992fa1ab4dc998cc6b6da3aa784a43a",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Matka pracuje na notebooku doma vedľa dieťaťa",
+        "en": "Mother working on a laptop at home beside her child"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-4473903-640.webp",
+        "1280": "/assets/journal/pexels-4473903-1280.webp",
+        "social": "/assets/journal/pexels-4473903-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "0daf926ee6a84610da797dd05a10464307ae5a671d74907e73b758af80c0d75b",
+        "1280": "3e67494882bc97ef848ad63a04d310db3089afe002df3261d45d2fa204765da2",
+        "social": "8d15d6501532e65ff4048feac5d3ac63329690b6bdfff474ef70da9a6bd5b01a"
+      }
+    },
+    {
+      "id": "pexels-7433835",
+      "provider": "Pexels",
+      "provider_id": "7433835",
+      "source_page": "https://www.pexels.com/photo/employees-having-a-meeting-at-the-office-7433835/",
+      "download_url": "https://images.pexels.com/photos/7433835/pexels-photo-7433835.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Vlada Karpovich",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "f9c092fab6ca10dc44f9d57cf185843c794ef5d07910b34434b2bb48c5851cea",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Zamestnanci spolupracujú na pracovnom stretnutí",
+        "en": "Employees collaborating at an office meeting"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7433835-640.webp",
+        "1280": "/assets/journal/pexels-7433835-1280.webp",
+        "social": "/assets/journal/pexels-7433835-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "c14dc353b2c8440ca4b82a24736496d9c44110a09e5a4a15d5acf9fc8039b1cc",
+        "1280": "9524daa9b38db7b9b61d181c3c3adfc5cd73c6ff2a7e1185eb8db735cda818e5",
+        "social": "0867708d26ce59d3244d1c827a9410e852ddd6a2c16f3778574cceb78c2e1dcb"
+      }
+    },
+    {
+      "id": "pexels-7088485",
+      "provider": "Pexels",
+      "provider_id": "7088485",
+      "source_page": "https://www.pexels.com/photo/photo-of-an-ob-gyn-looking-in-the-monitor-7088485/",
+      "download_url": "https://images.pexels.com/photos/7088485/pexels-photo-7088485.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "MART PRODUCTION",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "e74d8692f17bd1785cf02f0b155412099584c7d9738c8e2213e5c410cc716223",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Gynekologička sleduje diagnostický obraz na monitore",
+        "en": "Gynecologist reviewing a diagnostic image on a monitor"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7088485-640.webp",
+        "1280": "/assets/journal/pexels-7088485-1280.webp",
+        "social": "/assets/journal/pexels-7088485-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "845808874bfb3fb23e31a9b8a759fe216dce5134c3231518002482c0f38a67a4",
+        "1280": "5314ad7b90167b56b8bc34136637ae5e6cf2510622c1d660d763e280b80f44d5",
+        "social": "07be3b962ed1443419c1411a95afc62166dda8a64a09cd487ec15b6e9c1ebe0f"
+      }
+    },
+    {
+      "id": "pexels-30719169",
+      "provider": "Pexels",
+      "provider_id": "30719169",
+      "source_page": "https://www.pexels.com/photo/smiling-bank-employee-at-bbva-reception-desk-30719169/",
+      "download_url": "https://images.pexels.com/photos/30719169/pexels-photo-30719169.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "David Toledo",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "1c67aacf5b348771729aeacf35290622d0cd837d3597bdba773623041b5a4651",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Pracovník banky v klientskom centre",
+        "en": "Bank employee in a customer-facing branch"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-30719169-640.webp",
+        "1280": "/assets/journal/pexels-30719169-1280.webp",
+        "social": "/assets/journal/pexels-30719169-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "70489e8c69bdad8b8429bf88683cdff103f41a4d88f32a0f83bcbe489f3b0dc4",
+        "1280": "4d6d8b2a076296c09894dab8ddec9ea50961c9b5c7dc40f9572c2042e05bf025",
+        "social": "0cf1722a218bd41d7565f258e6625cecddc0657e5d9cd60f0891fc3a9a54cafe"
+      }
+    },
+    {
+      "id": "pexels-7988219",
+      "provider": "Pexels",
+      "provider_id": "7988219",
+      "source_page": "https://www.pexels.com/photo/people-having-a-business-meeting-in-the-office-7988219/",
+      "download_url": "https://images.pexels.com/photos/7988219/pexels-photo-7988219.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Mikhail Nilov",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "2a166a5f99c9eda31db65542f4b864243797d2c9a01638605cfce1f5a53bde23",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Obchodný tím na pracovnej porade",
+        "en": "Business team taking part in a strategy meeting"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7988219-640.webp",
+        "1280": "/assets/journal/pexels-7988219-1280.webp",
+        "social": "/assets/journal/pexels-7988219-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "cf3137a320603bf65a7afce7bf183918291a5337efac270fd95d40d5ea6f197f",
+        "1280": "8b54dd7c672ac670ca47efa45458bbb590bf0ed272a7b6214732e5da96e3d9b9",
+        "social": "122aa79284152809a1e0bdf59fb71980ad41fa6267eeeda239566e23e728c378"
+      }
+    },
+    {
+      "id": "pexels-8877381",
+      "provider": "Pexels",
+      "provider_id": "8877381",
+      "source_page": "https://www.pexels.com/photo/women-sorting-tomatoes-on-a-production-line-8877381/",
+      "download_url": "https://images.pexels.com/photos/8877381/pexels-photo-8877381.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Mark Stebnicki",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "dd1d5f0a40fa5303953d1aa1406842edcd19d58b5195c2a867f7cf3a1a941f7f",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Kontrola kvality pri triedení paradajok v potravinárstve",
+        "en": "Food industry workers sorting tomatoes for quality control"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-8877381-640.webp",
+        "1280": "/assets/journal/pexels-8877381-1280.webp",
+        "social": "/assets/journal/pexels-8877381-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "a3c2b30bc13c85587c5b5aa8fc85ad1f52748df43fceaf688af4bd3b187f0660",
+        "1280": "a6b9ddf38fea05658fba8422f69269f912140b484b2eecb8b6527056fb36f851",
+        "social": "46f613d702cec3bad8d1a49037319661d450ae94ca2d5bc4403741e8acb4c90a"
+      }
     }
   ],
   "assignments": {
@@ -2046,12 +2250,12 @@
     "blog-journal-indicky-strieborny-a-premiovy-trh-mladeze-prilezitosti-a-obmedzenia-z-pohlad.html": "commons-f331f018f40229",
     "blog-journal-eticka-umela-inteligencia-v-riadeni-ludskych-zdrojov-bibliometricky-prehlad.html": "commons-6ee4892cf5ee1c",
     "blog-journal-vplyv-online-recenzii-na-doveru-spotrebitelov-na-tiktoku-co-hovori-nedavny-v.html": "commons-c16f1d45c75cab",
-    "blog-journal-rovnovaha-medzi-pracou-a-sukromnym-zivotom-co-ukazuje-studia-z-kene-o-pracov.html": "commons-25bf0d1524d2cd",
+    "blog-journal-rovnovaha-medzi-pracou-a-sukromnym-zivotom-co-ukazuje-studia-z-kene-o-pracov.html": "pexels-4473903",
     "blog-journal-udrzanie-zakaznikov-v-d2c-e-commerce-integrovany-ramec-a-jeho-hranice.html": "pexels-7857559",
     "blog-journal-informacne-liderstvo-ako-klima-na-pracovisku-ovplyvnuje-digitalnu-transforma.html": "pexels-8190815",
     "blog-journal-demokraticky-styl-vedenia-a-vykonnost-sestier-co-hovori-nova-studia-z-indone.html": "pexels-6129145",
     "blog-journal-vedenie-osetrovatelstva-a-metrika-vykonnosti-pri-umelej-inteligencii-v-gastr.html": "commons-359089123396ea",
-    "blog-journal-etika-v-potravinarstve-a-lojalita-zakaznikov-co-hovori-novy-vyskum-o-vztahoc.html": "commons-82a92c00117f4f",
+    "blog-journal-etika-v-potravinarstve-a-lojalita-zakaznikov-co-hovori-novy-vyskum-o-vztahoc.html": "pexels-8877381",
     "blog-journal-univerzity-a-socialne-inovacie-zistenia-vyskumu-nemeckych-socialnych-podnika.html": "commons-9c02775d9fdca4",
     "blog-journal-nova-tvar-angazovanosti-zamestnancov-flexibilita-na-pracovisku-a-jej-medze.html": "commons-60cb5c132fd50c",
     "blog-journal-vedenie-firmy-a-financna-gramotnost-suvislost-s-produktivitou-zamestnancov-v.html": "commons-3c1f48affd2c93",
@@ -2064,13 +2268,13 @@
     "blog-journal-umela-inteligencia-v-riadeni-projektovych-portfolii-co-odhaluje-novy-vyskum.html": "commons-f0291c7a2843e5",
     "blog-journal-transformacia-manazerskej-uctovnosti-v-ere-umelej-inteligencie-preskumanie-n.html": "commons-0546f74b6714dd",
     "blog-journal-digitalna-sledovatelnost-v-mliekarenskom-retazci-studia-a-redakcne-odporucan.html": "commons-ec1beda1216a51",
-    "blog-journal-employer-branding-a-dostojna-praca-porovnanie-itc-limited-a-icici-bank.html": "commons-808986c87eac3b",
-    "blog-journal-dopad-vybavovania-reklamacii-na-spravanie-klientov-co-odhaluje-nova-studia-z.html": "commons-b4265782fcd516",
-    "blog-journal-digitalna-kolposkopia-telemedicina-a-umela-inteligencia-v-modernom-skriningu.html": "commons-6c9d212c200f09",
+    "blog-journal-employer-branding-a-dostojna-praca-porovnanie-itc-limited-a-icici-bank.html": "pexels-7433835",
+    "blog-journal-dopad-vybavovania-reklamacii-na-spravanie-klientov-co-odhaluje-nova-studia-z.html": "pexels-30719169",
+    "blog-journal-digitalna-kolposkopia-telemedicina-a-umela-inteligencia-v-modernom-skriningu.html": "pexels-7088485",
     "blog-journal-budovanie-lojality-v-kaviarniach-co-hovori-veda-o-marketingu-a-spokojnosti.html": "commons-4ea8a8b0a9e059",
     "blog-journal-digitalne-dvojicky-v-stavebnictve-cesta-k-udrzatelnosti-a-pohode.html": "commons-7c921d46a438af",
     "blog-journal-digitalny-marketing-a-elektricke-motocykle-co-hovori-nova-studia-o-rozhodova.html": "commons-868acebe949f5a",
-    "blog-journal-buducnost-b2b-marketingu-ako-ai-meni-pravidla-hry.html": "commons-e6f98f02ae1913",
+    "blog-journal-buducnost-b2b-marketingu-ako-ai-meni-pravidla-hry.html": "pexels-7988219",
     "blog-journal-toxicke-vedenie-a-odcudzenie-v-praci-co-hovori-nova-studia.html": "commons-bf232389b9890c",
     "blog-journal-digital-nostalgia-and-purchase-intention-among-young-consumers-roles-of-atta.html": "commons-fbf3c61c779fed",
     "blog-journal-predicting-teacher-job-satisfaction-in-public-elementary-schools-the-joint-c.html": "commons-01a7ebdca1f715",
