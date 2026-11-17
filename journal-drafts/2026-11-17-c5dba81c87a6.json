@@ -29,7 +29,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "cb721d58fa53131ebbed07b79c7a2931eb713277ac1dbe2c29c02132cef12f48",
+    "content_sha256": "d7df1248d138116b411be8851f44658211519a9e0e38565d8ee47c5ddde5f889",
     "languages": {
       "sk": {
         "title": "Digitálne vedenie a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum",
@@ -128,7 +128,7 @@
             "paragraphs": [
               "For small and medium-sized tourism firms, the relevant issue is the relationship between digital leadership, staff capability and organisational performance. Observed associations do not, by themselves, prove that installing a particular tool will increase revenue or guest satisfaction. The sample and the study design matter when considering transferability.",
               "A hotel or travel-service owner could ask which operations depend on one employee and where the team lacks digital skills. Mapping tasks, training staff together, documenting handovers and tracking response times would be one possible small pilot. These steps are an editorial illustration, not an intervention shown to work by the cited study.",
-              "The managerial lesson is not that businesses must build a new website. Rather, it is to examine how leadership supports learning, cooperation and responsible technology use in the actual tourism operation."
+              "For management, the relevant question is how leadership supports learning, cooperation and responsible technology use in everyday tourism operations."
             ]
           },
           {
@@ -152,7 +152,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "cb721d58fa53131ebbed07b79c7a2931eb713277ac1dbe2c29c02132cef12f48",
+  "approved_content_sha256": "d7df1248d138116b411be8851f44658211519a9e0e38565d8ee47c5ddde5f889",
   "image_id": "commons-2621074106fee6",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
@@ -170,6 +170,11 @@
       "date": "2026-11-17",
       "scope": "Remove forced website-service promotions; add precise entrepreneur relevance; retain source findings and DOI",
       "independent_scientific_review": false
+    },
+    {
+      "date": "2026-11-17",
+      "scope": "Final removal of unrelated website terminology",
+      "new_scientific_review": false
     }
   ]
 }
