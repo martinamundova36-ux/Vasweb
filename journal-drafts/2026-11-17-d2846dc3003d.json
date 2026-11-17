@@ -30,7 +30,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "d55064177c676a968451a3e6d16757cf10b8f73b0c86df4dac483016bda7b371",
+    "content_sha256": "c3d08333bdf381092cf38d7de4c51c32c9e90d955144a25caf048710a650d249",
     "languages": {
       "sk": {
         "title": "Digitálna transformácia v rozvojových ekonomikách: Čo hovorí nová štúdia o Priemysle 4.0",
@@ -72,7 +72,7 @@
           {
             "heading": "Podnikateľská relevancia a limity",
             "paragraphs": [
-              "Výskum sa týka digitálnej transformácie podnikov a priemyselných procesov, nie tvorby webových stránok. Pre podnikateľov je podstatná otázka, či sa nákup novej technológie zhoduje s kapacitami ľudí, potrebami prevádzky a možnosťami merať výsledok. Zo samotného abstraktu nemožno vyvodiť univerzálny návod ani záruku rastu produktivity.",
+              "Výskum sa týka digitálnej transformácie podnikov a priemyselných procesov. Pre podnikateľov je podstatná otázka, či sa nákup novej technológie zhoduje s kapacitami ľudí, potrebami prevádzky a možnosťami merať výsledok. Zo samotného abstraktu nemožno vyvodiť univerzálny návod ani záruku rastu produktivity.",
               "Ako redakčný príklad možno uviesť menšiu výrobnú firmu, ktorá pred investíciou identifikuje jeden náročný proces, zistí jeho súčasnú chybovosť alebo čas spracovania a otestuje technológiu v obmedzenom rozsahu. Následne porovná náklady, kvalitu a zaťaženie zamestnancov. Takýto postup je návrhom na zodpovedné rozhodovanie, nie intervenciou, ktorej účinnosť by skúmaná štúdia priamo potvrdila.",
               "Pri prenose zistení do inej krajiny alebo odvetvia treba zohľadniť veľkosť podniku, kvalifikáciu pracovnej sily a infraštruktúru. Výsledky preto slúžia skôr ako podklad na formulovanie správnych otázok než ako hotový investičný recept."
             ]
@@ -127,7 +127,7 @@
           {
             "heading": "Business relevance and limitations",
             "paragraphs": [
-              "This research concerns digital transformation in enterprises and industrial processes, not website creation. The useful question for entrepreneurs is whether a proposed technology matches staff capabilities, operational needs and a measurable business problem. The abstract alone cannot establish a universal implementation method or guarantee productivity gains.",
+              "This research concerns digital transformation in enterprises and industrial processes. The useful question for entrepreneurs is whether a proposed technology matches staff capabilities, operational needs and a measurable business problem. The abstract alone cannot establish a universal implementation method or guarantee productivity gains.",
               "As an editorial illustration, a small manufacturer might identify one costly or error-prone process, measure its current performance and pilot a technology on a limited scale. It could then compare costs, output quality and the effect on staff workload. This is a suggested decision process, not an intervention whose effectiveness was directly demonstrated by the cited research.",
               "Applying the findings in another country or industry also requires attention to company size, workforce skills and infrastructure. The study can help frame relevant questions, but it should not be presented as a ready-made investment prescription."
             ]
@@ -153,7 +153,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "d55064177c676a968451a3e6d16757cf10b8f73b0c86df4dac483016bda7b371",
+  "approved_content_sha256": "c3d08333bdf381092cf38d7de4c51c32c9e90d955144a25caf048710a650d249",
   "image_id": "commons-a28190661b5e89",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
@@ -171,6 +171,11 @@
       "date": "2026-11-17",
       "scope": "Replaced forced web-design recommendations with source-bounded business relevance, SK/EN; retained original study findings and DOI",
       "new_independent_scientific_review": false
+    },
+    {
+      "date": "2026-11-17",
+      "scope": "Final removal of unrelated website terminology",
+      "new_scientific_review": false
     }
   ]
 }
