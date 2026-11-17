@@ -9,12 +9,12 @@ from free_journal import validate_editorial
 
 ROOT = Path(__file__).resolve().parents[2]
 ZONE = ZoneInfo('Europe/Bratislava')
-SCHEDULE = '7,27,47 7-11 * * *'
+SCHEDULE = '7,27,47 6-11 * * *'
 
 def daily_due(now):
     local = now.astimezone(ZONE)
     record = ROOT / 'journal-reports/daily-delivery' / (str(local.date()) + '.json')
-    if local.hour < 7 or (local.hour == 7 and local.minute < 7):return False
+    if local.hour < 6 or (local.hour == 6 and local.minute < 7):return False
     if not record.exists():return True
     latest = json.loads(record.read_text())
     return latest.get('published_articles', 0) < 5
@@ -22,11 +22,16 @@ def daily_due(now):
 
 
 def next_run(now):
+    """Next actual primary or backup check, not just tomorrow's first check."""
     local = now.astimezone(ZONE)
-    candidate = local.replace(hour=7, minute=7, second=0, microsecond=0)
-    if candidate <= local:
-        candidate += dt.timedelta(days=1)
-    return candidate
+    for offset in (0, 1):
+        day = (local + dt.timedelta(days=offset)).date()
+        for hour in range(6, 12):
+            for minute in (7, 27, 47):
+                candidate = dt.datetime(day.year, day.month, day.day, hour, minute, tzinfo=ZONE)
+                if candidate > local:
+                    return candidate
+    raise RuntimeError('No future Journal schedule found')
 
 
 def status():
@@ -50,7 +55,7 @@ def status():
     auto_manuscripts=sum(json.loads(p.read_text()).get('generated_on')==today for p in (ROOT/'journal-articles-pending').glob('*.json'))
     published_today=[p.stem for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('published_at')==today]
     result = {'checked_at': now.isoformat(), 'timezone': ZONE.key,
-        'schedule': SCHEDULE, 'primary_target': '08:00 Europe/Bratislava', 'preparation_start': '07:07 Europe/Bratislava', 'backup_checks': '07:27, 07:47 and every :07/:27/:47 through 11:47; one daily delivery', 'next_scheduled_local': scheduled.isoformat(),
+        'schedule': SCHEDULE, 'primary_target': '08:00 Europe/Bratislava', 'preparation_start': '06:07 Europe/Bratislava', 'backup_checks': 'Every :07/:27/:47 from 06:07 through 11:47; stop after 5 published articles', 'next_scheduled_local': scheduled.isoformat(),
         'next_scheduled_utc': scheduled.astimezone(dt.timezone.utc).isoformat(),
         'scheduler_timing': 'Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.',
         'daily_maximum': 5, 'generator_capability': 'abstract_scoped_bilingual_editorials',
@@ -68,17 +73,17 @@ def status():
 
 
 def self_test():
-    for date, expected in [('2026-01-15T07:00:00+00:00', '2026-01-16T07:07:00+01:00'),
+    for date, expected in [('2026-01-15T07:00:00+00:00', '2026-01-15T08:07:00+01:00'),
                            ('2026-07-15T05:00:00+00:00', '2026-07-15T07:07:00+02:00'),
-                           ('2026-03-28T08:00:00+00:00', '2026-03-29T07:07:00+02:00'),
-                           ('2026-10-24T08:00:00+00:00', '2026-10-25T07:07:00+01:00')]:
+                           ('2026-03-28T08:00:00+00:00', '2026-03-28T09:07:00+01:00'),
+                           ('2026-10-24T08:00:00+00:00', '2026-10-24T10:07:00+02:00')]:
         assert next_run(dt.datetime.fromisoformat(date)).isoformat() == expected
     workflow = (ROOT / '.github/workflows/publish-research-journal.yml').read_text()
     assert "cron: '" + SCHEDULE + "'\n      timezone: 'Europe/Bratislava'" in workflow
     assert workflow.count('  schedule:') == 1
     config = json.loads((ROOT / 'journal-config.json').read_text())
     assert config['target_studies_per_day'] <= 5 and not config['paid_ai_enabled']
-    print('PASS: preparation from 07:07, target 08:00 Bratislava, winter/summer and both DST transitions; one discovery schedule, five-candidate maximum. This is configuration validation, not evidence of a future scheduler event.')
+    print('PASS: preparation from 06:07, target 08:00 Bratislava, winter/summer and both DST transitions; one discovery schedule, five-candidate maximum. This is configuration validation, not evidence of a future scheduler event.')
 
 
 if __name__ == '__main__':
