@@ -14,6 +14,7 @@ import sys
 from zoneinfo import ZoneInfo
 from free_journal import validate_editorial, editorial_digest
 from ai_journal_writer import HEADINGS_SK, HEADINGS_EN
+from journal_quality import quality_issues
 
 ROOT=Path(__file__).resolve().parents[2]
 TODAY=dt.datetime.now(ZoneInfo("Europe/Bratislava")).date().isoformat()
@@ -38,6 +39,8 @@ def attach_abstract_editorial(src, manuscript):
     if not src.get('abstract_available') or src.get('abstract_words',0)<80:raise ValueError('Original source has no usable abstract')
     texts=manuscript.get('languages') or {}
     if set(texts)!={'sk','en'}:raise ValueError('Incomplete bilingual manuscript')
+    quality_errors=quality_issues(texts)
+    if quality_errors:raise ValueError('Editorial quality gate: '+'; '.join(quality_errors))
     for lang,headings in (('sk',HEADINGS_SK),('en',HEADINGS_EN)):
         if [section.get('heading') for section in texts[lang].get('sections',[])]!=headings:
             raise ValueError('Changed or incomplete AI structure: '+lang)
