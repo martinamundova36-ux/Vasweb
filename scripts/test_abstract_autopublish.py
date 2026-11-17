@@ -22,11 +22,24 @@ def reject(fn):
     raise AssertionError('Unsafe article was accepted')
 
 def language(headings,lang):
-    paragraph='According to the publisher abstract, this topic may help business owners ask better questions and test small practical changes before adopting wider recommendations. Every practical example remains editorial advice rather than an independently verified result of the scientific study.'
+    base = (
+        "Podľa abstraktu nemožno vyvodzovať viac než uvedené zistenia. "
+        "Praktický príklad je redakčné odporúčanie, nie experimentálny výsledok. "
+        "Pri overovaní použijeme meranie a nezávislé porovnanie pred rozhodnutím. "
+        if lang=='sk' else
+        "According to the abstract, the scope of evidence remains limited. "
+        "A practical example is editorial advice, not an experimental result. "
+        "A pilot measurement and independent comparison are necessary before decisions. "
+    )
+    sections = [
+        {'heading':heading,'paragraphs':[
+            (base*3)+' '+heading+' — first example.',
+            (base*3)+' '+heading+' — second example.'
+        ]} for heading in headings
+    ]
     return {'title':'Rozhodovanie o webe na základe dôkazov' if lang=='sk' else 'Evidence-informed website decisions',
             'description':'Redakčný pohľad na abstrakt vedeckej štúdie a praktické otázky pre malé firmy.' if lang=='sk' else 'A transparent editorial discussion of a study abstract and practical questions for small businesses.',
-            'lead':paragraph,
-            'sections':[{'heading':heading,'paragraphs':[paragraph,paragraph]} for heading in headings]}
+            'lead':base*3,'sections':sections}
 
 def main():
     source={'doi':'10.1234/example','title':'An example of workplace technology',
