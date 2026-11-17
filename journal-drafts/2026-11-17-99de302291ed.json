@@ -29,10 +29,10 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "deb3409943ae1c53295efbe9dfffbab49ab340883cd33742fbba855f4f3b320c",
+    "content_sha256": "5b1f9057d4383c90e4e1390877cde9f4b4a891986c2edac0451611045acda093",
     "languages": {
       "sk": {
-        "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Pohľad cez prištiepený abstrakt",
+        "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Čo ukazuje výskum",
         "description": "Preskúmali sme štúdiu z Esmeraldas o etnovýchove a umelej inteligencii. Prinášame redakčný rozbor a praktické odporúčania pre weby.",
         "lead": "Súčasné vzdelávacie trendy čoraz viac prepájajú moderné technológie s lokálnou kultúrnou identitou a komunitným rozvojom. Nová štúdia publikovaná vo Frontiers in Education sa venuje vzťahu medzi digitálnou gramotnosťou a vodcovstvom mládeže. V tomto článku sa pozrieme na to, čo odhaľuje dostupný abstrakt a ako možno tieto poznatky eticky preniesť do online prostredia.",
         "sections": [
@@ -72,8 +72,8 @@
             "heading": "Praktický návrh WEBU",
             "paragraphs": [
               "Na základe redakčnej analýzy témy prinášame užitočné odporúčania pre prevádzkovateľov webov, malé podniky a tvorcov marketingového obsahu. Digitálna gramotnosť a etický prístup k technológiám by mali byť pevnou súčasťou správy webových stránok. Majitelia e-shopov a firemných portálov by mali dbať na to, aby texty a vizuály na webe reprezentovali rozmanitosť reálnych zákazníkov citlivým a rešpektujúcim spôsobom.",
-              "V oblasti tvorby obsahu a marketingu sa odporúča vyhnúť sa slepému spoliehaniu sa na generatívnu umelú inteligenciu pri vytváraní príbehov o menšinách alebo lokálnych komunitách. Namiesto automatizovaných fráz je vhodné zapojiť reálnych ľudí, autentické názory a dbať na etické štandardy. Zabezpečíte tak vyššiu dôveryhodnosť vašej značky a predijdete neúmyselným stereotypom v digitálnom priestore.",
-              "Pre manažment na pracovisku a správu webových projektov to znamená zaviesť interné pravidlá pre prácu s umelou inteligenciou. Tím by mal prejsť základným školením o tom, ako AI nástroje správne a kriticky využívat. Transparentná komunikácia so zákazníkmi o tom, kde a ako využívate technológie, buduje dlhodobú dôveru a posilňuje pozíciu webu na trhu."
+              "V oblasti tvorby obsahu a marketingu sa odporúča vyhnúť sa slepému spoliehaniu sa na generatívnu umelú inteligenciu pri vytváraní príbehov o menšinách alebo lokálnych komunitách. Namiesto automatizovaných fráz je vhodné zapojiť reálnych ľudí, autentické názory a dbať na etické štandardy. Takýto postup môže podporiť dôveryhodnú komunikáciu a znížiť riziko stereotypného zobrazovania v digitálnom priestore.",
+              "Pre manažment na pracovisku a správu webových projektov to znamená zaviesť interné pravidlá pre prácu s umelou inteligenciou. Tím by mal prejsť základným školením o tom, ako AI nástroje správne a kriticky využívať. Transparentná komunikácia so zákazníkmi o tom, kde a ako využívaťe technológie, buduje dlhodobú dôveru a posilňuje pozíciu webu na trhu."
             ]
           },
           {
@@ -152,12 +152,19 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "deb3409943ae1c53295efbe9dfffbab49ab340883cd33742fbba855f4f3b320c",
+  "approved_content_sha256": "5b1f9057d4383c90e4e1390877cde9f4b4a891986c2edac0451611045acda093",
   "image_id": "commons-166aa274f1a8f2",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
   "published_urls": [
     "https://www.webu.sk/blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab.html",
     "https://www.webu.sk/blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab-en.html"
+  ],
+  "copyedit_history": [
+    {
+      "date": "2026-11-17",
+      "scope": "Jazyková korektúra a spresnenie nekauzálnych tvrdení; plný text štúdie nebol nanovo overený",
+      "original_published_at": "2026-11-17"
+    }
   ]
 }
