@@ -4530,7 +4530,8 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
       ],
       "languages": {
         "sk": {
@@ -4539,10 +4540,10 @@
           "description": "Podľa abstraktu nedávnej štúdie z indonézskej nemocnice existuje významný vzťah medzi demokratickým štýlom vedenia a pracovným výkonom sestier.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-08",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "591f9a09698f8e1e5c678bb05fec6945135c7560ce33bd2300779bccf51f1490"
+          "content_sha256": "c87b99a5dae99ce85886448cba5437a02979ca4f9b01e6989a46320eb27f819a"
         },
         "en": {
           "path": "blog-journal-demokraticky-styl-vedenia-a-vykonnost-sestier-co-hovori-nova-studia-z-indone-en.html",
@@ -7511,7 +7512,8 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
       ],
       "languages": {
         "sk": {
@@ -7520,10 +7522,10 @@
           "description": "Preskúmajte, ako diverzita, well-being a hodnotová ponuka zamestnávateľa formujú nábor talentov v rôznych odvetviach podľa nového výskumu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-14",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "7265589f88b58e102543907739db857235e0ebc9c58cc2566a9ff8977d7c4df8"
+          "content_sha256": "5764cb40bc615ea1d577858988a6128503327c361ba3e1e95232a45938332c84"
         },
         "en": {
           "path": "blog-journal-employer-branding-a-dostojna-praca-porovnanie-itc-limited-a-icici-bank-en.html",
@@ -8711,7 +8713,8 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
       ],
       "languages": {
         "sk": {
@@ -8720,10 +8723,10 @@
           "description": "Analýza štúdie o vplyve riadenia a kultúry na spokojnosť učiteľov. Ponúkame pohľad na dáta z abstraktu a prenosné rady pre manažment.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "4c107be22a693053e7aae1e67d3795c3822c2020f0f9f7bdfb6b2ab8d84cd92b"
+          "content_sha256": "96f4d8657dec37961f885d931512e8a3097f093581380a30cd7c269b2344096d"
         },
         "en": {
           "path": "blog-journal-vzdelavaci-manazment-pod-lupou-ako-vedenie-skol-a-kultura-vplyvaju-na-spokoj-en.html",
@@ -8861,7 +8864,8 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
       ],
       "languages": {
         "sk": {
@@ -8870,10 +8874,10 @@
           "description": "Preskúmajte, ako digitálna nostalgia a sociálne siete ovplyvňujú emócie a dôveru mladých spotrebiteľov podľa nedávneho odborného výskumu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "f4dcfba86af4bedf0af46baf6346e8840db449fa3c40c95732354e63ef59a0b0"
+          "content_sha256": "a77900a712c3c12e6fe9f9327fd46bd1ee58dbbd204fd43af71c169afd8c0f85"
         },
         "en": {
           "path": "blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s-en.html",
@@ -9011,19 +9015,20 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
       ],
       "languages": {
         "sk": {
           "path": "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab.html",
-          "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Pohľad cez prištiepený abstrakt",
+          "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Čo ukazuje výskum",
           "description": "Preskúmali sme štúdiu z Esmeraldas o etnovýchove a umelej inteligencii. Prinášame redakčný rozbor a praktické odporúčania pre weby.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "d406f0b510cabec2008f937927a1e727d76bad675d1727e1baff1e195305c98e"
+          "content_sha256": "e90c9833cdb000c5dc964b801ba9099507b5fca17ab18a72883352318894f32e"
         },
         "en": {
           "path": "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab-en.html",
@@ -9161,19 +9166,20 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
       ],
       "languages": {
         "sk": {
           "path": "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum.html",
-          "title": "Digitálny lídring a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum",
+          "title": "Digitálne vedenie a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum",
           "description": "Analýza štúdie skúmajúcej vzťah digitálneho vedenia a výkonnosti v malých a stredných podnikoch cestovného ruchu s dôrazom na limity abstraktu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "663a04cc6a1f4eb0b94c240b7a0697fccd729fe3dab5a562b9c65feaa31ee14c"
+          "content_sha256": "7d14bfd043fc669aff74dc9a95ece4dac6dea1610e3211108c61534fdcea0bae"
         },
         "en": {
           "path": "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum-en.html",
@@ -9311,7 +9317,8 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
       ],
       "languages": {
         "sk": {
@@ -9320,10 +9327,10 @@
           "description": "Prehľad novej štúdie z roku 2026 o zavádzaní Priemyslu 4.0 na severe Kolumbie, jej metodických limitoch a praktických odporúčaniach pre web.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "ddb491bbbd3b0a84bb42b66dcf11c3f41fe7182acf1d7302aae80ba586929943"
+          "content_sha256": "5e8feec1b0362e52a9dcd9389ada1667abee568af0c7697d69a6cbb4259fc90a"
         },
         "en": {
           "path": "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr-en.html",
