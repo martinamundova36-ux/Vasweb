@@ -27,6 +27,7 @@ on:
       - 'journal-images.css'
       - 'assets/journal/**'
       - '.github/scripts/journal_images.py'
+      - '.github/scripts/repair_journal_photos.py'
       - '.github/scripts/journal_review_records.py'
       - 'scripts/journal_image_audit.py'
       - 'scripts/test_free_journal.py'
@@ -97,7 +98,7 @@ jobs:
         run: echo "due=$(python3 .github/scripts/journal_daily_status.py --due)" >> "$GITHUB_OUTPUT"
   publish:
     needs: validate
-    if: github.event.repository.private == false && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-recover]')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]')) || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner && inputs.action != 'notify-test'))
+    if: github.event.repository.private == false && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-recover]')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]')) || (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner && inputs.action != 'notify-test')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-photofix]'))
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -121,22 +122,25 @@ jobs:
       - name: Odstrániť násilné WEBU reklamy z výskumných zhrnutí
         if: github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]')
         run: python3 scripts/apply_journal_business_review.py --apply
+      - name: Opraviť tematicky nesprávne fotografie v existujúcich článkoch (bezplatne)
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-photofix]')
+        run: python3 .github/scripts/repair_journal_photos.py
       - name: Vyhľadať návrh alebo publikovať výslovne schválený článok
-        if: inputs.action != 'deploy' && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]'))
+        if: inputs.action != 'deploy' && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-photofix]'))
         env:
           JOURNAL_ACTION: ${{ inputs.action || 'draft' }}
           JOURNAL_DRAFT_ID: ${{ inputs.draft_id }}
         run: python3 .github/scripts/free_journal.py --action "$JOURNAL_ACTION" ${JOURNAL_DRAFT_ID:+--draft-id "$JOURNAL_DRAFT_ID"}
       - name: Doplniť SK/EN redakčné osnovy k dnešným bibliografickým podkladom
-        if: inputs.action != 'deploy' && inputs.action != 'publish' && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]'))
+        if: inputs.action != 'deploy' && inputs.action != 'publish' && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-photofix]'))
         run: python3 .github/scripts/editorial_briefs.py
       - name: Vytvoriť SK/EN redakčné rukopisy podľa abstraktov
-        if: inputs.action != 'deploy' && inputs.action != 'publish' && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]'))
+        if: inputs.action != 'deploy' && inputs.action != 'publish' && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-photofix]'))
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python3 .github/scripts/ai_journal_writer.py
       - name: Automaticky publikovať transparentne označené prehľady s DOI a vlastnými fotografiami
-        if: inputs.action != 'deploy' && inputs.action != 'publish' && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]'))
+        if: inputs.action != 'deploy' && inputs.action != 'publish' && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-cleanlinks]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-relevance-review]')) && !(github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-photofix]'))
         run: python3 .github/scripts/auto_publish_verified.py
       - name: Redakčná a SEO kontrola
         run: |
