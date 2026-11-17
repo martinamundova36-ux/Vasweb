@@ -114,7 +114,10 @@ def sync(root=ROOT):
         latest_block = ('<!-- WEBU-LATEST-IN-LIST:AUTOMATED -->'
                         f'<div class="webu-latest-label"><strong>{label}</strong><span>{count_label}</span></div>'
                         f'<div class="webu-new-grid">{feature}</div>')
-        archive = ''.join(card for href, card in cards.items() if href not in promoted)
+        archive_hrefs = [href for href in cards if href not in promoted]
+        # Keep the archive in publication-date order, not historical insertion order.
+        archive_hrefs.sort(key=lambda href: dates.get(urlsplit(href).path.rsplit('/', 1)[-1].removesuffix('.html').removesuffix('-en'), ''), reverse=True)
+        archive = ''.join(cards[href] for href in archive_hrefs)
         updated = raw[:old.start()] + latest_block + '<div class="vw-journal-grid">' + archive + raw[grid_end:]
         # The cover follows the most recent publication and its own local photo.
         cover = re.search(r'<a href="[^"]+" class="vw-journal-cover">.*?</a>', updated, re.S)
