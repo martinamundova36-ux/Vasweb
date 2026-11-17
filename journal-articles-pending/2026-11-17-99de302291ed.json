@@ -1,0 +1,118 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.3389/feduc.2026.1910214",
+  "generated_on": "2026-11-17",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Pohľad cez prištiepený abstrakt",
+      "description": "Preskúmali sme štúdiu z Esmeraldas o etnovýchove a umelej inteligencii. Prinášame redakčný rozbor a praktické odporúčania pre weby.",
+      "lead": "Súčasné vzdelávacie trendy čoraz viac prepájajú moderné technológie s lokálnou kultúrnou identitou a komunitným rozvojom. Nová štúdia publikovaná vo Frontiers in Education sa venuje vzťahu medzi digitálnou gramotnosťou a vodcovstvom mládeže. V tomto článku sa pozrieme na to, čo odhaľuje dostupný abstrakt a ako možno tieto poznatky eticky preniesť do online prostredia.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Digitálna transformácia prináša do vzdelávania nové výzvy, ktoré presahujú obyčajné ovládanie softvérových nástrojov. Moderná spoločnosť vyžaduje, aby si študenti a mladí lídri osvojili nielen technické zručnosti, ale aj kritické myslenie v online priestore. Práve prienik umelej inteligencie a kultúrnej identity otvára dôležitú diskusiu o tom, ako sa technológie integrujú do marginalizovaných alebo špecifických komunít.",
+            "Medzinárodný výskum v tejto oblasti sa zameriava na hľadanie rovnováhy medzi globálnymi inováciami a lokálnymi hodnotami. Autori Narcisa Jessenia Medranda Morales a Robert Germán García Iturralde prinášajú pohľad na to, ako sa mladí ľudia v Ekvádore vyrovnávajú s týmito výzvami. Pozornosť venujú najmä vzdelávacím procesom a rozvoju schopností v oblasti umelej inteligencie.",
+            "Pre prevádzkovateľov webových stránok a tvorcov obsahu je dôležité sledovať, ako sa témy digitálnej inklúzie dotýkajú reálnych ľudí. Porozumenie tomu, že technológie nie sú kultúrne neutrálne, pomáha budovať otvorenejšie a prístupnejšie digitálne prostredie. Nasledujúce riadky rozoberajú zistenia dostupné v oficiálnom dokumente."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu sa výskum zameriaval na umelú inteligenciu, digitálnu gramotnosť a edukomunikáciu ako ústredné dimenzie vzdelávacích procesov súvisiacich s vodcovstvom Afro-descendentnej mládeže. Hlavným cieľom bolo preskúmať tieto oblasti v kontexte vzdelávacích aktérov v Južnej Amerike. Autori zvolili špecifický prístup na mapovanie názorov a postojov v danej komunite.",
+            "Východiskom práce bola snaha prepojiť technické porozumenie s otázkami rasovej a kultúrnej identity. Abstrakt uvádza, že autorský tím sa zameral na prepojenie umelej inteligencie s vodcovstvom mladých ľudí. Tieto prvky tvoria základ pre pochopenie toho, ako komunita vníma prínosy aj riziká moderných technológií.",
+            "Zameranie štúdie odráža snahu analyzovať technologické vzdelávanie cez prizmu sociálnych vied. Skúmanie týchto súvislostí umožňuje lepšie pochopiť potreby špecifických demografických skupín. Ide o dôležitý krok k tomu, aby inovácie slúžili všade tam, kde je to najviac potrebné."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu ukázal kvantitatívny prieskum vysokú zhodu naprieč šiestimi sledovanými dimenziami. Afro-descendentná identita pritom dosiahla najvyššiu priemernú hodnotu, zatiaľ čo kritická gramotnosť v oblasti umelej inteligencie zaznamenala najnižšiu relatívnu priemernú hodnotu. Tieto výsledky naznačujú silné zakorenenie v kultúrnej identite pri súčasnej potrebe hlbšieho vzdelávania v technológiách.",
+            "Pokiaľ ide o štatistické vzťahy, podčiarkuje abstrakt, že prieskum preukázal pozitívne stredne silné až silné asociácie medzi šiestimi dimenziami. Autori však výslovne upozorňujú, že tieto zistenia sa majú interpretovať ako asociácie, a nie ako priame kauzálne účinky. Spoľahlivosť meraní sa navyše v jednotlivých dimenziách podstatne líšila.",
+            "Kvalitatívna fáza, ktorá pozostávala z virtuálnej fokusovej skupiny s tromi mladými Afro-Ekvádorčanmi, priniesla hlbší pohľad na dáta. Podľa abstraktu účastníci vykazovali selektívne a opatrné používanie umelej inteligencie, pričom dokumentovali skúsenosti s rasovo podmienenou digitálnou reprezentáciou, opätovným potvrdzovaním identity a volaním po etickom komunitnom tréningu."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Autori zvolili exploračnú štúdiu s vysvetľujúco-sekvenčným zmiešaným dizajnom. V kvantitatívnej fáze bol realizovaný online prieskum na vzorke 90 účastníkov zapojených do vzdelávacích, mládežníckych a komunitných procesov. Prevažná väčšina respondentov, konkrétne 94,4 percenta, pochádzala z provincie Esmeraldas, pričom malá časť účastníkov bola z oblasti Santo Domingo de los Tsáchilas. Využité boli deskriptívne štatistiky, odhady vnútornej konzistencie a exploračné Spearmanove poradové korelácie.",
+            "Kvalitatívna fáza bola realizovaná formou virtuálnej fokusovej skupiny s tromi mladými ľuďmi. Podľa abstraktu slúžila na prehĺbenie konkrétnych zistení z prieskumu a kvalitatívne dotvorila kvantitatívne vzorce namiesto ich jednoduchého kopírovania. Tento prístup pomohol lepšie zachytiť nuansy vnímania umelej inteligencie v komunite.",
+            "Zároveň je nutné brať do úvahy dôležité metodické limity, ktoré vyplývajú priamo z dostupného textu. Zistenia sú výslovne exploračné a nie sú všeobecne platné (negeneralizovateľné). Pre čitateľov a analytikov to znamená, že výsledky nemožno bezvýhradne aplikovať na iné populácie, napríklad na podmienky v Strednej či Východnej Európe."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Na základe redakčnej analýzy témy prinášame užitočné odporúčania pre prevádzkovateľov webov, malé podniky a tvorcov marketingového obsahu. Digitálna gramotnosť a etický prístup k technológiám by mali byť pevnou súčasťou správy webových stránok. Majitelia e-shopov a firemných portálov by mali dbať na to, aby texty a vizuály na webe reprezentovali rozmanitosť reálnych zákazníkov citlivým a rešpektujúcim spôsobom.",
+            "V oblasti tvorby obsahu a marketingu sa odporúča vyhnúť sa slepému spoliehaniu sa na generatívnu umelú inteligenciu pri vytváraní príbehov o menšinách alebo lokálnych komunitách. Namiesto automatizovaných fráz je vhodné zapojiť reálnych ľudí, autentické názory a dbať na etické štandardy. Zabezpečíte tak vyššiu dôveryhodnosť vašej značky a predijdete neúmyselným stereotypom v digitálnom priestore.",
+            "Pre manažment na pracovisku a správu webových projektov to znamená zaviesť interné pravidlá pre prácu s umelou inteligenciou. Tím by mal prejsť základným školením o tom, ako AI nástroje správne a kriticky využívat. Transparentná komunikácia so zákazníkmi o tom, kde a ako využívate technológie, buduje dlhodobú dôveru a posilňuje pozíciu webu na trhu."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Skúmanie prepojenia medzi etnovýchovou, mládežníckym vodcovstvom a umelou inteligenciou otvára dôležité otázky pre budúcnosť vzdelávania. Zistenia autorov poskytujú empiricky podložený rámec pre budúce intervencie a výskum meraní v interkultúrnych kontextoch. Ukazujú, že technológie musia kráčať ruka v ruke s kultúrnym uznaním a etickým úsudkom.",
+            "Hoci má štúdia svoje geografické a metodické obmedzenia, jej prínos spočíva v otvorení nevyhnutnej diskusie. Prepojenie technického porozumenia a komunitných hodnôt je cestou, ako zabezpečiť, aby inovácie slúžili celému spektru spoločnosti. Autori priniesli cenný podnet na zamyslenie pre vedcov aj praktikov.",
+            "Sledovanie takýchto vedeckých prác nám pripomína, že vývoj technológií nie je len technickou, ale aj spoločenskou záležitosťou. Využívanie poznatkov z výskumu priamo v praxi pomáha vytvárať inkluzívnejší a zodpovednejší digitálny svet. DOI tohto zdroja je 10.3389/feduc.2026.1910214."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Ethnoeducation, AI, and Youth in Ecuador: Insights from the Abstract",
+      "description": "We examine a study from Esmeraldas on ethnoeducation and artificial intelligence, offering editorial analysis and practical website recommendations.",
+      "lead": "Contemporary educational trends increasingly bridge modern technologies with local cultural identity and community development. A new study published in Frontiers in Education explores the relationship between digital literacy and youth leadership. In this article, we examine what the available abstract reveals and how these insights can be ethically translated into the online sphere.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Digital transformation brings new challenges to education that extend far beyond simply mastering software tools. Modern society requires students and young leaders to acquire both technical skills and critical thinking in the online space. The intersection of artificial intelligence and cultural identity sparks a vital discussion on how technologies integrate into marginalized or specific communities.",
+            "International research in this field focuses on balancing global innovations with local values. Authors Narcisa Jessenia Medranda Morales and Robert Germán García Iturralde offer insight into how young people in Ecuador cope with these challenges. They direct their attention particularly toward educational processes and the development of artificial intelligence capabilities.",
+            "For website owners and content creators, observing how digital inclusion touches real people is essential. Understanding that technologies are not culturally neutral helps build a more open and accessible digital environment. The following lines analyze the findings available in the official document."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the study examined artificial intelligence literacy and educommunication as central dimensions in educational processes related to Afro-descendant youth leadership in Ecuador. The main objective was to explore these areas within the context of educational actors in South America. The authors chose a specific approach to map opinions and attitudes within the community.",
+            "The starting point of the work was the effort to connect technical understanding with questions of racial and cultural identity. The abstract states that the author team focused on linking artificial intelligence with youth leadership. These elements form the basis for understanding how the community perceives both the benefits and risks of modern technologies.",
+            "The focus of the study reflects an effort to analyze technological education through the lens of social sciences. Exploring these connections allows for a better understanding of the needs of specific demographic groups. This represents an important step toward ensuring innovations serve wherever they are most needed."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, the survey showed high agreement across six monitored dimensions. Afro-descendant identity received the highest mean score, while critical artificial intelligence literacy recorded the lowest relative mean score. These results indicate a strong foundation in cultural identity alongside an ongoing need for deeper education in technology.",
+            "Regarding statistical relationships, the abstract underlines that the survey demonstrated positive moderate-to-strong associations among the six dimensions. However, the authors explicitly note that these findings should be interpreted as associations rather than direct causal effects. Furthermore, measurement reliability varied substantially across the individual dimensions.",
+            "The qualitative phase, consisting of a virtual focus group with three young Afro-Ecuadorian participants, provided a deeper look at the data. According to the abstract, participants showed selective and cautious use of artificial intelligence, while documenting experiences of racialized digital representation, identity reaffirmation, and a demand for ethical, community-based training."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The authors conducted an exploratory study with an explanatory-sequential mixed-methods design. In the quantitative phase, an online survey was administered to 90 participants involved in educational, youth, and community processes. The vast majority of respondents, specifically 94.4 percent, came from the province of Esmeraldas, with a small number of participants from Santo Domingo de los Tsáchilas. Descriptive statistics, internal-consistency estimates, and exploratory Spearman rank-order correlations were utilized.",
+            "The qualitative phase was conducted through a virtual focus group with three young participants. According to the abstract, it served to deepen specific findings from the survey and qualitatively complemented quantitative patterns rather than merely reproducing them. This approach helped better capture the nuances of artificial intelligence perception within the community.",
+            "At the same time, it is necessary to consider important methodological limitations that stem directly from the available text. The findings are explicitly exploratory and non-generalizable. For readers and analysts, this means the results cannot be unconditionally applied to other populations, such as conditions in Central or Eastern Europe."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "Based on our editorial analysis of the topic, we offer useful recommendations for website operators, small businesses, and marketing content creators. Digital literacy and an ethical approach to technology should be an integral part of website management. E-commerce and corporate portal owners should ensure that texts and visuals on their websites represent the diversity of real customers in a sensitive and respectful manner.",
+            "In content creation and marketing, relying blindly on generative artificial intelligence when crafting stories about minorities or local communities is discouraged. Instead of automated phrases, engaging real people, authentic opinions, and adhering to ethical standards is advisable. This ensures higher brand credibility and prevents unintended stereotypes in the digital space.",
+            "For workplace management and web project administration, this means establishing internal guidelines for working with artificial intelligence. The team should undergo basic training on how to use AI tools correctly and critically. Transparent communication with customers about where and how you utilize technology builds long-term trust and strengthens the website's market position."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "Exploring the connection between ethnoeducation, youth leadership, and artificial intelligence opens important questions for the future of education. The authors' findings provide an empirically grounded framework for future interventions and measurement research in intercultural contexts. They demonstrate that technology must go hand in hand with cultural recognition and ethical judgment.",
+            "Although the study has its geographical and methodological limitations, its contribution lies in opening a necessary discussion. Connecting technical understanding with community values is a way to ensure that innovations serve the entire spectrum of society. The authors have provided valuable food for thought for both researchers and practitioners.",
+            "Following such scholarly work reminds us that technological development is not only a technical matter but a social one as well. Applying research insights directly into practice helps create a more inclusive and responsible digital world. The DOI for this source is 10.3389/feduc.2026.1910214."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.1108/ijppm-06-2026-0660",
+  "generated_on": "2026-11-17",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Digitálna transformácia v rozvojových ekonomikách: Čo hovorí nová štúdia o Priemysle 4.0",
+      "description": "Prehľad novej štúdie z roku 2026 o zavádzaní Priemyslu 4.0 na severe Kolumbie, jej metodických limitoch a praktických odporúčaniach pre web.",
+      "lead": "Nová štúdia publikovaná v medzinárodnom vedeckom časopise prináša pohľad na to, ako podniky v rozvojových ekonomikách využívajú moderné technológie. Pozrieme sa na jej zistenia, obmedzenia a prinesieme redakčné odporúčania pre malé firmy.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Súčasné technologické trendy často predpokladajú ideálne podmienky, modernú infraštruktúru a dostatok kapitálu. V praxi však mnohé regióny sveta, vrátane rozvojových ekonomík, čelia zásadným štrukturálnym obmedzeniam, nedostatku zručností a finančným prekážkam.",
+            "Nová štúdia autorov Ericka Calva, Maria Ferrera a M. Sirajula Islama, ktorá bola zverejnená 17. novembra 2026 s DOI 10.1108/ijppm-06-2026-0660, sa preto zameriava na strategickú hodnotu technológií Priemyslu 4.0. Skúma ich nasadenie v špecifickom prostredí severného pobrežia Kolumbie.",
+            "Tento článok prináša redakčný pohľad na uvedený výskum, pričom striktne vychádza iba z dostupného vydavateľského abstraktu. Pozrieme sa na to, aké dáta vedci zbierali, aké obmedzenia výskum prináša a čo z toho vyplýva pre prax."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Podľa abstraktu sa výskum zameriava na strategickú hodnotu technológií Priemyslu 4.0 v rozvojových ekonomikách, kde je empirických dôkazov zatiaľ nedostatok. Autori konkrénte sledovali robotiku, aditívnu výrobu a internet vecí (IoT).",
+            "Cieľom bolo posúdiť, ako podniky tieto technológie nasadzujú na zlepšenie dodávateľského reťazca a celkovej organizačnej výkonnosti. Výskum pritom zohľadňoval lokálne štrukturálne obmedzenia, akými sú obmedzená infraštruktúra, nedostatok zručností a finančné reštrikcie.",
+            "Autori v teoretickej rovine vychádzajú z teórie orientovanej na zdroje (resource-based view). Koncept takzvaného VRIN statusu (cenné, vzácne, nenapodobiteľné a nenahraditeľné zdroje) preformulovali na emergentnú vlastnosť kontextu zavádzania, a nie na pevný atribút samotnej technológie."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu priniesol zber dát konkrétne výsledky týkajúce sa jednotlivých technológií. Robotika a aditívna výroba podľa zistení výrazne zvyšujú efektivitu dodávateľského reťazca a následne aj organizačnú výkonnosť.",
+            "Na druhej strane, internet vecí (IoT) nevykázal v štúdii štatisticky významný vplyv na efektivitu dodávateľského reťazca. Podľa textu to odráža najmä integračné výzvy a infrastrukturálne obmedzenia v danom regióne.",
+            "Z toho vyplýva kľúčový význam štúdie: hodnota technológií Priemyslu 4.0 je silne závislá od kontextu, pričom je formovaná lokálnymi schopnosťami a podmienkami zdrojov. Technológie fungujú ako strategické zdroje iba vtedy, ak to dovoľujú podmienky prostredia."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Podľa abstraktu boli dáta pre štúdiu zhromaždené od 125 manažérov dodávateľských reťazcov vo výrobných firmách prostredníctvom štruktúrovaného online prieskumu. Na analýzu vzťahov medzi premennými bolo použité modelovanie štrukturálnych rovníc (SEM).",
+            "Napriek zaujímavým záverom má štúdia jasne vymedzené limity, ktoré je nutné rešpektovať. Podľa abstraktu je výskum obmedzený na jediný región Kolumbie a spolieha sa výlučne na manažérske vnímanie respondentov.",
+            "Je dôležité zdôrazniť, že ide o sekundárny prístup cez vydavateľský abstrakt, keďže úplný text štúdie nebol verifikovaný. Z tohto dôvodu nemožno robiť širšie kauzálne závery ani výsledky bezmyšlienkovite aplikovať na odlišné geografické či trhové prostredie."
+          ]
+        },
+        {
+          "heading": "Praktický návrh WEBU",
+          "paragraphs": [
+            "Keďže pôvodná štúdia neponúka konkrétne návody pre tvorbu webov či správu malých firiem, prinášame vlastné redakčné odporúčania pre lokálne podniky a prevádzkovateľov webových stránok. Podobne ako v štúdii, aj pri digitalizácii webu platí, že technológie treba vyberať podľa reálnych kapacít.",
+            "Pre majiteľov malých webov to znamená, že namiesto slepej integrácie zložitých a nákladných nástrojov umelej inteligencie či pokročilých skriptov by mali prioritne ladiť základné funkcie. Efektívny redakčný systém, rýchle načítanie a prehľadná štruktúra prinášajú merateľný úspech skôr než nefunkčné technologické novinky.",
+            "V oblasti pracovného manažmentu a marketingu odporúčame postupné budovanie zručností tímu. Skôr než nasadíte komplikované analytické softvéry, overte si, či má personál dostatočnú podporu a či technológia skutočne zodpovedá vašim aktuálnym finančným a personálnym možnostiam."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Nová štúdia autorov Calva, Ferrera a Islama pripomína, že moderné technológie samy o sebe nezaručia úspech, ak chýbajú adekvátne lokálne podmienky a kapacity. Zistenia ukazujú rozdiel medzi úspešnou robotikou a výzvami pri zavádzaní IoT.",
+            "Pre čitateľov WEBU je hlavným posolstvom nutnosť kritického posudzovania akýchkoľvek technologických trendov. Pred každou investíciou do digitalizácie je kľúčové zohľadniť reálne prevádzkové a finančné možnosti firmy.",
+            "Budúci výskum bude musieť overiť tieto zistenia prostredníctvom longitudinálnych a multi-regionálnych štúdií. Dovtedy by mali manažéri i prevádzkovatelia webov postupovať uvážene a budovať komplementárne schopnosti krok za krokom."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Digital Transformation in Developing Economies: What a New Study Says About Industry 4.0",
+      "description": "An overview of the 2026 study on Industry 4.0 adoption in Colombia's North Coast, its methodological limits, and practical web recommendations.",
+      "lead": "A new study published in an international journal provides insight into how firms in developing economies leverage modern technologies. We examine its findings, limitations, and editorial recommendations for small businesses.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Current technological trends often assume ideal conditions, advanced infrastructure, and abundant capital. In practice, however, many regions worldwide, including developing economies, face severe structural constraints, skill shortages, and financial barriers.",
+            "A new study by Erick Calvo, Mario Ferrer, and M. Sirajul Islam, published on November 17, 2026 (DOI: 10.1108/ijppm-06-2026-0660), addresses the strategic value of Industry 4.0 technologies. It examines their deployment within the specific setting of Colombia's North Coast.",
+            "This article provides an editorial perspective on the research, relying strictly on the publisher-supplied abstract. We review the data collected, the study's limitations, and the implications for practice."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "According to the abstract, the research investigates the strategic value of Industry 4.0 technologies in developing economies, where empirical evidence remains limited. The authors specifically focused on robotics, additive manufacturing, and the Internet of Things (IoT).",
+            "The objective was to assess how firms deploy these technologies to improve supply chain and organizational performance under structural constraints such as limited infrastructure, skill shortages, and financial restrictions.",
+            "Grounding their work in the resource-based view, the authors reconceptualized the valuable, rare, inimitable, and nonsubstitutable (VRIN) status as an emergent property of the adoption context rather than a fixed technology attribute."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, data collection yielded specific results regarding individual technologies. Robotics and additive manufacturing were found to significantly enhance supply chain efficiency and, in turn, organizational performance.",
+            "Conversely, the Internet of Things (IoT) showed no significant effect on supply chain efficiency. According to the text, this reflects integration challenges and infrastructural limitations within the region.",
+            "This highlights the study's core insight: the value of Industry 4.0 technologies is context-dependent, shaped by local capability and resource conditions. Technologies function as strategic resources only when contextual conditions permit."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "According to the abstract, data were collected from 125 supply chain managers in manufacturing firms through a structured online survey. Structural equation modeling (SEM) was employed to analyze the relationships among variables.",
+            "Despite its valuable insights, the study has clear limitations that must be acknowledged. According to the abstract, the research is restricted to one region of Colombia and relies solely on managerial perceptions.",
+            "It is important to emphasize that this relies on a secondary-access abstract, as the complete full-text article was not verified. Consequently, broad causal claims cannot be made, nor can results be uncritically applied to different geographic or market settings."
+          ]
+        },
+        {
+          "heading": "WEBU practical proposal",
+          "paragraphs": [
+            "Since the original study does not provide direct guidelines for website creation or small business management, we offer our own editorial recommendations for local businesses and web operators. Similar to the study's findings on technology, digital tools on the web must match actual organizational capacities.",
+            "For small business website owners, this means prioritizing foundational functions rather than blindly integrating complex and expensive AI tools or advanced scripts. An efficient content management system, fast loading times, and a clear structure bring measurable success much faster than broken tech novelties.",
+            "In workplace management and marketing, we recommend building team capabilities gradually. Before deploying complicated analytics software, ensure that staff receive proper support and that the technology truly aligns with your current financial and personnel resources."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The new study by Calvo, Ferrer, and Islam serves as a reminder that modern technologies alone do not guarantee success without adequate local conditions and capabilities. The findings reveal a clear divergence between the impact of robotics and the challenges of IoT implementation.",
+            "For WEBU readers, the key takeaway is the necessity of critically assessing any technological trend. Before investing in digital upgrades, evaluating real operational and financial constraints is essential.",
+            "Future research will need to validate these findings through longitudinal and multi-regional designs. Until then, managers and web operators should proceed prudently and build complementary capabilities step by step."
+          ]
+        }
+      ]
+    }
+  }
+}

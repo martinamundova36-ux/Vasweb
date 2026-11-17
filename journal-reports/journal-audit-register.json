@@ -8689,6 +8689,756 @@
           }
         ]
       }
+    },
+    {
+      "id": "blog-journal-vzdelavaci-manazment-pod-lupou-ako-vedenie-skol-a-kultura-vplyvaju-na-spokoj",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-17",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.37899/journallaedusci.v7i6.6030",
+          "apa7": "Sarki Sarki, Widya Kusumaningsih, Nurkolis Nurkolis (2026). Predicting Teacher Job Satisfaction in Public Elementary Schools: The Joint Contribution of Principals’ Instructional Leadership and Organizational Culture. Journal La Edusci. https://doi.org/10.37899/journallaedusci.v7i6.6030",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-vzdelavaci-manazment-pod-lupou-ako-vedenie-skol-a-kultura-vplyvaju-na-spokoj.html",
+          "title": "Vzdelávací manažment pod lupou: Ako vedenie škôl a kultúra vplývajú na spokojnosť zamestnancov",
+          "description": "Analýza štúdie o vplyve riadenia a kultúry na spokojnosť učiteľov. Ponúkame pohľad na dáta z abstraktu a prenosné rady pre manažment.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "4c107be22a693053e7aae1e67d3795c3822c2020f0f9f7bdfb6b2ab8d84cd92b"
+        },
+        "en": {
+          "path": "blog-journal-vzdelavaci-manazment-pod-lupou-ako-vedenie-skol-a-kultura-vplyvaju-na-spokoj-en.html",
+          "title": "Educational Management Explored: How School Leadership and Culture Shape Staff Satisfaction",
+          "description": "An analysis of a study on leadership and culture impacts on teacher satisfaction. Offering abstract data insights and management advice.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "941d5e25a4c43c02d0b9ca5f1ac97bc611bec9cb957ef405f6cb304ece117250"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-17",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1108/yc-05-2026-3203",
+          "apa7": "Kdv Prasad, Sunil Kadyan, Ved Srinivas (2026). Digital nostalgia and purchase intention among young consumers: roles of attachment, authenticity and brand trust. Young Consumers. https://doi.org/10.1108/yc-05-2026-3203",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s.html",
+          "title": "Digitálna nostalgia a nákupný zámer: Ako minulosť formuje správanie mladých spotrebiteľov v online prostredí",
+          "description": "Preskúmajte, ako digitálna nostalgia a sociálne siete ovplyvňujú emócie a dôveru mladých spotrebiteľov podľa nedávneho odborného výskumu.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "f4dcfba86af4bedf0af46baf6346e8840db449fa3c40c95732354e63ef59a0b0"
+        },
+        "en": {
+          "path": "blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s-en.html",
+          "title": "Digital Nostalgia and Purchase Intention: How the Past Shapes Young Consumer Behavior Online",
+          "description": "Explore how digital nostalgia and social media engagement influence consumer emotions and brand trust according to recent academic research.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "7951b202619939bfbbc7d20cc509d765682d00650ff56337803183c8b3fe45f2"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-17",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.3389/feduc.2026.1910214",
+          "apa7": "Narcisa Jessenia Medranda Morales, Robert Germán García Iturralde (2026). Ethnoeducation, Afro-descendant youth leadership, and artificial intelligence literacy: an exploratory study with educational actors from Esmeraldas, Ecuador. Frontiers in Education. https://doi.org/10.3389/feduc.2026.1910214",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab.html",
+          "title": "Etnovýchova, umelá inteligencia a mládež v Ekvádore: Pohľad cez prištiepený abstrakt",
+          "description": "Preskúmali sme štúdiu z Esmeraldas o etnovýchove a umelej inteligencii. Prinášame redakčný rozbor a praktické odporúčania pre weby.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "d406f0b510cabec2008f937927a1e727d76bad675d1727e1baff1e195305c98e"
+        },
+        "en": {
+          "path": "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab-en.html",
+          "title": "Ethnoeducation, AI, and Youth in Ecuador: Insights from the Abstract",
+          "description": "We examine a study from Esmeraldas on ethnoeducation and artificial intelligence, offering editorial analysis and practical website recommendations.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "acb25df312c390ffe21f0f12f19a9eba609ca02553bfb208909013a88403b640"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-17",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1108/jhti-04-2026-0606",
+          "apa7": "Ahmed Mohamed Hasanein, Bassam Samir Al-Romeedy (2026). Digital leadership and corporate performance in tourism SMEs: a multi-mediator perspective. Journal of Hospitality and Tourism Insights. https://doi.org/10.1108/jhti-04-2026-0606",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum.html",
+          "title": "Digitálny lídring a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum",
+          "description": "Analýza štúdie skúmajúcej vzťah digitálneho vedenia a výkonnosti v malých a stredných podnikoch cestovného ruchu s dôrazom na limity abstraktu.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "663a04cc6a1f4eb0b94c240b7a0697fccd729fe3dab5a562b9c65feaa31ee14c"
+        },
+        "en": {
+          "path": "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum-en.html",
+          "title": "Digital Leadership and Corporate Performance in Tourism SMEs: What the New Research Shows",
+          "description": "An analysis of a study examining digital leadership and performance in tourism SMEs, highlighting abstract limitations and practical insights.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "17d8c0f950caeecc6c580577cf405ba80f5511ec7043dca24fcd2c2ff5ab51b2"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-17",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1108/ijppm-06-2026-0660",
+          "apa7": "Erick Calvo, Mario Ferrer, M. Sirajul Islam (2026). Manufacturing 4.0 adoption and productivity performance in developing economies: a resource-based view from Colombia's North Coast. International Journal of Productivity and Performance Management. https://doi.org/10.1108/ijppm-06-2026-0660",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr.html",
+          "title": "Digitálna transformácia v rozvojových ekonomikách: Čo hovorí nová štúdia o Priemysle 4.0",
+          "description": "Prehľad novej štúdie z roku 2026 o zavádzaní Priemyslu 4.0 na severe Kolumbie, jej metodických limitoch a praktických odporúčaniach pre web.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "ddb491bbbd3b0a84bb42b66dcf11c3f41fe7182acf1d7302aae80ba586929943"
+        },
+        "en": {
+          "path": "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr-en.html",
+          "title": "Digital Transformation in Developing Economies: What a New Study Says About Industry 4.0",
+          "description": "An overview of the 2026 study on Industry 4.0 adoption in Colombia's North Coast, its methodological limits, and practical web recommendations.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-17",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "fb6feff60d891401ad39fc42a059d8e3a9ff3eb494677a6bd3354c13ddb9b0b8"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Praktický návrh WEBU",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "WEBU practical proposal",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
     }
   ]
 }

@@ -1697,6 +1697,326 @@
         "1280": "928b2e5b151b33776b4108b5f048ed8d83475c0cc02978b81e7936a6e6349f1f",
         "social": "5975df33f4111284555f6414b2f2c96283cf31b13a8a140075e6ba8b7a41a607"
       }
+    },
+    {
+      "id": "commons-fbf3c61c779fed",
+      "provider": "Wikimedia Commons",
+      "provider_id": "58742943",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Design_for_a_church_interior_MET_DP207591.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Design_for_a_church_interior_MET_DP207591.jpg/1920px-Design_for_a_church_interior_MET_DP207591.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Louis Comfort Tiffany    /   Tiffany Studios   /   Tiffany Studios   /    Tiffany Studios",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "8068fc54e4b730a1540c2eca4edc3d6c185d445001ee4c5479112bc2766ae236",
+      "topics": [
+        "branding"
+      ],
+      "alt": {
+        "sk": "Kreatívny dizajnérsky ateliér",
+        "en": "Creative design studio"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-fbf3c61c779fed-640.webp",
+        "1280": "/assets/journal/commons-fbf3c61c779fed-1280.webp",
+        "social": "/assets/journal/commons-fbf3c61c779fed-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "a04d364b2f93bcb81ffe0b6e94a378d2d140369c7fa6a00391e99555ff39a878",
+        "1280": "b30edf0d28e30a4ccd5986a1415d1afd1e96baffccbdda9ba99341290e31d1e7",
+        "social": "d1d480a7e727b4829b4cf6e0be6a9c9649112bff0dc6032b75ab92d0e704515a"
+      }
+    },
+    {
+      "id": "commons-01a7ebdca1f715",
+      "provider": "Wikimedia Commons",
+      "provider_id": "176646605",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Exterior_view_of_the_glass-fronted_Ascend_Coworking_space_on_the_first_floor_of_the_Pentagon_Shopping_Centre,_Chatham,_Kent,_England_-_13_October_2025.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Exterior_view_of_the_glass-fronted_Ascend_Coworking_space_on_the_first_floor_of_the_Pentagon_Shopping_Centre%2C_Chatham%2C_Kent%2C_England_-_13_October_2025.jpg/1920px-Exterior_view_of_the_glass-fronted_Ascend_Coworking_space_on_the_first_floor_of_the_Pentagon_Shopping_Centre%2C_Chatham%2C_Kent%2C_England_-_13_October_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "OathOn",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "a9c9a24ac6e6a7e5cf9326dc00d629551ad68c1ed57bbf6de270621a71114e80",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-01a7ebdca1f715-640.webp",
+        "1280": "/assets/journal/commons-01a7ebdca1f715-1280.webp",
+        "social": "/assets/journal/commons-01a7ebdca1f715-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "12a642a895fc80aa798afda5443d6281c1ba8ab2eb5f5de7025ff4d8b1096655",
+        "1280": "ae2b2707d10d275c07971e8dd729eabe6b79c1c311b19f372cd1616375c8ae7a",
+        "social": "9c0350ec70cafb9d81f9db8dea64f13967ed23e019a52ba07f3d96a4dd1a7e8d"
+      }
+    },
+    {
+      "id": "commons-71eedd45e6467c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "138344666",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Reception_lounge_at_Amantaka_luxury_Resort_%26_Hotel_at_blue_hour_in_Luang_Prabang_Laos.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Reception_lounge_at_Amantaka_luxury_Resort_%26_Hotel_at_blue_hour_in_Luang_Prabang_Laos.jpg/1920px-Reception_lounge_at_Amantaka_luxury_Resort_%26_Hotel_at_blue_hour_in_Luang_Prabang_Laos.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "09498966a36d93804ef25373dfc143ddefd19104ec99d7789b6829491ad3c20a",
+      "topics": [
+        "tourism"
+      ],
+      "alt": {
+        "sk": "Hotelová recepcia ako prostredie podnikania v cestovnom ruchu",
+        "en": "Hotel reception in the tourism industry"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-71eedd45e6467c-640.webp",
+        "1280": "/assets/journal/commons-71eedd45e6467c-1280.webp",
+        "social": "/assets/journal/commons-71eedd45e6467c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "4955fbef880a39433fa057eeb5c1bef4a24b3778f34f04a3ba807619a712f2f8",
+        "1280": "1c302ec629a37a5741bb3a9576746aeeba329a62c20ff8e913ccc8d5c9d0fe7a",
+        "social": "150b6467d45958f4023b77c7b0e59146d329656e30aa7fe6e9c71529b80f7e4c"
+      }
+    },
+    {
+      "id": "commons-fd9a02c3856e4c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "194219296",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Young_woman_holding_glasses_sitting_at_laptop_in_office.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Young_woman_holding_glasses_sitting_at_laptop_in_office.jpg/1920px-Young_woman_holding_glasses_sitting_at_laptop_in_office.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "3c6ef77dece0613a4c52f1c3e9d700bb098226564b2a98e945b5fe93c73e39b6",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-fd9a02c3856e4c-640.webp",
+        "1280": "/assets/journal/commons-fd9a02c3856e4c-1280.webp",
+        "social": "/assets/journal/commons-fd9a02c3856e4c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "e44d1b70a9ef9b75cd99f6871c69e9db9f20bf723bd998addc5c9a207412d22c",
+        "1280": "523de6ec8354a10464733d3ad619d010f02e967dd2ad9787c69a97cc23e7015c",
+        "social": "82651a20125ad233f6441abb0b076a7de29dbc8c63231aec3711acd9aded3b5e"
+      }
+    },
+    {
+      "id": "commons-e5cb263612d44b",
+      "provider": "Wikimedia Commons",
+      "provider_id": "94195956",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Winplace-coworking-space.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Winplace-coworking-space.jpg/1920px-Winplace-coworking-space.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Nguyendinhtruong2020",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "2de46deada4355a38f1956252c02b71fc3cfb280226a6f178caf0538d7928e9e",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-e5cb263612d44b-640.webp",
+        "1280": "/assets/journal/commons-e5cb263612d44b-1280.webp",
+        "social": "/assets/journal/commons-e5cb263612d44b-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "5c63d0fca31c5590ebeae257362b588d0f03f0e6560f5f9374a2bc0a6623cbb6",
+        "1280": "cb2ac9f1eb382ca11c3a34d4b9e7e663cd7ca016450e8fb1c0b43b433a447953",
+        "social": "c82490207d30a95d4ac44ae264360604133cd2d63ac85d796d9f335c67bbfa29"
+      }
+    },
+    {
+      "id": "commons-2723647be1187b",
+      "provider": "Wikimedia Commons",
+      "provider_id": "107442864",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Work_%26_Wall,_espace_de_coworking_%C3%A0_Neyron_(juillet_2021).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Work_%26_Wall%2C_espace_de_coworking_%C3%A0_Neyron_%28juillet_2021%29.jpg/1920px-Work_%26_Wall%2C_espace_de_coworking_%C3%A0_Neyron_%28juillet_2021%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Benoît Prieur",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "08029c96622876499e02f36e3f3db42d0cb42f6eb9e49a4a7e7f5e990e7a30d6",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-2723647be1187b-640.webp",
+        "1280": "/assets/journal/commons-2723647be1187b-1280.webp",
+        "social": "/assets/journal/commons-2723647be1187b-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d00df1caec41633d2f632a794916d8a6998a37dba55c29dc60e820d7df85f188",
+        "1280": "511623a62e3cf1e7a6c1113c5ab2f30caf05088c0b3175cb13f2545bdba68ca4",
+        "social": "c45f1c56b9fe74b042db143e30a9aaddda1ec14629c6c09f65b4a7f59a61fa58"
+      }
+    },
+    {
+      "id": "commons-a8c2dab7dc67fd",
+      "provider": "Wikimedia Commons",
+      "provider_id": "34356763",
+      "source_page": "https://commons.wikimedia.org/wiki/File:InterAMI_Interior_1999_Design_Studio.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/InterAMI_Interior_1999_Design_Studio.jpg/1920px-InterAMI_Interior_1999_Design_Studio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Alexpanechko",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "21fa6eceb9bb0c28fb87c92963dbb25a52688a3ff89a7ad4dea0d0bbbc29d08a",
+      "topics": [
+        "branding"
+      ],
+      "alt": {
+        "sk": "Kreatívny dizajnérsky ateliér",
+        "en": "Creative design studio"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-a8c2dab7dc67fd-640.webp",
+        "1280": "/assets/journal/commons-a8c2dab7dc67fd-1280.webp",
+        "social": "/assets/journal/commons-a8c2dab7dc67fd-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "4d09be79da5e9ad4d5bfab37b70c1be78c55fffeb9672fc4ea4295a489038feb",
+        "1280": "9ba3633c2f0652d17e43f2ad69c612118342417e5e7e1db6f6c2e249a5acf574",
+        "social": "06293b5faf13c10eed1189bd360e24bf2c98bd30f5ce4db8291be69b5a3b3252"
+      }
+    },
+    {
+      "id": "commons-166aa274f1a8f2",
+      "provider": "Wikimedia Commons",
+      "provider_id": "202380661",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Wikimedia_Morocco_Mini-Hackathon_2026_day_2_-_Person_using_laptop_with_microphone_in_office_chair_-_0157.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Wikimedia_Morocco_Mini-Hackathon_2026_day_2_-_Person_using_laptop_with_microphone_in_office_chair_-_0157.jpg/1920px-Wikimedia_Morocco_Mini-Hackathon_2026_day_2_-_Person_using_laptop_with_microphone_in_office_chair_-_0157.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "DERDAKI ILIAS",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "78587288c62a7485057c2a5bcd23a3ac24b173ced0e95a3e63e482153b8ffeba",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-166aa274f1a8f2-640.webp",
+        "1280": "/assets/journal/commons-166aa274f1a8f2-1280.webp",
+        "social": "/assets/journal/commons-166aa274f1a8f2-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "0e45e867a3740e22ba668afbd66d0b73f1bd742293c3d7e048d71180e80c618d",
+        "1280": "0df19630e60b01bb530472f1efa920ae7d4afdd7436129f6b6e65773370d4d1b",
+        "social": "fe3424407e404cdc5f5f3294d616d1d6e620f1fc53f43e3747b598f27a94a59a"
+      }
+    },
+    {
+      "id": "commons-2621074106fee6",
+      "provider": "Wikimedia Commons",
+      "provider_id": "115073335",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Entrance_lounge_and_reception_desks_of_the_Carlton_Hotel_Downtown_Core_Singapore.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Entrance_lounge_and_reception_desks_of_the_Carlton_Hotel_Downtown_Core_Singapore.jpg/1920px-Entrance_lounge_and_reception_desks_of_the_Carlton_Hotel_Downtown_Core_Singapore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "6370c644dc8c5f060b2370d83e892c7a7ce39ec85f2ec0020329a8f067888975",
+      "topics": [
+        "tourism"
+      ],
+      "alt": {
+        "sk": "Hotelová recepcia ako prostredie podnikania v cestovnom ruchu",
+        "en": "Hotel reception in the tourism industry"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-2621074106fee6-640.webp",
+        "1280": "/assets/journal/commons-2621074106fee6-1280.webp",
+        "social": "/assets/journal/commons-2621074106fee6-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "12f8253b722863492470f5f3f084100d91f700c66edebc93bf9a414f52db30cd",
+        "1280": "322913d0505d9cad339d24c9eb9fc610399ab448872f97a5779888cadd1fe5e6",
+        "social": "f08ede2ebcadc7d7e2193faf879d27bea653e66e7f1493e06f97dd45c38f24fa"
+      }
+    },
+    {
+      "id": "commons-a28190661b5e89",
+      "provider": "Wikimedia Commons",
+      "provider_id": "87855267",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Openspace_wao_coworking.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Openspace_wao_coworking.jpg/1920px-Openspace_wao_coworking.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "WAO Coworking",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-17",
+      "original_sha256": "8ff33551ec133a366f29809f3b054958dbceb152f207864d09c38a9b4b581284",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-a28190661b5e89-640.webp",
+        "1280": "/assets/journal/commons-a28190661b5e89-1280.webp",
+        "social": "/assets/journal/commons-a28190661b5e89-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "c41c029fef1a4fce8f55421705aaa7d13a85ce8949b98c0deeaf10191f2ce385",
+        "1280": "9fc325f1d6164671c18286097b0fc482c8fe383992d7da8b7d8d7cd2780837cb",
+        "social": "0891f152cbc61708f214f2d885bf056a9e1bca8adf58eb134001119a3d521cb8"
+      }
     }
   ],
   "assignments": {
@@ -1751,6 +2071,16 @@
     "blog-journal-digitalne-dvojicky-v-stavebnictve-cesta-k-udrzatelnosti-a-pohode.html": "commons-7c921d46a438af",
     "blog-journal-digitalny-marketing-a-elektricke-motocykle-co-hovori-nova-studia-o-rozhodova.html": "commons-868acebe949f5a",
     "blog-journal-buducnost-b2b-marketingu-ako-ai-meni-pravidla-hry.html": "commons-e6f98f02ae1913",
-    "blog-journal-toxicke-vedenie-a-odcudzenie-v-praci-co-hovori-nova-studia.html": "commons-bf232389b9890c"
+    "blog-journal-toxicke-vedenie-a-odcudzenie-v-praci-co-hovori-nova-studia.html": "commons-bf232389b9890c",
+    "blog-journal-digital-nostalgia-and-purchase-intention-among-young-consumers-roles-of-atta.html": "commons-fbf3c61c779fed",
+    "blog-journal-predicting-teacher-job-satisfaction-in-public-elementary-schools-the-joint-c.html": "commons-01a7ebdca1f715",
+    "blog-journal-digital-leadership-and-corporate-performance-in-tourism-smes-a-multi-mediato.html": "commons-71eedd45e6467c",
+    "blog-journal-ethnoeducation-afro-descendant-youth-leadership-and-artificial-intelligence.html": "commons-fd9a02c3856e4c",
+    "blog-journal-manufacturing-4-0-adoption-and-productivity-performance-in-developing-econom.html": "commons-e5cb263612d44b",
+    "blog-journal-vzdelavaci-manazment-pod-lupou-ako-vedenie-skol-a-kultura-vplyvaju-na-spokoj.html": "commons-2723647be1187b",
+    "blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s.html": "commons-a8c2dab7dc67fd",
+    "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab.html": "commons-166aa274f1a8f2",
+    "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum.html": "commons-2621074106fee6",
+    "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr.html": "commons-a28190661b5e89"
   }
 }

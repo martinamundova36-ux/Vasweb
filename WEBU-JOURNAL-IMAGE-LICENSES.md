@@ -103,3 +103,23 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-e6f98f02ae1913: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_in_professional_attire_typing_on_laptop_with_handcuffs_on_desk_near_coffee_cup_in_modern_office_setting.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-4ea8a8b0a9e059: [Harrison Keely](https://commons.wikimedia.org/wiki/File:Interior_of_a_Casey%27s_Retail_Company_convenience_store_in_Farragut,_Tennessee_02.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-fbf3c61c779fed: [Louis Comfort Tiffany    /   Tiffany Studios   /   Tiffany Studios   /    Tiffany Studios](https://commons.wikimedia.org/wiki/File:Design_for_a_church_interior_MET_DP207591.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-01a7ebdca1f715: [OathOn](https://commons.wikimedia.org/wiki/File:Exterior_view_of_the_glass-fronted_Ascend_Coworking_space_on_the_first_floor_of_the_Pentagon_Shopping_Centre,_Chatham,_Kent,_England_-_13_October_2025.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-71eedd45e6467c: [Basile Morin](https://commons.wikimedia.org/wiki/File:Reception_lounge_at_Amantaka_luxury_Resort_%26_Hotel_at_blue_hour_in_Luang_Prabang_Laos.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-fd9a02c3856e4c: [Shixart1985](https://commons.wikimedia.org/wiki/File:Young_woman_holding_glasses_sitting_at_laptop_in_office.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-e5cb263612d44b: [Nguyendinhtruong2020](https://commons.wikimedia.org/wiki/File:Winplace-coworking-space.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-2723647be1187b: [Benoît Prieur](https://commons.wikimedia.org/wiki/File:Work_%26_Wall,_espace_de_coworking_%C3%A0_Neyron_(juillet_2021).jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-a8c2dab7dc67fd: [Alexpanechko](https://commons.wikimedia.org/wiki/File:InterAMI_Interior_1999_Design_Studio.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-166aa274f1a8f2: [DERDAKI ILIAS](https://commons.wikimedia.org/wiki/File:Wikimedia_Morocco_Mini-Hackathon_2026_day_2_-_Person_using_laptop_with_microphone_in_office_chair_-_0157.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-2621074106fee6: [Basile Morin](https://commons.wikimedia.org/wiki/File:Entrance_lounge_and_reception_desks_of_the_Carlton_Hotel_Downtown_Core_Singapore.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-a28190661b5e89: [WAO Coworking](https://commons.wikimedia.org/wiki/File:Openspace_wao_coworking.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
