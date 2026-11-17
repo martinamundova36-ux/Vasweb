@@ -184,8 +184,8 @@ jobs:
   notify:
     needs: [validate, publish]
     if: >-
-      always() && needs.validate.result == 'success' && github.event.repository.private == false &&
-      ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
+      always() && github.event.repository.private == false &&
+      ((github.event_name == 'schedule' && needs.validate.outputs.daily_due != 'false') ||
        (github.event_name == 'push') ||
        (github.event_name == 'workflow_dispatch' && github.actor == github.repository_owner &&
         (inputs.action == 'notify-test' || (inputs.action == 'draft' && needs.publish.result == 'success'))))
@@ -208,7 +208,7 @@ jobs:
         run: python3 .github/scripts/journal_approval.py --action "$NOTIFY_ACTION"
       - name: Denný pravdivý stav aj pri nepripravených článkoch alebo chybe vyhľadávania
         if: >-
-          always() && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due == 'true') ||
+          always() && ((github.event_name == 'schedule' && needs.validate.outputs.daily_due != 'false') ||
           (github.event_name == 'push' && contains(github.event.head_commit.message, '[journal-recover]')) ||
           (github.event_name == 'workflow_dispatch' && inputs.action == 'draft'))
         env:
