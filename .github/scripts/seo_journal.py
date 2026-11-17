@@ -30,6 +30,7 @@ def seo_title(title, limit=60):
     # at a phrase boundary. Keep the visible H1 and article body unchanged.
     curated = {
         "Digitálny lídring a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum": "Digitálne vedenie a výkon firiem v turizme",
+        "Digitálne vedenie a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum": "Digitálne vedenie a výkon firiem v turizme",
         "Digital Leadership and Corporate Performance in Tourism SMEs: What the New Research Shows": "Digital Leadership in Tourism SMEs",
     }
     if title in curated and len(curated[title] + suffix) <= limit:
