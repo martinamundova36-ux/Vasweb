@@ -28,7 +28,7 @@ on:
       - 'scripts/test_free_journal.py'
       - 'journal-drafts/*.json'
   schedule:
-    - cron: '7,27,47 7-11 * * *'
+    - cron: '7,27,47 6-11 * * *'
       timezone: 'Europe/Bratislava'
   issue_comment:
     types: [created]
