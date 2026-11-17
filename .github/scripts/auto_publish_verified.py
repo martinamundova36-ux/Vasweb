@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 from free_journal import validate_editorial, editorial_digest
 from ai_journal_writer import HEADINGS_SK, HEADINGS_EN
 from journal_quality import quality_issues
+from journal_business_relevance import relevant_to_entrepreneurs
 
 ROOT=Path(__file__).resolve().parents[2]
 TODAY=dt.datetime.now(ZoneInfo("Europe/Bratislava")).date().isoformat()
@@ -33,6 +34,7 @@ def eligible(root=ROOT):
 
 def attach_abstract_editorial(src, manuscript):
     """Validate machine-readable source binding and create a truthful record."""
+    if not relevant_to_entrepreneurs(src):raise ValueError('Study lacks a demonstrable business-related research question')
     if manuscript.get('schema')!='webu-abstract-manuscript-v1':raise ValueError('Unrecognized AI manuscript')
     if manuscript.get('source_doi')!=src['doi'] or manuscript.get('generated_on')!=TODAY:raise ValueError('Manuscript DOI/day mismatch')
     if manuscript.get('abstract_scope')!='crossref_abstract_only':raise ValueError('Abstract source scope missing')
