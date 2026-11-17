@@ -9318,30 +9318,31 @@
       "publication": "automated_abstract_editorial",
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
-        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
+        "2026-11-17: Direct SK/EN correction of forced WEBU website-service tangents; research results and original URLs preserved. Not a full-text study review."
       ],
       "languages": {
         "sk": {
           "path": "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr.html",
           "title": "Digitálna transformácia v rozvojových ekonomikách: Čo hovorí nová štúdia o Priemysle 4.0",
-          "description": "Prehľad novej štúdie z roku 2026 o zavádzaní Priemyslu 4.0 na severe Kolumbie, jej metodických limitoch a praktických odporúčaniach pre web.",
+          "description": "Prehľad štúdie o Priemysle 4.0 na severe Kolumbie: výsledky, obmedzenia a otázky pre podnikateľov pri investovaní do technológií.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "5e8feec1b0362e52a9dcd9389ada1667abee568af0c7697d69a6cbb4259fc90a"
+          "content_sha256": "9f8aa3497757df8b1ccb7686bc4eb2e0caf24f818d734e32dc7c0c78fb6c7046"
         },
         "en": {
           "path": "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr-en.html",
           "title": "Digital Transformation in Developing Economies: What a New Study Says About Industry 4.0",
-          "description": "An overview of the 2026 study on Industry 4.0 adoption in Colombia's North Coast, its methodological limits, and practical web recommendations.",
+          "description": "An overview of Industry 4.0 research in northern Colombia: findings, limitations and questions for firms investing in new technologies.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "fb6feff60d891401ad39fc42a059d8e3a9ff3eb494677a6bd3354c13ddb9b0b8"
+          "content_sha256": "66223d219357c9959d0678e280ef5504a7f26dfc656a7b201710278ec7317194"
         }
       },
       "claim_review": {
@@ -9379,7 +9380,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "Praktický návrh WEBU",
+            "section": "Podnikateľská relevancia a limity",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
@@ -9429,7 +9430,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "WEBU practical proposal",
+            "section": "Business relevance and limitations",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
