@@ -39,6 +39,9 @@ def main():
     parser.add_argument('--self-test',action='store_true')
     args=parser.parse_args()
     manifest=json.loads(MANIFEST.read_text(encoding='utf-8'))
+    # Apply only the dated, bounded source-review plan; never reinterpret other
+    # articles or silently invent a new study-specific claim.
+    assert manifest.get('revision_date')=='2026-11-17'
     assert len(manifest['revisions'])==5
     assert set(manifest['heads'])=={'sk','en'}
     assert all(set(item)=={'sk','en','replace_sk','replace_en'} for item in manifest['revisions'].values())
