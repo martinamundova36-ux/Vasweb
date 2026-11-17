@@ -18,6 +18,12 @@ class DeliveryTests(unittest.TestCase):
    self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T08:17:00+00:00')))
    marker.write_text(json.dumps({'discovery_result':'success','published_articles':5}))
    self.assertFalse(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T08:17:00+00:00')))
+   # A missing notification marker must not trigger duplicate article runs.
+   marker.unlink()
+   drafts=Path(tmp)/'journal-drafts';drafts.mkdir()
+   for index in range(5):
+    (drafts/(str(index)+'.json')).write_text(json.dumps({'published_at':'2026-11-05'}))
+   self.assertFalse(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T08:17:00+00:00')))
    self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-06T07:00:00+00:00')))
  def test_zero_ready_is_reported_once_without_fake_approval(self):
   with tempfile.TemporaryDirectory() as tmp:
