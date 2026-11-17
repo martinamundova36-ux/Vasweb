@@ -30,7 +30,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "a06610ca3abfef12c2677afd4f61b2b71d34d3f0b23a24877807d6dee8364738",
+    "content_sha256": "c9f540260bbaa1b871807b6c50ab94fbf8b373c0f502d9b106de1ec31469c18f",
     "languages": {
       "sk": {
         "title": "Digitálna transformácia v rozvojových ekonomikách: Čo hovorí nová štúdia o Priemysle 4.0",
@@ -48,7 +48,7 @@
           {
             "heading": "Čo skúmala štúdia",
             "paragraphs": [
-              "Podľa abstraktu sa výskum zameriava na strategickú hodnotu technológií Priemyslu 4.0 v rozvojových ekonomikách, kde je empirických dôkazov zatiaľ nedostatok. Autori konkrénte sledovali robotiku, aditívnu výrobu a internet vecí (IoT).",
+              "Podľa abstraktu sa výskum zameriava na strategickú hodnotu technológií Priemyslu 4.0 v rozvojových ekonomikách, kde je empirických dôkazov zatiaľ nedostatok. Autori konkrétne sledovali robotiku, aditívnu výrobu a internet vecí (IoT).",
               "Cieľom bolo posúdiť, ako podniky tieto technológie nasadzujú na zlepšenie dodávateľského reťazca a celkovej organizačnej výkonnosti. Výskum pritom zohľadňoval lokálne štrukturálne obmedzenia, akými sú obmedzená infraštruktúra, nedostatok zručností a finančné reštrikcie.",
               "Autori v teoretickej rovine vychádzajú z teórie orientovanej na zdroje (resource-based view). Koncept takzvaného VRIN statusu (cenné, vzácne, nenapodobiteľné a nenahraditeľné zdroje) preformulovali na emergentnú vlastnosť kontextu zavádzania, a nie na pevný atribút samotnej technológie."
             ]
@@ -153,12 +153,19 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "a06610ca3abfef12c2677afd4f61b2b71d34d3f0b23a24877807d6dee8364738",
+  "approved_content_sha256": "c9f540260bbaa1b871807b6c50ab94fbf8b373c0f502d9b106de1ec31469c18f",
   "image_id": "commons-a28190661b5e89",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
   "published_urls": [
     "https://www.webu.sk/blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr.html",
     "https://www.webu.sk/blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr-en.html"
+  ],
+  "copyedit_history": [
+    {
+      "date": "2026-11-17",
+      "scope": "Jazyková korektúra a spresnenie nekauzálnych tvrdení; plný text štúdie nebol nanovo overený",
+      "original_published_at": "2026-11-17"
+    }
   ]
 }
