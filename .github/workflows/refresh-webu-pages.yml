@@ -1,6 +1,7 @@
 name: WEBU Pages - refresh deployed site
 
-# Trigger once on introduction of this workflow, or manually for future fixes.
+# Rebuild after verified, direct WEBU Journal content corrections (10 SK/EN pages, 2026-11-17).
+# Re-edit of this workflow is deliberately the one-time push trigger.
 # This requests a rebuild of the existing Pages site; no domain or DNS changes.
 on:
   push:
