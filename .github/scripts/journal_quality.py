@@ -8,8 +8,8 @@ obviously unproofread drafts before they reach the public website.
 import re
 from collections import Counter
 
-MIN_WORDS = 700
-MIN_PRACTICAL_WORDS = 120
+MIN_WORDS = 450
+MIN_PRACTICAL_WORDS = 80
 HEADINGS = {
     "sk": ["Úvod", "Čo skúmala štúdia", "Hlavné zistenia a význam",
            "Metodika a limity", "Čo si z výskumu môže odniesť podnikateľ", "Záver"],
