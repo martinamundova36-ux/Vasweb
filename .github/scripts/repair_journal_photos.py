@@ -54,8 +54,14 @@ def main():
     used = set(data["assignments"].values())
     count = 0
     for article, (doi, record) in REPLACEMENTS.items():
-        if not (ROOT / article).is_file() or not (ROOT / article.replace(".html", "-en.html")).is_file():
+        sk_file = ROOT / article
+        en_file = ROOT / article.replace(".html", "-en.html")
+        if not sk_file.is_file() or not en_file.is_file():
             raise RuntimeError("Missing bilingual article: " + article)
+        # A source-matched replacement must never be silently attached to a
+        # different study if an article or the review mapping changes.
+        if any("doi.org/" + doi.lower() not in path.read_text().lower() for path in (sk_file, en_file)):
+            raise RuntimeError("Photo replacement DOI does not match bilingual article: " + article)
         expected_new = "pexels-" + record[0]
         old_id = data["assignments"].get(article)
         if old_id == expected_new:
