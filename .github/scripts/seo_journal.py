@@ -29,6 +29,16 @@ def seo_title(title, limit=60):
     # Human-edited search snippets for headlines that cannot be shortened cleanly
     # at a phrase boundary. Keep the visible H1 and article body unchanged.
     curated = {
+        "How Small Businesses Can Adopt Generative AI Without Chaos": "Small Business Generative AI Without Chaos",
+        "Trust in Online Reviews: Why Five Stars Are Not Enough": "Online Reviews: Why Five Stars Are Not Enough",
+        "Digital Colposcopy, Telemedicine, and Artificial Intelligence in Modern Cervical Screening": "Digital Colposcopy, Telemedicine and AI",
+        "Management Accounting Transformation in the Era of Artificial Intelligence: A Critical Review": "AI and the Future of Management Accounting",
+        "The Impact of Bank Complaint Resolution on Customer Behaviour: Insights from a New Study": "Bank Complaints and Customer Behaviour",
+        "From Feedback to Design: Why User Data Often Fails to Shape Space": "Why User Feedback Fails to Shape Spaces",
+        "Personality, Journey Design, and Omnichannel Trust in Value Co-Creation": "Personality and Trust in Omnichannel Journeys",
+        "The Influence of Business Owner Leadership and Financial Literacy on Employee Productivity in MSMEs": "Leadership, Financial Literacy and Productivity",
+        "Artificial Intelligence in Project Portfolio Management: What New Research Reveals": "AI in Project Portfolio Management",
+        "A Configurational Analysis of New Farmers' Marketing Competence and Performance": "Marketing Skills and Performance of New Farmers",
         "Digitálny lídring a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum": "Digitálne vedenie a výkon firiem v turizme",
         "Digitálne vedenie a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum": "Digitálne vedenie a výkon firiem v turizme",
         "Digital Leadership and Corporate Performance in Tourism SMEs: What the New Research Shows": "Digital Leadership in Tourism SMEs",
