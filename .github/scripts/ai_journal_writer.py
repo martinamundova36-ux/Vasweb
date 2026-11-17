@@ -20,8 +20,8 @@ from journal_quality import quality_issues
 ROOT=Path(__file__).resolve().parents[2]
 TODAY=dt.datetime.now(ZoneInfo("Europe/Bratislava")).date().isoformat()
 MODEL=os.environ.get("WEBU_GEMINI_MODEL","gemini-3.5-flash-lite")
-HEADINGS_SK=["Úvod","Čo skúmala štúdia","Hlavné zistenia a význam","Metodika a limity","Praktický návrh WEBU","Záver"]
-HEADINGS_EN=["Introduction","What the study examined","Findings and interpretation","Methodology and limitations","WEBU practical proposal","Conclusion"]
+HEADINGS_SK=["Úvod","Čo skúmala štúdia","Hlavné zistenia a význam","Metodika a limity","Význam pre prax a ďalší výskum","Záver"]
+HEADINGS_EN=["Introduction","What the study examined","Findings and interpretation","Methodology and limitations","Implications for practice and future research","Conclusion"]
 
 def load_abstract(source):
     doi=urllib.parse.quote(source["doi"],safe="/")
@@ -90,9 +90,10 @@ CRITICAL accuracy rules:
 - Only include numbers, methods, population and findings if they occur EXPLICITLY in the abstract.
 - Never invent sample sizes, effect estimates, significance, tests, verified full-text findings or other citations.
 - Do not infer causation from associations, or make claims about Slovakia based on another population.
-- Separate WEBU's practical recommendations from study conclusions and label them editorial recommendations.
+- Clearly distinguish findings of the source from the author's independent commentary and suggested applications.
 - Discuss unverified full text and limits of the abstract honestly.
-- Use helpful practical WEBU examples for owners of small businesses, web design, marketing and workplace management.
+- Follow the real subject and population of THIS source. Do NOT force links to WEBU's website services, web design, e-commerce, marketing or small businesses when the research is about education, psychology, medicine, social science or another field.
+- Choose examples relevant to actual readers and stakeholders of the study (such as teachers for school research, employees and leaders for workplace psychology, researchers for a methodological study). If a responsible practical application cannot be derived from the abstract, explain that limitation instead of inventing an application.
 - Produce a substantive, self-contained, evidence-limited expert editorial in EACH
   language (usually 700-1100 useful words). Do not pad word counts: if an abstract
   cannot support a meaningful discussion, the article must fail the quality gate.
@@ -101,8 +102,8 @@ CRITICAL accuracy rules:
 - Findings and methodology must distinguish observational association from causation.
 - Discuss plausible alternative explanations, generalizability limits, uncertainty,
   confounders and what cannot be established without a full-text comparison.
-- Include a specific, reproducible WEBU example with steps and a measurable outcome
-  in the practical proposal, explicitly separate from the source's findings.
+- In 'Implications for practice and future research', supply a topic-appropriate, conditional example, methodological implication or concrete follow-up research question. Only propose metrics where they make sense for this study; never promise an effect not established by the evidence.
+- The WEBU brand identifies the publisher and MAY appear in author/attribution information, but not as an artificial subject of the research. Never end the article with a promotional paragraph about websites or web-building services.
 - Add actual analytical value; avoid generic introductions, boilerplate conclusions,
   empty predictions, filler, copied paragraphs, and unqualified superlatives.
 - No claims of independent scientific review, verified full-text reading, original
