@@ -8714,7 +8714,8 @@
       "publication": "automated_abstract_editorial",
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
-        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
+        "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review."
       ],
       "languages": {
         "sk": {
@@ -8726,7 +8727,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "96f4d8657dec37961f885d931512e8a3097f093581380a30cd7c269b2344096d"
+          "content_sha256": "e5cb37f8d66a5a4e19feffa6f3216018e4151ab433f4ba2b05e5262de79c9381"
         },
         "en": {
           "path": "blog-journal-vzdelavaci-manazment-pod-lupou-ako-vedenie-skol-a-kultura-vplyvaju-na-spokoj-en.html",
@@ -8734,10 +8735,10 @@
           "description": "An analysis of a study on leadership and culture impacts on teacher satisfaction. Offering abstract data insights and management advice.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "941d5e25a4c43c02d0b9ca5f1ac97bc611bec9cb957ef405f6cb304ece117250"
+          "content_sha256": "ea33fb5fc7134cd7d32797529fb6ca5875f45ceb8fb6f2078480e0c7b7f4b5e7"
         }
       },
       "claim_review": {
@@ -8775,7 +8776,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "Praktický návrh WEBU",
+            "section": "Podnikateľská relevancia a limity",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
@@ -8825,7 +8826,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "WEBU practical proposal",
+            "section": "Business relevance and limitations",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
@@ -8865,7 +8866,8 @@
       "publication": "automated_abstract_editorial",
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
-        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification."
+        "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
+        "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review."
       ],
       "languages": {
         "sk": {
@@ -8877,7 +8879,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "a77900a712c3c12e6fe9f9327fd46bd1ee58dbbd204fd43af71c169afd8c0f85"
+          "content_sha256": "6e593464dea0a8058d234ed2e82123b598e4210420e69dad344eab1033af1822"
         },
         "en": {
           "path": "blog-journal-digitalna-nostalgia-a-nakupny-zamer-ako-minulost-formuje-spravanie-mladych-s-en.html",
@@ -8885,10 +8887,10 @@
           "description": "Explore how digital nostalgia and social media engagement influence consumer emotions and brand trust according to recent academic research.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-17",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "7951b202619939bfbbc7d20cc509d765682d00650ff56337803183c8b3fe45f2"
+          "content_sha256": "a28f2858c525f123413598c860615bd97c3d49048f660e651419c670c0135d13"
         }
       },
       "claim_review": {
@@ -8926,7 +8928,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "Praktický návrh WEBU",
+            "section": "Podnikateľská relevancia a limity",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
@@ -8976,7 +8978,7 @@
             "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
           },
           {
-            "section": "WEBU practical proposal",
+            "section": "Business relevance and limitations",
             "claim_kind": "unverified_abstract_based_commentary",
             "source_ids": [
               "doi-source"
