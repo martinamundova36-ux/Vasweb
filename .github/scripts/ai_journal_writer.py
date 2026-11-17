@@ -185,8 +185,8 @@ def main():
             sections = []
             for index, heading in enumerate(headings):
                 sections.append({"heading": heading,
-                                 "paragraphs": [base * 2 + f" {heading}: alpha.",
-                                                base * 2 + f" {heading}: beta."]})
+                                 "paragraphs": [base * 3 + f" {heading}: alpha.",
+                                                base * 3 + f" {heading}: beta."]})
             return {"title": "Ukážkový odborný text" if lang == "sk" else "Research editorial sample",
                     "description": "Testovacia anotácia zdrojovo ohraničeného odborného textu pre WEBU Journal." if lang == "sk" else
                                    "A source-bound example used to verify the editorial quality safeguards.",
