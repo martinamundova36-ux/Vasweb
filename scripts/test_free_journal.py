@@ -36,7 +36,8 @@ def main():
   # Prefix, not suffix: URL slugs are truncated to 76 characters.
   article['title']=('Testovaci clanok WEBU ' if lang=='sk' else 'WEBU isolated test article ')+article['title']
   article['description']+=' TEST ONLY'
- assert m.render(source,'sk')[0] not in {m.render(json.loads(p.read_text()),'sk')[0] for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('editorial')}
+ from journal_url import article_names
+ assert not (ROOT/article_names(source)[0]).exists(), 'Isolated test slug clashes with a published article'
  source['editorial']['content_sha256']=m.editorial_digest(source['editorial']['languages'])
  source['editorial']['scientific_review']['content_sha256']=source['editorial']['content_sha256']
  for mutate in [lambda x:x.pop('editorial'),lambda x:x['editorial'].pop('references'),lambda x:x['editorial']['languages']['sk'].update(sections=x['editorial']['languages']['sk']['sections'][:3]),lambda x:x['editorial']['scientific_review'].pop('source_quality'),lambda x:x['editorial']['scientific_review']['source_quality'].update(decision='hold'),lambda x:x['editorial'].pop('scientific_review'),lambda x:x['editorial']['scientific_review'].update(source_access='abstract_only'),lambda x:x['editorial']['scientific_review'].update(unverified_claims=['unknown effect']),lambda x:x['editorial']['scientific_review']['methodology'].pop('sample'),lambda x:x['editorial']['scientific_review']['integrity'].update(status='correction_requires_review'),lambda x:x['editorial']['languages'].pop('en'),lambda x:x['editorial']['checks'].update(claims=False),lambda x:x['editorial']['languages']['sk'].update(title='Changed after review')]:
