@@ -12,9 +12,9 @@ MIN_WORDS = 700
 MIN_PRACTICAL_WORDS = 120
 HEADINGS = {
     "sk": ["Úvod", "Čo skúmala štúdia", "Hlavné zistenia a význam",
-           "Metodika a limity", "Význam pre prax a ďalší výskum", "Záver"],
+           "Metodika a limity", "Čo si z výskumu môže odniesť podnikateľ", "Záver"],
     "en": ["Introduction", "What the study examined", "Findings and interpretation",
-           "Methodology and limitations", "Implications for practice and future research", "Conclusion"],
+           "Methodology and limitations", "Business relevance and limitations", "Conclusion"],
 }
 PRACTICAL = {
     "sk": re.compile(r"\b(napríklad|príklad|modelov\w*|krok\w*|pilot\w*|otest\w*|meran\w*|metrik\w*|indikátor\w*|kontroln\w*|over\w*|výskumn\w* otázk\w*|pre ďalší výskum|pre prax|postup\w*)\b", re.I),
@@ -82,6 +82,9 @@ def quality_issues(articles):
             section_text = " ".join(section.get("paragraphs", []))
             if len(words(section_text)) < minimum:
                 issues.append(f"{lang}: '{section.get('heading')}' is not substantive enough")
+        # WEBU is publisher/brand attribution, never a sales pitch inside a research digest.
+        if re.search(r"\bWEBU\b|\bwebu\.sk\b|\b(?:our|naše) (?:web (?:design )?services|webové služby)\b", body, re.I):
+            issues.append(lang + ": promotional brand/service reference inside article text")
         if not PRACTICAL[lang].search(" ".join(sections[4].get("paragraphs", []))):
             issues.append(lang + ": implications section lacks a topic-relevant example, research question or practical consequence")
         if not ABSTRACT[lang].search(" ".join(sections[3].get("paragraphs", []))):
