@@ -24,9 +24,19 @@ def main():
  m.NOW=datetime.date.fromisoformat(source["editorial"]["reviewed_at"])
  m.validate_editorial(source)
  # A test must remain usable after the real article has already been published.
- source=copy.deepcopy(source);source['doi']='10.0000/reviewed-test-only';source['url']='https://doi.org/'+source['doi']
- for article in source['editorial']['languages'].values():
-  article['title']+=' TEST ONLY';article['description']+=' TEST ONLY'
+ source=copy.deepcopy(source)
+ # Published fixtures pin their original production URLs. Drop that immutable
+ # metadata for the isolated test article, otherwise the duplicate preflight
+ # correctly rejects the real article URL before the test can run.
+ source.pop('published_at',None)
+ source.pop('published_urls',None)
+ source['doi']='10.0000/reviewed-test-only'
+ source['url']='https://doi.org/'+source['doi']
+ for lang,article in source['editorial']['languages'].items():
+  # Prefix, not suffix: URL slugs are truncated to 76 characters.
+  article['title']=('Testovaci clanok WEBU ' if lang=='sk' else 'WEBU isolated test article ')+article['title']
+  article['description']+=' TEST ONLY'
+ assert m.render(source,'sk')[0] not in {m.render(json.loads(p.read_text()),'sk')[0] for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('editorial')}
  source['editorial']['content_sha256']=m.editorial_digest(source['editorial']['languages'])
  source['editorial']['scientific_review']['content_sha256']=source['editorial']['content_sha256']
  for mutate in [lambda x:x.pop('editorial'),lambda x:x['editorial'].pop('references'),lambda x:x['editorial']['languages']['sk'].update(sections=x['editorial']['languages']['sk']['sections'][:3]),lambda x:x['editorial']['scientific_review'].pop('source_quality'),lambda x:x['editorial']['scientific_review']['source_quality'].update(decision='hold'),lambda x:x['editorial'].pop('scientific_review'),lambda x:x['editorial']['scientific_review'].update(source_access='abstract_only'),lambda x:x['editorial']['scientific_review'].update(unverified_claims=['unknown effect']),lambda x:x['editorial']['scientific_review']['methodology'].pop('sample'),lambda x:x['editorial']['scientific_review']['integrity'].update(status='correction_requires_review'),lambda x:x['editorial']['languages'].pop('en'),lambda x:x['editorial']['checks'].update(claims=False),lambda x:x['editorial']['languages']['sk'].update(title='Changed after review')]:
