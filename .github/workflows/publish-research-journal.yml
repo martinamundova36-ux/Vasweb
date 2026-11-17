@@ -7,6 +7,7 @@ on:
       - '.github/scripts/editorial_briefs.py'
       - '.github/scripts/ai_journal_writer.py'
       - '.github/scripts/journal_quality.py'
+      - '.github/scripts/journal_business_relevance.py'
       - '.github/scripts/journal_url.py'
       - '.github/scripts/auto_publish_verified.py'
       - '.github/scripts/journal_approval.py'
@@ -76,6 +77,7 @@ jobs:
       - run: python3 .github/scripts/editorial_briefs.py --self-test
       - run: python3 .github/scripts/ai_journal_writer.py --self-test
       - run: python3 scripts/test_journal_quality.py
+      - run: python3 .github/scripts/journal_business_relevance.py
       - run: python3 scripts/test_journal_url.py
       - run: python3 scripts/journal_legacy_copyedit.py --self-test
       - run: python3 .github/scripts/auto_publish_verified.py --self-test
