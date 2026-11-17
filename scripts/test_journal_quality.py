@@ -36,6 +36,10 @@ def main():
     typo=copy.deepcopy(sample)
     typo['sk']['sections'][0]['paragraphs'][0]+=' Toto je prištiepený abstrakt.'
     assert any('proofread' in x for x in quality_issues(typo))
+    promotion=copy.deepcopy(sample)
+    promotion['en']['sections'][4]['paragraphs'][0]+=' Contact WEBU for our website services.'
+    assert any('promotional brand/service' in x for x in quality_issues(promotion))
+
     missing=copy.deepcopy(sample)
     missing['en']['sections'][3]['paragraphs']=['A method without source boundaries.'*20]*2
     assert any('methodology must disclose' in x for x in quality_issues(missing))
