@@ -13,8 +13,16 @@ SCHEDULE = '7,27,47 6-11 * * *'
 
 def daily_due(now):
     local = now.astimezone(ZONE)
-    record = ROOT / 'journal-reports/daily-delivery' / (str(local.date()) + '.json')
     if local.hour < 6 or (local.hour == 6 and local.minute < 7):return False
+    today = str(local.date())
+    # Count actual published sources even if the notification job did not create its marker.
+    published = sum(
+        json.loads(p.read_text(encoding='utf-8')).get('published_at') == today
+        for p in (ROOT / 'journal-drafts').glob('*.json')
+    )
+    if published >= 5:
+        return False
+    record = ROOT / 'journal-reports/daily-delivery' / (today + '.json')
     if not record.exists():return True
     latest = json.loads(record.read_text())
     return latest.get('published_articles', 0) < 5
