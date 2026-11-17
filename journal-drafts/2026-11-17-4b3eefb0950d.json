@@ -30,7 +30,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "9210ae08570d12598e6e72f939e5215fce037c247d3e85b00cb82ceed373f0e6",
+    "content_sha256": "522c9d828b24578b7fb52095b9c79c046c24c88ec88e00b539b3bee93db2feee",
     "languages": {
       "sk": {
         "title": "Vzdelávací manažment pod lupou: Ako vedenie škôl a kultúra vplývajú na spokojnosť zamestnancov",
@@ -66,10 +66,11 @@
             ]
           },
           {
-            "heading": "Praktický návrh WEBU",
+            "heading": "Podnikateľská relevancia a limity",
             "paragraphs": [
-              "Hoci primárna štúdia analyzuje verejné školstvo v Indonézii, redakčné odporúčania WEBU pre majiteľov malých firiem a manažérov prinášajú cenné paralery. Podobne ako v školách, aj v malých firmách a marketingových tímoch závisí angažovanosť od podpory zo strany vedenia.",
-              "Manažéri by mali implementovať prvky koučingu a budovať inkluzívnu, menej hierarchickú kultúru prostredníctvom interných digitálnych komunikačných kanálov a pravidelnej spätnej väzby, čo môže podporiť pracovnú pohodu a kvalitu výstupov."
+              "Výskum sa vzťahuje na vedenie škôl a pracovnú spokojnosť zamestnancov školstva v Indonézii. Pre podnikateľov je relevantná všeobecná téma organizačnej kultúry a podpory zo strany vedenia, nie však priame potvrdenie účinnosti konkrétnych manažérskych zásahov v súkromných firmách.",
+              "Manažér môže pri uvažovaní o spokojnosti tímu sledovať, či majú pracovníci bezpečný priestor na spätnú väzbu, zrozumiteľné pracovné úlohy a predvídateľné rozhodovanie. Ako redakčný príklad možno uviesť krátke anonymné zisťovanie pracovnej spokojnosti a následnú diskusiu o konkrétnych zlepšeniach. Nejde o postup experimentálne overený uvedenou štúdiou.",
+              "Pri prenose výsledkov zo školského prostredia do podnikania je potrebná opatrnosť: odlišujú sa pracovné podmienky, motivácia, riadenie aj inštitucionálne pravidlá."
             ]
           },
           {
@@ -115,10 +116,11 @@
             ]
           },
           {
-            "heading": "WEBU practical proposal",
+            "heading": "Business relevance and limitations",
             "paragraphs": [
-              "Although the primary study focuses on public education in Indonesia, WEBU editorial recommendations for small business owners and managers offer valuable parallels. Just as in schools, organizational commitment in small enterprises and marketing agencies heavily relies on supportive leadership.",
-              "Managers ought to implement coaching practices and cultivate inclusive, non-hierarchical work cultures utilizing internal communication tools and structured feedback mechanisms, which support workplace well-being and operational quality."
+              "The research concerns school leadership and the job satisfaction of education employees in Indonesia. The broad questions of organisational culture and managerial support may interest entrepreneurs, but the study does not directly establish that specific management interventions work in private businesses.",
+              "A manager reflecting on team satisfaction could examine whether employees have safe feedback channels, clear responsibilities and predictable decisions. A short anonymous staff survey followed by discussion of specific improvements is one editorial example. It was not an intervention experimentally validated by this study.",
+              "Transferring results from schools to businesses requires caution because employment conditions, incentives, management structures and institutional rules differ."
             ]
           },
           {
@@ -141,7 +143,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "9210ae08570d12598e6e72f939e5215fce037c247d3e85b00cb82ceed373f0e6",
+  "approved_content_sha256": "522c9d828b24578b7fb52095b9c79c046c24c88ec88e00b539b3bee93db2feee",
   "image_id": "commons-2723647be1187b",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
@@ -154,6 +156,11 @@
       "date": "2026-11-17",
       "scope": "Jazyková korektúra a spresnenie nekauzálnych tvrdení; plný text štúdie nebol nanovo overený",
       "original_published_at": "2026-11-17"
+    },
+    {
+      "date": "2026-11-17",
+      "scope": "Reframe school research significance for entrepreneur readers without misrepresenting findings",
+      "new_scientific_review": false
     }
   ]
 }
