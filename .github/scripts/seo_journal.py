@@ -26,6 +26,14 @@ def seo_title(title, limit=60):
     if marker:
         title = title[:-len(marker)].rstrip()
     suffix = marker + " | WEBU"
+    # Human-edited search snippets for headlines that cannot be shortened cleanly
+    # at a phrase boundary. Keep the visible H1 and article body unchanged.
+    curated = {
+        "Digitálny lídring a výkonnosť firiem v cestovnom ruchu: Čo hovorí nový výskum": "Digitálne vedenie a výkon firiem v turizme",
+        "Digital Leadership and Corporate Performance in Tourism SMEs: What the New Research Shows": "Digital Leadership in Tourism SMEs",
+    }
+    if title in curated and len(curated[title] + suffix) <= limit:
+        return curated[title] + suffix
     budget = limit - len(suffix)
     if len(title) <= budget:
         return title + suffix
