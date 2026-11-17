@@ -5,10 +5,11 @@ import shutil,tempfile
 import urllib.error
 import argparse,datetime as dt,hashlib,html,json,re,subprocess,sys,time,urllib.parse,urllib.request
 from zoneinfo import ZoneInfo
+from journal_business_relevance import relevant_to_entrepreneurs
 ROOT=Path(__file__).resolve().parents[2]
 SITE='https://www.webu.sk/'
 NOW=dt.datetime.now(ZoneInfo('Europe/Bratislava')).date()
-KEYWORDS={'digital marketing','small business','entrepreneurship','customer','e-commerce','ecommerce','organizational','workplace','productivity','artificial intelligence','usability','consumer','leadership'}
+KEYWORDS={'digital marketing','marketing','small business','business','entrepreneurship','enterprise','customer','e-commerce','ecommerce','organizational','organisational','workplace','productivity','artificial intelligence','consumer','leadership','employee','employer','human resource','management','financial','finance','accounting','banking','supply chain','retail','pricing','sales','tourism','job satisfaction','innovation'}
 def fetch(url):
  req=urllib.request.Request(url,headers={'User-Agent':'WEBU-Bibliographic-Review/1.0 (https://www.webu.sk/)','Accept':'application/json'})
  with urllib.request.urlopen(req,timeout=30) as r:return json.load(r)
@@ -173,7 +174,7 @@ def discover(config):
    for record in fetch('https://api.crossref.org/works?'+params)['message']['items']:
     try:
      source=verify(record)
-     if source['doi'] in seen or normal(source['title']) in titles or not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:continue
+     if source['doi'] in seen or normal(source['title']) in titles or not relevant_to_entrepreneurs(source) or not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:continue
      confirmed=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
      selected.append(confirmed);seen.add(source['doi']);titles.add(normal(source['title']));break
     except (ValueError,KeyError):continue
@@ -222,6 +223,7 @@ def main():
   drafted_at=source.get('drafted_at',source.get('verified_at'))
   source=verify(fetch('https://api.crossref.org/works/'+urllib.parse.quote(source['doi'],safe='/'))['message'],source)
   if not source['abstract_available'] or source['abstract_words']<80 or len(source['selection_keywords'])<config['minimum_relevance_score']:raise ValueError('Current source evidence or relevance is insufficient')
+  if editorial['status']=='automated_abstract_editorial' and not relevant_to_entrepreneurs(source):raise ValueError('This study does not establish a business-relevant topic for the entrepreneur research digest')
   source['drafted_at']=drafted_at;source['editorial']=editorial
   source['full_text_reviewed']=editorial.get('review_level')=='full_text_sections'
   source['approved_by']=('abstract_automation' if editorial['status']=='automated_abstract_editorial' else 'verified_automation' if __import__('os').environ.get('WEBU_AUTOPUBLISH_VERIFIED')=='true' else __import__('os').environ.get('GITHUB_ACTOR','manual-owner'));source['approved_content_sha256']=editorial['content_sha256'];publish(source)
