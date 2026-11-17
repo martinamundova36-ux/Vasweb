@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'.github/scripts'))
-from journal_url import article_names
+from journal_url import article_names, slugify
 
 def main():
     source={'title':'Original title', 'editorial':{'languages':{'sk':{'title':'Nový opravený názov'}}},
@@ -14,6 +14,10 @@ def main():
     assert article_names(source)==('blog-journal-original-title.html','blog-journal-original-title-en.html')
     source.pop('published_at')
     assert article_names(source)==('blog-journal-novy-opraveny-nazov.html','blog-journal-novy-opraveny-nazov-en.html')
-    print('PASS: copyediting published headings never mutates the public URL')
+    # Overlong research titles must never make URLs end in half a word.
+    long_slug=slugify('alpha '*20)
+    assert len(long_slug)<=76 and all(token=='alpha' for token in long_slug.split('-'))
+    assert slugify('Krátky názov')=='kratky-nazov'
+    print('PASS: immutable published URLs, localized slugs and complete-word truncation')
 if __name__=='__main__':
     main()
