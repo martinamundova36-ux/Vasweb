@@ -9019,7 +9019,8 @@
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
         "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
-        "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review."
+        "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review.",
+        "2026-11-17: Removed final irrelevant website references from subject-specific research commentary; original date, URL and source maintained."
       ],
       "languages": {
         "sk": {
@@ -9031,7 +9032,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "13537231f1d724d706be52e3bbf94636a7b956f2cf994ae89b14ddfc1143e1d4"
+          "content_sha256": "81d63c45e29534f11c6fd398ec261386872c4ff404ec9f30855ed0fe07088c8c"
         },
         "en": {
           "path": "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab-en.html",
@@ -9042,7 +9043,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "e03630a3659ff3890a9c2c6a6fc35289cbbee184b1b4ea05bb469e2caffdb734"
+          "content_sha256": "892c7ac76f58fe164d0786a1dbd8c4b0e7e117b276967e1cb1608257c332e114"
         }
       },
       "claim_review": {
@@ -9171,7 +9172,8 @@
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
         "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
-        "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review."
+        "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review.",
+        "2026-11-17: Removed final irrelevant website references from subject-specific research commentary; original date, URL and source maintained."
       ],
       "languages": {
         "sk": {
@@ -9194,7 +9196,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "929014d6043e3f17f3f4c6012134aab47c29273a68cab873a179dd1e004a7315"
+          "content_sha256": "3e9d8f3ec638bc32c6a84058cca044073fdfaef1759e27690d151723ece0a81a"
         }
       },
       "claim_review": {
@@ -9323,7 +9325,8 @@
       "notes": [
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
         "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
-        "2026-11-17: Direct SK/EN correction of forced WEBU website-service tangents; research results and original URLs preserved. Not a full-text study review."
+        "2026-11-17: Direct SK/EN correction of forced WEBU website-service tangents; research results and original URLs preserved. Not a full-text study review.",
+        "2026-11-17: Removed final irrelevant website references from subject-specific research commentary; original date, URL and source maintained."
       ],
       "languages": {
         "sk": {
@@ -9335,7 +9338,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "9f8aa3497757df8b1ccb7686bc4eb2e0caf24f818d734e32dc7c0c78fb6c7046"
+          "content_sha256": "19d57be288e610c515b5e2f05f4a23b9cb4d2de555a1eb3f88e8b4f5d7dcad42"
         },
         "en": {
           "path": "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr-en.html",
@@ -9346,7 +9349,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "66223d219357c9959d0678e280ef5504a7f26dfc656a7b201710278ec7317194"
+          "content_sha256": "d5a81615d17839c40bc635d07d4ac4b3505b2e14b7b4631e8aea1210beb80955"
         }
       },
       "claim_review": {
