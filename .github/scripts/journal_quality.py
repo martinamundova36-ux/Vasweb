@@ -12,13 +12,13 @@ MIN_WORDS = 700
 MIN_PRACTICAL_WORDS = 120
 HEADINGS = {
     "sk": ["Úvod", "Čo skúmala štúdia", "Hlavné zistenia a význam",
-           "Metodika a limity", "Praktický návrh WEBU", "Záver"],
+           "Metodika a limity", "Význam pre prax a ďalší výskum", "Záver"],
     "en": ["Introduction", "What the study examined", "Findings and interpretation",
-           "Methodology and limitations", "WEBU practical proposal", "Conclusion"],
+           "Methodology and limitations", "Implications for practice and future research", "Conclusion"],
 }
 PRACTICAL = {
-    "sk": re.compile(r"\b(napríklad|príklad|modelov\w*|krok\w*|pilot\w*|otest\w*|meran\w*|metrik\w*|indikátor\w*|kontroln\w*|over\w*)\b", re.I),
-    "en": re.compile(r"\b(example|scenario|step\w*|pilot|test\w*|measur\w*|metric\w*|indicator\w*|checklist|verify|experiment)\b", re.I),
+    "sk": re.compile(r"\b(napríklad|príklad|modelov\w*|krok\w*|pilot\w*|otest\w*|meran\w*|metrik\w*|indikátor\w*|kontroln\w*|over\w*|výskumn\w* otázk\w*|pre ďalší výskum|pre prax|postup\w*)\b", re.I),
+    "en": re.compile(r"\b(example|scenario|step\w*|pilot|test\w*|measur\w*|metric\w*|indicator\w*|checklist|verify|experiment|research question|future research|practical implication|further study)\b", re.I),
 }
 ABSTRACT = {
     "sk": re.compile(r"\babstrakt\w*\b", re.I),
@@ -83,7 +83,7 @@ def quality_issues(articles):
             if len(words(section_text)) < minimum:
                 issues.append(f"{lang}: '{section.get('heading')}' is not substantive enough")
         if not PRACTICAL[lang].search(" ".join(sections[4].get("paragraphs", []))):
-            issues.append(lang + ": practical section lacks a concrete step, example or measurement")
+            issues.append(lang + ": implications section lacks a topic-relevant example, research question or practical consequence")
         if not ABSTRACT[lang].search(" ".join(sections[3].get("paragraphs", []))):
             issues.append(lang + ": methodology must disclose abstract-only evidence")
         red_flags = sorted(set(m.group(0) for m in LANGUAGE_RED_FLAGS[lang].finditer(body)))
