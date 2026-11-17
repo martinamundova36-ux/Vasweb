@@ -29,11 +29,32 @@ def validate_icon(name,raw):
 
 def check(url):
  try:
+  name=url.removeprefix(SITE)
+  # These historical numeric URLs are intentional noindex redirects to the
+  # public, descriptive article URLs. Verify redirects, not article content.
+  alias=name.startswith('blog-journal-review-') and name.endswith('.html')
   with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'WEBU-Deployment-Check/1.0'}),timeout=25) as response:
    raw=response.read();row={'url':url,'status':response.status,'final_url':response.url,'errors':[]}
    if response.status!=200:row['errors'].append('HTTP status')
-   if 'noindex' in response.headers.get('X-Robots-Tag','').lower():row['errors'].append('X-Robots noindex')
-  name=url.removeprefix(SITE)
+   if 'noindex' in response.headers.get('X-Robots-Tag','').lower() and not alias:row['errors'].append('X-Robots noindex')
+  if alias:
+   # Never allow an arbitrary noindex page to pass as a redirect: the
+   # checked-in source must specify a redirect to a different canonical URL.
+   local_raw=(ROOT/name).read_text(encoding='utf-8')
+   local=Page(local_raw)
+   served=Page(raw.decode('utf-8'))
+   target=local.canon
+   if 'http-equiv="refresh"' not in local_raw.lower() or not target or target==[url] or len(target)!=1 or not target[0].startswith(SITE):
+    row['errors'].append('invalid checked-in legacy redirect')
+   if 'noindex' not in served.meta.get('robots','').lower():
+    row['errors'].append('legacy redirect must stay noindex')
+   if served.canon!=target:
+    row['errors'].append('legacy redirect canonical target mismatch')
+   if raw!=local_raw.encode('utf-8'):
+    row['errors'].append('stale or modified legacy redirect')
+   if not all('/'+icon in served.links for icon in ('favicon-96.png','favicon.svg','favicon.ico')):
+    row['errors'].append('favicon HTML links missing')
+   return row
   if name.startswith('assets/journal/') or name in ('journal-images.css','journal-editorial.css'):
    if raw!=(ROOT/name).read_bytes():row['errors'].append('deployed image/style differs from repository')
    row['sha256']=hashlib.sha256(raw).hexdigest()
