@@ -24,7 +24,12 @@ def recorded_article_names(source):
 def slugify(title):
     value = unicodedata.normalize("NFKD", str(title)).encode("ascii", "ignore").decode("ascii").lower()
     value = re.sub(r"[^a-z0-9]+", "-", value).strip("-")
-    return value[:76].rstrip("-") or "clanok"
+    # Preserve complete words within the URL limit. Previously the hard
+    # 76-character slice cut the last word in half on long research titles.
+    if len(value) > 76:
+        prefix = value[:76].rstrip("-")
+        value = prefix.rsplit("-", 1)[0] or prefix
+    return value or "clanok"
 
 def article_names(source):
     pinned = recorded_article_names(source)
