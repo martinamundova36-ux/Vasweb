@@ -30,7 +30,7 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "9e0324a925f74fb86fde2d23027a84fc4a7893d5cec30782a76cbb09ceec0400",
+    "content_sha256": "9210ae08570d12598e6e72f939e5215fce037c247d3e85b00cb82ceed373f0e6",
     "languages": {
       "sk": {
         "title": "Vzdelávací manažment pod lupou: Ako vedenie škôl a kultúra vplývajú na spokojnosť zamestnancov",
@@ -55,28 +55,28 @@
             "heading": "Hlavné zistenia a význam",
             "paragraphs": [
               "Podľa abstraktu výskum využil ex post facto korelačný dizajn a dotazníky na päťbodovej Likertovej škále s vysokou vnútornou konzistenciou a spoľahlivosťou prekračujúcou hodnotu alfa 0,95. Viacerá lineárna regresia a testy klasických predpokladov boli realizované pomocou programu SPSS 27.",
-              "Zistenia podľa abstraktu ukázali, že inštruktážne vedenie pozitívne a významne predikovalo spokojnosť učiteľov čiastočne. Organizačná kultúra takisto preukázala významný pozitívny účinok, pričom obaja prediktory súčasne vysvetlili veľkú časť celkovej miery premenlivosti v spokojnosti."
+              "Zistenia podľa abstraktu ukázali, že inštruktážne vedenie pozitívne a štatisticky významne súviselo so spokojnosťou učiteľov. Organizačná kultúra takisto preukázala významný pozitívny účinok, pričom oba prediktory súčasne vysvetlili veľkú časť celkovej miery premenlivosti v spokojnosti."
             ]
           },
           {
             "heading": "Metodika a limity",
             "paragraphs": [
               "Pri posudzovaní výsledkov je kľúčové vziať do úvahy obmedzenia prameniace z toho, že máme k dispozícii iba vydavateľom poskytnutý abstrakt. Úplný text štúdie nebol verifikovaný, čo znamená, že podrobné kvalitatívne kontexty nám chýbajú.",
-              "Okrem toho štúdia vychádza z ex post facto korelačního dizajnu v špecifickom regióne, čo znamená, že namerané asociácie a korelácie nie je možné priamo interpretovať ako jednoznačnú kauzalitu. Tieto výsledky sa taktiež nesmú bezmyšlienkovite aplikovať na iné geografické či sociálne prostredie."
+              "Okrem toho štúdia vychádza z ex post facto korelačného dizajnu v špecifickom regióne, čo znamená, že namerané asociácie a korelácie nie je možné priamo interpretovať ako jednoznačnú kauzalitu. Tieto výsledky sa taktiež nesmú bezmyšlienkovite aplikovať na iné geografické či sociálne prostredie."
             ]
           },
           {
             "heading": "Praktický návrh WEBU",
             "paragraphs": [
               "Hoci primárna štúdia analyzuje verejné školstvo v Indonézii, redakčné odporúčania WEBU pre majiteľov malých firiem a manažérov prinášajú cenné paralery. Podobne ako v školách, aj v malých firmách a marketingových tímoch závisí angažovanosť od podpory zo strany vedenia.",
-              "Manažéri by mali implementovať prvky koučingu a budovať inkluzívnu, menej hierarchickú kultúru prostredníctvom interných digitálnych komunikačných kanálov a pravidelnej spätnej väzby, čo preukázateľne zlepšuje pracovnú pohodu a celkovú kvalitu výstupov."
+              "Manažéri by mali implementovať prvky koučingu a budovať inkluzívnu, menej hierarchickú kultúru prostredníctvom interných digitálnych komunikačných kanálov a pravidelnej spätnej väzby, čo môže podporiť pracovnú pohodu a kvalitu výstupov."
             ]
           },
           {
             "heading": "Záver",
             "paragraphs": [
               "Záver štúdie podľa abstraktu zdôrazňuje nutnosť prechodu riaditeľov k inštruktážnemu koučingu a kultivácii inkluzívnych pracovných kultúr na udržanie pedagogickej pohody. Vedecké poznatky tak opätovne potvrdzujú význam kvalitného líderského prístupu.",
-              "Uvedené dáta slúžia ako užitočný podnet na zamyslenie pre každého, kto riadi tímy a hľadá spôsoby, ako prostredníctvom lepšej organizačnej kultúry a vedenia zvýšiť spokojnosť a stabilitu svojich zamestnanców."
+              "Uvedené dáta slúžia ako užitočný podnet na zamyslenie pre každého, kto riadi tímy a hľadá spôsoby, ako prostredníctvom lepšej organizačnej kultúry a vedenia zvýšiť spokojnosť a stabilitu svojich zamestnancov."
             ]
           }
         ]
@@ -141,12 +141,19 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "9e0324a925f74fb86fde2d23027a84fc4a7893d5cec30782a76cbb09ceec0400",
+  "approved_content_sha256": "9210ae08570d12598e6e72f939e5215fce037c247d3e85b00cb82ceed373f0e6",
   "image_id": "commons-2723647be1187b",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
   "published_urls": [
     "https://www.webu.sk/blog-journal-vzdelavaci-manazment-pod-lupou-ako-vedenie-skol-a-kultura-vplyvaju-na-spokoj.html",
     "https://www.webu.sk/blog-journal-vzdelavaci-manazment-pod-lupou-ako-vedenie-skol-a-kultura-vplyvaju-na-spokoj-en.html"
+  ],
+  "copyedit_history": [
+    {
+      "date": "2026-11-17",
+      "scope": "Jazyková korektúra a spresnenie nekauzálnych tvrdení; plný text štúdie nebol nanovo overený",
+      "original_published_at": "2026-11-17"
+    }
   ]
 }
