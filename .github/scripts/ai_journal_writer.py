@@ -20,8 +20,8 @@ from journal_quality import quality_issues
 ROOT=Path(__file__).resolve().parents[2]
 TODAY=dt.datetime.now(ZoneInfo("Europe/Bratislava")).date().isoformat()
 MODEL=os.environ.get("WEBU_GEMINI_MODEL","gemini-3.5-flash-lite")
-HEADINGS_SK=["Úvod","Čo skúmala štúdia","Hlavné zistenia a význam","Metodika a limity","Význam pre prax a ďalší výskum","Záver"]
-HEADINGS_EN=["Introduction","What the study examined","Findings and interpretation","Methodology and limitations","Implications for practice and future research","Conclusion"]
+HEADINGS_SK=["Úvod","Čo skúmala štúdia","Hlavné zistenia a význam","Metodika a limity","Čo si z výskumu môže odniesť podnikateľ","Záver"]
+HEADINGS_EN=["Introduction","What the study examined","Findings and interpretation","Methodology and limitations","Business relevance and limitations","Conclusion"]
 
 def load_abstract(source):
     doi=urllib.parse.quote(source["doi"],safe="/")
@@ -77,7 +77,7 @@ def validate_result(result):
     return result
 
 def generate(source,abstract,api_key,models):
-    prompt="""Create TWO DISTINCT, polished, genuinely useful and original WEBU Journal editorial article drafts in Slovak and English.
+    prompt="""Prepare TWO accurate, readable, source-bounded WEBU Journal research digests, one in Slovak and one in English, for entrepreneurs and business decision-makers. Summarise and translate the key findings in your own words; DO NOT reproduce or translate a full copyrighted research paper.
 Return ONLY JSON with two properties 'sk' and 'en'. Each contains 'title', 'description' (50-160 chars), 'lead' and 'sections'.
 Each 'sections' must contain EXACTLY six objects with a 'heading' and 'paragraphs' (array of 2-3 substantive original paragraphs).
 The section headings in order MUST be:
@@ -92,8 +92,9 @@ CRITICAL accuracy rules:
 - Do not infer causation from associations, or make claims about Slovakia based on another population.
 - Clearly distinguish findings of the source from the author's independent commentary and suggested applications.
 - Discuss unverified full text and limits of the abstract honestly.
-- Follow the real subject and population of THIS source. Do NOT force links to WEBU's website services, web design, e-commerce, marketing or small businesses when the research is about education, psychology, medicine, social science or another field.
-- Choose examples relevant to actual readers and stakeholders of the study (such as teachers for school research, employees and leaders for workplace psychology, researchers for a methodological study). If a responsible practical application cannot be derived from the abstract, explain that limitation instead of inventing an application.
+- This Journal is a neutral research discovery and translation service for ENTREPRENEURS; WEBU is its publisher, not an advertised service in the article. Never promote website creation, WEBU pricing, WEBU services or portfolio, or force unrelated web-design examples.
+- The original research must genuinely illuminate a business-relevant question (management, organisational psychology, finance, HR, AI adoption, operations, marketing, consumer behaviour, etc.). Keep the original sector, country, study population and limits explicit. Do not pretend findings on teachers are experimental proof for all employers.
+- If no defensible implication for entrepreneurs can be drawn from the abstract, the draft is unsuitable for this Journal. Do NOT invent a connection to business; reject the source or clearly state the limits.
 - Produce a substantive, self-contained, evidence-limited expert editorial in EACH
   language (usually 700-1100 useful words). Do not pad word counts: if an abstract
   cannot support a meaningful discussion, the article must fail the quality gate.
@@ -102,8 +103,8 @@ CRITICAL accuracy rules:
 - Findings and methodology must distinguish observational association from causation.
 - Discuss plausible alternative explanations, generalizability limits, uncertainty,
   confounders and what cannot be established without a full-text comparison.
-- In 'Implications for practice and future research', supply a topic-appropriate, conditional example, methodological implication or concrete follow-up research question. Only propose metrics where they make sense for this study; never promise an effect not established by the evidence.
-- The WEBU brand identifies the publisher and MAY appear in author/attribution information, but not as an artificial subject of the research. Never end the article with a promotional paragraph about websites or web-building services.
+- In 'Business relevance and limitations' give a succinct, carefully qualified explanation of what an entrepreneur could learn or check, if the study supports it. State which settings differ from ordinary business conditions; if applicability is not established, explicitly say so. This is neither an advertisement nor a claim of guaranteed results.
+- WEBU may appear only as publisher in site-level attribution. Never mention WEBU or offer WEBU services in article prose. Do not pivot from workplace psychology, education or health to website creation merely because WEBU also develops websites.
 - Add actual analytical value; avoid generic introductions, boilerplate conclusions,
   empty predictions, filler, copied paragraphs, and unqualified superlatives.
 - No claims of independent scientific review, verified full-text reading, original
