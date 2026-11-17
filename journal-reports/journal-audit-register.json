@@ -8413,7 +8413,8 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: Targeted grammar and contextual business commentary correction; source and original publication date unchanged; not a new scientific verification."
       ],
       "languages": {
         "sk": {
@@ -8422,10 +8423,10 @@
           "description": "Analýza štúdie o strategickej transformácii B2B marketingu. Zistite, ako umelá inteligencia prepája interné kapacity s externými požiadavkami trhu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-16",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "6a0334e2b41b3521d6e474e7fea7f920e945b8cf29b19d48ecdf1272c5bc15d2"
+          "content_sha256": "2d495c5c46a6db4fa0ec99950068bb1b65a9a29370d85ee6ac8074dbe2e5ba22"
         },
         "en": {
           "path": "blog-journal-buducnost-b2b-marketingu-ako-ai-meni-pravidla-hry-en.html",
@@ -8433,10 +8434,10 @@
           "description": "An analysis of a foresight study on B2B marketing transformation. Discover how AI acts as a connective node between internal capabilities and market demands.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-16",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "c1299bd61d944b7e83301880a27cfd87fb80c5119b3103d903a0cdcddd5ca079"
+          "content_sha256": "29ccdf87a8c45c370a6fdf9e6b66c47a0f5c8953f76f4b5804516a98929eb193"
         }
       },
       "claim_review": {
@@ -8563,7 +8564,8 @@
       "image": "licensed catalog assignment",
       "publication": "automated_abstract_editorial",
       "notes": [
-        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
+        "2026-11-17: Targeted grammar and contextual business commentary correction; source and original publication date unchanged; not a new scientific verification."
       ],
       "languages": {
         "sk": {
@@ -8572,10 +8574,10 @@
           "description": "Analýza vplyvu zneužívajúceho vedenia na zamestnancov. Ako stres a podpora organizácie formujú pracovné prostredie podľa najnovšieho výskumu.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-16",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "9f641bb9042dc3187aa6138f91fb360c0b2ba40ec95e4206e6a7239125370621"
+          "content_sha256": "f6ff7f5a768287cc9a900b7a126fce6e3491578c480fad1019440eefcf65198e"
         },
         "en": {
           "path": "blog-journal-toxicke-vedenie-a-odcudzenie-v-praci-co-hovori-nova-studia-en.html",
@@ -8583,10 +8585,10 @@
           "description": "An analysis of how abusive leadership impacts employee alienation, stress, and the protective role of organizational support based on recent findings.",
           "language_review": "AI-generated, abstract-scoped; not manually verified",
           "published_at": "2026-11-16",
-          "modified_at": null,
+          "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "9f780da7e16f03fc94bbddde4de5b834e1bdbcdea6310f3e117200f5e24fd22f"
+          "content_sha256": "e8149650e2a792674cc5a7e9494c848cf5785b1a62af97a319498adc7fbf6b34"
         }
       },
       "claim_review": {
@@ -9173,7 +9175,8 @@
         "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review.",
         "2026-11-17: targeted grammar and evidence-language correction; NOT new scientific source/full-text verification.",
         "2026-11-17: Research business relevance section rewritten SK/EN; original study metadata, citations and publication date retained; not a full-text peer review.",
-        "2026-11-17: Removed final irrelevant website references from subject-specific research commentary; original date, URL and source maintained."
+        "2026-11-17: Removed final irrelevant website references from subject-specific research commentary; original date, URL and source maintained.",
+        "2026-11-17: Targeted grammar and contextual business commentary correction; source and original publication date unchanged; not a new scientific verification."
       ],
       "languages": {
         "sk": {
@@ -9185,7 +9188,7 @@
           "modified_at": "2026-11-17",
           "seo": "technical pipeline passed",
           "links": "local pipeline passed",
-          "content_sha256": "60c9cd955b8b59b9dc6d2d32dd4b997edebb1a56f40faee0c8a77d2d85165967"
+          "content_sha256": "6617a4a8f6d1444034efc6d2f491501d1342fdd00933e37054285969ca80295d"
         },
         "en": {
           "path": "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum-en.html",
