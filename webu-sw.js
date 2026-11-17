@@ -1,5 +1,5 @@
 /* WEBU public-site PWA only. No private portals, forms or authenticated requests are cached. */
-const CACHE='webu-public-pwa-v1';
+const CACHE='webu-public-pwa-v2-20261117';
 const PRECACHE=['/','/index.html','/index-en.html','/offline.html','/favicon-192.png','/favicon-512.png','/webu-app.js'];
 const EXCLUDED=/^\/(?:student-house-portal|android-studenthouse|supabase|ukazky)(?:\/|$)/i;
 const PUBLIC_ASSET=/^\/(?:favicon-(?:192|512)\.png|webu-app\.js|offline\.html)$/i;
@@ -20,7 +20,7 @@ self.addEventListener('fetch',event=>{
     if(!(/\/$|\.html$/i.test(url.pathname)))return;
     event.respondWith((async()=>{
       try{
-        const response=await fetch(req);
+        const response=await fetch(req,{cache:'no-store'});
         if(response.ok&&response.type==='basic'&&(response.headers.get('content-type')||'').includes('text/html')){
           const cache=await caches.open(CACHE);
           await cache.put(req,response.clone());
@@ -35,7 +35,7 @@ self.addEventListener('fetch',event=>{
   if(PUBLIC_ASSET.test(url.pathname)){
     event.respondWith((async()=>{
       try{
-        const response=await fetch(req);
+        const response=await fetch(req,{cache:'no-store'});
         if(response.ok&&response.type==='basic'){
           const cache=await caches.open(CACHE);
           await cache.put(req,response.clone());
