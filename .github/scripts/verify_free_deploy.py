@@ -14,7 +14,7 @@ from pages_api import request_json
 
 ROOT = Path(__file__).resolve().parents[2]
 CHECK_TIMEOUT_SECONDS = 90
-MAX_CHECKS = 2
+MAX_CHECKS = 6
 RETRY_DELAY_SECONDS = 20
 
 
