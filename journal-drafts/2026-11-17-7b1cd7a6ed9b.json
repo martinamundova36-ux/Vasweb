@@ -31,12 +31,12 @@
     "source_scope": "verified_crossref_abstract_only",
     "review_level": "abstract_only",
     "reviewed_at": "2026-11-17",
-    "content_sha256": "aba440084f6f749be765e24056d9303d71315d0a303bbbdb5ba8eb81e2135906",
+    "content_sha256": "5a693da2b60d4597267429ccfe1cdfd7d8a14c690a603b9d5946b8f419ba6ba2",
     "languages": {
       "sk": {
         "title": "Digitálna nostalgia a nákupný zámer: Ako minulosť formuje správanie mladých spotrebiteľov v online prostredí",
         "description": "Preskúmajte, ako digitálna nostalgia a sociálne siete ovplyvňujú emócie a dôveru mladých spotrebiteľov podľa nedávneho odborného výskumu.",
-        "lead": "Súčasný digitálny marketing čoraz častejšie siaha po retro estetike a spomienkach. Nová štúdia publikovaná v novembri 2026 analyzuje, akým spôsobom digitálna nostalgia a angažovanosť na sociálnych sieťach ovplyvňujú nákupný zámer mileniálov a generácie Z. Pozrime sa na zistenia a na to, čo znamenajú pre tvorbu webov a marketing malých podnikov.",
+        "lead": "Súčasný digitálny marketing čoraz častejšie siaha po retro estetike a spomienkach. Nová štúdia publikovaná v novembri 2026 analyzuje, akým spôsobom digitálna nostalgia a angažovanosť na sociálnych sieťach ovplyvňujú nákupný zámer mileniálov a generácie Z. Pozrime sa na zistenia a na ich možné dôsledky pre marketingové rozhodovanie – s dôrazom na hranice výskumu.",
         "sections": [
           {
             "heading": "Úvod",
@@ -67,10 +67,11 @@
             ]
           },
           {
-            "heading": "Praktický návrh WEBU",
+            "heading": "Podnikateľská relevancia a limity",
             "paragraphs": [
-              "Hoci štúdia skúmala špecifickú vzorku v Indii a mala prierezový charakter, prevádzkovatelia malých webov a marketéri si z nej môžu vziať užitočné redakčné odporúčania pre vlastnú prax. Pri tvorbe web dizajnu pre generáciu Z a mileniálov sa oplatí citlivo dávkovať retro prvky, vizuálne odkazy na minulosť či vintage logá, ktoré môžu na webe vytvoriť príjemnú atmosféru.",
-              "V oblasti správy obsahu a komunity môžu firmy využiť sociálne siete na interaktívne kampane, v ktorých zákazníci zdieľajú vlastné spomienky spojené so značkou. Dôležité je však dbať na to, aby nostalgia pôsobila autenticky a bola v rovnováhe s reálnou hodnotou produktu, pretože dnešní digitálni spotrebitelia citlivo vnímajú neúprimnú snahu o zaujatie."
+              "Výskum je relevantný pre marketing a spotrebiteľské správanie. Ak štúdia nachádza súvislosť medzi nostalgiou a nákupným zámerom, neznamená to automaticky, že retro vizuál spôsobí rast predaja. Prierezový dizajn a kultúrny kontext výskumu obmedzujú kauzálne závery aj prenositeľnosť na iné trhy.",
+              "Podnikateľ, ktorý uvažuje o nostalgickej kampani, môže najprv overiť, či motív minulosti skutočne súvisí s históriou a hodnotami značky. V malom teste možno porovnať dve obsahové verzie a sledovať reakcie publika, nielen počet zobrazení. Takéto testovanie je redakčný návrh na získanie vlastných údajov, nie postup, ktorý by predmetná štúdia priamo overila.",
+              "Rozhodnutie o kampani by malo zohľadniť produkt, cieľovú skupinu a dôveryhodnosť posolstva. Nostalgiu nemožno považovať za univerzálny recept na nákupné správanie."
             ]
           },
           {
@@ -85,7 +86,7 @@
       "en": {
         "title": "Digital Nostalgia and Purchase Intention: How the Past Shapes Young Consumer Behavior Online",
         "description": "Explore how digital nostalgia and social media engagement influence consumer emotions and brand trust according to recent academic research.",
-        "lead": "Modern digital marketing increasingly draws on retro aesthetics and memories. A new study published in November 2026 examines how digital nostalgia and social media engagement shape the purchase intentions of millennials and Gen Z. Let us review the findings and what they mean for website creation and small business marketing.",
+        "lead": "Modern digital marketing increasingly draws on retro aesthetics and memories. A new study published in November 2026 examines how digital nostalgia and social media engagement shape the purchase intentions of millennials and Gen Z. Let us review the findings and what they may mean for marketing decisions, while considering the study's limitations.",
         "sections": [
           {
             "heading": "Introduction",
@@ -116,10 +117,11 @@
             ]
           },
           {
-            "heading": "WEBU practical proposal",
+            "heading": "Business relevance and limitations",
             "paragraphs": [
-              "Although the study investigated a specific sample in India using a cross-sectional design, small business owners and marketers can draw useful editorial recommendations for their daily practice. When creating web designs targeted at Gen Z and millennials, incorporating subtle retro elements, legacy visual references, or vintage logos can help establish an engaging online atmosphere.",
-              "In terms of content and community management, businesses can leverage social media platforms to run interactive campaigns where customers share personal memories linked to the brand. However, it remains vital to ensure that nostalgia feels authentic and aligns with real product value, as contemporary digital consumers readily notice insincere promotional efforts."
+              "The research is relevant to marketing and consumer behaviour. An association between nostalgia and purchase intention does not establish that a retro visual will cause sales to rise. A cross-sectional design and the cultural setting limit causal conclusions and transferability to other markets.",
+              "An entrepreneur considering nostalgic messaging could first ask whether the reference to the past genuinely fits the brand's history and values. A small comparison of two content versions could measure audience response rather than impressions alone. This is an editorial suggestion for gathering local evidence, not a campaign method directly validated by the study.",
+              "Any decision should consider the product, target audience and credibility of the message. Nostalgia should not be presented as a universal formula for changing purchasing behaviour."
             ]
           },
           {
@@ -142,7 +144,7 @@
     ]
   },
   "approved_by": "abstract_automation",
-  "approved_content_sha256": "aba440084f6f749be765e24056d9303d71315d0a303bbbdb5ba8eb81e2135906",
+  "approved_content_sha256": "5a693da2b60d4597267429ccfe1cdfd7d8a14c690a603b9d5946b8f419ba6ba2",
   "image_id": "commons-a8c2dab7dc67fd",
   "image_status": "licensed_catalog_assignment",
   "published_at": "2026-11-17",
@@ -155,6 +157,11 @@
       "date": "2026-11-17",
       "scope": "Jazyková korektúra a spresnenie nekauzálnych tvrdení; plný text štúdie nebol nanovo overený",
       "original_published_at": "2026-11-17"
+    },
+    {
+      "date": "2026-11-17",
+      "scope": "Remove forced website-service promotions; add precise entrepreneur relevance; retain source findings and DOI",
+      "independent_scientific_review": false
     }
   ]
 }
