@@ -14,8 +14,11 @@ addMeta('apple-mobile-web-app-capable','yes');
 addMeta('apple-mobile-web-app-title','WEBU');
 addMeta('apple-mobile-web-app-status-bar-style','black-translucent');
 if('serviceWorker' in navigator && location.protocol==='https:'){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('/webu-sw.js',{scope:'/'}).catch(err=>console.warn('WEBU PWA service worker:',err)),{once:true});
-  if(document.readyState==='complete')navigator.serviceWorker.register('/webu-sw.js',{scope:'/'}).catch(()=>{});
+  const updateWorker=()=>navigator.serviceWorker.register('/webu-sw.js',{scope:'/',updateViaCache:'none'})
+    .then(reg=>reg.update().catch(()=>{}))
+    .catch(err=>console.warn('WEBU PWA service worker:',err));
+  if(document.readyState==='complete')updateWorker();
+  else window.addEventListener('load',updateWorker,{once:true});
 }
 const css=document.createElement('style');
 css.id='webu-app-styles';
