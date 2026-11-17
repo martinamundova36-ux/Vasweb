@@ -96,7 +96,7 @@ CRITICAL accuracy rules:
 - The original research must genuinely illuminate a business-relevant question (management, organisational psychology, finance, HR, AI adoption, operations, marketing, consumer behaviour, etc.). Keep the original sector, country, study population and limits explicit. Do not pretend findings on teachers are experimental proof for all employers.
 - If no defensible implication for entrepreneurs can be drawn from the abstract, the draft is unsuitable for this Journal. Do NOT invent a connection to business; reject the source or clearly state the limits.
 - Produce a substantive, self-contained, evidence-limited expert editorial in EACH
-  language (usually 700-1100 useful words). Do not pad word counts: if an abstract
+  language (typically 450-850 substantive words). Do not pad word counts: if an abstract
   cannot support a meaningful discussion, the article must fail the quality gate.
 - Explain a real research question, study design, population and scope when given;
   label information not supplied by the abstract as UNKNOWN instead of guessing.
