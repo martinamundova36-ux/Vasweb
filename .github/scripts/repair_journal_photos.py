@@ -101,7 +101,7 @@ def main():
             raise RuntimeError("Missing existing catalogue assignment: " + article)
         if expected_new in used:
             raise RuntimeError("A replacement photograph is already assigned elsewhere: " + expected_new)
-        images.CURATED_PEXELS[doi] = record
+        images.CURATED_PEXELS[doi.lower()] = record
         photo = images.acquire_curated_pexels_photo({"doi": doi}, data, ROOT)
         if not photo or photo["id"] != expected_new:
             raise RuntimeError("Verified free Pexels photograph unavailable: " + article)
