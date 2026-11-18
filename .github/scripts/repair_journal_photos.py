@@ -50,7 +50,7 @@ REPLACEMENTS = {
     # 18 Nov 2026: replace a wrongly labelled photograph of political leaders.
     "blog-journal-ai-v-malych-firmach-co-rozhoduje-o-uspechu.html": (
         "10.1007/s44163-026-01460-4",
-        ("34774358", "focused-team-collaborating-on-laptops-in-office-setting", "Matheus Bertelli",
+        ("7526590", "business-people-in-a-business-meeting", "Farhan Alkhaled",
          "workplace", "Pracovný tím spolupracuje na notebookoch v modernej kancelárii",
          "Office team collaborating on laptops in a modern workplace")),
     # Remove unsuitable image of a criminal investigation from AI productivity research.

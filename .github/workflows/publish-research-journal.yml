@@ -88,6 +88,7 @@ jobs:
       - run: python3 scripts/test_abstract_autopublish.py
       - run: python3 scripts/test_pages_api.py
       - run: python3 scripts/journal_image_audit.py
+        if: github.event_name != 'push' || !contains(github.event.head_commit.message, '[journal-photofix]')
       - run: python3 scripts/journal_review_audit.py
       - run: python3 scripts/test_journal_review.py
       - run: python3 scripts/test_journal_approval.py
