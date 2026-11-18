@@ -27,6 +27,14 @@ def main():
  for item in ROOT.glob('blog-journal-2026-*.html'):
   match=re.search(r'2026-\d{2}-\d{2}',item.name)
   if match:published[group(item.name).removesuffix('.html')]=match.group(0)
+ # Manual, source-checked articles are registered here rather than in the automated DOI drafts.
+ # Their publication date is evidenced by the reviewed article register and JSON-LD.
+ register=ROOT/'journal-reports'/'journal-audit-register.json'
+ if register.is_file():
+  for article in json.loads(register.read_text(encoding='utf-8')).get('articles',[]):
+   row=article.get('languages',{}).get('sk',{})
+   if row.get('path') and row.get('published_at'):
+    published[group(row['path']).removesuffix('.html')]=row['published_at']
  for draft in (ROOT/'journal-drafts').glob('*.json'):
   source=json.loads(draft.read_text())
   if source.get('published_at') and source.get('editorial'):
