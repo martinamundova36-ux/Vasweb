@@ -130,3 +130,8 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - pexels-30719169: [David Toledo](https://www.pexels.com/photo/smiling-bank-employee-at-bbva-reception-desk-30719169/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
 - pexels-7988219: [Mikhail Nilov](https://www.pexels.com/photo/people-having-a-business-meeting-in-the-office-7988219/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
 - pexels-8877381: [Mark Stebnicki](https://www.pexels.com/photo/women-sorting-tomatoes-on-a-production-line-8877381/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7526590: [Farhan Alkhaled](https://www.pexels.com/photo/business-people-in-a-business-meeting-7526590/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-33175669: [Bia Limova](https://www.pexels.com/photo/office-desk-with-calculator-and-financial-report-33175669/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7651734: [Kindel Media](https://www.pexels.com/photo/business-people-working-together-in-front-of-their-laptops-7651734/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7709306: [MART PRODUCTION](https://www.pexels.com/photo/a-woman-working-as-a-call-center-agent-7709306/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7988114: [Mikhail Nilov](https://www.pexels.com/photo/a-person-using-laptop-7988114/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n

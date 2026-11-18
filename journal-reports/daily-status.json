@@ -1,24 +1,18 @@
 {
-  "checked_at": "2026-11-17T14:20:54.128811+00:00",
+  "checked_at": "2026-11-18T15:46:14.296717+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 6-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
   "preparation_start": "06:07 Europe/Bratislava",
   "backup_checks": "Every :07/:27/:47 from 06:07 through 11:47; stop after 5 published articles",
-  "next_scheduled_local": "2026-11-18T06:07:00+01:00",
-  "next_scheduled_utc": "2026-11-18T05:07:00+00:00",
+  "next_scheduled_local": "2026-11-19T06:07:00+01:00",
+  "next_scheduled_utc": "2026-11-19T05:07:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
   "generator_capability": "abstract_scoped_bilingual_editorials",
   "automatically_written_full_articles": 0,
-  "automatically_prepared_abstract_editorials": 5,
-  "published_today": [
-    "2026-11-17-99de302291ed",
-    "2026-11-17-4b3eefb0950d",
-    "2026-11-17-d2846dc3003d",
-    "2026-11-17-7b1cd7a6ed9b",
-    "2026-11-17-c5dba81c87a6"
-  ],
+  "automatically_prepared_abstract_editorials": 0,
+  "published_today": [],
   "ready_bilingual_articles": [],
   "pending_editorial_work": [
     {

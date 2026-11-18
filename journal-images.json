@@ -640,7 +640,8 @@
         "640": "0dedb349c3a40dfab4d6e8e554eda41d6c8a7a606859fa1e1baf8b3904e13a82",
         "1280": "44ecab7d01a11521d7e1a6b70d78fc5e768b8900094bf6f35cb2723dd50dfe9a",
         "social": "d131125d6671d75194512f19f0b46b147c53dcc2c0d64205c388f0bdcaaa357f"
-      }
+      },
+      "excluded_reason": "2026-11-17 editorial review: photo unrelated to the study topic"
     },
     {
       "id": "commons-1a74bb12a21718",
@@ -738,7 +739,7 @@
         "social": "0b5b227fab81528a554d74f2e8cc3e378102f9b6091f0d10fb8273edd30879a6"
       },
       "excluded_from_reuse": true,
-      "excluded_reason": "2026-11-17 editorial review: photo unrelated to the study topic"
+      "excluded_reason": "Editorial policy: political photograph unrelated to business research"
     },
     {
       "id": "commons-6ee4892cf5ee1c",
@@ -1026,7 +1027,9 @@
         "640": "be8b245bf48af378ce63fd4ece0a0abb4b984b04abda66580ee30cd81c54521f",
         "1280": "133793619c70aa4efbd86a0ac47032da565ebf128bb56feeac6bdfb6a36639ff",
         "social": "45c05e09c4e23d48d7a550cc2e440355dc31fc5b342e335f82040be397b44743"
-      }
+      },
+      "excluded_from_reuse": true,
+      "excluded_reason": "Editorial policy: political photograph unrelated to business research"
     },
     {
       "id": "commons-82a92c00117f4f",
@@ -2221,6 +2224,166 @@
         "1280": "a6b9ddf38fea05658fba8422f69269f912140b484b2eecb8b6527056fb36f851",
         "social": "46f613d702cec3bad8d1a49037319661d450ae94ca2d5bc4403741e8acb4c90a"
       }
+    },
+    {
+      "id": "pexels-7526590",
+      "provider": "Pexels",
+      "provider_id": "7526590",
+      "source_page": "https://www.pexels.com/photo/business-people-in-a-business-meeting-7526590/",
+      "download_url": "https://images.pexels.com/photos/7526590/pexels-photo-7526590.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Farhan Alkhaled",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-18",
+      "original_sha256": "f35843bca9e8ea1b7274c510f0dbb1603233109c83beba87d85d5f336da9bb4b",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Pracovný tím spolupracuje na notebookoch v modernej kancelárii",
+        "en": "Office team collaborating on laptops in a modern workplace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7526590-640.webp",
+        "1280": "/assets/journal/pexels-7526590-1280.webp",
+        "social": "/assets/journal/pexels-7526590-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "507239e77f112b40f3c8100970bd6e17b73c9667c63036b73bb47172ccdcc5f4",
+        "1280": "2549ea193707326eafaf2ec680111f9a15a648961cfcad0464c12b9b3990deaf",
+        "social": "ba5e9164f538836294842421181d916c13e285023e36d13301683bd9066487d1"
+      }
+    },
+    {
+      "id": "pexels-33175669",
+      "provider": "Pexels",
+      "provider_id": "33175669",
+      "source_page": "https://www.pexels.com/photo/office-desk-with-calculator-and-financial-report-33175669/",
+      "download_url": "https://images.pexels.com/photos/33175669/pexels-photo-33175669.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Bia Limova",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-18",
+      "original_sha256": "e43f8f4d22a8567ab39c7de0ee83969283c3852d6848ca779b680c6044f6a84d",
+      "topics": [
+        "pricing"
+      ],
+      "alt": {
+        "sk": "Finančný výkaz a kalkulačka pri práci s rozpočtom firmy",
+        "en": "Financial report and calculator on a business desk"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-33175669-640.webp",
+        "1280": "/assets/journal/pexels-33175669-1280.webp",
+        "social": "/assets/journal/pexels-33175669-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "74191c5e6a356118fe41b116ee30afdf66c111ff3064f361c4a065d956eff8ab",
+        "1280": "3d282d5b568479f6baae4a607f2dc6980bd9324f0b9d7e7e12854fa38f72a301",
+        "social": "0899226aca4a0f0c8c5ea31563b0351c22295522c0de793ddbefb1b57760fa3e"
+      }
+    },
+    {
+      "id": "pexels-7651734",
+      "provider": "Pexels",
+      "provider_id": "7651734",
+      "source_page": "https://www.pexels.com/photo/business-people-working-together-in-front-of-their-laptops-7651734/",
+      "download_url": "https://images.pexels.com/photos/7651734/pexels-photo-7651734.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Kindel Media",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-18",
+      "original_sha256": "4f9e2356bbdc9bf4cf60becdb29077d5e92e81b8ea643b86e220fb7da3f51731",
+      "topics": [
+        "analytics"
+      ],
+      "alt": {
+        "sk": "Podnikateľský tím vyhodnocuje marketingové dáta a grafy",
+        "en": "Business team examining marketing data and charts"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7651734-640.webp",
+        "1280": "/assets/journal/pexels-7651734-1280.webp",
+        "social": "/assets/journal/pexels-7651734-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "58ed2b1b63a4ba9e937319edca3a69e550494ae886befe77c08cc66651c41d90",
+        "1280": "6ac400e6c7edaaac55ebf1fc9a560d01b808f7d8a4c5dee352fa314465a25052",
+        "social": "b906e177f18542abafae05e1ed7297683fd8def7bf0f048c5715a56eb2829ccc"
+      }
+    },
+    {
+      "id": "pexels-7709306",
+      "provider": "Pexels",
+      "provider_id": "7709306",
+      "source_page": "https://www.pexels.com/photo/a-woman-working-as-a-call-center-agent-7709306/",
+      "download_url": "https://images.pexels.com/photos/7709306/pexels-photo-7709306.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "MART PRODUCTION",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-18",
+      "original_sha256": "e7f931b0b785e65a498531979c24c3aa7c3de2177b8c1a1675a10861b07f999c",
+      "topics": [
+        "trust"
+      ],
+      "alt": {
+        "sk": "Pracovníčka zákazníckeho servisu vybavuje zákaznícke požiadavky",
+        "en": "Customer service professional assisting clients on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7709306-640.webp",
+        "1280": "/assets/journal/pexels-7709306-1280.webp",
+        "social": "/assets/journal/pexels-7709306-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "6d2c70ac8140e19fa100a7e1a6a1b89b5901a59f21103ead245d4e7cae8120cc",
+        "1280": "3967edf3f7df9ef54db79044af8d1adde72f876c222ef6c4cfdf7a91c9da02dc",
+        "social": "e7d6c9d30218ae190f52ec5819177e7e850a214f61a5fcdc8f21673d1ea18561"
+      }
+    },
+    {
+      "id": "pexels-7988114",
+      "provider": "Pexels",
+      "provider_id": "7988114",
+      "source_page": "https://www.pexels.com/photo/a-person-using-laptop-7988114/",
+      "download_url": "https://images.pexels.com/photos/7988114/pexels-photo-7988114.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Mikhail Nilov",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-18",
+      "original_sha256": "da56ecb9818b439c7c0d02b52471984f3141bcca4b5fb3b3ea7ea7cc35f65419",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Vývojár pracuje s programovým kódom na notebooku",
+        "en": "Software developer writing code on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7988114-640.webp",
+        "1280": "/assets/journal/pexels-7988114-1280.webp",
+        "social": "/assets/journal/pexels-7988114-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "e4a41a165dc1944f608646e6ad08b78804bb4f2f1db6125fa87b87bc876c8313",
+        "1280": "0de6bb671aee89fd634629a665b08dbab4ff6f204d6440ca01ff2217e98a0891",
+        "social": "44bc230a751eceae840a3410b640c4f77181f2a00a9bde04543916ecc5b4f504"
+      }
     }
   ],
   "assignments": {
@@ -2238,7 +2401,6 @@
     "blog-web.html": "website-results",
     "blog-journal-review-2026-11-05-e2f830a0e522.html": "team-planning-reserve",
     "blog-journal-review-2026-11-05-92305488b265.html": "team-collaboration-reserve",
-    "blog-journal-review-2026-11-09-25fe711e4a3b.html": "commons-be9a4de43d9934",
     "blog-journal-ai-vo-firme-merajte-prinosy-aj-obavy-ludi.html": "ai-workplace",
     "blog-journal-od-spatnej-vazby-k-dizajnu-preco-data-o-pouzivateloch-casto-neovplyvnuju-pri.html": "commons-7629598121a89a",
     "blog-journal-konfiguracna-analyza-marketingovych-kompetencii-novych-farmarov-v-digitalnom.html": "budget-review-reserve",
@@ -2286,10 +2448,10 @@
     "blog-journal-etnovychova-umela-inteligencia-a-mladez-v-ekvadore-pohlad-cez-pristiepeny-ab.html": "commons-166aa274f1a8f2",
     "blog-journal-digitalny-lidring-a-vykonnost-firiem-v-cestovnom-ruchu-co-hovori-novy-vyskum.html": "commons-2621074106fee6",
     "blog-journal-digitalna-transformacia-v-rozvojovych-ekonomikach-co-hovori-nova-studia-o-pr.html": "commons-a28190661b5e89",
-    "blog-journal-ai-v-malych-firmach-co-rozhoduje-o-uspechu.html": "commons-25bf0d1524d2cd",
-    "blog-journal-financna-flexibilita-malych-firiem-v-strednej-europe.html": "commons-18ced866ff2789",
-    "blog-journal-ai-v-marketingu-malych-firiem-co-naozaj-funguje.html": "commons-b4265782fcd516",
-    "blog-journal-recenzie-zakaznikov-a-opakovany-nakup.html": "commons-82a92c00117f4f",
-    "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty.html": "commons-6c9d212c200f09"
+    "blog-journal-ai-v-malych-firmach-co-rozhoduje-o-uspechu.html": "pexels-7526590",
+    "blog-journal-financna-flexibilita-malych-firiem-v-strednej-europe.html": "pexels-33175669",
+    "blog-journal-ai-v-marketingu-malych-firiem-co-naozaj-funguje.html": "pexels-7651734",
+    "blog-journal-recenzie-zakaznikov-a-opakovany-nakup.html": "pexels-7709306",
+    "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty.html": "pexels-7988114"
   }
 }
