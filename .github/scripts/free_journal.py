@@ -55,8 +55,25 @@ def seen_titles():
  for path in ROOT.glob('blog-*.html'):
   for value in re.findall(r'<h1[^>]*>(.*?)</h1>',path.read_text(),re.S):titles.add(normal(clean(value)))
  return titles
+def manual_published_today(date=None):
+ """Count genuinely published bilingual editorial pages outside the DOI draft pipeline."""
+ date = date or str(NOW)
+ register = ROOT/'journal-reports'/'journal-audit-register.json'
+ if not register.is_file():return []
+ try:articles=json.loads(register.read_text(encoding='utf-8')).get('articles',[])
+ except (ValueError,TypeError):return []
+ found=[]
+ for article in articles:
+  languages=article.get('languages') or {}
+  sk,en=languages.get('sk') or {},languages.get('en') or {}
+  if sk.get('published_at')!=date or en.get('published_at')!=date:continue
+  if not sk.get('path') or not en.get('path'):continue
+  if (ROOT/sk['path']).is_file() and (ROOT/en['path']).is_file():
+   found.append(article.get('id') or Path(sk['path']).stem)
+ return sorted(set(found))
 def publication_capacity(folder,limit):
- return max(0,limit-sum(json.loads(p.read_text()).get('published_at')==str(NOW) for p in folder.glob('*.json')))
+ automated=sum(json.loads(p.read_text()).get('published_at')==str(NOW) for p in folder.glob('*.json'))
+ return max(0,limit-automated-len(manual_published_today()))
 def identifier(source):return source['source_date']+'-'+hashlib.sha256(source['doi'].encode()).hexdigest()[:12]
 def editorial_digest(languages):
  return hashlib.sha256(json.dumps(languages,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
@@ -281,7 +298,7 @@ def main():
   print('PASS: isolated SK/EN publication, listings, sitemap, SEO/editorial gates, duplicate/future-date rejection; no public article or AI call');return
  existing=[json.loads(p.read_text()) for p in folder.glob('*.json')]
  daily=sum(x.get('drafted_at',x['verified_at'])==str(NOW) for x in existing)
- remaining=max(0,config['target_studies_per_day']-daily)
+ remaining=max(0,config['target_studies_per_day']-daily-len(manual_published_today()))
  config['max_candidates_per_run']=min(config['max_candidates_per_run'],remaining)
  selected,errors=([],['Daily quality cap reached']) if not remaining else discover(config)
  for source in selected:
