@@ -55,10 +55,11 @@ def seen_titles():
  for path in ROOT.glob('blog-*.html'):
   for value in re.findall(r'<h1[^>]*>(.*?)</h1>',path.read_text(),re.S):titles.add(normal(clean(value)))
  return titles
-def manual_published_today(date=None):
+def manual_published_today(date=None,root=None):
  """Count genuinely published bilingual editorial pages outside the DOI draft pipeline."""
  date = date or str(NOW)
- register = ROOT/'journal-reports'/'journal-audit-register.json'
+ root = root or ROOT
+ register = root/'journal-reports'/'journal-audit-register.json'
  if not register.is_file():return []
  try:articles=json.loads(register.read_text(encoding='utf-8')).get('articles',[])
  except (ValueError,TypeError):return []
@@ -68,7 +69,7 @@ def manual_published_today(date=None):
   sk,en=languages.get('sk') or {},languages.get('en') or {}
   if sk.get('published_at')!=date or en.get('published_at')!=date:continue
   if not sk.get('path') or not en.get('path'):continue
-  if (ROOT/sk['path']).is_file() and (ROOT/en['path']).is_file():
+  if (root/sk['path']).is_file() and (root/en['path']).is_file():
    found.append(article.get('id') or Path(sk['path']).stem)
  return sorted(set(found))
 def publication_capacity(folder,limit):
