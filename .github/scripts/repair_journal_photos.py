@@ -47,6 +47,18 @@ REPLACEMENTS = {
         ("8877381", "women-sorting-tomatoes-on-a-production-line", "Mark Stebnicki",
          "business", "Kontrola kvality pri triedení paradajok v potravinárstve",
          "Food industry workers sorting tomatoes for quality control")),
+    # 18 Nov 2026: replace a wrongly labelled photograph of political leaders.
+    "blog-journal-ai-v-malych-firmach-co-rozhoduje-o-uspechu.html": (
+        "10.1007/s44163-026-01460-4",
+        ("34774358", "focused-team-collaborating-on-laptops-in-office-setting", "Matheus Bertelli",
+         "workplace", "Pracovný tím spolupracuje na notebookoch v modernej kancelárii",
+         "Office team collaborating on laptops in a modern workplace")),
+    # Remove unsuitable image of a criminal investigation from AI productivity research.
+    "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty.html": (
+        "10.1287/mnsc.2025.00535",
+        ("7988114", "a-person-using-laptop", "Mikhail Nilov",
+         "ai", "Vývojár pracuje s programovým kódom na notebooku",
+         "Software developer writing code on a laptop")),
 }
 
 def main():
@@ -83,6 +95,20 @@ def main():
         data["assignments"][article] = photo["id"]
         used.add(photo["id"])
         count += 1
+    # Quarantine known political images so no future Journal article can reuse them.
+    # An older assignment points to a non-existent article; remove only that orphan.
+    for photo in data["photos"]:
+        src = (photo.get("source_page") or "").lower()
+        if any(term in src for term in ("president_trump", "zelenskyy", "trump_clashes")):
+            photo["excluded_from_reuse"] = True
+            photo["excluded_reason"] = "Editorial policy: political photograph unrelated to business research"
+    for article, photo_id in list(data["assignments"].items()):
+        item = next((photo for photo in data["photos"] if photo["id"] == photo_id), None)
+        if item and item.get("excluded_from_reuse"):
+            if (ROOT / article).is_file():
+                raise RuntimeError("Political or excluded photograph still assigned to a published article: " + article)
+            del data["assignments"][article]
+            print("Removed orphaned banned photo assignment:", article)
     images.save(data, ROOT)
     # Re-render both article heroes and listing cards. prepare_journal updates
     # OG/Twitter/BlogPosting image metadata and keeps the same canonical URLs.
