@@ -45,6 +45,14 @@ def main():
   for key,path in photo['files'].items():
    digest=hashlib.sha256((ROOT/path.lstrip('/')).read_bytes()).hexdigest()
    assert digest==photo['optimized_sha256'][key],path+': optimized asset changed'
+ # Prevent a misleading political photograph from becoming a generic business illustration.
+ for article,photo_id in data['assignments'].items():
+  photo=next((p for p in data['photos'] if p['id']==photo_id),None)
+  assert photo is not None,article+': assigned image missing'
+  source=photo.get('source_page','').lower()
+  if (ROOT/article).is_file():
+   assert not photo.get('excluded_from_reuse'),article+': prohibited photograph'
+   assert not any(t in source for t in ('president_trump','zelenskyy','trump_clashes','oval_office')),article+': political photo must not appear in WEBU Journal'
  for key,value in data['assignments'].items():
   assert value not in seen,'Different article topics reuse photo: '+key+' and '+seen.get(value,'')
   seen[value]=key
