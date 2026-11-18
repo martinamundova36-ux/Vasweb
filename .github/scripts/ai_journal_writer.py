@@ -79,7 +79,7 @@ def validate_result(result):
 def generate(source,abstract,api_key,models):
     prompt="""Prepare TWO accurate, readable, source-bounded WEBU Journal research digests, one in Slovak and one in English, for entrepreneurs and business decision-makers. Summarise and translate the key findings in your own words; DO NOT reproduce or translate a full copyrighted research paper.
 Return ONLY JSON with two properties 'sk' and 'en'. Each contains 'title', 'description' (50-160 chars), 'lead' and 'sections'.
-Each 'sections' must contain EXACTLY six objects with a 'heading' and 'paragraphs' (array of 2-3 substantive original paragraphs).
+Each 'sections' must contain EXACTLY six objects with a 'heading' and 'paragraphs' (array of 2-3 substantive original paragraphs, each normally 55-85 words long, with no filler or repetition).
 The section headings in order MUST be:
 SK: """+json.dumps(HEADINGS_SK,ensure_ascii=False)+"""
 EN: """+json.dumps(HEADINGS_EN)+"""
@@ -96,8 +96,13 @@ CRITICAL accuracy rules:
 - The original research must genuinely illuminate a business-relevant question (management, organisational psychology, finance, HR, AI adoption, operations, marketing, consumer behaviour, etc.). Keep the original sector, country, study population and limits explicit. Do not pretend findings on teachers are experimental proof for all employers.
 - If no defensible implication for entrepreneurs can be drawn from the abstract, the draft is unsuitable for this Journal. Do NOT invent a connection to business; reject the source or clearly state the limits.
 - Produce a substantive, self-contained, evidence-limited expert editorial in EACH
-  language (typically 450-850 substantive words). Do not pad word counts: if an abstract
-  cannot support a meaningful discussion, the article must fail the quality gate.
+  language (target 600-750 substantive words per language). Write a 45-70 word lead.
+  Give 'What the study examined' at least 90 words, 'Findings and interpretation'
+  at least 110 words, 'Methodology and limitations' at least 110 words and the
+  practical/entrepreneurship section at least 100 words, in BOTH languages.
+  For every paragraph, develop a specific idea instead of repeating a generic caveat.
+  Do not pad word counts or invent evidence: if the available abstract cannot
+  support a useful critical discussion, the draft must fail the quality gate.
 - Explain a real research question, study design, population and scope when given;
   label information not supplied by the abstract as UNKNOWN instead of guessing.
 - Findings and methodology must distinguish observational association from causation.
@@ -129,7 +134,7 @@ CRITICAL accuracy rules:
   those introduced by rewriting; never send an unproofread translation.
 - No external references apart from the verified DOI.
 """
-    request={"contents":[{"parts":[{"text":prompt}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.35,"maxOutputTokens":7000}}
+    request={"contents":[{"parts":[{"text":prompt}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.35,"maxOutputTokens":12000}}
     errors=[]
     for model in models:
         try:
@@ -211,7 +216,7 @@ def main():
     drafts=ROOT/"journal-drafts"
     try:offered=available_models(key)
     except Exception as exc:raise SystemExit("Gemini model discovery failed: "+str(exc))
-    models=[name for name in (MODEL,"gemini-3.1-flash-lite","gemini-3.8-flash") if name in offered]
+    models=[name for name in (MODEL,"gemini-3.1-flash-lite") if name in offered]
     if not models:raise SystemExit("No configured Gemini model supports generateContent for this key")
     print("Configured available models:",", ".join(models))
     count=0
