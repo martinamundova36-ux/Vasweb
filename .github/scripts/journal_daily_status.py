@@ -5,7 +5,7 @@ import datetime as dt
 import json
 from pathlib import Path
 from zoneinfo import ZoneInfo
-from free_journal import validate_editorial
+from free_journal import validate_editorial, manual_published_today
 
 ROOT = Path(__file__).resolve().parents[2]
 ZONE = ZoneInfo('Europe/Bratislava')
@@ -20,6 +20,7 @@ def daily_due(now):
         json.loads(p.read_text(encoding='utf-8')).get('published_at') == today
         for p in (ROOT / 'journal-drafts').glob('*.json')
     )
+    published += len(manual_published_today(today))
     if published >= 5:
         return False
     record = ROOT / 'journal-reports/daily-delivery' / (today + '.json')
@@ -61,7 +62,9 @@ def status():
     scheduled = next_run(now)
     today=str(now.astimezone(ZONE).date())
     auto_manuscripts=sum(json.loads(p.read_text()).get('generated_on')==today for p in (ROOT/'journal-articles-pending').glob('*.json'))
-    published_today=[p.stem for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('published_at')==today]
+    automatic_today=[p.stem for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('published_at')==today]
+    manual_today=manual_published_today(today)
+    published_today=sorted(set(automatic_today+manual_today))
     result = {'checked_at': now.isoformat(), 'timezone': ZONE.key,
         'schedule': SCHEDULE, 'primary_target': '08:00 Europe/Bratislava', 'preparation_start': '06:07 Europe/Bratislava', 'backup_checks': 'Every :07/:27/:47 from 06:07 through 11:47; stop after 5 published articles', 'next_scheduled_local': scheduled.isoformat(),
         'next_scheduled_utc': scheduled.astimezone(dt.timezone.utc).isoformat(),
@@ -69,7 +72,8 @@ def status():
         'daily_maximum': 5, 'generator_capability': 'abstract_scoped_bilingual_editorials',
         'automatically_written_full_articles': 0,
         'automatically_prepared_abstract_editorials': auto_manuscripts,
-        'published_today': published_today,
+        'published_today': published_today, 'published_automatically_today': automatic_today,
+        'published_manually_today': manual_today,
         'ready_bilingual_articles': ready, 'pending_editorial_work': pending,
         'published_research_draft_ids': published, 'paid_ai_enabled': False,
         'scientific_review_limit': 'Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review',
