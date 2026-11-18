@@ -212,7 +212,7 @@ def sync(root=ROOT):
   page.write_text(stylesheet(raw));count+=1
  for listing in ('blog.html','blog-en.html'):
   page=root/listing;raw=page.read_text();lang='en' if listing=='blog-en.html' else 'sk';seen=set()
-  pattern=r'<a\b(?=[^>]*\bclass="vw-journal-card")(?=[^>]*\bhref="([^"]+)")[^>]*>.*?</a>'
+  pattern=r'<a\b(?=[^>]*\bclass="(?:vw-journal-card|webu-new-story)")(?=[^>]*\bhref="([^"]+)")[^>]*>.*?</a>'
   def card(match):
    name=urlsplit(match.group(1)).path.lstrip('/');key=group(name)
    if key in seen:return ''
