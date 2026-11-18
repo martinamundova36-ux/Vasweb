@@ -53,6 +53,24 @@ REPLACEMENTS = {
         ("7526590", "business-people-in-a-business-meeting", "Farhan Alkhaled",
          "workplace", "Pracovný tím spolupracuje na notebookoch v modernej kancelárii",
          "Office team collaborating on laptops in a modern workplace")),
+    # Replace an irrelevant picture of goats with a real finance desk.
+    "blog-journal-financna-flexibilita-malych-firiem-v-strednej-europe.html": (
+        "10.1108/CEMJ-01-2026-0005",
+        ("33175669", "office-desk-with-calculator-and-financial-report", "Bia Limova",
+         "pricing", "Finančný výkaz a kalkulačka pri práci s rozpočtom firmy",
+         "Financial report and calculator on a business desk")),
+    # Replace an irrelevant grocery bus interior with actual business analytics.
+    "blog-journal-ai-v-marketingu-malych-firiem-co-naozaj-funguje.html": (
+        "10.1057/s41270-026-00539-2",
+        ("7651734", "business-people-working-together-in-front-of-their-laptops", "Kindel Media",
+         "analytics", "Podnikateľský tím vyhodnocuje marketingové dáta a grafy",
+         "Business team examining marketing data and charts")),
+    # Replace a diplomatic news photograph with a customer service scene.
+    "blog-journal-recenzie-zakaznikov-a-opakovany-nakup.html": (
+        "10.1177/00222429251352842",
+        ("7709306", "a-woman-working-as-a-call-center-agent", "MART PRODUCTION",
+         "trust", "Pracovníčka zákazníckeho servisu vybavuje zákaznícke požiadavky",
+         "Customer service professional assisting clients on a laptop")),
     # Remove unsuitable image of a criminal investigation from AI productivity research.
     "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty.html": (
         "10.1287/mnsc.2025.00535",
