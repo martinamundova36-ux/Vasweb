@@ -20,7 +20,7 @@ def daily_due(now):
         json.loads(p.read_text(encoding='utf-8')).get('published_at') == today
         for p in (ROOT / 'journal-drafts').glob('*.json')
     )
-    published += len(manual_published_today(today))
+    published += len(manual_published_today(today,root=ROOT))
     if published >= 5:
         return False
     record = ROOT / 'journal-reports/daily-delivery' / (today + '.json')
@@ -63,7 +63,7 @@ def status():
     today=str(now.astimezone(ZONE).date())
     auto_manuscripts=sum(json.loads(p.read_text()).get('generated_on')==today for p in (ROOT/'journal-articles-pending').glob('*.json'))
     automatic_today=[p.stem for p in (ROOT/'journal-drafts').glob('*.json') if json.loads(p.read_text()).get('published_at')==today]
-    manual_today=manual_published_today(today)
+    manual_today=manual_published_today(today,root=ROOT)
     published_today=sorted(set(automatic_today+manual_today))
     result = {'checked_at': now.isoformat(), 'timezone': ZONE.key,
         'schedule': SCHEDULE, 'primary_target': '08:00 Europe/Bratislava', 'preparation_start': '06:07 Europe/Bratislava', 'backup_checks': 'Every :07/:27/:47 from 06:07 through 11:47; stop after 5 published articles', 'next_scheduled_local': scheduled.isoformat(),
