@@ -434,10 +434,12 @@ def daily_report():
     discovery = json.loads(report.read_text()) if report.exists() else {}
     ready = len(state.get('ready_bilingual_articles',[]))
     published = len(state.get('published_today',[]))
+    manual = len(state.get('published_manually_today',[]))
+    automated = len(state.get('published_automatically_today',[]))
     generated = state.get('automatically_prepared_abstract_editorials',0)
     ids = discovery.get('draft_ids', [])
     lines = [marker, '@' + config['owner'], '',
-        '**Dnes automaticky zverejnené dvojjazyčné články: ' + str(published) + '/5.**', '',
+        '**Dnes zverejnené dvojjazyčné články: ' + str(published) + '/5** (redakčne: ' + str(manual) + ', automaticky: ' + str(automated) + ').', '',
         'Dnešné bibliografické podklady: ' + str(len(ids)) + '. Podklady nie sú hotové články.',
         'AI redakčné rukopisy založené na abstrakte: ' + str(generated) + '.', '',
         'Výsledok prípravy: ' + os.environ.get('DISCOVERY_RESULT', 'not confirmed') + '.', '',
@@ -470,6 +472,7 @@ def daily_report():
     path = 'journal-reports/daily-delivery/' + today + '.json'
     evidence = {'date': today, 'issue': issue['number'], 'url': issue['html_url'],
                 'ready_articles': ready, 'published_articles': published,
+                'published_manually': manual, 'published_automatically': automated,
                 'generated_manuscripts': generated, 'bibliographic_candidates': len(ids),
                 'discovery_result': os.environ.get('DISCOVERY_RESULT', 'not confirmed'),
                 'github_notice_created': True, 'email_delivery': 'not confirmed'}
