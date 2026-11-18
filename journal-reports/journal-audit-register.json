@@ -9457,6 +9457,836 @@
           }
         ]
       }
+    },
+    {
+      "id": "blog-journal-ai-v-malych-firmach-co-rozhoduje-o-uspechu",
+      "kind": "research_commentary",
+      "review_status": "editorial_source_checked",
+      "reviewed_at": "2026-11-18",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1007/s44163-026-01460-4",
+          "apa7": "Clesio Landini, Marcio Cardoso Machado (2026). A systematic review on organizational adoption and performance constructs related to artificial intelligence in SMEs. Discover Artificial Intelligence. https://doi.org/10.1007/s44163-026-01460-4",
+          "access": "publisher_full_text_available_excerpt_reviewed"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "Editorial practical examples explicitly separated from research findings",
+      "image": "licensed catalog assignment",
+      "publication": "owner_requested_editorial",
+      "notes": [
+        "Scientific study identified using publisher or institutional source. Source scope: publisher_full_text_available_excerpt_reviewed. Editorial summary, not independent peer review; examples are not source-validated interventions."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-ai-v-malych-firmach-co-rozhoduje-o-uspechu.html",
+          "title": "AI v malých firmách: prečo samotný nákup nástroja nestačí",
+          "description": "Prehľad 68 vedeckých článkov ukazuje, čo rozhoduje o zavádzaní AI do malých firiem: dôvera, zručnosti, financie a stratégia.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "02d8ff9d977d7fbc36826f1f0b5d207e3b23b430398400dcf6bd382fe2cf0139"
+        },
+        "en": {
+          "path": "blog-journal-ai-v-malych-firmach-co-rozhoduje-o-uspechu-en.html",
+          "title": "AI in Small Businesses: Why Buying a Tool Is Not Enough",
+          "description": "A review of 68 studies explores what makes AI adoption work in SMEs: strategy, trust, capabilities, financial constraints and readiness.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "ca64a62c8785190e22de4d74227034bc877e8c8813b24b1de9a019682be806d5"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Otázka, ktorú výskum riešil",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Ako prebiehala analýza",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Čo výsledky naznačujú",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Prečo je to dôležité pre podnikateľov",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Praktický postup, ktorý sa oplatí otestovať",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Čo z prehľadu nemožno tvrdiť",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ],
+        "en": [
+          {
+            "section": "The research question",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "How the review was conducted",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "What the findings suggest",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Why this matters to entrepreneurs",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "An approach worth testing",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "What the review does not prove",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-financna-flexibilita-malych-firiem-v-strednej-europe",
+      "kind": "research_commentary",
+      "review_status": "editorial_source_checked",
+      "reviewed_at": "2026-11-18",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1108/CEMJ-01-2026-0005",
+          "apa7": "Jacek Jaworski, Leszek Czerwonka (2026). Does financial flexibility affect profitability and working capital management in small and medium enterprises: evidence from Central and Eastern Europe. Central European Management Journal. https://doi.org/10.1108/CEMJ-01-2026-0005",
+          "access": "publisher_full_text_available_excerpt_reviewed"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "Editorial practical examples explicitly separated from research findings",
+      "image": "licensed catalog assignment",
+      "publication": "owner_requested_editorial",
+      "notes": [
+        "Scientific study identified using publisher or institutional source. Source scope: publisher_full_text_available_excerpt_reviewed. Editorial summary, not independent peer review; examples are not source-validated interventions."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-financna-flexibilita-malych-firiem-v-strednej-europe.html",
+          "title": "Finančná flexibilita malých firiem: čo ukázalo 15 079 podnikov",
+          "description": "Výskum 15 079 firiem zo strednej a východnej Európy skúmal súvislosť rezerv, dostupnosti úverov a ziskovosti.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "ffa18c01cd1b2e8540eb717a3465032559f105968dadd603282fd6c29afaf7a1"
+        },
+        "en": {
+          "path": "blog-journal-financna-flexibilita-malych-firiem-v-strednej-europe-en.html",
+          "title": "Financial Flexibility in SMEs: Evidence from 15,079 Firms",
+          "description": "Research on 15,079 Central and Eastern European SMEs examines borrowing capacity, working capital and profitability.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "c06dd8e806082e5e8b3ff058f8d96218cb3b82e7f7a138468df28d1a0e0b4f65"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo znamená finančná flexibilita",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Výskumný súbor a metodika",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Hlavné zistenia",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Ako výsledky čítať v praxi",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Praktické otázky pre podnikateľa",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Limity výskumu",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ],
+        "en": [
+          {
+            "section": "What financial flexibility means",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Data and methods",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Main findings",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Reading the results carefully",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Questions an owner can ask",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Limitations",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-ai-v-marketingu-malych-firiem-co-naozaj-funguje",
+      "kind": "research_commentary",
+      "review_status": "editorial_source_checked",
+      "reviewed_at": "2026-11-18",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1057/s41270-026-00539-2",
+          "apa7": "Anita Talitha Parsegyan, Manuel Muth, Michael Lingenfelder (2026). AI-enabled marketing analytics for SMEs: multimethod evidence on application potential and adoption conditions. Journal of Marketing Analytics. https://doi.org/10.1057/s41270-026-00539-2",
+          "access": "publisher_full_text_available_excerpt_reviewed"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "Editorial practical examples explicitly separated from research findings",
+      "image": "licensed catalog assignment",
+      "publication": "owner_requested_editorial",
+      "notes": [
+        "Scientific study identified using publisher or institutional source. Source scope: publisher_full_text_available_excerpt_reviewed. Editorial summary, not independent peer review; examples are not source-validated interventions."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-ai-v-marketingu-malych-firiem-co-naozaj-funguje.html",
+          "title": "AI v marketingu malých firiem: kedy dáta prinášajú hodnotu",
+          "description": "Nová štúdia spojila 49 vedeckých prác s prieskumom vyše 100 firiem. Ukazuje rôzne úrovne pripravenosti na AI marketing.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "1b14fde62c9d49cd021db6d2d1b258dbc1a65a8dc601ee42576c8f286e6df023"
+        },
+        "en": {
+          "path": "blog-journal-ai-v-marketingu-malych-firiem-co-naozaj-funguje-en.html",
+          "title": "AI Marketing Analytics for SMEs: When Data Creates Value",
+          "description": "A 2026 study combined 49 research papers and a survey of over 100 SMEs to identify how smaller firms can use AI in marketing.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "cb147500b2c11b9787d7bd172c2a46508a9eb04577bfcf20e34761b5d7ff7515"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo vedci skúmali",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Zdroje a metodika",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Štyri podoby pripravenosti",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Prínosy a prekážky",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Príklad pre malý podnik",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Kde treba zachovať opatrnosť",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ],
+        "en": [
+          {
+            "section": "What the study investigated",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Evidence and method",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Four forms of AI use",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Benefits and adoption barriers",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "An example for entrepreneurs",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Limits of the evidence",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-recenzie-zakaznikov-a-opakovany-nakup",
+      "kind": "research_commentary",
+      "review_status": "editorial_source_checked",
+      "reviewed_at": "2026-11-18",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1177/00222429251352842",
+          "apa7": "R. Liu, W. Zhang, P. K. Chintagunta (2026). Customers’ Review Content and Their Referral and (Re)Purchase Behaviors. Journal of Marketing. https://doi.org/10.1177/00222429251352842",
+          "access": "official_abstract_and_author_repository"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "Editorial practical examples explicitly separated from research findings",
+      "image": "licensed catalog assignment",
+      "publication": "owner_requested_editorial",
+      "notes": [
+        "Scientific study identified using publisher or institutional source. Source scope: official_abstract_and_author_repository. Editorial summary, not independent peer review; examples are not source-validated interventions."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-recenzie-zakaznikov-a-opakovany-nakup.html",
+          "title": "Zákaznícke recenzie: čo súvisí s odporúčaním a ďalším nákupom",
+          "description": "Výskum v Journal of Marketing sledoval, ako emocionálny a faktický obsah recenzií súvisí s odporúčaním značky a opakovaným nákupom.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "81305198a36d9ff0fe30af5d224adc88e1d4c9c9b6f1ae942f637f639e942278"
+        },
+        "en": {
+          "path": "blog-journal-recenzie-zakaznikov-a-opakovany-nakup-en.html",
+          "title": "Customer Reviews, Referrals and Repeat Purchases: New Evidence",
+          "description": "Journal of Marketing research explores how emotional and factual review content relates to referrals and customers’ next purchases.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "6fe0f22b619aff1fa1edb410ae3cfba3b46d1cf173275b0299525704d5f41aa2"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Otázka pre marketing a služby",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Aké metódy boli použité",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Čo zistili",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Čo z toho môže využiť podnikateľ",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Ako sa vyhnúť manipulácii",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Obmedzenia a alternatívne vysvetlenia",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ],
+        "en": [
+          {
+            "section": "The business question",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "How the research was conducted",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Main reported findings",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Implications for businesses",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Avoiding manipulation",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Limits and alternative explanations",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty",
+      "kind": "research_commentary",
+      "review_status": "editorial_source_checked",
+      "reviewed_at": "2026-11-18",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1287/mnsc.2025.00535",
+          "apa7": "Kevin Zheyuan Cui, Mert Demirer, Sonia Jaffe, Leon Musolff, Sida Peng, Tobias Salz (2026). The Effects of Generative AI on High-Skilled Work: Evidence from Three Field Experiments with Software Developers. Management Science. https://doi.org/10.1287/mnsc.2025.00535",
+          "access": "official_publisher_abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "Editorial practical examples explicitly separated from research findings",
+      "image": "licensed catalog assignment",
+      "publication": "owner_requested_editorial",
+      "notes": [
+        "Scientific study identified using publisher or institutional source. Source scope: official_publisher_abstract. Editorial summary, not independent peer review; examples are not source-validated interventions."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty.html",
+          "title": "AI a produktivita: čo odhalili tri experimenty s vývojármi",
+          "description": "Tri terénne experimenty so 4 867 vývojármi skúmali AI asistenta. Zistenia o dokončených úlohách a ich limity pre firmy.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "4b28a6c8f41ebf4f8a917c1a2a2301c46321049dbf958c418e2e14be351e68c6"
+        },
+        "en": {
+          "path": "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty-en.html",
+          "title": "AI and Productivity: Lessons from Three Developer Experiments",
+          "description": "Three field experiments involving 4,867 developers found a change in task completion with an AI assistant. What the results really mean.",
+          "language_review": "Source-scoped editorial, SK/EN",
+          "published_at": "2026-11-18",
+          "modified_at": null,
+          "seo": "canonical and JSON-LD included",
+          "links": "DOI and bilingual links checked",
+          "content_sha256": "542aba90ec36dd099c685e4d3a0e9664b905b90e84639517ec4ed3dc98148baa"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Čo presne vedci merali",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Ako prebiehali experimenty",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Hlavný výsledok",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Čo to znamená pre podnikanie",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Návrh malého pilotu",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Na čo si dať pozor",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ],
+        "en": [
+          {
+            "section": "What the researchers measured",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "How the experiments worked",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "The main reported result",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "What this means for businesses",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "An example of a pilot",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Avoiding overclaims",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "source_scoped_editorial",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Publisher or institutional source consulted; limitations identified, not independent peer review."
+          }
+        ]
+      }
     }
   ]
 }
