@@ -25,6 +25,24 @@ class DeliveryTests(unittest.TestCase):
     (drafts/(str(index)+'.json')).write_text(json.dumps({'published_at':'2026-11-05'}))
    self.assertFalse(daily.daily_due(dt.datetime.fromisoformat('2026-11-05T08:17:00+00:00')))
    self.assertTrue(daily.daily_due(dt.datetime.fromisoformat('2026-11-06T07:00:00+00:00')))
+ def test_audit_register_does_not_double_count_auto_published_pair(self):
+  from free_journal import manual_published_today
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp)
+   (root/'journal-drafts').mkdir()
+   (root/'journal-reports').mkdir()
+   sk='blog-journal-example.html'
+   en='blog-journal-example-en.html'
+   (root/sk).write_text('<html lang="sk"></html>')
+   (root/en).write_text('<html lang="en"></html>')
+   (root/'journal-drafts'/'source.json').write_text(json.dumps({
+    'published_at':'2026-11-19',
+    'published_urls':['https://www.webu.sk/'+sk,'https://www.webu.sk/'+en]}))
+   (root/'journal-reports'/'journal-audit-register.json').write_text(json.dumps({
+    'articles':[{'id':'blog-journal-example','languages':{
+      'sk':{'path':sk,'published_at':'2026-11-19'},
+      'en':{'path':en,'published_at':'2026-11-19'}}}]}))
+   self.assertEqual(manual_published_today('2026-11-19',root),[])
  def test_zero_ready_is_reported_once_without_fake_approval(self):
   with tempfile.TemporaryDirectory() as tmp:
    root=Path(tmp);(root/'journal-reports').mkdir()
