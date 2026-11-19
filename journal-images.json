@@ -2384,6 +2384,262 @@
         "1280": "0de6bb671aee89fd634629a665b08dbab4ff6f204d6440ca01ff2217e98a0891",
         "social": "44bc230a751eceae840a3410b640c4f77181f2a00a9bde04543916ecc5b4f504"
       }
+    },
+    {
+      "id": "commons-5422056cc3775f",
+      "provider": "Wikimedia Commons",
+      "provider_id": "61684735",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Desktop_with_laptop_and_calculator_(Unsplash).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Desktop_with_laptop_and_calculator_%28Unsplash%29.jpg/1920px-Desktop_with_laptop_and_calculator_%28Unsplash%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Anonymous  Unknown author",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "692c9dd313a5f755e44d59d09771072300bcd0705bcc090f51a25087c31ddcff",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-5422056cc3775f-640.webp",
+        "1280": "/assets/journal/commons-5422056cc3775f-1280.webp",
+        "social": "/assets/journal/commons-5422056cc3775f-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "659fa6dc904970d65f8124646d1f64ab003f30803eacca7041819878f024c175",
+        "1280": "d6318357c53d776f88a86bac949d27d25372c0d28081b4d47292e6f5f7906d84",
+        "social": "3195f1d69e3c7267a730f93ec1bfe6bca74b1c8ee5f87e43d8667b37cc193c52"
+      }
+    },
+    {
+      "id": "commons-92c282477779be",
+      "provider": "Wikimedia Commons",
+      "provider_id": "34164186",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Work_in_Creativasia_Space_Taichung.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Work_in_Creativasia_Space_Taichung.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Vitaowen",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "b581c1bfbc526d75740fb8a89599bc86bfe1244acc17083fa091ec255a4d80d6",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-92c282477779be-640.webp",
+        "1280": "/assets/journal/commons-92c282477779be-1280.webp",
+        "social": "/assets/journal/commons-92c282477779be-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "86213f375f3f46b84d47c68df3342c65cd91e322a8080516e78924c0b2a191b7",
+        "1280": "f7fa9077712ed9fd41dcf6343bc113428261c00063ebeb8129988cb322b1ffc4",
+        "social": "e1d5fcee87e32efb54ecde1127c6636e06f29d11f98ee03259036893ba19bfeb"
+      }
+    },
+    {
+      "id": "commons-493a04bcfdf4dd",
+      "provider": "Wikimedia Commons",
+      "provider_id": "193126446",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_working_on_laptop_indoors_in_a_modern_office.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Woman_working_on_laptop_indoors_in_a_modern_office.jpg/1920px-Woman_working_on_laptop_indoors_in_a_modern_office.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "f09c00ee6bf80573f314c6e521c58bb6bc1f80bb916e2c161651a53a4848b66a",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-493a04bcfdf4dd-640.webp",
+        "1280": "/assets/journal/commons-493a04bcfdf4dd-1280.webp",
+        "social": "/assets/journal/commons-493a04bcfdf4dd-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "7146af4d22509fc7442495cb2ecc8954ea9c9c45c8b113be7bb02b13198bf0b5",
+        "1280": "657e3f00ace424b2eb23b0f8205d13f1829a1ddaeb64cb27f083bf9cc37fa693",
+        "social": "b5b5a68b5bcfb8de4579c88fbf97e7e185c7856e91eb9f661b1cb0153a55e255"
+      }
+    },
+    {
+      "id": "commons-e2375643f75e7e",
+      "provider": "Wikimedia Commons",
+      "provider_id": "64320068",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Work_smart.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Work_smart.jpg/1920px-Work_smart.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Rasheedhrasheed",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "65db83839d8452a34df91995f0ac087635669305835b7e172e766149c8c5d0a6",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-e2375643f75e7e-640.webp",
+        "1280": "/assets/journal/commons-e2375643f75e7e-1280.webp",
+        "social": "/assets/journal/commons-e2375643f75e7e-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d0a4ca109773b6d50bb341f653358a075bc33b20517fe3833459397cae39fd9c",
+        "1280": "931fa7f414d16dfd4a69fed8e35d4d721babe4de0600fd36fbc7c1283189b636",
+        "social": "aa28a8870e58ea9b2a4eb432ee8b1abe95d0a1641704206c51f8fe26ff5359fe"
+      }
+    },
+    {
+      "id": "commons-dcdb7b133040b4",
+      "provider": "Wikimedia Commons",
+      "provider_id": "9716790",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Citizen_Space,_San_Francisco,_CA.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Citizen_Space%2C_San_Francisco%2C_CA.jpg/1920px-Citizen_Space%2C_San_Francisco%2C_CA.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Josh Hallett  from Winter Haven, FL, USA",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "aa189d57dc6431007a192b2146bd65f635e00accfd20e9566227572c76d8d090",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-dcdb7b133040b4-640.webp",
+        "1280": "/assets/journal/commons-dcdb7b133040b4-1280.webp",
+        "social": "/assets/journal/commons-dcdb7b133040b4-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "01c326d49799f9061bf3e3bb4275e531efd2873af4674c5f37a5fc072e8004ae",
+        "1280": "97ce54bec6d921e9dbcdababd478c352129727b5642c9e0fb2310e9c2b55f5f4",
+        "social": "d43ff96d9ca78e89f78aefaee0d1aef9dda7910b29e313b5dfb2013bf25443b8"
+      }
+    },
+    {
+      "id": "commons-c8f26f76657b23",
+      "provider": "Wikimedia Commons",
+      "provider_id": "122882649",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Biggbang_Coworking_Reception_Area.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Biggbang_Coworking_Reception_Area.jpg/1920px-Biggbang_Coworking_Reception_Area.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "BiggbangCoworking",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "a57f518b4b862450f260305392925cb7132a14922486387f457897b8de325633",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-c8f26f76657b23-640.webp",
+        "1280": "/assets/journal/commons-c8f26f76657b23-1280.webp",
+        "social": "/assets/journal/commons-c8f26f76657b23-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "6a1a522322c5d49b3018be2bfd48d9e207ce843cc00fd9a03dc0977f2f9cca56",
+        "1280": "32a8a4ec4106967ef6456d9ce4764a5ccd1e0e50e96c2588cd2b67fc00cf3692",
+        "social": "b391c5e099913a3ae501568ca1af719f7b836956c6dce359de93c49d1e58c868"
+      }
+    },
+    {
+      "id": "commons-39138febf66064",
+      "provider": "Wikimedia Commons",
+      "provider_id": "193756505",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_works_on_laptop_while_holding_cup_of_coffee_in_cozy_home_office.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Woman_works_on_laptop_while_holding_cup_of_coffee_in_cozy_home_office.jpg/1920px-Woman_works_on_laptop_while_holding_cup_of_coffee_in_cozy_home_office.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "3ce30a98c72a819de5cb1573b2cfe8970d8ff6d2374e593f6e06af1c494e7018",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-39138febf66064-640.webp",
+        "1280": "/assets/journal/commons-39138febf66064-1280.webp",
+        "social": "/assets/journal/commons-39138febf66064-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d1ed7b04074537e57b412f8444e6944155761c9cc5a65aebf3e49f21a33c17a6",
+        "1280": "eb033885ea786ab8ebd6c4940bf137b316b16ceae2fdc5c3c46d0e2cbb6f9d73",
+        "social": "ec70f2d73d43d8d6f86cdcfa9a34f3e0c1f676cf4901f87541f01ad89d0fcb85"
+      }
+    },
+    {
+      "id": "commons-0513dbbd97a955",
+      "provider": "Wikimedia Commons",
+      "provider_id": "200926905",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_on_phone_in_home_office_during_the_day_discussing_work_and_using_a_laptop_while_sitting_at_a_table_with_fruit.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Woman_on_phone_in_home_office_during_the_day_discussing_work_and_using_a_laptop_while_sitting_at_a_table_with_fruit.jpg/1920px-Woman_on_phone_in_home_office_during_the_day_discussing_work_and_using_a_laptop_while_sitting_at_a_table_with_fruit.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "c41732c574a2ae7f1db47672425880ace7b09bd026f736dbde7e162373b13cca",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-0513dbbd97a955-640.webp",
+        "1280": "/assets/journal/commons-0513dbbd97a955-1280.webp",
+        "social": "/assets/journal/commons-0513dbbd97a955-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "5c20399ac55cc7f2b7a2e4af6bd3bf723106fb541ffd914d6c61c4ec53b25080",
+        "1280": "6de1048f9782cb96868bd1294a245d61ee36dbf26c960f75e493c07cb8789073",
+        "social": "1ca9adbd1b3fa35e2893b21ac095337ce7407575a4402168cb87f8b664c59ef1"
+      }
     }
   ],
   "assignments": {
@@ -2452,6 +2708,14 @@
     "blog-journal-financna-flexibilita-malych-firiem-v-strednej-europe.html": "pexels-33175669",
     "blog-journal-ai-v-marketingu-malych-firiem-co-naozaj-funguje.html": "pexels-7651734",
     "blog-journal-recenzie-zakaznikov-a-opakovany-nakup.html": "pexels-7709306",
-    "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty.html": "pexels-7988114"
+    "blog-journal-ai-asistent-produktivita-programatorov-tri-experimenty.html": "pexels-7988114",
+    "blog-journal-descriptive-internal-audit-of-the-occupational-safety-and-health.html": "commons-5422056cc3775f",
+    "blog-journal-renewable-energy-consumption-financial-inclusion-and-fintech-as-drivers-of.html": "commons-92c282477779be",
+    "blog-journal-influence-of-mentorship-practices-on-employee-retention-in-state-owned.html": "commons-493a04bcfdf4dd",
+    "blog-journal-collaborating-with-machines-a-qualitative-study-on-job-satisfaction-among.html": "commons-e2375643f75e7e",
+    "blog-journal-separate-property-or-marital-asset-how-new-york-courts-treat-appreciation.html": "commons-dcdb7b133040b4",
+    "blog-journal-rozdelenie-majetku-v-rodinnych-firmach-pravne-aspekty-zhodnotenia.html": "commons-c8f26f76657b23",
+    "blog-journal-spolupraca-cloveka-a-stroja-vplyv-automatizacie-na-spokojnost-zamestnancov.html": "commons-39138febf66064",
+    "blog-journal-vplyv-mentoringovych-praktik-na-udrzacanie-zamestnancov-vo-verejnych.html": "commons-0513dbbd97a955"
   }
 }

@@ -135,3 +135,18 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - pexels-7651734: [Kindel Media](https://www.pexels.com/photo/business-people-working-together-in-front-of-their-laptops-7651734/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
 - pexels-7709306: [MART PRODUCTION](https://www.pexels.com/photo/a-woman-working-as-a-call-center-agent-7709306/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
 - pexels-7988114: [Mikhail Nilov](https://www.pexels.com/photo/a-person-using-laptop-7988114/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- commons-5422056cc3775f: [Anonymous  Unknown author](https://commons.wikimedia.org/wiki/File:Desktop_with_laptop_and_calculator_(Unsplash).jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-92c282477779be: [Vitaowen](https://commons.wikimedia.org/wiki/File:Work_in_Creativasia_Space_Taichung.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-493a04bcfdf4dd: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_working_on_laptop_indoors_in_a_modern_office.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-e2375643f75e7e: [Rasheedhrasheed](https://commons.wikimedia.org/wiki/File:Work_smart.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-dcdb7b133040b4: [Josh Hallett  from Winter Haven, FL, USA](https://commons.wikimedia.org/wiki/File:Citizen_Space,_San_Francisco,_CA.jpg), licencia [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-c8f26f76657b23: [BiggbangCoworking](https://commons.wikimedia.org/wiki/File:Biggbang_Coworking_Reception_Area.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-39138febf66064: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_works_on_laptop_while_holding_cup_of_coffee_in_cozy_home_office.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-0513dbbd97a955: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_on_phone_in_home_office_during_the_day_discussing_work_and_using_a_laptop_while_sitting_at_a_table_with_fruit.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.

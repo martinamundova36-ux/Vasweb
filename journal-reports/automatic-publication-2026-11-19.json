@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-19",
+  "automatically_published": [
+    "2026-11-19-2edf909bda45",
+    "2026-11-19-5b43a177b167",
+    "2026-11-19-7eeadebeb499"
+  ],
+  "published_this_run": [
+    "2026-11-19-2edf909bda45",
+    "2026-11-19-5b43a177b167",
+    "2026-11-19-7eeadebeb499"
+  ],
+  "held_due_to_missing_review_or_gates": 2,
+  "publication_errors": [
+    {
+      "id": "2026-11-19-f8750b58770f",
+      "reason": "Daily publication cap reached\n"
+    }
+  ],
+  "mode": "transparent_abstract_editorials"
+}
