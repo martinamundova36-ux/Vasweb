@@ -63,12 +63,24 @@ def manual_published_today(date=None,root=None):
  if not register.is_file():return []
  try:articles=json.loads(register.read_text(encoding='utf-8')).get('articles',[])
  except (ValueError,TypeError):return []
+ # The audit register also contains DOI-pipeline articles. Count each
+ # bilingual SK/EN pair only once, not once under its draft ID and again
+ # under its public page slug.
+ auto_pages=set()
+ for draft_path in (root/'journal-drafts').glob('*.json'):
+  try:
+   draft=json.loads(draft_path.read_text(encoding='utf-8'))
+   if draft.get('published_at')==date:
+    auto_pages.update(Path(urllib.parse.urlparse(url).path).name for url in draft.get('published_urls',[]))
+  except (OSError,ValueError,TypeError):
+   continue
  found=[]
  for article in articles:
   languages=article.get('languages') or {}
   sk,en=languages.get('sk') or {},languages.get('en') or {}
   if sk.get('published_at')!=date or en.get('published_at')!=date:continue
   if not sk.get('path') or not en.get('path'):continue
+  if Path(sk['path']).name in auto_pages or Path(en['path']).name in auto_pages:continue
   if (root/sk['path']).is_file() and (root/en['path']).is_file():
    found.append(article.get('id') or Path(sk['path']).stem)
  return sorted(set(found))
