@@ -133,7 +133,7 @@ CRITICAL accuracy rules:
 - In the final pass, fix typographical errors and malformed inflections, including
   those introduced by rewriting; never send an unproofread translation.
 - In section five of each language, give one specific, hypothetical example an entrepreneur could test in the original context. Introduce it with 'Napríklad' in Slovak and 'For example' in English. Distinguish it from a study result and explain what to measure and which limits apply.
-- Count at least 45 words in each lead. Remove every mention of the publisher from both article bodies.
+- Use 45 to 70 words in each lead. Remove every mention of the publisher from both article bodies.
 - No external references apart from the verified DOI.
 """
     request={"contents":[{"parts":[{"text":prompt}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.35,"maxOutputTokens":12000}}
