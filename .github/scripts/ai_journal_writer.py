@@ -139,21 +139,30 @@ CRITICAL accuracy rules:
     request={"contents":[{"parts":[{"text":prompt}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.35,"maxOutputTokens":12000}}
     errors=[]
     for model in models:
-        try:
-            payload=request_with_retries(model,request,api_key)
-            response_text=payload["candidates"][0]["content"]["parts"][0]["text"]
-            result=validate_result(json.loads(response_text))
-            print("Gemini model used:",model)
-            return result
-        except urllib.error.HTTPError as exc:
-            if exc.code in (400,401,403):raise
-            errors.append(model+": "+str(exc))
-        except (urllib.error.URLError,TimeoutError) as exc:
-            errors.append(model+": "+str(exc))
-        except (ValueError,TypeError,KeyError,IndexError) as exc:
-            # A model can return malformed JSON or omit a required language.
-            # Never publish it; try another available free model instead.
-            errors.append(model+": invalid article output: "+str(exc))
+        # One quality-focused revision when a model returns text failing editorial checks.
+        # This does not weaken any scientific, factual or bilingual publication gate.
+        for revision in range(2):
+            try:
+                payload=request_with_retries(model,request,api_key)
+                response_text=payload["candidates"][0]["content"]["parts"][0]["text"]
+                result=validate_result(json.loads(response_text))
+                print("Gemini model used:",model,"revision:",revision)
+                return result
+            except urllib.error.HTTPError as exc:
+                if exc.code in (400,401,403):raise
+                errors.append(model+": "+str(exc))
+                break
+            except (urllib.error.URLError,TimeoutError) as exc:
+                errors.append(model+": "+str(exc))
+                break
+            except (ValueError,TypeError,KeyError,IndexError) as exc:
+                issue=str(exc)
+                errors.append(model+": invalid article output: "+issue)
+                # Retry only if we received a real article that failed quality checks;
+                # do not retry unknown JSON/schema errors.
+                if revision or not issue.startswith("Quality gate rejected manuscript:"):
+                    break
+                request={"contents":[{"parts":[{"text":prompt+"\\nREVISION REQUIRED: The previous version was rejected. Fix these exact editorial problems without inventing facts: "+issue+"\\nReturn a complete new SK/EN JSON object with all six specified sections and source limitations intact."}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.2,"maxOutputTokens":12000}}
     raise RuntimeError("All available Gemini models failed: "+"; ".join(errors))
 
 def markdown(source,result):
