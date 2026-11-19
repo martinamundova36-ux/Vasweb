@@ -132,6 +132,8 @@ CRITICAL accuracy rules:
   percentages and methodology. If the abstract lacks a statistic, never invent it.
 - In the final pass, fix typographical errors and malformed inflections, including
   those introduced by rewriting; never send an unproofread translation.
+- In section five of each language, give one specific, hypothetical example an entrepreneur could test in the original context. Introduce it with 'Napríklad' in Slovak and 'For example' in English. Distinguish it from a study result and explain what to measure and which limits apply.
+- Count at least 45 words in each lead. Remove every mention of the publisher from both article bodies.
 - No external references apart from the verified DOI.
 """
     request={"contents":[{"parts":[{"text":prompt}]}],"generationConfig":{"responseMimeType":"application/json","temperature":0.35,"maxOutputTokens":12000}}
@@ -216,7 +218,7 @@ def main():
     drafts=ROOT/"journal-drafts"
     try:offered=available_models(key)
     except Exception as exc:raise SystemExit("Gemini model discovery failed: "+str(exc))
-    models=[name for name in (MODEL,"gemini-3.1-flash-lite") if name in offered]
+    models=[name for name in ("gemini-3.1-flash-lite",MODEL) if name in offered]
     if not models:raise SystemExit("No configured Gemini model supports generateContent for this key")
     print("Configured available models:",", ".join(models))
     count=0
