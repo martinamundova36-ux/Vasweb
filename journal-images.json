@@ -2640,6 +2640,38 @@
         "1280": "6de1048f9782cb96868bd1294a245d61ee36dbf26c960f75e493c07cb8789073",
         "social": "1ca9adbd1b3fa35e2893b21ac095337ce7407575a4402168cb87f8b664c59ef1"
       }
+    },
+    {
+      "id": "commons-3a34df148b7aaf",
+      "provider": "Wikimedia Commons",
+      "provider_id": "202094991",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Interior_view_of_Fumbally_Exchange_Blackpitts.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Interior_view_of_Fumbally_Exchange_Blackpitts.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Fearadach",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "commercial_use_verified_at": "2026-11-19",
+      "original_sha256": "8b292e68c7aec6a7e2fba5b54feaa896ffaa828a301382ef1a9a352d864d210f",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-3a34df148b7aaf-640.webp",
+        "1280": "/assets/journal/commons-3a34df148b7aaf-1280.webp",
+        "social": "/assets/journal/commons-3a34df148b7aaf-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "718588aa180fdf851553dfa96ef1c7bf7004302dbee755535babbaea2ede15f7",
+        "1280": "f9885895e6e46a183cc248cff30b46966c1f15e9a97629f39b0f79790bb02145",
+        "social": "eff686223e539827d234fa04a450393a7eadb2b6aa14ade5530e3a83cbd62800"
+      }
     }
   ],
   "assignments": {
@@ -2716,6 +2748,7 @@
     "blog-journal-separate-property-or-marital-asset-how-new-york-courts-treat-appreciation.html": "commons-dcdb7b133040b4",
     "blog-journal-rozdelenie-majetku-v-rodinnych-firmach-pravne-aspekty-zhodnotenia.html": "commons-c8f26f76657b23",
     "blog-journal-spolupraca-cloveka-a-stroja-vplyv-automatizacie-na-spokojnost-zamestnancov.html": "commons-39138febf66064",
-    "blog-journal-vplyv-mentoringovych-praktik-na-udrzacanie-zamestnancov-vo-verejnych.html": "commons-0513dbbd97a955"
+    "blog-journal-vplyv-mentoringovych-praktik-na-udrzacanie-zamestnancov-vo-verejnych.html": "commons-0513dbbd97a955",
+    "blog-journal-vplyv-technologii-a-zelenych-financii-na-kvalitu-zivotneho-prostredia-v.html": "commons-3a34df148b7aaf"
   }
 }

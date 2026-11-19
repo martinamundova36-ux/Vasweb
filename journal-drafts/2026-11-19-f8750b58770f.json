@@ -21,10 +21,6 @@
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
   "drafted_at": "2026-11-19",
-  "scientific_review_status": "needs_editorial_review",
-  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
-  "image_id": "commons-92c282477779be",
-  "image_status": "licensed_catalog_assignment_pending_editorial_relevance_check",
   "editorial": {
     "status": "automated_abstract_editorial",
     "generated_by": "gemini_from_abstract",
@@ -142,5 +138,14 @@
         "access": "abstract"
       }
     ]
-  }
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "a40d28abfa7e2bdad2025282de2ff0e98e81346b59efec5b472aeae033429c7b",
+  "image_id": "commons-3a34df148b7aaf",
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-19",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-vplyv-technologii-a-zelenych-financii-na-kvalitu-zivotneho-prostredia-v.html",
+    "https://www.webu.sk/blog-journal-vplyv-technologii-a-zelenych-financii-na-kvalitu-zivotneho-prostredia-v-en.html"
+  ]
 }

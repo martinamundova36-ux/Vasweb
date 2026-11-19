@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-19T18:18:09.826517+00:00",
+  "checked_at": "2026-11-19T18:24:19.172252+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 6-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
@@ -16,23 +16,16 @@
     "2026-11-19-2edf909bda45",
     "2026-11-19-5b43a177b167",
     "2026-11-19-7eeadebeb499",
-    "blog-journal-rozdelenie-majetku-v-rodinnych-firmach-pravne-aspekty-zhodnotenia",
-    "blog-journal-spolupraca-cloveka-a-stroja-vplyv-automatizacie-na-spokojnost-zamestnancov",
-    "blog-journal-vplyv-mentoringovych-praktik-na-udrzacanie-zamestnancov-vo-verejnych"
+    "2026-11-19-f8750b58770f"
   ],
   "published_automatically_today": [
     "2026-11-19-5b43a177b167",
     "2026-11-19-7eeadebeb499",
+    "2026-11-19-f8750b58770f",
     "2026-11-19-2edf909bda45"
   ],
-  "published_manually_today": [
-    "blog-journal-rozdelenie-majetku-v-rodinnych-firmach-pravne-aspekty-zhodnotenia",
-    "blog-journal-spolupraca-cloveka-a-stroja-vplyv-automatizacie-na-spokojnost-zamestnancov",
-    "blog-journal-vplyv-mentoringovych-praktik-na-udrzacanie-zamestnancov-vo-verejnych"
-  ],
-  "ready_bilingual_articles": [
-    "2026-11-19-f8750b58770f"
-  ],
+  "published_manually_today": [],
+  "ready_bilingual_articles": [],
   "pending_editorial_work": [
     {
       "id": "2026-11-04-5b5dc38594ea",
@@ -136,7 +129,8 @@
     "2026-11-17-d2846dc3003d",
     "2026-11-19-2edf909bda45",
     "2026-11-19-5b43a177b167",
-    "2026-11-19-7eeadebeb499"
+    "2026-11-19-7eeadebeb499",
+    "2026-11-19-f8750b58770f"
   ],
   "paid_ai_enabled": false,
   "scientific_review_limit": "Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review",

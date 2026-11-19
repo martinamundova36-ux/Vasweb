@@ -150,3 +150,5 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-39138febf66064: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_works_on_laptop_while_holding_cup_of_coffee_in_cozy_home_office.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-0513dbbd97a955: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_on_phone_in_home_office_during_the_day_discussing_work_and_using_a_laptop_while_sitting_at_a_table_with_fruit.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-3a34df148b7aaf: [Fearadach](https://commons.wikimedia.org/wiki/File:Interior_view_of_Fumbally_Exchange_Blackpitts.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
