@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-// Regression: the student must always see four documents and the separate
+// Regression: the student must always see five documents and the separate
 // installment schedule. Signed versions are uploaded after visiting reception.
 const source = readFileSync('student-house-portal/index.html', 'utf8');
 const section = source.match(/const requirements=\[([\s\S]*?)\n  \];/);
@@ -12,11 +12,12 @@ assert.deepEqual(orderedKinds, [
   'rules_template',
   'gdpr_template',
   'certificate_draft',
+  'deposit_template',
   'schedule_draft'
-], 'Four core documents must appear before the separate payment schedule');
+], 'Five core documents must appear before the separate payment schedule');
 assert.doesNotMatch(source, /if\(templateKind==='certificate_draft'&&!template&&!submission\)continue/,
   'The accommodation certificate must not be hidden when PDF is still missing');
-assert.match(source, /if\(index===4\)cards\.append\(make\('h3','document-flow-group-title',df\('additionalSchedule'\)\)\)/);
+assert.match(source, /if\(templateKind==='schedule_draft'\)cards\.append\(make\('h3','document-flow-group-title',df\('additionalSchedule'\)\)\)/);
 assert.match(source, /const receptionStep=make\('div','document-flow-step'\)/);
 assert.match(source, /if\(\(template\|\|submission\)&&\(!submission\|\|submission\.review_status==='rejected'\)\)/);
 for (const field of ['stepReception', 'receptionHelp', 'primaryDocuments', 'additionalSchedule']) {
@@ -33,4 +34,4 @@ for (const [mode, title] of entries) {
       .replace(/<title>.*?<\/title>/, '<title>' + title + ' | Student House Bratislava</title>');
   assert.equal(readFileSync('student-house-portal/' + mode + '/index.html', 'utf8'), expected, mode + ' generated entry is stale');
 }
-console.log('Four mandatory student documents, reception signing and generated entry checks passed.');
+console.log('Five mandatory student documents, reception signing and generated entry checks passed.');
