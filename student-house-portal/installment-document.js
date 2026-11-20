@@ -103,7 +103,27 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
     window.location.href='mailto:'+address+'?subject='+subject+'&body='+encodeURIComponent(body);
     status.textContent='Pred odoslaním prilož stiahnuté PDF k rozpísanému e-mailu.';
    });
-   actions.append(download,send);preview.replaceChildren(actions);
+   const draft=node('button','Stiahnuť e-mail s PDF');draft.type='button';draft.disabled=send.disabled;
+   draft.addEventListener('click',async()=>{
+    draft.disabled=true;
+    try{
+     const encode=bytes=>{let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(binary);};
+     const text=value=>encode(new TextEncoder().encode(value));
+     const wrap=value=>value.match(/.{1,76}/g)?.join('\r\n')||'';
+     const boundary='webu-'+crypto.randomUUID();
+     const message=['X-Unsent: 1','To: '+recipient,'Subject: =?UTF-8?B?'+text(plan.title||'Splátkový kalendár')+'?=','MIME-Version: 1.0',
+      'Content-Type: multipart/mixed; boundary="'+boundary+'"','','--'+boundary,'Content-Type: text/plain; charset=UTF-8',
+      'Content-Transfer-Encoding: base64','',wrap(text('Dobrý deň, v prílohe nájdete splátkový kalendár Student House Bratislava.')),
+      '--'+boundary,'Content-Type: application/pdf; name="splatkovy-kalendar.pdf"','Content-Disposition: attachment; filename="splatkovy-kalendar.pdf"',
+      'Content-Transfer-Encoding: base64','',wrap(encode(new Uint8Array(await file.arrayBuffer()))),'--'+boundary+'--',''].join('\r\n');
+     const link=node('a'),draftUrl=URL.createObjectURL(new Blob([message],{type:'message/rfc822'}));
+     link.href=draftUrl;link.download='splatkovy-kalendar.eml';link.click();
+     setTimeout(()=>URL.revokeObjectURL(draftUrl),30000);
+     status.textContent='Stiahnutý e-mail obsahuje adresu študenta aj PDF prílohu.';
+    }catch{status.textContent='E-mailový súbor sa nepodarilo pripraviť.';}
+    finally{draft.disabled=false;}
+   });
+   actions.append(download,send,draft);preview.replaceChildren(actions);
    if(navigator.canShare?.({files:[file]})){
     const share=node('button','Zdieľať PDF');share.type='button';
     share.addEventListener('click',()=>navigator.share({files:[file],title:plan.title}).catch(error=>{if(error.name!=='AbortError')status.textContent='PDF sa nepodarilo zdieľať.';}));
