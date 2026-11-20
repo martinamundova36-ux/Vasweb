@@ -1000,7 +1000,10 @@ async function renderResidentDocuments(tenant,staff,own){
   for(const [index,[templateKind,signedKind,title,signedTitle]] of requirements.entries()){
    if(index===0)cards.append(make('h3','document-flow-group-title',df('primaryDocuments')));
    if(index===4)cards.append(make('h3','document-flow-group-title',df('additionalSchedule')));
-   const template=files.filter(x=>x.kind===templateKind&&x.active&&(['rules_template','gdpr_template'].includes(templateKind)||x.user_id===user.id))
+   const personalizedName=templateKind==='rules_template'?'ubytovaci-poriadok.pdf':templateKind==='gdpr_template'?'gdpr.pdf':null;
+   const personalized=personalizedName&&files.filter(x=>x.kind==='resident_document'&&x.active&&x.user_id===user.id&&x.original_name===personalizedName)
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+   const template=personalized||files.filter(x=>x.kind===templateKind&&x.active&&(['rules_template','gdpr_template'].includes(templateKind)||x.user_id===user.id))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0]||(templateKind==='schedule_draft'?legacySchedule:null);
    const submission=files.filter(x=>x.kind===signedKind&&x.active&&x.user_id===user.id)
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
@@ -1103,37 +1106,90 @@ async function renderResidentDocuments(tenant,staff,own){
  }
  if(staff){
   const residents=await list('residents');
-  if(residents.length){
-   const form=make('form','staff-form');
-   form.append(make('strong','',lang==='en'?'Send a private document to a resident':'Nahrať osobný dokument študentovi'));
-   const owner=selector(residents,'id',x=>x.full_name+' · '+(x.verified_room_number||'—'));
-   const documentKind=selector([{id:'resident_document',name:dl('privateDocuments')},{id:'schedule_draft',name:additionalDocumentTitle('schedule_draft')},{id:'certificate_draft',name:additionalDocumentTitle('certificate_draft')}],'id',x=>x.name);
-   form.append(documentKind);
-   const input=make('input');input.type='file';input.accept='application/pdf,image/jpeg,image/png';input.required=true;
-   documentKind.addEventListener('change',()=>{input.accept=documentKind.value==='resident_document'?'application/pdf,image/jpeg,image/png':'application/pdf';input.value='';});
-   const send=make('button','',dl('upload'));send.type='submit';
-   form.append(labeled(fin('resident'),owner),labeled(dl('upload'),input),make('p','muted',lang==='en'?'Private files will only be accessible to the selected resident and reception.':'Súbor uvidí len vybraný študent a recepcia.'),send);
-   form.addEventListener('submit',async e=>{
-    e.preventDefault();
-    if(!input.files?.length)return;
-    if(await sendFile(tenant,documentKind.value,input.files[0],send,owner.value))void renderPanel();
-   });
-   $('records').append(form);
-  }
- }
- if(staff){
-  const verified=await list('residents');
-  if(verified.length){
-   const form=make('form','staff-form'),owner=selector(verified,'id',p=>p.full_name+' · '+(p.verified_room_number||'—'));
-   const input=make('input');input.type='file';input.accept='application/pdf';input.required=true;
-   const submit=make('button','',dl('contractUpload'));submit.type='submit';
-   form.append(make('h4','',dl('contractUpload')),
-    make('p','muted',lang==='en'?'Only the chosen student and reception can download this PDF.':'Túto zmluvu uvidí iba vybraný študent a recepcia.'),
-    labeled(fin('resident'),owner),input,submit);
-   form.addEventListener('submit',async e=>{e.preventDefault();if(!input.files?.length)return;
-    if(await sendFile(tenant,'contract_draft',input.files[0],submit,owner.value))void renderPanel();});
-   $('records').append(form);
-  }
+  const workspace=make('section','staff-form');
+  workspace.append(make('h3','','Pripraviť dokument pre študenta'));
+  const owner=selector(residents.slice().sort((a,b)=>String(a.full_name).localeCompare(String(b.full_name),'sk')),'id',p=>p.full_name+' · '+(p.verified_room_number||'—'));
+  owner.prepend(new Option('Vyber študenta',''));owner.value='';
+  const documentList=make('div','docgrid');workspace.append(labeled('Študent',owner),documentList);
+  $('records').prepend(workspace);
+  const kinds=[
+   ['dotaznik','Osobný dotazník','resident_document'],
+   ['zmluva','Ubytovacia zmluva','contract_draft'],
+   ['splatkovy-kalendar','Splátkový kalendár','schedule_draft'],
+   ['gdpr','GDPR','resident_document','gdpr_template'],
+   ['ubytovaci-poriadok','Ubytovací poriadok','resident_document','rules_template'],
+   ['ziadost-o-vratenie-depozitu','Žiadosť o vrátenie depozitu','resident_document'],
+   ['potvrdenie-o-ubytovani','Potvrdenie o ubytovaní','certificate_draft']
+  ];
+  const key=value=>String(value||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  owner.addEventListener('change',()=>{
+   documentList.replaceChildren();
+   const person=residents.find(p=>p.id===owner.value);
+   if(!person)return;
+   for(const [slug,title,kind,templateKind] of kinds){
+    const card=make('article','file-item'),state=make('p','small');
+    state.setAttribute('role','status');card.append(make('h4','',title));
+    const current=files.filter(f=>f.active&&f.resident_id===person.id&&(
+      (kind!=='resident_document'&&f.kind===kind)||(f.kind==='resident_document'&&[slug+'.pdf',slug+'-podpisany.pdf'].includes(f.original_name))
+     )).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+    const shared=templateKind&&files.filter(f=>f.active&&f.kind===templateKind).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+    for(const f of [...(shared?[shared]:[]),...current]){
+     const open=make('button','btn-secondary','Otvoriť · '+f.original_name);open.type='button';open.onclick=()=>void fileLink(f.id,tenant);card.append(open);
+    }
+    const source=make('input');source.type='file';source.accept='application/pdf';
+    const ready=make('input');ready.type='file';ready.accept='application/pdf';
+    const signed=make('input');signed.type='checkbox';
+    let prepared=null;
+    source.addEventListener('change',()=>{prepared=null;});
+    const prepare=make('button','btn-secondary','Vyplniť predlohu a stiahnuť PDF');prepare.type='button';
+    prepare.onclick=async()=>{
+     prepare.disabled=true;
+     try{
+      let bytes;
+      if(source.files?.[0])bytes=await source.files[0].arrayBuffer();
+      else if(shared){const url=await fileLink(shared.id,tenant,true);if(!url)return;const response=await fetch(url);if(!response.ok)throw Error('Predlohu sa nepodarilo otvoriť.');bytes=await response.arrayBuffer();}
+      else throw Error('Najprv vyber schválenú PDF predlohu.');
+      const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
+      const pdf=await PDFDocument.load(bytes),form=pdf.getForm();
+      const {data:answers}=await db.from('resident_enquiries').select('permanent_address,date_of_birth,nationality,telephone').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle();
+      const fields={};
+      const add=(value,...names)=>{if(value!==null&&value!==undefined&&value!=='')for(const name of names)fields[key(name)]=String(value);};
+      add(person.full_name,'Meno a priezvisko','Full name','student_name','ubytovany');
+      const parts=String(person.full_name||'').trim().split(/\s+/);
+      if(parts.length>1){add(parts[0],'Meno','First name');add(parts.slice(1).join(' '),'Priezvisko','Last name');}
+      add(person.email,'Email','E-mail');add(person.verified_room_number,'Číslo izby','Room number');add(person.verified_contract_number,'Číslo zmluvy','Contract number');
+      add(person.accommodation_from,'Ubytovanie od','Accommodation from');add(person.accommodation_to,'Ubytovanie do','Accommodation to');
+      add(answers?.permanent_address,'Trvalá adresa','Permanent address');add(answers?.date_of_birth,'Dátum narodenia','Date of birth');add(answers?.telephone,'Telefón','Phone');add(answers?.nationality,'Národnosť','Nationality');
+      let filled=0;
+      for(const field of form.getFields()){
+       const value=fields[key(field.getName())];
+       if(field instanceof PDFTextField&&value){field.setText(value);filled++;}
+      }
+      if(!filled)throw Error('Predloha potrebuje vyplniteľné polia s názvami údajov študenta.');
+      const result=new File([await pdf.save()],slug+'.pdf',{type:'application/pdf'});prepared=result;
+      const link=make('a'),url=URL.createObjectURL(result);link.href=url;link.download=result.name;link.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
+      state.textContent='Doplnených polí: '+filled+'. Skontroluj všetky údaje pred podpisom alebo odoslaním.';
+     }catch(error){state.textContent=error.message||'Predlohu sa nepodarilo vyplniť.';}
+     finally{prepare.disabled=false;}
+    };
+    const send=make('button','','Poslať študentovi do profilu');send.type='button';
+    send.onclick=async()=>{
+     const file=ready.files?.[0]||prepared;
+     if(!file||signed.checked&&!ready.files?.[0]){state.textContent='Vyber hotové PDF na odoslanie.';return;}
+     if(owner.value!==person.id||!card.isConnected||!window.confirm('Pridať '+title+' do profilu študenta '+person.full_name+'?'))return;
+     const signedCopy=signed.checked,filename=slug+(signedCopy?'-podpisany':'')+'.pdf';
+     if(await sendFile(tenant,signedCopy?'resident_document':kind,new File([file],filename,{type:file.type}),send,person.id)){
+      state.textContent='✓ Dokument je v profile študenta.';ready.value='';prepared=null;
+      try{
+       const uploaded=(await list('residence_portal_files',{resident_id:person.id,original_name:filename,active:true})).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+       if(uploaded&&card.isConnected){const open=make('button','btn-secondary','Otvoriť · '+filename);open.type='button';open.onclick=()=>void fileLink(uploaded.id,tenant);state.before(open);}
+      }catch{ /* The upload was already confirmed. */ }
+     }
+    };
+    card.append(labeled('PDF predloha',source),prepare,labeled('Nahrať hotový alebo podpísaný PDF',ready),labeled('Podpísaný dokument',signed),send,state);
+    documentList.append(card);
+   }
+  });
  }
  const docs=(await list('documents')).filter(x=>x.upload_complete);
  if(docs.length)subheading(({sk:'Ďalšie dokumenty',en:'Additional documents',ru:'Дополнительные документы',uk:'Додаткові документи'}[lang]||'Ďalšie dokumenty'));
