@@ -14,3 +14,20 @@ export function advanceSchedule(tenancy,firstDue){
  }
  return [];
 }
+
+export function applyAgreedRentSplits(schedule,charges,plans,items){
+ const cents=value=>Math.round(Number(value)*100);
+ return schedule.flatMap((entry,index)=>{
+  const matches=plans.filter(plan=>charges.some(charge=>charge.id===plan.charge_id&&charge.kind==='rent'&&charge.period===entry.period));
+  if(!matches.length)return [entry];
+  if(matches.length!==1||index===0)throw Error('Skontroluj schválený plán pre nájom '+entry.period+'.');
+  const plan=matches[0],related=items.filter(item=>item.plan_id===plan.id);
+  if(!related.length||related.some(item=>!/^\d{4}-\d{2}-\d{2}$/.test(item.due_on)||!(cents(item.amount)>0))||
+     related.reduce((sum,item)=>sum+cents(item.amount),0)!==cents(entry.amount))throw Error('Sumy schválenej dohody pre nájom '+entry.period+' treba skontrolovať.');
+  const byDate=new Map();
+  for(const item of related)byDate.set(item.due_on,(byDate.get(item.due_on)||0)+cents(item.amount));
+  return [...byDate].sort(([a],[b])=>a.localeCompare(b)).map(([due_on,amount])=>({
+   ...entry,due_on,amount:amount/100,description:entry.description+' · dohodnutá splatnosť'
+  }));
+ }).sort((a,b)=>a.due_on.localeCompare(b.due_on));
+}
