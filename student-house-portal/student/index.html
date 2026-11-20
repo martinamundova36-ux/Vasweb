@@ -239,7 +239,6 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 .document-flow-submitted{background:#f1f6fc;border:1px solid #dce6f1;border-radius:12px;padding:12px;margin:10px 0}
 .document-flow-submitted>*{margin:5px 0}
 /* Hide the student-login shortcut on the administrator entry page. */
-body[data-portal-entry="admin"] #switchPortal{display:none!important}
 /* Student-only document download, print and upload entry point. */
 .student-documents-cta{background:#f6faff;border:1px solid #b9d0ea;border-left:5px solid #1b487b;border-radius:16px;padding:22px;margin:19px 0}
 .student-documents-cta h3{font-size:20px;margin:0 0 7px;color:#142b4d}
@@ -259,7 +258,7 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 <div id="login" class="login">
 <nav class="entry-switch" aria-label="Vstup do systému" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">
 <a id="residentEntryLink" href="/student-house-portal/student/" style="display:block;text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Študenti</a>
-<a id="staffEntryLink" href="/student-house-portal/admin/" style="display:block;text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Recepcia / Admin</a>
+<a hidden id="staffEntryLink" href="/student-house-portal/admin/" style="text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Recepcia / Admin</a>
 </nav>
 <select id="lang" aria-label="Jazyk rozhrania"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label for="email">E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel" for="password">Heslo</label><div class="password-field"><input type="password" id="password" autocomplete="current-password" required><button type="button" id="loginEye" aria-label="Zobraziť heslo" aria-pressed="false" title="Zobraziť heslo"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3l18 18"/></svg></button></div><button type="button" id="forgotPassword" style="background:transparent;color:#18588d;margin-top:9px;width:100%;text-align:center;text-decoration:underline;padding:8px 0;white-space:normal;overflow-wrap:anywhere">Zabudnuté heslo?</button><button id="signbtn" type="submit">Prihlásiť sa</button></form>
 <form id="passwordResetForm" class="hide">
@@ -342,10 +341,9 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
   <button id="step2PreviewSubmit" disabled type="button">Odoslať dotazník – dostupné po pozvánke</button>
  </div>
  <p class="muted" id="step2PreviewHelp">Po schválení registrácie otvor odkaz z e-mailu. Údaje sa automaticky prepoja s tvojím študentským profilom a recepciou.</p>
- <a id="step2ReceptionLink" class="step2-staff-link" href="/student-house-portal/admin/">Recepcia / Admin</a>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div class="portal-brand"><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><a id="switchPortal" class="btn-switch-portal" href="/student-house-portal/">Prihlásiť sa ako študent</a><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
 </main></div></div>
 <footer class="studenthouse-brand-credit">Created by <a href="https://www.webu.sk/" target="_blank" rel="noopener noreferrer">WEBU</a></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
@@ -420,7 +418,6 @@ function translateQuestionnairePreview(){
  $('step2PreviewNotice').textContent=words.notice;
  $('step2PreviewHelp').textContent=words.help;
  $('step2PreviewSubmit').textContent=words.button;
- $('step2ReceptionLink').textContent=words.staff;
  document.querySelectorAll('[data-step2]').forEach(x=>{x.textContent=words[x.dataset.step2]||x.dataset.step2});
 }
 
@@ -455,7 +452,7 @@ const entryTitles={sk:['Študentské prihlásenie','Administrácia Student House
 $('welcome').textContent=entryTitles[lang][staffEntryMode?1:0];if(staffEntryMode)$('subtitle').textContent=e.intro;
 $('sign').textContent=entryTitles[lang][staffEntryMode?1:0];$('residentEntryLink').textContent=e.resident;$('staffEntryLink').textContent=e.staff;
 $('residentEntryLink').href='/student-house-portal/student/?lang='+lang+(staffEntryMode?'&signin=1':'');
-$('staffEntryLink').href='/student-house-portal/admin/?lang='+lang;
+$('staffEntryLink').href='/student-house-portal/admin/?lang='+lang;$('staffEntryLink').hidden=!staffEntryMode;
 for(const id of ['residentEntryLink','staffEntryLink']){const current=(staffEntryMode? id==='staffEntryLink':id==='residentEntryLink');$(id).style.background=current?'#142b4d':'#fff';$(id).style.color=current?'#fff':'#142b4d';if(current)$(id).setAttribute('aria-current','page');else $(id).removeAttribute('aria-current')}
 $('openRegistration').classList.toggle('hide',staffEntryMode);
  if(questionnaireEntryMode){
@@ -464,8 +461,6 @@ $('openRegistration').classList.toggle('hide',staffEntryMode);
   $('welcome').textContent=lang==='en'?'Step 2 · Student questionnaire':lang==='ru'?'Шаг 2 · Анкета студента':lang==='uk'?'Крок 2 · Анкета студента':'Krok 2 · Osobný dotazník';
   $('subtitle').textContent=lang==='en'?'Once reception approves your registration, use your email invitation to complete this questionnaire.':lang==='ru'?'После одобрения ресепшеном откройте приглашение, чтобы заполнить анкету.':lang==='uk'?'Після схвалення рецепцією відкрийте запрошення, щоб заповнити анкету.':'Po schválení registrácie recepciou otvor pozvánku z e-mailu a vyplň dotazník.';
  }
-$('switchPortal').textContent=staffEntryMode?portalMessages[lang].switchStudent:portalMessages[lang].switchStaff;
-$('switchPortal').href=staffEntryMode?'/student-house-portal/student/?lang='+lang+'&signin=1':'/student-house-portal/admin/?lang='+lang;
 if(staffEntryMode&&!resetMode){$('sign').textContent=e.title;$('intro').textContent=e.intro;$('invite').textContent=e.note;}$('forgotPassword').textContent=PW[lang].forgot;$('resetNewLabel').textContent=PW[lang].label;$('resetSubmit').textContent=PW[lang].save;if(resetMode)translateRecovery();
 $('resetConfirmLabel').textContent=pwdText('confirm');$('resetGenerate').textContent=pwdText('generate');$('resetCopy').textContent=pwdText('copy');syncPasswordEye('resetPasswordValue','resetEye');syncPasswordEye('resetConfirmValue','resetConfirmEye');const eyeLabel=pwdText($('password').type==='password'?'show':'hide');$('loginEye').setAttribute('aria-label',eyeLabel);$('loginEye').title=eyeLabel;
 }
@@ -1232,9 +1227,9 @@ function renderTabs(){
   progress.textContent=lang==='en'
    ?'1. Registration ✓    →    2. Questionnaire '+(tab==='enquiry'?'●':'✓')+'    →    3. Profile activation'
    :'1. Registrácia ✓    →    2. Dotazník '+(tab==='enquiry'?'●':'✓')+'    →    3. Aktivácia profilu';
-  parent.classList.add('hide');$('accountShortcut').classList.add('hide');$('switchPortal').classList.add('hide');return;
+  parent.classList.add('hide');$('accountShortcut').classList.add('hide');return;
  }
- parent.classList.remove('hide');$('accountShortcut').classList.remove('hide');$('switchPortal').classList.toggle('hide',isAdmin);
+ parent.classList.remove('hide');$('accountShortcut').classList.remove('hide');
  $('zone').textContent=!isAdmin?dashboardLabel('student'):member.role==='org_admin'?dashboardLabel('admin'):dashboardLabel('reception');
  $('roleLabel').textContent=!isAdmin?dashboardLabel('studentRole'):member.role==='org_admin'?dashboardLabel('adminRole'):dashboardLabel('receptionRole');
  $('accountShortcut').textContent='⚙ '+dashboardLabel('account');
