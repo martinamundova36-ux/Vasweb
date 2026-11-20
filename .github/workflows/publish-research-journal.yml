@@ -293,3 +293,4 @@ jobs:
           else
             python3 .github/scripts/journal_approval.py --action finish --pr-number "$PR_NUMBER" --failed
           fi
+# Recovery requested 2026-11-20: recheck missing daily article with existing publication gates; no gates relaxed.
