@@ -2960,6 +2960,38 @@
         "1280": "e8b2259889c941b4743950f21895d3b63e6142ede03e4844d24cb404cff5e9bc",
         "social": "160ca727716bbc34b0250c6b04237c518cf3ceed1a375ea478aceaaacfcf6ab8"
       }
+    },
+    {
+      "id": "commons-735b3dc52d0ca2",
+      "provider": "Wikimedia Commons",
+      "provider_id": "24295116",
+      "source_page": "https://commons.wikimedia.org/wiki/File:GetJar-2.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/GetJar-2.jpg/1920px-GetJar-2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "rzv",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "b4aa511504691b67b5aaef42ae88cd2b294f8cc747d0cfea2e059bf0c19c6f85",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-735b3dc52d0ca2-640.webp",
+        "1280": "/assets/journal/commons-735b3dc52d0ca2-1280.webp",
+        "social": "/assets/journal/commons-735b3dc52d0ca2-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "2fbe7c52ec7bb8fb189f572f6c4be3b1d27261a16f0a2054ceeee38c7c8474c8",
+        "1280": "ca4a39fca5395a34095c29daf5c94686f46203f399b374edbc1d9d714b46df79",
+        "social": "c579411a019c89c099f6a4235f4f37da7aa2018f851e9addb941a9fa0095f898"
+      }
     }
   ],
   "assignments": {
@@ -3046,6 +3078,7 @@
     "blog-journal-socioekonomicke-determinanty-financnej-inkluzie-v-krajinach-oecd.html": "commons-d422ab279948d7",
     "blog-journal-vplyv-byrokratickeho-riadenia-na-zdravie-zamestnancov.html": "commons-4dbdd3a59d9f84",
     "blog-journal-digitalne-vedenie-a-udrzatelnost-v-malych-a-strednych-podnikoch.html": "commons-1407392ceabf03",
-    "blog-journal-manazment-casu-ako-nastroj-pre-well-being-a-vykonnost.html": "commons-bd177bb0294d66"
+    "blog-journal-manazment-casu-ako-nastroj-pre-well-being-a-vykonnost.html": "commons-bd177bb0294d66",
+    "blog-journal-vplyv-kariernej-historie-ceo-na-riadenie-dodavatelskeho-retazca.html": "commons-735b3dc52d0ca2"
   }
 }

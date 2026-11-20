@@ -4,15 +4,13 @@
     "2026-11-20-2cba17c12f4c",
     "2026-11-20-7c4a0133d673",
     "2026-11-20-9c3bc10de8ef",
+    "2026-11-20-a8f6632aa7b4",
     "2026-11-20-c7fa9b451c75"
   ],
   "published_this_run": [
-    "2026-11-20-2cba17c12f4c",
-    "2026-11-20-7c4a0133d673",
-    "2026-11-20-9c3bc10de8ef",
-    "2026-11-20-c7fa9b451c75"
+    "2026-11-20-a8f6632aa7b4"
   ],
-  "held_due_to_missing_review_or_gates": 1,
+  "held_due_to_missing_review_or_gates": 0,
   "publication_errors": [],
   "mode": "transparent_abstract_editorials"
 }

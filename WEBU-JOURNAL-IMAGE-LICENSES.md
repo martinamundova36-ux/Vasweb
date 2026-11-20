@@ -170,3 +170,5 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-1407392ceabf03: [Jose Berengueres](https://commons.wikimedia.org/wiki/File:50_years_of_data_visualization_(black).png), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-bd177bb0294d66: [Musicaline](https://commons.wikimedia.org/wiki/File:Coucher_de_soleil_au_bureau.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-735b3dc52d0ca2: [rzv](https://commons.wikimedia.org/wiki/File:GetJar-2.jpg), licencia [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0); automaticky prevzaté ako ilustračná fotografia.
