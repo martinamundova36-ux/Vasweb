@@ -54,10 +54,10 @@ async function pdfDocument(plan,person,items,bank,images){
 }
 const recentAccounts=new Map();
 const beneficiaries=['Student House Bratislava','Gargallo s.r.o.'];
-export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,roomCode=''}={}){
+export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber=''}={}){
  if(!person||!items.length)return;
  const panel=node('details'),summary=node('summary','Splátkový kalendár s QR kódmi'),form=node('form');
- const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,true],['Variabilný symbol','symbol',10,false]];
+ const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,true],['Variabilný symbol (číslo zmluvy)','symbol',10,false]];
  const fields={};
  for(const [label,key,max,required] of inputs){
   const wrapper=node('label',label),input=node(key==='beneficiary'?'select':'input');input.required=required;
@@ -65,7 +65,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    input.append(new Option('Vyber príjemcu',''));
    for(const name of beneficiaries)input.append(new Option(name,name));
   }else input.maxLength=max;
-  if(key==='symbol'){input.value=roomCode;input.readOnly=true;}
+  if(key==='symbol'){input.value=String(contractNumber??'').trim();input.readOnly=true;}
   wrapper.append(input);form.append(wrapper);fields[key]=input;
  }
  const retry=node('button','Skúsiť znova'),demo=node('button','Ukážkové PDF bez platby'),status=node('p'),preview=node('div');
@@ -77,7 +77,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
   clearTimeout(timeout);version++;requested='';retry.hidden=true;preview.replaceChildren();
   if(url){URL.revokeObjectURL(url);url=null;}
   const bank={beneficiary:fields.beneficiary.value.trim(),iban:fields.iban.value.replace(/\s/g,'').toUpperCase(),symbol:fields.symbol.value.trim()};
-  if(!/^\d{1,10}$/.test(bank.symbol)){status.textContent='Chýba jednoznačný číselný kód pridelenej izby (najviac 10 číslic).';return;}
+  if(!/^\d{1,10}$/.test(bank.symbol)){status.textContent='Chýba overené číselné číslo zmluvy (1 až 10 číslic).';return;}
   if(!beneficiaries.includes(bank.beneficiary)||!validIban(bank.iban)){
    status.textContent='Vyber príjemcu a doplň jeho skutočný IBAN. PDF sa vytvorí automaticky.';return;
   }
