@@ -2117,8 +2117,9 @@ const entryQuery=new URLSearchParams(location.search);
 const entryHash=new URLSearchParams(location.hash.slice(1));
 const hasAuthLink=['type','access_token','error'].some(key=>entryHash.has(key))||
  ['code','token_hash','type'].some(key=>entryQuery.has(key));
-const chooseEntry=!document.body.dataset.portalEntry&&!entryQuery.get('view')&&
- entryQuery.get('signin')!=='1'&&!hasAuthLink;
+const explicitEntry=entryQuery.get('signin')==='1'||entryQuery.get('view')==='register';
+const chooseEntry=!questionnaireEntryMode&&!explicitEntry&&!hasAuthLink&&
+ entryQuery.get('step')!=='profile';
 if(chooseEntry){
  const choices={
   sk:['Vyber, kam chceš pokračovať','Prihlás sa do svojho účtu alebo odošli novú registráciu.','Študentské prihlásenie','Registrácia študenta','Recepcia / Administrátor','Jazyk rozhrania'],
@@ -2151,7 +2152,7 @@ if(chooseEntry){
  renderEntryChoice();
  return;
 }
-const requireExplicitSignIn=entryQuery.get('signin')==='1'||entryQuery.get('view')==='register';
+const requireExplicitSignIn=explicitEntry;
 if(!window.supabase||!K){$('error').textContent='Login service unavailable.';return}
 // Capture invitation or recovery intent before the Auth client consumes the URL token.
 const authLinkType=new URLSearchParams(window.location.hash.slice(1)).get('type');
