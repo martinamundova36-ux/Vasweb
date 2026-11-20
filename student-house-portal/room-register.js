@@ -186,8 +186,8 @@ export async function renderExcelRegister(ctx){
  style.textContent=`
  .room-register:fullscreen{background:#fff;color:#142b4d;padding:16px;overflow:auto;box-sizing:border-box}
  .room-register:fullscreen .room-register-scroll{max-height:none;height:calc(100dvh - 170px)}
- .room-register .editable-register-cell{cursor:pointer;white-space:normal;overflow-wrap:anywhere}
- .room-register .room-register-table .register-completeness{white-space:normal;overflow-wrap:anywhere;min-width:180px;max-width:230px;line-height:1.45}
+ .room-register .editable-register-cell{cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .room-register .room-register-table .register-completeness{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:150px;max-width:230px}
  .room-register .room-register-table .register-actions{white-space:nowrap;vertical-align:middle}
  .room-register .editable-register-cell:not(.register-fixed-room):not(.register-order){position:relative}
  .room-register .editable-register-cell:focus-visible{outline:2px solid #265ba5;outline-offset:-2px}
@@ -351,7 +351,13 @@ export async function renderExcelRegister(ctx){
     for(const [index,field] of Object.entries(requiredColumns)){
      if(missing.includes(field))tr.cells[index]?.classList.add('register-required-missing');
     }
-    if(missing.length)tr.lastElementChild?.classList.add('register-required-missing');
+    if(missing.length){
+     const summary=tr.lastElementChild;
+     summary.classList.add('register-required-missing');
+     const label=summary.firstChild;
+     if(label?.nodeType===Node.TEXT_NODE&&label.textContent===record.extras.at(-1))label.textContent='Chýbajú údaje ('+missing.length+')';
+     summary.title=[summary.title,record.extras.at(-1)].filter(Boolean).join('\n');
+    }
    }
    tr.append(action);body.append(tr);
   }
