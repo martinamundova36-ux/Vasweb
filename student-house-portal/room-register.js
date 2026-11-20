@@ -17,7 +17,6 @@ const fullRegisterFields={
  uk:['Дата народження','Постійна адреса','Документ','Навчальний заклад','Контакт батьків','IBAN','Тип кімнати','Тривалість (міс.)','Власний холодильник','Місячний найм','Перший рахунок разом','Сплачено за першим рахунком','Залишок за першим рахунком','Повнота запису']
 };
 const refrigeratorAnswer=(value,lang)=>value===true?({sk:'Áno',en:'Yes',ru:'Да',uk:'Так'}[lang]||'Áno'):value===false?({sk:'Nie',en:'No',ru:'Нет',uk:'Ні'}[lang]||'Nie'):'—';
-const emptyOptional=lang=>({sk:'Nepovinné – neuvedené',en:'Optional – not provided',ru:'Необязательно',uk:'Необов’язково'}[lang]||'Nepovinné');
 const genderName=(value,lang)=>{
  const names={sk:{female:'Žena',male:'Muž',other:'Neuvádza'},en:{female:'Female',male:'Male',other:'Not specified'},ru:{female:'Женщина',male:'Мужчина',other:'Не указано'},uk:{female:'Жінка',male:'Чоловік',other:'Не вказано'}};
  return (names[lang]||names.sk)[value]||'—';
@@ -170,6 +169,8 @@ export async function renderExcelRegister(ctx){
    'trvalá adresa':!!q.permanent_address,
    'číslo dokladu':!!q.identity_document_number,
    'škola':!!q.school,
+   'kontakt na rodiča':!!q.parent_contact_email?.trim(),
+   'IBAN':!!q.iban?.trim(),
    'typ izby':!!q.preferred_room_type,
    'dĺžka pobytu':Number(q.preferred_duration_months)>0,
    'termín pobytu':!!q.preferred_from&&!!q.preferred_to,
@@ -182,7 +183,7 @@ export async function renderExcelRegister(ctx){
   const missing=person?Object.entries(completeness).filter(([,ok])=>!ok).map(([name])=>name):[];
   const extras=[
    q.date_of_birth||'—',q.permanent_address||'—',q.identity_document_number||'—',q.school||'—',
-   q.parent_contact_email||emptyOptional(ctx.lang),q.iban||emptyOptional(ctx.lang),q.preferred_room_type||'—',
+   q.parent_contact_email||'—',q.iban||'—',q.preferred_room_type||'—',
    q.preferred_duration_months||'—',refrigeratorAnswer(q.own_refrigerator,ctx.lang),
    stay?.rent!=null?formatMoney(stay.rent,ctx.lang):'—',
    initial.length?formatMoney(initialAmount/100,ctx.lang):'—',

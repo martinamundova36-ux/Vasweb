@@ -109,7 +109,7 @@ export async function renderStudentEnquiry(ctx){
  });
  form.append(identity,grid,photoBox,privacy);
  const status=n('p','enquiry-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
- for(const key of ['permanent_address','date_of_birth','nationality','identity_document_number','telephone','school','preferred_room_type','preferred_duration_months','preferred_from','preferred_to'])if(fields[key])fields[key].required=true;
+ for(const key of ['permanent_address','date_of_birth','nationality','identity_document_number','telephone','school','parent_contact_email','iban','preferred_room_type','preferred_duration_months','preferred_from','preferred_to'])if(fields[key])fields[key].required=true;
  fields.gender.required=true;
  fields.own_refrigerator.required=true;
  fields.date_of_birth.max=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());

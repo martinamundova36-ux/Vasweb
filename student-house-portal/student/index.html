@@ -295,7 +295,7 @@ body[data-portal-entry="admin"] #switchPortal{display:none!important}
 <p id="regRoomHelp" class="reg-room-help">Toto je len preferencia. Voľnosť a pridelenie izby potvrdí recepcia.</p>
 <label for="regFrom" id="labFrom">Ubytovanie od</label><input id="regFrom" type="date" required>
 <label for="regTo" id="labTo">Ubytovanie do</label><input id="regTo" type="date" required>
-<label for="regArrival" id="labArrival">Predpokladaný príchod</label><input id="regArrival" type="date">
+<label for="regArrival" id="labArrival">Predpokladaný príchod</label><input id="regArrival" type="date" required>
 </div>
 <p id="regStaffOnly" class="mini-note">Číslo ubytovacej zmluvy, konečné pridelenie izby, depozit, poplatky a mesačný platobný kalendár doplní výhradne recepcia Student House Bratislava. Po schválení si nahráš fotografiu a doplníš osobný dotazník.</p>
 </fieldset>
@@ -1265,7 +1265,7 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261114-fields2');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261120-required1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
     isOnboarding:!resident.profile_password_activated_at,
@@ -1384,7 +1384,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261114-complete-export3');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261120-required1');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){
