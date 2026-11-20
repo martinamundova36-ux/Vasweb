@@ -10,9 +10,10 @@ const words = {
 };
 const dict=lang=>words[lang]||words.sk;
 const node=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=String(value);return n};
-const currency=(value,lang)=>new Intl.NumberFormat(lang==='en'?'en-GB':'sk-SK',{style:'currency',currency:'EUR'}).format(Number(value)||0);
-const dateValue=(date,lang)=>date?new Date(String(date).slice(0,10)+'T12:00:00').toLocaleDateString(lang==='en'?'en-GB':'sk-SK'):'—';
-const monthValue=(period,lang)=>new Date(period+'-01T12:00:00').toLocaleDateString(lang==='en'?'en-GB':'sk-SK',{month:'long',year:'numeric'});
+const locale=lang=>({sk:"sk-SK",en:"en-GB",ru:"ru-RU",uk:"uk-UA"})[lang]||"sk-SK";
+const currency=(value,lang)=>new Intl.NumberFormat(locale(lang),{style:'currency',currency:'EUR'}).format(Number(value)||0);
+const dateValue=(date,lang)=>date?new Date(String(date).slice(0,10)+'T12:00:00').toLocaleDateString(locale(lang)):'—';
+const monthValue=(period,lang)=>new Date(period+'-01T12:00:00').toLocaleDateString(locale(lang),{month:'long',year:'numeric'});
 const todaySK=()=>new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'});
 const getRows=({charges,allocations,reversals})=>(charges||[]).filter(c=>['rent','deposit','administration_fee'].includes(c.kind)).map(c=>({...c,...chargeBalance(c,allocations||[],reversals||[])}));
 const chargeLabel=(r,lang)=>r.kind==='deposit'?({sk:'Depozit – 2× nájom',en:'Deposit – 2× rent',ru:'Депозит – 2× аренда',uk:'Депозит – 2× оренда'}[lang]||'Depozit'):r.kind==='administration_fee'?({sk:'Administratívny poplatok – 100 €',en:'Administration fee – €100',ru:'Административный сбор – 100 €',uk:'Адміністративний збір – 100 €'}[lang]||'Admin poplatok'):monthValue(r.period,lang);

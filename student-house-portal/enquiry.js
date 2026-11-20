@@ -19,10 +19,8 @@ export async function renderStudentEnquiry(ctx){
  const t=words[ctx.lang]||words.sk;
  const root=n('section','enquiry-area'),form=n('form','enquiry-form');
  ctx.root.append(root);root.append(n('h3','',t.title),n('p','muted',
-  (ctx.lang==='en'?'Step 2 of 3: ':ctx.lang==='sk'?'Krok 2 z 3: ':'')+t.intro));
- root.append(n('p','enquiry-status',ctx.lang==='en'?
-  'Step 2 of 3: Reception approved your registration. Complete and submit the questionnaire and photo. After reception reviews and approves it, an email will invite you to choose your student-profile password.':
-  'Krok 2 z 3: Recepcia schválila registráciu. Vyplň a odošli dotazník s fotografiou. Po kontrole a schválení recepciou dostaneš e-mail na vytvorenie hesla do študentského profilu.'));
+  ({sk:'Krok 2 z 3: ',en:'Step 2 of 3: ',ru:'Шаг 2 из 3: ',uk:'Крок 2 з 3: '})[ctx.lang]+t.intro));
+ root.append(n('p','enquiry-status',({sk:"Recepcia schválila registráciu. Odošli dotazník s fotografiou. Po schválení dotazníka si môžeš aktivovať profil.",en:"Reception approved your registration. Submit your questionnaire and photo. You can activate your profile after reception approves the questionnaire.",ru:"Ресепшен одобрил регистрацию. Отправьте анкету с фотографией. После одобрения анкеты вы сможете активировать профиль.",uk:"Рецепція схвалила реєстрацію. Надішліть анкету з фотографією. Після схвалення анкети ви зможете активувати профіль."})[ctx.lang]));
  if(!ctx.resident?.id){root.append(n('p','danger',t.notFound));return;}
  const {data:existing,error:readError}=await ctx.db.from('resident_enquiries').select('*')
    .eq('tenant_id',ctx.tenant).eq('resident_id',ctx.resident.id).maybeSingle();
@@ -38,8 +36,8 @@ export async function renderStudentEnquiry(ctx){
   const changed=!!existing?.student_submitted_at&&Date.parse(String(existing.updated_at||existing.created_at||''))>Date.parse(String(review.requested_at||''));
   const warning=n('section','enquiry-identity');
   warning.append(n('strong','',changed
-   ?(ctx.lang==='en'?'Corrections submitted; reception has not verified them yet.':'Opravený dotazník bol opätovne odoslaný. Čaká na kontrolu recepcie.')
-   :(ctx.lang==='en'?'Questionnaire returned for correction':'Dotazník vrátený recepciou na opravu')));
+   ?(({sk:"Opravený dotazník bol opätovne odoslaný. Čaká na kontrolu recepcie.",en:"Corrections submitted; reception has not verified them yet.",ru:"Исправленная анкета отправлена и ожидает проверки.",uk:"Виправлену анкету надіслано. Вона очікує перевірки."})[ctx.lang])
+   :(({sk:"Dotazník vrátený recepciou na opravu",en:"Questionnaire returned for correction",ru:"Анкета возвращена на исправление",uk:"Анкету повернуто на виправлення"})[ctx.lang])));
   warning.append(n('p','',String(review.correction_reason||'')));
   root.append(warning);
  }
@@ -52,12 +50,12 @@ export async function renderStudentEnquiry(ctx){
  // Contract numbers, assigned room, dates, deposits and monthly charges are verified
  // by reception. The student questionnaire cannot change them.
  for(const [title,value] of [
-  [ctx.lang==='en'?'Contract number':'Číslo zmluvy',ctx.resident.verified_contract_number],
-  [ctx.lang==='en'?'Assigned room':'Pridelená izba',ctx.resident.verified_room_number],
-  [ctx.lang==='en'?'Accommodation from':'Ubytovanie od',formatDate(ctx.resident.accommodation_from)],
-  [ctx.lang==='en'?'Accommodation to':'Ubytovanie do',formatDate(ctx.resident.accommodation_to)]
+  [({sk:"Číslo zmluvy",en:"Contract number",ru:"Номер договора",uk:"Номер договору"})[ctx.lang],ctx.resident.verified_contract_number],
+  [({sk:"Pridelená izba",en:"Assigned room",ru:"Назначенная комната",uk:"Призначена кімната"})[ctx.lang],ctx.resident.verified_room_number],
+  [({sk:"Ubytovanie od",en:"Accommodation from",ru:"Проживание с",uk:"Проживання з"})[ctx.lang],formatDate(ctx.resident.accommodation_from)],
+  [({sk:"Ubytovanie do",en:"Accommodation to",ru:"Проживание до",uk:"Проживання до"})[ctx.lang],formatDate(ctx.resident.accommodation_to)]
  ])identity.append(n('p','',title+': '+String(value||'—')));
- identity.append(n('p','muted',ctx.lang==='en'?'Deposit, room access code, fees and monthly payment schedule are maintained by reception. You can see verified payments in the Payments section.':'Depozit, kód izby, poplatky a mesačný splátkový kalendár spravuje recepcia. Overené platby uvidíš v záložke Platby.'));
+ identity.append(n('p','muted',({sk:"Depozit, kód izby, poplatky a mesačný splátkový kalendár spravuje recepcia. Overené platby uvidíš v záložke Platby.",en:"Deposit, room access code, fees and monthly payment schedule are maintained by reception. You can see verified payments in the Payments section.",ru:"Депозит, код доступа, сборы и график платежей ведёт ресепшен. Подтверждённые платежи доступны в разделе «Платежи».",uk:"Депозит, код доступу, збори та графік платежів веде рецепція. Підтверджені платежі доступні в розділі «Платежі»."})[ctx.lang]));
  const grid=n('div','enquiry-grid'),fields={};
  const add=(key,label,type='text',maxLength=200)=>{
   const inp=n(type==='textarea'?'textarea':'input');if(type!=='textarea')inp.type=type;
@@ -121,7 +119,7 @@ export async function renderStudentEnquiry(ctx){
  form.addEventListener('submit',async event=>{
   event.preventDefault();if(!form.reportValidity())return;
   const chosen=photoInput.files?.[0]||null;
-  if(!chosen&&!hasSavedPhoto){status.textContent=ctx.lang==='en'?'Please upload your student photograph before submitting.':'Pred odoslaním dotazníka vlož fotografiu študenta.';photoInput.focus();return;}
+  if(!chosen&&!hasSavedPhoto){status.textContent=({sk:"Pred odoslaním dotazníka vlož fotografiu študenta.",en:"Please upload your student photograph before submitting.",ru:"Загрузите свою фотографию перед отправкой анкеты.",uk:"Завантажте своє фото перед надсиланням анкети."})[ctx.lang];photoInput.focus();return;}
   if(!validatePhoto(chosen)){status.textContent=t.invalidPhoto;return;}
   const now=new Date().toISOString();
   // A prefilled questionnaire is not complete until the resident has actively
@@ -150,7 +148,7 @@ export async function renderStudentEnquiry(ctx){
    if(error){status.textContent=t.failed;return;}
    status.classList.add('staff-approval-success');
    status.textContent='✓ '+(review?.review_status==='needs_correction'
-     ?(ctx.lang==='en'?'Corrected questionnaire submitted to reception.':'Opravený dotazník je odoslaný na kontrolu recepcii.')
+     ?(({sk:"Opravený dotazník je odoslaný na kontrolu recepcii.",en:"Corrected questionnaire submitted to reception.",ru:"Исправленная анкета отправлена на проверку.",uk:"Виправлену анкету надіслано на перевірку."})[ctx.lang])
      :t.saved);
    ctx.onSaved?.();
    if(!actionRow.querySelector('.enquiry-completed')){
