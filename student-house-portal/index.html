@@ -1561,14 +1561,16 @@ async function renderPanel(){
     return;
    }
    const plans=await list('installment_plans',staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'});
-   const [items,charges,people]=await Promise.all([
-     list('installment_items'),staff?list('rent_charges'):Promise.resolve([]),staff?list('residents'):Promise.resolve([])
+   const [items,charges,people,stays]=await Promise.all([
+     list('installment_items'),list('rent_charges'),list('residents'),list('tenancies')
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-2');
+   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-advance1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const eligible=new Set([...plans,...charges].map(item=>item.resident_id));
+   const {advanceSchedule}=await import('/student-house-portal/advance-rent.js?v=1');
+   if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
+   const eligible=new Set([...plans,...charges,...stays].map(item=>item.resident_id));
    const student=make('select');student.append(new Option('Vyber študenta',''));
    for(const person of people.filter(p=>eligible.has(p.id)).sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'))){
     student.append(new Option([person.full_name,person.email].filter(Boolean).join(' · '),person.id));
@@ -1576,8 +1578,39 @@ async function renderPanel(){
    if(eligible.has(selectedInstallmentStudent))student.value=selectedInstallmentStudent;
    container.append(labeled('Vyber študenta',student));
    const matches=id=>Boolean(student.value&&id===student.value);
+   const advanceHost=make('section','staff-form');
+   container.append(advanceHost);
+   function showAdvance(){
+    advanceHost.replaceChildren();advanceHost.classList.toggle('hide',!student.value);
+    if(!student.value)return;
+    const contracts=stays.filter(stay=>matches(stay.resident_id)).sort((a,b)=>String(b.starts_on).localeCompare(String(a.starts_on)));
+    advanceHost.append(make('strong','','Kalendár nájomného plateného vopred'));
+    if(!contracts.length){advanceHost.append(make('p','muted','Pre študenta chýba evidovaný nájomný vzťah.'));return;}
+    const contract=selector(contracts,'id',stay=>day(stay.starts_on)+' – '+day(stay.ends_on)+' · '+money(stay.rent));
+    const firstDue=dateInput(),preview=make('div','data-list');
+    const show=()=>{
+     preview.replaceChildren();
+     const stay=contracts.find(x=>x.id===contract.value);
+     firstDue.max=new Date(Date.parse(stay.starts_on+'T00:00:00Z')-86400000).toISOString().slice(0,10);
+     const due=advanceSchedule(stay,firstDue.value);
+     if(!due.length){preview.append(make('p','muted','Vyber splatnosť prvej úhrady pred začiatkom ubytovania.'));return;}
+     for(const item of due)preview.append(row(day(item.due_on)+' · '+money(item.amount),item.description));
+     attachInstallmentDocument(preview,{title:'Kalendár nájomného plateného vopred',draft:true},peopleById[student.value],due,{open:true,accountScope:tenant+':'+member.id});
+    };
+    const useExisting=()=>{
+     const stay=contracts.find(x=>x.id===contract.value);
+     const initial=charges.filter(x=>x.resident_id===stay.resident_id&&x.period===stay.starts_on.slice(0,7)&&['rent','deposit','administration_fee'].includes(x.kind));
+     const dates=[...new Set(initial.map(x=>x.due_on))];
+     firstDue.value=initial.length===3&&dates.length===1&&dates[0]<stay.starts_on?dates[0]:'';
+     show();
+    };
+    contract.addEventListener('change',useExisting);firstDue.addEventListener('change',show);
+    advanceHost.append(labeled('Ubytovanie podľa zmluvy',contract),labeled('Splatnosť prvej úhrady',firstDue),
+     make('p','muted','Kalendár vychádza z nájomného v zmluve. Zobrazuje plánované úhrady bez započítania zaplatených súm.'),preview);
+    useExisting();
+   }
+   student.addEventListener('change',showAdvance);showAdvance();
    const planCards=[];
-   if(!plans.length)empty();
    for(const p of plans){
      const entry=row(p.title,staff?(peopleById[p.resident_id]?.full_name||'—'):'');
      const related=items.filter(x=>x.plan_id===p.id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
@@ -1644,7 +1677,7 @@ async function renderPanel(){
       if(error||!data?.ok){alert(fin('failed'));savePlan.disabled=false;return}
       selectedInstallmentStudent=approvedCharge.resident_id;newInstallmentCharge=approvedCharge.id;void renderPanel();
     });
-    container.append(planForm);
+    const exceptional=make('details');exceptional.append(make('summary','','Rozdelenie jedného predpisu na splátky'),planForm);container.append(exceptional);
    }
    return;
   }

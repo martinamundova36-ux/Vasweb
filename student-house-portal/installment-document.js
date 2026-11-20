@@ -40,6 +40,7 @@ async function pdfDocument(plan,person,items,bank,images){
    c.fillText('Splátka '+(i+1)+' / '+items.length,75,y+43);
    c.font='25px sans-serif';c.fillText('Splatnosť: '+date(items[i].due_on),75,y+84);
    c.fillText('Suma: '+money.format(Number(items[i].amount)),75,y+124);
+   if(items[i].description){c.font='17px sans-serif';c.fillText(items[i].description,75,y+149,655);}
    c.drawImage(qrImages[i],755,y+4,152,152);
   }
   c.font='20px sans-serif';c.fillText('PAY by square · Pred potvrdením platby skontrolujte údaje.',55,1360,890);
@@ -83,7 +84,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    const download=node('a','Stiahnuť PDF');download.href=url;download.download=file.name;
    const send=node('button','Odoslať e-mailom');send.type='button';send.disabled=!person.email;
    send.addEventListener('click',()=>{
-    const body='Dobrý deň, v prílohe nájdete schválený splátkový kalendár Student House Bratislava.';
+    const body='Dobrý deň, v prílohe nájdete splátkový kalendár Student House Bratislava.';
     location.href='mailto:'+encodeURIComponent(person.email)+'?subject='+encodeURIComponent(plan.title)+'&body='+encodeURIComponent(body);
     status.textContent='Pred odoslaním prilož stiahnuté PDF k rozpísanému e-mailu.';
    });
@@ -95,7 +96,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    }
    for(const [index,src] of images.entries()){
     const figure=node('figure'),img=node('img');img.src=src;img.width=116;img.height=116;img.alt='PAY by square · splátka '+(index+1);
-    figure.append(img,node('figcaption',date(items[index].due_on)+' · '+money.format(Number(items[index].amount))));preview.append(figure);
+    figure.append(img,node('figcaption',date(items[index].due_on)+' · '+money.format(Number(items[index].amount))+(items[index].description?' · '+items[index].description:'')));preview.append(figure);
    }
    status.textContent='Dokument je pripravený.';
   }catch(error){if(run===version){status.textContent='Dokument sa nepodarilo vytvoriť. '+error.message;retry.hidden=false;}}
