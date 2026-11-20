@@ -695,6 +695,26 @@ function statusPill(s){const el=make('span','status-pill status-'+String(s||'').
 function heading(text,caption){let h=make('div','panelhead');let wrap=make('div');wrap.append(make('h3','',text));if(caption)wrap.append(make('p','',caption));h.append(wrap);$('records').append(h)}
 function empty(note){$('records').append(make('div','empty-message',note||label('noData')))}
 function message(note){$('records').append(make('p','mini-note',note))}
+const actionCopy={
+ sk:['Ukladá sa…','Platba zaevidovaná','Storno potvrdené','Splátkový kalendár schválený','Izba priradená'],
+ en:['Saving…','Payment recorded','Reversal confirmed','Payment schedule approved','Room assigned'],
+ ru:['Сохранение…','Платёж записан','Сторно подтверждено','График платежей одобрен','Комната назначена'],
+ uk:['Збереження…','Платіж зареєстровано','Сторно підтверджено','Графік платежів схвалено','Кімнату призначено']
+};
+const actionText=i=>(actionCopy[lang]||actionCopy.en)[i];
+function actionReceipt(text){
+ const result=make('p','staff-notice staff-approval-success','✓ '+text);
+ result.setAttribute('role','status');return result;
+}
+async function saveStaffAction(button,errorBox,errorText,save){
+ const original=button.textContent;button.disabled=true;button.textContent=actionText(0);errorBox.textContent='';
+ try{await save();}
+ catch{errorBox.textContent=errorText;}
+ finally{button.disabled=false;button.textContent=original;}
+}
+function actionError(){
+ const result=make('p','danger');result.setAttribute('role','alert');return result;
+}
 function row(title,detail,status){let d=make('div','item');d.append(make('strong','',title));if(detail)d.append(make('div','small',detail));if(status)d.append(statusPill(status));return d}
 function subheading(str){$('records').append(make('h4','section-subtitle',str))}
 function kpi(caption,value,details,go){const b=make('button','kpi');b.type='button';b.append(make('div','kpi-caption',caption),make('strong','',value),make('small','',details));if(go)b.addEventListener('click',()=>navigate(go));else b.disabled=true;return b}
@@ -1053,26 +1073,41 @@ async function renderResidentDocuments(tenant,staff,own){
   const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
-  const people=await list('residents');
+  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261120-review-status1'),list('residents')]);
+  const [saving,,,,,approved,returned,scheduleApproved,saveError]=reviewCopy[lang]||reviewCopy.en;
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
-   const box=row(name+' – '+(additionalDocumentTitle(x.kind)||dl(x.kind==='signed_contract'?'signedContract':x.kind==='signed_rules'?'signedRules':'signedGdpr')),day(x.created_at)+' · '+x.original_name,readableStatus(x.review_status));
+   const box=row(name+' – '+(additionalDocumentTitle(x.kind)||dl(x.kind==='signed_contract'?'signedContract':x.kind==='signed_rules'?'signedRules':'signedGdpr')),day(x.created_at)+' · '+x.original_name);
    const actions=make('div','staff-actions');
    const download=make('button','btn-secondary',dl('downloadForReview'));download.type='button';download.addEventListener('click',()=>{void fileLink(x.id,tenant)});actions.append(download);
-   if(x.review_status==='pending'||x.review_status==='rejected'){
+   const reviewActions=make('div','staff-actions');
+   function showDecision(){
+    const result=make('p','staff-notice staff-approval-success','✓ '+(x.review_status==='rejected'?returned:x.kind==='signed_schedule'?scheduleApproved:approved));
+    result.setAttribute('role','status');reviewActions.replaceChildren(result);
+    if(x.review_status==='rejected'&&x.staff_note)reviewActions.append(make('p','mini-note',x.staff_note));
+   }
+   if(x.review_status==='approved'||x.review_status==='rejected')showDecision();
+   if(x.review_status==='pending'){
     const comment=make('input');comment.type='text';comment.maxLength=1000;comment.value=x.staff_note||'';comment.placeholder=dl('reviewNote');
-    const choose=async status=>{
+    const errorMessage=make('p','danger');errorMessage.setAttribute('role','alert');
+    const choose=async (status,trigger)=>{
+      if(approve.disabled||reject.disabled||!box.isConnected)return;
       comment.setCustomValidity(status==='rejected'&&comment.value.trim().length<3?({sk:'Uveď dôvod vrátenia na opravu (aspoň 3 znaky).',en:'Enter a correction reason (at least 3 characters).',ru:'Укажите причину возврата (не менее 3 символов).',uk:'Вкажіть причину повернення (не менше 3 символів).'})[lang]:'');
       if(!comment.reportValidity())return;
-      const {data,error}=await db.functions.invoke('residence-files',{body:{action:'review',tenant_id:tenant,file_id:x.id,status,staff_note:comment.value,expected_status:x.review_status}});
-      if(error||!data?.ok){alert(dl('fileError'));return;}
-      alert(label('success'));void renderPanel();
+      const text=trigger.textContent;trigger.textContent=saving;approve.disabled=reject.disabled=true;errorMessage.textContent='';
+      const note=comment.value;
+      try{
+       const {data,error}=await db.functions.invoke('residence-files',{body:{action:'review',tenant_id:tenant,file_id:x.id,status,staff_note:note,expected_status:x.review_status}});
+       if(error||!data?.ok)throw Error('save_failed');
+       x.review_status=status;x.staff_note=note;showDecision();
+      }catch{errorMessage.textContent=saveError;}
+      finally{trigger.textContent=text;approve.disabled=reject.disabled=false;}
     };
-    const approve=make('button','',dl('reviewApprove'));approve.type='button';approve.addEventListener('click',()=>{void choose('approved')});
-    const reject=make('button','btn-secondary',dl('reviewReject'));reject.type='button';reject.addEventListener('click',()=>{void choose('rejected')});
-    actions.append(comment,approve,reject);
+    const approve=make('button','',dl('reviewApprove'));approve.type='button';approve.addEventListener('click',()=>{void choose('approved',approve)});
+    const reject=make('button','btn-secondary',dl('reviewReject'));reject.type='button';reject.addEventListener('click',()=>{void choose('rejected',reject)});
+    reviewActions.append(comment,approve,reject,errorMessage);
    }
-   box.append(actions);$('records').append(box);
+   box.append(actions,reviewActions);$('records').append(box);
   }
  }
 
@@ -1464,7 +1499,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261120-profile-save1');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261120-review-status1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
@@ -1552,15 +1587,25 @@ async function renderPanel(){
          labeled(lang==='en'?'Monthly rent (€)':'Mesačné nájomné (€)',rent),
          labeled(lang==='en'?'Rent due day':'Splatnosť v mesiaci (deň)',dueDay));
        const saveRoom=make('button','',label('save'));saveRoom.type='submit';
-       assign.append(grid,saveRoom);
+       const assignmentError=actionError();
+       assign.append(grid,saveRoom,assignmentError);
        assign.addEventListener('submit',async e=>{
-         e.preventDefault();
-         if(to.value<from.value){alert(label('error'));return}
-         saveRoom.disabled=true;
-         const {data,error}=await db.from('tenancies').insert({tenant_id:tenant,resident_id:residentSelect.value,room_id:roomSelect.value,
+         e.preventDefault();if(saveRoom.disabled)return;
+         if(to.value<from.value){assignmentError.textContent=label('error');return;}
+         const chosenRoom=rooms.find(room=>room.id===roomSelect.value);
+         const chosenPerson=people.find(person=>person.id===residentSelect.value);
+         await saveStaffAction(saveRoom,assignmentError,label('error'),async()=>{
+          const {data,error}=await db.from('tenancies').insert({tenant_id:tenant,resident_id:residentSelect.value,room_id:roomSelect.value,
            starts_on:from.value,ends_on:to.value,rent:Number(rent.value),due_day:Number(dueDay.value)}).select('id');
-         if(error||!data?.length){alert(error?.code==='23514'?(lang==='en'?'The room is full or the resident already has accommodation during these dates.':'Izba je obsadená alebo má študent v tomto období už pridelené ubytovanie.'):label('error'));saveRoom.disabled=false;return}
-         alert(label('success'));void renderPanel();
+          if(error?.code==='23514'){
+           assignmentError.textContent=({sk:'Izba je obsadená alebo má študent v tomto období priradené ubytovanie.',en:'The room is full or the resident already has accommodation during these dates.',ru:'Комната заполнена или у студента уже есть жильё на эти даты.',uk:'Кімната заповнена або студент уже має житло на ці дати.'})[lang];
+           return;
+          }
+          if(error||!data?.length)throw Error('save_failed');
+          assign.replaceChildren(make('strong','',[chosenPerson?.full_name,chosenRoom?.name].filter(Boolean).join(' · ')),actionReceipt(actionText(4)));
+          const refreshRegister=make('button','btn-secondary',({sk:'Obnoviť evidenciu',en:'Refresh register',ru:'Обновить реестр',uk:'Оновити реєстр'})[lang]);
+          refreshRegister.type='button';refreshRegister.onclick=()=>void renderPanel();assign.append(refreshRegister);
+         });
        });
        container.append(assign);
      }
@@ -1599,13 +1644,14 @@ async function renderPanel(){
    for(const x of paid.sort((a,b)=>String(b.received_on).localeCompare(String(a.received_on)))){
     const paymentRow=row((reversed.has(x.id)?'↶ ':'✓ ')+(staff?residentLabel(x.resident_id)+' · ':'')+money(x.amount),day(x.received_on)+' · '+x.method+' · '+x.reference);
     const reversal=reversals.find(r=>r.payment_id===x.id);
+    if(staff)paymentRow.append(actionReceipt(actionText(reversal?2:1)));
     if(reversal)paymentRow.append(make('p','small',({sk:'Storno: ',en:'Reversal: ',ru:'Сторно: ',uk:'Сторно: '})[lang]+reversal.reason+' · '+day(reversal.created_at)));
     if(member?.role==='org_admin'&&!reversed.has(x.id)){
      const fix=make('details'),caption=make('summary','',({sk:'Opraviť chybnú úhradu – storno',en:'Correct erroneous receipt – reverse',ru:'Исправить платёж — сторно',uk:'Виправити платіж — сторно'})[lang]);
      const form=make('form','staff-form'),reason=make('textarea');reason.required=true;reason.minLength=5;reason.maxLength=1000;
      const reasonLabel=make('label','',({sk:'Dôvod opravy (povinný)',en:'Reason for correction (required)',ru:'Причина исправления (обязательно)',uk:'Причина виправлення (обов’язково)'})[lang]);reasonLabel.append(reason);
-     const reverse=make('button','',({sk:'Potvrdiť storno',en:'Confirm reversal',ru:'Подтвердить сторно',uk:'Підтвердити сторно'})[lang]);reverse.type='submit';form.append(reasonLabel,reverse);
-     form.onsubmit=async e=>{e.preventDefault();if(!form.reportValidity()||!confirm(({sk:'Stornovať túto evidovanú úhradu? Zostane v audite. Správnu platbu potom zaeviduj ako nový záznam.',en:'Reverse this recorded receipt? It remains in the audit. Record the corrected receipt as a new entry.',ru:'Сторнировать платёж? История сохранится. Верный платёж внесите новой записью.',uk:'Сторнувати платіж? Історія збережеться. Правильний платіж внесіть новим записом.'})[lang]))return;reverse.disabled=true;const {error}=await db.rpc('reverse_payment',{p_tenant:tenant,p_payment:x.id,p_reason:reason.value.trim()});if(error){alert(fin('failed'));reverse.disabled=false;}else void renderPanel();};
+     const reverse=make('button','',({sk:'Potvrdiť storno',en:'Confirm reversal',ru:'Подтвердить сторно',uk:'Підтвердити сторно'})[lang]);reverse.type='submit';const reversalError=actionError();form.append(reasonLabel,reverse,reversalError);
+     form.onsubmit=async e=>{e.preventDefault();if(reverse.disabled||!form.reportValidity()||!confirm(({sk:'Stornovať túto evidovanú úhradu? Zostane v audite. Správnu platbu potom zaeviduj ako nový záznam.',en:'Reverse this recorded receipt? It remains in the audit. Record the corrected receipt as a new entry.',ru:'Сторнировать платёж? История сохранится. Верный платёж внесите новой записью.',uk:'Сторнувати платіж? Історія збережеться. Правильний платіж внесіть новим записом.'})[lang]))return;await saveStaffAction(reverse,reversalError,fin('failed'),async()=>{const {error}=await db.rpc('reverse_payment',{p_tenant:tenant,p_payment:x.id,p_reason:reason.value.trim()});if(error)throw error;void renderPanel();});};
      fix.append(caption,form);paymentRow.append(fix);
     }
     container.append(paymentRow);
@@ -1630,12 +1676,14 @@ async function renderPanel(){
     received.value=new Date().toISOString().slice(0,10);reference.required=true;reference.minLength=2;reference.maxLength=100;
     for(const [v,name] of [['bank',fin('bank')],['cash',fin('cash')],['other',fin('other')]]){const option=make('option','',name);option.value=v;method.append(option)}
     paymentForm.append(labeled(fin('resident'),payResident),labeled(fin('amount'),payAmount),labeled(fin('date'),received),labeled(fin('method'),method),labeled(fin('reference'),reference),make('p','muted',fin('receipts')));
-    const savePayment=make('button','',fin('savePayment'));savePayment.type='submit';paymentForm.append(savePayment);
+    const savePayment=make('button','',fin('savePayment'));savePayment.type='submit';const paymentError=actionError();paymentForm.append(savePayment,paymentError);
     paymentForm.addEventListener('submit',async e=>{
-     e.preventDefault();if(!confirm(fin('receipts')))return;savePayment.disabled=true;
+     e.preventDefault();if(savePayment.disabled||!confirm(fin('receipts')))return;
+     await saveStaffAction(savePayment,paymentError,fin('failed'),async()=>{
      const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'payment',tenant_id:tenant,resident_id:payResident.value,amount:payAmount.value,received_on:received.value,method:method.value,reference:reference.value}});
-     if(error||!data?.ok){alert(fin('failed'));savePayment.disabled=false;return}
-     alert(fin('saved'));void renderPanel();
+     if(error||!data?.ok)throw Error('save_failed');
+     void renderPanel();
+     });
     });
     container.append(paymentForm);
    }
@@ -1711,6 +1759,7 @@ async function renderPanel(){
    const planCards=[];
    for(const p of plans){
      const entry=row(p.title,staff?(peopleById[p.resident_id]?.full_name||'—'):'');
+     if(staff)entry.append(actionReceipt(actionText(3)));
      const related=items.filter(x=>x.plan_id===p.id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
      for(const x of related)entry.append(make('div','small',day(x.due_on)+' · '+money(x.amount)));
      const open=matches(p.resident_id);
@@ -1768,17 +1817,21 @@ async function renderPanel(){
     };
     count.addEventListener('change',build);charge.addEventListener('change',build);student.addEventListener('change',updateCharges);
     planForm.append(labeled(fin('charge'),charge),labeled(fin('title'),title),labeled(fin('installments'),count),make('p','muted',fin('planAmount')),schedule);
-    const savePlan=make('button','',fin('savePlan'));savePlan.type='submit';planForm.append(savePlan);updateCharges();
+    const savePlan=make('button','',fin('savePlan'));savePlan.type='submit';const planError=actionError();planForm.append(savePlan,planError);updateCharges();
     planForm.addEventListener('submit',async e=>{
-      e.preventDefault();savePlan.disabled=true;
+      e.preventDefault();if(savePlan.disabled||planForm.getAttribute('aria-busy')==='true')return;
       const items=rows.map(r=>({amount:r.sum.value,due_on:r.date.value}));
       const approvedCharge=availableById.get(charge.value);
       const expected=Math.round(Number(approvedCharge?.amount||0)*100);
       const actual=items.reduce((acc,x)=>acc+Math.round(Number(x.amount)*100),0);
-      if(!approvedCharge||actual!==expected){alert(fin('planAmount'));savePlan.disabled=false;return}
+      if(!approvedCharge||actual!==expected){planError.textContent=fin('planAmount');return;}
+      planForm.setAttribute('aria-busy','true');
+      await saveStaffAction(savePlan,planError,fin('failed'),async()=>{
       const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'plan',tenant_id:tenant,charge_id:approvedCharge.id,title:title.value,items}});
-      if(error||!data?.ok){alert(fin('failed'));savePlan.disabled=false;return}
+      if(error||!data?.ok)throw Error('save_failed');
       selectedInstallmentStudent=approvedCharge.resident_id;newInstallmentCharge=approvedCharge.id;void renderPanel();
+      });
+      planForm.removeAttribute('aria-busy');savePlan.disabled=!availableById.has(charge.value);
     });
     const exceptional=make('details');exceptional.append(make('summary','','Rozdelenie jedného predpisu na splátky'),planForm);container.append(exceptional);
    }
@@ -1802,7 +1855,7 @@ async function renderPanel(){
   }
   if(tab==='requests'||tab==='cleaning'){
    const serviceTab=tab,serviceTenant=tenant;
-   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261113-photos2');
+   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261120-review-status1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    await renderServiceRequests({root:container,db,list,tenant,staff,resident,userId:user.id,lang,openFile:id=>{void fileLink(id,tenant);},
     cleaning:serviceTab==='cleaning',day,money,

@@ -50,12 +50,39 @@ function ui(ctx) {
   return {words, el, button, field, state, status, allowed};
 }
 
+export const reviewCopy = {
+ sk:['Ukladá sa…','Registrácia schválená','Registrácia vrátená na opravu','Dotazník schválený','Dotazník vrátený na opravu','Dokument schválený','Dokument vrátený na opravu','Splátkový kalendár schválený','Zmenu sa nepodarilo uložiť. Skús to znova.'],
+ en:['Saving…','Registration approved','Registration returned for correction','Questionnaire approved','Questionnaire returned for correction','Document approved','Document returned for correction','Payment schedule approved','Could not save the change. Try again.'],
+ ru:['Сохранение…','Заявка одобрена','Заявка возвращена на исправление','Анкета одобрена','Анкета возвращена на исправление','Документ одобрен','Документ возвращён на исправление','График платежей одобрен','Не удалось сохранить изменение. Попробуйте ещё раз.'],
+ uk:['Збереження…','Заявку схвалено','Заявку повернено на виправлення','Анкету схвалено','Анкету повернено на виправлення','Документ схвалено','Документ повернено на виправлення','Графік платежів схвалено','Не вдалося зберегти зміни. Спробуйте ще раз.']
+};
 export async function failureCode(error, data) {
   if (data?.error) return data.error;
   try {const body = await error?.context?.clone().json(); return body?.error || body?.code || '';} catch {return '';}
 }
 
 export async function renderStaffScreen(ctx) {
+ const [saving,registrationApproved,registrationReturned,questionnaireApproved,questionnaireReturned,documentApproved,documentReturned,scheduleApproved,saveError]=reviewCopy[ctx.lang]||reviewCopy.en;
+ function receipt(label){
+  const result=el('p','staff-notice staff-approval-success','✓ '+label);
+  result.setAttribute('role','status');
+  return result;
+ }
+ function busyButton(button, peers=[button]){
+  const label=button.textContent;
+  button.textContent=saving;
+  for(const peer of peers)peer.disabled=true;
+  return ()=>{
+   button.textContent=label;
+   for(const peer of peers)peer.disabled=false;
+  };
+ }
+ function inlineError(){
+  const result=el('p','danger');
+  result.setAttribute('role','alert');
+  return result;
+ }
+
  const {words:w,el,button,field,state,status,allowed} = ui(ctx);
 
  const correctionLang={
@@ -104,7 +131,7 @@ export async function renderStaffScreen(ctx) {
    el('p','',[person.first_name,person.last_name].join(' ')+' · '+person.email),
    el('p','',w.room+': '+person.room_number+' · '+w.period+': '+ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),
    el('p','',approvalWords.saved),el('p','',approvalWords.year+': '+String(person.accommodation_from).slice(0,4)),
-   el('p','',loginReady?({sk:'Účet bol aktivovaný. Študent sa môže prihlásiť pôvodným heslom a pokračovať v dotazníku.',en:'Login activated. Student can sign in with their original password.',ru:'Вход активирован. Студент может войти с исходным паролем.',uk:'Вхід активовано. Студент може увійти зі своїм паролем.'}[ctx.lang]||''):emailSent===undefined?({sk:'Schválenie je uložené. Doručenie pozvánky treba overiť samostatne.',en:'Approval is saved. Check invitation delivery separately.',ru:'Одобрение сохранено. Доставку приглашения нужно проверить отдельно.',uk:'Схвалення збережено. Доставку запрошення потрібно перевірити окремо.'}[ctx.lang]||''):emailSent===false?({sk:'Pozvánka sa neodoslala. Recepcia musí znovu odoslať prístup.',en:'Invitation email was not sent. Reception must resend access.',ru:'Приглашение не отправлено. Ресепшен должен отправить его повторно.',uk:'Запрошення не надіслано. Рецепція має надіслати його повторно.'}[ctx.lang]||'') :w.inviteOK));
+   el('p','',loginReady?({sk:'Účet bol aktivovaný. Študent sa môže prihlásiť pôvodným heslom a pokračovať v dotazníku.',en:'Login activated. Student can sign in with their original password.',ru:'Вход активирован. Студент может войти с исходным паролем.',uk:'Вхід активовано. Студент може увійти зі своїм паролем.'}[ctx.lang]||''):emailSent===undefined?({sk:'Schválenie je uložené. Doručenie pozvánky nie je overené.',en:'Approval is saved. Check invitation delivery separately.',ru:'Одобрение сохранено. Доставку приглашения нужно проверить отдельно.',uk:'Схвалення збережено. Доставку запрошення потрібно перевірити окремо.'}[ctx.lang]||''):emailSent===false?({sk:'Pozvánka sa neodoslala. Recepcia musí znovu odoslať prístup.',en:'Invitation email was not sent. Reception must resend access.',ru:'Приглашение не отправлено. Ресепшен должен отправить его повторно.',uk:'Запрошення не надіслано. Рецепція має надіслати його повторно.'}[ctx.lang]||'') :({sk:'Pozvánku prijala e-mailová služba. Doručenie do schránky nie je overené.',en:'The mail service accepted the invitation. Inbox delivery is unconfirmed.',ru:'Почтовый сервис принял приглашение. Доставка в ящик не подтверждена.',uk:'Поштова служба прийняла запрошення. Доставку до скриньки не підтверджено.'})[ctx.lang]));
   ctx.notice.className='staff-notice staff-approval-success';
   if(typeof ctx.openRooms==='function')ctx.notice.append(button(approvalWords.open,()=>ctx.openRooms(person.room_number,person.accommodation_from),'btn-secondary'));
  }
@@ -146,6 +173,7 @@ export async function renderStaffScreen(ctx) {
      box.append(summary,grid);card.append(box);
     }
     if(person.status==='invited'){
+     card.append(receipt(registrationApproved));
      const resend=button(ctx.lang==='en'?'Resend invitation for current step':'Znova poslať pozvánku na aktuálny krok',async()=>{
       if(pendingAction||!ctx.isCurrent()||!confirm(ctx.lang==='en'?'Send a new password setup link to this approved resident?':'Poslať nový odkaz na vytvorenie hesla tomuto schválenému študentovi?'))return;
       pendingAction=true;resend.disabled=true;
@@ -171,7 +199,7 @@ export async function renderStaffScreen(ctx) {
       activationResult.style.margin='0';
       const activate=button(ctx.lang==='en'?'Activate student password access':'Aktivovať študentské prihlásenie',async()=>{
        if(pendingAction||!ctx.isCurrent())return;
-       pendingAction=true;activate.disabled=true;activationResult.textContent='';
+       pendingAction=true;const restore=busyButton(activate);activationResult.textContent='';activationResult.classList.remove('danger');
        try{
         const {data,error}=await ctx.db.functions.invoke('manage',{body:{
          action:'activate_approved_login',role:'student',tenant_id:ctx.tenant,registration_id:person.id
@@ -186,17 +214,18 @@ export async function renderStaffScreen(ctx) {
          activationResult.focus({preventScroll:true});
         }else{
          const code=await failureCode(error,data);
-         status(code==='password_setup_required'?
-           (ctx.lang==='en'?'This account has no password yet. Send a secure setup email.':'Účet ešte nemá heslo. Potrebný je bezpečný odkaz na jeho vytvorenie.'):w.failed,true);
+         activationResult.classList.add('danger');
+         activationResult.textContent=code==='password_setup_required'?
+           (ctx.lang==='en'?'This account has no password yet. Send a secure setup email.':'Účet ešte nemá heslo. Potrebný je bezpečný odkaz na jeho vytvorenie.'):saveError;
         }
-       }catch{status(w.failed,true)}
-       finally{pendingAction=false;if(!activate.hidden)activate.disabled=false;}
+       }catch{activationResult.classList.add('danger');activationResult.textContent=saveError;}
+       finally{pendingAction=false;if(!activate.hidden)restore();}
       });
       card.append(activate,activationResult);
      }
     }
     if(person.status==='correction_requested'){
-     card.append(el('p','mini-note',cw.existing));
+     card.append(receipt(registrationReturned));
      if(person.correction_reason)card.append(el('p','',cw.reason+': '+person.correction_reason));
      card.append(button(cw.reissue,()=>returnEditor(person,card)));
     }
@@ -267,7 +296,7 @@ export async function renderStaffScreen(ctx) {
      roomEditor.append(roomSummary,roomForm);card.append(roomEditor);
      const actions=el('div','staff-actions');
      const approve=button(w.approve,()=>{approvalEditor(person,actions,{contract:correction,contractInput:number,contractNotice:numberNotice,room:roomEditor,roomInput,roomNotice});},'');
-     const reject=button(w.reject,()=>{void decide(person,false,actions);});
+     const reject=button(w.reject,()=>{void decide(person,false,actions,reject);});
      const returnButton=button(cw.return,()=>returnEditor(person,card));
      actions.append(approve,reject,returnButton);card.append(actions);
     }
@@ -283,19 +312,20 @@ export async function renderStaffScreen(ctx) {
   explanation.rows=4;explanation.placeholder=cw.prompt;explanation.value=person.correction_reason||'';
   label.append(explanation);
   const send=el('button','',cw.create);send.type='submit';
-  form.append(label,el('p','mini-note',cw.expires),send);
+  const message=inlineError();
+  form.append(label,el('p','mini-note',cw.expires),send,message);
   card.append(form);explanation.focus();
   form.addEventListener('submit',async event=>{
    event.preventDefault();
    if(pendingAction||!ctx.isCurrent())return;
    const reason=explanation.value.trim();if(reason.length<10){status(cw.empty,true);return;}
-   pendingAction=true;send.disabled=true;
+   pendingAction=true;const restore=busyButton(send);message.textContent='';
    try{
     const {data,error}=await ctx.db.functions.invoke('registration-correction',{
      body:{action:'issue',tenant_id:ctx.tenant,registration_id:person.id,reason}
     });
     if(!ctx.isCurrent())return;
-    if(error||!data?.ok||!data?.link){status(cw.sendError,true);return;}
+    if(error||!data?.ok||!data?.link){message.textContent=cw.sendError;return;}
     person.status='correction_requested';person.correction_reason=reason;
     status(data.email_queued
      ?({sk:'Registrácia bola vrátená. E-mail čaká vo fronte; doručenie ešte nie je potvrdené.',en:'Registration returned. Email queued; inbox delivery is not confirmed.',ru:'Заявка возвращена. Письмо в очереди; доставка не подтверждена.',uk:'Заявку повернуто. Лист у черзі; доставку не підтверджено.'})[ctx.lang]
@@ -310,8 +340,8 @@ export async function renderStaffScreen(ctx) {
      catch{window.prompt(cw.copy,data.link);}
     });
     ctx.notice.append(el('p','mini-note',(data.recipient||person.email)+' · '+cw.expires),email,copy);
-   }catch{if(ctx.isCurrent())status(cw.sendError,true);}
-   finally{pendingAction=false;send.disabled=false;if(ctx.isCurrent()&&person.status==='correction_requested')paint();}
+   }catch{if(ctx.isCurrent())message.textContent=cw.sendError;}
+   finally{pendingAction=false;restore();if(ctx.isCurrent()&&person.status==='correction_requested'){select.value='correction_requested';search.value=person.email;paint();}}
   });
  }
  function approvalEditor(person,actions,editors={}){
@@ -358,7 +388,7 @@ export async function renderStaffScreen(ctx) {
     rows[0]?.amount.addEventListener('input',showFirstPayment);
     showFirstPayment();
     const approve=el('button','',labels[4]);approve.type='submit';calendarTitle.textContent=(en?'Review monthly charges':'Skontrolovať mesačné predpisy')+' ('+rows.length+')';schedule.append(paymentPreview,approve,calendar);
-   form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;void decide(person,true,actions,{verified_assignment:{contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from.value,accommodation_to:to.value},verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:rows.map(r=>({period:r.period,amount:Number(r.amount.value),due_on:r.date.value}))});};
+   form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;void decide(person,true,actions,approve,{verified_assignment:{contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from.value,accommodation_to:to.value},verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:rows.map(r=>({period:r.period,amount:Number(r.amount.value),due_on:r.date.value}))});};
   };
   const prepare=button(labels[2],prepareSchedule);
   const prepareOnSubmit=e=>{e.preventDefault();prepareSchedule();};
@@ -368,9 +398,14 @@ export async function renderStaffScreen(ctx) {
   });
   form.append(prepare,schedule);form.onsubmit=prepareOnSubmit;actions.append(form);
  }
- async function decide(person,approve,actions,verified={}){
+ async function decide(person,approve,actions,trigger,verified={}){
   if(pendingAction||!ctx.isCurrent()||!confirm(approve?w.approveConfirm:w.rejectConfirm))return;
-  pendingAction=true;for(const b of actions.querySelectorAll('button'))b.disabled=true;search.disabled=true;select.disabled=true;
+  pendingAction=true;
+  const controls=[...actions.querySelectorAll('button')].filter(button=>!button.disabled);
+  const restore=busyButton(trigger,controls);
+  actions.querySelector('[role=alert]')?.remove();
+  const message=inlineError();actions.append(message);
+  search.disabled=true;select.disabled=true;
   let success=false;
   status(w.saving);revealNotice();
   try{
@@ -384,13 +419,15 @@ export async function renderStaffScreen(ctx) {
    if(!ctx.isCurrent())return;
    if(response.error||(approve?!response.data?.ok:!response.data?.length)){
     const code=await failureCode(response.error,response.data);
-    status(code==='verified_assignment_required'?(ctx.lang==='en'?'Complete and verify contract, room and stay dates.':'Doplň overené číslo zmluvy, izbu a termín pobytu.'):['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending','approval_conflict','reception_assignment_required'].includes(code)?w.conflict:w.failed,true);
+    message.textContent=code==='verified_assignment_required'?(ctx.lang==='en'?'Complete and verify contract, room and stay dates.':'Doplň overené číslo zmluvy, izbu a termín pobytu.'):['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending','approval_conflict','reception_assignment_required'].includes(code)?w.conflict:saveError;
+    status(message.textContent,true);
     return;
    }
    if(approve&&verified.verified_assignment)Object.assign(person,verified.verified_assignment);
    person.status=approve?'invited':'rejected';success=true;
    const loginReady=approve&&response.data?.login_ready===true;
-   const invitationEmailFailed=approve&&!loginReady&&response.data?.email_sent===false;
+   const emailSent=response.data?.email_sent;
+   const invitationEmailFailed=approve&&!loginReady&&emailSent===false;
    status(loginReady
      ?(ctx.lang==='en'?'Registration approved. Student can sign in with the original password and continue the questionnaire inside Studenthouse.':'Registrácia schválená. Študent sa môže prihlásiť heslom z registrácie a pokračovať v dotazníku v Studenthouse.')
      :invitationEmailFailed
@@ -409,16 +446,16 @@ export async function renderStaffScreen(ctx) {
    }
    // Show a durable receipt only after the server confirms the approval transaction.
    if(approve){
-    approvalReceipts.set(receiptKey,{id:person.id,emailSent:!invitationEmailFailed});
-    showApprovalReceipt(person,!invitationEmailFailed,loginReady);
+    approvalReceipts.set(receiptKey,{id:person.id,emailSent});
+    showApprovalReceipt(person,emailSent,loginReady);
     select.value='invited';search.value=person.email;
    }
    revealNotice();
-  }catch{if(ctx.isCurrent())status(w.failed,true);}
+  }catch{if(ctx.isCurrent())message.textContent=saveError;}
   finally{
    pendingAction=false;if(ctx.isCurrent()){search.disabled=false;select.disabled=false;if(success)paint();}
    // Preserve the completed form and allow correcting a failed assignment save.
-   if(ctx.isCurrent()&&!success)for(const b of actions.querySelectorAll('button'))b.disabled=false;
+   if(ctx.isCurrent()&&!success)restore();
   }
  }
  async function profile(person){
@@ -496,38 +533,44 @@ export async function renderStaffScreen(ctx) {
      };
     if(reviewError){enquiryBox.append(el('p','danger',labels.fail));}
     else{
-      if(review){
-       const corrected=Date.parse(String(enquiry.updated_at||enquiry.created_at||''))>Date.parse(String(review.requested_at||''));
-       const label=review.review_status==='approved'&&!corrected?labels.approved:corrected?labels.resubmitted:labels.returned;
-       enquiryBox.append(el('p',review.review_status==='approved'&&!corrected?'mini-note':(corrected?'mini-note':'danger'),label));
-       if(review.correction_reason&&review.review_status==='needs_correction')
-        enquiryBox.append(el('p','mini-note',review.correction_reason));
-      }
+      const actions=el('div','staff-actions');
+      enquiryBox.append(actions);
+      const showReview=(label,explanation='')=>{
+       actions.replaceChildren(receipt(label));
+       if(explanation)actions.append(el('p','mini-note',explanation));
+      };
+      const submittedAt=Date.parse(String(enquiry.student_submitted_at||''));
+      const corrected=submittedAt>Date.parse(String(review?.requested_at||''));
+      if(review&&!corrected){
+       showReview(review.review_status==='approved'?questionnaireApproved:questionnaireReturned,review.correction_reason);
+      }else{
+      if(corrected)actions.append(el('p','mini-note',labels.resubmitted));
+      const errorMessage=inlineError();
+      const fail=message=>{errorMessage.textContent=message;};
       const revise=el('form','staff-form');
       const reason=el('textarea');reason.maxLength=1200;reason.minLength=10;reason.required=true;reason.rows=3;
       reason.placeholder=labels.reason;reason.setAttribute('aria-label',labels.reason);
       reason.value=review?.review_status==='needs_correction'?review.correction_reason||'':'';
       const send=el('button','',labels.send);send.type='submit';
       const reopen=button(labels.request,()=>{revise.hidden=!revise.hidden;if(!revise.hidden)reason.focus();});
-      revise.hidden=true;revise.append(reason,send);enquiryBox.append(reopen,revise);
+      revise.hidden=true;revise.append(reason,send);actions.append(reopen,revise);
       revise.addEventListener('submit',async event=>{
-       event.preventDefault();if(!ctx.isCurrent())return;
-       const text=reason.value.trim();if(text.length<10){status(labels.minimum,true);return;}
-       send.disabled=true;
+       event.preventDefault();if(!ctx.isCurrent()||pendingAction)return;
+       const text=reason.value.trim();if(text.length<10){fail(labels.minimum);return;}
+       pendingAction=true;fail('');const restore=busyButton(send,[send,reopen,approve]);
        try{
         const {data,error}=await ctx.db.from('resident_enquiry_reviews').upsert({
          tenant_id:ctx.tenant,resident_id:person.id,review_status:'needs_correction',
          correction_reason:text,requested_at:new Date().toISOString(),reviewed_by:ctx.userId
         },{onConflict:'tenant_id,resident_id'}).select('review_status').single();
-        if(error||!data){status(labels.fail,true);return;}
-        status(labels.success);
-        revise.hidden=true;
+        if(error||!data){fail(saveError);return;}
+        if(ctx.isCurrent())showReview(questionnaireReturned,text);
 
-       }catch{status(labels.fail,true);}finally{send.disabled=false;}
+       }catch{fail(saveError);}finally{pendingAction=false;restore();}
       });
       const approve=button(labels.confirm,async()=>{
-       if(!ctx.isCurrent())return;
-       approve.disabled=true;
+       if(!ctx.isCurrent()||pendingAction)return;
+       pendingAction=true;fail('');const restore=busyButton(approve,[send,reopen,approve]);
        try{
         // Do not accept an empty draft or an unsigned, photo-less questionnaire.
         // Recheck live state; the student's answer may have changed since render.
@@ -540,33 +583,36 @@ export async function renderStaffScreen(ctx) {
          ctx.db.from('resident_enquiry_reviews').select('review_status,requested_at')
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle()
         ]);
-        if(submission.error||portrait.error||latestReview.error){status(labels.fail,true);return;}
+        if(submission.error||portrait.error||latestReview.error){fail(saveError);return;}
         const answers=submission.data;
          const required=['gender','permanent_address','date_of_birth','nationality','identity_document_number','telephone','school'];
          const missing=required.filter(k=>!answers?.[k]);
          if(typeof answers?.own_refrigerator!=='boolean')missing.push('own_refrigerator');
-         if(missing.length){status((ctx.lang==='en'?'The student must complete: ':'Študent musí doplniť: ')+missing.join(', '),true);return;}
+         if(missing.length){
+          fail(({sk:'Študent musí doplniť povinné údaje v dotazníku.',en:'The student must complete the required questionnaire fields.',ru:'Студент должен заполнить обязательные поля анкеты.',uk:'Студент має заповнити обов’язкові поля анкети.'})[ctx.lang]);return;
+         }
          if(!answers?.student_submitted_at||!portrait.data?.length){
-         status(({
+         fail(({
           sk:'Schválenie nie je možné: študent musí najprv odoslať vyplnený dotazník aj fotografiu.',
           en:'Cannot approve: the student must submit the questionnaire and a photo first.',
           ru:'Нельзя одобрить: студент должен отправить заполненную анкету и фотографию.',
           uk:'Неможливо схвалити: студент має надіслати заповнену анкету та фотографію.'
-         })[ctx.lang]||labels.fail,true);return;
+         })[ctx.lang]||saveError);return;
         }
         if(latestReview.data?.review_status==='approved'&&
            Date.parse(latestReview.data.requested_at)>=Date.parse(submission.data.student_submitted_at)){
-         status(labels.accepted);return;
+         if(ctx.isCurrent())showReview(questionnaireApproved);return;
         }
         const {data,error}=await ctx.db.from('resident_enquiry_reviews').upsert({
           tenant_id:ctx.tenant,resident_id:person.id,review_status:'approved',
           correction_reason:'',requested_at:new Date().toISOString(),reviewed_by:ctx.userId
         },{onConflict:'tenant_id,resident_id'}).select('review_status').single();
-        if(error||!data){status(labels.fail,true);return;}
-        status(labels.accepted);
-       }catch{status(labels.fail,true);}finally{approve.disabled=false;}
+        if(error||!data){fail(saveError);return;}
+        if(ctx.isCurrent())showReview(questionnaireApproved);
+       }catch{fail(saveError);}finally{pendingAction=false;restore();}
       });
-      enquiryBox.append(approve);
+      actions.append(approve,errorMessage);
+      }
     }
 
    }
@@ -638,23 +684,30 @@ export async function renderStaffScreen(ctx) {
  }
  function documentCard(file,title){
   const card=el('article','data-card');card.append(el('strong','',title),el('p','small',file.original_name+' · '+ctx.day(file.created_at)));
-  if(['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(file.kind))card.append(el('span','status-pill',file.review_status==='approved'?w.approved:file.review_status==='rejected'?w.needsFix:w.pending));
+  const reviewable=['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(file.kind);
+  if(reviewable&&file.review_status==='pending')card.append(el('span','status-pill',w.pending));
   card.append(button(w.view,()=>{if(ctx.isCurrent())void ctx.fileLink(file.id,ctx.tenant);}));
-  if(['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(file.kind)&&['pending','rejected'].includes(file.review_status)){
+  if(reviewable&&file.review_status==='approved')card.append(receipt(file.kind==='signed_schedule'?scheduleApproved:documentApproved));
+  if(reviewable&&file.review_status==='rejected')card.append(receipt(documentReturned),el('p','mini-note',file.staff_note||''));
+  if(reviewable&&file.review_status==='pending'){
    const input=el('input');input.type='text';input.maxLength=1000;input.value=file.staff_note||'';input.setAttribute('aria-label',w.note);input.placeholder=w.note;
    const actions=el('div','staff-actions');
-   const review=async result=>{
+   const errorMessage=inlineError();
+   const review=async (result,trigger)=>{
     if(!ctx.isCurrent()||pendingAction)return;
     input.setCustomValidity(result==='rejected'&&input.value.trim().length<3?({sk:'Uveď dôvod vrátenia na opravu (aspoň 3 znaky).',en:'Enter a correction reason (at least 3 characters).',ru:'Укажите причину возврата (не менее 3 символов).',uk:'Вкажіть причину повернення (не менше 3 символів).'})[ctx.lang]:'');
     if(!input.reportValidity()||!confirm(w.reviewConfirm))return;pendingAction=true;
-    for(const b of actions.querySelectorAll('button'))b.disabled=true;
+    errorMessage.textContent='';
+    const restore=busyButton(trigger,[approve,sendBack]);
     try{
      const {data,error}=await ctx.db.functions.invoke('residence-files',{body:{action:'review',tenant_id:ctx.tenant,file_id:file.id,status:result,staff_note:input.value,expected_status:file.review_status}});
-     if(!ctx.isCurrent())return;if(error||!data?.ok){status(w.failed,true);return;}
+     if(!ctx.isCurrent())return;if(error||!data?.ok){errorMessage.textContent=saveError;return;}
      file.review_status=result;file.staff_note=input.value;card.replaceWith(documentCard(file,title));status(ctx.success);
-    }catch{if(ctx.isCurrent())status(w.failed,true);}finally{pendingAction=false;for(const b of actions.querySelectorAll('button'))b.disabled=false;}
+    }catch{if(ctx.isCurrent())errorMessage.textContent=saveError;}finally{pendingAction=false;restore();}
    };
-   actions.append(input,button(w.review,()=>{void review('approved');},''),button(w.return,()=>{void review('rejected');}));card.append(actions);
+   const approve=button(w.review,()=>{void review('approved',approve);},'');
+   const sendBack=button(w.return,()=>{void review('rejected',sendBack);});
+   actions.append(input,approve,sendBack,errorMessage);card.append(actions);
   }
   return card;
  }

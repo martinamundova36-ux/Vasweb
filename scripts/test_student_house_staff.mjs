@@ -7,7 +7,7 @@ import { filterResidents, filterRegistrations, residentFiles, renderStaffScreen 
 
 // In-memory DOM and synthetic records only. These are integration tests, not browser/login tests.
 class Element {
- constructor(tag){this.tagName=tag;this.children=[];this.listeners={};this.attributes={};this._text='';this.value='';this.disabled=false;this.connected=false;}
+ constructor(tag){this.tagName=tag;this.children=[];this.listeners={};this.attributes={};this.style={};this._text='';this.value='';this.disabled=false;this.connected=false;}
  set textContent(value){this._text=String(value);this.children=[];}
  get textContent(){return this._text+this.children.map(x=>x.textContent).join(' ');}
  get isConnected(){return this.connected||!!this.parent?.isConnected;}
@@ -30,7 +30,7 @@ function fixture(section,overrides={}){
  const root=new Element('div');root.connected=true;
  const calls=[];
  const ctx={root,notice:new Element('p'),lang:'sk',tenant,role:'reception',section,day:x=>x||'—',success:'Saved',refresh:()=>{},isCurrent:()=>true,fileLink:()=>{},list:async table=>table==='residents'?[{...person}]:table==='registration_requests'?[{...registration}]:table==='rooms'?[{name:'125',category:'M2',capacity:2}]:[],
- db:{from:()=>({update(value){this.value=value;return this;},eq(){return this;},select:async function(){return {data:[{id:registration.id,...this.value}]};}}),functions:{invoke:async(name,input)=>{calls.push({name,...input});return {data:{ok:true},error:null};}}},...overrides};return {ctx,calls,root};
+ db:{rpc:async()=>({data:[]}),from:()=>({update(value){this.value=value;return this;},eq(){return this;},select:async function(){return {data:[{id:registration.id,...this.value}]};}}),functions:{invoke:async(name,input)=>{calls.push({name,...input});return {data:{ok:true},error:null};}}},...overrides};return {ctx,calls,root};
 }
 const findButton=(root,label)=>root.querySelectorAll('button').find(b=>b.textContent===label);
 async function approveFixture(f){
@@ -125,7 +125,7 @@ test('Reloaded registrations can show the current staff member’s recent databa
  const f=fixture('registrations',{userId:'staff-reload',list:async table=>table==='registration_requests'?[approved]:table==='rooms'?[{name:'125',capacity:2}]:[]});
  await renderStaffScreen(f.ctx);
  assert.match(f.ctx.notice.textContent,/✓ Registrácia úspešne schválená/);
- assert.match(f.ctx.notice.textContent,/Doručenie pozvánky treba overiť samostatne/);
+ assert.match(f.ctx.notice.textContent,/Doručenie pozvánky nie je overené/);
 });
 test('A future approved resident appears in the Excel year of their stay',()=>{
  const data={rooms:[{id:'room-001',name:'001',capacity:2}],residents:[{...person,id:'future',verified_room_number:'001',accommodation_from:'2027-02-01',accommodation_to:'2027-07-01'}],tenancies:[{resident_id:'future',room_id:'room-001',starts_on:'2027-02-01',ends_on:'2027-07-01'}]};
@@ -194,4 +194,37 @@ test('Automatic refresh preserves a resident profile and forms even after focus 
  assert.equal(run({dataset:{liveDirty:'true'}}),true);
  assert.equal(run(null,true),true);
  assert.equal(run(null,false),false);
+});
+
+test('Questionnaire approval locks both decisions, retries inline and reloads from the saved review',async()=>{
+ const submitted={student_submitted_at:'2026-11-20T18:00:00Z',gender:'female',own_refrigerator:false,permanent_address:'Test',date_of_birth:'2000-01-01',nationality:'Test',identity_document_number:'Test',telephone:'Test',school:'Test'};
+ let review=null,writes=0,finish;
+ const open=async()=>{
+  const f=fixture('residents',{db:{from:table=>({
+   select(){return this;},eq(){return this;},limit:async()=>({data:[{id:'test-photo'}]}),
+   maybeSingle:async()=>({data:table==='resident_enquiries'?submitted:review}),
+   upsert(value){writes++;this.value=value;return this;},
+   single(){return new Promise(resolve=>{finish=ok=>{if(ok)review=this.value;resolve(ok?{data:review}:{error:Error('test')});};});}
+  })}});
+  await renderStaffScreen(f.ctx);findButton(f.root,'Otvoriť profil').listeners.click();await tick();
+  return f;
+ };
+ const f=await open();
+ const approve=findButton(f.root,'Schváliť správne vyplnený dotazník');
+ const sendBack=findButton(f.root,'Poslať späť zle vyplnený dotazník');
+ const first=approve.listeners.click();await tick();
+ assert.equal(approve.textContent,'Ukladá sa…');
+ assert.equal(sendBack.disabled,true);
+ await approve.listeners.click();assert.equal(writes,1);
+ finish(false);await first;
+ assert.match(f.root.textContent,/Zmenu sa nepodarilo uložiť/);
+ assert.equal(approve.disabled,false);
+ const retry=approve.listeners.click();await tick();finish(true);await retry;
+ assert.match(f.root.textContent,/✓ Dotazník schválený/);
+ assert.equal(findButton(f.root,'Schváliť správne vyplnený dotazník'),undefined);
+ const reloaded=await open();
+ assert.match(reloaded.root.textContent,/✓ Dotazník schválený/);
+ submitted.student_submitted_at='2099-11-20T19:00:00Z';
+ const corrected=await open();
+ assert.ok(findButton(corrected.root,'Schváliť správne vyplnený dotazník'));
 });

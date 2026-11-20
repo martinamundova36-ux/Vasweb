@@ -77,17 +77,30 @@ export async function renderServiceRequests(ctx){
     time=select(slotOptions(record.slot_id),record.slot_id||'');
     form.append(field(t.price,price),field(t.scheduled,time));
    }
-   const save=button(t.save);form.append(save);
+   const save=button(t.save);
+   const state=element('p',undefined,'staff-notice staff-approval-success');state.setAttribute('role','status');
+   const errorBox=element('p',undefined,'danger');errorBox.setAttribute('role','alert');
+   const saving=({sk:'Ukladá sa…',en:'Saving…',ru:'Сохранение…',uk:'Збереження…'})[lang]||'Saving…';
+   const setSaved=current=>{
+    state.textContent='✓ '+(t.statuses[current]||current);
+    state.hidden=false;save.hidden=true;
+   };
+   const confirmed=cleaning?['proposed','approved','rejected','completed','cancelled']:['accepted','in_progress','waiting_parts','resolved','closed','cancelled'];
+   state.hidden=true;
+   if(confirmed.includes(record.status))setSaved(record.status);
+   form.addEventListener('input',()=>{save.hidden=false;state.hidden=true;});
+   form.append(save,state,errorBox);
    form.addEventListener('submit',async event=>{
-    event.preventDefault();if(!isCurrent()||!form.reportValidity()||!confirm(t.confirm))return;
-    save.disabled=true;
+    event.preventDefault();if(!isCurrent()||save.disabled||save.hidden||!form.reportValidity()||!confirm(t.confirm))return;
+    save.disabled=true;save.textContent=saving;errorBox.textContent='';
     try{
      const payload={status:status.value,staff_note:publicNote.value.trim()};
      if(cleaning){payload.price_eur=price.value===''?null:Number(price.value);payload.slot_id=time.value||record.slot_id||null;const selectedSlot=slots.find(s=>s.id===time.value);payload.scheduled_at=selectedSlot?.starts_at||record.scheduled_at||null;}
      const {data,error}=await db.from(table).update(payload).eq('tenant_id',tenant).eq('id',record.id).eq('updated_at',record.updated_at).select('id');
      if(error||!data?.length)throw Error('save_failed');
-     if(isCurrent()){report(t.success);refresh();}
-    }catch{report(t.failed,true);save.disabled=false;}
+     if(isCurrent()){setSaved(payload.status);refresh();}
+    }catch{if(isCurrent())errorBox.textContent=t.failed;}
+    finally{save.disabled=false;save.textContent=t.save;}
    });card.append(form);
   }
   if(!cleaning){
