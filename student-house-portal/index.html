@@ -255,10 +255,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a><div class="studenthouse-app-actions"><button type="button" id="staffMenuShortcut" class="install-studenthouse" aria-controls="tabs" hidden>Menu administrácie</button><button type="button" id="shareStudenthouse" class="install-studenthouse" aria-controls="studenthouseShareStatus">↗ Zdieľať Student House Bratislava</button><button type="button" id="installStudenthouse" class="install-studenthouse" aria-controls="studenthouseInstallHelp">📲 Nainštalovať Student House Bratislava</button></div></header><p class="install-help" id="studenthouseShareStatus" role="status" aria-live="polite" hidden></p><p class="install-help" id="studenthouseInstallHelp" role="status" aria-live="polite" hidden></p>
 <div class="wrap"><aside class="hero"><strong>▥ Student House Bratislava</strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><div class="hero-photo-frame"><img class="hero-photo" src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-studenti-pri-dunaji.png" width="1842" height="854" loading="eager" decoding="async" alt="Ilustračná fotografia študentského života v Bratislave"></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
 <div id="login" class="login">
-<nav class="entry-switch" aria-label="Vstup do systému" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">
-<a id="residentEntryLink" href="/student-house-portal/student/" style="display:block;text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Študenti</a>
-<a hidden id="staffEntryLink" href="/student-house-portal/admin/" style="text-align:center;border:1px solid #bdcee3;border-radius:10px;padding:12px 6px;text-decoration:none;font-weight:700;color:#142b4d;background:#fff">Recepcia / Admin</a>
-</nav>
+
 <select id="lang" aria-label="Jazyk rozhrania"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label for="email">E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel" for="password">Heslo</label><div class="password-field"><input type="password" id="password" autocomplete="current-password" required><button type="button" id="loginEye" aria-label="Zobraziť heslo" aria-pressed="false" title="Zobraziť heslo"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3l18 18"/></svg></button></div><button type="button" id="forgotPassword" style="background:transparent;color:#18588d;margin-top:9px;width:100%;text-align:center;text-decoration:underline;padding:8px 0;white-space:normal;overflow-wrap:anywhere">Zabudnuté heslo?</button><button id="signbtn" type="submit">Prihlásiť sa</button></form>
 <form id="passwordResetForm" class="hide">
 <label id="resetEmailLabel" for="resetEmailValue">E-mail študenta</label>
@@ -450,10 +447,9 @@ function translate(){const b=$('backToWebsite');const prefixes={sk:'',en:'en/',r
 const e=entryText[lang];
 const entryTitles={sk:['Študentské prihlásenie','Administrácia Student House Bratislava'],en:['Student sign-in','Student House Bratislava Administration'],ru:['Вход для студентов','Администрация Student House Bratislava'],uk:['Вхід для студентів','Адміністрація Student House Bratislava']};
 $('welcome').textContent=entryTitles[lang][staffEntryMode?1:0];if(staffEntryMode)$('subtitle').textContent=e.intro;
-$('sign').textContent=entryTitles[lang][staffEntryMode?1:0];$('residentEntryLink').textContent=e.resident;$('staffEntryLink').textContent=e.staff;
-$('residentEntryLink').href='/student-house-portal/student/?lang='+lang+(staffEntryMode?'&signin=1':'');
-$('staffEntryLink').href='/student-house-portal/admin/?lang='+lang;$('staffEntryLink').hidden=!staffEntryMode;
-for(const id of ['residentEntryLink','staffEntryLink']){const current=(staffEntryMode? id==='staffEntryLink':id==='residentEntryLink');$(id).style.background=current?'#142b4d':'#fff';$(id).style.color=current?'#fff':'#142b4d';if(current)$(id).setAttribute('aria-current','page');else $(id).removeAttribute('aria-current')}
+$('sign').textContent=entryTitles[lang][staffEntryMode?1:0];
+
+
 $('openRegistration').classList.toggle('hide',staffEntryMode);
  if(questionnaireEntryMode){
   $('openRegistration').classList.add('hide');
