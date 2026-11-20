@@ -126,6 +126,7 @@ export async function renderExcelRegister(ctx){
  const extra=Object.fromEntries(extraNames.map((name,i)=>[name,extraValues[i]]));
  if(!ctx.isCurrent())return;
  const root=el('section','room-register');
+
  const title=el('h3','',w.title),intro=el('p','muted',w.desc);
  const counter=el('p','room-register-count',w.known+': '+rooms.length+' / '+EXPECTED_ROOMS+' · '+w.beds+': '+rooms.reduce((total,r)=>total+(Number(r.capacity)||0),0)+(rooms.length<EXPECTED_ROOMS?' · '+w.missingCount+': '+(EXPECTED_ROOMS-rooms.length):''));
  const controls=el('div','room-register-controls');
@@ -146,6 +147,83 @@ export async function renderExcelRegister(ctx){
  const table=el('table','room-register-table');wrap.append(table);
  const count=el('p','muted');
  root.append(title,intro,counter,el('p','muted',w.bedHelp),controls,importArea,notice,count,wrap);ctx.root.append(root);
+ const cellEdits=new Map();
+ const keyForRow=record=>[selectedYear(),record.group.room.id,record.entry.bedIndex,record.entry.person?.id||'empty'].join(':');
+ const cellKey=(record,index)=>keyForRow(record)+':'+index;
+ const ui=({
+  sk:['Celá obrazovka','Zatvoriť celú obrazovku','Text bunky','Poznámka','Farba pozadia','Vlastná farba','Úpravy bunky sa ukladajú v evidencii.','Úpravy sa nepodarilo načítať alebo uložiť.'],
+  en:['Full screen','Exit full screen','Cell text','Note','Background color','Custom color','Cell edits are saved in the register.','Could not load or save cell edits.'],
+  ru:['На весь экран','Выйти из полноэкранного режима','Текст ячейки','Заметка','Цвет фона','Свой цвет','Изменения ячеек сохраняются в реестре.','Не удалось загрузить или сохранить изменения.'],
+  uk:['На весь екран','Вийти з повноекранного режиму','Текст клітинки','Примітка','Колір тла','Власний колір','Зміни клітинок зберігаються в реєстрі.','Не вдалося завантажити або зберегти зміни.']
+ })[ctx.lang]||['Celá obrazovka','Zatvoriť celú obrazovku','Text bunky','Poznámka','Farba pozadia','Vlastná farba','Úpravy bunky sa ukladajú v evidencii.','Úpravy sa nepodarilo načítať alebo uložiť.'];
+ let editsAvailable=false;
+ for(let start=0;;start+=500){
+  const {data,error}=await ctx.db.from('room_register_cells').select('row_key,column_index,cell_text,note,color')
+   .eq('tenant_id',ctx.tenant).order('row_key').order('column_index').range(start,start+499);
+  if(error)break;
+  for(const item of data)cellEdits.set(item.row_key+':'+item.column_index,item);
+  if(data.length<500){editsAvailable=true;break;}
+ }
+ if(!ctx.isCurrent())return;
+ const fullscreen=button(ui[0],async()=>{
+  try{
+   if(document.fullscreenElement===root)await document.exitFullscreen();
+   else await root.requestFullscreen();
+  }catch{notice.textContent=ui[7];}
+ });
+ root.addEventListener('fullscreenchange',()=>{
+  fullscreen.textContent=document.fullscreenElement===root?ui[1]:ui[0];
+  fullscreen.setAttribute('aria-pressed',String(document.fullscreenElement===root));
+ });
+ controls.append(fullscreen);
+ const style=el('style');
+ style.textContent=`
+ .room-register:fullscreen{background:#fff;color:#142b4d;padding:16px;overflow:auto;box-sizing:border-box}
+ .room-register:fullscreen .room-register-scroll{max-height:none;height:calc(100dvh - 170px)}
+ .room-register .editable-register-cell{cursor:pointer}
+ .room-register .editable-register-cell:not(.register-fixed-room):not(.register-order){position:relative}
+ .room-register .editable-register-cell:focus-visible{outline:2px solid #265ba5;outline-offset:-2px}
+ .room-register .register-note-dot{position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:#d51e35;border:1px solid #fff}
+ .room-register dialog{color:#142b4d;background:white;border:1px solid #a9bdd5;border-radius:12px;padding:18px;width:min(440px,90vw)}
+ .room-register dialog form{display:grid;gap:10px}
+ .room-register dialog label{display:grid;gap:4px}
+ .room-register dialog textarea{width:100%;min-height:70px}
+ `;
+ root.append(style);
+ if(!editsAvailable)notice.textContent=ui[7];
+ function editCell(record,index,target){
+  if(!editsAvailable||!ctx.isCurrent())return;
+  const key=cellKey(record,index),item=cellEdits.get(key),value=String(record.values[index]??'');
+  const dialog=el('dialog'),form=el('form'),title=el('h4','',headings[index]);
+  const textLabel=el('label','',ui[2]),textInput=el('textarea');
+  textInput.maxLength=2000;textInput.value=item?.cell_text??value;textInput.readOnly=headings[index]===w.code;textLabel.append(textInput);
+  const noteLabel=el('label','',ui[3]),noteInput=el('textarea');
+  noteInput.maxLength=4000;noteInput.value=item?.note||'';noteLabel.append(noteInput);
+  const colorLabel=el('label','',ui[4]),color=el('input');color.type='color';color.value=item?.color||'#fff1b8';colorLabel.append(color);
+  const enableLabel=el('label','',ui[5]),enable=el('input');enable.type='checkbox';enable.checked=Boolean(item?.color);enableLabel.append(enable);
+  color.addEventListener('input',()=>{enable.checked=true;});
+  const save=el('button','',w.save);save.type='submit';
+  const cancel=button(w.cancel,()=>dialog.close());
+  const status=el('p','',ui[6]);status.setAttribute('role','status');
+  form.append(title,textLabel,noteLabel,enableLabel,colorLabel,status,save,cancel);dialog.append(form);root.append(dialog);
+  dialog.addEventListener('close',()=>{dialog.remove();if(target.isConnected)target.focus({preventScroll:true});},{once:true});
+  form.addEventListener('submit',async event=>{
+   event.preventDefault();
+   save.disabled=true;cancel.disabled=true;
+   const payload={tenant_id:ctx.tenant,row_key:keyForRow(record),column_index:index,cell_text:textInput.readOnly||textInput.value===value?null:textInput.value,note:noteInput.value.trim(),color:enable.checked?color.value:null};
+   try{
+    const result=payload.cell_text===null&&!payload.note&&!payload.color
+     ?await ctx.db.from('room_register_cells').delete().match({tenant_id:ctx.tenant,row_key:payload.row_key,column_index:index})
+     :await ctx.db.from('room_register_cells').upsert(payload,{onConflict:'tenant_id,row_key,column_index'});
+    if(result.error)throw result.error;
+    if(payload.cell_text===null&&!payload.note&&!payload.color)cellEdits.delete(key);
+    else cellEdits.set(key,payload);
+    const x=wrap.scrollLeft,y=wrap.scrollTop,row=target.parentElement.sectionRowIndex;
+    dialog.close();paint();wrap.scrollLeft=x;wrap.scrollTop=y;table.tBodies[0]?.rows[row]?.cells[index]?.focus({preventScroll:true});
+   }catch{status.textContent=ui[7];save.disabled=false;cancel.disabled=false;}
+  });
+  dialog.showModal();
+ }
  const headings=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,...Array.from({length:12},(_,i)=>monthTitle(Number(yearSelect.value),i+1,ctx.lang)),w.total,...(fullRegisterFields[ctx.lang]||fullRegisterFields.sk),w.action];
  let entries=[];
  const selectedYear=()=>Number(yearSelect.value)||nowYear;
@@ -232,6 +310,18 @@ export async function renderExcelRegister(ctx){
    if(group.placeholder){action.append(el('span','muted',w.placeholder));}
    else if(entry.person){action.append(button(w.edit,()=>openEditor(action,entry)));if(ctx.openResidents)action.append(button(w.open,ctx.openResidents));}
    else action.append(el('span','muted','—'));
+   if(!group.placeholder&&editsAvailable)Array.from(tr.cells).forEach((td,index)=>{
+    const item=cellEdits.get(cellKey(record,index));
+    td.classList.add('editable-register-cell');td.tabIndex=0;
+    if(item?.cell_text!=null)td.textContent=item.cell_text;
+    if(item?.color)td.style.backgroundColor=item.color;
+    if(item?.note){
+     const dot=el('span','register-note-dot');dot.setAttribute('role','img');dot.setAttribute('aria-label',ui[3]);td.append(dot);
+     td.title=ui[3]+': '+item.note;
+    }
+    td.addEventListener('click',()=>editCell(record,index,td));
+    td.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();editCell(record,index,td);}});
+   });
    tr.append(action);body.append(tr);
   }
  }
@@ -278,7 +368,7 @@ export async function renderExcelRegister(ctx){
   const year=selectedYear();
   const header=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,
    ...Array.from({length:12},(_,i)=>monthTitle(year,i+1,ctx.lang)),w.total,...(fullRegisterFields[ctx.lang]||fullRegisterFields.sk)];
-  const lines=[header,...entries.map(r=>r.values.slice(0,-1))];
+  const lines=[header,...entries.map(r=>r.values.slice(0,-1).map((value,index)=>cellEdits.get(cellKey(r,index))?.cell_text??value))];
   downloadWorkbook('student-house-register-'+year,[{name:'Evidencia',rows:lines},...operationalSheets({
    residents,enquiries,details,tenancies,reviews:extra.resident_enquiry_reviews,files:extra.residence_portal_files,registrations,
    cleaning:extra.cleaning_bookings,requests:extra.service_requests,charges,payments:extra.payments,
