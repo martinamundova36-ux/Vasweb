@@ -1254,6 +1254,7 @@ async function sendProfileStepInvitation(tenant,button){
  }catch{alert(lang==='en'?'Invitation could not be sent.':'Pozvánku sa nepodarilo odoslať.');}
  finally{if(button)button.disabled=false;}
 }
+let selectedInstallmentStudent='',newInstallmentCharge='';
 async function renderPanel(){
  const generation=++renderGeneration;
  const container=$('records');container.replaceChildren(make('p','muted','…'));
@@ -1566,22 +1567,33 @@ async function renderPanel(){
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-1');
+   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const search=make('input');search.type='search';search.placeholder='Meno alebo e-mail študenta';
-   container.append(labeled('Vyhľadať študenta',search));
-   const fold=value=>String(value||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();
-   const matches=id=>{const p=peopleById[id];return fold((p?.full_name||'')+' '+(p?.email||'')).includes(fold(search.value.trim()));};
+   const eligible=new Set([...plans,...charges].map(item=>item.resident_id));
+   const student=make('select');student.append(new Option('Vyber študenta',''));
+   for(const person of people.filter(p=>eligible.has(p.id)).sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'))){
+    student.append(new Option([person.full_name,person.email].filter(Boolean).join(' · '),person.id));
+   }
+   if(eligible.has(selectedInstallmentStudent))student.value=selectedInstallmentStudent;
+   container.append(labeled('Vyber študenta',student));
+   const matches=id=>Boolean(student.value&&id===student.value);
    const planCards=[];
    if(!plans.length)empty();
    for(const p of plans){
      const entry=row(p.title,staff?(peopleById[p.resident_id]?.full_name||'—'):'');
      const related=items.filter(x=>x.plan_id===p.id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
      for(const x of related)entry.append(make('div','small',day(x.due_on)+' · '+money(x.amount)));
-     attachInstallmentDocument(entry,p,peopleById[p.resident_id],related);
-     planCards.push([p.resident_id,entry]);container.append(entry);
+     const open=matches(p.resident_id);
+     const documentPanel=attachInstallmentDocument(entry,p,peopleById[p.resident_id],related,{open,accountScope:tenant+':'+member.id});
+     if(p.charge_id===newInstallmentCharge&&documentPanel){
+      newInstallmentCharge='';requestAnimationFrame(()=>documentPanel.scrollIntoView({block:'nearest'}));
+     }
+     entry.classList.toggle('hide',!open);planCards.push([p.resident_id,entry,documentPanel]);container.append(entry);
    }
-   search.addEventListener('input',()=>{for(const [id,card] of planCards)card.hidden=!matches(id);});
+   student.addEventListener('change',()=>{
+    selectedInstallmentStudent=student.value;
+    for(const [id,card,panel] of planCards){const visible=matches(id);card.classList.toggle('hide',!visible);if(panel)panel.open=visible;}
+   });
    if(staff){
     const approved=new Set(plans.map(p=>p.charge_id));
     const available=charges.filter(x=>!approved.has(x.id)).sort((a,b)=>
@@ -1593,7 +1605,7 @@ async function renderPanel(){
     const updateCharges=()=>{
      const current=charge.value;
      charge.replaceChildren(new Option('Vyber predpis',''));
-     if(search.value.trim())for(const item of available.filter(x=>matches(x.resident_id))){
+     if(student.value)for(const item of available.filter(x=>matches(x.resident_id))){
       const person=peopleById[item.resident_id];
       charge.append(new Option([person?.full_name||'—',person?.email,item.period,money(item.amount)].filter(Boolean).join(' · '),item.id));
      }
@@ -1619,18 +1631,19 @@ async function renderPanel(){
         schedule.append(line);rows.push({date,sum});
       }
     };
-    count.addEventListener('change',build);charge.addEventListener('change',build);search.addEventListener('input',updateCharges);
+    count.addEventListener('change',build);charge.addEventListener('change',build);student.addEventListener('change',updateCharges);
     planForm.append(labeled(fin('charge'),charge),labeled(fin('title'),title),labeled(fin('installments'),count),make('p','muted',fin('planAmount')),schedule);
     const savePlan=make('button','',fin('savePlan'));savePlan.type='submit';planForm.append(savePlan);updateCharges();
     planForm.addEventListener('submit',async e=>{
       e.preventDefault();savePlan.disabled=true;
       const items=rows.map(r=>({amount:r.sum.value,due_on:r.date.value}));
-      const expected=Math.round(Number(availableById.get(charge.value)?.amount||0)*100);
+      const approvedCharge=availableById.get(charge.value);
+      const expected=Math.round(Number(approvedCharge?.amount||0)*100);
       const actual=items.reduce((acc,x)=>acc+Math.round(Number(x.amount)*100),0);
-      if(actual!==expected){alert(fin('planAmount'));savePlan.disabled=false;return}
-      const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'plan',tenant_id:tenant,charge_id:charge.value,title:title.value,items}});
+      if(!approvedCharge||actual!==expected){alert(fin('planAmount'));savePlan.disabled=false;return}
+      const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'plan',tenant_id:tenant,charge_id:approvedCharge.id,title:title.value,items}});
       if(error||!data?.ok){alert(fin('failed'));savePlan.disabled=false;return}
-      alert(fin('saved'));void renderPanel();
+      selectedInstallmentStudent=approvedCharge.resident_id;newInstallmentCharge=approvedCharge.id;void renderPanel();
     });
     container.append(planForm);
    }

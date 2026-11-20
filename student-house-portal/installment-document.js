@@ -47,7 +47,8 @@ async function pdfDocument(plan,person,items,bank,images){
  }
  return new File([pdf.output('blob')],'splatkovy-kalendar.pdf',{type:'application/pdf'});
 }
-export function attachInstallmentDocument(host,plan,person,items){
+const recentAccounts=new Map();
+export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope}={}){
  if(!person||!items.length)return;
  const panel=node('details'),summary=node('summary','Splátkový kalendár s QR kódmi'),form=node('form');
  const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,true],['Variabilný symbol','symbol',10,false]];
@@ -57,19 +58,26 @@ export function attachInstallmentDocument(host,plan,person,items){
   if(key==='symbol'){input.inputMode='numeric';input.pattern='[0-9]{1,10}';}
   wrapper.append(input);form.append(wrapper);fields[key]=input;
  }
- const create=node('button','Vytvoriť PDF s QR kódmi'),status=node('p'),preview=node('div');
- status.setAttribute('role','status');create.type='submit';form.append(create,status,preview);
- let url;
- form.addEventListener('input',()=>{preview.replaceChildren();if(url){URL.revokeObjectURL(url);url=null;}});
- form.addEventListener('submit',async event=>{
-  event.preventDefault();
+ const retry=node('button','Skúsiť znova'),status=node('p'),preview=node('div');
+ status.setAttribute('role','status');retry.type='button';retry.hidden=true;form.append(status,retry,preview);
+ let url,timeout,version=0,requested='';
+ function refresh(){
+  clearTimeout(timeout);version++;requested='';retry.hidden=true;preview.replaceChildren();
+  if(url){URL.revokeObjectURL(url);url=null;}
   const bank={beneficiary:fields.beneficiary.value.trim(),iban:fields.iban.value.replace(/\s/g,'').toUpperCase(),symbol:fields.symbol.value.trim()};
-  if(!bank.beneficiary||!validIban(bank.iban)){status.textContent='Skontroluj meno príjemcu a IBAN ubytovateľa.';return;}
-  create.disabled=true;for(const field of Object.values(fields))field.disabled=true;
-  status.textContent='Vytváram dokument…';
+  if(!bank.beneficiary||!validIban(bank.iban)||(bank.symbol&&!/^\d{1,10}$/.test(bank.symbol))){
+   status.textContent='Doplň príjemcu a správny IBAN ubytovateľa. PDF sa vytvorí automaticky.';return;
+  }
+  status.textContent='Vytváram dokument…';const run=version;
+  timeout=setTimeout(()=>void generate(bank,run),300);
+ }
+ async function generate(bank,run){
+  requested=bank.beneficiary+'|'+bank.iban;
   try{
    const images=await paymentImages(items,bank);
    const file=await pdfDocument(plan,person,items,bank,images);
+   if(run!==version)return;
+   if(accountScope)recentAccounts.set(accountScope,{beneficiary:bank.beneficiary,iban:bank.iban});
    if(url)URL.revokeObjectURL(url);
    url=URL.createObjectURL(file);
    const download=node('a','Stiahnuť PDF');download.href=url;download.download=file.name;
@@ -90,8 +98,21 @@ export function attachInstallmentDocument(host,plan,person,items){
     figure.append(img,node('figcaption',date(items[index].due_on)+' · '+money.format(Number(items[index].amount))));preview.append(figure);
    }
    status.textContent='Dokument je pripravený.';
-  }catch(error){status.textContent='Dokument sa nepodarilo vytvoriť. '+error.message;}
-  finally{create.disabled=false;for(const field of Object.values(fields))field.disabled=false;}
- });
+  }catch(error){if(run===version){status.textContent='Dokument sa nepodarilo vytvoriť. '+error.message;retry.hidden=false;}}
+ }
+ form.addEventListener('input',refresh);
+ form.addEventListener('submit',event=>event.preventDefault());
+ retry.addEventListener('click',refresh);
+ function prepare(){
+  const cached=recentAccounts.get(accountScope);
+  if(cached&&!fields.beneficiary.value&&!fields.iban.value){
+   fields.beneficiary.value=cached.beneficiary;fields.iban.value=cached.iban;
+  }
+  if(!requested)refresh();
+ }
+ panel.addEventListener('toggle',()=>{if(panel.open)prepare();});
+ panel.open=open;
  panel.append(summary,form);host.append(panel);
+ if(open)prepare();
+ return panel;
 }
