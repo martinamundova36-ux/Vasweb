@@ -298,8 +298,6 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
 <div class="reg-fields">
 <label for="regRoomType" id="labRoomType">Preferovaný typ izby</label><select id="regRoomType" required><option value="">Bez preferencie</option><option value="M2">Manzard 2</option><option value="Š1+1">Standard 1+1</option><option value="SUI 2">Suite 2</option><option value="D2">De Luxe 2</option><option value="Š2">Standard 2</option><option value="D2V">De Luxe 2V</option></select>
-<label for="regRoom" id="labRoom">Preferované číslo izby (ak ho poznáš)</label><select id="regRoom" aria-describedby="regRoomHelp"><option value="">Bez preferencie</option></select>
-<p id="regRoomHelp" class="reg-room-help">Toto je len preferencia. Voľnosť a pridelenie izby potvrdí recepcia.</p>
 <label for="regFrom" id="labFrom">Ubytovanie od</label><input id="regFrom" type="date" required>
 <label for="regTo" id="labTo">Ubytovanie do</label><input id="regTo" type="date" required>
 <label for="regArrival" id="labArrival">Predpokladaný príchod</label><input id="regArrival" type="date" required>
@@ -487,19 +485,8 @@ const REG_PASSWORD_WORDS={
 const PUBLIC_ROOM_CATALOG=[["001","D2V"],["002","D2V"],["003","D2V"],["004","D2V"],["005","D2V"],["006","D2V"],["101","bez okna"],["102","D2"],["103","Š2"],["104","Š2"],["105","Š2"],["106","Š2"],["107","Š2"],["108","Š2"],["109","Š2"],["110","Š2"],["111","D2"],["112","D2"],["113","D2"],["114","D2"],["114A","D2"],["115","SUI 2"],["116","SUI 2"],["117","SUI 2"],["118","SUI 2"],["119","SUI 2"],["120","SUI 2"],["121","SUI 2"],["122","M1"],["123","M2"],["124","M2"],["125","M2"],["131","Š1+1"],["132","SUI 2"],["133","SUI 2"],["134","SUI 2"],["135","SUI 2"],["136","SUI 2"],["203","D2"],["204","Š2"],["205","Š2"],["206","Š2"],["207","Š2"],["208","Š2"],["209","Š2"],["210","Š2"],["211","Š2"],["212","D2"],["213","D2"],["214","D2"],["215","D2"],["216","D2"],["217","D2"],["305","Š2+2"],["306","Š1+1"],["307","Š1+1"],["308","Š1+1"],["309","D2"],["310","Š2+1"],["311","Š2+1"],["312","D2"],["313","D2"],["314","D2"],["315","D2"]];
 const PUBLIC_ROOM_NAMES={'M2':'Manzard 2','Š1+1':'Standard 1+1','SUI 2':'Suite 2','D2':'De Luxe 2','Š2':'Standard 2','D2V':'De Luxe 2V',
  'M1':'Manzard 1','Š2+1':'Standard 2+1','Š2+2':'Standard 2+2','bez okna':'Bez okna'};
-function updateRoomPreferenceOptions(){
- const select=$('regRoom'),type=$('regRoomType').value;
- const previous=select.value,ext=REG_EXT[lang]||REG_EXT.sk;
- const available=PUBLIC_ROOM_CATALOG.filter(([id,category])=>!type||category===type);
- const options=[new Option(ext.any,'')];
- for(const [id,category] of available){
-  const label=PUBLIC_ROOM_NAMES[category]||category;
-  options.push(new Option(id+' — '+label,id));
- }
- select.replaceChildren(...options);
- select.value=available.some(([id])=>id===previous)?previous:'';
- $('regRoomHelp').textContent=ext.roomHint;
-}
+function updateRoomPreferenceOptions(){ /* The room number is assigned by reception. */ }
+
 $('regRoomType').addEventListener('change',updateRoomPreferenceOptions);
 const REG_EXT={
  sk:{roomHint:'Preferencia nezaručuje dostupnosť. Skutočné pridelenie izby potvrdí recepcia.',personal:'Kontaktné údaje – Krok 1',stay:'Požiadavka na ubytovanie',phone:'Telefónne číslo',nationality:'Národnosť',gender:'Pohlavie (nepovinné)',birth:'Dátum narodenia',address:'Trvalá adresa – ulica, mesto, PSČ, krajina',school:'Škola / univerzita (nepovinné)',parent:'Kontaktný e-mail rodiča (nepovinné)',roomType:'Preferovaný typ izby',arrival:'Predpokladaný príchod',staff:'Číslo zmluvy, konečné pridelenie izby, depozit, poplatky a mesačné platby doplní recepcia. Po schválení doplníš osobný dotazník a vložíš fotografiu.',room:'Preferované číslo izby (ak ho poznáš)',any:'Bez preferencie',private:'Nechcem uviesť',female:'Žena',male:'Muž',other:'Iné'},
@@ -515,7 +502,7 @@ function translateRegister(){
  const regLabels={sk:['Dátum narodenia','Štátna príslušnosť','Heslo (minimálne 12 znakov)','Potvrdiť heslo'],en:['Date of birth','Nationality','Password (at least 12 characters)','Confirm password'],ru:['Дата рождения','Гражданство','Пароль (не менее 12 символов)','Подтвердите пароль'],uk:['Дата народження','Громадянство','Пароль (не менше 12 символів)','Підтвердьте пароль']}[lang]||[];
  ['labBirth','labNationality','regPasswordLabel','regPasswordConfirmLabel'].forEach((id,i)=>$(id).textContent=regLabels[i]);
  updateRoomPreferenceOptions();
- for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labRoom:"room",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
+ for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
 }
 let regOpen=false;
 function setRegistration(on){
@@ -572,7 +559,7 @@ $("regForm").addEventListener("submit",async e=>{
  if(!from||!to||to<=from||$("regPassword").value!==$("regPasswordConfirm").value){msg.style.color="#a32c30";msg.textContent=r.invalid;return;}
  const payload={
   first_name:$("regFirst").value.trim(),last_name:$("regLast").value.trim(),email:$("regEmail").value.trim(),
-  room_number:$("regRoom").value.trim(),preferred_room_type:$("regRoomType").value,
+  room_number:'',preferred_room_type:$("regRoomType").value,
   telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),gender:'',date_of_birth,
   password:$("regPassword").value,password_confirmation:$("regPasswordConfirm").value,
   permanent_address:'',school:'',parent_contact_email:'',
