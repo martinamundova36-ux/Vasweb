@@ -610,7 +610,7 @@ export async function renderStaffScreen(ctx) {
      }
     });
    }
-   for(const [kind,title] of [['profile_photo',w.photo],['signed_contract',ctx.lang==='en'?'Signed contract':'Podpísaná zmluva'],['signed_rules',w.rules],['signed_gdpr',w.gdpr],['signed_schedule',ctx.lang==='en'?'Signed payment schedule':'Podpísaný splátkový kalendár'],['signed_certificate',ctx.lang==='en'?'Signed accommodation certificate':'Podpísané potvrdenie o ubytovaní']]){
+   for(const [kind,title] of [['profile_photo',w.photo],['signed_contract',ctx.lang==='en'?'Signed contract':'Podpísaná zmluva'],['signed_rules',w.rules],['signed_gdpr',w.gdpr],['signed_schedule',ctx.lang==='en'?'Signed payment schedule':'Podpísaný splátkový kalendár'],['signed_certificate',ctx.lang==='en'?'Signed accommodation certificate':'Podpísané potvrdenie o ubytovaní'],['signed_deposit',ctx.lang==='en'?'Completed deposit refund request':'Vyplnená žiadosť o vrátenie depozitu']]){
     const items=files.filter(f=>f.kind===kind);if(!items.length){filesRoot.append(el('p','mini-note',title+': '+w.missing));continue;}
     for(const file of items)filesRoot.append(documentCard(file,title));
    }
@@ -619,9 +619,9 @@ export async function renderStaffScreen(ctx) {
  }
  function documentCard(file,title){
   const card=el('article','data-card');card.append(el('strong','',title),el('p','small',file.original_name+' · '+ctx.day(file.created_at)));
-  if(['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate'].includes(file.kind))card.append(el('span','status-pill',file.review_status==='approved'?w.approved:file.review_status==='rejected'?w.needsFix:w.pending));
+  if(['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(file.kind))card.append(el('span','status-pill',file.review_status==='approved'?w.approved:file.review_status==='rejected'?w.needsFix:w.pending));
   card.append(button(w.view,()=>{if(ctx.isCurrent())void ctx.fileLink(file.id,ctx.tenant);}));
-  if(['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate'].includes(file.kind)&&['pending','rejected'].includes(file.review_status)){
+  if(['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(file.kind)&&['pending','rejected'].includes(file.review_status)){
    const input=el('input');input.type='text';input.maxLength=1000;input.value=file.staff_note||'';input.setAttribute('aria-label',w.note);input.placeholder=w.note;
    const actions=el('div','staff-actions');
    const review=async result=>{

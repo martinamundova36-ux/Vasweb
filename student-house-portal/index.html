@@ -871,6 +871,7 @@ const documentFlowText = {
   "staffHelp": "Рецепція має надати чотири основні PDF: договір, правила проживання, GDPR і підтвердження проживання. Індивідуальні файли призначаються конкретному мешканцю; після підписання мешканець завантажує скан, а рецепція його перевіряє."
  }
 };
+const openDocumentLabel=()=>({sk:'Otvoriť',en:'Open',ru:'Открыть',uk:'Відкрити'})[lang]||'Otvoriť';
 const df=k=>(documentFlowText[lang]||documentFlowText.sk)[k]||documentFlowText.sk[k]||k;
 
 const privacyUrls={sk:'https://studenthousebratislavanew.wordpress.com/gdpr/',en:'https://studenthousebratislavanew.wordpress.com/en/privacy-policy/',ru:'https://studenthousebratislavanew.wordpress.com/ru/privacy-policy/',uk:'https://studenthousebratislavanew.wordpress.com/ua/privacy-policy/'};
@@ -930,7 +931,7 @@ function templateCard(tenant,files,kind,title,staff){
  const latest=files.find(x=>x.kind===kind&&x.active);
  if(latest){
   card.append(make('small','',latest.original_name));
-  const btn=make('button','btn-secondary',dl('load'));btn.type='button';
+  const btn=make('button','btn-secondary',openDocumentLabel());btn.type='button';
   btn.addEventListener('click',()=>{void fileLink(latest.id,tenant)});
   card.append(make('div','', ''),btn);
  }else card.append(make('p','muted',dl('missing')));
@@ -974,6 +975,7 @@ async function renderProfile(tenant){
  const policy=make('a','policy-link','GDPR');policy.href=privacyUrls[lang];policy.target='_blank';policy.rel='noopener noreferrer';$('records').append(policy);
 }
 function additionalDocumentTitle(kind){
+ if(kind==='signed_deposit')return ({sk:'Vyplnená žiadosť o vrátenie depozitu',en:'Completed deposit refund request',ru:'Заполненное заявление на возврат депозита',uk:'Заповнена заява на повернення депозиту'})[lang];
  const names={sk:['Splátkový kalendár','Podpísaný splátkový kalendár','Potvrdenie o ubytovaní','Podpísané potvrdenie o ubytovaní'],en:['Payment schedule','Signed payment schedule','Accommodation certificate','Signed accommodation certificate'],ru:['График платежей','Подписанный график платежей','Подтверждение проживания','Подписанное подтверждение проживания'],uk:['Графік платежів','Підписаний графік платежів','Підтвердження проживання','Підписане підтвердження проживання']};
  return (names[lang]||names.sk)[['schedule_draft','signed_schedule','certificate_draft','signed_certificate'].indexOf(kind)];
 }
@@ -1005,13 +1007,13 @@ async function renderResidentDocuments(tenant,staff,own){
    const card=make('div','file-item document-flow-card');
    card.append(make('h3','',title));
    const downloadStep=make('div','document-flow-step');
-   downloadStep.append(make('h4','',df('stepDownload')));
+   downloadStep.append(make('h4','',openDocumentLabel()));
    if(template){
     downloadStep.append(make('p','small',template.original_name));
-    const button=make('button','btn-secondary',df('download'));button.type='button';
+    const button=make('button','btn-secondary',openDocumentLabel());button.type='button';
     button.addEventListener('click',()=>{void fileLink(template.id,tenant)});
     downloadStep.append(button);
-   }else downloadStep.append(make('p','muted',df('awaiting')));
+   }else downloadStep.append(make('p','muted',dl('missing')));
    card.append(downloadStep);
    const printStep=make('div','document-flow-step');
    printStep.append(make('h4','',df('stepPrint')),make('p','small',df('printHelp')));
@@ -1026,14 +1028,14 @@ async function renderResidentDocuments(tenant,staff,own){
     previous.append(make('strong','',df('submitted')),make('p','small',day(submission.created_at)+' · '+submission.original_name));
     previous.append(statusPill(readableStatus(submission.review_status)));
     if(submission.staff_note)previous.append(make('p','small',submission.staff_note));
-    const open=make('button','btn-secondary',dl('load'));open.type='button';
+    const open=make('button','btn-secondary',openDocumentLabel());open.type='button';
     open.addEventListener('click',()=>{void fileLink(submission.id,tenant)});
     previous.append(open);uploadStep.append(previous);
     if(submission.review_status==='approved')uploadStep.append(make('p','small',df('approved')));
     else if(submission.review_status==='rejected')uploadStep.append(make('p','small',df('rejected')));
     else uploadStep.append(make('p','small',df('pending')));
    }
-   if((template||submission)&&(!submission||submission.review_status==='rejected')){
+   {
     // The student receives a PDF first, brings it for reception signing, and uploads the signed copy.
     // Only the logged-in resident can upload, and reception still reviews it.
     uploadStep.append(uploadCard(tenant,signedKind,signedTitle,df('uploadHelp'),'application/pdf,image/jpeg,image/png'));
@@ -1048,7 +1050,7 @@ async function renderResidentDocuments(tenant,staff,own){
   grid.append(templateCard(tenant,files,'gdpr_template',dl('gdpr'),true));
   $('records').append(grid);
   subheading(dl('signedReceived'));
-  const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate'].includes(x.kind))
+  const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
   const people=await list('residents');
@@ -1077,8 +1079,15 @@ async function renderResidentDocuments(tenant,staff,own){
  if(!staff){
   subheading('Žiadosť o vrátenie depozitu');
   const refund=files.find(x=>x.kind==='resident_document'&&x.active&&x.user_id===user.id&&x.original_name==='ziadost-o-vratenie-depozitu.pdf');
-  if(refund){const card=row('Žiadosť o vrátenie depozitu',day(refund.created_at));const download=make('button','btn-secondary',dl('load'));download.type='button';download.addEventListener('click',()=>void fileLink(refund.id,tenant));card.append(download);$('records').append(card);}
+  if(refund){const card=row('Žiadosť o vrátenie depozitu',day(refund.created_at));const download=make('button','btn-secondary',openDocumentLabel());download.type='button';download.addEventListener('click',()=>void fileLink(refund.id,tenant));card.append(download);$('records').append(card);}
   else $('records').append(make('p','muted',dl('missing')));
+  const latest=files.filter(x=>x.kind==='signed_deposit'&&x.active&&x.user_id===user.id).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+  if(latest){
+   const card=row(latest.original_name,readableStatus(latest.review_status));
+   const open=make('button','btn-secondary',openDocumentLabel());open.type='button';open.addEventListener('click',()=>void fileLink(latest.id,tenant));
+   card.append(open);$('records').append(card);
+  }
+  $('records').append(uploadCard(tenant,'signed_deposit','Nahrať vyplnenú žiadosť o vrátenie depozitu',df('uploadHelp'),'application/pdf,image/jpeg,image/png'));
  }
  subheading(dl('privateDocuments'));
  const residentDocs=files.filter(x=>['resident_document','contract_draft','schedule_draft','certificate_draft'].includes(x.kind)&&x.active&&(staff||x.kind==='resident_document')&&(staff||x.user_id===user.id))
@@ -1087,7 +1096,7 @@ async function renderResidentDocuments(tenant,staff,own){
   for(const x of residentDocs){
    const owner=staff?(await list('residents')).find(p=>p.id===x.resident_id)?.full_name:'';
    const card=row(x.original_name,(owner?owner+' · ':'')+day(x.created_at));
-   const btn=make('button','btn-secondary',dl('load'));btn.type='button';
+   const btn=make('button','btn-secondary',openDocumentLabel());btn.type='button';
    btn.addEventListener('click',()=>{void fileLink(x.id,tenant)});
    card.append(btn);$('records').append(card);
   }
@@ -1390,7 +1399,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261120-profile-docs1');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261120-open-docs1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
