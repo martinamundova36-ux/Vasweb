@@ -34,3 +34,10 @@ test('inline portal JavaScript parses without syntax errors',()=>{
   assert.ok(scripts.length>0);
   for(const [,code] of scripts)new Script(code,{filename:'student-house-portal/index.html'});
 });
+
+test('every statically referenced DOM ID exists',()=>{
+  const ids=new Set([...portal.matchAll(/\bid\s*=\s*["']([^"']+)["']/g)].map(m=>m[1]));
+  const referenced=[...portal.matchAll(/\$\(\s*["']([^"']+)["']\s*\)/g)].map(m=>m[1]);
+  const missing=[...new Set(referenced.filter(id=>!ids.has(id)))];
+  assert.deepEqual(missing,[]);
+});
