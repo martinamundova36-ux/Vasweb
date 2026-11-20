@@ -1,3 +1,4 @@
+import {queueExistingRegistrationReceipt} from './receipt.js';
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.119.0";
 
@@ -50,24 +51,39 @@ Deno.serve(async(request:Request)=>{
  if(request.method!=="POST") return safeResponse({error:"method_not_allowed"},405,origin);
  if(Number(request.headers.get("content-length")||"0")>8192) return safeResponse({error:"payload_too_large"},413,origin);
  try {
-  // Only basic registration is accepted before reception approval.
-  // Sensitive personal questionnaire answers and photos belong to the approved student zone.
   if(!(request.headers.get("content-type")||"").toLowerCase().includes("application/json"))
     return safeResponse({error:"json_required"},415,origin);
   const body=await request.json();
-  if(!body || typeof body!=="object" || Array.isArray(body))return safeResponse({error:"invalid_request"},400,origin);
+  if(!body || typeof body!=="object")return safeResponse({error:"invalid_request"},400,origin);
   if(body.website) return safeResponse({ok:true},200,origin);
   const first_name=asText(body.first_name,80);
   const last_name=asText(body.last_name,80);
   const email=asText(body.email,254).toLowerCase();
   const room_number=asText(body.room_number,30);
-  const contract_number=asText(body.contract_number,60);
+  // Contract numbers and verified room assignments are written by reception only.
+  // Ignore any attempted contract_number in public submissions.
   const accommodation_from=asText(body.accommodation_from,10);
   const accommodation_to=asText(body.accommodation_to,10);
-  if(![true,'true'].includes(body.privacy_acknowledged) || first_name.length<1 || last_name.length<1 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || room_number.length<1 || contract_number.length<5 ||
+  const permanent_address=asText(body.permanent_address,500);
+  const nationality=asText(body.nationality,80);
+  const telephone=asText(body.telephone,60);
+  const gender=asText(body.gender,16);
+  const date_of_birth=asText(body.date_of_birth,10);
+  const school=asText(body.school,250);
+  const parent_contact_email=asText(body.parent_contact_email,254);
+  const preferred_room_type=asText(body.preferred_room_type,120);
+  const arrival=asText(body.expected_arrival,10);
+  const genderValid=['','male','female','other'].includes(gender);
+  const parentValid=!parent_contact_email||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(parent_contact_email);
+  if(![true,"true"].includes(body.privacy_acknowledged) || first_name.length<1 || last_name.length<1 ||
+    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !genderValid || !parentValid ||
+    (date_of_birth&&(!isDate(date_of_birth)||date_of_birth>new Date().toISOString().slice(0,10))) ||
+    (arrival&&(!isDate(arrival)||arrival>accommodation_to)) ||
     !isDate(accommodation_from)||!isDate(accommodation_to)||accommodation_to<=accommodation_from) {
      return safeResponse({error:"invalid_fields"},400,origin);
   }
+  const wantsPassword=Object.hasOwn(body,'password');
+  if(wantsPassword&&(typeof body.password!=='string'||body.password.length<12||body.password.length>200||body.password!==body.password_confirmation||!telephone||!nationality||!date_of_birth||!preferred_room_type||!arrival))return safeResponse({error:'invalid_fields'},400,origin);
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("cf-connecting-ip") || "unidentified";
   const secretKey=await crypto.subtle.importKey("raw",encoder.encode(SECRET),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
   const signature=await crypto.subtle.sign("HMAC",secretKey,encoder.encode(forwarded));
@@ -75,13 +91,32 @@ Deno.serve(async(request:Request)=>{
   const {data:allowed,error:rateError}=await client.rpc("registration_rate_allowed",{p_hash});
   if(rateError){console.error("registration_rate_failure",rateError.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
   if(!allowed)return safeResponse({error:"too_many_requests"},429,origin);
-  const since = new Date(Date.now()-20*60*1000).toISOString();
-  const {data:recent,error:recentError}=await client.from("registration_requests").select("id").eq("tenant_id",tenantId).eq("email",email).eq("contract_number",contract_number).gte("created_at",since).limit(1);
+  const since = new Date(Date.now()-14*24*60*60*1000).toISOString();
+  const {data:recent,error:recentError}=await client.from("registration_requests")
+    .select("id,email,status,correction_token_hash,correction_expires_at").eq("tenant_id",tenantId).eq("email",email)
+    .in("status",["pending","correction_requested"]).gte("created_at",since).order("created_at",{ascending:false}).limit(1);
   if(recentError){console.error("registration_duplicate_check",recentError.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
-  if(recent?.length)return safeResponse({ok:true},200,origin);
-  const {error}=await client.from("registration_requests")
-   .insert({tenant_id:tenantId,first_name,last_name,email,room_number,contract_number,accommodation_from,accommodation_to,status:"pending"});
-  if(error){console.error("registration_insert_failed",error.code);return safeResponse({error:"temporarily_unavailable"},503,origin)}
-  return safeResponse({ok:true},201,origin);
+  if(recent?.length){
+   try{await queueExistingRegistrationReceipt(client,tenantId,recent[0]);}
+   catch{console.error("registration_receipt_queue_failed");}
+   return safeResponse({ok:true,already_registered:true},200,origin);
+  }
+  let newUserId:string|null=null;
+  if(wantsPassword){
+   // Auth alone stores the password hash. Pending users have no residence membership.
+   const {data:account,error:accountError}=await client.auth.admin.createUser({email,password:body.password,email_confirm:false});
+   if(accountError||!account?.user?.id){
+    if(['email_exists','user_already_exists','identity_already_exists'].includes(String(accountError?.code||'')))return safeResponse({error:'email_already_registered'},409,origin);
+    return safeResponse({error:'account_exists_or_unavailable'},409,origin);
+   }
+   newUserId=account.user.id;
+  }
+  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,room_number,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival}});
+  if(registrationError||!created?.id){
+   console.error('registration_transaction_failed',registrationError?.code);
+   if(newUserId){const {error:cleanupError}=await client.auth.admin.deleteUser(newUserId);if(cleanupError)console.error('registration_auth_cleanup_failed',cleanupError.code);}
+   return safeResponse({error:'temporarily_unavailable'},503,origin);
+  }
+  return safeResponse({ok:true,already_registered:created.existing===true},created.existing===true?200:201,origin);
  }catch(e){console.error("registration_invalid_request",e instanceof Error?e.name:"error");return safeResponse({error:"invalid_request"},400,origin)}
 });
