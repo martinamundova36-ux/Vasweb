@@ -255,6 +255,17 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 </style><style>.backbar{gap:12px;justify-content:space-between;flex-wrap:wrap}.install-studenthouse{flex:0 0 auto;min-height:44px;background:#e9f2ff;color:#143257;border:1px solid #b5cbe5;border-radius:11px;padding:10px 14px;font-weight:750}.install-studenthouse:hover,.install-studenthouse:focus-visible{background:#d8e9ff;color:#143257}.install-studenthouse[hidden],.install-help[hidden]{display:none}.install-help{margin:0;padding:12px 20px;background:#dbeafe;color:#143257;text-align:center;font-size:14px;line-height:1.5;border-bottom:1px solid #b5cbe5}@media(max-width:750px){.install-studenthouse{width:100%}}body:not(.portal-open) #staffMenuShortcut,#staffMenuShortcut[hidden]{display:none}.studenthouse-app-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-left:auto}.studenthouse-brand-credit{padding:20px 15px 26px;text-align:center;background:#eef3fa;color:#60758e;font:600 13px/1.5 system-ui,Arial}.studenthouse-brand-credit a{color:#142b4d;font-weight:800;text-decoration:underline;text-underline-offset:2px}.studenthouse-brand-credit a:hover,.studenthouse-brand-credit a:focus-visible{color:#23588d}@media(max-width:750px){.studenthouse-app-actions{width:100%;margin-left:0}.studenthouse-app-actions .install-studenthouse{flex:1 1 180px}}</style><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="shortcut icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></head><body data-portal-entry="admin">
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a><div class="studenthouse-app-actions"><button type="button" id="staffMenuShortcut" class="install-studenthouse" aria-controls="tabs" hidden>Menu administrácie</button><button type="button" id="shareStudenthouse" class="install-studenthouse" aria-controls="studenthouseShareStatus">↗ Zdieľať Student House Bratislava</button><button type="button" id="installStudenthouse" class="install-studenthouse" aria-controls="studenthouseInstallHelp">📲 Nainštalovať Student House Bratislava</button></div></header><p class="install-help" id="studenthouseShareStatus" role="status" aria-live="polite" hidden></p><p class="install-help" id="studenthouseInstallHelp" role="status" aria-live="polite" hidden></p>
 <div class="wrap"><aside class="hero"><strong>▥ Student House Bratislava</strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><div class="hero-photo-frame"><img class="hero-photo" src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-studenti-pri-dunaji.png" width="1842" height="854" loading="eager" decoding="async" alt="Ilustračná fotografia študentského života v Bratislave"></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
+<div id="entryChooser" class="login hide">
+ <label id="entryLanguageLabel" for="entryLanguage">Jazyk rozhrania</label>
+ <select id="entryLanguage"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select>
+ <h2 id="entryHeading">Vyber, kam chceš pokračovať</h2>
+ <p id="entryDescription" class="muted"></p>
+ <nav id="entryOptions" aria-labelledby="entryHeading" style="display:grid;gap:12px">
+  <a id="chooseStudent" class="btn-secondary" href="/student-house-portal/student/?signin=1">Študentské prihlásenie</a>
+  <a id="chooseRegistration" class="btn-secondary" href="/student-house-portal/student/?view=register">Registrácia študenta</a>
+  <a id="chooseStaff" class="btn-secondary" href="/student-house-portal/admin/?signin=1">Recepcia / Administrátor</a>
+ </nav>
+</div>
 <div id="login" class="login">
 
 <select id="lang" aria-label="Jazyk rozhrania"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><h2 id="sign">Prihlásiť sa</h2><p id="intro" class="muted">Len pre ubytovaných a oprávnených zamestnancov.</p><form id="form"><label for="email">E-mail</label><input type="email" id="email" autocomplete="email" required><label id="pwlabel" for="password">Heslo</label><div class="password-field"><input type="password" id="password" autocomplete="current-password" required><button type="button" id="loginEye" aria-label="Zobraziť heslo" aria-pressed="false" title="Zobraziť heslo"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3l18 18"/></svg></button></div><button type="button" id="forgotPassword" style="background:transparent;color:#18588d;margin-top:9px;width:100%;text-align:center;text-decoration:underline;padding:8px 0;white-space:normal;overflow-wrap:anywhere">Zabudnuté heslo?</button><button id="signbtn" type="submit">Prihlásiť sa</button></form>
@@ -2014,6 +2025,45 @@ $('passwordResetForm').addEventListener('submit',async e=>{
  }
 });
 $('out').addEventListener('click',async()=>{await db.auth.signOut({scope:'local'});member=null;resident=null;await signedIn(null)});
+const entryQuery=new URLSearchParams(location.search);
+const entryHash=new URLSearchParams(location.hash.slice(1));
+const hasAuthLink=['type','access_token','error'].some(key=>entryHash.has(key))||
+ ['code','token_hash','type'].some(key=>entryQuery.has(key));
+const chooseEntry=!document.body.dataset.portalEntry&&!entryQuery.get('view')&&
+ entryQuery.get('signin')!=='1'&&!hasAuthLink;
+if(chooseEntry){
+ const choices={
+  sk:['Vyber, kam chceš pokračovať','Prihlás sa do svojho účtu alebo odošli novú registráciu.','Študentské prihlásenie','Registrácia študenta','Recepcia / Administrátor','Jazyk rozhrania'],
+  en:['Choose how to continue','Sign in to your account or submit a new registration.','Student sign-in','Student registration','Reception / Administrator','Interface language'],
+  ru:['Выберите, как продолжить','Войдите в свой аккаунт или подайте новую заявку.','Вход для студентов','Регистрация студента','Ресепшен / Администратор','Язык интерфейса'],
+  uk:['Виберіть, як продовжити','Увійдіть до свого облікового запису або подайте нову заявку.','Вхід для студентів','Реєстрація студента','Рецепція / Адміністратор','Мова інтерфейсу']
+ };
+ const links=[['chooseStudent','student/?signin=1'],['chooseRegistration','student/?view=register'],['chooseStaff','admin/?signin=1']];
+ function renderEntryChoice(){
+  translate();
+  const [heading,description,...labels]=choices[lang];
+  $('welcome').textContent=$('entryHeading').textContent=heading;
+  $('subtitle').textContent=$('entryDescription').textContent=description;
+  $('entryLanguageLabel').textContent=labels[3];
+  links.forEach(([id,path],i)=>{
+   $(id).textContent=labels[i];
+   $(id).href='/student-house-portal/'+path+'&lang='+lang;
+  });
+ }
+ $('login').classList.add('hide');
+ $('entryChooser').classList.remove('hide');
+ $('entryLanguage').value=lang;
+ $('entryLanguage').addEventListener('change',event=>{
+  lang=event.target.value;
+  const url=new URL(location.href);
+  url.searchParams.set('lang',lang);
+  history.replaceState(null,'',url);
+  renderEntryChoice();
+ });
+ renderEntryChoice();
+ return;
+}
+const requireExplicitSignIn=entryQuery.get('signin')==='1'||entryQuery.get('view')==='register';
 if(!window.supabase||!K){$('error').textContent='Login service unavailable.';return}
 // Capture invitation or recovery intent before the Auth client consumes the URL token.
 const authLinkType=new URLSearchParams(window.location.hash.slice(1)).get('type');
@@ -2023,7 +2073,7 @@ const recoveryRedirect=authLinkType==='recovery';
 // redirect; use SIGNED_IN/INITIAL_SESSION for *all* authenticated link types.
 let authHydrationQueued=false;
 function queueSignedIn(account,explicit=false){
- if(!account||resetMode||(!explicit&&new URLSearchParams(location.search).get('signin')==='1'))return;
+ if(!account||resetMode||(!explicit&&requireExplicitSignIn))return;
  if(user?.id===account.id&&member&&!$('app').classList.contains('hide'))return;
  if(authHydrationQueued)return;
  authHydrationQueued=true;
@@ -2045,6 +2095,6 @@ db.auth.onAuthStateChange((event,session)=>{
   queueSignedIn(session.user);
  }
 });
-if(new URLSearchParams(location.search).get('signin')!=='1'&&!recoveryRedirect)
+if(!requireExplicitSignIn&&!recoveryRedirect)
  db.auth.getUser().then(({data})=>{if(data?.user)queueSignedIn(data.user)});
 })();</script><script src="/student-house-portal/install.js" defer></script><script src="/student-house-portal/share.js" defer></script></body></html>
