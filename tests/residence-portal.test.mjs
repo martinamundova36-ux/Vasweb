@@ -41,3 +41,15 @@ test('every statically referenced DOM ID exists',()=>{
   const missing=[...new Set(referenced.filter(id=>!ids.has(id)))];
   assert.deepEqual(missing,[]);
 });
+
+test('generated staff and student entry pages match registration security',()=>{
+  for(const entry of ['student','admin']){
+    const page=readFileSync(resolve(root,'student-house-portal',entry,'index.html'),'utf8');
+    assert.doesNotMatch(page,/id="regRoom"/);
+    assert.doesNotMatch(page,/\$\(['"]regRoom['"]\)/);
+    assert.match(page,/room_number:''/);
+    for(const [,code] of page.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)){
+      new Script(code,{filename:entry+'/index.html'});
+    }
+  }
+});
