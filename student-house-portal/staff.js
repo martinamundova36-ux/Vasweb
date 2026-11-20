@@ -224,6 +224,9 @@ export async function renderStaffScreen(ctx) {
       card.append(activate,activationResult);
      }
     }
+    if(person.status==='rejected'){
+     card.append(receipt(({sk:'Registrácia zamietnutá',en:'Registration rejected',ru:'Заявка отклонена',uk:'Заявку відхилено'})[ctx.lang]));
+    }
     if(person.status==='correction_requested'){
      card.append(receipt(registrationReturned));
      if(person.correction_reason)card.append(el('p','',cw.reason+': '+person.correction_reason));
@@ -445,6 +448,7 @@ export async function renderStaffScreen(ctx) {
     ctx.notice.append(mail);
    }
    // Show a durable receipt only after the server confirms the approval transaction.
+   if(!approve){select.value='rejected';search.value=person.email;}
    if(approve){
     approvalReceipts.set(receiptKey,{id:person.id,emailSent});
     showApprovalReceipt(person,emailSent,loginReady);
@@ -504,7 +508,8 @@ export async function renderStaffScreen(ctx) {
     ];
     const dataList=el('dl','identity-fields');
     for(const [name,value] of values)dataList.append(field(name,value||'—'));
-    enquiryBox.append(dataList,el('p','mini-note',translated?'Student-submitted details; verify before using in the accommodation register.':'Údaje od študenta – pred prenosom do evidencie ich musí overiť recepcia.'));
+    const reviewHint=el('p','mini-note',({sk:'Údaje od študenta čakajú na kontrolu recepcie.',en:'Student-submitted information awaits reception review.',ru:'Данные студента ожидают проверки на ресепшене.',uk:'Дані студента очікують перевірки на рецепції.'})[ctx.lang]);
+    enquiryBox.append(dataList,reviewHint);
 
     const {data:review,error:reviewError}=await ctx.db.from('resident_enquiry_reviews')
       .select('review_status,correction_reason,requested_at')
@@ -536,6 +541,7 @@ export async function renderStaffScreen(ctx) {
       const actions=el('div','staff-actions');
       enquiryBox.append(actions);
       const showReview=(label,explanation='')=>{
+       reviewHint.hidden=true;
        actions.replaceChildren(receipt(label));
        if(explanation)actions.append(el('p','mini-note',explanation));
       };
