@@ -422,6 +422,8 @@ function translateQuestionnairePreview(){
 const staffEntryMode=document.body.dataset.portalEntry==='admin'||(!document.body.dataset.portalEntry&&new URLSearchParams(location.search).get('view')==='reception');
 // Student and reception use different stored sessions. Preserve the original admin session.
 const portalStorageKey=staffEntryMode?'sb-ydqchayscxntqdkzkynv-auth-token':'sb-ydqchayscxntqdkzkynv-student-auth-token';
+let studentQuestionnaireSaved=false;
+const studentProfileOpen=()=>!!resident&&(!!resident.profile_password_activated_at||studentQuestionnaireSaved);
 const portalRoleAllowed=role=>staffEntryMode?(role==='reception'||role==='org_admin'):role==='student';
 const portalMessages={
  sk:{student:"Toto je účet recepcie alebo administrátora. Pre študentskú zónu sa prihlás samostatným schváleným študentským účtom.",staff:"Tento účet nemá oprávnenie recepcie.",switchStudent:"Študentské prihlásenie",switchStaff:"Recepcia / Admin"},
@@ -610,7 +612,7 @@ async function list(table,filter){
 async function chooseOrganization(tenantId){
  const chosen=memberships.find(m=>m.tenant_id===tenantId);
  if(!chosen)return;
- member=chosen;resident=null;
+ member=chosen;resident=null;studentQuestionnaireSaved=false;
  const name=organizationNames[tenantId]||'Ubytovacie zariadenie';
  $('orgLabel').textContent=name.toUpperCase();
  document.title=name+' | '+(member.role==='student'?dashboardLabel('student'):dashboardLabel('admin'));
@@ -635,8 +637,9 @@ async function chooseOrganization(tenantId){
   const needsCorrection=review?.review_status==='needs_correction'
    && Date.parse(String(questionnaire?.updated_at||questionnaire?.created_at||''))<=Date.parse(String(review.requested_at||''));
   const isCompleted=!!questionnaire?.student_submitted_at&&!!photos?.length;
+  studentQuestionnaireSaved=!questionError&&!photoError&&isCompleted;
   const wantsEnquiry=new URLSearchParams(location.search).get('tab')==='enquiry';
-  if(!resident.profile_password_activated_at){
+  if(!studentProfileOpen()){
    tab=isCompleted&&!needsCorrection?'await-profile':'enquiry';
   }else if(!questionError&&!photoError&&!reviewError&&(!isCompleted||needsCorrection||wantsEnquiry)){
    tab='enquiry';
@@ -756,7 +759,7 @@ async function renderStudentNotifications(tenant,generation){
 $('studentNoticeBell').addEventListener('click',()=>{if(member&&!isStaff())navigate('notifications');});
 
 function navigate(next){
- if(!isStaff()&&!resident?.profile_password_activated_at&&!['enquiry','await-profile','notifications'].includes(next))return;
+ if(!isStaff()&&!studentProfileOpen()&&!['enquiry','await-profile','notifications'].includes(next))return;
  tab=next;renderTabs();updateOnboardingNotice();void renderPanel();
 }
 function showStaffMenu(){
@@ -1156,7 +1159,7 @@ async function renderResidentDocuments(tenant,staff,own){
       else throw Error('Pre tento dokument zatiaľ nie je uložená predloha.');
       const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
       const pdf=await PDFDocument.load(bytes),form=pdf.getForm();
-      const {data:answers}=await db.from('resident_enquiries').select('permanent_address,date_of_birth,nationality,telephone').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle();
+      const {data:answers}=await db.from('resident_enquiries').select('permanent_address,date_of_birth,nationality,telephone,school,gender,identity_document_number').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle();
       const fields={};
       const add=(value,...names)=>{if(value!==null&&value!==undefined&&value!=='')for(const name of names)fields[key(name)]=String(value);};
       add(person.full_name,'Meno a priezvisko','Full name','student_name','ubytovany');
@@ -1165,6 +1168,7 @@ async function renderResidentDocuments(tenant,staff,own){
       add(person.email,'Email','E-mail');add(person.verified_room_number,'Číslo izby','Room number');add(person.verified_contract_number,'Číslo zmluvy','Contract number');
       add(person.accommodation_from,'Ubytovanie od','Accommodation from');add(person.accommodation_to,'Ubytovanie do','Accommodation to');
       add(answers?.permanent_address,'Trvalá adresa','Permanent address');add(answers?.date_of_birth,'Dátum narodenia','Date of birth');add(answers?.telephone,'Telefón','Phone');add(answers?.nationality,'Národnosť','Nationality');
+      add(answers?.school,'Škola','School');add(answers?.gender,'Pohlavie','Gender');add(answers?.identity_document_number,'Číslo dokladu','ID document number');
       let filled=0;
       for(const field of form.getFields()){
        const value=fields[key(field.getName())];
@@ -1219,7 +1223,7 @@ function renderTabs(){
  shortcut.textContent=({sk:'Menu administrácie',en:'Administration menu',ru:'Меню администратора',uk:'Меню адміністрації'})[lang]||'Menu administrácie';
  const keys=isAdmin?['rooms','overview','registrations','residents','payments','installments','documents','requests','cleaning','notices']:['overview','notifications','profile','enquiry','documents','rooms','payments','installments','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label','Sections');parent.setAttribute('role','navigation');
- const inWizard=!isAdmin&&resident&&!resident.profile_password_activated_at;
+ const inWizard=!isAdmin&&resident&&!studentProfileOpen();
  const progress=$('wizardProgress');progress.classList.toggle('hide',!inWizard);
  if(inWizard){
   progress.textContent=lang==='en'
@@ -1256,7 +1260,7 @@ function editingRecord(){
  return !!(x&&$('records').contains(x)&&(x.matches('input,textarea,select,[contenteditable="true"]')||x.closest('.register-edit,.staff-form,.room-register-import')));
 }
 async function refreshLiveView(){
- if(!member||!db||resetMode)return;
+ if(!member||!db||resetMode||(!isStaff()&&tab==='enquiry'))return;
  if(document.visibilityState==='hidden'||liveBusy||editingRecord()){livePending=true;return;}
  liveBusy=true;livePending=false;
  const tenant=member.tenant_id,section=tab;
@@ -1358,11 +1362,11 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261120-no-duplicate-fields');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261120-profile-save1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
-    isOnboarding:!resident.profile_password_activated_at,
-    onComplete:()=>resident.profile_password_activated_at?navigate('documents'):navigate('await-profile'),
+    onSaved:()=>{studentQuestionnaireSaved=true;renderTabs();updateOnboardingNotice();},
+    onComplete:()=>navigate('profile'),
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='enquiry'});
    return;
   }
@@ -1463,7 +1467,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261120-login-status2');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261120-profile-save1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
