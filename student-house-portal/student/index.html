@@ -1309,7 +1309,6 @@ async function renderResidentDocuments(tenant,staff,own){
       const open=make('a','btn-secondary','Zobraziť PDF na kontrolu');open.href=previewUrl;open.target='_blank';open.rel='noopener';
       const download=make('a','btn-secondary',official.checked?'Stiahnuť vyplnenú predlohu':'Stiahnuť pracovný vzor');download.href=previewUrl;download.download=result.name;
       preview.replaceChildren(open,download);
-      const missing=missingDocumentFields(workingKind,data);
       state.textContent=missing.length?'Doplň pred schválením: '+missing.join(', '):official.checked?'Vyplnená predloha je pripravená na kontrolu.':'Pracovný vzor je pripravený na kontrolu.';
      }catch(error){state.textContent=error.message||'Predlohu sa nepodarilo vyplniť.';}
      finally{prepare.disabled=false;}
