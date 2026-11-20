@@ -1565,18 +1565,41 @@ async function renderPanel(){
      list('installment_items'),staff?list('rent_charges'):Promise.resolve([]),staff?list('residents'):Promise.resolve([])
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
+   if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
+   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-1');
+   if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
+   const search=make('input');search.type='search';search.placeholder='Meno alebo e-mail študenta';
+   container.append(labeled('Vyhľadať študenta',search));
+   const fold=value=>String(value||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();
+   const matches=id=>{const p=peopleById[id];return fold((p?.full_name||'')+' '+(p?.email||'')).includes(fold(search.value.trim()));};
+   const planCards=[];
    if(!plans.length)empty();
    for(const p of plans){
      const entry=row(p.title,staff?(peopleById[p.resident_id]?.full_name||'—'):'');
      const related=items.filter(x=>x.plan_id===p.id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
      for(const x of related)entry.append(make('div','small',day(x.due_on)+' · '+money(x.amount)));
-     container.append(entry);
+     attachInstallmentDocument(entry,p,peopleById[p.resident_id],related);
+     planCards.push([p.resident_id,entry]);container.append(entry);
    }
+   search.addEventListener('input',()=>{for(const [id,card] of planCards)card.hidden=!matches(id);});
    if(staff){
-    const available=charges.filter(x=>!plans.some(p=>p.charge_id===x.id));
+    const approved=new Set(plans.map(p=>p.charge_id));
+    const available=charges.filter(x=>!approved.has(x.id)).sort((a,b)=>
+     String(peopleById[a.resident_id]?.full_name||'').localeCompare(String(peopleById[b.resident_id]?.full_name||''),'sk')||
+     String(a.period||'').localeCompare(String(b.period||'')));
     if(!available.length){message(fin('missingCharges'));return;}
     const planForm=make('form','staff-form');planForm.append(make('strong','',fin('planAdd')));
-    const charge=selector(available,'id',x=>(peopleById[x.resident_id]?.full_name||'—')+' · '+x.period+' · '+money(x.amount));
+    const charge=selector([],'id',()=>''),availableById=new Map(available.map(item=>[item.id,item]));
+    const updateCharges=()=>{
+     const current=charge.value;
+     charge.replaceChildren(new Option('Vyber predpis',''));
+     if(search.value.trim())for(const item of available.filter(x=>matches(x.resident_id))){
+      const person=peopleById[item.resident_id];
+      charge.append(new Option([person?.full_name||'—',person?.email,item.period,money(item.amount)].filter(Boolean).join(' · '),item.id));
+     }
+     if([...charge.options].some(o=>o.value===current))charge.value=current;
+     build();
+    };
     const title=make('input');title.required=true;title.minLength=2;title.maxLength=150;
     title.value=lang==='en'?'Agreed installment schedule':'Dohodnutý splátkový kalendár';
     const count=make('input');count.type='number';count.min='2';count.max='12';count.value='2';count.required=true;
@@ -1584,7 +1607,9 @@ async function renderPanel(){
     const rows=[];
     const build=()=>{
       schedule.replaceChildren();rows.length=0;
-      const selected=available.find(x=>x.id===charge.value);
+      const selected=availableById.get(charge.value);
+      savePlan.disabled=!selected;
+      if(!selected)return;
       const cents=Math.round(Number(selected?.amount||0)*100),n=Math.max(2,Math.min(12,Number(count.value)||2));
       for(let j=0;j<n;j++){
         const line=make('div','inline-grid'),date=dateInput(),sum=euroInput();
@@ -1594,13 +1619,13 @@ async function renderPanel(){
         schedule.append(line);rows.push({date,sum});
       }
     };
-    count.addEventListener('change',build);charge.addEventListener('change',build);build();
+    count.addEventListener('change',build);charge.addEventListener('change',build);search.addEventListener('input',updateCharges);
     planForm.append(labeled(fin('charge'),charge),labeled(fin('title'),title),labeled(fin('installments'),count),make('p','muted',fin('planAmount')),schedule);
-    const savePlan=make('button','',fin('savePlan'));savePlan.type='submit';planForm.append(savePlan);
+    const savePlan=make('button','',fin('savePlan'));savePlan.type='submit';planForm.append(savePlan);updateCharges();
     planForm.addEventListener('submit',async e=>{
       e.preventDefault();savePlan.disabled=true;
       const items=rows.map(r=>({amount:r.sum.value,due_on:r.date.value}));
-      const expected=Math.round(Number(available.find(x=>x.id===charge.value)?.amount||0)*100);
+      const expected=Math.round(Number(availableById.get(charge.value)?.amount||0)*100);
       const actual=items.reduce((acc,x)=>acc+Math.round(Number(x.amount)*100),0);
       if(actual!==expected){alert(fin('planAmount'));savePlan.disabled=false;return}
       const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'plan',tenant_id:tenant,charge_id:charge.value,title:title.value,items}});
