@@ -2672,6 +2672,294 @@
         "1280": "f9885895e6e46a183cc248cff30b46966c1f15e9a97629f39b0f79790bb02145",
         "social": "eff686223e539827d234fa04a450393a7eadb2b6aa14ade5530e3a83cbd62800"
       }
+    },
+    {
+      "id": "commons-f41df06d90b286",
+      "provider": "Wikimedia Commons",
+      "provider_id": "9716742",
+      "source_page": "https://commons.wikimedia.org/wiki/File:CubeSpace.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/CubeSpace.jpg/1920px-CubeSpace.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Asa Wilson",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "4dae857bea11df278820685917fef745394e40ec5302cfd7689af2bd90b92ba8",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-f41df06d90b286-640.webp",
+        "1280": "/assets/journal/commons-f41df06d90b286-1280.webp",
+        "social": "/assets/journal/commons-f41df06d90b286-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d1cba316713b83e5b38f1b078958a1a7b11d5954b9fdb027524ae1e3fb58a913",
+        "1280": "a5b604f63ed09f33f1cb8fb5646b2554fd4dd955ef7a207926e9ee3cd7966229",
+        "social": "0fa2e514ddd5fd306cd539cf65cc602d7336e32545e02081825a30da912a71d6"
+      }
+    },
+    {
+      "id": "commons-2a946e3fe66c3c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "61714494",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Casual_Meeting_Room_(Unsplash).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Casual_Meeting_Room_%28Unsplash%29.jpg/1920px-Casual_Meeting_Room_%28Unsplash%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Dan Gold  danielcgold",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "5127c035fcd82463877ae70dd7a1d33e3ec7d36293c03981349a54ddcfba5165",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-2a946e3fe66c3c-640.webp",
+        "1280": "/assets/journal/commons-2a946e3fe66c3c-1280.webp",
+        "social": "/assets/journal/commons-2a946e3fe66c3c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "fa2cfcd37f502c4e6cce9f496e6d9dd8fae4a941fdd6d67e18e1066ff3b9bde2",
+        "1280": "5a626a95642aed713ec5552a7a47ca87281deed68929ad9a390dc9b6676c925e",
+        "social": "569792192234011ca2d5b554b7a812fa94a3c5b734733d9e19f2229ab5edfe45"
+      }
+    },
+    {
+      "id": "commons-f00dcb88a30a55",
+      "provider": "Wikimedia Commons",
+      "provider_id": "196010941",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Person_giving_thumbs_up_gesture_while_using_laptop_against_dark_background_in_a_home_office_setting.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Person_giving_thumbs_up_gesture_while_using_laptop_against_dark_background_in_a_home_office_setting.jpg/1920px-Person_giving_thumbs_up_gesture_while_using_laptop_against_dark_background_in_a_home_office_setting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "7a574371af92e4d059661232f77e5de462ac30c3fdce7e3d9366a4c488bb3785",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-f00dcb88a30a55-640.webp",
+        "1280": "/assets/journal/commons-f00dcb88a30a55-1280.webp",
+        "social": "/assets/journal/commons-f00dcb88a30a55-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "7d109fa98286d4ca7c4843a402e44247aa5c2501cbc6282bb8d17bee10341a31",
+        "1280": "abe1f06f910710c1c9f2e9c8e821bb3ede68ee09c841fbf5362e9785be3c4d1f",
+        "social": "2a65592c11556015b7ca5b2f9f51eef5f9ec4f59a6bbd11e5672c46315cdbce2"
+      }
+    },
+    {
+      "id": "commons-ca1a0bb9b681dc",
+      "provider": "Wikimedia Commons",
+      "provider_id": "189340583",
+      "source_page": "https://commons.wikimedia.org/wiki/File:VCat_visualization_of_English_Wikipedia_categorization_of_%27Data_and_information_visualization%27_with_a_depth_of_two_layers_upward.png",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/VCat_visualization_of_English_Wikipedia_categorization_of_%27Data_and_information_visualization%27_with_a_depth_of_two_layers_upward.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Prototyperspective",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "cf099d8a38bcfe4e6bbe1b967777863efde0e5a0832e2350a650100e0e00a7b6",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Analytická práca s dátami na počítači",
+        "en": "Data analysis on a computer"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-ca1a0bb9b681dc-640.webp",
+        "1280": "/assets/journal/commons-ca1a0bb9b681dc-1280.webp",
+        "social": "/assets/journal/commons-ca1a0bb9b681dc-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d47148f1b20588c79c5db721c06d9204ca2c1fa5e54a9ac16c56b62df42494b3",
+        "1280": "c26b145eb98f3b7f1bbf356c691d900b4ad96d15d0ea3a913781b4e6e748b603",
+        "social": "d805c4aa11b27c9938232f0f7db8191b2ae4c303cb5fe0ba1c332472e7d5e356"
+      }
+    },
+    {
+      "id": "commons-01b76dc364b269",
+      "provider": "Wikimedia Commons",
+      "provider_id": "46496548",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Planett3f.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Planett3f.jpg/1920px-Planett3f.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "yun cheng chen",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "ebb62c46ea4b4c797333bf8398d4cd77993a16d3af1234770413526be827d32f",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-01b76dc364b269-640.webp",
+        "1280": "/assets/journal/commons-01b76dc364b269-1280.webp",
+        "social": "/assets/journal/commons-01b76dc364b269-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "b2a3e649a12259c4c8bc9e16b271741c2de0cf6aff94e1987ee392785f56ceb9",
+        "1280": "c37fb7ec1314cd40cbe9d99571505cfd5dd3bd6b8dc463e675a5cbcfb9a96380",
+        "social": "324eb4b547d5ec16b0808fde2df1db7119cd4a1ea42a6e4b850569833e53c938"
+      }
+    },
+    {
+      "id": "commons-d422ab279948d7",
+      "provider": "Wikimedia Commons",
+      "provider_id": "39447019",
+      "source_page": "https://commons.wikimedia.org/wiki/File:StartupBus_inside_bus.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/3/33/StartupBus_inside_bus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "John Fischer",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "b6b749f9f4717366fab164817a2b284e85ccfaff0377e2eb7463162b13539ffa",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-d422ab279948d7-640.webp",
+        "1280": "/assets/journal/commons-d422ab279948d7-1280.webp",
+        "social": "/assets/journal/commons-d422ab279948d7-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "24bc03e7d75da7d89f5e7ca13dd5c5fc94319b9e2f7c44d57139c203e10fc550",
+        "1280": "400b81d81b35706d5778a84fc4f8f4b7bfba1599e4e2670a6cd5f3f7cc78e821",
+        "social": "eac69a2d3b663f01bedbd4d17a4f8b168faba403339a0d7c4d7868f6e6957389"
+      }
+    },
+    {
+      "id": "commons-4dbdd3a59d9f84",
+      "provider": "Wikimedia Commons",
+      "provider_id": "116757451",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_with_glasses_sitting_at_her_office_table,_holding_a_plastic_card_and_typing_on_the_laptop._(51531773608).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Woman_with_glasses_sitting_at_her_office_table%2C_holding_a_plastic_card_and_typing_on_the_laptop._%2851531773608%29.jpg/1920px-Woman_with_glasses_sitting_at_her_office_table%2C_holding_a_plastic_card_and_typing_on_the_laptop._%2851531773608%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Nenad Stojkovic",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "9db6b9013cd8f8541ae158a689199ab83e79aa083b8c42e3260a949399f148b0",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-4dbdd3a59d9f84-640.webp",
+        "1280": "/assets/journal/commons-4dbdd3a59d9f84-1280.webp",
+        "social": "/assets/journal/commons-4dbdd3a59d9f84-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "a31823ab5df51ead9a237bf7af44da352b15ef2c57999664727edf4349015ec3",
+        "1280": "2fc437acd3e4ac42919cc17e449281bb5ec46c0e324f63fe15b93d358ff08040",
+        "social": "d59aa15daadf1e65b636d3ed38e06d77d97eb4f9b613567b965f571444f67f72"
+      }
+    },
+    {
+      "id": "commons-1407392ceabf03",
+      "provider": "Wikimedia Commons",
+      "provider_id": "96097496",
+      "source_page": "https://commons.wikimedia.org/wiki/File:50_years_of_data_visualization_(black).png",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/50_years_of_data_visualization_%28black%29.png/1920px-50_years_of_data_visualization_%28black%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Jose Berengueres",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "a6d3f05e575d7b56c2c200e21438f2df90788a0f08110324c255d94af464b0b1",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Analytická práca s dátami na počítači",
+        "en": "Data analysis on a computer"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-1407392ceabf03-640.webp",
+        "1280": "/assets/journal/commons-1407392ceabf03-1280.webp",
+        "social": "/assets/journal/commons-1407392ceabf03-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "f853e8c5779ccdcbf500cbea7e51fa860c8491d24b303566b080b8ea426e4446",
+        "1280": "3211b7672f0511315d0f81e0da23ffeae2fa850544408ca35311c99a61e56758",
+        "social": "b278550452b208378a628abf0abc18d1ee2085242212139a7769585a6b6d07c9"
+      }
+    },
+    {
+      "id": "commons-bd177bb0294d66",
+      "provider": "Wikimedia Commons",
+      "provider_id": "47059265",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Coucher_de_soleil_au_bureau.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Coucher_de_soleil_au_bureau.jpg/1920px-Coucher_de_soleil_au_bureau.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Musicaline",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-20",
+      "original_sha256": "3776e99231ad874733b2bb2e8130af03eb55a3d7bd6cedc5a85fa3b074f69d1a",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-bd177bb0294d66-640.webp",
+        "1280": "/assets/journal/commons-bd177bb0294d66-1280.webp",
+        "social": "/assets/journal/commons-bd177bb0294d66-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "61d72184d205269f910d0f342834c3b595a6f72431e99bdedc91cd5c78e2b476",
+        "1280": "e8b2259889c941b4743950f21895d3b63e6142ede03e4844d24cb404cff5e9bc",
+        "social": "160ca727716bbc34b0250c6b04237c518cf3ceed1a375ea478aceaaacfcf6ab8"
+      }
     }
   ],
   "assignments": {
@@ -2749,6 +3037,15 @@
     "blog-journal-rozdelenie-majetku-v-rodinnych-firmach-pravne-aspekty-zhodnotenia.html": "commons-c8f26f76657b23",
     "blog-journal-spolupraca-cloveka-a-stroja-vplyv-automatizacie-na-spokojnost-zamestnancov.html": "commons-39138febf66064",
     "blog-journal-vplyv-mentoringovych-praktik-na-udrzacanie-zamestnancov-vo-verejnych.html": "commons-0513dbbd97a955",
-    "blog-journal-vplyv-technologii-a-zelenych-financii-na-kvalitu-zivotneho-prostredia-v.html": "commons-3a34df148b7aaf"
+    "blog-journal-vplyv-technologii-a-zelenych-financii-na-kvalitu-zivotneho-prostredia-v.html": "commons-3a34df148b7aaf",
+    "blog-journal-ceos-job-hopping-experience-and-supply-chain-relationships-insights-from.html": "commons-f41df06d90b286",
+    "blog-journal-socioeconomic-determinants-of-financial-inclusion-in-oecd-countries-20042023.html": "commons-2a946e3fe66c3c",
+    "blog-journal-the-impact-of-bureaucratic-management-style-on-employee-health-the.html": "commons-f00dcb88a30a55",
+    "blog-journal-beyond-direct-effects-how-digital-leadership-enables-sustainability-in.html": "commons-ca1a0bb9b681dc",
+    "blog-journal-why-time-management-leads-to-well-being-and-performance.html": "commons-01b76dc364b269",
+    "blog-journal-socioekonomicke-determinanty-financnej-inkluzie-v-krajinach-oecd.html": "commons-d422ab279948d7",
+    "blog-journal-vplyv-byrokratickeho-riadenia-na-zdravie-zamestnancov.html": "commons-4dbdd3a59d9f84",
+    "blog-journal-digitalne-vedenie-a-udrzatelnost-v-malych-a-strednych-podnikoch.html": "commons-1407392ceabf03",
+    "blog-journal-manazment-casu-ako-nastroj-pre-well-being-a-vykonnost.html": "commons-bd177bb0294d66"
   }
 }

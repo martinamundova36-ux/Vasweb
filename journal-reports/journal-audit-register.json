@@ -10887,6 +10887,606 @@
           }
         ]
       }
+    },
+    {
+      "id": "blog-journal-socioekonomicke-determinanty-financnej-inkluzie-v-krajinach-oecd",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-20",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.3389/fpos.2026.2014445",
+          "apa7": "Marcela Karina Benítez-Gaibor, Andrés Palacio-Fierro, Stalin Guamán, Maura Susana Gavilanez-Vega, Ximena Morales-Urrutia, Ana Códova (2026). Socioeconomic determinants of financial inclusion in OECD countries (2004–2023). Frontiers in Political Science. https://doi.org/10.3389/fpos.2026.2014445",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-socioekonomicke-determinanty-financnej-inkluzie-v-krajinach-oecd.html",
+          "title": "Socioekonomické determinanty finančnej inklúzie v krajinách OECD",
+          "description": "Tento výskumný prehľad analyzuje fyzický prístup k bankovníctvu v krajinách OECD medzi rokmi 2004 a 2023 na základe dostupného abstraktu.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-20",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "f1bd43cd17f3de50b073b14d2ae15734b203c42012147682594655aacf5d655e"
+        },
+        "en": {
+          "path": "blog-journal-socioekonomicke-determinanty-financnej-inkluzie-v-krajinach-oecd-en.html",
+          "title": "Socioeconomic Determinants of Financial Inclusion in OECD Countries",
+          "description": "This research digest analyzes physical banking access across OECD nations between 2004 and 2023 based on the available abstract.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-20",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "0f064cdd1e677de85687026576084b76d4a30d595fc5014a4e36fc402c4806e7"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-vplyv-byrokratickeho-riadenia-na-zdravie-zamestnancov",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-20",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1108/srj-10-2025-1143",
+          "apa7": "Sameh Abdelhay, Mohamed Saif Rashid Al Talay, Noor Fareen Abdul Rahim (2026). The impact of bureaucratic management style on employee health: the mediating role of emotional exhaustion and the moderating role of innovative role modelling. Social Responsibility Journal. https://doi.org/10.1108/srj-10-2025-1143",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-vplyv-byrokratickeho-riadenia-na-zdravie-zamestnancov.html",
+          "title": "Vplyv byrokratického riadenia na zdravie zamestnancov",
+          "description": "Analýza štúdie o tom, ako byrokratické riadenie ovplyvňuje fyzické zdravie zamestnancov prostredníctvom emocionálneho vyčerpania a úlohy inovatívneho vedenia.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-20",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "41dd52947e20028783bc40246470746472007d93a3d69bb0a617961b2ff68a78"
+        },
+        "en": {
+          "path": "blog-journal-vplyv-byrokratickeho-riadenia-na-zdravie-zamestnancov-en.html",
+          "title": "The Impact of Bureaucratic Management on Employee Health",
+          "description": "An analysis of how bureaucratic management affects physical health through emotional exhaustion and the protective role of innovative leadership.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-20",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "279e9f5241eb1d276249617b4c239f3d2fd06e996ecb077b39edfbec5dec1ad8"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-digitalne-vedenie-a-udrzatelnost-v-malych-a-strednych-podnikoch",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-20",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1108/bij-07-2026-0606",
+          "apa7": "Khalid Rasheed Memon, Bilqees Ghani, Ghazanfar Ali Abbasi (2026). Beyond direct effects: how digital leadership enables sustainability in SMEs through agile and FinTech capabilities – role of responsible innovation. Benchmarking: An International Journal. https://doi.org/10.1108/bij-07-2026-0606",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-digitalne-vedenie-a-udrzatelnost-v-malych-a-strednych-podnikoch.html",
+          "title": "Digitálne vedenie a udržateľnosť v malých a stredných podnikoch",
+          "description": "Analýza vplyvu digitálneho vedenia na udržateľnosť MSP v Pakistane, Malajzii a Saudskej Arábii prostredníctvom adopcie FinTech a organizačnej agility.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-20",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "2450df2e8c6abd81ca9d8dc78f06a5692e2e35581cc433fcdcf4a7c833e58a0e"
+        },
+        "en": {
+          "path": "blog-journal-digitalne-vedenie-a-udrzatelnost-v-malych-a-strednych-podnikoch-en.html",
+          "title": "Digital Leadership and Sustainability in SMEs",
+          "description": "An analysis of how digital leadership influences SME sustainability in Pakistan, Malaysia, and Saudi Arabia through FinTech adoption and organizational agility.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-20",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "f96dfcf989ca1dddb2683ef20126eb6602c75860cfb4acbc22f607ca9d42f80d"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-manazment-casu-ako-nastroj-pre-well-being-a-vykonnost",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-20",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.1177/01492063261499657",
+          "apa7": "Brad Aeon (2026). Why Time Management Leads to Well-Being (and Performance). Journal of Management. https://doi.org/10.1177/01492063261499657",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-manazment-casu-ako-nastroj-pre-well-being-a-vykonnost.html",
+          "title": "Manažment času ako nástroj pre well-being a výkonnosť",
+          "description": "Nová štúdia skúma, ako štruktúra, synchronizácia a súlad s hodnotami ovplyvňujú well-being a produktivitu zamestnancov v pracovnom prostredí.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-20",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "1c88c22c1f1bf84b87ff977a46d6ca46a35b55d97faad8570c2e3e6bc72c81a3"
+        },
+        "en": {
+          "path": "blog-journal-manazment-casu-ako-nastroj-pre-well-being-a-vykonnost-en.html",
+          "title": "Time Management as a Tool for Well-Being and Performance",
+          "description": "A new study explores how structure, synchrony, and value alignment influence employee well-being and productivity in the workplace.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-20",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "82a179f9e79b8939ec93c079640d6855482d65e7e3e7bfad81bf6c917b22561b"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
     }
   ]
 }

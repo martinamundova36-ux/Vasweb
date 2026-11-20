@@ -152,3 +152,21 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-0513dbbd97a955: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_on_phone_in_home_office_during_the_day_discussing_work_and_using_a_laptop_while_sitting_at_a_table_with_fruit.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-3a34df148b7aaf: [Fearadach](https://commons.wikimedia.org/wiki/File:Interior_view_of_Fumbally_Exchange_Blackpitts.jpg), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-f41df06d90b286: [Asa Wilson](https://commons.wikimedia.org/wiki/File:CubeSpace.jpg), licencia [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-2a946e3fe66c3c: [Dan Gold  danielcgold](https://commons.wikimedia.org/wiki/File:Casual_Meeting_Room_(Unsplash).jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-f00dcb88a30a55: [Shixart1985](https://commons.wikimedia.org/wiki/File:Person_giving_thumbs_up_gesture_while_using_laptop_against_dark_background_in_a_home_office_setting.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-ca1a0bb9b681dc: [Prototyperspective](https://commons.wikimedia.org/wiki/File:VCat_visualization_of_English_Wikipedia_categorization_of_%27Data_and_information_visualization%27_with_a_depth_of_two_layers_upward.png), licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-01b76dc364b269: [yun cheng chen](https://commons.wikimedia.org/wiki/File:Planett3f.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-d422ab279948d7: [John Fischer](https://commons.wikimedia.org/wiki/File:StartupBus_inside_bus.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-4dbdd3a59d9f84: [Nenad Stojkovic](https://commons.wikimedia.org/wiki/File:Woman_with_glasses_sitting_at_her_office_table,_holding_a_plastic_card_and_typing_on_the_laptop._(51531773608).jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-1407392ceabf03: [Jose Berengueres](https://commons.wikimedia.org/wiki/File:50_years_of_data_visualization_(black).png), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-bd177bb0294d66: [Musicaline](https://commons.wikimedia.org/wiki/File:Coucher_de_soleil_au_bureau.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.

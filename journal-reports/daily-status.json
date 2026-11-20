@@ -1,28 +1,28 @@
 {
-  "checked_at": "2026-11-19T18:24:19.172252+00:00",
+  "checked_at": "2026-11-20T14:00:23.455433+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 6-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
   "preparation_start": "06:07 Europe/Bratislava",
   "backup_checks": "Every :07/:27/:47 from 06:07 through 11:47; stop after 5 published articles",
-  "next_scheduled_local": "2026-11-20T06:07:00+01:00",
-  "next_scheduled_utc": "2026-11-20T05:07:00+00:00",
+  "next_scheduled_local": "2026-11-21T06:07:00+01:00",
+  "next_scheduled_utc": "2026-11-21T05:07:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
   "generator_capability": "abstract_scoped_bilingual_editorials",
   "automatically_written_full_articles": 0,
   "automatically_prepared_abstract_editorials": 4,
   "published_today": [
-    "2026-11-19-2edf909bda45",
-    "2026-11-19-5b43a177b167",
-    "2026-11-19-7eeadebeb499",
-    "2026-11-19-f8750b58770f"
+    "2026-11-20-2cba17c12f4c",
+    "2026-11-20-7c4a0133d673",
+    "2026-11-20-9c3bc10de8ef",
+    "2026-11-20-c7fa9b451c75"
   ],
   "published_automatically_today": [
-    "2026-11-19-5b43a177b167",
-    "2026-11-19-7eeadebeb499",
-    "2026-11-19-f8750b58770f",
-    "2026-11-19-2edf909bda45"
+    "2026-11-20-9c3bc10de8ef",
+    "2026-11-20-2cba17c12f4c",
+    "2026-11-20-7c4a0133d673",
+    "2026-11-20-c7fa9b451c75"
   ],
   "published_manually_today": [],
   "ready_bilingual_articles": [],
@@ -82,6 +82,10 @@
     {
       "id": "2026-11-19-eddf2b6fdd2f",
       "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-20-a8f6632aa7b4",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
     }
   ],
   "published_research_draft_ids": [
@@ -130,7 +134,11 @@
     "2026-11-19-2edf909bda45",
     "2026-11-19-5b43a177b167",
     "2026-11-19-7eeadebeb499",
-    "2026-11-19-f8750b58770f"
+    "2026-11-19-f8750b58770f",
+    "2026-11-20-2cba17c12f4c",
+    "2026-11-20-7c4a0133d673",
+    "2026-11-20-9c3bc10de8ef",
+    "2026-11-20-c7fa9b451c75"
   ],
   "paid_ai_enabled": false,
   "scientific_review_limit": "Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review",
