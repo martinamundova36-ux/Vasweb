@@ -1567,7 +1567,7 @@ async function renderPanel(){
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-mail1');
+   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-native-mail1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=20261120-first-due1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;

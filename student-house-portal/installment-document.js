@@ -98,9 +98,9 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    const send=node('button','Odoslať e-mailom');send.type='button';send.disabled=!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(recipient);
    send.addEventListener('click',()=>{
     const body='Dobrý deň, v prílohe nájdete splátkový kalendár Student House Bratislava.';
-    const compose=new URL('https://mail.google.com/mail/');
-    compose.search=new URLSearchParams({view:'cm',fs:'1',to:recipient,su:plan.title||'Splátkový kalendár',body}).toString();
-    window.open(compose.href,'_blank','noopener,noreferrer');
+    const address=encodeURIComponent(recipient).replace(/%40/g,'@');
+    const subject=encodeURIComponent(plan.title||'Splátkový kalendár');
+    window.location.href='mailto:'+address+'?subject='+subject+'&body='+encodeURIComponent(body);
     status.textContent='Pred odoslaním prilož stiahnuté PDF k rozpísanému e-mailu.';
    });
    actions.append(download,send);preview.replaceChildren(actions);
