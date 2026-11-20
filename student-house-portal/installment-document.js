@@ -51,7 +51,7 @@ async function pdfDocument(plan,person,items,bank,images){
 }
 const recentAccounts=new Map();
 const beneficiaries=['Student House Bratislava','Gargallo s.r.o.'];
-export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber='',sendPdf}={}){
+export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber='',saveToProfile}={}){
  if(!person||!items.length)return;
  const panel=node('details'),summary=node('summary','Splátkový kalendár s QR kódmi'),form=node('form');
  const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,true],['Variabilný symbol (číslo zmluvy)','symbol',10,false]];
@@ -94,50 +94,21 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
     const link=node('a');link.href=url;link.download=file.name;link.click();
    });
    const actions=node('div');actions.style.cssText='display:flex;flex-wrap:wrap;gap:10px;align-items:center';
-   const recipient=String(person.email||'').trim();
-   const send=node('button','Odoslať e-mailom');send.type='button';send.disabled=!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(recipient);
-   send.addEventListener('click',async()=>{
-    if(!sendPdf||!window.confirm('Odoslať kalendár s PDF na '+recipient+'?'))return;
-    send.disabled=true;status.style.color='';status.textContent='Odosielam e-mail…';
-    try{
-     const {data,error}=await sendPdf(person.id,file);
-     if(error||!data?.ok)throw Error('send');
-     status.style.color='#166534';status.textContent='✓ Odoslané na '+recipient+'. Poštový server správu prijal.';
-    }catch{status.style.color='#a32626';status.textContent='E-mail sa nepodarilo odoslať cez poštový server.';}
-    finally{send.disabled=false;}
-   });
-   const draft=node('button','Stiahnuť e-mail s PDF');draft.type='button';draft.disabled=send.disabled;
-   draft.addEventListener('click',async()=>{
-    draft.disabled=true;
-    try{
-     const encode=bytes=>{let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(binary);};
-     const text=value=>encode(new TextEncoder().encode(value));
-     const wrap=value=>value.match(/.{1,76}/g)?.join('\r\n')||'';
-     const boundary='webu-'+crypto.randomUUID();
-     const message=['X-Unsent: 1','To: '+recipient,'Subject: =?UTF-8?B?'+text(plan.title||'Splátkový kalendár')+'?=','MIME-Version: 1.0',
-      'Content-Type: multipart/mixed; boundary="'+boundary+'"','','--'+boundary,'Content-Type: text/plain; charset=UTF-8',
-      'Content-Transfer-Encoding: base64','',wrap(text('Dobrý deň, v prílohe nájdete splátkový kalendár Student House Bratislava.')),
-      '--'+boundary,'Content-Type: application/pdf; name="splatkovy-kalendar.pdf"','Content-Disposition: attachment; filename="splatkovy-kalendar.pdf"',
-      'Content-Transfer-Encoding: base64','',wrap(encode(new Uint8Array(await file.arrayBuffer()))),'--'+boundary+'--',''].join('\r\n');
-     const link=node('a'),draftUrl=URL.createObjectURL(new Blob([message],{type:'message/rfc822'}));
-     link.href=draftUrl;link.download='splatkovy-kalendar.eml';link.click();
-     setTimeout(()=>URL.revokeObjectURL(draftUrl),30000);
-     status.textContent='Stiahnutý e-mail obsahuje adresu študenta aj PDF prílohu.';
-    }catch{status.textContent='E-mailový súbor sa nepodarilo pripraviť.';}
-    finally{draft.disabled=false;}
-   });
-   const emailPreview=node('section');
-   emailPreview.setAttribute('aria-label','Náhľad e-mailu');
-   emailPreview.style.cssText='padding:12px 14px;margin:0 0 12px;border:1px solid #cbd9eb;border-radius:10px;background:#fff;overflow-wrap:anywhere';
-   emailPreview.append(node('strong','Náhľad e-mailu'),node('p','Komu: '+(recipient||'—')),
-    node('p','Predmet: Splátkový kalendár – Student House Bratislava'),
-    node('p','Dobrý deň, v prílohe nájdete splátkový kalendár Student House Bratislava.'),
-    node('p','Príloha: '+file.name));
-   actions.append(download,send,draft);preview.replaceChildren(emailPreview,actions);
+   actions.append(download);preview.replaceChildren(actions);
    if(navigator.canShare?.({files:[file]})){
     const share=node('button','Zdieľať PDF');share.type='button';
     share.addEventListener('click',()=>navigator.share({files:[file],title:plan.title}).catch(error=>{if(error.name!=='AbortError')status.textContent='PDF sa nepodarilo zdieľať.';}));
     actions.append(share);
+   }
+   if(saveToProfile&&person.id){
+    const publish=node('button','Pridať do profilu študenta');publish.type='button';
+    publish.addEventListener('click',async()=>{
+     if(!window.confirm('Pridať tento kalendár do dokumentov študenta '+(person.full_name||'')+'?'))return;
+     if(await saveToProfile(person.id,file,publish)){
+      publish.disabled=true;status.style.color='#166534';status.textContent='✓ Kalendár je v dokumentoch študenta.';
+     }
+    });
+    actions.append(publish);
    }
    for(const [index,src] of images.entries()){
     const figure=node('figure'),img=node('img');img.src=src;img.width=116;img.height=116;img.alt='PAY by square · splátka '+(index+1);
