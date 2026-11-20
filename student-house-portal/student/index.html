@@ -334,7 +334,6 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
    <label><span data-step2="school">Škola / univerzita</span><input disabled placeholder="—"></label>
    <label><span data-step2="parent">Kontaktný e-mail rodiča</span><input disabled placeholder="—"></label>
    <label><span data-step2="iban">IBAN (nepovinné)</span><input disabled placeholder="—"></label>
-   <label><span data-step2="room">Preferovaný typ izby</span><input disabled placeholder="—"></label>
    <label><span data-step2="stay">Ubytovanie od – do</span><input disabled placeholder="—"></label>
    <label class="step2-wide"><span data-step2="photo">Fotografia študenta – JPG/PNG</span><input disabled type="file"></label>
   </div>
@@ -1360,7 +1359,7 @@ async function renderPanel(){
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
    container.replaceChildren();
-   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261120-save-only1');
+   const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=20261120-no-duplicate-fields');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
     isOnboarding:!resident.profile_password_activated_at,
