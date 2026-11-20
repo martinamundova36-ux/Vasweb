@@ -957,8 +957,45 @@ function templateCard(tenant,files,kind,title,staff){
   const btn=make('button','btn-secondary',openDocumentLabel());btn.type='button';
   btn.addEventListener('click',()=>{void fileLink(latest.id,tenant)});
   card.append(make('div','', ''),btn);
- }else card.append(make('p','muted',dl('missing')));
- if(staff)card.append(uploadCard(tenant,kind,dl('uploadTemplate'),kind==='gdpr_template'?dl('gdpr'):dl('rules'),'application/pdf'));
+ }
+ if(staff){
+  const working={
+   contract_template:['contract_draft','zmluva'],rules_template:['rules_template','ubytovaci-poriadok'],
+   gdpr_template:['gdpr_template','gdpr'],certificate_template:['certificate_draft','potvrdenie-o-ubytovani'],
+   deposit_template:['deposit_template','ziadost-o-vratenie-depozitu']
+  }[kind];
+  if(working){
+   const preview=make('button','btn-secondary','Pripraviť pracovnú predlohu PDF');preview.type='button';
+   const status=make('p','small');status.setAttribute('role','status');
+   preview.onclick=async()=>{
+    preview.disabled=true;status.textContent='';
+    try{
+     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=1');
+     let attachment;
+     if(kind==='rules_template'&&latest){
+      const url=await fileLink(latest.id,tenant,true);
+      if(!url)throw Error();
+      const response=await fetch(url);
+      if(!response.ok)throw Error();
+      attachment=await response.arrayBuffer();
+     }
+     const file=await workingDocument({kind:working[0],slug:working[1],title,data:{},attachment});
+     if(!card.isConnected)return;
+     const url=URL.createObjectURL(file);
+     const open=make('a','btn-secondary','Otvoriť pracovnú predlohu');open.href=url;open.target='_blank';open.rel='noopener';
+     const download=make('a','btn-secondary','Stiahnuť pracovnú predlohu');download.href=url;download.download=file.name;
+     const previous=card.querySelector('.template-preview');
+     if(previous){URL.revokeObjectURL(previous.firstChild.href);previous.remove();}
+     const actions=make('div','staff-actions template-preview');actions.append(open,download);status.before(actions);
+    }catch{status.textContent='PDF predlohu sa nepodarilo pripraviť. Skús znova.';}
+    finally{preview.disabled=false;}
+   };
+   card.append(make('p','small','Pracovná predloha je pripravená. Údaje konkrétneho študenta doplníš v časti Pripraviť dokument pre študenta.'),preview,status);
+  }
+  const replacement=make('details');
+  replacement.append(make('summary','','Nahrať oficiálnu predlohu (PDF)'),uploadCard(tenant,kind,'Vybrať oficiálne PDF',title,'application/pdf'));
+  card.append(replacement);
+ }
  return card;
 }
 async function renderProfile(tenant){
@@ -1013,17 +1050,19 @@ async function renderResidentDocuments(tenant,staff,own){
   const cards=make('div','docgrid');
   const legacySchedule=files.filter(x=>x.kind==='resident_document'&&x.active&&x.user_id===user.id&&x.original_name==='splatkovy-kalendar.pdf')
    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+  const refundDocumentTitle=({sk:'Žiadosť o vrátenie depozitu',en:'Deposit refund request',ru:'Заявление на возврат депозита',uk:'Заява на повернення депозиту'})[lang]||'Žiadosť o vrátenie depozitu';
   const requirements=[
    ['contract_draft','signed_contract',dl('contract'),dl('signedContract')],
    ['rules_template','signed_rules',dl('rules'),dl('signedRules')],
    ['gdpr_template','signed_gdpr',dl('gdpr'),dl('signedGdpr')],
    ['certificate_draft','signed_certificate',additionalDocumentTitle('certificate_draft'),additionalDocumentTitle('signed_certificate')],
+   ['deposit_template','signed_deposit',refundDocumentTitle,refundDocumentTitle],
    ['schedule_draft','signed_schedule',additionalDocumentTitle('schedule_draft'),additionalDocumentTitle('signed_schedule')]
   ];
-  for(const [index,[templateKind,signedKind,title,signedTitle]] of requirements.entries()){
-   if(index===0)cards.append(make('h3','document-flow-group-title',df('primaryDocuments')));
-   if(index===4)cards.append(make('h3','document-flow-group-title',df('additionalSchedule')));
-   const personalizedName=templateKind==='rules_template'?'ubytovaci-poriadok.pdf':templateKind==='gdpr_template'?'gdpr.pdf':null;
+  for(const [templateKind,signedKind,title,signedTitle] of requirements){
+   if(templateKind==='contract_draft')cards.append(make('h3','document-flow-group-title',df('primaryDocuments')));
+   if(templateKind==='schedule_draft')cards.append(make('h3','document-flow-group-title',df('additionalSchedule')));
+   const personalizedName=templateKind==='rules_template'?'ubytovaci-poriadok.pdf':templateKind==='gdpr_template'?'gdpr.pdf':templateKind==='deposit_template'?'ziadost-o-vratenie-depozitu.pdf':null;
    const personalized=personalizedName&&files.filter(x=>x.kind==='resident_document'&&x.active&&x.user_id===user.id&&x.original_name===personalizedName)
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
    const template=personalized||files.filter(x=>x.kind===templateKind&&x.active&&(['rules_template','gdpr_template'].includes(templateKind)||x.user_id===user.id))
@@ -1057,14 +1096,25 @@ async function renderResidentDocuments(tenant,staff,own){
     const open=make('button','btn-secondary',openDocumentLabel());open.type='button';
     open.addEventListener('click',()=>{void fileLink(submission.id,tenant)});
     previous.append(open);uploadStep.append(previous);
-    if(submission.review_status==='approved')uploadStep.append(make('p','small',df('approved')));
+    if(submission.review_status==='approved')uploadStep.append(make('p','status-pill status-approved','✓ '+df('approved')));
     else if(submission.review_status==='rejected')uploadStep.append(make('p','small',df('rejected')));
     else uploadStep.append(make('p','small',df('pending')));
    }
-   {
+   if((template||submission)&&(!submission||submission.review_status==='rejected')){
     // The student receives a PDF first, brings it for reception signing, and uploads the signed copy.
     // Only the logged-in resident can upload, and reception still reviews it.
     uploadStep.append(uploadCard(tenant,signedKind,signedTitle,df('uploadHelp'),'application/pdf,image/jpeg,image/png'));
+   }
+   const history=files.filter(x=>x.kind===signedKind&&x.user_id===user.id&&x.id!==submission?.id)
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+   if(history.length){
+    const entries=make('details');
+    entries.append(make('summary','',({sk:'Staršie podania',en:'Previous submissions',ru:'Предыдущие подачи',uk:'Попередні подання'})[lang]));
+    for(const previous of history){
+     const open=make('button','btn-secondary',day(previous.created_at)+' · '+previous.original_name);open.type='button';
+     open.onclick=()=>void fileLink(previous.id,tenant);entries.append(open,statusPill(readableStatus(previous.review_status)));
+    }
+    card.append(entries);
    }
    card.append(uploadStep);cards.append(card);
   }
@@ -1161,7 +1211,6 @@ async function renderResidentDocuments(tenant,staff,own){
    ['ziadost-o-vratenie-depozitu','Žiadosť o vrátenie depozitu','resident_document','deposit_template'],
    ['potvrdenie-o-ubytovani','Potvrdenie o ubytovaní','certificate_draft','certificate_template']
   ];
-  const key=value=>String(value||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase().replace(/[^a-z0-9]/g,'');
   owner.addEventListener('change',()=>{
    documentList.replaceChildren();
    const person=residents.find(p=>p.id===owner.value);
@@ -1191,34 +1240,76 @@ async function renderResidentDocuments(tenant,staff,own){
     const ready=make('input');ready.type='file';ready.accept='application/pdf';
     const signed=make('input');signed.type='checkbox';
     let prepared=null;
-    const prepare=make('button','btn-secondary','Vyplniť predlohu a stiahnuť PDF');prepare.type='button';
+    const workingKind=kind==='resident_document'?templateKind:kind;
+    const fieldsByKind={
+     contract_draft:[['provider','Údaje ubytovateľa'],['payment_terms','Schválené platobné podmienky']],
+     gdpr_template:[['provider','Údaje prevádzkovateľa'],['notice_version','Verzia informácií o spracúvaní']],
+     certificate_draft:[['provider','Údaje ubytovateľa'],['issue_date','Dátum vystavenia','date'],['certificate_fee','Poplatok podľa cenníka (EUR)','number'],['document_number','Číslo dokumentu (nepovinné)']],
+     rules_template:[['signature_place','Miesto podpisu'],['signature_date','Dátum podpisu','date']],
+     deposit_template:[]
+    };
+    const fields=new Map();
+    for(const [key,label,type='text'] of fieldsByKind[workingKind]||[]){
+     const input=make('input');input.type=type;if(type==='number'){input.min='0';input.step='0.01';}
+     input.oninput=()=>{prepared=null;};fields.set(key,input);card.append(labeled(label,input));
+    }
+    const preview=make('div','small');
+    const official=make('input');official.type='checkbox';official.disabled=!shared||workingKind==='rules_template';
+    official.onchange=()=>{prepared=null;preview.replaceChildren();};
+    if(shared&&workingKind!=='rules_template')card.append(labeled('Použiť uloženú predlohu s PDF poľami',official));
+    let previewUrl=null;
+    const prepare=make('button','btn-secondary','Otvoriť pracovný náhľad PDF');prepare.type='button';
     prepare.onclick=async()=>{
      prepare.disabled=true;
      try{
-      let bytes;
-      if(shared){const url=await fileLink(shared.id,tenant,true);if(!url)return;const response=await fetch(url);if(!response.ok)throw Error('Predlohu sa nepodarilo otvoriť.');bytes=await response.arrayBuffer();}
-      else throw Error('Pre tento dokument zatiaľ nie je uložená predloha.');
-      const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
-      const pdf=await PDFDocument.load(bytes),form=pdf.getForm();
-      const {data:answers}=await db.from('resident_enquiries').select('permanent_address,date_of_birth,nationality,telephone,school,gender,identity_document_number').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle();
-      const fields={};
-      const add=(value,...names)=>{if(value!==null&&value!==undefined&&value!=='')for(const name of names)fields[key(name)]=String(value);};
-      add(person.full_name,'Meno a priezvisko','Full name','student_name','ubytovany');
-      const parts=String(person.full_name||'').trim().split(/\s+/);
-      if(parts.length>1){add(parts[0],'Meno','First name');add(parts.slice(1).join(' '),'Priezvisko','Last name');}
-      add(person.email,'Email','E-mail');add(person.verified_room_number,'Číslo izby','Room number');add(person.verified_contract_number,'Číslo zmluvy','Contract number');
-      add(person.accommodation_from,'Ubytovanie od','Accommodation from');add(person.accommodation_to,'Ubytovanie do','Accommodation to');
-      add(answers?.permanent_address,'Trvalá adresa','Permanent address');add(answers?.date_of_birth,'Dátum narodenia','Date of birth');add(answers?.telephone,'Telefón','Phone');add(answers?.nationality,'Národnosť','Nationality');
-      add(answers?.school,'Škola','School');add(answers?.gender,'Pohlavie','Gender');add(answers?.identity_document_number,'Číslo dokladu','ID document number');
-      let filled=0;
-      for(const field of form.getFields()){
-       const value=fields[key(field.getName())];
-       if(field instanceof PDFTextField&&value){field.setText(value);filled++;}
+      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields}=await import('/student-house-portal/residence-document.js?v=1');
+      const [{data:answers,error},tenancies,details]=await Promise.all([
+       db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle(),
+       workingKind==='contract_draft'?list('tenancies',{resident_id:person.id}):[],
+       ['contract_draft','deposit_template'].includes(workingKind)?list('resident_staff_details',{resident_id:person.id}):[]
+      ]);
+      if(error)throw error;
+      const tenancy=tenancies.find(t=>t.starts_on===person.accommodation_from);
+      const extras=Object.fromEntries([...fields].map(([key,input])=>[key,input.value.trim()]));
+      if([...fields.values()].some(input=>!input.checkValidity()))throw Error('Skontroluj doplnené údaje.');
+      const data=fieldsForDocument(workingKind,person,answers,tenancy,details[0],extras);
+      let attachment;
+      if(shared&&(workingKind==='rules_template'||official.checked)){
+       const url=await fileLink(shared.id,tenant,true);
+       if(!url)throw Error('Uložený poriadok sa nepodarilo otvoriť.');
+       const response=await fetch(url);
+       if(!response.ok)throw Error('Uložený poriadok sa nepodarilo otvoriť.');
+       attachment=await response.arrayBuffer();
       }
-      if(!filled)throw Error('Predloha potrebuje vyplniteľné polia s názvami údajov študenta.');
-      const result=new File([await pdf.save()],slug+'.pdf',{type:'application/pdf'});prepared=result;
-      const link=make('a'),url=URL.createObjectURL(result);link.href=url;link.download=result.name;link.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
-      state.textContent='Doplnených polí: '+filled+'. Skontroluj všetky údaje pred podpisom alebo odoslaním.';
+      const missing=missingDocumentFields(workingKind,data);
+      let result;
+      prepared=null;
+      if(official.checked){
+       if(missing.length)throw Error('Chýbajú povinné údaje: '+missing.join(', '));
+       const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
+       const pdf=await PDFDocument.load(attachment),form=pdf.getForm();
+       const expected=[...documentFields[workingKind],...(workingKind==='contract_draft'?['passport_number']:workingKind==='certificate_draft'?['document_number']:[])];
+       const filled=new Set();
+       for(const field of form.getFields()){
+        if(!(field instanceof PDFTextField))continue;
+        const key=mapPdfField(field.getName(),expected);
+        if(key&&data[key]!=null&&data[key]!==''){
+         field.setText(String(data[key]));filled.add(key);
+        }
+       }
+       const unmapped=documentFields[workingKind].filter(key=>!filled.has(key));
+       if(unmapped.length)throw Error('V predlohe chýbajú pomenované PDF polia: '+unmapped.join(', '));
+       result=new File([await pdf.save()],slug+'.pdf',{type:'application/pdf'});
+       prepared=result;
+      }else result=await workingDocument({kind:workingKind,title,slug,data,attachment});
+      if(!card.isConnected)return;
+      if(previewUrl)URL.revokeObjectURL(previewUrl);
+      previewUrl=URL.createObjectURL(result);
+      const open=make('a','btn-secondary','Zobraziť PDF na kontrolu');open.href=previewUrl;open.target='_blank';open.rel='noopener';
+      const download=make('a','btn-secondary',official.checked?'Stiahnuť vyplnenú predlohu':'Stiahnuť pracovný vzor');download.href=previewUrl;download.download=result.name;
+      preview.replaceChildren(open,download);
+      const missing=missingDocumentFields(workingKind,data);
+      state.textContent=missing.length?'Doplň pred schválením: '+missing.join(', '):official.checked?'Vyplnená predloha je pripravená na kontrolu.':'Pracovný vzor je pripravený na kontrolu.';
      }catch(error){state.textContent=error.message||'Predlohu sa nepodarilo vyplniť.';}
      finally{prepare.disabled=false;}
     };
@@ -1236,9 +1327,8 @@ async function renderResidentDocuments(tenant,staff,own){
       }catch{ /* The upload was already confirmed. */ }
      }
     };
-    if(shared)card.append(prepare);
-    else if(kind==='schedule_draft'){const calendar=make('button','btn-secondary','Otvoriť splátkový kalendár');calendar.type='button';calendar.onclick=()=>{selectedInstallmentStudent=person.id;navigate('installments');};card.append(calendar);}
-    else card.append(make('p','small','Predloha zatiaľ nie je uložená v správe PDF vzorov.'));
+    if(kind==='schedule_draft'){const calendar=make('button','btn-secondary','Otvoriť splátkový kalendár');calendar.type='button';calendar.onclick=()=>{selectedInstallmentStudent=person.id;navigate('installments');};card.append(calendar);}
+    else card.append(prepare,preview);
     card.append(labeled('Nahrať hotový alebo podpísaný PDF',ready),labeled('Podpísaný dokument',signed),send,state);
     documentList.append(card);
    }
