@@ -1562,15 +1562,17 @@ async function renderPanel(){
     return;
    }
    const plans=await list('installment_plans',staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'});
-   const [items,charges,people,stays]=await Promise.all([
-     list('installment_items'),list('rent_charges'),list('residents'),list('tenancies')
+   const [items,charges,people,stays,roomCatalog]=await Promise.all([
+     list('installment_items'),list('rent_charges'),list('residents'),list('tenancies'),list('rooms')
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-advance1');
+   const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-room-symbol1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {advanceSchedule}=await import('/student-house-portal/advance-rent.js?v=1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
+   const codesByRoom=new Map(roomCatalog.map(room=>[room.id,String(room.name||'').trim()]));
+   const chargesById=new Map(charges.map(charge=>[charge.id,charge]));
    const eligible=new Set([...plans,...charges,...stays].map(item=>item.resident_id));
    const student=make('select');student.append(new Option('Vyber študenta',''));
    for(const person of people.filter(p=>eligible.has(p.id)).sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'))){
@@ -1596,7 +1598,7 @@ async function renderPanel(){
      const due=advanceSchedule(stay,firstDue.value);
      if(!due.length){preview.append(make('p','muted','Vyber splatnosť prvej úhrady pred začiatkom ubytovania.'));return;}
      for(const item of due)preview.append(row(day(item.due_on)+' · '+money(item.amount),item.description));
-     attachInstallmentDocument(preview,{title:'Kalendár nájomného plateného vopred',draft:true},peopleById[student.value],due,{open:true,accountScope:tenant+':'+member.id});
+     attachInstallmentDocument(preview,{title:'Kalendár nájomného plateného vopred',draft:true},peopleById[student.value],due,{open:true,accountScope:tenant+':'+member.id,roomCode:codesByRoom.get(stay.room_id)});
     };
     const useExisting=()=>{
      const stay=contracts.find(x=>x.id===contract.value);
@@ -1617,7 +1619,11 @@ async function renderPanel(){
      const related=items.filter(x=>x.plan_id===p.id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
      for(const x of related)entry.append(make('div','small',day(x.due_on)+' · '+money(x.amount)));
      const open=matches(p.resident_id);
-     const documentPanel=attachInstallmentDocument(entry,p,peopleById[p.resident_id],related,{open,accountScope:tenant+':'+member.id});
+     const period=chargesById.get(p.charge_id)?.period;
+     const roomCodes=new Set(stays.filter(stay=>stay.resident_id===p.resident_id&&period&&stay.starts_on.slice(0,7)<=period&&stay.ends_on.slice(0,7)>=period)
+      .map(stay=>codesByRoom.get(stay.room_id)).filter(Boolean));
+     const roomCode=roomCodes.size===1?[...roomCodes][0]:'';
+     const documentPanel=attachInstallmentDocument(entry,p,peopleById[p.resident_id],related,{open,accountScope:tenant+':'+member.id,roomCode});
      if(p.charge_id===newInstallmentCharge&&documentPanel){
       newInstallmentCharge='';requestAnimationFrame(()=>documentPanel.scrollIntoView({block:'nearest'}));
      }

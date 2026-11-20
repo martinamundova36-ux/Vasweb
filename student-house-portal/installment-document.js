@@ -53,28 +53,33 @@ async function pdfDocument(plan,person,items,bank,images){
  return new File([pdf.output('blob')],bank.demo?'DEMO-splatkovy-kalendar.pdf':'splatkovy-kalendar.pdf',{type:'application/pdf'});
 }
 const recentAccounts=new Map();
-const beneficiaryName='Gargallo s.r.o.';
-export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope}={}){
+const beneficiaries=['Student House Bratislava','Gargallo s.r.o.'];
+export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,roomCode=''}={}){
  if(!person||!items.length)return;
  const panel=node('details'),summary=node('summary','Splátkový kalendár s QR kódmi'),form=node('form');
  const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,true],['Variabilný symbol','symbol',10,false]];
  const fields={};
  for(const [label,key,max,required] of inputs){
-  const wrapper=node('label',label),input=node('input');input.required=required;input.maxLength=max;
-  if(key==='beneficiary'){input.value=beneficiaryName;input.readOnly=true;}
-  if(key==='symbol'){input.inputMode='numeric';input.pattern='[0-9]{1,10}';}
+  const wrapper=node('label',label),input=node(key==='beneficiary'?'select':'input');input.required=required;
+  if(key==='beneficiary'){
+   input.append(new Option('Vyber príjemcu',''));
+   for(const name of beneficiaries)input.append(new Option(name,name));
+  }else input.maxLength=max;
+  if(key==='symbol'){input.value=roomCode;input.readOnly=true;}
   wrapper.append(input);form.append(wrapper);fields[key]=input;
  }
  const retry=node('button','Skúsiť znova'),demo=node('button','Ukážkové PDF bez platby'),status=node('p'),preview=node('div');
  demo.type='button';
  status.setAttribute('role','status');retry.type='button';retry.hidden=true;form.append(status,demo,retry,preview);
  let url,timeout,version=0,requested='';
+ const accountKey=()=>accountScope&&fields.beneficiary.value?accountScope+':'+fields.beneficiary.value:'';
  function refresh(){
   clearTimeout(timeout);version++;requested='';retry.hidden=true;preview.replaceChildren();
   if(url){URL.revokeObjectURL(url);url=null;}
   const bank={beneficiary:fields.beneficiary.value.trim(),iban:fields.iban.value.replace(/\s/g,'').toUpperCase(),symbol:fields.symbol.value.trim()};
-  if(!bank.beneficiary||!validIban(bank.iban)||(bank.symbol&&!/^\d{1,10}$/.test(bank.symbol))){
-   status.textContent='Doplň skutočný IBAN ubytovateľa. PDF sa vytvorí automaticky.';return;
+  if(!/^\d{1,10}$/.test(bank.symbol)){status.textContent='Chýba jednoznačný číselný kód pridelenej izby (najviac 10 číslic).';return;}
+  if(!beneficiaries.includes(bank.beneficiary)||!validIban(bank.iban)){
+   status.textContent='Vyber príjemcu a doplň jeho skutočný IBAN. PDF sa vytvorí automaticky.';return;
   }
   status.textContent='Vytváram dokument…';const run=version;
   timeout=setTimeout(()=>void generate(bank,run),300);
@@ -85,7 +90,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    const images=bank.demo?await demoImages(items):await paymentImages(items,bank);
    const file=await pdfDocument(plan,person,items,bank,images);
    if(run!==version)return;
-   if(accountScope&&!bank.demo)recentAccounts.set(accountScope,{beneficiary:bank.beneficiary,iban:bank.iban});
+   if(accountScope&&!bank.demo)recentAccounts.set(accountScope+':'+bank.beneficiary,bank.iban);
    if(url)URL.revokeObjectURL(url);
    url=URL.createObjectURL(file);
    const download=node('a','Stiahnuť PDF');download.href=url;download.download=file.name;
@@ -109,16 +114,17 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    status.textContent=bank.demo?'Ukážka je pripravená. QR kódy neslúžia na platbu.':'Dokument je pripravený.';
   }catch(error){if(run===version){status.textContent='Dokument sa nepodarilo vytvoriť. '+error.message;retry.hidden=false;}}
  }
- form.addEventListener('input',refresh);
+ form.addEventListener('input',event=>{if(event.target!==fields.beneficiary)refresh();});
+ fields.beneficiary.addEventListener('change',()=>{fields.iban.value=recentAccounts.get(accountKey())||'';refresh();});
  form.addEventListener('submit',event=>event.preventDefault());
  retry.addEventListener('click',refresh);
  demo.addEventListener('click',()=>{
   clearTimeout(timeout);preview.replaceChildren();retry.hidden=true;status.textContent='Vytváram ukážku…';
-  void generate({beneficiary:beneficiaryName,iban:'SK00 0000 0000 0000 0000 0000',symbol:'',demo:true},++version);
+  void generate({beneficiary:fields.beneficiary.value||beneficiaries[0],iban:'SK00 0000 0000 0000 0000 0000',symbol:'',demo:true},++version);
  });
  function prepare(){
-  const cached=recentAccounts.get(accountScope);
-  if(cached&&!fields.iban.value)fields.iban.value=cached.iban;
+  const cached=recentAccounts.get(accountKey());
+  if(cached&&!fields.iban.value)fields.iban.value=cached;
   if(!requested)refresh();
  }
  panel.addEventListener('toggle',()=>{if(panel.open)prepare();});
