@@ -115,8 +115,6 @@ export async function renderStudentEnquiry(ctx){
  fields.date_of_birth.max=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
  const actionRow=n('div','enquiry-actions'),submit=n('button','',t.save);
  submit.type='submit';
- const print=n('button','btn-secondary',ctx.lang==='en'?'Print / Save as PDF':ctx.lang==='ru'?'Печать / Сохранить PDF':ctx.lang==='uk'?'Друк / Зберегти PDF':'Vytlačiť / Uložiť ako PDF');
- print.type='button';print.addEventListener('click',()=>window.print());
  const draft=n('button','btn-secondary',({sk:'Uložiť rozpracovaný dotazník',en:'Save draft',ru:'Сохранить черновик',uk:'Зберегти чернетку'})[ctx.lang]||'Save draft');draft.type='button';
  draft.addEventListener('click',async()=>{
   if(!ctx.isCurrent())return;draft.disabled=true;submit.disabled=true;status.textContent=t.saving;
@@ -127,7 +125,7 @@ export async function renderStudentEnquiry(ctx){
    status.textContent=({sk:'Rozpracovaný dotazník je uložený. Na kontrolu ho odošli po doplnení.',en:'Draft saved. Submit it for review when complete.',ru:'Черновик сохранён. Отправьте заполненную анкету на проверку.',uk:'Чернетку збережено. Надішліть заповнену анкету на перевірку.'})[ctx.lang]||t.savedWithoutPhoto;
   }catch{status.textContent=t.failed;}finally{draft.disabled=false;submit.disabled=false;}
  });
- actionRow.append(draft,submit,print);form.append(actionRow,status);root.append(form);
+ actionRow.append(draft,submit);form.append(actionRow,status);root.append(form);
  try{
   const files=await ctx.list('residence_portal_files');
   if(ctx.isCurrent()&&!photoInput.files?.length&&!previewUrl&&root.isConnected){
