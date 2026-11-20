@@ -532,7 +532,7 @@ export async function renderStaffScreen(ctx) {
         // Do not accept an empty draft or an unsigned, photo-less questionnaire.
         // Recheck live state; the student's answer may have changed since render.
         const [submission,portrait,latestReview]=await Promise.all([
-         ctx.db.from('resident_enquiries').select('student_submitted_at,gender,own_refrigerator,permanent_address,date_of_birth,nationality,identity_document_number,telephone,school,preferred_room_type,preferred_duration_months,preferred_from,preferred_to')
+         ctx.db.from('resident_enquiries').select('student_submitted_at,gender,own_refrigerator,permanent_address,date_of_birth,nationality,identity_document_number,telephone,school')
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle(),
          ctx.db.from('residence_portal_files').select('id')
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id)
@@ -542,7 +542,7 @@ export async function renderStaffScreen(ctx) {
         ]);
         if(submission.error||portrait.error||latestReview.error){status(labels.fail,true);return;}
         const answers=submission.data;
-         const required=['gender','permanent_address','date_of_birth','nationality','identity_document_number','telephone','school','preferred_room_type','preferred_duration_months','preferred_from','preferred_to'];
+         const required=['gender','permanent_address','date_of_birth','nationality','identity_document_number','telephone','school'];
          const missing=required.filter(k=>!answers?.[k]);
          if(typeof answers?.own_refrigerator!=='boolean')missing.push('own_refrigerator');
          if(missing.length){status((ctx.lang==='en'?'The student must complete: ':'Študent musí doplniť: ')+missing.join(', '),true);return;}
