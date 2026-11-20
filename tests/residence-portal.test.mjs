@@ -10,7 +10,7 @@ const portal=readFileSync(resolve(root,'student-house-portal/index.html'),'utf8'
 const backend=readFileSync(resolve(root,'supabase/functions/register-student/index.ts'),'utf8');
 
 test('login offers student, registration and reception destinations',()=>{
-  for(const id of ['entryChooser','chooseStudent','chooseReception','chooseRegistration']){
+  for(const id of ['entryChooser','chooseStudent','chooseStaff','chooseRegistration']){
     assert.match(portal,new RegExp('id="'+id+'"'));
   }
 });
