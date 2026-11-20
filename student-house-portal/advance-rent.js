@@ -1,8 +1,9 @@
 const monthKey=(year,month)=>String(year).padStart(4,'0')+'-'+String(month+1).padStart(2,'0');
-export function advanceSchedule(tenancy,firstDue){
+export function advanceSchedule(tenancy,firstDue=tenancy.starts_on){
+ firstDue=firstDue||tenancy.starts_on;
  const start=tenancy.starts_on,end=tenancy.ends_on,rent=Math.round(Number(tenancy.rent)*100);
  if(!/^\d{4}-\d{2}-\d{2}$/.test(start)||!/^\d{4}-\d{2}-\d{2}$/.test(end)||end<=start||
-    !Number.isSafeInteger(rent)||rent<=0||!/^\d{4}-\d{2}-\d{2}$/.test(firstDue)||firstDue>=start)return [];
+    !Number.isSafeInteger(rent)||rent<=0||!/^\d{4}-\d{2}-\d{2}$/.test(firstDue))return [];
  const [year,month]=start.split('-').map(Number),startMonth=monthKey(year,month-1);
  const rows=[{due_on:firstDue,amount:(rent*3+10000)/100,period:startMonth,
   description:'Nájom '+startMonth+' + depozit 2× nájom + administratívny poplatok 100 €'}];

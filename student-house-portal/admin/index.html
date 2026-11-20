@@ -1569,7 +1569,7 @@ async function renderPanel(){
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261120-contract-symbol1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=2');
+   const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=20261120-first-due1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const codesByRoom=new Map(roomCatalog.map(room=>[room.id,String(room.name||'').trim()]));
    const chargesById=new Map(charges.map(charge=>[charge.id,charge]));
@@ -1594,9 +1594,8 @@ async function renderPanel(){
     const show=()=>{
      preview.replaceChildren();
      const stay=contracts.find(x=>x.id===contract.value);
-     firstDue.max=new Date(Date.parse(stay.starts_on+'T00:00:00Z')-86400000).toISOString().slice(0,10);
      let due=advanceSchedule(stay,firstDue.value);
-     if(!due.length){preview.append(make('p','muted','Vyber splatnosť prvej úhrady pred začiatkom ubytovania.'));return;}
+     if(!due.length){preview.append(make('p','muted','Skontroluj dátumy ubytovania a výšku nájomného v zmluve.'));return;}
      try{
       due=applyAgreedRentSplits(due,charges.filter(x=>x.resident_id===stay.resident_id),plans.filter(x=>x.resident_id===stay.resident_id),items);
      }catch(error){preview.append(make('p','danger',error.message));return;}
@@ -1607,7 +1606,7 @@ async function renderPanel(){
      const stay=contracts.find(x=>x.id===contract.value);
      const initial=charges.filter(x=>x.resident_id===stay.resident_id&&x.period===stay.starts_on.slice(0,7)&&['rent','deposit','administration_fee'].includes(x.kind));
      const dates=[...new Set(initial.map(x=>x.due_on))];
-     firstDue.value=initial.length===3&&dates.length===1&&dates[0]<stay.starts_on?dates[0]:'';
+     firstDue.value=initial.length===3&&dates.length===1&&dates[0]?dates[0]:stay.starts_on;
      show();
     };
     contract.addEventListener('change',useExisting);firstDue.addEventListener('change',show);
