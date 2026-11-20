@@ -157,24 +157,32 @@ export async function renderStaffScreen(ctx) {
      card.append(resend);
     }
     if(person.status==='invited'){
+     const activationResult=el('p','staff-notice');
+     activationResult.setAttribute('role','status');
+     activationResult.style.margin='0';
      const activate=button(ctx.lang==='en'?'Activate student password access':'Aktivovať študentské prihlásenie',async()=>{
       if(pendingAction||!ctx.isCurrent())return;
-      pendingAction=true;activate.disabled=true;
+      pendingAction=true;activate.disabled=true;activationResult.textContent='';
       try{
        const {data,error}=await ctx.db.functions.invoke('manage',{body:{
         action:'activate_approved_login',role:'student',tenant_id:ctx.tenant,registration_id:person.id
        }});
        if(!error&&data?.login_ready){
-        status(ctx.lang==='en'?'Student login is active. No email is required.':'Prihlásenie je aktívne. Študent sa môže prihlásiť pôvodným heslom bez e-mailovej pozvánky.');
+        activate.hidden=true;
+        activate.style.display='none';
+        activationResult.classList.add('staff-approval-success');
+        activationResult.textContent=({sk:'✓ Študentské prihlásenie je aktívne',en:'✓ Student login is active',ru:'✓ Вход студента активирован',uk:'✓ Вхід студента активовано'})[ctx.lang]||'✓ Študentské prihlásenie je aktívne';
+        activationResult.tabIndex=-1;
+        activationResult.focus({preventScroll:true});
        }else{
         const code=await failureCode(error,data);
         status(code==='password_setup_required'?
           (ctx.lang==='en'?'This account has no password yet. Send a secure setup email.':'Účet ešte nemá heslo. Potrebný je bezpečný odkaz na jeho vytvorenie.'):w.failed,true);
        }
       }catch{status(w.failed,true)}
-      finally{pendingAction=false;activate.disabled=false;}
+      finally{pendingAction=false;if(!activate.hidden)activate.disabled=false;}
      });
-     card.append(activate);
+     card.append(activate,activationResult);
     }
     if(person.status==='correction_requested'){
      card.append(el('p','mini-note',cw.existing));
