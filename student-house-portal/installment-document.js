@@ -70,7 +70,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
  let url,timeout,version=0,requested='';
  const accountKey=()=>accountScope&&fields.beneficiary.value?accountScope+':'+fields.beneficiary.value:'';
  function refresh(){
-  clearTimeout(timeout);version++;requested='';retry.hidden=true;preview.replaceChildren();
+  clearTimeout(timeout);version++;requested='';retry.hidden=true;status.style.color='';preview.replaceChildren();
   if(url){URL.revokeObjectURL(url);url=null;}
   const bank={beneficiary:fields.beneficiary.value.trim(),iban:fields.iban.value.replace(/\s/g,'').toUpperCase(),symbol:fields.symbol.value.trim()};
   if(!/^\d{1,10}$/.test(bank.symbol)){status.textContent='Chýba overené číselné číslo zmluvy (1 až 10 číslic).';return;}
@@ -98,12 +98,12 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    const send=node('button','Odoslať e-mailom');send.type='button';send.disabled=!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(recipient);
    send.addEventListener('click',async()=>{
     if(!sendPdf||!window.confirm('Odoslať kalendár s PDF na '+recipient+'?'))return;
-    send.disabled=true;status.textContent='Odosielam e-mail…';
+    send.disabled=true;status.style.color='';status.textContent='Odosielam e-mail…';
     try{
      const {data,error}=await sendPdf(person.id,file);
      if(error||!data?.ok)throw Error('send');
-     status.textContent='Poštový server prijal e-mail pre '+recipient+'.';
-    }catch{status.textContent='E-mail sa nepodarilo odoslať cez poštový server.';}
+     status.style.color='#166534';status.textContent='✓ Odoslané na '+recipient+'. Poštový server správu prijal.';
+    }catch{status.style.color='#a32626';status.textContent='E-mail sa nepodarilo odoslať cez poštový server.';}
     finally{send.disabled=false;}
    });
    const draft=node('button','Stiahnuť e-mail s PDF');draft.type='button';draft.disabled=send.disabled;
@@ -126,7 +126,14 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
     }catch{status.textContent='E-mailový súbor sa nepodarilo pripraviť.';}
     finally{draft.disabled=false;}
    });
-   actions.append(download,send,draft);preview.replaceChildren(actions);
+   const emailPreview=node('section');
+   emailPreview.setAttribute('aria-label','Náhľad e-mailu');
+   emailPreview.style.cssText='padding:12px 14px;margin:0 0 12px;border:1px solid #cbd9eb;border-radius:10px;background:#fff;overflow-wrap:anywhere';
+   emailPreview.append(node('strong','Náhľad e-mailu'),node('p','Komu: '+(recipient||'—')),
+    node('p','Predmet: Splátkový kalendár – Student House Bratislava'),
+    node('p','Dobrý deň, v prílohe nájdete splátkový kalendár Student House Bratislava.'),
+    node('p','Príloha: '+file.name));
+   actions.append(download,send,draft);preview.replaceChildren(emailPreview,actions);
    if(navigator.canShare?.({files:[file]})){
     const share=node('button','Zdieľať PDF');share.type='button';
     share.addEventListener('click',()=>navigator.share({files:[file],title:plan.title}).catch(error=>{if(error.name!=='AbortError')status.textContent='PDF sa nepodarilo zdieľať.';}));
