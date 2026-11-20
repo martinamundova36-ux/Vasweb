@@ -569,13 +569,52 @@ export async function renderStaffScreen(ctx) {
   results.append(el('h4','section-subtitle',w.files));
   const filesRoot=el('div','data-list', '…');results.append(filesRoot);
   try{
-   const allFiles=await ctx.list('residence_portal_files');if(!ctx.isCurrent()||!filesRoot.isConnected)return;
-   const files=residentFiles(allFiles,person).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));filesRoot.replaceChildren();
+   const [assigned,legacy,rules,gdpr]=await Promise.all([
+    ctx.list('residence_portal_files',{resident_id:person.id,active:true}),
+    person.user_id?ctx.list('residence_portal_files',{user_id:person.user_id,active:true}):Promise.resolve([]),
+    ctx.list('residence_portal_files',{kind:'rules_template',active:true}),
+    ctx.list('residence_portal_files',{kind:'gdpr_template',active:true})
+   ]);
+   if(!ctx.isCurrent()||!filesRoot.isConnected)return;
+   const files=residentFiles([...new Map([...assigned,...legacy].map(f=>[f.id,f])).values()],person)
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+   filesRoot.replaceChildren();
+   const groups=[
+    ['Ubytovacia zmluva',f=>f.kind==='contract_draft'],
+    ['Splátkový kalendár',f=>f.kind==='schedule_draft'||(f.kind==='resident_document'&&f.original_name==='splatkovy-kalendar.pdf')],
+    ['Potvrdenie o ubytovaní',f=>f.kind==='certificate_draft'],
+    ['Žiadosť o vrátenie depozitu',f=>f.kind==='resident_document'&&f.original_name==='ziadost-o-vratenie-depozitu.pdf']
+   ];
+   for(const [title,matches] of groups){
+    const selected=files.filter(matches);
+    if(selected.length)for(const file of selected)filesRoot.append(documentCard(file,title));
+    else filesRoot.append(el('p','mini-note',title+': '+w.missing));
+   }
+   for(const [title,templates] of [['Ubytovací poriadok',rules],['GDPR',gdpr]]){
+    const latest=templates.sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+    filesRoot.append(latest?documentCard(latest,title):el('p','mini-note',title+': '+w.missing));
+   }
+   if(typeof ctx.uploadPrivateDocument==='function'){
+    const form=el('form','staff-form'),kind=el('select'),input=el('input'),submit=el('button','','Pridať do dokumentov študenta');
+    kind.setAttribute('aria-label','Typ dokumentu');input.type='file';input.required=true;input.accept='application/pdf';input.setAttribute('aria-label','PDF dokument');submit.type='submit';
+    for(const [value,title] of [['contract_draft','Ubytovacia zmluva'],['schedule_draft','Splátkový kalendár'],['certificate_draft','Potvrdenie o ubytovaní'],['refund','Žiadosť o vrátenie depozitu']]){
+     const option=el('option','',title);option.value=value;kind.append(option);
+    }
+    form.append(kind,input,submit);filesRoot.append(form);
+    form.addEventListener('submit',async event=>{
+     event.preventDefault();const original=input.files?.[0];if(!original||!ctx.isCurrent())return;
+     const refund=kind.value==='refund';
+     const file=refund?new File([original],'ziadost-o-vratenie-depozitu.pdf',{type:original.type}):original;
+     if(await ctx.uploadPrivateDocument(person.id,file,submit,refund?'resident_document':kind.value)){
+      const result=el('p','mini-note','✓ Dokument je pridaný do profilu študenta.');form.after(result);input.value='';
+     }
+    });
+   }
    for(const [kind,title] of [['profile_photo',w.photo],['signed_contract',ctx.lang==='en'?'Signed contract':'Podpísaná zmluva'],['signed_rules',w.rules],['signed_gdpr',w.gdpr],['signed_schedule',ctx.lang==='en'?'Signed payment schedule':'Podpísaný splátkový kalendár'],['signed_certificate',ctx.lang==='en'?'Signed accommodation certificate':'Podpísané potvrdenie o ubytovaní']]){
     const items=files.filter(f=>f.kind===kind);if(!items.length){filesRoot.append(el('p','mini-note',title+': '+w.missing));continue;}
     for(const file of items)filesRoot.append(documentCard(file,title));
    }
-   for(const file of files.filter(f=>['resident_document','contract_draft','schedule_draft','certificate_draft'].includes(f.kind)))filesRoot.append(documentCard(file,f.kind==='contract_draft'?(ctx.lang==='en'?'Resident contract':'Ubytovacia zmluva'):w.private));
+   for(const file of files.filter(f=>f.kind==='resident_document'&&!groups.some(([,matches])=>matches(f))))filesRoot.append(documentCard(file,f.kind==='contract_draft'?(ctx.lang==='en'?'Resident contract':'Ubytovacia zmluva'):w.private));
   }catch{if(ctx.isCurrent())filesRoot.replaceChildren(el('p','danger',w.fileFailed));}
  }
  function documentCard(file,title){

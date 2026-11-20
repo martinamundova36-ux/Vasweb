@@ -986,6 +986,8 @@ async function renderResidentDocuments(tenant,staff,own){
   intro.append(make('h3','',df('introTitle')),make('p','',df('intro')));
   $('records').append(intro);
   const cards=make('div','docgrid');
+  const legacySchedule=files.filter(x=>x.kind==='resident_document'&&x.active&&x.user_id===user.id&&x.original_name==='splatkovy-kalendar.pdf')
+   .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
   const requirements=[
    ['contract_draft','signed_contract',dl('contract'),dl('signedContract')],
    ['rules_template','signed_rules',dl('rules'),dl('signedRules')],
@@ -997,7 +999,7 @@ async function renderResidentDocuments(tenant,staff,own){
    if(index===0)cards.append(make('h3','document-flow-group-title',df('primaryDocuments')));
    if(index===4)cards.append(make('h3','document-flow-group-title',df('additionalSchedule')));
    const template=files.filter(x=>x.kind===templateKind&&x.active&&(['rules_template','gdpr_template'].includes(templateKind)||x.user_id===user.id))
-    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
+    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0]||(templateKind==='schedule_draft'?legacySchedule:null);
    const submission=files.filter(x=>x.kind===signedKind&&x.active&&x.user_id===user.id)
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))[0];
    const card=make('div','file-item document-flow-card');
@@ -1072,6 +1074,12 @@ async function renderResidentDocuments(tenant,staff,own){
   }
  }
 
+ if(!staff){
+  subheading('Žiadosť o vrátenie depozitu');
+  const refund=files.find(x=>x.kind==='resident_document'&&x.active&&x.user_id===user.id&&x.original_name==='ziadost-o-vratenie-depozitu.pdf');
+  if(refund){const card=row('Žiadosť o vrátenie depozitu',day(refund.created_at));const download=make('button','btn-secondary',dl('load'));download.type='button';download.addEventListener('click',()=>void fileLink(refund.id,tenant));card.append(download);$('records').append(card);}
+  else $('records').append(make('p','muted',dl('missing')));
+ }
  subheading(dl('privateDocuments'));
  const residentDocs=files.filter(x=>['resident_document','contract_draft','schedule_draft','certificate_draft'].includes(x.kind)&&x.active&&(staff||x.kind==='resident_document')&&(staff||x.user_id===user.id))
    .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
@@ -1382,11 +1390,11 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261114-intake-fees3');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261120-profile-docs1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
-    uploadPrivateDocument:(residentId,file,button)=>sendFile(tenant,'resident_document',file,button,residentId),
+    uploadPrivateDocument:(residentId,file,button,kind='resident_document')=>sendFile(tenant,kind,file,button,residentId),
     openRooms:(roomNumber,startsOn)=>{pendingRoomFocus={room:String(roomNumber||''),year:Number(String(startsOn||'').slice(0,4))||null};navigate('rooms')},
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab===section&&isStaff()});
    return;
@@ -1611,7 +1619,7 @@ async function renderPanel(){
       due=applyAgreedRentSplits(due,charges.filter(x=>x.resident_id===stay.resident_id),plans.filter(x=>x.resident_id===stay.resident_id),items);
      }catch(error){preview.append(make('p','danger',error.message));return;}
      for(const item of due)preview.append(row(day(item.due_on)+' · '+money(item.amount),item.description));
-     attachInstallmentDocument(preview,{title:'Kalendár nájomného plateného vopred',draft:true},peopleById[student.value],due,{open:true,accountScope:tenant+':'+member.id,saveToProfile:(residentId,pdf,button)=>sendFile(tenant,'resident_document',pdf,button,residentId),contractNumber:peopleById[student.value]?.verified_contract_number});
+     attachInstallmentDocument(preview,{title:'Kalendár nájomného plateného vopred',draft:true},peopleById[student.value],due,{open:true,accountScope:tenant+':'+member.id,saveToProfile:(residentId,pdf,button)=>sendFile(tenant,'schedule_draft',pdf,button,residentId),contractNumber:peopleById[student.value]?.verified_contract_number});
     };
     const useExisting=()=>{
      const stay=contracts.find(x=>x.id===contract.value);
@@ -1636,7 +1644,7 @@ async function renderPanel(){
      const roomCodes=new Set(stays.filter(stay=>stay.resident_id===p.resident_id&&period&&stay.starts_on.slice(0,7)<=period&&stay.ends_on.slice(0,7)>=period)
       .map(stay=>codesByRoom.get(stay.room_id)).filter(Boolean));
      const rentInCalendar=chargesById.get(p.charge_id)?.kind==='rent'&&roomCodes.size===1;
-     const documentPanel=rentInCalendar?null:attachInstallmentDocument(entry,p,peopleById[p.resident_id],related,{open,accountScope:tenant+':'+member.id,saveToProfile:(residentId,pdf,button)=>sendFile(tenant,'resident_document',pdf,button,residentId),contractNumber:peopleById[p.resident_id]?.verified_contract_number});
+     const documentPanel=rentInCalendar?null:attachInstallmentDocument(entry,p,peopleById[p.resident_id],related,{open,accountScope:tenant+':'+member.id,saveToProfile:(residentId,pdf,button)=>sendFile(tenant,'schedule_draft',pdf,button,residentId),contractNumber:peopleById[p.resident_id]?.verified_contract_number});
      if(rentInCalendar)entry.append(make('p','muted','Dohoda sa premieta do kalendára nájomného, kde je aj spoločné PDF s QR kódmi.'));
      if(p.charge_id===newInstallmentCharge){
       newInstallmentCharge='';requestAnimationFrame(()=>(documentPanel||advanceHost).scrollIntoView({block:'nearest'}));
