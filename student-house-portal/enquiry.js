@@ -100,7 +100,7 @@ export async function renderStudentEnquiry(ctx){
  submit.type='submit';
  const draft=n('button','btn-secondary',({sk:'Uložiť rozpracovaný dotazník',en:'Save draft',ru:'Сохранить черновик',uk:'Зберегти чернетку'})[ctx.lang]||'Save draft');draft.type='button';
  draft.addEventListener('click',async()=>{
-  if(!ctx.isCurrent())return;draft.disabled=true;submit.disabled=true;status.textContent=t.saving;
+  if(!ctx.isCurrent())return;draft.disabled=true;submit.disabled=true;status.classList.remove('staff-approval-success');status.textContent=t.saving;
   try{
    const values={tenant_id:ctx.tenant,resident_id:ctx.resident.id,user_id:ctx.user.id,student_submitted_at:null};
    for(const [key,input]of Object.entries(fields)){let value=String(input.value||'').trim();if(key==='date_of_birth')value=value||null;if(key==='own_refrigerator')value=value==='yes'?true:value==='no'?false:null;values[key]=value;}
@@ -135,7 +135,7 @@ export async function renderStudentEnquiry(ctx){
    if(key==='own_refrigerator')value=value==='yes'?true:value==='no'?false:null;
    values[key]=value;
   }
-  submit.disabled=true;status.textContent=t.saving;
+  submit.disabled=true;status.classList.remove('staff-approval-success');status.textContent=t.saving;
   try{
    // Upload photo to the existing private bucket before marking the questionnaire complete.
    if(chosen){
@@ -148,15 +148,13 @@ export async function renderStudentEnquiry(ctx){
    const {error}=await ctx.db.from('resident_enquiries')
      .upsert(values,{onConflict:'tenant_id,resident_id'}).select('id').single();
    if(error){status.textContent=t.failed;return;}
-   status.textContent=review?.review_status==='needs_correction'
+   status.classList.add('staff-approval-success');
+   status.textContent='✓ '+(review?.review_status==='needs_correction'
      ?(ctx.lang==='en'?'Corrected questionnaire submitted to reception.':'Opravený dotazník je odoslaný na kontrolu recepcii.')
-     :t.saved;
-   if(ctx.isOnboarding){
-    // Automatically move to step three only after the questionnaire and private
-    // photograph have both been saved. The invitation is a separate email.
-    await ctx.onComplete?.();
-   }else if(!actionRow.querySelector('.enquiry-completed')){
-    const next=n('button','btn-secondary enquiry-completed',ctx.lang==='en'?'Continue to documents':ctx.lang==='ru'?'К документам':ctx.lang==='uk'?'До документів':'Pokračovať na dokumenty');
+     :t.saved);
+   ctx.onSaved?.();
+   if(!actionRow.querySelector('.enquiry-completed')){
+    const next=n('button','btn-secondary enquiry-completed',({sk:'Otvoriť môj profil',en:'Open my profile',ru:'Открыть мой профиль',uk:'Відкрити мій профіль'})[ctx.lang]);
     next.type='button';next.addEventListener('click',()=>ctx.onComplete?.());
     actionRow.append(next);
    }
