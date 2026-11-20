@@ -180,7 +180,9 @@ export async function renderExcelRegister(ctx){
  style.textContent=`
  .room-register:fullscreen{background:#fff;color:#142b4d;padding:16px;overflow:auto;box-sizing:border-box}
  .room-register:fullscreen .room-register-scroll{max-height:none;height:calc(100dvh - 170px)}
- .room-register .editable-register-cell{cursor:pointer}
+ .room-register .editable-register-cell{cursor:pointer;white-space:normal;overflow-wrap:anywhere}
+ .room-register .room-register-table .register-completeness{white-space:normal;overflow-wrap:anywhere;min-width:180px;max-width:230px;line-height:1.45}
+ .room-register .room-register-table .register-actions{white-space:nowrap;vertical-align:middle}
  .room-register .editable-register-cell:not(.register-fixed-room):not(.register-order){position:relative}
  .room-register .editable-register-cell:focus-visible{outline:2px solid #265ba5;outline-offset:-2px}
  .room-register .register-note-dot{position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:#d51e35;border:1px solid #fff}
@@ -305,7 +307,9 @@ export async function renderExcelRegister(ctx){
    tr.append(cell(entry.detail?.room_code?w.masked:'—'),cell(fee(entry,'deposit_eur')),cell(fee(entry,'refrigerator_fee_eur')),cell(fee(entry,'verification_fee_eur')),cell(fee(entry,'administration_fee_eur')));
    for(const state of sum)tr.append(monthCell(state,ctx.lang,w));
    tr.append(cell(charged?formatMoney(charged/100,ctx.lang)+' / '+formatMoney(paid/100,ctx.lang):'—','register-total'));
-   for(const field of record.extras)tr.append(cell(field));
+   record.extras.forEach((field,index)=>{
+    tr.append(cell(field,index===record.extras.length-1?'register-completeness':''));
+   });
    const action=el('td','register-actions');
    if(group.placeholder){action.append(el('span','muted',w.placeholder));}
    else if(entry.person){action.append(button(w.edit,()=>openEditor(action,entry)));if(ctx.openResidents)action.append(button(w.open,ctx.openResidents));}
