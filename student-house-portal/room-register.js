@@ -176,6 +176,12 @@ export async function renderExcelRegister(ctx){
   fullscreen.setAttribute('aria-pressed',String(document.fullscreenElement===root));
  });
  controls.append(fullscreen);
+ const goBack=button(({sk:'Späť do administrácie',en:'Back to administration',ru:'Назад в администрирование',uk:'Назад до адміністрування'})[ctx.lang]||'Späť do administrácie',async()=>{
+  if(document.fullscreenElement===root)await document.exitFullscreen().catch(()=>{});
+  ctx.openAdmin?.();
+ });
+ controls.prepend(goBack);
+
  const style=el('style');
  style.textContent=`
  .room-register:fullscreen{background:#fff;color:#142b4d;padding:16px;overflow:auto;box-sizing:border-box}
@@ -185,6 +191,7 @@ export async function renderExcelRegister(ctx){
  .room-register .room-register-table .register-actions{white-space:nowrap;vertical-align:middle}
  .room-register .editable-register-cell:not(.register-fixed-room):not(.register-order){position:relative}
  .room-register .editable-register-cell:focus-visible{outline:2px solid #265ba5;outline-offset:-2px}
+ .room-register .room-register-table td.register-required-missing{background:#ffe600!important;color:#171900!important;box-shadow:inset 0 0 0 2px #c84c00;font-weight:800}
  .room-register .register-note-dot{position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:#d51e35;border:1px solid #fff}
  .room-register dialog{color:#142b4d;background:white;border:1px solid #a9bdd5;border-radius:12px;padding:18px;width:min(440px,90vw)}
  .room-register dialog form{display:grid;gap:10px}
@@ -235,13 +242,22 @@ export async function renderExcelRegister(ctx){
   const [first,last]=displayNames(person,entry.reg);
   const sum=Array.from({length:12},(_,month)=>periodLedger({entry,year:selectedYear(),month:month+1,charges,allocations,reversals,plans}));
   const charged=sum.reduce((n,s)=>n+s.charged,0),paid=sum.reduce((n,s)=>n+s.paid,0);
-  const q=entry.enquiry||{},start=String(stay?.starts_on||person?.accommodation_from||'').slice(0,7);
+  const reg=entry.reg||{},q={...(entry.enquiry||{})};
+  for(const field of ['nationality','telephone','date_of_birth','gender','preferred_room_type']){
+   if(!q[field])q[field]=reg[field];
+  }
+  const start=String(stay?.starts_on||person?.accommodation_from||'').slice(0,7);
   const initial=person&&start?charges.filter(c=>c.resident_id===person.id&&c.period===start&&['rent','deposit','administration_fee'].includes(c.kind)):[];
   const initialBalances=initial.map(c=>chargeBalance(c,allocations,reversals));
   const initialAmount=initial.reduce((v,c)=>v+cents(c.amount),0);
   const initialPaid=initialBalances.reduce((v,c)=>v+c.paid,0);
   const initialRemain=initialBalances.reduce((v,c)=>v+c.remaining,0);
   const completeness={
+   'meno':!!first?.trim(),
+   'priezvisko':!!last?.trim(),
+   'e-mail':!!(person?.email||reg.email),
+   'číslo zmluvy':!!person?.verified_contract_number,
+   'skutočný príchod':!!entry.detail?.actual_arrival_on,
    'dátum narodenia':!!q.date_of_birth,
    'národnosť':!!(entry.detail?.nationality||q.nationality),
    'pohlavie':!!q.gender,
@@ -271,8 +287,8 @@ export async function renderExcelRegister(ctx){
    initial.length?formatMoney(initialRemain/100,ctx.lang):'—',
    !person?'—':missing.length?'Chýba: '+missing.join(', '):'Kompletné'
   ];
-  return {group,entry,first,last,sum,charged,paid,extras,
-   values:[group.order,entry.bedLabel||group.room.name,group.room.category||'—',group.room.capacity??'—',entry.detail?.nationality||entry.enquiry?.nationality||'—',genderName(entry.enquiry?.gender,ctx.lang),person?first:'—',person?last:'—',person?.email||'—',entry.enquiry?.telephone||'—',person?.verified_contract_number||'—',
+  return {group,entry,first,last,sum,charged,paid,extras,question:q,missing,
+   values:[group.order,entry.bedLabel||group.room.name,group.room.category||'—',group.room.capacity??'—',entry.detail?.nationality||q.nationality||'—',genderName(q.gender,ctx.lang),person?first:'—',person?last:'—',person?.email||'—',q.telephone||'—',person?.verified_contract_number||'—',
     stay?.starts_on||person?.accommodation_from||'—',stay?.ends_on||person?.accommodation_to||'—',entry.detail?.actual_arrival_on||'—',
     entry.detail?.room_code?w.masked:'—',fee(entry,'deposit_eur'),fee(entry,'refrigerator_fee_eur'),fee(entry,'verification_fee_eur'),fee(entry,'administration_fee_eur'),
     ...sum.map(s=>s.kind==='none'?'—':s.kind==='missing'?w.missingCharge:formatMoney(s.charged/100,ctx.lang)+' / '+formatMoney(s.paid/100,ctx.lang)+' ('+w[s.kind]+')'),
@@ -297,12 +313,12 @@ export async function renderExcelRegister(ctx){
   if(!entries.length){const tr=el('tr'),td=cell(w.empty);td.colSpan=headings.length;tr.append(td);body.append(tr);return;}
   let groupNumber=-1;
   for(const record of entries){
-   const {group,entry,first,last,sum,charged,paid}=record;
+   const {group,entry,first,last,sum,charged,paid,question:q,missing}=record;
    const tr=el('tr',group.placeholder?'register-placeholder':group.order%2===0?'register-room-tinted':'register-room-clear');
    if(group!==entries[groupNumber]?.group){groupNumber=entries.indexOf(record);tr.classList.add('register-first');}
    tr.append(cell(group.order+'.','register-order'),cell((entry.bedLabel||group.room.name)+(group.placeholder?' · '+w.missing:''),'register-fixed-room'),cell(group.room.category||'—'),cell(group.room.capacity??'—'));
-   tr.append(cell(entry.detail?.nationality||entry.enquiry?.nationality||'—'),cell(genderName(entry.enquiry?.gender,ctx.lang)),cell(entry.person?first:'—'),cell(entry.person?last:'—'));
-   const email=cell(entry.person?.email||'—');email.classList.add('register-email');tr.append(email,cell(entry.enquiry?.telephone||'—'));
+   tr.append(cell(entry.detail?.nationality||q.nationality||'—'),cell(genderName(q.gender,ctx.lang)),cell(entry.person?first:'—'),cell(entry.person?last:'—'));
+   const email=cell(entry.person?.email||'—');email.classList.add('register-email');tr.append(email,cell(q.telephone||'—'));
    tr.append(cell(entry.person?.verified_contract_number||'—'),cell(formatDate(entry.stay?.starts_on||entry.person?.accommodation_from,ctx.lang)),cell(formatDate(entry.stay?.ends_on||entry.person?.accommodation_to,ctx.lang)),cell(formatDate(entry.detail?.actual_arrival_on,ctx.lang)));
    tr.append(cell(entry.detail?.room_code?w.masked:'—'),cell(fee(entry,'deposit_eur')),cell(fee(entry,'refrigerator_fee_eur')),cell(fee(entry,'verification_fee_eur')),cell(fee(entry,'administration_fee_eur')));
    for(const state of sum)tr.append(monthCell(state,ctx.lang,w));
@@ -326,6 +342,17 @@ export async function renderExcelRegister(ctx){
     td.addEventListener('click',()=>editCell(record,index,td));
     td.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();editCell(record,index,td);}});
    });
+   if(entry.person){
+    const extraStart=19+sum.length+1;
+    const requiredColumns={4:'národnosť',5:'pohlavie',6:'meno',7:'priezvisko',8:'e-mail',9:'telefón',10:'číslo zmluvy',13:'skutočný príchod',
+     [extraStart]:'dátum narodenia',[extraStart+1]:'trvalá adresa',[extraStart+2]:'číslo dokladu',
+     [extraStart+3]:'škola',[extraStart+4]:'kontakt na rodiča',[extraStart+5]:'IBAN',[extraStart+6]:'typ izby',
+     [extraStart+7]:'dĺžka pobytu',[extraStart+8]:'vlastná chladnička',[extraStart+9]:'nájomné'};
+    for(const [index,field] of Object.entries(requiredColumns)){
+     if(missing.includes(field))tr.cells[index]?.classList.add('register-required-missing');
+    }
+    if(missing.length)tr.lastElementChild?.classList.add('register-required-missing');
+   }
    tr.append(action);body.append(tr);
   }
  }
