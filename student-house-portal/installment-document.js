@@ -51,7 +51,7 @@ async function pdfDocument(plan,person,items,bank,images){
 }
 const recentAccounts=new Map();
 const beneficiaries=['Student House Bratislava','Gargallo s.r.o.'];
-export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber=''}={}){
+export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber='',sendPdf}={}){
  if(!person||!items.length)return;
  const panel=node('details'),summary=node('summary','Splátkový kalendár s QR kódmi'),form=node('form');
  const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,true],['Variabilný symbol (číslo zmluvy)','symbol',10,false]];
@@ -96,12 +96,15 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    const actions=node('div');actions.style.cssText='display:flex;flex-wrap:wrap;gap:10px;align-items:center';
    const recipient=String(person.email||'').trim();
    const send=node('button','Odoslať e-mailom');send.type='button';send.disabled=!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(recipient);
-   send.addEventListener('click',()=>{
-    const body='Dobrý deň, v prílohe nájdete splátkový kalendár Student House Bratislava.';
-    const address=encodeURIComponent(recipient).replace(/%40/g,'@');
-    const subject=encodeURIComponent(plan.title||'Splátkový kalendár');
-    window.location.href='mailto:'+address+'?subject='+subject+'&body='+encodeURIComponent(body);
-    status.textContent='Pred odoslaním prilož stiahnuté PDF k rozpísanému e-mailu.';
+   send.addEventListener('click',async()=>{
+    if(!sendPdf||!window.confirm('Odoslať kalendár s PDF na '+recipient+'?'))return;
+    send.disabled=true;status.textContent='Odosielam e-mail…';
+    try{
+     const {data,error}=await sendPdf(person.id,file);
+     if(error||!data?.ok)throw Error('send');
+     status.textContent='Poštový server prijal e-mail pre '+recipient+'.';
+    }catch{status.textContent='E-mail sa nepodarilo odoslať cez poštový server.';}
+    finally{send.disabled=false;}
    });
    const draft=node('button','Stiahnuť e-mail s PDF');draft.type='button';draft.disabled=send.disabled;
    draft.addEventListener('click',async()=>{
