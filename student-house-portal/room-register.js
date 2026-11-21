@@ -500,8 +500,18 @@ export async function renderExcelRegister(ctx){
   const accessLabel=el('label','',w.code),access=el('input');access.type='password';access.maxLength=60;access.autocomplete='off';access.value=entry.detail?.room_code||'';
   const show=button('👁',()=>{access.type=access.type==='password'?'text':'password';});show.title=w.code;accessLabel.append(access,show);form.append(accessLabel);
   for(const [key,label] of [['deposit_eur',w.deposit],['refrigerator_fee_eur',w.fridge],['verification_fee_eur',w.verification],['administration_fee_eur',w.administration]]){
-   const input=el('input');input.type='number';input.min='0';input.max='100000';input.step='0.01';input.value=key==='deposit_eur'&&Number(entry.stay?.rent)>0?Number((Number(entry.stay.rent)*2).toFixed(2)):key==='administration_fee_eur'?100:entry.detail?.[key]??'';
-    if(key==='deposit_eur'||key==='administration_fee_eur'){input.readOnly=true;input.title=ctx.lang==='en'?'Calculated from verified rent':'Automatický výpočet podľa overeného nájmu';}
+   const input=el('input');input.type='number';input.min='0';input.max='100000';input.step='0.01';
+   // Never overwrite an explicitly verified fee with the default when editing Excel.
+   const recorded=entry.detail?.[key];
+   input.value=recorded!==null&&recorded!==undefined&&recorded!==''?recorded:
+    key==='deposit_eur'&&Number(entry.stay?.rent)>0?(Number(entry.stay.rent)*2).toFixed(2):
+    key==='administration_fee_eur'?'100.00':'';
+   if(key==='deposit_eur'||key==='administration_fee_eur'){
+    input.readOnly=recorded!==null&&recorded!==undefined;
+    input.title=recorded!==null&&recorded!==undefined?
+     (ctx.lang==='en'?'Verified fee – edit only via an authorised finance correction':'Overená suma – zmeny rob iba cez autorizovanú opravu financií'):
+     (ctx.lang==='en'?'Suggested amount; reception must verify before saving':'Navrhnutá suma – recepcia ju musí pred uložením overiť');
+   }
    const wrap=el('label','',label);wrap.append(input);form.append(wrap);feeInputs[key]=input;
   }
   form.append(save,cancel);
