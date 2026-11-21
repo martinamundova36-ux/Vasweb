@@ -688,7 +688,7 @@ export async function renderStaffScreen(ctx) {
          .sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||
           ['rent','deposit','administration_fee'].indexOf(a.kind)-['rent','deposit','administration_fee'].indexOf(b.kind))
          .map(x=>({due_on:x.due_on,amount:Number(x.amount),description:descriptions[x.kind]+(x.kind==='rent'?' '+x.period:'')}));
-        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261121-reception-first-payment1');
+        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261121-confirm-qr-iban2');
         if(!ctx.isCurrent()||!documentFlow.isConnected)return;
         const symbol=/^[0-9]{1,10}$/.test(String(person.verified_contract_number||'').trim())?String(person.verified_contract_number).trim():
          /^[0-9]{1,10}$/.test(String(verified.room_code||'').trim())?String(verified.room_code).trim():'';
