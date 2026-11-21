@@ -146,7 +146,29 @@ export async function renderExcelRegister(ctx){
  const wrap=el('div','room-register-scroll');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',w.title);
  const table=el('table','room-register-table');wrap.append(table);
  const count=el('p','muted');
- root.append(title,intro,counter,el('p','muted',w.bedHelp),controls,importArea,notice,count,wrap);ctx.root.append(root);
+ const mobileWords=({
+  sk:['Mobilný prehľad','Excelová tabuľka','Ubytovaní','Len neúplné','Kompletné','Všetky lôžka','Chýba','Údaje sú kompletné','Voľné v zvolenom roku','Zobraziť všetky údaje','Žiadne záznamy','Študenti s chýbajúcimi údajmi','Fotografia','Termín pobytu','Predpis depozitu','Predpis administratívneho poplatku','Nájomné: uhradené / predpísané'],
+  en:['Mobile overview','Excel table','Residents','Missing only','Complete','All beds','Missing','Record complete','Unoccupied in selected year','Show all details','No records','Residents with missing details','Photo','Stay dates','Deposit charge','Administration fee charge','Rent: paid / charged'],
+  ru:['Мобильный обзор','Таблица Excel','Проживающие','Только неполные','Полные','Все места','Не хватает','Данные заполнены','Свободно в выбранном году','Показать все данные','Нет записей','Студенты с неполными данными','Фотография','Даты проживания','Начисление депозита','Административный сбор','Аренда: оплачено / начислено'],
+  uk:['Мобільний огляд','Таблиця Excel','Мешканці','Лише неповні','Повні','Усі місця','Бракує','Дані заповнені','Вільно у вибраному році','Показати всі дані','Немає записів','Студенти з неповними даними','Фотографія','Дати проживання','Нарахування депозиту','Адміністративний збір','Оренда: сплачено / нараховано']
+ })[ctx.lang]||[];
+ const mobileControls=el('div','register-mobile-controls');
+ const mobileSummary=el('p','register-mobile-summary');mobileSummary.setAttribute('role','status');
+ const mobileFilter=el('select');mobileFilter.setAttribute('aria-label',mobileWords[11]);
+ for(const [value,label] of [['occupied',mobileWords[2]],['missing',mobileWords[3]],['complete',mobileWords[4]],['all',mobileWords[5]]]){
+  const option=el('option','',label);option.value=value;mobileFilter.append(option);
+ }
+ let mobileTable=false;
+ const mobileToggle=button(mobileWords[1],()=>{
+  mobileTable=!mobileTable;root.classList.toggle('register-mobile-table-mode',mobileTable);
+  mobileToggle.textContent=mobileTable?mobileWords[0]:mobileWords[1];
+  mobileToggle.setAttribute('aria-pressed',String(mobileTable));
+ });
+ mobileToggle.setAttribute('aria-pressed','false');
+ mobileControls.append(mobileSummary,mobileFilter,mobileToggle);
+ const mobileCards=el('div','register-mobile-cards');
+ root.append(title,intro,counter,el('p','muted',w.bedHelp),controls,importArea,notice,count,mobileControls,mobileCards,wrap);ctx.root.append(root);
+ mobileFilter.addEventListener('change',()=>paint());
  const cellEdits=new Map();
  const keyForRow=record=>[selectedYear(),record.group.room.id,record.entry.bedIndex,record.entry.person?.id||'empty'].join(':');
  const cellKey=(record,index)=>keyForRow(record)+':'+index;
@@ -197,6 +219,37 @@ export async function renderExcelRegister(ctx){
  .room-register dialog form{display:grid;gap:10px}
  .room-register dialog label{display:grid;gap:4px}
  .room-register dialog textarea{width:100%;min-height:70px}
+ .room-register .register-mobile-controls,.room-register .register-mobile-cards{display:none}
+ @media(max-width:750px){
+  body:has(.room-register) .backbar{position:relative;top:auto}
+  .room-register{min-width:0;max-width:100%}
+  .room-register .register-mobile-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:10px 0 14px}
+  .room-register .register-mobile-controls select,.room-register .register-mobile-controls button{min-width:0;width:100%;font-size:13px;padding:10px 8px}
+  .room-register .register-mobile-summary{grid-column:1/-1;margin:0;background:#fff4d5;border:1px solid #e2b64c;color:#684000;border-radius:10px;padding:12px;font-weight:750;line-height:1.4}
+  .room-register .register-mobile-cards{display:grid;gap:12px}
+  .room-register:not(.register-mobile-table-mode) .room-register-scroll{display:none}
+  .room-register.register-mobile-table-mode .register-mobile-cards{display:none}
+  .room-register.register-mobile-table-mode .register-mobile-controls select{display:none}
+  .room-register.register-mobile-table-mode .room-register-scroll{max-height:70dvh}
+  .room-register .register-mobile-card{min-width:0;overflow:hidden;border:1px solid #d2deea;border-radius:14px;background:#fff;padding:14px;box-shadow:0 2px 7px #142b4d0b}
+  .room-register .register-mobile-card.has-missing{border-left:4px solid #d79b1c}
+  .room-register .register-mobile-card.is-complete{border-left:4px solid #17804e}
+  .room-register .register-mobile-card h4{font-size:16px;margin:0 0 4px;overflow-wrap:anywhere}
+  .room-register .register-mobile-card p{margin:3px 0 10px;font-size:13px;overflow-wrap:anywhere}
+  .room-register .register-mobile-status{padding:8px 10px;font-weight:750;border-radius:8px;background:#fff1bd;color:#684000}
+  .room-register .is-complete .register-mobile-status{background:#e0f3e8;color:#146442}
+  .room-register .register-mobile-missing{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+  .room-register .register-mobile-missing span{font-size:12px;font-weight:650;padding:5px 8px;background:#fff3c5;color:#684000;border:1px solid #ecd27b;border-radius:7px;overflow-wrap:anywhere}
+  .room-register .register-mobile-details{margin-top:10px;border-top:1px solid #e4ebf3;padding-top:10px}
+  .room-register .register-mobile-details summary{font-weight:700;cursor:pointer;font-size:14px}
+  .room-register .register-mobile-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding:8px 0;border-bottom:1px solid #e6edf4;font-size:12px;overflow-wrap:anywhere}
+  .room-register .register-mobile-pair span:first-child{color:#526b85}
+  .room-register .register-mobile-pair span:last-child{text-align:right;font-weight:650}
+  .room-register .register-mobile-action{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .room-register .register-mobile-action button{flex:1;min-width:0;font-size:13px;padding:10px 8px}
+  .room-register .register-mobile-action .register-edit{width:100%;min-width:0}
+  .room-register .register-mobile-action .register-edit input{max-width:100%}
+ }
  `;
  root.append(style);
  if(!editsAvailable)notice.textContent=ui[7];
@@ -317,12 +370,53 @@ export async function renderExcelRegister(ctx){
   const needle=key(search.value);
   return all.filter(g=>!needle||key([g.room.name,g.room.category,...g.entries.flatMap(e=>[e.bedLabel,e.person?.full_name,e.person?.email,e.person?.verified_contract_number])].join(' ')).includes(needle));
  }
+ function paintMobile(){
+  mobileCards.replaceChildren();
+  const occupied=entries.filter(r=>r.entry.person);
+  const incomplete=occupied.filter(r=>r.missing.length);
+  mobileSummary.textContent=mobileWords[11]+': '+incomplete.length+' / '+occupied.length;
+  const mode=mobileFilter.value;
+  const filtered=(mode==='all'?entries:occupied.filter(r=>mode==='missing'?r.missing.length>0:mode==='complete'?r.missing.length===0:true)).slice();
+  if(mode!=='all')filtered.sort((a,b)=>Number(b.missing.length>0)-Number(a.missing.length>0)||b.missing.length-a.missing.length);
+  if(!filtered.length){mobileCards.append(el('p','muted',mobileWords[10]));return;}
+  const full=fullRegisterFields[ctx.lang]||fullRegisterFields.sk;
+  const names={'meno':w.first,'priezvisko':w.last,'e-mail':w.email,'číslo zmluvy':w.contract,'skutočný príchod':w.arrival,'dátum narodenia':full[0],'národnosť':w.nationality,'pohlavie':w.gender,'telefón':w.telephone,'trvalá adresa':full[1],'číslo dokladu':full[2],'škola':full[3],'kontakt na rodiča':full[4],'IBAN':full[5],'typ izby':full[6],'dĺžka pobytu':full[7],'termín pobytu':mobileWords[13],'vlastná chladnička':full[8],'fotografia':mobileWords[12],'nájomné':full[9],'depozit 2× nájom':mobileWords[14],'administratívny poplatok 100 €':mobileWords[15]};
+  for(const record of filtered){
+   const {entry,group,missing,question:q}=record;
+   const card=el('article','register-mobile-card');
+   card.append(el('h4','',w.room+': '+(entry.bedLabel||group.room.name)+' · '+(group.room.category||'—')));
+   if(!entry.person){card.append(el('p','muted',group.placeholder?w.placeholder:mobileWords[8]));mobileCards.append(card);continue;}
+   card.classList.add(missing.length?'has-missing':'is-complete');
+   card.append(el('h4','',entry.person.full_name||'—'));
+   card.append(el('p','muted',entry.person.email||'—'));
+   card.append(el('p','register-mobile-status',missing.length?'! '+mobileWords[6]+': '+missing.length:'✓ '+mobileWords[7]));
+   if(missing.length){
+    const chips=el('div','register-mobile-missing');
+    for(const field of missing)chips.append(el('span','',names[field]||field));
+    card.append(chips);
+   }
+   const pair=(label,value)=>{const row=el('div','register-mobile-pair');row.append(el('span','',label),el('span','',String(value??'—')));return row;};
+   card.append(pair(w.from+' / '+w.to,formatDate(entry.stay?.starts_on||entry.person.accommodation_from,ctx.lang)+' – '+formatDate(entry.stay?.ends_on||entry.person.accommodation_to,ctx.lang)),pair(w.arrival,formatDate(entry.detail?.actual_arrival_on,ctx.lang)));
+   card.append(pair(full[7],q.preferred_duration_months||'—'),pair(full[8],refrigeratorAnswer(q.own_refrigerator,ctx.lang)));
+   const detail=el('details','register-mobile-details');detail.append(el('summary','',mobileWords[9]));
+   for(let i=4;i<record.values.length-1;i++){
+    if(i===14)continue; // Access code is never expanded.
+    detail.append(pair(headings[i],record.values[i]));
+   }
+   card.append(detail);
+   const action=el('div','register-mobile-action');
+   action.append(button(w.edit,()=>openEditor(action,entry)));
+   if(ctx.openResidents)action.append(button(w.open,ctx.openResidents));
+   card.append(action);mobileCards.append(card);
+  }
+ }
  function paint(){
   if(!ctx.isCurrent())return;
   const groups=filteredRows();
   entries=groups.flatMap(g=>g.entries.map(e=>lineValues(g,e)));
   count.textContent=w.filter+': '+groups.length+' / '+Math.max(EXPECTED_ROOMS,rooms.length);
   headings.splice(19,12,...Array.from({length:12},(_,i)=>monthTitle(selectedYear(),i+1,ctx.lang)));
+  paintMobile();
   table.replaceChildren();
   const header=el('thead'),headerLine=el('tr');
   headings.forEach(h=>{const th=el('th','',h);th.scope='col';headerLine.append(th);});header.append(headerLine);table.append(header);
