@@ -1,3 +1,4 @@
+import {missingStayRentMonths} from './stay-periods.js?v=20261121-full-stay1';
 import {chargeBalance, cents, paymentHighlightRows, installmentBalances} from './ledger.js?v=20261113-installments1';
 
 // Presentation only: all amounts and identity come from tenant-scoped, RLS-protected records.
@@ -84,13 +85,26 @@ export function renderStudentActions({root,lang,onOpen}){
  panel.append(wrap);root.append(panel);
 }
 
-export function renderMonthlyCalendar({root,charges,allocations,reversals,plans,items,lang,onOpen}){
+export function renderMonthlyCalendar({root,charges,allocations,reversals,plans,items,tenancies=[],lang,onOpen}){
  const t=dict(lang),today=todaySK(),rows=getRows({charges,allocations,reversals});
+ const missing=missingStayRentMonths(tenancies,charges);
+ const coverageWords=({sk:['Celé obdobie ubytovania','Mesiace bez schváleného predpisu','Predpis čaká na kontrolu recepciou. Nejde o evidovaný dlh.'],en:['Full accommodation period','Months without approved charges','Awaiting reception review. This is not a recorded debt.'],ru:['Весь период проживания','Месяцы без утверждённых начислений','Ожидает проверки ресепшеном. Это не зарегистрированная задолженность.'],uk:['Увесь період проживання','Місяці без затверджених нарахувань','Очікує перевірки рецепцією. Це не зареєстрований борг.']})[lang]||[];
  root.append(node('h4','section-subtitle',t.calendar),node('p','muted student-manual-payment-note',t.note));
- if(!rows.length){root.append(node('div','empty-message',t.empty));root.append(action(t.message,()=>onOpen('requests')));return;}
+ if(tenancies.length){
+  const coverage=node('section','student-welcome');
+  coverage.append(node('h4','',coverageWords[0]));
+  for(const stay of tenancies)coverage.append(node('p','',dateValue(stay.starts_on,lang)+' – '+dateValue(stay.ends_on,lang)));
+  root.append(coverage);
+ }
+ if(!rows.length&&!missing.length){root.append(node('div','empty-message',t.empty));root.append(action(t.message,()=>onOpen('requests')));return;}
  const planned=new Map((plans||[]).map(p=>[p.charge_id,p]));
- const ordered=rows.sort((a,b)=>String(a.period).localeCompare(String(b.period))||String(a.due_on).localeCompare(String(b.due_on)));
+ const ordered=[...rows,...missing.map(m=>({...m,unapproved:true}))].sort((a,b)=>String(a.period).localeCompare(String(b.period))||String(a.due_on||'').localeCompare(String(b.due_on||'')));
  for(const r of ordered){
+  if(r.unapproved){
+   const line=node('article','student-payment-row');
+   line.append(node('strong','',monthValue(r.period,lang)),node('p','muted',coverageWords[2]));
+   root.append(line);continue;
+  }
   const plan=planned.get(r.id),schedule=plan?installmentBalances((items||[]).filter(i=>i.plan_id===plan.id),r.paid):[];
   const pending=schedule.find(i=>i.remaining>0);
   const state=paymentStatus(pending||r,today,!!plan);
