@@ -3,6 +3,38 @@ const url=Deno.env.get('SUPABASE_URL')!;
 const portalOrigin=(Deno.env.get('PORTAL_ORIGIN')||'https://www.webu.sk').replace(/\/+$/,'');
 const allowedOrigins=new Set(['https://www.webu.sk','https://webu.sk',portalOrigin]);
 const service=createClient(url,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false}});
+
+type AccessKind='questionnaire'|'profile'|'approved_password';
+async function queueStudentAccess(tenant:string,email:string,kind:AccessKind,origin:string):Promise<boolean>{
+ const content={
+  questionnaire:{
+   subject:'Student House Bratislava – dotazník / questionnaire',
+   body:'Registrácia bola schválená recepciou. Otvor jednorazový odkaz a vyplň osobný dotazník. / Reception approved your registration. Open the one-time link to complete your questionnaire. / Регистрация одобрена, заполните анкету по одноразовой ссылке. / Реєстрацію схвалено, заповніть анкету за одноразовим посиланням.',
+   auth_link_type:'magiclink'
+  },
+  profile:{
+   subject:'Student House Bratislava – aktivácia profilu / profile activation',
+   body:'Recepcia schválila dotazník. Pomocou jednorazového odkazu si nastav heslo do svojho profilu. / Your questionnaire was approved. Use this one-time link to set your profile password. / Анкета одобрена: создайте пароль по одноразовой ссылке. / Анкету схвалено: створіть пароль за одноразовим посиланням.',
+   auth_link_type:'recovery'
+  },
+  approved_password:{
+   subject:'Student House Bratislava – registrácia schválená / registration approved',
+   body:'Recepcia schválila tvoju registráciu. Prihlás sa svojim heslom a pokračuj v dotazníku. / Your registration is approved. Sign in with your existing password and complete the questionnaire. / Заявка одобрена: войдите со своим паролем и заполните анкету. / Реєстрацію схвалено: увійдіть зі своїм паролем і заповніть анкету.',
+   auth_link_type:null
+  }
+ } as const;
+ const message=content[kind];
+ const {error}=await service.from('residence_mail_outbox').insert({
+  tenant_id:tenant,dedupe:'resident-access:'+kind+':'+crypto.randomUUID(),
+  audience:'student',recipient:email,subject:message.subject,body:message.body,
+  ...(message.auth_link_type?{auth_link_type:message.auth_link_type}:{
+   link:origin+'/student-house-portal/questionnaire/?signin=1'
+  })
+ });
+ if(error){console.error('student_access_queue_failed',error.code);return false;}
+ return true;
+}
+
 Deno.serve(async(req)=>{
  const origin=req.headers.get('origin')||'';
  const headers={'Access-Control-Allow-Origin':origin||portalOrigin,'Vary':'Origin','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Content-Type':'application/json','Cache-Control':'no-store'};
@@ -44,11 +76,9 @@ Deno.serve(async(req)=>{
       return reply({error:'questionnaire_awaiting_review'},409);
     if(body.action==='send_profile_invite'){
       if(resident.profile_password_activated_at)return reply({ok:true,already_active:true});
-      const {error:mailError}=await service.auth.resetPasswordForEmail(user.email!,{
-        redirectTo:(origin||portalOrigin)+'/student-house-portal/student/?step=profile'
-      });
-      if(mailError){console.error('profile_invite_delivery_failed',mailError.code);return reply({error:'email_failed'},503);}
-      return reply({ok:true,email_sent:true});
+      const queued=await queueStudentAccess(tenant,user.email!,'profile',origin||portalOrigin);
+      if(!queued)return reply({error:'email_queue_failed'},503);
+      return reply({ok:true,email_sent:false,email_queued:true});
     }
     if(resident.profile_password_activated_at)return reply({ok:true,already_active:true});
     const {data:activated,error:activationError}=await service.rpc('residence_activate_profile_password',{
@@ -126,18 +156,9 @@ Deno.serve(async(req)=>{
       .select('review_status,requested_at').eq('tenant_id',tenant).eq('resident_id',account.id).maybeSingle():{data:null};
     const reviewed=answers?.student_submitted_at&&review?.review_status==='approved'&&
       Date.parse(review.requested_at)>=Date.parse(answers.student_submitted_at);
-    const {error:deliveryError}=reviewed
-      ?await service.auth.resetPasswordForEmail(record.email,{
-        redirectTo:(origin||portalOrigin)+'/student-house-portal/student/?step=profile'
-      })
-      :await service.auth.signInWithOtp({email:record.email,options:{
-        shouldCreateUser:false,emailRedirectTo:(origin||portalOrigin)+'/student-house-portal/questionnaire/'
-      }});
-    if(deliveryError){
-      console.error('student_access_resend_failed',deliveryError.code);
-      return reply({error:'invitation_failed'},503);
-    }
-    return reply({ok:true,email_sent:true});
+    const queued=await queueStudentAccess(tenant,record.email,reviewed?'profile':'questionnaire',origin||portalOrigin);
+    if(!queued)return reply({error:'invitation_queue_failed'},503);
+    return reply({ok:true,email_sent:false,email_queued:true});
   }
 
   // Any resident may submit a public request, but only verified reception staff can approve it.
@@ -275,11 +296,13 @@ Deno.serve(async(req)=>{
       else console.error('approved_login_activation_failed',confirmError.code);
     }else if(passwordError)console.error('approved_password_check_failed',passwordError.code);
     if(!loginReady){
-      const {error:welcomeError}=await service.auth.signInWithOtp({email,options:{
-        shouldCreateUser:false,emailRedirectTo:redirect
-      }});
-      if(welcomeError)console.error('student_access_email_failed',welcomeError.code);
+      const queued=await queueStudentAccess(tenant,email,'questionnaire',origin||portalOrigin);
+      if(!queued)console.error('student_access_email_queue_failed');
       else emailSent=true;
+    }else{
+      // Students who already chose a password still receive a notice without a magic link.
+      const queued=await queueStudentAccess(tenant,email,'approved_password',origin||portalOrigin);
+      if(!queued)console.error('approved_password_notice_queue_failed');
     }
   }else{
     const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
@@ -300,7 +323,7 @@ Deno.serve(async(req)=>{
   const {error:auditError}=await service.from('audit_logs').insert({
     tenant_id:tenant,actor_id:user.id,action:'RESIDENT_ACCESS_APPROVED',entity:'organization_memberships',entity_id:uid
   });if(auditError)console.error('invite_audit_failed',auditError.code);
-  return reply({ok:true,email_sent:emailSent,login_ready:loginReady,existing_account:existingUser});
+  return reply({ok:true,email_sent:false,email_queued:registration?emailSent:emailSent,login_ready:loginReady,existing_account:existingUser});
 
  }catch(e){console.error('manage_request_failed');return reply({error:'request_failed'},400)}
 });
