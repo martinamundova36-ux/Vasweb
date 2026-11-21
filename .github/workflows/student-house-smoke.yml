@@ -75,6 +75,13 @@ jobs:
             if(response.status!==400 || body.error!=='invalid_stay_dates'){
               throw new Error('Unexpected endpoint response: '+response.status+' '+JSON.stringify(body));
             }
+            // A request with all valid dates except the start day must be rejected before user creation.
+            const midmonth=await fetch('https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student',{
+              method:'POST',headers:{origin:'https://www.webu.sk','content-type':'application/json'},
+              body:JSON.stringify({first_name:'QA',last_name:'Month',email:'qa-midmonth@example.invalid',accommodation_from:'2027-02-12',accommodation_to:'2027-06-30',preferred_duration_months:5,expected_arrival:'2027-02-12',privacy_acknowledged:true})
+            });
+            const midmonthBody=await midmonth.json();
+            if(midmonth.status!==400 || midmonthBody.error!=='invalid_stay_dates')throw new Error('Mid-month start was not rejected: '+midmonth.status+' '+JSON.stringify(midmonthBody));
             const withoutConsent=await fetch('https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student',{
               method:'POST',headers:{origin:'https://www.webu.sk','content-type':'application/json'},
               body:JSON.stringify({accommodation_from:'2027-02-01',accommodation_to:'2027-06-30',preferred_duration_months:5,expected_arrival:'2027-02-11',privacy_acknowledged:false})
