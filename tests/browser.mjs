@@ -10,14 +10,22 @@ try{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.route('**/*',async route=>{
    const url=new URL(route.request().url());
-   if(url.hostname==='cdn.jsdelivr.net')return route.fulfill({contentType:'text/javascript',body:`window.supabase={createClient:(u,k,o)=>{window.testStorageKey=o.auth.storageKey;const tables={organization_memberships:[{tenant_id:'t',role:'${role}'}],organizations:[{id:'t',name:'SYNTHETIC QA'}],residents:[{id:'p',user_id:'u',full_name:'Synthetic Student',email:'qa@example.invalid',active:true,profile_password_activated_at:'2026-11-13T10:00:00Z'}],rooms:[{id:'r',name:'TEST-1',category:'Test',capacity:2}],tenancies:[],registration_requests:[],announcements:[]};const auth={getUser:async()=>({data:{user:{id:'u',email:'qa@example.invalid'}}}),onAuthStateChange:()=>{},signOut:async()=>({error:null})};return{auth,channel:()=>({on(){return this;},subscribe(){return this;}}),removeChannel:async()=>{},from:table=>{const q=new Proxy({then:(ok)=>Promise.resolve({data:tables[table]||[],error:null}).then(ok)},{get:(t,p)=>p==='then'?t.then:()=>q});return q;}}}}`});
+   if(url.hostname==='cdn.jsdelivr.net')return route.fulfill({contentType:'text/javascript',body:`window.supabase={createClient:(u,k,o)=>{window.testStorageKey=o.auth.storageKey;const tables={organization_memberships:[{tenant_id:'t',role:'${role}'}],organizations:[{id:'t',name:'SYNTHETIC QA'}],residents:[{id:'p',user_id:'u',full_name:'Synthetic Student',email:'qa@example.invalid',active:true,profile_password_activated_at:'2026-11-13T10:00:00Z'}],rooms:[{id:'r',name:'TEST-1',category:'Test',capacity:2}],tenancies:[],registration_requests:[],announcements:[]};const auth={signInWithPassword:async()=>({data:{user:{id:'u',email:'qa@example.invalid'}},error:null}),getUser:async()=>({data:{user:{id:'u',email:'qa@example.invalid'}}}),onAuthStateChange:()=>{},signOut:async()=>({error:null})};return{auth,channel:()=>({on(){return this;},subscribe(){return this;}}),removeChannel:async()=>{},from:table=>{const q=new Proxy({then:(ok)=>Promise.resolve({data:tables[table]||[],error:null}).then(ok)},{get:(t,p)=>p==='then'?t.then:()=>q});return q;}}}}`});
    if(url.hostname==='portal.test'){
     const path=url.pathname.endsWith('/')?url.pathname+'index.html':url.pathname;
     try{return route.fulfill({contentType:path.endsWith('.js')?'text/javascript':'text/html',body:await fs.readFile('.'+path)});}catch{return route.fulfill({status:404,body:''});}
    }
    return route.abort();
   });
-  await page.goto('https://portal.test/student-house-portal/'+(mode==='reception'?'admin/?view=register':'student/?view=reception'));
+  await page.goto('https://portal.test/student-house-portal/'+(mode==='reception'?'admin/?view=reception':'student/?view=reception'));
+  await page.locator('#entryChooser:not(.hide)').waitFor();
+  assert.equal(await page.locator('#app').isVisible(),false,'Stored session must not bypass choice');
+  await page.locator(mode==='reception'?'#chooseStaff':'#chooseStudent').click();
+  await page.locator('#login:not(.hide)').waitFor();
+  assert.equal(await page.locator('#app').isVisible(),false);
+  await page.locator('#email').fill('qa@example.invalid');
+  await page.locator('#password').fill('synthetic-test-only-password');
+  await page.locator('#signbtn').click();
   const allowed=mode==='student'?role==='student':role!=='student';
   if(allowed){
    try{await page.locator('#tabs button').first().waitFor({timeout:7000});}

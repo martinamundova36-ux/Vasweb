@@ -24,24 +24,27 @@ for(const width of [390,1440]){
    const isAdmin=bearer.includes(admin.access_token),identity=isAdmin?admin:student;
    const reply=data=>route.fulfill({contentType:'application/json',body:JSON.stringify(data)});
    if(url.pathname==='/auth/v1/user')return reply(identity.user);
-   if(url.pathname==='/auth/v1/token')return reply(student);
+   if(url.pathname==='/auth/v1/token'){const body=route.request().postDataJSON()||{};return reply(body.email===admin.user.email||body.refresh_token===admin.refresh_token?admin:student);}
    if(url.pathname==='/auth/v1/logout')return reply({});
    if(url.pathname.startsWith('/rest/v1/')){
-    const table=url.pathname.split('/').pop();return reply(({organization_memberships:[{tenant_id:'t',role:isAdmin?'org_admin':'student'}],organizations:[{id:'t',name:'Synthetic House'}],residents:[{id:'p',user_id:student.user.id,full_name:'SYNTHETIC Student',email:student.user.email}],rooms:[]})[table]||[]);
+    const table=url.pathname.split('/').pop();return reply(({organization_memberships:[{tenant_id:'t',role:isAdmin?'org_admin':'student'}],organizations:[{id:'t',name:'Synthetic House'}],residents:[{id:'p',user_id:student.user.id,full_name:'SYNTHETIC Student',email:student.user.email,profile_password_activated_at:'2026-11-13T10:00:00Z'}],rooms:[]})[table]||[]);
    }
   }
   return route.abort();
  });
  const page=await context.newPage();
  await page.goto('https://portal.test/student-house-portal/admin/');
+ await page.locator('#entryChooser:not(.hide)').waitFor();assert.equal(await page.locator('#app').isVisible(),false);
+ await page.locator('#chooseStaff').click();await page.locator('#login:not(.hide)').waitFor();
+ await page.locator('#email').fill(admin.user.email);await page.locator('#password').fill('synthetic-admin-password');await page.locator('#signbtn').click();
  await page.locator('#app:not(.hide)').waitFor();assert.match(await page.locator('#zone').innerText(),/Administrácia/);assert.equal(await page.locator('#user').innerText(),admin.user.email);
  assert.equal(await page.locator('#switchPortal').isVisible(),false,'Staff interface keeps the student entry separate');
  await page.goto('https://portal.test/student-house-portal/student/?signin=1');
  await page.locator('#login:not(.hide)').waitFor();assert.equal(await page.locator('#app').isVisible(),false);assert.equal(await page.locator('#sign').innerText(),'Študentské prihlásenie');
  await page.locator('#email').fill(student.user.email);await page.locator('#password').fill('synthetic-test-only-password');await page.locator('#signbtn').click();
- await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja zóna');assert.equal(await page.locator('#user').innerText(),student.user.email);assert.equal(await page.locator('#tabs button').filter({hasText:'Registrácie'}).count(),0);
- const staffTab=await context.newPage();await staffTab.goto('https://portal.test/student-house-portal/admin/');await staffTab.locator('#app:not(.hide)').waitFor();assert.equal(await staffTab.locator('#user').innerText(),admin.user.email);
- await page.goto('https://portal.test/student-house-portal/student/?view=reception');await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja zóna');
+ await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja študentská zóna');assert.equal(await page.locator('#user').innerText(),student.user.email);assert.equal(await page.locator('#tabs button').filter({hasText:'Registrácie'}).count(),0);
+ const staffTab=await context.newPage();await staffTab.goto('https://portal.test/student-house-portal/admin/?step=profile');await staffTab.locator('#app:not(.hide)').waitFor();assert.equal(await staffTab.locator('#user').innerText(),admin.user.email);
+ await page.goto('https://portal.test/student-house-portal/student/?view=reception');await page.locator('#entryChooser:not(.hide)').waitFor();assert.equal(await page.locator('#app').isVisible(),false);await page.goto('https://portal.test/student-house-portal/student/?view=reception&step=profile');await page.locator('#app:not(.hide)').waitFor();assert.equal(await page.locator('#zone').innerText(),'Moja študentská zóna');
  await page.evaluate(({key,value})=>localStorage.setItem(key,JSON.stringify(value)),{key:studentKey,value:admin});await page.reload();await page.waitForFunction(()=>document.querySelector('#error').textContent.length>0);assert.equal(await page.locator('#app').isVisible(),false);
  assert.equal(await staffTab.locator('#user').innerText(),admin.user.email);assert.ok(await staffTab.locator('#app').isVisible());
  await context.close();
