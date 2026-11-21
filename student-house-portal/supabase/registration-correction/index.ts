@@ -5,11 +5,12 @@ import {createClient} from "npm:@supabase/supabase-js@2.119.0";
 // role granted by these endpoints. The editable link is a 256-bit bearer secret.
 const url=Deno.env.get("SUPABASE_URL")!;
 const service=createClient(url,Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,{auth:{persistSession:false}});
-const origins=new Set(["https://www.webu.sk","https://webu.sk"]);
+const configuredOrigin=(Deno.env.get('PORTAL_ORIGIN')||'').replace(/\/+$/,'');
+const origins=new Set(["https://www.webu.sk","https://webu.sk",...(configuredOrigin?[configuredOrigin]:[])]);
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Contract numbers are reception-owned and MUST NOT be included in a student correction token.
-const fields=["first_name","last_name","email","room_number","accommodation_from","accommodation_to"] as const;
+const fields=["first_name","last_name","email","accommodation_from","accommodation_to"] as const;
 const encoder=new TextEncoder();
 const digest=async(secret:string)=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",encoder.encode(secret)))].map(x=>x.toString(16).padStart(2,"0")).join("");
 const reply=(origin:string,body:unknown,status=200)=>{
@@ -76,7 +77,7 @@ Deno.serve(async(req:Request)=>{
     entity:"registration_requests",entity_id:registration
    });
    if(auditError)console.error("registration_correction_audit_failed",auditError.code);
-   const link="https://www.webu.sk/student-house-portal/correction/#token="+secret;
+   const link=(origin&&origins.has(origin)?origin:(configuredOrigin||'https://www.webu.sk'))+"/student-house-portal/correction/#token="+secret;
    const {error:mailError}=await service.from('residence_mail_outbox').insert({
     tenant_id:tenant,dedupe:'registration-correction:'+registration+':'+hash,
     audience:'student',recipient:row.email,
@@ -93,36 +94,39 @@ Deno.serve(async(req:Request)=>{
   if(!/^[A-Za-z0-9_-]{43}$/.test(secret))return reply(origin,{error:"invalid_or_expired"},404);
   const hash=await digest(secret);
   const {data:entry,error:lookupError}=await service.from("registration_requests")
-   .select("id,tenant_id,status,correction_reason,correction_expires_at,first_name,last_name,email,room_number,accommodation_from,accommodation_to")
+   .select("id,tenant_id,status,correction_reason,correction_expires_at,first_name,last_name,email,accommodation_from,accommodation_to")
    .eq("correction_token_hash",hash).eq("status","correction_requested")
    .gt("correction_expires_at",new Date().toISOString()).maybeSingle();
   if(lookupError||!entry)return reply(origin,{error:"invalid_or_expired"},404);
   if(action==="load"){
-   const {data:stay,error:stayError}=await service.from('registration_enquiries').select('preferred_duration_months').eq('tenant_id',entry.tenant_id).eq('registration_id',entry.id).maybeSingle();
+   const {data:stay,error:stayError}=await service.from('registration_enquiries').select('preferred_duration_months,preferred_from').eq('tenant_id',entry.tenant_id).eq('registration_id',entry.id).maybeSingle();
    if(stayError)return reply(origin,{error:'request_failed'},400);
-   const editable={...Object.fromEntries(fields.map(k=>[k,entry[k]])),preferred_duration_months:stay?.preferred_duration_months??null};
+   const editable={...Object.fromEntries(fields.map(k=>[k,entry[k]])),preferred_duration_months:stay?.preferred_duration_months??null,expected_arrival:stay?.preferred_from??null};
    return reply(origin,{ok:true,reason:entry.correction_reason,expires_at:entry.correction_expires_at,fields:editable});
   }
   const updated:Record<string,string>={};
-  for(const key of fields)updated[key]=txt(input[key],key==="email"?254:key==="room_number"?30:key.startsWith("accommodation_")?10:80);
+  for(const key of fields)updated[key]=txt(input[key],key==="email"?254:key.startsWith("accommodation_")?10:80);
   updated.email=updated.email.toLowerCase();
+  const arrival=txt(input.expected_arrival,10);
+  const duration=Number(input.preferred_duration_months);
   if(!updated.first_name||updated.first_name.length>80||!updated.last_name||updated.last_name.length>80
-   ||!EMAIL.test(updated.email)||updated.email.length>254
-   ||updated.room_number.length>30
-   ||!dateOK(updated.accommodation_from)||updated.accommodation_from.slice(8)!=='01'||!dateOK(updated.accommodation_to)
-   ||updated.accommodation_to<=updated.accommodation_from
-   ||![5,10,12].some(n=>{const [y,m]=updated.accommodation_from.split('-').map(Number);return y>=2000&&y<=2099&&new Date(Date.UTC(y,m-1+n,0)).toISOString().slice(0,10)===updated.accommodation_to;}))
+   ||!EMAIL.test(updated.email)||updated.email.length>254||!dateOK(updated.accommodation_from)
+   ||updated.accommodation_from.slice(8)!=='01'||!dateOK(updated.accommodation_to)
+   ||!dateOK(arrival)||![5,10,12].includes(duration)
+   ||arrival<updated.accommodation_from||arrival.slice(0,7)!==updated.accommodation_from.slice(0,7)
+   ||![5,10,12].some(n=>{const [y,m]=updated.accommodation_from.split('-').map(Number);return n===duration&&y>=2000&&y<=2099&&new Date(Date.UTC(y,m-1+n,0)).toISOString().slice(0,10)===updated.accommodation_to;}))
     return reply(origin,{error:"invalid_fields"},400);
-  // Registration remains pending until an authorised receptionist has verified
-  // the contract. The correction token is consumed atomically and cannot be reused.
-  const {data:corrected,error:saveError}=await service.from("registration_requests").update({
-    ...updated,room_number:updated.room_number||null,status:"pending",correction_token_hash:null,correction_expires_at:null,
-    correction_completed_at:new Date().toISOString(),reviewed_by:null,reviewed_at:null
-  }).eq("id",entry.id).eq("tenant_id",entry.tenant_id).eq("status","correction_requested")
-    .eq("correction_token_hash",hash).gt("correction_expires_at",new Date().toISOString())
-    .select("id").maybeSingle();
-  if(saveError||!corrected)return reply(origin,{error:"invalid_or_expired"},409);
-  // This is a change to the existing request, not a second registration.
+  // The initial registration may have already created an Auth account.
+  // An email edit without also changing that account would make staff approval fail.
+  if(updated.email!==entry.email.toLowerCase())return reply(origin,{error:"email_change_requires_reception"},409);
+  // Only this service-only transaction may consume a correction token.
+  // It preserves staff-assigned room and contract numbers, and updates duration and arrival atomically.
+  const {data:corrected,error:saveError}=await service.rpc('residence_apply_registration_correction',{
+    p_hash:hash,p_data:{first_name:updated.first_name,last_name:updated.last_name,email:updated.email,
+     accommodation_from:updated.accommodation_from,accommodation_to:updated.accommodation_to,
+     preferred_duration_months:duration,expected_arrival:arrival}
+  });
+  if(saveError||corrected!==true)return reply(origin,{error:"invalid_or_expired"},409);
   return reply(origin,{ok:true,status:"pending"});
  }catch(error){
   console.error("registration_correction_error",error instanceof Error?error.name:"error");
