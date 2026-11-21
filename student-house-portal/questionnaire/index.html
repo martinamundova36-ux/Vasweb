@@ -252,7 +252,14 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 .student-notice-card.unread{border-left:5px solid #295f9a;background:#f0f7ff}
 .student-notice-card p{margin:8px 0}.student-notice-card small{color:#65768b}.student-notice-card button{margin-top:8px}
 .student-notice-card h4{margin:0}#studentNoticeBell[hidden]{display:none}
-</style><style>.backbar{gap:12px;justify-content:space-between;flex-wrap:wrap}.install-studenthouse{flex:0 0 auto;min-height:44px;background:#e9f2ff;color:#143257;border:1px solid #b5cbe5;border-radius:11px;padding:10px 14px;font-weight:750}.install-studenthouse:hover,.install-studenthouse:focus-visible{background:#d8e9ff;color:#143257}.install-studenthouse[hidden],.install-help[hidden]{display:none}.install-help{margin:0;padding:12px 20px;background:#dbeafe;color:#143257;text-align:center;font-size:14px;line-height:1.5;border-bottom:1px solid #b5cbe5}@media(max-width:750px){.install-studenthouse{width:100%}}body:not(.portal-open) #staffMenuShortcut,#staffMenuShortcut[hidden]{display:none}.studenthouse-app-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-left:auto}.studenthouse-brand-credit{padding:20px 15px 26px;text-align:center;background:#eef3fa;color:#60758e;font:600 13px/1.5 system-ui,Arial}.studenthouse-brand-credit a{color:#142b4d;font-weight:800;text-decoration:underline;text-underline-offset:2px}.studenthouse-brand-credit a:hover,.studenthouse-brand-credit a:focus-visible{color:#23588d}@media(max-width:750px){.studenthouse-app-actions{width:100%;margin-left:0}.studenthouse-app-actions .install-studenthouse{flex:1 1 180px}}</style><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="shortcut icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></head><body data-portal-entry="questionnaire">
+</style><style>.backbar{gap:12px;justify-content:space-between;flex-wrap:wrap}.install-studenthouse{flex:0 0 auto;min-height:44px;background:#e9f2ff;color:#143257;border:1px solid #b5cbe5;border-radius:11px;padding:10px 14px;font-weight:750}.install-studenthouse:hover,.install-studenthouse:focus-visible{background:#d8e9ff;color:#143257}.install-studenthouse[hidden],.install-help[hidden]{display:none}.install-help{margin:0;padding:12px 20px;background:#dbeafe;color:#143257;text-align:center;font-size:14px;line-height:1.5;border-bottom:1px solid #b5cbe5}@media(max-width:750px){.install-studenthouse{width:100%}}body:not(.portal-open) #staffMenuShortcut,#staffMenuShortcut[hidden]{display:none}.studenthouse-app-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-left:auto}.studenthouse-brand-credit{padding:20px 15px 26px;text-align:center;background:#eef3fa;color:#60758e;font:600 13px/1.5 system-ui,Arial}.studenthouse-brand-credit a{color:#142b4d;font-weight:800;text-decoration:underline;text-underline-offset:2px}.studenthouse-brand-credit a:hover,.studenthouse-brand-credit a:focus-visible{color:#23588d}@media(max-width:750px){.studenthouse-app-actions{width:100%;margin-left:0}.studenthouse-app-actions .install-studenthouse{flex:1 1 180px}}</style><style>
+.registration-approval-form{display:grid;gap:10px;min-width:0;width:100%}
+.registration-approval-form label{display:grid;gap:5px;min-width:0;font-weight:650}
+.registration-approval-form input,.registration-approval-form select{width:100%;min-width:0}
+.registration-approval-form button[type=submit]{width:100%;min-height:48px}
+.registration-approval-form p.mini-note{margin:4px 0}
+@media(max-width:750px){body:has(.registration-approval-form) .backbar{position:relative;top:auto}.staff-person .staff-actions{display:block;min-width:0}.registration-approval-form{padding:12px;box-sizing:border-box}}
+</style><link rel="icon" type="image/png" sizes="192x192" href="/student-house-portal/icons/icon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/student-house-portal/icons/icon-512.png"><link rel="icon" type="image/svg+xml" sizes="any" href="/student-house-portal/icons/icon.svg"><link rel="apple-touch-icon" sizes="192x192" href="/student-house-portal/icons/icon-192.png"></head><body data-portal-entry="questionnaire">
 <header class="backbar"><a id="backToWebsite" class="backbar-link" href="https://studenthousebratislavanew.wordpress.com/" aria-label="Späť na web Student House Bratislava">← Späť na web Student House Bratislava</a><div class="studenthouse-app-actions"><button type="button" id="staffMenuShortcut" class="install-studenthouse" aria-controls="tabs" hidden>Menu administrácie</button><button type="button" id="shareStudenthouse" class="install-studenthouse" aria-controls="studenthouseShareStatus">↗ Zdieľať Student House Bratislava</button><button type="button" id="installStudenthouse" class="install-studenthouse" aria-controls="studenthouseInstallHelp">📲 Nainštalovať Student House Bratislava</button></div></header><p class="install-help" id="studenthouseShareStatus" role="status" aria-live="polite" hidden></p><p class="install-help" id="studenthouseInstallHelp" role="status" aria-live="polite" hidden></p>
 <div class="wrap"><aside class="hero"><strong>▥ Student House Bratislava</strong><div><h1 id="welcome">Vitajte doma.</h1><p id="subtitle">Vaše ubytovanie. Všetko na jednom mieste.</p></div><div class="hero-photo-frame"><img class="hero-photo" src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-studenti-pri-dunaji.png" width="1842" height="854" loading="eager" decoding="async" alt="Ilustračná fotografia študentského života v Bratislave"></div><small>STUDENT HOUSE BRATISLAVA</small></aside><div class="pane"><main>
 <div id="entryChooser" class="login hide">
@@ -298,10 +305,9 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
 <div class="reg-fields">
 <label for="regRoomType" id="labRoomType">Preferovaný typ izby</label><select id="regRoomType" required><option value="">Bez preferencie</option><option value="M2">Manzard 2</option><option value="Š1+1">Standard 1+1</option><option value="SUI 2">Suite 2</option><option value="D2">De Luxe 2</option><option value="Š2">Standard 2</option><option value="D2V">De Luxe 2V</option></select>
-<label for="regRoom" id="labRoom">Preferované číslo izby (ak ho poznáš)</label><select id="regRoom" aria-describedby="regRoomHelp"><option value="">Bez preferencie</option></select>
-<p id="regRoomHelp" class="reg-room-help">Toto je len preferencia. Voľnosť a pridelenie izby potvrdí recepcia.</p>
 <label for="regFrom" id="labFrom">Ubytovanie od</label><input id="regFrom" type="date" required>
-<label for="regTo" id="labTo">Ubytovanie do</label><input id="regTo" type="date" required>
+<label for="regDuration" id="labDuration">Dĺžka pobytu</label><select id="regDuration" required><option value="">Vyber dĺžku pobytu</option><option value="5">5 mesiacov</option><option value="10">10 mesiacov</option><option value="12">12 mesiacov</option></select>
+<label for="regTo" id="labTo">Ubytovanie do</label><input id="regTo" type="date" readonly aria-describedby="regStayRule"><p id="regStayRule" class="mini-note" style="grid-column:1/-1">Prvý mesiac sa platí celý, aj pri príchode v priebehu mesiaca. Odchod je posledný deň posledného plateného mesiaca.</p>
 <label for="regArrival" id="labArrival">Predpokladaný príchod</label><input id="regArrival" type="date" required>
 </div>
 <p id="regStaffOnly" class="mini-note">Číslo ubytovacej zmluvy, konečné pridelenie izby, depozit, poplatky a mesačný platobný kalendár doplní výhradne recepcia Student House Bratislava. Po schválení si nahráš fotografiu a doplníš osobný dotazník.</p>
@@ -487,19 +493,8 @@ const REG_PASSWORD_WORDS={
 const PUBLIC_ROOM_CATALOG=[["001","D2V"],["002","D2V"],["003","D2V"],["004","D2V"],["005","D2V"],["006","D2V"],["101","bez okna"],["102","D2"],["103","Š2"],["104","Š2"],["105","Š2"],["106","Š2"],["107","Š2"],["108","Š2"],["109","Š2"],["110","Š2"],["111","D2"],["112","D2"],["113","D2"],["114","D2"],["114A","D2"],["115","SUI 2"],["116","SUI 2"],["117","SUI 2"],["118","SUI 2"],["119","SUI 2"],["120","SUI 2"],["121","SUI 2"],["122","M1"],["123","M2"],["124","M2"],["125","M2"],["131","Š1+1"],["132","SUI 2"],["133","SUI 2"],["134","SUI 2"],["135","SUI 2"],["136","SUI 2"],["203","D2"],["204","Š2"],["205","Š2"],["206","Š2"],["207","Š2"],["208","Š2"],["209","Š2"],["210","Š2"],["211","Š2"],["212","D2"],["213","D2"],["214","D2"],["215","D2"],["216","D2"],["217","D2"],["305","Š2+2"],["306","Š1+1"],["307","Š1+1"],["308","Š1+1"],["309","D2"],["310","Š2+1"],["311","Š2+1"],["312","D2"],["313","D2"],["314","D2"],["315","D2"]];
 const PUBLIC_ROOM_NAMES={'M2':'Manzard 2','Š1+1':'Standard 1+1','SUI 2':'Suite 2','D2':'De Luxe 2','Š2':'Standard 2','D2V':'De Luxe 2V',
  'M1':'Manzard 1','Š2+1':'Standard 2+1','Š2+2':'Standard 2+2','bez okna':'Bez okna'};
-function updateRoomPreferenceOptions(){
- const select=$('regRoom'),type=$('regRoomType').value;
- const previous=select.value,ext=REG_EXT[lang]||REG_EXT.sk;
- const available=PUBLIC_ROOM_CATALOG.filter(([id,category])=>!type||category===type);
- const options=[new Option(ext.any,'')];
- for(const [id,category] of available){
-  const label=PUBLIC_ROOM_NAMES[category]||category;
-  options.push(new Option(id+' — '+label,id));
- }
- select.replaceChildren(...options);
- select.value=available.some(([id])=>id===previous)?previous:'';
- $('regRoomHelp').textContent=ext.roomHint;
-}
+function updateRoomPreferenceOptions(){ /* The room number is assigned by reception. */ }
+
 $('regRoomType').addEventListener('change',updateRoomPreferenceOptions);
 const REG_EXT={
  sk:{roomHint:'Preferencia nezaručuje dostupnosť. Skutočné pridelenie izby potvrdí recepcia.',personal:'Kontaktné údaje – Krok 1',stay:'Požiadavka na ubytovanie',phone:'Telefónne číslo',nationality:'Národnosť',gender:'Pohlavie (nepovinné)',birth:'Dátum narodenia',address:'Trvalá adresa – ulica, mesto, PSČ, krajina',school:'Škola / univerzita (nepovinné)',parent:'Kontaktný e-mail rodiča (nepovinné)',roomType:'Preferovaný typ izby',arrival:'Predpokladaný príchod',staff:'Číslo zmluvy, konečné pridelenie izby, depozit, poplatky a mesačné platby doplní recepcia. Po schválení doplníš osobný dotazník a vložíš fotografiu.',room:'Preferované číslo izby (ak ho poznáš)',any:'Bez preferencie',private:'Nechcem uviesť',female:'Žena',male:'Muž',other:'Iné'},
@@ -507,7 +502,32 @@ const REG_EXT={
  ru:{roomHint:'Это пожелание, а не гарантия свободного номера. Комнату подтверждает ресепшен.',personal:'Контакты – шаг 1',stay:'Заявка на проживание',phone:'Номер телефона',nationality:'Гражданство',gender:'Пол (необязательно)',birth:'Дата рождения',address:'Адрес постоянного проживания',school:'Учебное заведение (необязательно)',parent:'Эл. почта родителя (необязательно)',roomType:'Предпочтительный тип комнаты',arrival:'Предполагаемая дата приезда',staff:'Номер договора, комнату, депозит, платежи и сборы определяет рецепция. После одобрения заполните анкету и загрузите фото.',room:'Желаемый номер комнаты (если известен)',any:'Без предпочтений',private:'Не указывать',female:'Женщина',male:'Мужчина',other:'Другое'},
  uk:{roomHint:'Це побажання, а не гарантія наявності кімнати. Номер підтверджує рецепція.',personal:'Контакти – крок 1',stay:'Заявка на проживання',phone:'Номер телефону',nationality:'Громадянство',gender:'Стать (необов’язково)',birth:'Дата народження',address:'Постійна адреса',school:'Навчальний заклад (необов’язково)',parent:'Ел. пошта батьків (необов’язково)',roomType:'Бажаний тип кімнати',arrival:'Очікувана дата прибуття',staff:'Номер договору, кімнату, депозит, збори і щомісячні платежі призначає рецепція. Після схвалення заповніть анкету та завантажте фото.',room:'Бажаний номер кімнати (якщо відомий)',any:'Без переваг',private:'Не вказувати',female:'Жінка',male:'Чоловік',other:'Інше'}
 };
+function registrationEnd(start,months){
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(start)||![5,10,12].includes(months))return '';
+ const [y,m]=start.split('-').map(Number);
+ if(y<2000||y>2099||m<1||m>12)return '';
+ return new Date(Date.UTC(y,m-1+months,0)).toISOString().slice(0,10);
+}
+const stayRuleCopy={
+ sk:['Dĺžka pobytu','Vyber dĺžku pobytu','mesiacov','Prvý mesiac sa platí celý, aj pri príchode v priebehu mesiaca. Odchod je posledný deň posledného plateného mesiaca.'],
+ en:['Length of stay','Select length of stay','months','The first month is charged in full even if you arrive during the month. Departure is the last day of the final paid month.'],
+ ru:['Срок проживания','Выберите срок проживания','мес.','Первый месяц оплачивается полностью, даже при заезде в середине месяца. Выезд — последний день последнего оплачиваемого месяца.'],
+ uk:['Тривалість проживання','Оберіть тривалість проживання','міс.','Перший місяць оплачується повністю, навіть при заїзді протягом місяця. Виїзд — останній день останнього оплачуваного місяця.']
+};
+function updateRegistrationStay(){
+ const from=$('regFrom').value,months=Number($('regDuration').value),arrival=$('regArrival');
+ $('regTo').value=registrationEnd(from,months);
+ arrival.min=from;
+ arrival.max=from?new Date(Date.UTC(Number(from.slice(0,4)),Number(from.slice(5,7)),0)).toISOString().slice(0,10):'';
+ if(from&&(!arrival.value||arrival.value<arrival.min||arrival.value>arrival.max))arrival.value=from;
+}
+$('regFrom').addEventListener('change',updateRegistrationStay);
+$('regDuration').addEventListener('change',updateRegistrationStay);
 function translateRegister(){
+ const stayWords=stayRuleCopy[lang]||stayRuleCopy.sk;
+ $('labDuration').textContent=stayWords[0];$('regDuration').options[0].textContent=stayWords[1];
+ for(let i=1;i<4;i++)$('regDuration').options[i].textContent=$('regDuration').options[i].value+' '+stayWords[2];
+ $('regStayRule').textContent=stayWords[3];
  const r=R[lang];
  const ext=REG_EXT[lang]||REG_EXT.sk;
  for(const [id,key] of Object.entries({regPersonalTitle:'personal',regStayTitle:'stay',labPhone:'phone',labRoomType:'roomType',labArrival:'arrival',regStaffOnly:'staff'}))$(id).textContent=ext[key];
@@ -515,7 +535,7 @@ function translateRegister(){
  const regLabels={sk:['Dátum narodenia','Štátna príslušnosť','Heslo (minimálne 12 znakov)','Potvrdiť heslo'],en:['Date of birth','Nationality','Password (at least 12 characters)','Confirm password'],ru:['Дата рождения','Гражданство','Пароль (не менее 12 символов)','Подтвердите пароль'],uk:['Дата народження','Громадянство','Пароль (не менше 12 символів)','Підтвердьте пароль']}[lang]||[];
  ['labBirth','labNationality','regPasswordLabel','regPasswordConfirmLabel'].forEach((id,i)=>$(id).textContent=regLabels[i]);
  updateRoomPreferenceOptions();
- for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labRoom:"room",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
+ for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
 }
 let regOpen=false;
 function setRegistration(on){
@@ -569,15 +589,15 @@ $("regForm").addEventListener("submit",async e=>{
  msg.textContent="";
  const date_of_birth=normalizeBirthDate($("regBirth").value);
  if(!date_of_birth){msg.style.color="#a32c30";msg.textContent=({sk:'Zadaj platný dátum narodenia DD.MM.RRRR.',en:'Enter a valid birth date DD.MM.YYYY.',ru:'Введите верную дату рождения ДД.ММ.ГГГГ.',uk:'Введіть правильну дату народження ДД.ММ.РРРР.'}[lang]||'Zadaj platný dátum narodenia.');$("regBirth").focus();return;}
- if(!from||!to||to<=from||$("regPassword").value!==$("regPasswordConfirm").value){msg.style.color="#a32c30";msg.textContent=r.invalid;return;}
+ if(!from||!to||to!==registrationEnd(from,Number($("regDuration").value))||!$("regArrival").value||$("regArrival").value<from||$("regArrival").value.slice(0,7)!==from.slice(0,7)||$("regPassword").value!==$("regPasswordConfirm").value){msg.style.color="#a32c30";msg.textContent=r.invalid;return;}
  const payload={
   first_name:$("regFirst").value.trim(),last_name:$("regLast").value.trim(),email:$("regEmail").value.trim(),
-  room_number:$("regRoom").value.trim(),preferred_room_type:$("regRoomType").value,
+  room_number:'',preferred_room_type:$("regRoomType").value,
   telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),gender:'',date_of_birth,
   password:$("regPassword").value,password_confirmation:$("regPasswordConfirm").value,
   permanent_address:'',school:'',parent_contact_email:'',
   expected_arrival:$("regArrival").value,
-  accommodation_from:from,accommodation_to:to,privacy_acknowledged:$("regPrivacy").checked,website:$("regWebsite").value
+  accommodation_from:from,accommodation_to:to,preferred_duration_months:Number($("regDuration").value),privacy_acknowledged:$("regPrivacy").checked,website:$("regWebsite").value
  };
  btn.disabled=true;
  try{
@@ -971,7 +991,7 @@ function templateCard(tenant,files,kind,title,staff){
    preview.onclick=async()=>{
     preview.disabled=true;status.textContent='';
     try{
-     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=1');
+     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=20261121-document-fields1');
      let attachment;
      if(kind==='rules_template'&&latest){
       const url=await fileLink(latest.id,tenant,true);
@@ -1133,7 +1153,7 @@ async function renderResidentDocuments(tenant,staff,own){
   const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
-  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261120-review-status1'),list('residents')]);
+  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261121-actual-arrival4'),list('residents')]);
   const [saving,,,,,approved,returned,scheduleApproved,saveError]=reviewCopy[lang]||reviewCopy.en;
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
@@ -1263,9 +1283,9 @@ async function renderResidentDocuments(tenant,staff,own){
     prepare.onclick=async()=>{
      prepare.disabled=true;
      try{
-      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields}=await import('/student-house-portal/residence-document.js?v=1');
+      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields}=await import('/student-house-portal/residence-document.js?v=20261121-document-fields1');
       const [{data:answers,error},tenancies,details]=await Promise.all([
-       db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle(),
+       db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number,iban').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle(),
        workingKind==='contract_draft'?list('tenancies',{resident_id:person.id}):[],
        ['contract_draft','deposit_template'].includes(workingKind)?list('resident_staff_details',{resident_id:person.id}):[]
       ]);
@@ -1289,7 +1309,7 @@ async function renderResidentDocuments(tenant,staff,own){
        if(missing.length)throw Error('Chýbajú povinné údaje: '+missing.join(', '));
        const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
        const pdf=await PDFDocument.load(attachment),form=pdf.getForm();
-       const expected=[...documentFields[workingKind],...(workingKind==='contract_draft'?['passport_number']:workingKind==='certificate_draft'?['document_number']:[])];
+       const expected=[...documentFields[workingKind],...(workingKind==='certificate_draft'?['document_number']:workingKind==='deposit_template'?['refund_iban']:[])];
        const filled=new Set();
        for(const field of form.getFields()){
         if(!(field instanceof PDFTextField))continue;
@@ -1564,7 +1584,7 @@ async function renderPanel(){
     else message(({sk:"Údaje o ubytovaní sa zobrazia po priradení izby recepciou.",en:"Your accommodation details will appear after reception assigns your room.",ru:"Данные о проживании появятся после назначения комнаты.",uk:"Дані про проживання з’являться після призначення кімнати."})[lang]);
    }
    if(!staff){
-    const studentUI=await import('/student-house-portal/student-finance.js?v=i18n2-20261114-fees2');
+    const studentUI=await import('/student-house-portal/student-finance.js?v=20261121-full-stay1');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='overview')return;
     studentUI.renderPaymentHighlight({root:container,resident,tenancies:d.tenancies,charges:d.rent_charges,allocations:d.payment_allocations,reversals:d.payment_reversals,plans:d.installment_plans,items:d.installment_items,lang,onOpen:navigate});
     studentUI.renderStudentWelcome({root:container,resident,tenancies:d.tenancies,lang,onOpen:navigate});
@@ -1595,7 +1615,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261120-review-status1');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261121-actual-arrival4');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
@@ -1609,7 +1629,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261120-compact1');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261121-full-stay1');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),openAdmin:()=>{navigate('overview');showStaffMenu();},isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){
@@ -1717,7 +1737,7 @@ async function renderPanel(){
   }
   if(tab==='payments'){
    heading(label('payments'),label('financeNote'));
-   if(staff){const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261113-finance2');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
+   if(staff){const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261121-full-stay1');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
    const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
    const [charges,paid,people,allocations,reversals]=await Promise.all([list('rent_charges',filter),list('payments',filter),staff?list('residents'):Promise.resolve([]),list('payment_allocations'),list('payment_reversals')]);
    const {cents,chargeBalance}=await import('/student-house-portal/ledger.js?v=20261112-entry5-authfix1');
@@ -1789,13 +1809,13 @@ async function renderPanel(){
    heading(label('installments'),staff?label('planNote'):'');
    if(!staff){
     const filter={resident_id:own||'00000000-0000-0000-0000-000000000000'};
-    const [charges,allocations,reversals,plans,items]=await Promise.all([
-     list('rent_charges',filter),list('payment_allocations'),list('payment_reversals'),list('installment_plans',filter),list('installment_items')
+    const [charges,allocations,reversals,plans,items,tenancies]=await Promise.all([
+     list('rent_charges',filter),list('payment_allocations'),list('payment_reversals'),list('installment_plans',filter),list('installment_items'),list('tenancies',filter)
     ]);
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=i18n2-20261114-fees2');
+    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261121-full-stay1');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-    renderMonthlyCalendar({root:container,charges,allocations,reversals,plans,items,lang,onOpen:navigate});
+    renderMonthlyCalendar({root:container,charges,allocations,reversals,plans,items,tenancies,lang,onOpen:navigate});
     return;
    }
    const plans=await list('installment_plans',staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'});
