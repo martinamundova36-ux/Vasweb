@@ -1,11 +1,12 @@
 import {createClient} from 'npm:@supabase/supabase-js@2.119.0';
 const url=Deno.env.get('SUPABASE_URL')!;
 const portalOrigin=(Deno.env.get('PORTAL_ORIGIN')||'https://www.webu.sk').replace(/\/+$/,'');
+const allowedOrigins=new Set(['https://www.webu.sk','https://webu.sk',portalOrigin]);
 const service=createClient(url,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false}});
 Deno.serve(async(req)=>{
  const origin=req.headers.get('origin')||'';
- const headers={'Access-Control-Allow-Origin':portalOrigin,'Vary':'Origin','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Content-Type':'application/json','Cache-Control':'no-store'};
- if(origin&&origin!==portalOrigin)return new Response('Forbidden',{status:403});
+ const headers={'Access-Control-Allow-Origin':origin||portalOrigin,'Vary':'Origin','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Content-Type':'application/json','Cache-Control':'no-store'};
+ if(origin&&!allowedOrigins.has(origin))return new Response('Forbidden',{status:403});
  if(req.method==='OPTIONS')return new Response(null,{headers});
  const reply=(x:unknown,status=200)=>new Response(JSON.stringify(x),{status,headers});
  try{
@@ -44,7 +45,7 @@ Deno.serve(async(req)=>{
     if(body.action==='send_profile_invite'){
       if(resident.profile_password_activated_at)return reply({ok:true,already_active:true});
       const {error:mailError}=await service.auth.resetPasswordForEmail(user.email!,{
-        redirectTo:portalOrigin+'/student-house-portal/student/?step=profile'
+        redirectTo:(origin||portalOrigin)+'/student-house-portal/student/?step=profile'
       });
       if(mailError){console.error('profile_invite_delivery_failed',mailError.code);return reply({error:'email_failed'},503);}
       return reply({ok:true,email_sent:true});
@@ -127,10 +128,10 @@ Deno.serve(async(req)=>{
       Date.parse(review.requested_at)>=Date.parse(answers.student_submitted_at);
     const {error:deliveryError}=reviewed
       ?await service.auth.resetPasswordForEmail(record.email,{
-        redirectTo:portalOrigin+'/student-house-portal/student/?step=profile'
+        redirectTo:(origin||portalOrigin)+'/student-house-portal/student/?step=profile'
       })
       :await service.auth.signInWithOtp({email:record.email,options:{
-        shouldCreateUser:false,emailRedirectTo:portalOrigin+'/student-house-portal/questionnaire/'
+        shouldCreateUser:false,emailRedirectTo:(origin||portalOrigin)+'/student-house-portal/questionnaire/'
       }});
     if(deliveryError){
       console.error('student_access_resend_failed',deliveryError.code);
@@ -188,7 +189,7 @@ Deno.serve(async(req)=>{
 
   const email=String(body.email).trim().toLowerCase();
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
-  const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'questionnaire/':'?view=reception');
+  const redirect=(origin||portalOrigin)+'/student-house-portal/'+(role==='student'?'questionnaire/':'?view=reception');
   let uid:string|undefined,existingUser=false,emailSent=false,createdForApproval=false,loginReady=false;
   // Pending accounts may already have an Auth password. Reception approves the room, signed
   // contract data and monthly rent. New email accounts receive a one-time invite.
