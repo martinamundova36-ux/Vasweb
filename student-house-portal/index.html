@@ -940,31 +940,93 @@ async function fileLink(id,tenant,openInline=false){
   return null;
  }
 }
+
+const PROFILE_PHOTO_MESSAGES={
+ sk:{missing:'Najprv vyber fotografiu z mobilu alebo počítača.',invalid:'Fotografiu sa nepodarilo spracovať. Vyber JPG, PNG alebo WebP, prípadne obrázok v telefóne ulož ako JPG.',large:'Súbor fotografie je príliš veľký (maximum pred úpravou 25 MB).',failed:'Nahratie fotografie sa nepodarilo. Skús znova alebo kontaktuj recepciu.',ready:'Vybraná fotografia: ',optimizing:'Fotografiu upravíme na JPG do 3 MB pred nahratím.'},
+ en:{missing:'Choose a photo from your device first.',invalid:'Could not process this photo. Choose JPG, PNG or WebP, or save the picture as JPG first.',large:'The photo is too large (25 MB maximum before optimization).',failed:'Could not upload the photo. Try again or contact reception.',ready:'Selected photo: ',optimizing:'We will convert and resize the photo to JPG under 3 MB before uploading.'},
+ ru:{missing:'Сначала выберите фотографию на устройстве.',invalid:'Не удалось обработать фото. Выберите JPG, PNG или WebP либо сначала сохраните изображение как JPG.',large:'Фото слишком большое (максимум 25 МБ до обработки).',failed:'Не удалось загрузить фотографию. Попробуйте ещё раз или обратитесь на ресепшен.',ready:'Выбрано фото: ',optimizing:'Перед загрузкой мы преобразуем фото в JPG размером до 3 МБ.'},
+ uk:{missing:'Спочатку виберіть фотографію на пристрої.',invalid:'Не вдалося обробити фото. Виберіть JPG, PNG або WebP чи збережіть зображення як JPG.',large:'Фото надто велике (максимум 25 МБ до обробки).',failed:'Не вдалося завантажити фотографію. Спробуйте ще раз або зверніться до рецепції.',ready:'Вибране фото: ',optimizing:'Перед завантаженням ми перетворимо фото на JPG розміром до 3 МБ.'}
+};
+function photoMessage(key){return (PROFILE_PHOTO_MESSAGES[lang]||PROFILE_PHOTO_MESSAGES.sk)[key];}
+async function prepareProfilePhoto(file){
+ if(!file)throw Error('photo_missing');
+ if(file.size>25000000)throw Error('photo_too_large');
+ const isPhoto=/^image\/(jpeg|png|webp|heic|heif|avif|jpg)$/i.test(file.type)||/\.(jpe?g|png|webp|heic|heif|avif)$/i.test(file.name);
+ if(!isPhoto||!file.size)throw Error('photo_invalid');
+ if(['image/jpeg','image/png'].includes(file.type)&&file.size<=2900000)return file;
+ let image,objectUrl;
+ try{
+  try{image=await createImageBitmap(file);}
+  catch{
+   objectUrl=URL.createObjectURL(file);
+   image=new Image();
+   await new Promise((resolve,reject)=>{
+    image.onload=resolve;image.onerror=reject;image.src=objectUrl;
+   });
+  }
+  const w=image.naturalWidth||image.width,h=image.naturalHeight||image.height;
+  if(!w||!h||w*h>80000000)throw Error('photo_invalid');
+  const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+  if(!ctx)throw Error('photo_invalid');
+  let scale=Math.min(1,1600/Math.max(w,h));
+  for(const quality of [0.86,0.75,0.63,0.52,0.42]){
+   canvas.width=Math.max(1,Math.round(w*scale));
+   canvas.height=Math.max(1,Math.round(h*scale));
+   ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+   ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
+   ctx.drawImage(image,0,0,canvas.width,canvas.height);
+   const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',quality));
+   if(blob&&blob.size>0&&blob.size<=2900000){
+    return new File([blob],(file.name||'student').replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:Date.now()});
+   }
+   scale*=0.79;
+  }
+  throw Error('photo_invalid');
+ }catch(error){
+  if(error?.message==='photo_too_large')throw error;
+  throw Error('photo_invalid');
+ }finally{
+  if(typeof image?.close==='function')image.close();
+  if(objectUrl)URL.revokeObjectURL(objectUrl);
+ }
+}
 async function sendFile(tenant,kind,file,button,residentId=null){
- if(!file){alert(dl('fileError'));return false;}
- const allowed=kind==='profile_photo'?['image/jpeg','image/png']:(kind.endsWith('_template')||['contract_draft','schedule_draft','certificate_draft'].includes(kind))?['application/pdf']:['application/pdf','image/jpeg','image/png'];
- const maximum=kind==='profile_photo'?3000000:6000000;
- if(!allowed.includes(file.type)||file.size>maximum||!file.size){alert(dl('fileError'));return false;}
+ if(!file){alert(kind==='profile_photo'?photoMessage('missing'):dl('fileError'));return false;}
  button.disabled=true;
  try{
+  if(kind==='profile_photo')file=await prepareProfilePhoto(file);
+  const allowed=kind==='profile_photo'?['image/jpeg','image/png']:(kind.endsWith('_template')||['contract_draft','schedule_draft','certificate_draft'].includes(kind))?['application/pdf']:['application/pdf','image/jpeg','image/png'];
+  const maximum=kind==='profile_photo'?3000000:6000000;
+  if(!allowed.includes(file.type)||file.size>maximum||!file.size){alert(kind==='profile_photo'?photoMessage('invalid'):dl('fileError'));return false;}
   const f=new FormData();f.append('action','upload');f.append('tenant_id',tenant);f.append('kind',kind);f.append('file',file);if(residentId)f.append('resident_id',residentId);
   const {data,error}=await db.functions.invoke('residence-files',{body:f});
-  if(error||!data?.ok){alert(dl('fileError'));return false;}
+  if(error||!data?.ok){alert(kind==='profile_photo'?photoMessage('failed'):dl('fileError'));return false;}
   alert(dl('fileSuccess'));return true;
- }catch(error){console.error('portal_file_upload_failed');alert(dl('fileError'));return false;}
- finally{button.disabled=false;}
+ }catch(error){
+  console.error('portal_file_upload_failed',error?.message||'unknown');
+  const reason=error?.message==='photo_too_large'?'large':'invalid';
+  alert(kind==='profile_photo'?photoMessage(reason):dl('fileError'));return false;
+ }finally{button.disabled=false;}
 }
 function uploadCard(tenant,kind,title,help,accept){
  const card=make('div','file-area'),h=make('h4','',title),p=make('p','',help);
- const input=make('input');input.type='file';input.accept=accept;input.setAttribute('aria-label',title);
+ const input=make('input');input.type='file';input.accept=kind==='profile_photo'?'image/*':accept;input.setAttribute('aria-label',title);
  const send=make('button','',dl('upload'));send.type='button';
+ const state=make('p','small','');state.setAttribute('role','status');state.setAttribute('aria-live','polite');
+ let previewUrl=null;
+ input.addEventListener('change',()=>{
+  if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null;}
+  const file=input.files?.[0];
+  state.textContent=file?photoMessage('ready')+file.name+(kind==='profile_photo'?' · '+photoMessage('optimizing'):''):'';
+ });
  send.addEventListener('click',async()=>{
-  if(!input.files?.length)return alert(dl('fileError'));
+  if(!input.files?.length){alert(kind==='profile_photo'?photoMessage('missing'):dl('fileError'));return;}
   if(await sendFile(tenant,kind,input.files[0],send))void renderPanel();
  });
- card.append(h,p,input,send);
+ card.append(h,p,input,state,send);
  return card;
 }
+
 function readableStatus(x){
  const lookup={pending:'wait',approved:'approved',rejected:'rejected'};
  return dl(lookup[x]||x||'wait');
