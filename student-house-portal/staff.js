@@ -620,12 +620,90 @@ export async function renderStaffScreen(ctx) {
      };
     if(reviewError){enquiryBox.append(el('p','danger',labels.fail));}
     else{
-      const actions=el('div','staff-actions');
-      enquiryBox.append(actions);
+      const actions=el('div','staff-actions'),documentFlow=el('section','data-card');
+      enquiryBox.append(actions,documentFlow);
+      let documentFlowStarted=false;
+      const documentWording=({
+       sk:{heading:'Krok 5 – Zmluva a splátkový kalendár',need:'Pred vytvorením dokumentov musí recepcia doplniť kód izby, depozit, administratívny poplatok a schválené nájomné. Skontroluj Excel evidenciu.',provider:'Ubytovateľ – presný právny názov',conditions:'Schválené platobné podmienky zmluvy',contract:'Vytvoriť pracovnú ubytovaciu zmluvu',contractReady:'✓ Pracovná zmluva je uložená v dokumentoch študenta.',contractFail:'Zmluvu sa nepodarilo pripraviť alebo uložiť.',missingRent:'Splátkový kalendár ešte neobsahuje všetky mesiace alebo overené poplatky. Doplň predpisy v evidencii.',description:'Dokumenty vytvára až recepcia po schválení dotazníka. Pracovná zmluva vyžaduje kontrolu a schválenú právnu predlohu.',rent:'Nájom',deposit:'Depozit',admin:'Administratívny poplatok'},
+       en:{heading:'Step 5 – Contract and payment schedule',need:'Reception must first verify room code, deposit, administration fee and rent. Check the room register.',provider:'Landlord – exact legal name',conditions:'Approved contract payment terms',contract:'Create working accommodation contract',contractReady:'✓ Draft contract saved to the student’s documents.',contractFail:'Could not prepare or save the contract.',missingRent:'The schedule is missing some months or verified fees. Reconcile the register first.',description:'Reception prepares these documents after approving the questionnaire. The draft contract needs approved legal wording.',rent:'Rent',deposit:'Deposit',admin:'Administration fee'},
+       ru:{heading:'Шаг 5 – Договор и график платежей',need:'Ресепшен должен проверить код комнаты, депозит, административный сбор и аренду.',provider:'Арендодатель – юридическое название',conditions:'Утверждённые условия оплаты',contract:'Создать рабочий проект договора',contractReady:'✓ Проект договора сохранён в документах студента.',contractFail:'Не удалось создать или сохранить договор.',missingRent:'Не хватает начислений или месяцев. Проверьте реестр.',description:'Ресепшен готовит документы после одобрения анкеты. Проект договора требует утверждённого текста.',rent:'Аренда',deposit:'Депозит',admin:'Административный сбор'},
+       uk:{heading:'Крок 5 – Договір і графік платежів',need:'Рецепція має перевірити код кімнати, депозит, адміністративний збір і оренду.',provider:'Орендодавець – юридична назва',conditions:'Затверджені умови оплати',contract:'Створити робочий проєкт договору',contractReady:'✓ Проєкт договору збережено в документах студента.',contractFail:'Не вдалося підготувати чи зберегти договір.',missingRent:'Бракує нарахувань або місяців. Перевірте реєстр.',description:'Рецепція готує документи після схвалення анкети. Проєкт договору потребує затвердженого тексту.',rent:'Оренда',deposit:'Депозит',admin:'Адміністративний збір'}
+      })[ctx.lang];
+      async function prepareDocumentFlow(){
+       if(documentFlowStarted||!ctx.isCurrent()||!documentFlow.isConnected)return;
+       documentFlowStarted=true;
+       documentFlow.append(el('h4','section-subtitle',documentWording.heading),el('p','mini-note',documentWording.description));
+       try{
+        const [staffResult,staysResult,billsResult]=await Promise.all([
+         ctx.db.from('resident_staff_details').select('room_code,deposit_eur,administration_fee_eur')
+          .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle(),
+         ctx.db.from('tenancies').select('rent,starts_on,ends_on')
+          .eq('tenant_id',ctx.tenant).eq('resident_id',person.id),
+         ctx.db.from('rent_charges').select('kind,period,amount,due_on')
+          .eq('tenant_id',ctx.tenant).eq('resident_id',person.id)
+        ]);
+        if(staffResult.error||staysResult.error||billsResult.error)throw Error('unavailable');
+        if(!ctx.isCurrent()||!documentFlow.isConnected)return;
+        const verified=staffResult.data,stay=(staysResult.data||[]).find(t=>t.starts_on===person.accommodation_from)||(staysResult.data||[])[0];
+        if(!verified?.room_code||verified.deposit_eur==null||verified.administration_fee_eur==null||!stay?.rent||!person.verified_contract_number){
+         documentFlow.append(el('p','danger',documentWording.need));return;
+        }
+        const contract=el('form','staff-form');
+        const provider=el('input'),terms=el('textarea');
+        provider.required=true;provider.maxLength=200;provider.placeholder=documentWording.provider;
+        terms.required=true;terms.maxLength=1500;terms.rows=3;terms.placeholder=documentWording.conditions;
+        const providerLabel=el('label','',documentWording.provider),termsLabel=el('label','',documentWording.conditions);
+        providerLabel.append(provider);termsLabel.append(terms);
+        const create=el('button','',documentWording.contract);create.type='submit';
+        const contractStatus=el('p','enquiry-status');contractStatus.setAttribute('role','status');
+        contract.append(providerLabel,termsLabel,create,contractStatus);documentFlow.append(contract);
+        contract.addEventListener('submit',async event=>{
+         event.preventDefault();if(!ctx.isCurrent()||!contract.reportValidity())return;
+         create.disabled=true;contractStatus.textContent='';
+         try{
+          const {workingDocument,fieldsForDocument,missingDocumentFields}=await import('/student-house-portal/residence-document.js?v=20261121-reception-contract1');
+          const data=fieldsForDocument('contract_draft',person,enquiry,stay,verified,{
+           provider:provider.value.trim(),payment_terms:terms.value.trim()
+          });
+          if(missingDocumentFields('contract_draft',data).length)throw Error('missing_contract_data');
+          const file=await workingDocument({kind:'contract_draft',title:'Ubytovacia zmluva',slug:'ubytovacia-zmluva',data});
+          const ok=await ctx.uploadPrivateDocument(person.id,file,create,'contract_draft');
+          if(!ok)throw Error('upload_failed');
+          contractStatus.classList.add('staff-approval-success');
+          contractStatus.textContent=documentWording.contractReady;
+         }catch(error){contractStatus.textContent=documentWording.contractFail+(error?.message==='missing_contract_data'?' – skontroluj povinné údaje dotazníka.':'');}
+         finally{create.disabled=false;}
+        });
+        const periods=stayPeriods(person.accommodation_from,person.accommodation_to);
+        const charges=billsResult.data||[];
+        const rentPeriods=new Set(charges.filter(x=>x.kind==='rent').map(x=>x.period));
+        const fullRent=periods.length>0&&periods.every(p=>rentPeriods.has(p));
+        const depositPresent=Number(verified.deposit_eur)===0||charges.some(x=>x.kind==='deposit'&&x.period===periods[0]&&Number(x.amount)===Number(verified.deposit_eur));
+        const adminPresent=Number(verified.administration_fee_eur)===0||charges.some(x=>x.kind==='administration_fee'&&x.period===periods[0]&&Number(x.amount)===Number(verified.administration_fee_eur));
+        if(!fullRent||!depositPresent||!adminPresent){
+         documentFlow.append(el('p','danger',documentWording.missingRent));return;
+        }
+        const descriptions={rent:documentWording.rent,deposit:documentWording.deposit,administration_fee:documentWording.admin};
+        const items=charges.filter(x=>periods.includes(x.period)&&['rent','deposit','administration_fee'].includes(x.kind))
+         .sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||
+          ['rent','deposit','administration_fee'].indexOf(a.kind)-['rent','deposit','administration_fee'].indexOf(b.kind))
+         .map(x=>({due_on:x.due_on,amount:Number(x.amount),description:descriptions[x.kind]+(x.kind==='rent'?' '+x.period:'')}));
+        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261121-reception-first-payment1');
+        if(!ctx.isCurrent()||!documentFlow.isConnected)return;
+        const symbol=/^[0-9]{1,10}$/.test(String(person.verified_contract_number||'').trim())?String(person.verified_contract_number).trim():
+         /^[0-9]{1,10}$/.test(String(verified.room_code||'').trim())?String(verified.room_code).trim():'';
+        attachInstallmentDocument(documentFlow,{title:'Splátkový kalendár – Student House Bratislava'},person,items,{
+         open:false,accountScope:ctx.tenant+':'+ctx.userId,contractNumber:symbol,
+         saveToProfile:(id,file,button)=>ctx.uploadPrivateDocument(id,file,button,'schedule_draft')
+        });
+       }catch{if(ctx.isCurrent())documentFlow.append(el('p','danger',w.fileFailed));}
+      }
       const showReview=(label,explanation='')=>{
        reviewHint.hidden=true;
        actions.replaceChildren(receipt(label));
        if(explanation)actions.append(el('p','mini-note',explanation));
+       if(label===questionnaireApproved)void prepareDocumentFlow();
+       else documentFlow.replaceChildren();
       };
       const submittedAt=Date.parse(String(enquiry.student_submitted_at||''));
       const corrected=submittedAt>Date.parse(String(review?.requested_at||''));
