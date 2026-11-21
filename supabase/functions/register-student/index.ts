@@ -73,6 +73,15 @@ Deno.serve(async(request:Request)=>{
   const parent_contact_email=asText(body.parent_contact_email,254);
   const preferred_room_type=asText(body.preferred_room_type,120);
   const arrival=asText(body.expected_arrival,10);
+  const duration=body.preferred_duration_months;
+  let computedEnd='';
+  if(isDate(accommodation_from)&&[5,10,12].includes(duration)){
+   const [year,month]=accommodation_from.split('-').map(Number);
+   if(year>=2000&&year<=2099)computedEnd=new Date(Date.UTC(year,month-1+duration,0)).toISOString().slice(0,10);
+  }
+  if(!computedEnd||accommodation_to!==computedEnd||!isDate(arrival)||arrival<accommodation_from||arrival.slice(0,7)!==accommodation_from.slice(0,7)){
+   return safeResponse({error:'invalid_stay_dates'},400,origin);
+  }
   const genderValid=['','male','female','other'].includes(gender);
   const parentValid=!parent_contact_email||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(parent_contact_email);
   if(![true,"true"].includes(body.privacy_acknowledged) || first_name.length<1 || last_name.length<1 ||
@@ -111,7 +120,7 @@ Deno.serve(async(request:Request)=>{
    }
    newUserId=account.user.id;
   }
-  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,room_number,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival}});
+  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,room_number,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival,preferred_duration_months:duration}});
   if(registrationError||!created?.id){
    console.error('registration_transaction_failed',registrationError?.code);
    if(newUserId){const {error:cleanupError}=await client.auth.admin.deleteUser(newUserId);if(cleanupError)console.error('registration_auth_cleanup_failed',cleanupError.code);}
