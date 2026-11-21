@@ -42,6 +42,12 @@ try{
    for(const code of ['en','ru','uk','sk']){await page.locator('#appLang').selectOption(code);await page.waitForFunction(c=>document.documentElement.lang===c,code);assert.ok(await page.locator('#app').isVisible());assert.equal(await page.evaluate(()=>window.testStorageKey),(mode==='reception'?'sb-ydqchayscxntqdkzkynv-auth-token':'sb-ydqchayscxntqdkzkynv-student-auth-token'));}
    if(role!=='student'){
     await page.locator('#tabs button').filter({hasText:'Excel'}).click();
+    if(width===390){
+     await page.locator('.register-mobile-controls').waitFor();
+     assert.equal(await page.locator('.register-mobile-cards').isVisible(),true);
+     assert.equal(await page.locator('.room-register-table').isVisible(),false);
+     await page.locator('.register-mobile-controls button').click();
+    }
     await page.locator('.room-register-table tbody tr').first().waitFor();
     assert.equal(await page.locator('.room-register-table tbody tr').count(),65);
     assert.match(await page.locator('.room-register-count').innerText(),/1 \/ 64/);
