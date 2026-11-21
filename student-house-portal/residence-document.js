@@ -1,7 +1,7 @@
 const core = ['student_name', 'room_number', 'contract_number'];
 const stay = [...core, 'accommodation_from', 'accommodation_to'];
 export const documentFields = {
- contract_draft: [...stay, 'birth_date', 'address', 'monthly_rent', 'deposit', 'admin_fee', 'provider', 'payment_terms'],
+ contract_draft: [...stay, 'birth_date', 'address', 'passport_number', 'monthly_rent', 'deposit', 'admin_fee', 'provider', 'payment_terms'],
  rules_template: core,
  gdpr_template: ['student_name', 'provider', 'notice_version'],
  certificate_draft: [...stay, 'provider', 'issue_date', 'certificate_fee'],
@@ -11,7 +11,7 @@ export const documentFields = {
 const labels = {
  student_name:'Meno a priezvisko',room_number:'Číslo izby',contract_number:'Číslo zmluvy',
  accommodation_from:'Ubytovanie od',accommodation_to:'Ubytovanie do',birth_date:'Dátum narodenia',
- address:'Trvalá adresa',passport_number:'Číslo pasu',monthly_rent:'Mesačné nájomné (EUR)',
+ address:'Trvalá adresa',passport_number:'Číslo pasu / dokladu totožnosti',refund_iban:'IBAN na vrátenie depozitu',monthly_rent:'Mesačné nájomné (EUR)',
  deposit:'Evidovaný depozit (EUR)',admin_fee:'Administratívny poplatok (EUR)',provider:'Ubytovateľ / prevádzkovateľ',
  payment_terms:'Schválené platobné podmienky',notice_version:'Verzia informácií o spracúvaní',
  issue_date:'Dátum vystavenia',certificate_fee:'Poplatok za potvrdenie (EUR)',document_number:'Číslo dokumentu',
@@ -22,7 +22,7 @@ const wording = {
  rules_template:['A. Všeobecný ubytovací poriadok','Recepcia priloží schválené všeobecné znenie v plnom rozsahu.','B. Individuálne potvrdenie o oboznámení','Podpisom potvrdzujem oboznámenie sa s priloženým ubytovacím poriadkom.','Podpis ubytovaného'],
  gdpr_template:['Informácie o spracúvaní osobných údajov','Portál eviduje registráciu, dotazník, ubytovanie, dokumenty a platby. Prevádzkovateľ doplní svoj kontakt, účely a právne základy, príjemcov, lehoty uchovávania, prípadné prenosy a informácie o právach a ich uplatnení.','Potvrdenie o oboznámení','Podpisom potvrdzujem prevzatie informácií o spracúvaní osobných údajov uvedenej verzie. Prípadný dobrovoľný súhlas sa udeľuje samostatne.','Podpis ubytovaného'],
  certificate_draft:['Údaje o potvrdenom ubytovaní','Potvrdenie vydáva recepcia po overení údajov v evidencii ubytovania.','Podpis oprávnenej osoby'],
- deposit_template:['Žiadosť o poukázanie depozitu','Žiadam o vrátenie depozitu po kontrole evidencie a prípadných zrážok.','IBAN na refundáciu: ___________________________________','Vyplní recepcia: overený depozit, výška a dôvod zrážok, schválená suma refundácie.','Podpis žiadateľa'],
+ deposit_template:['Žiadosť o poukázanie depozitu','Žiadam o vrátenie depozitu po kontrole evidencie a prípadných zrážok.','Vyplní recepcia: overený depozit, výška a dôvod zrážok, schválená suma refundácie.','Podpis žiadateľa'],
  schedule_draft:['Splátky preberá systém zo schválenej finančnej evidencie.']
 };
 export function fieldsForDocument(kind, person, enquiry, tenancy, staff, extras = {}) {
@@ -31,6 +31,7 @@ export function fieldsForDocument(kind, person, enquiry, tenancy, staff, extras 
   accommodation_from:person.accommodation_from,accommodation_to:person.accommodation_to,
   birth_date:enquiry?.date_of_birth,address:enquiry?.permanent_address,
   ...(kind==='contract_draft'?{passport_number:enquiry?.identity_document_number}:{}),
+  ...(kind==='deposit_template'?{refund_iban:enquiry?.iban}:{}),
   monthly_rent:tenancy?.rent,deposit:staff?.deposit_eur,admin_fee:staff?.administration_fee_eur,
   ...extras
  };
@@ -51,9 +52,9 @@ export async function workingDocument({kind,title,slug,data,attachment}) {
   const original=await PDFDocument.load(attachment);
   for(const page of await pdf.copyPages(original, original.getPageIndices()))pdf.addPage(page);
  }
- const optional={certificate_draft:['document_number']}[kind]||[];
+ const optional={certificate_draft:['document_number'],deposit_template:['refund_iban']}[kind]||[];
  const signature=['rules_template','gdpr_template','deposit_template'].includes(kind)?['signature_place','signature_date']:[];
- const details=[...documentFields[kind],...optional.filter(key=>present(data[key])),...signature]
+ const details=[...documentFields[kind],...optional.filter(key=>kind==='deposit_template'||present(data[key])),...signature]
   .map(key=>labels[key]+': '+(present(data[key])?data[key]:'________________________'));
  const copy=wording[kind];
  const lines=kind==='rules_template'?
