@@ -21,8 +21,59 @@ Deno.serve(async(req)=>{
    const {error:auditError}=await service.from('audit_logs').insert({tenant_id:doc.tenant_id,actor_id:user.id,action:'DOWNLOAD_SIGNED_60S',entity:'documents',entity_id:doc.id});if(auditError)throw auditError;
    return reply({url:data.signedUrl});
   }
-  if(body.action!=='invite')return reply({error:'invalid_action'},400);
-  if(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200)return reply({error:'invalid_data'},400);
+  if(['send_profile_invite','activate_profile'].includes(body.action)){
+    const tenant=body.tenant_id;
+    if(typeof tenant!=='string'||!/^[0-9a-f-]{36}$/i.test(tenant))return reply({error:'invalid_tenant'},400);
+    const {data:membership,error:membershipError}=await client.from('organization_memberships')
+      .select('role').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
+    if(membershipError||membership?.role!=='student')return reply({error:'forbidden'},403);
+    const {data:resident,error:residentError}=await client.from('residents')
+      .select('id,email,profile_password_activated_at').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
+    if(residentError||!resident||resident.email.toLowerCase()!==user.email?.toLowerCase())return reply({error:'forbidden'},403);
+    const {data:answers,error:answersError}=await client.from('resident_enquiries')
+      .select('student_submitted_at').eq('tenant_id',tenant).eq('resident_id',resident.id).maybeSingle();
+    const {data:photos,error:photoError}=await client.from('residence_portal_files')
+      .select('id').eq('tenant_id',tenant).eq('resident_id',resident.id)
+      .eq('user_id',user.id).eq('kind','profile_photo').eq('active',true).limit(1);
+    if(answersError||photoError||!answers?.student_submitted_at||!photos?.length)
+      return reply({error:'questionnaire_not_completed'},409);
+    const {data:review,error:reviewError}=await client.from('resident_enquiry_reviews')
+      .select('review_status,requested_at').eq('tenant_id',tenant).eq('resident_id',resident.id).maybeSingle();
+    if(reviewError||review?.review_status!=='approved'||Date.parse(review.requested_at)<Date.parse(answers.student_submitted_at))
+      return reply({error:'questionnaire_awaiting_review'},409);
+    if(body.action==='send_profile_invite'){
+      if(resident.profile_password_activated_at)return reply({ok:true,already_active:true});
+      const {error:mailError}=await service.auth.resetPasswordForEmail(user.email!,{
+        redirectTo:portalOrigin+'/student-house-portal/student/?step=profile'
+      });
+      if(mailError){console.error('profile_invite_delivery_failed',mailError.code);return reply({error:'email_failed'},503);}
+      return reply({ok:true,email_sent:true});
+    }
+    if(resident.profile_password_activated_at)return reply({ok:true,already_active:true});
+    const {data:activated,error:activationError}=await service.rpc('residence_activate_profile_password',{
+      p_tenant:tenant,p_user:user.id
+    });
+    if(activationError||activated!==true)return reply({error:'password_or_questionnaire_not_verified'},409);
+    return reply({ok:true,profile_activated:true});
+  }
+  if(['staff_list','staff_update'].includes(body.action)){
+   const tenant=body.tenant_id;
+   if(typeof tenant!=='string'||!/^[0-9a-f-]{36}$/i.test(tenant))return reply({error:'invalid_tenant'},400);
+   const {data:actor,error:actorError}=await client.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
+   if(actorError||actor?.role!=='org_admin')return reply({error:'forbidden'},403);
+   if(body.action==='staff_update'){
+    if(typeof body.user_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.user_id)||!['org_admin','reception'].includes(body.role)||typeof body.active!=='boolean')return reply({error:'invalid_data'},400);
+    const {data,error}=await service.rpc('residence_update_staff',{p_actor:user.id,p_tenant:tenant,p_user:body.user_id,p_role:body.role,p_active:body.active});
+    if(error||data!==true)return reply({error:'staff_update_failed'},409);return reply({ok:true});
+   }
+   const {data:members,error:membersError}=await client.from('organization_memberships').select('user_id,role,active').eq('tenant_id',tenant).in('role',['org_admin','reception']).limit(100);
+   if(membersError)return reply({error:'load_failed'},503);
+   const staff=[];
+   for(const member of members||[]){const {data,error}=await service.auth.admin.getUserById(member.user_id);if(error)return reply({error:'load_failed'},503);staff.push({...member,email:data.user?.email||''});}
+   return reply({ok:true,staff});
+  }
+  if(!['invite','resend_student_access','activate_approved_login'].includes(body.action))return reply({error:'invalid_action'},400);
+  if(body.action==='invite'&&(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200))return reply({error:'invalid_data'},400);
 
   const role=body.role;if(!['student','reception','org_admin'].includes(role))return reply({error:'invalid_role'},400);
   const tenant=body.tenant_id;
@@ -31,15 +82,93 @@ Deno.serve(async(req)=>{
   const {data:p}=await client.from('platform_admins').select('user_id').eq('user_id',user.id).maybeSingle();
   if(roleError||!(m?.role==='org_admin'||(m?.role==='reception'&&role==='student')||(p&&role==='org_admin')))return reply({error:'forbidden'},403);
 
+  if(body.action==='activate_approved_login'){
+    if(role!=='student'||typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))
+      return reply({error:'invalid_data'},400);
+    const {data:approved,error:approvedError}=await client.from('registration_requests')
+      .select('id,email,status').eq('tenant_id',tenant).eq('id',body.registration_id)
+      .eq('status','invited').maybeSingle();
+    if(approvedError||!approved)return reply({error:'approved_registration_not_found'},404);
+    const {data:account,error:accountError}=await service.from('residents')
+      .select('user_id').eq('tenant_id',tenant).eq('active',true).eq('email',approved.email).maybeSingle();
+    if(accountError||!account?.user_id)return reply({error:'resident_not_found'},409);
+    const {data:membership,error:memberError}=await service.from('organization_memberships')
+      .select('role,active').eq('tenant_id',tenant).eq('user_id',account.user_id).maybeSingle();
+    if(memberError||membership?.role!=='student'||membership?.active!==true)return reply({error:'membership_not_active'},409);
+    const {data:auth,error:authError}=await service.auth.admin.getUserById(account.user_id);
+    if(authError||auth?.user?.email?.toLowerCase()!==approved.email.toLowerCase())
+      return reply({error:'account_mismatch'},409);
+    const {data:hasPassword,error:passwordError}=await service.rpc('residence_account_has_password',{p_user:account.user_id});
+    if(passwordError)return reply({error:'password_check_failed'},503);
+    if(hasPassword!==true)return reply({error:'password_setup_required'},409);
+    if(!auth.user.email_confirmed_at){
+      const {error:confirmError}=await service.auth.admin.updateUserById(account.user_id,{email_confirm:true});
+      if(confirmError){console.error('approved_login_activation_failed',confirmError.code);return reply({error:'login_activation_failed'},503);}
+    }
+    return reply({ok:true,login_ready:true,email_sent:false});
+  }
+
+  if(body.action==='resend_student_access'){
+    if(role!=='student'||typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))
+      return reply({error:'invalid_data'},400);
+    const {data:record,error:recordError}=await client.from('registration_requests')
+      .select('email,status').eq('tenant_id',tenant).eq('id',body.registration_id)
+      .eq('status','invited').maybeSingle();
+    if(recordError||!record)return reply({error:'approved_registration_not_found'},404);
+    // Before the questionnaire, send a password-free link back to Step 2.
+    // After submission, send the profile password creation email.
+    const {data:account}=await service.from('residents')
+      .select('id').eq('tenant_id',tenant).eq('email',record.email).eq('active',true).maybeSingle();
+    const {data:answers}=account?await service.from('resident_enquiries')
+      .select('student_submitted_at').eq('tenant_id',tenant).eq('resident_id',account.id).maybeSingle():{data:null};
+    const {data:review}=account?await service.from('resident_enquiry_reviews')
+      .select('review_status,requested_at').eq('tenant_id',tenant).eq('resident_id',account.id).maybeSingle():{data:null};
+    const reviewed=answers?.student_submitted_at&&review?.review_status==='approved'&&
+      Date.parse(review.requested_at)>=Date.parse(answers.student_submitted_at);
+    const {error:deliveryError}=reviewed
+      ?await service.auth.resetPasswordForEmail(record.email,{
+        redirectTo:portalOrigin+'/student-house-portal/student/?step=profile'
+      })
+      :await service.auth.signInWithOtp({email:record.email,options:{
+        shouldCreateUser:false,emailRedirectTo:portalOrigin+'/student-house-portal/questionnaire/'
+      }});
+    if(deliveryError){
+      console.error('student_access_resend_failed',deliveryError.code);
+      return reply({error:'invitation_failed'},503);
+    }
+    return reply({ok:true,email_sent:true});
+  }
+
   // Any resident may submit a public request, but only verified reception staff can approve it.
   // Do not accept contract dates/numbers from a browser acting as an unverified resident.
   let registration:Record<string,string>|null=null;
+  let verifiedAssignment:{contract_number:string;room_number:string;accommodation_from:string;accommodation_to:string;actual_arrival_on?:string}|null=null;
   if(role==='student'&&body.registration_id){
     if(typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))return reply({error:'invalid_registration'},400);
     const {data:request,error:requestError}=await client.from('registration_requests')
       .select('id,tenant_id,email,first_name,last_name,room_number,contract_number,accommodation_from,accommodation_to,status')
       .eq('id',body.registration_id).eq('tenant_id',tenant).eq('status','pending').maybeSingle();
     if(requestError||!request||request.email.toLowerCase()!==String(body.email).trim().toLowerCase())return reply({error:'registration_not_pending'},409);
+    // New clients send one atomic verified assignment. Older client builds can
+    // still submit fields previously saved by reception, without interrupting service.
+    const raw=body.verified_assignment && typeof body.verified_assignment==='object'
+      && !Array.isArray(body.verified_assignment)?body.verified_assignment:request;
+    const contract_number=typeof raw.contract_number==='string'?raw.contract_number.trim():'';
+    const room_number=typeof raw.room_number==='string'?raw.room_number.trim():'';
+    const accommodation_from=typeof raw.accommodation_from==='string'?raw.accommodation_from:'';
+    const accommodation_to=typeof raw.accommodation_to==='string'?raw.accommodation_to:'';
+    const validDay=(date:string)=>/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(date)
+      && Number.isFinite(Date.parse(date+'T12:00:00Z'))
+      && new Date(date+'T12:00:00Z').toISOString().slice(0,10)===date;
+    if(contract_number.length<5||contract_number.length>100||room_number.length<1||room_number.length>30||
+       !validDay(accommodation_from)||!validDay(accommodation_to)||accommodation_to<=accommodation_from)
+      return reply({error:'verified_assignment_required'},400);
+    const {data:confirmedRoom,error:roomError}=await client.from('rooms')
+      .select('id').eq('tenant_id',tenant).eq('name',room_number).maybeSingle();
+    if(roomError||!confirmedRoom)return reply({error:'reception_assignment_required'},409);
+    const actual_arrival_on=typeof raw.actual_arrival_on==='string'?raw.actual_arrival_on:'';
+    if(actual_arrival_on&&(!validDay(actual_arrival_on)||actual_arrival_on>new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'})))return reply({error:'invalid_actual_arrival'},400);
+    verifiedAssignment={contract_number,room_number,accommodation_from,accommodation_to,...(actual_arrival_on?{actual_arrival_on}:{})};
     registration=request;
   }
 
@@ -47,12 +176,12 @@ Deno.serve(async(req)=>{
 
   const email=String(body.email).trim().toLowerCase();
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
-  const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'':'?view=reception');
-  let uid:string|undefined,existingUser=false,emailSent=false;
-  // A student who selected a password via Supabase Auth during registration
-  // already has an Auth account, but has NO organization membership until approval.
-  // Re-inviting that address would send an unwanted password-reset email.
-  // Existing users retain their passwords; only brand-new users receive an invite.
+  const redirect=portalOrigin+'/student-house-portal/'+(role==='student'?'questionnaire/':'?view=reception');
+  let uid:string|undefined,existingUser=false,emailSent=false,createdForApproval=false,loginReady=false;
+  // Pending accounts may already have an Auth password. Reception approves the room, signed
+  // contract data and monthly rent. New email accounts receive a one-time invite.
+  // Older applicants who previously created an Auth account receive a password
+  // setup/recovery link only after the approval transaction succeeds.
   if(registration){
     for(let page=1;page<=100&&!uid;page++){
       const {data,error:listError}=await service.auth.admin.listUsers({page,perPage:100});
@@ -63,12 +192,18 @@ Deno.serve(async(req)=>{
     }
   }
   if(!uid){
-    const {data:inv,error:inviteError}=await service.auth.admin.inviteUserByEmail(email,{redirectTo:redirect});
-    uid=inv?.user?.id;
-    if(inviteError){
-      const code=String(inviteError.code||'');
-      const duplicate=code==='email_exists'||code==='user_already_exists'||/already (been )?registered|already exists/i.test(inviteError.message||'');
-      if(!duplicate)return reply({error:'invitation_failed'},503);
+    // An approved registration must be committed before the first email goes out.
+    // Create an unconfirmed Auth identity without sending a premature invite.
+    const {data:created,error:createError}=registration
+      ?await service.auth.admin.createUser({email,email_confirm:false})
+      :{data:null,error:null};
+    if(registration&&!createError&&created?.user?.id){
+      uid=created.user.id;createdForApproval=true;
+    }else if(registration&&createError){
+      // Another request may have created the account concurrently.
+      const duplicate=['email_exists','user_already_exists'].includes(String(createError.code||''))||
+        /already (been )?registered|already exists/i.test(createError.message||'');
+      if(!duplicate)return reply({error:'identity_creation_failed'},503);
       existingUser=true;
       for(let page=1;page<=100&&!uid;page++){
         const {data,error:listError}=await service.auth.admin.listUsers({page,perPage:100});
@@ -76,22 +211,63 @@ Deno.serve(async(req)=>{
         uid=data.users.find(u=>u.email?.toLowerCase()===email)?.id;
         if(data.users.length<100)break;
       }
-    }else emailSent=true;
+    }
+    if(!registration){
+      const {data:inv,error:inviteError}=await service.auth.admin.inviteUserByEmail(email,{redirectTo:redirect});
+      uid=inv?.user?.id;
+      if(inviteError){
+        const duplicate=['email_exists','user_already_exists'].includes(String(inviteError.code||''))||
+          /already (been )?registered|already exists/i.test(inviteError.message||'');
+        if(!duplicate)return reply({error:'invitation_failed'},503);
+        existingUser=true;
+        for(let page=1;page<=100&&!uid;page++){
+          const {data,error:listError}=await service.auth.admin.listUsers({page,perPage:100});
+          if(listError)throw listError;
+          uid=data.users.find(u=>u.email?.toLowerCase()===email)?.id;
+          if(data.users.length<100)break;
+        }
+      }else emailSent=true;
+    }
   }
   if(!uid)return reply({error:'user_not_resolved'},503);
   // Staff invites to an existing account retain the old recovery workflow.
-  // Student approvals never reset the password a student already selected.
+  // Student accounts created by the old form are not re-invited before approval.
   if(existingUser&&!registration){
     const {error:resetError}=await service.auth.resetPasswordForEmail(email,{redirectTo:redirect});
     if(resetError)return reply({error:'password_email_failed'},503);
     emailSent=true;
   }
   if(registration){
-    const {error:approvalError}=await service.rpc('residence_approve_registration',{
+    const {error:approvalError}=await service.rpc('residence_approve_registration_verified',{
       p_actor:user.id,p_tenant:tenant,p_registration:registration.id,p_user:uid,
-      p_monthly_rent:body.verified_monthly_rent,p_due_day:body.verified_due_day,p_schedule:body.verified_schedule
+      p_monthly_rent:body.verified_monthly_rent,p_due_day:body.verified_due_day,p_schedule:body.verified_schedule,
+      p_assignment:verifiedAssignment
     });
-    if(approvalError)return reply({error:'approval_conflict'},409);
+    if(approvalError){
+      // Clean up only the fresh, non-invited identity we just created.
+      // Never delete an existing user's credentials on an approval conflict.
+      if(createdForApproval&&uid){
+        const {error:cleanupError}=await service.auth.admin.deleteUser(uid);
+        if(cleanupError)console.error('approval_identity_cleanup_failed',cleanupError.code);
+      }
+      console.error('residence_approval_rejected',approvalError.code);
+      return reply({error:'approval_conflict'},409);
+    }
+    // Password-based registration is activated after the reception has approved identity and contract.
+    // Existing residents without a password still require the email-based recovery flow.
+    const {data:hasPassword,error:passwordError}=await service.rpc('residence_account_has_password',{p_user:uid});
+    if(!passwordError&&hasPassword===true){
+      const {error:confirmError}=await service.auth.admin.updateUserById(uid,{email_confirm:true});
+      if(!confirmError)loginReady=true;
+      else console.error('approved_login_activation_failed',confirmError.code);
+    }else if(passwordError)console.error('approved_password_check_failed',passwordError.code);
+    if(!loginReady){
+      const {error:welcomeError}=await service.auth.signInWithOtp({email,options:{
+        shouldCreateUser:false,emailRedirectTo:redirect
+      }});
+      if(welcomeError)console.error('student_access_email_failed',welcomeError.code);
+      else emailSent=true;
+    }
   }else{
     const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
     if(checkError)throw checkError;
@@ -111,7 +287,7 @@ Deno.serve(async(req)=>{
   const {error:auditError}=await service.from('audit_logs').insert({
     tenant_id:tenant,actor_id:user.id,action:'RESIDENT_ACCESS_APPROVED',entity:'organization_memberships',entity_id:uid
   });if(auditError)console.error('invite_audit_failed',auditError.code);
-  return reply({ok:true,email_sent:emailSent,existing_account:existingUser});
+  return reply({ok:true,email_sent:emailSent,login_ready:loginReady,existing_account:existingUser});
 
  }catch(e){console.error('manage_request_failed');return reply({error:'request_failed'},400)}
 });
