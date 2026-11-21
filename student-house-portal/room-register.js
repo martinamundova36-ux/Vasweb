@@ -507,10 +507,10 @@ export async function renderExcelRegister(ctx){
     key==='deposit_eur'&&Number(entry.stay?.rent)>0?(Number(entry.stay.rent)*2).toFixed(2):
     key==='administration_fee_eur'?'100.00':'';
    if(key==='deposit_eur'||key==='administration_fee_eur'){
-    input.readOnly=recorded!==null&&recorded!==undefined;
-    input.title=recorded!==null&&recorded!==undefined?
-     (ctx.lang==='en'?'Verified fee – edit only via an authorised finance correction':'Overená suma – zmeny rob iba cez autorizovanú opravu financií'):
-     (ctx.lang==='en'?'Suggested amount; reception must verify before saving':'Navrhnutá suma – recepcia ju musí pred uložením overiť');
+    input.required=true;
+    input.title=ctx.lang==='en'?
+     'Reception must verify; changing this amount updates the unpaid first payment charge':
+     'Recepcia overí sumu; zmena automaticky upraví nezaplatený predpis prvej úhrady';
    }
    const wrap=el('label','',label);wrap.append(input);form.append(wrap);feeInputs[key]=input;
   }
@@ -530,7 +530,14 @@ export async function renderExcelRegister(ctx){
     entry.detail={...entry.detail,...data[0]};const found=details.findIndex(x=>x.resident_id===person.id);
     if(found>=0)details[found]=entry.detail;else details.push(entry.detail);
     notice.textContent=w.saveOk;paint();
-   }catch{notice.textContent=w.saveError;save.disabled=false;cancel.disabled=false;}
+   }catch(error){
+    notice.textContent=String(error?.message||'').includes('fee_has_allocated_payments')?
+     (({sk:'Tento poplatok má už priradenú platbu. Opravu musí najprv preveriť recepcia vo financiách.',
+       en:'Payment has already been allocated to this fee. Reconcile the payment first.',
+       ru:'К этому сбору уже привязан платёж. Сначала проверьте оплату.',
+       uk:'До цього збору вже прив’язано платіж. Спершу звірте оплату.'})[ctx.lang]):w.saveError;
+    save.disabled=false;cancel.disabled=false;
+   }
   });
  }
  function exportRows(){
