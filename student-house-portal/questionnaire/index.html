@@ -1086,6 +1086,9 @@ async function renderProfile(tenant){
  if(!resident){empty();return;}
  const pieces=String(resident.full_name||'').trim().split(/\s+/);
  const first=pieces.shift()||'—',surname=pieces.join(' ')||'—';
+ const {stayPeriods}=await import('/student-house-portal/stay-periods.js?v=20261121-verified-periods1');
+ const durationMonths=stayPeriods(resident.accommodation_from,resident.accommodation_to).length;
+ const monthWord=({sk:'mesiacov',en:'months',ru:'месяцев',uk:'місяців'})[lang];
  const [tenancies,rooms,files,enquiries]=await Promise.all([
   list('tenancies',{resident_id:resident.id}),
   list('rooms'),
@@ -1096,7 +1099,7 @@ async function renderProfile(tenant){
  const room=tenancy?rooms.find(x=>x.id===tenancy.room_id):null;
  const grid=make('div','identity-grid'),photo=make('div','avatar-box','👤'),details=make('div','identity-fields');
  const photoRow=make('div');photoRow.append(photo);
- for(const [name,value] of [[dl('first'),first],[dl('last'),surname],[dl('room'),room?.name||resident.verified_room_number||dl('noRoom')],[({sk:"Číslo ubytovacej zmluvy",en:"Accommodation Contract No.",ru:"Номер договора проживания",uk:"Номер договору проживання"})[lang],resident.verified_contract_number||'—'],[lang==='en'?'Accommodation period':'Dĺžka ubytovania',(resident.accommodation_from&&resident.accommodation_to)?day(resident.accommodation_from)+' – '+day(resident.accommodation_to):'—'],[dl('email'),resident.email||user.email]]){
+ for(const [name,value] of [[dl('first'),first],[dl('last'),surname],[dl('room'),room?.name||resident.verified_room_number||dl('noRoom')],[({sk:"Číslo ubytovacej zmluvy",en:"Accommodation Contract No.",ru:"Номер договора проживания",uk:"Номер договору проживання"})[lang],resident.verified_contract_number||'—'],[lang==='en'?'Accommodation period':'Dĺžka ubytovania',(resident.accommodation_from&&resident.accommodation_to)?day(resident.accommodation_from)+' – '+day(resident.accommodation_to):'—'],[({sk:'Dĺžka pobytu',en:'Stay duration',ru:'Срок проживания',uk:'Тривалість проживання'})[lang],durationMonths?String(durationMonths)+' '+monthWord:'—'],[dl('email'),resident.email||user.email]]){
   const cell=make('div');cell.append(make('label','',name),make('div','readonly-value',value));details.append(cell);
  }
  const enquiry=enquiries[0]||{};
@@ -1215,7 +1218,7 @@ async function renderResidentDocuments(tenant,staff,own){
   const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
-  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261121-private-photos1'),list('residents')]);
+  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261121-verified-periods1'),list('residents')]);
   const [saving,,,,,approved,returned,scheduleApproved,saveError]=reviewCopy[lang]||reviewCopy.en;
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
@@ -1677,7 +1680,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261121-private-photos1');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261121-verified-periods1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
