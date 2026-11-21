@@ -107,3 +107,15 @@ test('contract and full-stay payment PDF are enabled only after reception approv
  assert.match(staff,/attachInstallmentDocument\(documentFlow/);
  assert.match(staff,/uploadPrivateDocument\(id,file,button,'schedule_draft'\)/);
 });
+
+
+test('QR payment form has an explicit submit button and explains incomplete IBAN instead of silently failing',()=>{
+  const code=readFileSync(resolve(root,'student-house-portal/installment-document.js'),'utf8');
+  assert.match(code,/node\('button','Potvrdiť údaje a vytvoriť QR PDF'\)/);
+  assert.match(code,/confirm\.type='submit'/);
+  assert.match(code,/form\.addEventListener\('submit',event=>\{event\.preventDefault\(\);void submitBank\(\);\}\)/);
+  assert.match(code,/^\s*if\(\/\^\\d\+\$\/\.test\(bank\.iban\)\)/m);
+  assert.match(code,/Slovenský IBAN musí mať presne 24 znakov/);
+  assert.match(code,/Zadané je iba číslo účtu, nie IBAN/);
+  assert.doesNotMatch(code,/PDF sa vytvorí automaticky/);
+});
