@@ -105,6 +105,56 @@ export async function renderStaffScreen(ctx) {
  filters.append(search,select);ctx.root.append(filters,count,el('p','small',w.limit));
  const results=el('div','staff-directory');ctx.root.append(results);
  const records=await ctx.list(ctx.section==='residents'?'residents':'registration_requests');
+ // Photos remain in the private tenant bucket. Only staff may request short-lived
+ // signed URLs; no image bytes or permanent storage URLs are stored in the list.
+ let privatePhotos=[];
+ if(ctx.section==='residents'){
+  try{privatePhotos=await ctx.list('residence_portal_files',{kind:'profile_photo',active:true});}
+  catch{privatePhotos=[];}
+ }
+ const photoByResident=new Map(),photoByUser=new Map(),photoUrlCache=new Map();
+ for(const record of privatePhotos.slice().sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')))){
+  if(record.tenant_id!==ctx.tenant||!record.active||record.kind!=='profile_photo')continue;
+  if(record.resident_id&&!photoByResident.has(record.resident_id))photoByResident.set(record.resident_id,record);
+  if(record.user_id&&!photoByUser.has(record.user_id))photoByUser.set(record.user_id,record);
+ }
+ const residentPhoto=person=>photoByResident.get(person.id)||photoByUser.get(person.user_id)||null;
+ const photoLabel=({sk:{empty:'Fotografia zatiaľ nenahraná',failed:'Fotografiu sa nepodarilo načítať',label:'Fotografia študenta'},
+  en:{empty:'Photo not uploaded yet',failed:'Unable to load photo',label:'Student photo'},
+  ru:{empty:'Фото пока не загружено',failed:'Не удалось загрузить фото',label:'Фото студента'},
+  uk:{empty:'Фото ще не завантажено',failed:'Не вдалося завантажити фото',label:'Фото студента'}})[ctx.lang]||
+  {empty:'Fotografia zatiaľ nenahraná',failed:'Fotografiu sa nepodarilo načítať',label:'Fotografia študenta'};
+ async function signedPhotoUrl(record){
+  const cached=photoUrlCache.get(record.id);
+  if(cached?.url&&cached.validUntil>Date.now()+10000)return cached.url;
+  if(cached?.pending)return cached.pending;
+  const pending=ctx.fileLink(record.id,ctx.tenant,true).then(url=>{
+   if(url)photoUrlCache.set(record.id,{url,validUntil:Date.now()+55000});
+   else photoUrlCache.delete(record.id);
+   return url||null;
+  }).catch(()=>{photoUrlCache.delete(record.id);return null;});
+  photoUrlCache.set(record.id,{pending});
+  return pending;
+ }
+ function residentPhotoView(person,compact=false){
+  const root=el('div',compact?'staff-resident-photo staff-resident-photo-small':'staff-resident-photo staff-resident-photo-large');
+  root.setAttribute('aria-label',photoLabel.label+': '+String(person.full_name||''));
+  const record=residentPhoto(person);
+  if(!record){root.append(el('span','staff-resident-photo-placeholder',photoLabel.empty));return root;}
+  const image=el('img','staff-resident-photo-image');
+  image.alt=photoLabel.label+' – '+String(person.full_name||'');
+  image.loading='lazy';image.decoding='async';image.referrerPolicy='no-referrer';
+  const fallback=()=>{if(root.isConnected){root.replaceChildren(el('span','staff-resident-photo-placeholder',photoLabel.failed));}};
+  image.addEventListener('error',fallback,{once:true});
+  root.append(image);
+  void signedPhotoUrl(record).then(url=>{
+   if(!ctx.isCurrent()||!root.isConnected)return;
+   if(!url){fallback();return;}
+   image.src=url;
+  });
+  return root;
+ }
+
  const verifiedResidents=ctx.section==='registrations'?await ctx.list('residents'):[];
  const registeredQuestionnaires=ctx.section==='registrations'?await ctx.list('registration_enquiries'):[];
  const roomCatalog=ctx.section==='registrations'?await ctx.list('rooms'):[];
@@ -158,6 +208,7 @@ export async function renderStaffScreen(ctx) {
   for(const person of filtered){
    const card=el('article','staff-person');
    const name=ctx.section==='residents'?person.full_name:[person.first_name,person.last_name].join(' ');
+   if(ctx.section==='residents')card.append(residentPhotoView(person,true));
    card.append(el('h4','',name),el('p','muted',person.email),el('p','',w.room+': '+(person.verified_room_number||person.room_number||w.noRoom)));
    card.append(el('span','status-pill',ctx.section==='residents'?(person.active?w.activeOne:w.inactiveOne):state(person.status)));
    if(ctx.section==='residents')card.append(button(w.open,()=>{void profile(person);}));
@@ -411,6 +462,7 @@ export async function renderStaffScreen(ctx) {
   if(!ctx.isCurrent())return;
   filters.hidden=true;count.hidden=true;results.className='staff-profile';results.replaceChildren(button(w.back,()=>{filters.hidden=false;count.hidden=false;results.className='staff-directory';paint();}));
   results.append(el('h3','',person.full_name));
+  results.append(residentPhotoView(person,false));
   const details=el('dl','identity-fields');
   details.append(field(w.email,person.email),field(w.room,person.verified_room_number||w.noRoom),field(w.contract,person.verified_contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.state,person.active?w.activeOne:w.inactiveOne));results.append(details);
   const form=el('form','staff-form'),room=el('input');room.value=person.verified_room_number||'';room.maxLength=30;room.setAttribute('aria-label',w.room);
