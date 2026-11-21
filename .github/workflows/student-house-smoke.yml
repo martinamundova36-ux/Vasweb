@@ -72,9 +72,15 @@ jobs:
               body:JSON.stringify({privacy_acknowledged:false})
             });
             const body=await response.json();
-            if(response.status!==400 || body.error!=='invalid_fields'){
+            if(response.status!==400 || body.error!=='invalid_stay_dates'){
               throw new Error('Unexpected endpoint response: '+response.status+' '+JSON.stringify(body));
             }
+            const withoutConsent=await fetch('https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student',{
+              method:'POST',headers:{origin:'https://www.webu.sk','content-type':'application/json'},
+              body:JSON.stringify({accommodation_from:'2027-02-01',accommodation_to:'2027-06-30',preferred_duration_months:5,expected_arrival:'2027-02-11',privacy_acknowledged:false})
+            });
+            const rejectedBody=await withoutConsent.json();
+            if(withoutConsent.status!==400 || rejectedBody.error!=='invalid_fields')throw new Error('Missing consent/identity not rejected: '+withoutConsent.status+' '+JSON.stringify(rejectedBody));
             const options = await fetch('https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student',{
               method:'OPTIONS',headers:{origin:'https://www.webu.sk','access-control-request-method':'POST','access-control-request-headers':'content-type'}
             });

@@ -26,7 +26,7 @@ function scenario(type, event, manual=false){
  }};
  const ctx={URLSearchParams,location,window:{location,supabase:{createClient:()=>fakeDb}},
   portalStorageKey:'test-isolated-session',U:'https://example.invalid',K:'synthetic',
-  db:null,resetMode:false,user:null,member:null,
+  db:null,resetMode:false,user:null,member:null,requireExplicitSignIn:manual,
   signedIn:async user=>{calls.push(['signedIn',user.id]);},
   showPasswordRecovery:()=>{calls.push(['recovery']);ctx.resetMode=true;},
   history:{replaceState(){}},
