@@ -304,7 +304,9 @@ export async function renderStaffScreen(ctx) {
   })[ctx.lang]||{};
   actions.append(el('h4','',t.title));
   if(![5,10,12].includes(duration)){actions.append(el('p','danger',t.missing));return;}
-  const form=el('form','staff-form registration-approval-form'),contract=el('input'),room=el('select'),rent=el('input'),due=el('input'),firstDue=el('input');
+  const arrivalCopy=({sk:['Skutočný príchod','Vyplň iba ak študent už prišiel. Inak nechaj prázdne; dátum doplníš v jeho profile alebo Exceli.'],en:['Actual arrival','Enter only if the student has already arrived. Otherwise leave empty and record it later in their profile or Excel register.'],ru:['Фактический заезд','Укажите только после фактического прибытия. Иначе оставьте пустым и заполните позже в профиле или реестре.'],uk:['Фактичне прибуття','Вкажіть лише після прибуття. Інакше залиште порожнім і заповніть пізніше у профілі або реєстрі.']})[ctx.lang];
+  const form=el('form','staff-form registration-approval-form'),contract=el('input'),room=el('select'),rent=el('input'),due=el('input'),firstDue=el('input'),actualArrival=el('input');
+  actualArrival.type='date';actualArrival.max=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'});actualArrival.value='';
   contract.type='text';contract.required=true;contract.minLength=5;contract.maxLength=100;contract.value=person.contract_number||'';
   const blank=el('option','',t.choose);blank.value='';room.append(blank);
   for(const r of [...roomCatalog].sort((a,b)=>String(a.name).localeCompare(String(b.name),'sk',{numeric:true}))){const o=el('option','',r.name+' · '+r.category+' ('+r.capacity+')');o.value=r.name;room.append(o);}
@@ -318,6 +320,7 @@ export async function renderStaffScreen(ctx) {
   const to=new Date(Date.UTC(y,m-1+duration,0)).toISOString().slice(0,10);
   if(to!==person.accommodation_to){actions.append(el('p','danger',t.missing));return;}
   form.append(el('p','mini-note',t.stay+': '+duration+' '+t.months+' · '+ctx.day(from)+' – '+ctx.day(to)),el('p','mini-note',t.arrival+': '+ctx.day(q?.preferred_from||from)));
+  const actualLabel=el('label','',arrivalCopy[0]);actualLabel.append(actualArrival);form.append(actualLabel,el('p','mini-note',arrivalCopy[1]));
   for(const [label,input] of [[t.contract,contract],[t.room,room],[t.rent,rent],[t.due,due],[t.first,firstDue]]){const l=el('label','',label);l.append(input);form.append(l);}
   const preview=el('details','staff-form'),summary=el('summary','',t.preview+' ('+duration+')'),rowsHost=el('div');preview.append(summary,rowsHost);
   const total=el('p','mini-note'),error=el('p','danger');error.setAttribute('role','alert');
@@ -339,7 +342,7 @@ export async function renderStaffScreen(ctx) {
    e.preventDefault();if(!form.reportValidity())return;
    if(contract.value.trim().length<5||!roomCatalog.some(r=>r.name===room.value)){error.textContent=t.invalid;return;}
    if(contractConflict({...person,contract_number:contract.value.trim()})){error.textContent=t.conflict;return;}
-   void decide(person,true,actions,approve,{verified_assignment:{contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from,accommodation_to:to},verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:schedule()});
+   void decide(person,true,actions,approve,{verified_assignment:{contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from,accommodation_to:to,actual_arrival_on:actualArrival.value||null},verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:schedule()});
   });
   actions.append(form);refresh();
  }
@@ -364,7 +367,7 @@ export async function renderStaffScreen(ctx) {
    if(!ctx.isCurrent())return;
    if(response.error||(approve?!response.data?.ok:!response.data?.length)){
     const code=await failureCode(response.error,response.data);
-    message.textContent=code==='verified_assignment_required'?(ctx.lang==='en'?'Complete and verify contract, room and stay dates.':'Doplň overené číslo zmluvy, izbu a termín pobytu.'):['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending','approval_conflict','reception_assignment_required'].includes(code)?w.conflict:saveError;
+    message.textContent=code==='invalid_actual_arrival'?(({sk:'Skutočný príchod nesmie byť v budúcnosti.',en:'Actual arrival cannot be in the future.',ru:'Фактический заезд не может быть в будущем.',uk:'Фактичне прибуття не може бути в майбутньому.'})[ctx.lang]):code==='verified_assignment_required'?(ctx.lang==='en'?'Complete and verify contract, room and stay dates.':'Doplň overené číslo zmluvy, izbu a termín pobytu.'):['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending','approval_conflict','reception_assignment_required'].includes(code)?w.conflict:saveError;
     status(message.textContent,true);
     return;
    }
@@ -420,6 +423,25 @@ export async function renderStaffScreen(ctx) {
     person.verified_room_number=room.value.trim();status(ctx.success);details.children[1].querySelector('dd').textContent=room.value.trim()||w.noRoom;
    }catch{if(ctx.isCurrent())status(w.failed,true);}finally{save.disabled=false;}
   });results.append(form);
+  const arrivalWords=({sk:['Skutočný príchod','Zatiaľ nepotvrdený','Uložiť skutočný príchod','✓ Skutočný príchod uložený','Dátum sa nepodarilo načítať alebo uložiť.'],en:['Actual arrival','Not yet confirmed','Save actual arrival','✓ Actual arrival saved','Unable to load or save date.'],ru:['Фактический заезд','Не подтверждён','Сохранить дату заезда','✓ Дата заезда сохранена','Не удалось загрузить или сохранить дату.'],uk:['Фактичне прибуття','Не підтверджено','Зберегти дату прибуття','✓ Дату прибуття збережено','Не вдалося завантажити або зберегти дату.']})[ctx.lang];
+  const arrivalForm=el('form','staff-form'),arrivalInput=el('input'),arrivalNotice=el('p','mini-note'),arrivalSave=el('button','',arrivalWords[2]);
+  arrivalInput.type='date';arrivalInput.max=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'});arrivalInput.disabled=true;arrivalSave.type='submit';arrivalSave.disabled=true;arrivalNotice.setAttribute('role','status');
+  const al=el('label','',arrivalWords[0]);al.append(arrivalInput);arrivalForm.append(al,arrivalNotice,arrivalSave);results.append(arrivalForm);
+  try{
+   const {data,error}=await ctx.db.from('resident_staff_details').select('actual_arrival_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle();
+   if(error)throw error;
+   if(!ctx.isCurrent()||!arrivalForm.isConnected)return;
+   arrivalInput.value=data?.actual_arrival_on||'';arrivalNotice.textContent=arrivalInput.value?ctx.day(arrivalInput.value):arrivalWords[1];arrivalInput.disabled=false;arrivalSave.disabled=false;
+  }catch{arrivalNotice.textContent=arrivalWords[4];}
+  arrivalForm.addEventListener('submit',async e=>{
+   e.preventDefault();if(!ctx.isCurrent()||arrivalSave.disabled||!arrivalForm.reportValidity())return;
+   arrivalSave.disabled=true;
+   try{
+    const {data,error}=await ctx.db.from('resident_staff_details').upsert({tenant_id:ctx.tenant,resident_id:person.id,actual_arrival_on:arrivalInput.value||null},{onConflict:'tenant_id,resident_id'}).select('actual_arrival_on').single();
+    if(error)throw error;
+    arrivalInput.value=data.actual_arrival_on||'';arrivalNotice.textContent=arrivalWords[3]+(arrivalInput.value?' · '+ctx.day(arrivalInput.value):' · '+arrivalWords[1]);arrivalNotice.classList.add('staff-approval-success');
+   }catch{arrivalNotice.textContent=arrivalWords[4];arrivalNotice.classList.remove('staff-approval-success');}finally{arrivalSave.disabled=false;}
+  });
   const enquiryTitle=({sk:'Osobný dotazník študenta',en:'Student personal questionnaire',ru:'Анкета студента',uk:'Анкета студента'})[ctx.lang]||'Osobný dotazník študenta';
   const enquiryBox=el('section','data-card');
   enquiryBox.append(el('h4','section-subtitle',enquiryTitle));
