@@ -142,7 +142,7 @@ Deno.serve(async(req)=>{
   // Any resident may submit a public request, but only verified reception staff can approve it.
   // Do not accept contract dates/numbers from a browser acting as an unverified resident.
   let registration:Record<string,string>|null=null;
-  let verifiedAssignment:{contract_number:string;room_number:string;accommodation_from:string;accommodation_to:string;actual_arrival_on?:string}|null=null;
+  let verifiedAssignment:{contract_number:string;room_number:string;accommodation_from:string;accommodation_to:string;room_code:string;deposit_eur:string;administration_fee_eur:string;actual_arrival_on?:string}|null=null;
   if(role==='student'&&body.registration_id){
     if(typeof body.registration_id!=='string'||!/^[0-9a-f-]{36}$/i.test(body.registration_id))return reply({error:'invalid_registration'},400);
     const {data:request,error:requestError}=await client.from('registration_requests')
@@ -168,7 +168,19 @@ Deno.serve(async(req)=>{
     if(roomError||!confirmedRoom)return reply({error:'reception_assignment_required'},409);
     const actual_arrival_on=typeof raw.actual_arrival_on==='string'?raw.actual_arrival_on:'';
     if(actual_arrival_on&&(!validDay(actual_arrival_on)||actual_arrival_on>new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'})))return reply({error:'invalid_actual_arrival'},400);
-    verifiedAssignment={contract_number,room_number,accommodation_from,accommodation_to,...(actual_arrival_on?{actual_arrival_on}:{})};
+    // Required verified values are authored by reception; the DB stores them
+    // atomically with the approved registration, room and monthly rent ledger.
+    const room_code=typeof raw.room_code==='string'?raw.room_code.trim():'';
+    const deposit_eur=String(raw.deposit_eur??'');
+    const administration_fee_eur=String(raw.administration_fee_eur??'');
+    const euroAmount=/^[0-9]{1,6}([.][0-9]{1,2})?$/;
+    if(room_code.length<1||room_code.length>60||/[\x00-\x1f\x7f]/.test(room_code))
+      return reply({error:'room_code_required'},400);
+    if(!euroAmount.test(deposit_eur)||!euroAmount.test(administration_fee_eur)||
+       Number(deposit_eur)>100000||Number(administration_fee_eur)>100000)
+      return reply({error:'verified_fees_required'},400);
+    verifiedAssignment={contract_number,room_number,accommodation_from,accommodation_to,
+      room_code,deposit_eur,administration_fee_eur,...(actual_arrival_on?{actual_arrival_on}:{})};
     registration=request;
   }
 
