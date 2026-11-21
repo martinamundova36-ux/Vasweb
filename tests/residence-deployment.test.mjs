@@ -83,3 +83,12 @@ test('new registration creates no staff-owned room assignment and accepts questi
  for(const key of ['parent_contact_email','permanent_address','gender','school'])assert.ok(sql.includes("coalesce(p_data->>'"+key+"','')"));
  assert.match(manage,/Math\.floor\(Date\.now\(\)\/(?:120000|600000)\)/);
 });
+
+
+test('root Supabase deploy sources exactly match the audited residence endpoint implementations', () => {
+ for(const name of ['register-student','registration-correction','manage']) {
+  const source=readFileSync(join(root,'student-house-portal/supabase',name,'index.ts'),'utf8');
+  const deployment=readFileSync(join(root,'supabase/functions',name,'index.ts'),'utf8');
+  assert.equal(deployment,source,'Stale or unsafe Supabase deployment copy for '+name);
+ }
+});
