@@ -34,6 +34,18 @@ Suggested Cloudflare Pages settings **after** ownership/connectivity is confirme
 
 This only prepares an artifact. It does not connect Cloudflare, switch DNS, or publish the portal.
 
+## Additional findings and changes – 21 November 2026
+
+- Current resident names, email addresses and accounts were confirmed by the owner to be **test data**. Do not treat old incomplete student profiles as official records; plan a controlled reset after verification.
+- Clean-up runbook: `LAUNCH-RESET-RUNBOOK.md`. Real outreach templates: `REAL-STUDENT-INVITATION.md`.
+- An over-broad `registration_pending_edits_guard` UPDATE RLS policy was removed via migration `restrict_pending_registration_updates_to_staff`; follow-up policy query confirms the remaining UPDATE policy checks reception/org admin.
+- Corrected registration has a new service-only atomic DB function `residence_apply_registration_correction` (migration applied and tested in a rolled-back transaction). It keeps staff-assigned room and contract, synchronizes requested duration/arrival dates and consumes the correction token once.
+- Recovery URLs in browser pages now follow `location.origin`. The configurable `PORTAL_ORIGIN` environment variable is prepared for backend `manage`, `residence-finance` and `registration-correction`; `RESIDENCE_PORTAL_BASE_URL` for mail worker. **Do not set either to an unverified domain; deploy backend functions together with the approved portal frontend.**
+- Registration correction screen now supports SK/EN/RU/UA, explicitly distinguishes expected physical arrival, and no longer exposes staff-assigned room number or an unsafe email edit.
+- Connected Gmail inbox contained test registration, questionnaire and reception approval messages; this verifies only the specific mailbox, not every deliverability path.
+- WordPress.com Student House media library search returned **zero PDF documents**. The Supabase portal currently has one active rules template, so the other four **approved official** templates remain a hard launch blocker.
+- Database audit shows 66 room entries versus 64 managerial room rows expected. Do not delete or edit room inventory without mapping and manager approval.
+
 ## Must be completed before real students sign in
 
 1. **Domain and hosting:** verify ownership and SSL for `portal.student-house.sk` or choose another approved HTTPS portal domain. Set up a *separate* Cloudflare Pages project for this isolated build. Do not overwrite the main WEBU or WordPress sites.
