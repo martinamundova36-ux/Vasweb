@@ -18,6 +18,7 @@ test('Cloudflare release contains browser files, never server/database code or i
     const out = join(tmp, 'output');
     for(const file of ['index.html','admin/index.html','student/index.html','questionnaire/index.html','icons/icon.svg','manifest.webmanifest','sw.js']) put(join(src,file));
     put(join(src,'staff.js'),'browser code');
+    put(join(src,'preview.html'),'DEMO PREVIEW');
     put(join(src,'supabase/manage/index.ts'),'NEVER PUBLISH');
     put(join(src,'supabase/migrations/secret.sql'),'NEVER PUBLISH');
     put(join(src,'reports/private-test.txt'),'NEVER PUBLISH');
@@ -31,6 +32,7 @@ test('Cloudflare release contains browser files, never server/database code or i
     assert.equal(readFileSync(join(out,'student-house-portal/icons/icon-192.png'),'utf8'),'PNG');
     assert.equal(existsSync(join(out,'student-house-portal/supabase')),false);
     assert.equal(existsSync(join(out,'student-house-portal/reports')),false);
+    assert.equal(existsSync(join(out,'student-house-portal/preview.html')),false);
     assert.equal(existsSync(join(out,'student-house-portal/DOCUMENTS-SETUP.md')),false);
     assert.match(readFileSync(join(out,'_headers'),'utf8'),/X-Robots-Tag: noindex/);
     assert.match(readFileSync(join(out,'_redirects'),'utf8'),/\/student-house-portal\/ 302/);
