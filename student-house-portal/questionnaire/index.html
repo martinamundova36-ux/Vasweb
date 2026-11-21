@@ -437,8 +437,8 @@ function translateQuestionnairePreview(){
 const staffEntryMode=document.body.dataset.portalEntry==='admin'||(!document.body.dataset.portalEntry&&new URLSearchParams(location.search).get('view')==='reception');
 // Student and reception use different stored sessions. Preserve the original admin session.
 const portalStorageKey=staffEntryMode?'sb-ydqchayscxntqdkzkynv-auth-token':'sb-ydqchayscxntqdkzkynv-student-auth-token';
-let studentQuestionnaireSaved=false;
-const studentProfileOpen=()=>!!resident&&(!!resident.profile_password_activated_at||studentQuestionnaireSaved);
+// A submitted questionnaire is NOT approval; only server-confirmed profile activation unlocks the profile.
+const studentProfileOpen=()=>!!resident&&!!resident.profile_password_activated_at;
 const portalRoleAllowed=role=>staffEntryMode?(role==='reception'||role==='org_admin'):role==='student';
 const portalMessages={
  sk:{student:"Toto je účet recepcie alebo administrátora. Pre študentskú zónu sa prihlás samostatným schváleným študentským účtom.",staff:"Tento účet nemá oprávnenie recepcie.",switchStudent:"Študentské prihlásenie",switchStaff:"Recepcia / Admin"},
@@ -640,7 +640,7 @@ async function list(table,filter){
 async function chooseOrganization(tenantId){
  const chosen=memberships.find(m=>m.tenant_id===tenantId);
  if(!chosen)return;
- member=chosen;resident=null;studentQuestionnaireSaved=false;
+ member=chosen;resident=null;
  const name=organizationNames[tenantId]||'Ubytovacie zariadenie';
  $('orgLabel').textContent=name.toUpperCase();
  document.title=name+' | '+(member.role==='student'?dashboardLabel('student'):dashboardLabel('admin'));
@@ -665,7 +665,6 @@ async function chooseOrganization(tenantId){
   const needsCorrection=review?.review_status==='needs_correction'
    && Date.parse(String(questionnaire?.updated_at||questionnaire?.created_at||''))<=Date.parse(String(review.requested_at||''));
   const isCompleted=!!questionnaire?.student_submitted_at&&!!photos?.length;
-  studentQuestionnaireSaved=!questionError&&!photoError&&isCompleted;
   const wantsEnquiry=new URLSearchParams(location.search).get('tab')==='enquiry';
   if(!studentProfileOpen()){
    tab=isCompleted&&!needsCorrection?'await-profile':'enquiry';
@@ -1515,8 +1514,8 @@ async function renderPanel(){
    const {renderStudentEnquiry}=await import('/student-house-portal/enquiry.js?v=i18n2-20261120-profile-save1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant||!resident)return;
    await renderStudentEnquiry({root:container,db,tenant,resident,user,lang,list,fileLink,
-    onSaved:()=>{studentQuestionnaireSaved=true;renderTabs();updateOnboardingNotice();},
-    onComplete:()=>navigate('profile'),
+    onSaved:()=>{renderTabs();updateOnboardingNotice();},
+    onComplete:()=>navigate('await-profile'),
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='enquiry'});
    return;
   }

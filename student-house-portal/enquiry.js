@@ -152,7 +152,7 @@ export async function renderStudentEnquiry(ctx){
      :t.saved);
    ctx.onSaved?.();
    if(!actionRow.querySelector('.enquiry-completed')){
-    const next=n('button','btn-secondary enquiry-completed',({sk:'Otvoriť môj profil',en:'Open my profile',ru:'Открыть мой профиль',uk:'Відкрити мій профіль'})[ctx.lang]);
+    const next=n('button','btn-secondary enquiry-completed',({sk:'Skontrolovať stav dotazníka',en:'Check questionnaire status',ru:'Проверить статус анкеты',uk:'Перевірити стан анкети'})[ctx.lang]);
     next.type='button';next.addEventListener('click',()=>ctx.onComplete?.());
     actionRow.append(next);
    }

@@ -45,6 +45,17 @@ const state=async(_,q)=>{
    mail.push({to:email,subject:'QA registration approved',simulated:true});
    return result({ok:true,login_ready:true});
   }
+  if(q.name==='manage'&&b.action==='send_profile_invite'){
+   assert.equal(q.user,student);assert.equal(rows('resident_enquiry_reviews')[0]?.review_status,'approved');
+   mail.push({to:email,subject:'QA profile invitation',simulated:true});return result({ok:true,email_sent:true});
+  }
+  if(q.name==='manage'&&b.action==='activate_profile'){
+   assert.equal(q.user,student);assert.equal(rows('resident_enquiry_reviews')[0]?.review_status,'approved');
+   assert.ok(rows('resident_enquiries')[0]?.student_submitted_at);
+   assert.ok(rows('residence_portal_files').some(x=>x.kind==='profile_photo'));
+   rows('residents')[0].profile_password_activated_at=stamp();
+   return result({ok:true,profile_activated:true});
+  }
   if(q.name==='residence-files'){
    if(b.action==='upload'){assert.equal(q.user,student);addFile(b.kind,b.fileName||'QA-file');return result({ok:true});}
    if(b.action==='review'){assert.equal(q.user,admin);const x=rows('residence_portal_files').find(x=>x.id===b.file_id);assert.ok(x);x.review_status=b.status;return result({ok:true});}
@@ -113,21 +124,33 @@ try{
  for(const [k,v] of Object.entries({permanent_address:'QA test address',date_of_birth:'2001-01-02',nationality:'Slovak',identity_document_number:'QA-PASSPORT',telephone:'+421900000000',parent_contact_email:'parent@example.invalid',school:'QA University',iban:'QA-TEST-ONLY'}))await p.locator('#enquiry-'+k).fill(v);
  await p.locator('.enquiry-grid select').nth(0).selectOption('female');await p.locator('.enquiry-grid select').nth(1).selectOption('no');
  await p.locator('.enquiry-form input[type=file]').setInputFiles({name:'QA-photo.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jVZkAAAAASUVORK5CYII=','base64')});
- await p.getByRole('button',{name:'Uložiť dotazník a fotografiu'}).click();await p.locator('.enquiry-form .staff-approval-success').waitFor();assert.equal(rows('resident_enquiries')[0].own_refrigerator,false);console.log('QA STEP 4 questionnaire submitted and photo captured');
+ await p.getByRole('button',{name:'Uložiť dotazník a fotografiu'}).click();await p.locator('.enquiry-form .staff-approval-success').waitFor();assert.equal(rows('resident_enquiries')[0].own_refrigerator,false);
+ assert.equal(await p.locator('#tabs').isVisible(),false,'Submitting questionnaire must NOT unlock student profile');
+ await p.getByRole('button',{name:'Skontrolovať stav dotazníka'}).click();
+ await p.getByText('Dotazník čaká na kontrolu recepcie').waitFor();
+ console.log('QA STEP 4 questionnaire submitted and photo captured; student profile remains locked');
  await tab(a,'Študenti');await a.getByRole('button',{name:'Otvoriť profil',exact:true}).click();
  await a.getByRole('button',{name:'Schváliť správne vyplnený dotazník'}).click();await a.getByText('✓ Dotazník schválený',{exact:true}).waitFor();assert.equal(rows('resident_enquiry_reviews')[0].review_status,'approved');console.log('QA STEP 5 reception questionnaire approval');
- await p.getByRole('button',{name:'Otvoriť môj profil'}).click();await p.locator('#tabs button').filter({hasText:'Dokumenty'}).waitFor();await tab(p,'Dokumenty');
+ await p.reload();await p.locator('#login:not(.hide)').waitFor();await sign(p,email);
+ await p.getByRole('button',{name:'Aktivovať môj profil'}).waitFor();
+ assert.equal(await p.locator('#tabs').isVisible(),false,'Approval alone does not bypass explicit activation');
+ await p.getByRole('button',{name:'Poslať odkaz na obnovu hesla (voliteľné)'}).click();
+ assert.equal(mail.filter(x=>x.subject==='QA profile invitation').length,1,'Profile invitation is emitted only after approval');
+ await p.getByRole('button',{name:'Aktivovať môj profil'}).click();
+ await p.locator('#tabs button').filter({hasText:'Stiahnuť / nahrať'}).waitFor();
+ await tab(p,'Stiahnuť / nahrať');
+ console.log('QA STEP 6 profile activated after review, optional invitation issued, documents opened');
  await p.locator('.document-flow-card').first().waitFor();assert.equal(await p.locator('.document-flow-card').count(),6);
  const pdf={name:'QA-not-a-legal-document.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-1.4\n% synthetic test payload - not an official document\n%%EOF')};
  for(let i=0;i<6;i++){
   const card=p.locator('.document-flow-card').nth(i);await card.locator('input[type=file]').setInputFiles(pdf);await card.getByRole('button',{name:'Nahrať súbor',exact:true}).click();await card.locator('.document-flow-submitted').waitFor();
  }
  assert.equal(rows('residence_portal_files').filter(x=>x.kind.startsWith('signed_')).length,6);
- await tab(a,'Dokumenty');for(let i=0;i<6;i++){await a.getByRole('button',{name:'Schváliť',exact:true}).first().click();await a.waitForFunction(n=>[...document.querySelectorAll('button')].filter(b=>b.textContent==='Schváliť').length===n,5-i);}
+ await tab(a,'Správa dokumentov');for(let i=0;i<6;i++){await a.getByRole('button',{name:'Schváliť',exact:true}).first().click();await a.waitForFunction(n=>[...document.querySelectorAll('button')].filter(b=>b.textContent==='Schváliť').length===n,5-i);}
  assert.equal(rows('residence_portal_files').filter(x=>x.kind.startsWith('signed_')&&x.review_status==='approved').length,6);
- await tab(p,'Platby');await tab(p,'Dokumenty');assert.equal(await p.locator('.document-flow-card .status-approved').count(),6);
- assert.equal(rows('payments').length,0);assert.equal(mail.length,2);
- console.log('QA STEP 6 five signed document uploads plus schedule, staff review and student visibility; simulated mail only');
+ await tab(p,'Platby');await tab(p,'Stiahnuť / nahrať');assert.equal(await p.locator('.document-flow-card .status-approved').count(),6);
+ assert.equal(rows('payments').length,0);assert.equal(mail.length,3);
+ console.log('QA STEP 7 five signed document uploads plus schedule, staff review and student visibility; simulated mail only');
  console.log('QA JOURNEY PASS: single linked synthetic student, separate reception, full calendar, questionnaire/photo and documents; no production writes.');
  await ctx.close();
 }finally{await browser.close();}
