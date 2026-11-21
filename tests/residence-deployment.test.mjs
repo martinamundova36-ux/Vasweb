@@ -54,3 +54,20 @@ test('password recovery redirects stay on the deployed portal origin', () => {
   assert.match(manage, /Deno\.env\.get\('PORTAL_ORIGIN'\)/);
   assert.match(mail, /Deno\.env\.get\('RESIDENCE_PORTAL_BASE_URL'\)/);
 });
+
+test('correction does not expose staff room number, updates expected arrival and supports four languages', () => {
+  const page=readFileSync(join(root,'student-house-portal/correction/index.html'),'utf8');
+  const edge=readFileSync(join(root,'student-house-portal/supabase/registration-correction/index.ts'),'utf8');
+  const sql=readFileSync(join(root,'student-house-portal/supabase/migrations/20261121_atomic_correction_preserve_staff_assignment.sql'),'utf8');
+  assert.doesNotMatch(page,/id="room_number"/);
+  assert.match(page,/id="expected_arrival"/);
+  assert.match(page,/preferred_duration_months/);
+  for (const lang of ['sk:','en:','ru:','uk:']) assert.ok(page.includes(lang), 'missing translation '+lang);
+  assert.doesNotMatch(edge,/room_number:updated\.room_number/);
+  assert.match(edge,/residence_apply_registration_correction/);
+  assert.match(edge,/PORTAL_ORIGIN/);
+  assert.match(sql,/preferred_duration_months=duration, preferred_from=arriving_on, preferred_to=end_on/);
+  assert.match(sql,/revoke all on function public\.residence_apply_registration_correction/);
+  const finance=readFileSync(join(root,'student-house-portal/supabase/residence-finance/index.ts'),'utf8');
+  assert.match(finance,/Deno\.env\.get\("PORTAL_ORIGIN"\)/);
+});
