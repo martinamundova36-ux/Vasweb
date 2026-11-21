@@ -10,6 +10,8 @@ This is the **existing** Student House Bratislava application. Do not create a s
 - Auth: 13 accounts; 10 active resident records at audit time.
 - Storage: two **private** buckets (`residence-portal-files`, `residence-private`). The first had nine stored files, approximately 6.96 MB.
 - Documents: only **one active PDF template** of the main required document templates was found; this is a blocker for the complete student onboarding workflow.
+- Finance: only **one installment plan for ten active resident records** exists in `installment_plans` (other rent-charge rows exist separately). Verify whether every approved resident has the promised full-stay payment schedule before launch.
+- Seven resident questionnaires currently exist; receipt/approval and propagation into profiles and documents must be tested end to end.
 - Residence mail outbox: 46 messages marked `accepted` by SMTP, **not verified inbox delivery**.
 - Security Advisor: three callable SECURITY DEFINER RPCs need role-isolation tests. Their current bodies contain authorization checks, so do not blindly revoke access; verify both authorized and unauthorized callers. Leaked-password protection is disabled.
 - Database size at audit time: about 20 MB.
