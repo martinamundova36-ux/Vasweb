@@ -1,0 +1,115 @@
+-- SH Bratislava: Billable accommodation periods must start on the first of a calendar month.
+-- Preserve actual/expected arrival independently; do not alter historical approved contracts.
+CREATE OR REPLACE FUNCTION public.residence_submit_registration(p_tenant uuid, p_data jsonb)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare rid uuid; duration integer; start_date date; end_date date; arrival_date date;
+begin
+ if coalesce(p_data->>'preferred_duration_months','') not in ('5','10','12') then
+  raise exception 'invalid_stay_duration' using errcode='22023';
+ end if;
+ duration:=(p_data->>'preferred_duration_months')::integer;
+ start_date:=(p_data->>'accommodation_from')::date;
+ end_date:=(p_data->>'accommodation_to')::date;
+ arrival_date:=(p_data->>'expected_arrival')::date;
+ if start_date is null or end_date is null or arrival_date is null
+ or extract(day from start_date) <> 1 or start_date < date '2000-01-01' or start_date >= date '2100-01-01'
+ or end_date <> (date_trunc('month',start_date::timestamp)+make_interval(months=>duration)-interval '1 day')::date
+ or arrival_date < start_date or date_trunc('month',arrival_date::timestamp)<>date_trunc('month',start_date::timestamp)
+ then raise exception 'invalid_stay_dates' using errcode='22023'; end if;
+ perform pg_advisory_xact_lock(hashtextextended(p_tenant::text||':'||lower(p_data->>'email'),0));
+ select id into rid from public.registration_requests where tenant_id=p_tenant and lower(email)=lower(p_data->>'email') and status in ('pending','correction_requested') order by created_at desc limit 1;
+ if found then return jsonb_build_object('id',rid,'existing',true);end if;
+ insert into public.registration_requests(tenant_id,first_name,last_name,email,room_number,accommodation_from,accommodation_to,status,privacy_acknowledged_at)
+ values(p_tenant,p_data->>'first_name',p_data->>'last_name',lower(p_data->>'email'),nullif(p_data->>'room_number',''),(p_data->>'accommodation_from')::date,(p_data->>'accommodation_to')::date,'pending',now()) returning id into rid;
+ insert into public.registration_enquiries(registration_id,tenant_id,permanent_address,date_of_birth,nationality,gender,identity_document_number,telephone,parent_contact_email,school,iban,preferred_room_type,preferred_duration_months,preferred_from,preferred_to)
+ values(rid,p_tenant,p_data->>'permanent_address',nullif(p_data->>'date_of_birth','')::date,p_data->>'nationality',p_data->>'gender','',p_data->>'telephone',p_data->>'parent_contact_email',p_data->>'school','',p_data->>'preferred_room_type',duration,arrival_date,end_date);
+ return jsonb_build_object('id',rid,'existing',false);
+end $function$
+;
+
+CREATE OR REPLACE FUNCTION public.residence_approve_registration_verified(p_actor uuid, p_tenant uuid, p_registration uuid, p_user uuid, p_monthly_rent numeric, p_due_day integer, p_schedule jsonb, p_assignment jsonb)
+ RETURNS uuid
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare req public.registration_requests%rowtype;room public.rooms%rowtype;
+ person public.residents%rowtype; item jsonb; period text; month_start date;
+ amount numeric; due date; new_tenancy uuid; expected integer; seen text[]:='{}';
+begin
+ if not private.residence_staff_actor(p_tenant,p_actor) then raise exception 'Forbidden' using errcode='42501';end if;
+ select * into req from public.registration_requests where id=p_registration and tenant_id=p_tenant for update;
+ if not found or req.status<>'pending' then raise exception 'registration_not_pending' using errcode='23514';end if;
+ if not exists(select 1 from auth.users where id=p_user and lower(email)=lower(req.email)) then raise exception 'identity_mismatch' using errcode='23514';end if;
+ -- Reception-supplied verified assignment commits atomically with the resident and ledger.
+ if p_assignment is null or jsonb_typeof(p_assignment)<>'object'
+   then raise exception 'verified_assignment_required' using errcode='22023';end if;
+ req.contract_number:=btrim(coalesce(p_assignment->>'contract_number',''));
+ req.room_number:=btrim(coalesce(p_assignment->>'room_number',''));
+ if length(req.contract_number)<5 or length(req.contract_number)>100 or length(req.room_number)<1 or length(req.room_number)>30
+   then raise exception 'verified_assignment_required' using errcode='22023';end if;
+ if coalesce(p_assignment->>'accommodation_from','')!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+    or coalesce(p_assignment->>'accommodation_to','')!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+   then raise exception 'verified_dates_required' using errcode='22023';end if;
+ req.accommodation_from:=(p_assignment->>'accommodation_from')::date;
+ req.accommodation_to:=(p_assignment->>'accommodation_to')::date;
+ if req.accommodation_from is null or extract(day from req.accommodation_from) <> 1 or req.accommodation_to is null
+    or req.accommodation_to<=req.accommodation_from
+    or req.accommodation_to>req.accommodation_from+interval '10 years'
+   then raise exception 'invalid_dates' using errcode='22023';end if;
+ update public.registration_requests set contract_number=req.contract_number, room_number=req.room_number,
+   accommodation_from=req.accommodation_from, accommodation_to=req.accommodation_to
+ where id=req.id and tenant_id=p_tenant and status='pending';
+ if p_monthly_rent is null or p_monthly_rent<=0 or p_monthly_rent>100000 or round(p_monthly_rent,2)<>p_monthly_rent or p_due_day is null or p_due_day not between 1 and 28 then raise exception 'invalid_rent' using errcode='22023';end if;
+ if req.accommodation_to<req.accommodation_from or req.accommodation_to>req.accommodation_from+interval '10 years' then raise exception 'invalid_dates' using errcode='22023';end if;
+ if not exists (
+  select 1 from public.registration_enquiries q
+  where q.registration_id=req.id and q.tenant_id=p_tenant
+    and q.preferred_duration_months in (5,10,12)
+    and req.accommodation_to=(date_trunc('month',req.accommodation_from::timestamp)+make_interval(months=>q.preferred_duration_months)-interval '1 day')::date
+ ) then raise exception 'invalid_stay_duration' using errcode='22023';end if;
+ select * into room from public.rooms where tenant_id=p_tenant and name=req.room_number for update;
+ if not found then raise exception 'verified_room_required' using errcode='23514';end if;
+ -- Serialize approvals for the same account and tenant, including distinct pending requests.
+ perform pg_advisory_xact_lock(hashtextextended(p_tenant::text||p_user::text,0));
+ perform pg_advisory_xact_lock(hashtextextended(p_tenant::text||req.contract_number,1));
+ if exists(select 1 from public.organization_memberships where tenant_id=p_tenant and user_id=p_user) then
+  if not exists(select 1 from public.organization_memberships where tenant_id=p_tenant and user_id=p_user and role='student' and active) then raise exception 'membership_conflict' using errcode='23514';end if;
+ else
+  perform private.provision_member(p_actor,p_tenant,p_user,'student',req.first_name||' '||req.last_name,req.email);
+ end if;
+ select * into person from public.residents where tenant_id=p_tenant and user_id=p_user for update;
+ if not found or not person.active then raise exception 'resident_required' using errcode='23514';end if;
+ if person.verified_contract_number<>'' and person.verified_contract_number<>req.contract_number then raise exception 'existing_contract_conflict' using errcode='23514';end if;
+ if exists(select 1 from public.residents where tenant_id=p_tenant and id<>person.id and verified_contract_number=req.contract_number) then raise exception 'duplicate_contract' using errcode='23514';end if;
+ update public.residents set full_name=req.first_name||' '||req.last_name,email=req.email,
+ verified_room_number=room.name,verified_contract_number=req.contract_number,
+ accommodation_from=req.accommodation_from,accommodation_to=req.accommodation_to where id=person.id;
+ insert into public.tenancies(tenant_id,resident_id,room_id,starts_on,ends_on,rent,due_day)
+ values(p_tenant,person.id,room.id,req.accommodation_from,req.accommodation_to,p_monthly_rent,p_due_day) returning id into new_tenancy;
+ -- Existing tenancy trigger locks the room and validates overlap and capacity.
+ expected:=((extract(year from req.accommodation_to)::int-extract(year from req.accommodation_from)::int)*12+extract(month from req.accommodation_to)::int-extract(month from req.accommodation_from)::int)+1;
+ if p_schedule is null or jsonb_typeof(p_schedule)<>'array' or jsonb_array_length(p_schedule)<>expected then raise exception 'incomplete_schedule' using errcode='22023';end if;
+ for item in select * from jsonb_array_elements(p_schedule) loop
+  period:=item->>'period';amount:=(item->>'amount')::numeric;due:=(item->>'due_on')::date;
+  if period is null or period!~'^[0-9]{4}-(0[1-9]|1[0-2])$' or period=any(seen) or amount is null or amount<>p_monthly_rent or round(amount,2)<>amount or due is null then raise exception 'invalid_schedule' using errcode='22023';end if;
+  month_start:=(period||'-01')::date;
+  if month_start<date_trunc('month',req.accommodation_from)::date or month_start>date_trunc('month',req.accommodation_to)::date then raise exception 'invalid_period' using errcode='22023';end if;
+  seen:=array_append(seen,period);
+  perform public.residence_record_charge(p_actor,p_tenant,person.id,period,amount,due);
+ end loop;
+ if nullif(p_assignment->>'actual_arrival_on','') is not null then
+  insert into public.resident_staff_details(tenant_id,resident_id,actual_arrival_on)
+  values(p_tenant,person.id,(p_assignment->>'actual_arrival_on')::date)
+  on conflict(tenant_id,resident_id) do update set actual_arrival_on=excluded.actual_arrival_on;
+ end if;
+ update public.registration_requests set status='invited',reviewed_by=p_actor,reviewed_at=now() where id=req.id;
+ insert into public.audit_logs(tenant_id,actor_id,action,entity,entity_id)
+ values(p_tenant,p_actor,'REGISTRATION_CONTRACT_APPROVED','registration_requests',req.id::text);
+ return new_tenancy;
+end $function$
+;
