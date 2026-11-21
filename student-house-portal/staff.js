@@ -240,68 +240,14 @@ export async function renderStaffScreen(ctx) {
       warn.setAttribute('role','alert');card.append(warn);
      }
      if(others)card.append(el('p','mini-note',ct.same+' ('+others+')'));
-     const correction=el('details','staff-form');
-     const summary=el('summary','',ct.correct);
-     const editForm=el('form','staff-form'),number=el('input');
-     number.type='text';number.maxLength=60;number.minLength=5;number.required=true;number.value=person.contract_number||'';number.setAttribute('aria-label',w.contract);
-     const saveNumber=el('button','',ct.save);saveNumber.type='submit';
-     const numberNotice=el('p','small');numberNotice.setAttribute('role','status');
-     editForm.append(el('p','mini-note',ct.verify),number,saveNumber,numberNotice);
-     editForm.addEventListener('submit',async event=>{
-      event.preventDefault();
-      if(pendingAction||!ctx.isCurrent()||!editForm.reportValidity())return;
-      const corrected=number.value.trim();
-      if(corrected.length<5||corrected.length>60){status(ct.invalid,true);return;}
-      if(corrected===person.contract_number){correction.open=false;return;}
-      if(verifiedResidents.some(x=>String(x.verified_contract_number||'').trim()===corrected&&normalize(x.email)!==normalize(person.email))){
-       status(ct.conflict,true);return;
-      }
-      if(records.some(x=>x.id!==person.id&&String(x.contract_number||'').trim()===corrected&&x.status==='invited')){
-       status(ct.conflict,true);return;
-      }
-      if(!confirm(ct.verify))return;
-      pendingAction=true;saveNumber.disabled=true;numberNotice.textContent=w.saving;let numberSaved=false;
-      try{
-       const {data,error}=await ctx.db.from('registration_requests').update({contract_number:corrected})
-        .eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id,contract_number');
-       if(!ctx.isCurrent())return;
-       if(error||data?.length!==1){numberNotice.textContent=w.failed;status(w.failed,true);return;}
-       person.contract_number=data[0].contract_number||corrected;numberSaved=true;
-       status('✓ '+ct.saved);revealNotice();
-      }catch{if(ctx.isCurrent()){numberNotice.textContent=w.failed;status(w.failed,true);}}
-      finally{pendingAction=false;saveNumber.disabled=false;if(ctx.isCurrent()&&numberSaved)paint();}
-     });
-     correction.append(summary,editForm);card.append(correction);
-     const roomEditor=el('details','staff-form'),roomSummary=el('summary','',ctx.lang==='en'?'Assign verified room':'Priradiť overenú izbu');
-     const roomForm=el('form','staff-form'),roomInput=el('select');
-     const blank=el('option','',ctx.lang==='en'?'Choose room':'Vyber izbu');blank.value='';roomInput.append(blank);
-     for(const room of [...roomCatalog].sort((a,b)=>String(a.name).localeCompare(String(b.name),'sk',{numeric:true}))){
-      const opt=el('option','',room.name+' · '+room.category+' ('+room.capacity+')');opt.value=room.name;roomInput.append(opt);
-     }
-     roomInput.value=roomCatalog.some(r=>r.name===person.room_number)?person.room_number:'';
-     roomInput.required=true;roomInput.setAttribute('aria-label',w.room);
-     const saveRoom=el('button','',ctx.lang==='en'?'Save verified room':'Uložiť overenú izbu');saveRoom.type='submit';
-     const roomNotice=el('p','small');roomNotice.setAttribute('role','status');
-     roomForm.append(el('p','mini-note',ctx.lang==='en'?'Reception verifies the room before confirming a contract.':'Izbu preveruje a priraďuje recepcia.'),roomInput,saveRoom,roomNotice);
-     roomForm.addEventListener('submit',async e=>{
-      e.preventDefault();if(pendingAction||!ctx.isCurrent()||!roomInput.reportValidity())return;
-      if(!roomCatalog.some(r=>r.name===roomInput.value)){status(w.failed,true);return;}
-      pendingAction=true;saveRoom.disabled=true;roomNotice.textContent=w.saving;let roomSaved=false;
-      try{
-       const {data,error}=await ctx.db.from('registration_requests').update({room_number:roomInput.value})
-        .eq('tenant_id',ctx.tenant).eq('id',person.id).eq('status','pending').select('id,room_number');
-       if(!ctx.isCurrent())return;
-       if(error||data?.length!==1){roomNotice.textContent=w.failed;status(w.failed,true);return;}
-       person.room_number=data[0].room_number||roomInput.value;roomSaved=true;status('✓ '+ctx.success);revealNotice();
-      }catch{if(ctx.isCurrent()){roomNotice.textContent=w.failed;status(w.failed,true);}}
-      finally{pendingAction=false;saveRoom.disabled=false;if(ctx.isCurrent()&&roomSaved)paint();}
-     });
-     roomEditor.append(roomSummary,roomForm);card.append(roomEditor);
      const actions=el('div','staff-actions');
-     const approve=button(w.approve,()=>{approvalEditor(person,actions,{contract:correction,contractInput:number,contractNotice:numberNotice,room:roomEditor,roomInput,roomNotice});},'');
+     card.append(actions);
+     approvalEditor(person,actions);
+     const other=el('details','staff-form');
+     other.append(el('summary','',({sk:'Ďalšie možnosti',en:'Other actions',ru:'Другие действия',uk:'Інші дії'})[ctx.lang]||'Ďalšie možnosti'));
      const reject=button(w.reject,()=>{void decide(person,false,actions,reject);});
      const returnButton=button(cw.return,()=>returnEditor(person,card));
-     actions.append(approve,reject,returnButton);card.append(actions);
+     other.append(returnButton,reject);card.append(other);
     }
    }
    results.append(card);
@@ -347,70 +293,55 @@ export async function renderStaffScreen(ctx) {
    finally{pendingAction=false;restore();if(ctx.isCurrent()&&person.status==='correction_requested'){select.value='correction_requested';search.value=person.email;paint();}}
   });
  }
- function approvalEditor(person,actions,editors={}){
-  const existing=actions.querySelector('form');if(existing){existing.scrollIntoView?.({block:'center'});existing.querySelector('input')?.focus?.();return;}
-  const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Splatnosť je predvyplnená na 1. deň predchádzajúceho mesiaca (napr. december → 1. november). Skontrolujte každú sumu a dátum podľa zmluvy, každý mesiac sa účtuje celý. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Due dates default to the selected day of the previous month (e.g. December → 1 November). Check every amount and date against the contract, each month is charged in full. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, каждый месяц оплачивается полностью. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, кожен місяць оплачується повністю. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
-  const form=el('form','staff-form'),rent=el('input'),due=el('input'),schedule=el('div');
+ function approvalEditor(person,actions){
+  const q=registeredQuestionnaires.find(q=>q.registration_id===person.id);
+  const duration=Number(q?.preferred_duration_months);
+  const t=({
+   sk:{title:'Schválenie registrácie',contract:'Číslo zmluvy',room:'Pridelená izba',choose:'Vyber izbu',rent:'Mesačný nájom (€)',due:'Deň splatnosti v predchádzajúcom mesiaci (1–28)',stay:'Dĺžka pobytu',months:'mesiacov',from:'Ubytovanie od',to:'Ubytovanie do',arrival:'Plánovaný príchod',preview:'Platobný kalendár',approve:'Schváliť registráciu',invalid:'Doplň číslo zmluvy, izbu a mesačný nájom.',missing:'Chýba platná dĺžka pobytu. Vráť registráciu na opravu.',full:'Každý mesiac sa platí celý. Predpis nie je prijatá úhrada.',total:'Nájom za celý pobyt',conflict:'Číslo zmluvy už patrí inému študentovi.',first:'Splatnosť prvého nájmu'},
+   en:{title:'Registration approval',contract:'Contract number',room:'Assigned room',choose:'Choose a room',rent:'Monthly rent (€)',due:'Due day in prior month (1–28)',stay:'Length of stay',months:'months',from:'Accommodation from',to:'Accommodation to',arrival:'Expected arrival',preview:'Payment calendar',approve:'Approve registration',invalid:'Enter contract number, room and monthly rent.',missing:'Valid stay duration missing. Return the registration for correction.',full:'Each month is charged in full. Charges are not receipts.',total:'Rent for entire stay',conflict:'Contract number belongs to another student.',first:'First rent due date'},
+   ru:{title:'Подтверждение регистрации',contract:'Номер договора',room:'Назначенная комната',choose:'Выберите комнату',rent:'Аренда в месяц (€)',due:'День оплаты в предыдущем месяце (1–28)',stay:'Срок проживания',months:'мес.',from:'Проживание с',to:'Проживание до',arrival:'Планируемый заезд',preview:'График платежей',approve:'Подтвердить регистрацию',invalid:'Укажите номер договора, комнату и аренду.',missing:'Нет допустимого срока. Верните заявку на исправление.',full:'Каждый месяц оплачивается полностью. Начисление не является оплатой.',total:'Аренда за весь срок',conflict:'Номер договора занят.',first:'Срок первой оплаты'},
+   uk:{title:'Схвалення реєстрації',contract:'Номер договору',room:'Призначена кімната',choose:'Оберіть кімнату',rent:'Місячна оренда (€)',due:'День оплати попереднього місяця (1–28)',stay:'Тривалість проживання',months:'міс.',from:'Проживання з',to:'Проживання до',arrival:'Планове прибуття',preview:'Графік платежів',approve:'Схвалити реєстрацію',invalid:'Вкажіть номер договору, кімнату й оренду.',missing:'Немає допустимого строку. Поверніть заявку на виправлення.',full:'Кожен місяць оплачується повністю. Нарахування не є оплатою.',total:'Оренда за весь строк',conflict:'Номер договору зайнятий.',first:'Термін першої оплати'}
+  })[ctx.lang]||{};
+  actions.append(el('h4','',t.title));
+  if(![5,10,12].includes(duration)){actions.append(el('p','danger',t.missing));return;}
+  const form=el('form','staff-form registration-approval-form'),contract=el('input'),room=el('select'),rent=el('input'),due=el('input'),firstDue=el('input');
+  contract.type='text';contract.required=true;contract.minLength=5;contract.maxLength=100;contract.value=person.contract_number||'';
+  const blank=el('option','',t.choose);blank.value='';room.append(blank);
+  for(const r of [...roomCatalog].sort((a,b)=>String(a.name).localeCompare(String(b.name),'sk',{numeric:true}))){const o=el('option','',r.name+' · '+r.category+' ('+r.capacity+')');o.value=r.name;room.append(o);}
+  room.required=true;room.value=roomCatalog.some(r=>r.name===person.room_number)?person.room_number:'';
   rent.type='number';rent.min='0.01';rent.max='100000';rent.step='0.01';rent.required=true;
   due.type='number';due.min='1';due.max='28';due.step='1';due.value='1';due.required=true;
-  for(const [title,input] of [[labels[0],rent],[labels[1],due]]){const label=el('label','',title);label.append(input);form.append(label);}
-  const contract=el('input'),room=el('select'),from=el('input'),to=el('input');
-  contract.value=person.contract_number||editors.contractInput?.value||'';contract.required=true;contract.minLength=5;contract.maxLength=100;
-  for(const entry of roomCatalog){const option=el('option','',entry.name);option.value=entry.name;room.append(option);}room.value=person.room_number||'';room.required=true;
-  from.type=to.type='date';from.required=to.required=true;from.value=person.accommodation_from||'';to.value=person.accommodation_to||'';
-  const duration=Number(registeredQuestionnaires.find(q=>q.registration_id===person.id)?.preferred_duration_months);
-  const stayCopy=({sk:['Dĺžka pobytu','mesiacov','Chýba platná dĺžka pobytu. Vráť registráciu študentovi na opravu.','Celý prvý aj posledný mesiac sa účtuje podľa mesačného nájmu.'],en:['Length of stay','months','Missing valid length of stay. Return the registration for correction.','The full monthly rent applies to every month, including the first and last.'],ru:['Срок проживания','мес.','Укажите срок проживания: верните заявку на исправление.','Каждый месяц оплачивается полностью, включая первый и последний.'],uk:['Тривалість проживання','міс.','Немає дійсного строку проживання. Поверніть заявку на виправлення.','Кожен місяць оплачується повністю, включно з першим і останнім.']})[ctx.lang]||[];
-  if(![5,10,12].includes(duration)){actions.append(el('p','danger',stayCopy[2]));return;}
-  const syncEnd=()=>{
-   if(!/^\d{4}-\d{2}-\d{2}$/.test(from.value)){to.value='';return;}
-   const [y,m]=from.value.split('-').map(Number);
-   to.value=new Date(Date.UTC(y,m-1+duration,0)).toISOString().slice(0,10);
-  };
-  to.readOnly=true;
-  syncEnd();from.addEventListener('input',syncEnd);
-  form.append(el('p','mini-note',stayCopy[0]+': '+duration+' '+stayCopy[1]),el('p','mini-note',stayCopy[3]));
-  const en=ctx.lang==='en';
-  for(const [title,input] of [[w.contract,contract],[w.room,room],[en?'Arrival':'Príchod',from],[en?'Departure':'Odchod',to]]){input.setAttribute('aria-label',title);const label=el('label','',title);label.append(input);form.append(label);}
-  const inline=el('p','mini-note');inline.setAttribute('role','status');form.append(inline);
-  const prepareSchedule=()=>{
-   if(!form.reportValidity())return;
-   if(contract.value.trim().length<5||!roomCatalog.some(r=>r.name===room.value)||!from.value||!to.value||from.value>=to.value){inline.textContent=en?'Complete the contract number, verified room and valid stay dates.':'Doplň číslo zmluvy (aspoň 5 znakov), overenú izbu a platný termín pobytu.';return;}
-   if(contractConflict({...person,contract_number:contract.value.trim()})){inline.textContent=ct.pending;return;}
-   inline.textContent='';
-   schedule.replaceChildren(el('p','mini-note',labels[3]));
-   const start=String(from.value).slice(0,7),end=String(to.value).slice(0,7);
-   if(!/^\d{4}-\d{2}$/.test(start)||!/^\d{4}-\d{2}$/.test(end)||start>end){status(w.failed,true);return;}
-   const rows=[],calendar=el('details'),calendarTitle=el('summary');calendar.append(calendarTitle);let period=start;
-   while(period<=end&&rows.length<121){
-    const amount=el('input'),date=el('input');amount.type='number';amount.min='0.01';amount.max='100000';amount.step='0.01';amount.value=rent.value;amount.required=true;amount.readOnly=true;amount.setAttribute('aria-label',period+' €');
-    date.type='date';date.value=advanceRentDueDate(period,Number(due.value));date.required=true;date.setAttribute('aria-label',period);
-    const line=el('label','',period);line.append(amount,date);calendar.append(line);rows.push({period,amount,date});
-    const [year,month]=period.split('-').map(Number);period=month===12?String(year+1)+'-01':String(year)+'-'+String(month+1).padStart(2,'0');
-   }
-   if(period<=end||rows.length!==duration){status(w.failed,true);return;}
-   const paymentPreview=el('p','mini-note');
-    const showFirstPayment=()=>{
-     const firstRent=Number(rows[0]?.amount.value);
-     const monthly=Number(rent.value);
-     const deposit=Math.round(monthly*200)/100;
-     const total=firstRent+deposit+100;
-     paymentPreview.textContent=Number.isFinite(total)
-      ?(en?'First payment: '+firstRent.toFixed(2)+' € rent + '+deposit.toFixed(2)+' € deposit (2× rent) + 100.00 € admin fee = '+total.toFixed(2)+' €':
-       'Prvá platba: '+firstRent.toFixed(2)+' € nájom + '+deposit.toFixed(2)+' € depozit (2× nájom) + 100,00 € administratívny poplatok = '+total.toFixed(2)+' €')
-      :'';
-    };
-    rows[0]?.amount.addEventListener('input',showFirstPayment);
-    showFirstPayment();
-    const approve=el('button','',labels[4]);approve.type='submit';calendarTitle.textContent=(en?'Review monthly charges':'Skontrolovať mesačné predpisy')+' ('+rows.length+')';schedule.append(paymentPreview,approve,calendar);
-   form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;void decide(person,true,actions,approve,{verified_assignment:{contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from.value,accommodation_to:to.value},verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:rows.map(r=>({period:r.period,amount:Number(r.amount.value),due_on:r.date.value}))});};
-  };
-  const prepare=button(labels[2],prepareSchedule);
-  const prepareOnSubmit=e=>{e.preventDefault();prepareSchedule();};
-  // Editing a base term invalidates the preview, with an explicit next step.
-  for(const input of [rent,due,contract,room,from,to])input.addEventListener('input',()=>{
-   schedule.replaceChildren(el('p','mini-note',approvalWords.dirty));form.onsubmit=prepareOnSubmit;
+  firstDue.type='date';firstDue.required=true;firstDue.value=person.accommodation_from||'';
+  const from=person.accommodation_from||'';
+  const [y,m]=from.split('-').map(Number);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(from)||!Number.isFinite(y)||!Number.isFinite(m)){actions.append(el('p','danger',t.missing));return;}
+  const to=new Date(Date.UTC(y,m-1+duration,0)).toISOString().slice(0,10);
+  if(to!==person.accommodation_to){actions.append(el('p','danger',t.missing));return;}
+  form.append(el('p','mini-note',t.stay+': '+duration+' '+t.months+' · '+ctx.day(from)+' – '+ctx.day(to)),el('p','mini-note',t.arrival+': '+ctx.day(q?.preferred_from||from)));
+  for(const [label,input] of [[t.contract,contract],[t.room,room],[t.rent,rent],[t.due,due],[t.first,firstDue]]){const l=el('label','',label);l.append(input);form.append(l);}
+  const preview=el('details','staff-form'),summary=el('summary','',t.preview+' ('+duration+')'),rowsHost=el('div');preview.append(summary,rowsHost);
+  const total=el('p','mini-note'),error=el('p','danger');error.setAttribute('role','alert');
+  const approve=el('button','',t.approve);approve.type='submit';
+  const schedule=()=>Array.from({length:duration},(_,i)=>{
+   const period=new Date(Date.UTC(y,m-1+i,1)).toISOString().slice(0,7);
+   return {period,amount:Number(rent.value),due_on:i===0?firstDue.value:advanceRentDueDate(period,Number(due.value))};
   });
-  form.append(prepare,schedule);form.onsubmit=prepareOnSubmit;actions.append(form);
+  const refresh=()=>{
+   error.textContent='';rowsHost.replaceChildren();
+   const valid=Number(rent.value)>0&&Number.isInteger(Number(due.value))&&Number(due.value)>=1&&Number(due.value)<=28&&!!firstDue.value;
+   if(!valid){total.textContent='';return;}
+   for(const item of schedule())rowsHost.append(el('p','',item.period+' · '+item.amount.toFixed(2)+' € · '+ctx.day(item.due_on)));
+   total.textContent=t.total+': '+(Number(rent.value)*duration).toFixed(2)+' €';
+  };
+  for(const input of [rent,due,firstDue])input.addEventListener('input',refresh);
+  form.append(el('p','mini-note',t.full),total,preview,error,approve);
+  form.addEventListener('submit',e=>{
+   e.preventDefault();if(!form.reportValidity())return;
+   if(contract.value.trim().length<5||!roomCatalog.some(r=>r.name===room.value)){error.textContent=t.invalid;return;}
+   if(contractConflict({...person,contract_number:contract.value.trim()})){error.textContent=t.conflict;return;}
+   void decide(person,true,actions,approve,{verified_assignment:{contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from,accommodation_to:to},verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:schedule()});
+  });
+  actions.append(form);refresh();
  }
  async function decide(person,approve,actions,trigger,verified={}){
   if(pendingAction||!ctx.isCurrent()||!confirm(approve?w.approveConfirm:w.rejectConfirm))return;
