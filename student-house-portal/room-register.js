@@ -118,8 +118,8 @@ const monthCell=(state,lang,w)=>{
 
 export async function renderExcelRegister(ctx){
  const w=labels[ctx.lang]||labels.sk;
- const [rooms,tenancies,residents,registrations,details,enquiries,charges,allocations,reversals,plans]=await Promise.all(
-  ['rooms','tenancies','residents','registration_requests','resident_staff_details','resident_enquiries','rent_charges','payment_allocations','payment_reversals','installment_plans'].map(name=>ctx.list(name))
+ const [rooms,tenancies,residents,registrations,details,enquiries,charges,allocations,reversals,plans,registrationEnquiries]=await Promise.all(
+  ['rooms','tenancies','residents','registration_requests','resident_staff_details','resident_enquiries','rent_charges','payment_allocations','payment_reversals','installment_plans','registration_enquiries'].map(name=>ctx.list(name))
  );
  const extraNames=['resident_enquiry_reviews','residence_portal_files','cleaning_bookings','service_requests','payments','installment_items','audit_logs'];
  const extraValues=await Promise.all(extraNames.map(name=>ctx.list(name)));
@@ -243,9 +243,26 @@ export async function renderExcelRegister(ctx){
   const sum=Array.from({length:12},(_,month)=>periodLedger({entry,year:selectedYear(),month:month+1,charges,allocations,reversals,plans}));
   const charged=sum.reduce((n,s)=>n+s.charged,0),paid=sum.reduce((n,s)=>n+s.paid,0);
   const reg=entry.reg||{},q={...(entry.enquiry||{})};
-  for(const field of ['nationality','telephone','date_of_birth','gender','preferred_room_type']){
-   if(!q[field])q[field]=reg[field];
+  // Registration data is a fallback only for an explicitly matched approved contract.
+  const verifiedRegistration=person&&reg.id&&reg.contract_number&&reg.contract_number===person.verified_contract_number&&key(reg.email)===key(person.email)
+   ?registrationEnquiries.find(e=>e.registration_id===reg.id&&e.tenant_id===person.tenant_id):null;
+  for(const field of ['nationality','telephone','date_of_birth','gender','preferred_room_type','preferred_duration_months','preferred_from','preferred_to']){
+   if(q[field]===null||q[field]===undefined||q[field]==='')q[field]=verifiedRegistration?.[field]??reg[field];
   }
+  const verifiedFrom=stay?.starts_on||person?.accommodation_from;
+  const verifiedTo=stay?.ends_on||person?.accommodation_to;
+  if(!q.preferred_duration_months&&verifiedFrom&&verifiedTo){
+   const [y,m,d]=verifiedFrom.split('-').map(Number);
+   const exact=[5,10,12].find(months=>{
+    const target=new Date(Date.UTC(y,m-1+months,1));
+    const day=Math.min(d,new Date(Date.UTC(target.getUTCFullYear(),target.getUTCMonth()+1,0)).getUTCDate());
+    target.setUTCDate(day);
+    return target.toISOString().slice(0,10)===verifiedTo;
+   });
+   if(exact)q.preferred_duration_months=exact;
+  }
+  q.preferred_from=q.preferred_from||verifiedFrom;
+  q.preferred_to=q.preferred_to||verifiedTo;
   const start=String(stay?.starts_on||person?.accommodation_from||'').slice(0,7);
   const initial=person&&start?charges.filter(c=>c.resident_id===person.id&&c.period===start&&['rent','deposit','administration_fee'].includes(c.kind)):[];
   const initialBalances=initial.map(c=>chargeBalance(c,allocations,reversals));
@@ -366,7 +383,7 @@ export async function renderExcelRegister(ctx){
   const person=entry.person;
   if(!person||!ctx.isCurrent())return;
   const form=el('form','register-edit');
-  const nationality=el('input');nationality.type='text';nationality.maxLength=100;nationality.value=entry.detail?.nationality||'';nationality.placeholder=w.nationality;
+  const nationality=el('input');nationality.type='text';nationality.maxLength=100;nationality.value=entry.detail?.nationality||entry.enquiry?.nationality||'';nationality.placeholder=w.nationality;
   const arrival=el('input');arrival.type='date';arrival.value=entry.detail?.actual_arrival_on||'';arrival.setAttribute('aria-label',w.arrival);
   const labelA=el('label','',w.nationality);labelA.append(nationality);
   const labelB=el('label','',w.arrival);labelB.append(arrival);
