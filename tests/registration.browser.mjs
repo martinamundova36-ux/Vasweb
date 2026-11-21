@@ -31,10 +31,12 @@ try{
   assert.equal(await page.locator('#regDuration').getAttribute('required'),'');
   assert.equal(await page.locator('#regArrival').getAttribute('required'),'');
   assert.equal(await page.locator('#regTo').getAttribute('readonly'),'');
-  await page.locator('#regFrom').fill('2026-11-11');
+  assert.equal(await page.locator('#regFrom').getAttribute('type'),'month');
+  await page.locator('#regFrom').fill('2026-11');
   for(const [months,end] of [['5','2027-03-31'],['10','2027-08-31'],['12','2027-10-31']]){
    await page.locator('#regDuration').selectOption(months);
    assert.equal(await page.locator('#regTo').inputValue(),end);
+   assert.equal(await page.locator('#regArrival').getAttribute('min'),'2026-11-01');
   }
   await page.locator('#regArrival').fill('2026-11-15');
   await page.locator('#regRoomType').selectOption('D2');
@@ -45,6 +47,7 @@ try{
    assert.equal(await page.locator('#regDuration').inputValue(),'12');
    assert.equal(await page.locator('#regArrival').inputValue(),'2026-11-15');
    assert.equal(await page.locator('#regTo').inputValue(),'2027-10-31');
+   assert.ok((await page.locator('#regMonthNotice').innerText()).length>65,'Localized monthly billing notice must be visible');
   }
   if(errors.length)throw new Error('Browser runtime error: '+errors.join('; '));
   await page.close();

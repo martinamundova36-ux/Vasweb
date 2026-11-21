@@ -316,7 +316,7 @@ export async function renderStaffScreen(ctx) {
   firstDue.type='date';firstDue.required=true;firstDue.value=person.accommodation_from||'';
   const from=person.accommodation_from||'';
   const [y,m]=from.split('-').map(Number);
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(from)||!Number.isFinite(y)||!Number.isFinite(m)){actions.append(el('p','danger',t.missing));return;}
+  if(!/^\d{4}-(0[1-9]|1[0-2])-01$/.test(from)||!Number.isFinite(y)||!Number.isFinite(m)){actions.append(el('p','danger',({sk:'Ubytovanie musí začínať 1. dňom mesiaca. Vráť registráciu na opravu.',en:'The stay must begin on the 1st of the month. Return this application for correction.',ru:'Проживание должно начинаться с 1-го числа месяца. Верните заявку на исправление.',uk:'Проживання має починатися з 1-го числа місяця. Поверніть заявку на виправлення.'})[ctx.lang]));return;}
   const to=new Date(Date.UTC(y,m-1+duration,0)).toISOString().slice(0,10);
   if(to!==person.accommodation_to){actions.append(el('p','danger',t.missing));return;}
   form.append(el('p','mini-note',t.stay+': '+duration+' '+t.months+' · '+ctx.day(from)+' – '+ctx.day(to)),el('p','mini-note',t.arrival+': '+ctx.day(q?.preferred_from||from)));

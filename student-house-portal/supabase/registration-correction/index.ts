@@ -98,7 +98,9 @@ Deno.serve(async(req:Request)=>{
    .gt("correction_expires_at",new Date().toISOString()).maybeSingle();
   if(lookupError||!entry)return reply(origin,{error:"invalid_or_expired"},404);
   if(action==="load"){
-   const editable=Object.fromEntries(fields.map(k=>[k,entry[k]]));
+   const {data:stay,error:stayError}=await service.from('registration_enquiries').select('preferred_duration_months').eq('tenant_id',entry.tenant_id).eq('registration_id',entry.id).maybeSingle();
+   if(stayError)return reply(origin,{error:'request_failed'},400);
+   const editable={...Object.fromEntries(fields.map(k=>[k,entry[k]])),preferred_duration_months:stay?.preferred_duration_months??null};
    return reply(origin,{ok:true,reason:entry.correction_reason,expires_at:entry.correction_expires_at,fields:editable});
   }
   const updated:Record<string,string>={};
@@ -107,8 +109,9 @@ Deno.serve(async(req:Request)=>{
   if(!updated.first_name||updated.first_name.length>80||!updated.last_name||updated.last_name.length>80
    ||!EMAIL.test(updated.email)||updated.email.length>254
    ||updated.room_number.length>30
-   ||!dateOK(updated.accommodation_from)||!dateOK(updated.accommodation_to)
-   ||updated.accommodation_to<=updated.accommodation_from)
+   ||!dateOK(updated.accommodation_from)||updated.accommodation_from.slice(8)!=='01'||!dateOK(updated.accommodation_to)
+   ||updated.accommodation_to<=updated.accommodation_from
+   ||![5,10,12].some(n=>{const [y,m]=updated.accommodation_from.split('-').map(Number);return y>=2000&&y<=2099&&new Date(Date.UTC(y,m-1+n,0)).toISOString().slice(0,10)===updated.accommodation_to;}))
     return reply(origin,{error:"invalid_fields"},400);
   // Registration remains pending until an authorised receptionist has verified
   // the contract. The correction token is consumed atomically and cannot be reused.

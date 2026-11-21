@@ -109,7 +109,7 @@ try{
  const sign=async(page,who)=>{await page.locator('#email').fill(who);await page.locator('#password').fill(password);await page.locator('#signbtn').click();};
  const tab=async(page,label)=>page.locator('#tabs button').filter({hasText:label}).click();
  await go(p,'');await p.locator('#chooseRegistration').click();
- for(const [id,val] of Object.entries({regFirst:'QA Nina',regLast:'Testova',regEmail:email,regPhone:'+421900000000',regBirth:'02.01.2001',regNationality:'Slovak',regFrom:from,regPassword:password,regPasswordConfirm:password}))await p.locator('#'+id).fill(val);
+ for(const [id,val] of Object.entries({regFirst:'QA Nina',regLast:'Testova',regEmail:email,regPhone:'+421900000000',regBirth:'02.01.2001',regNationality:'Slovak',regFrom:from.slice(0,7),regPassword:password,regPasswordConfirm:password}))await p.locator('#'+id).fill(val);
  await p.locator('#regRoomType').selectOption('M2');await p.locator('#regDuration').selectOption('10');await p.locator('#regArrival').fill(arrival);
  assert.equal(await p.locator('#regTo').inputValue(),to);await p.locator('#regPrivacy').check();await p.locator('#regSend').click();
  await p.locator('#registrationPending:not(.hide)').waitFor();assert.equal(rows('registration_requests').length,1);console.log('QA STEP 1 registration and simulated receipt');

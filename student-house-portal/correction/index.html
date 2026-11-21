@@ -48,10 +48,10 @@ footer{margin:25px 0 0;font-size:12px;color:#72829b}
 <label><span data-label="email">E-mail</span><input id="email" type="email" name="email" maxlength="254" autocomplete="email" required></label>
 <label><span data-label="room_number">Číslo izby</span><input id="room_number" name="room_number" maxlength="30"></label>
 <p class="note" style="grid-column:1/-1">Číslo ubytovacej zmluvy priraďuje iba recepcia Student House Bratislava a študent ho nemôže upravovať.</p>
-<label><span data-label="accommodation_from">Ubytovanie od</span><input id="accommodation_from" type="date" name="accommodation_from" required></label>
+<label><span data-label="accommodation_from">Ubytovanie od</span><input id="accommodation_from" type="month" name="accommodation_from" required></label>
 <label><span id="durationLabel">Dĺžka pobytu</span><select id="duration" name="duration" required><option value="">Vyber dĺžku pobytu</option><option value="5">5 mesiacov</option><option value="10">10 mesiacov</option><option value="12">12 mesiacov</option></select></label>
 <label><span data-label="accommodation_to">Ubytovanie do</span><input id="accommodation_to" type="date" name="accommodation_to" readonly></label>
-<p id="durationNote" class="note" style="grid-column:1/-1">Prvý mesiac sa platí celý. Odchod je posledný deň posledného plateného mesiaca.</p>
+<p id="durationNote" class="note" role="note" style="grid-column:1/-1;padding:12px 15px;background:#eaf1f9;color:#142b4d;border-left:4px solid #e8a68e;border-radius:9px;font-weight:600">Prvý mesiac sa platí celý. Odchod je posledný deň posledného plateného mesiaca.</p>
 </div>
 <button id="submit" type="submit">Odoslať opravené údaje recepcii</button>
 </form>
@@ -69,7 +69,7 @@ const i18n={
 const lang=String(navigator.language||"sk").toLowerCase().startsWith("sk")?"sk":"en";
 const t=i18n[lang],$=id=>document.getElementById(id);
 const keys=["first_name","last_name","email","room_number","accommodation_from","accommodation_to"];
-const stayText=lang==="sk"?["Dĺžka pobytu","Vyber dĺžku pobytu","mesiacov","Prvý mesiac sa platí celý. Odchod je posledný deň posledného plateného mesiaca."]:["Length of stay","Select length of stay","months","The first month is charged in full. Departure is on the last day of the final paid month."];
+const stayText=lang==="sk"?["Dĺžka pobytu","Vyber dĺžku pobytu","mesiacov","DÔLEŽITÉ: Ubytovanie vždy začína 1. dňa mesiaca. Aj pri neskoršom príchode platíš celý mesiac. Dátum príchodu je samostatný."]:["Length of stay","Select length of stay","months","IMPORTANT: Accommodation always begins on the 1st of the month. The full month is charged even if you arrive later. Arrival is recorded separately."];
 $("durationLabel").textContent=stayText[0];$("duration").options[0].textContent=stayText[1];$("durationNote").textContent=stayText[3];
 for(let i=1;i<4;i++)$("duration").options[i].textContent=$("duration").options[i].value+" "+stayText[2];
 const endDate=(start,months)=>{
@@ -78,7 +78,8 @@ const endDate=(start,months)=>{
  if(y<2000||y>2099)return "";
  return new Date(Date.UTC(y,m-1+months,0)).toISOString().slice(0,10);
 };
-const syncEnd=()=>{$("accommodation_to").value=endDate($("accommodation_from").value,Number($("duration").value));};
+const firstOfMonth=()=>/^\d{4}-(0[1-9]|1[0-2])$/.test($("accommodation_from").value)?$("accommodation_from").value+"-01":"";
+const syncEnd=()=>{$("accommodation_to").value=endDate(firstOfMonth(),Number($("duration").value));};
 $("accommodation_from").addEventListener("change",syncEnd);$("duration").addEventListener("change",syncEnd);
 
 document.documentElement.lang=lang;
@@ -104,9 +105,9 @@ async function load(){
  try{
   const response=await request({action:"load",token});
   if(!response.ok){token="";status(t.expired,true);return;}
-  for(const key of keys)$(key).value=response.data.fields?.[key]||"";
+  for(const key of keys)$(key).value=key==="accommodation_from"?String(response.data.fields?.[key]||"").slice(0,7):response.data.fields?.[key]||"";
   const selected=Number(response.data.fields?.preferred_duration_months);
-  const exact=[5,10,12].find(n=>endDate($("accommodation_from").value,n)===$("accommodation_to").value);
+  const exact=[5,10,12].find(n=>endDate(firstOfMonth(),n)===$("accommodation_to").value);
   $("duration").value=String([5,10,12].includes(selected)?selected:exact||"");syncEnd();
   $("reason").textContent=t.reason+"\n"+String(response.data.reason||"");
   $("reason").hidden=false;$("form").hidden=false;
@@ -117,7 +118,7 @@ $("form").addEventListener("submit",async event=>{
  event.preventDefault();
  if(!$("form").reportValidity()||!token)return;
  const data={action:"submit",token};
- for(const key of keys)data[key]=$(key).value.trim();
+ for(const key of keys)data[key]=key==="accommodation_from"?firstOfMonth():$(key).value.trim();
  if(!data.accommodation_to||data.accommodation_to!==endDate(data.accommodation_from,Number($("duration").value))){status(t.invalid,true);return;}
  $("submit").disabled=true;status(t.sending);
  try{

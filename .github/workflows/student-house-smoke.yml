@@ -33,7 +33,7 @@ jobs:
             if (!html.includes('id="'+id+'"')) throw new Error('Missing registration field '+id);
           }
           if (html.includes('id="regContract"') || html.includes('id="regRoom"')) throw new Error('Room number and contract must remain staff-only');
-          if (!html.includes('<select id="regRoomType"') || !html.includes('<select id="regDuration" required>'))
+          if (!html.includes('<select id="regRoomType"') || !html.includes('<select id="regDuration" required>') || !html.includes('id="regFrom" type="month" required') || !html.includes('id="regMonthNotice"'))
             throw new Error('Room type and stay duration must be dropdowns');
           for (const months of [5,10,12]) if (!html.includes('<option value="'+months+'">')) throw new Error('Missing stay duration '+months);
           if (!html.includes('id="regTo" type="date" readonly') || !html.includes('function registrationEnd(') || !html.includes('expected_arrival:') || !html.includes('preferred_duration_months:')) throw new Error('Computed departure or planned arrival missing');
