@@ -1,6 +1,6 @@
 import {operationalSheets} from './operational-export.js?v=20261114-full-register3';
 import {downloadWorkbook} from './excel.js';
-import {chargeBalance, cents} from './ledger.js?v=20261113-installments1';
+import {chargeBalance, cents, installmentBalances} from './ledger.js?v=20261113-installments1';
 import {csvCell,validateRoomImport} from './rooms.js';
 
 const EXPECTED_ROOMS=64;
@@ -92,18 +92,23 @@ function stayApplies(entry,period){
  const to=entry.stay?.ends_on||entry.person.accommodation_to;
  return !!from&&!!to&&from.slice(0,7)<=period&&to.slice(0,7)>=period;
 }
-export function periodLedger({entry,year,month,charges=[],allocations=[],reversals=[],plans=[]}){
+export function periodLedger({entry,year,month,charges=[],allocations=[],reversals=[],plans=[],items=[],today=localDate()}){
  const period=String(year)+'-'+String(month).padStart(2,'0');
  if(!entry.person)return {kind:'none',charged:0,paid:0,remaining:0};
  const relevant=charges.filter(c=>c.resident_id===entry.person.id&&c.period===period&&c.kind==='rent');
  if(!relevant.length)return {kind:stayApplies(entry,period)?'missing':'none',charged:0,paid:0,remaining:0};
  let charged=0,paid=0,remaining=0;
  for(const item of relevant){const summary=chargeBalance(item,allocations,reversals);charged+=cents(item.amount);paid+=summary.paid;remaining+=summary.remaining;}
- const today=localDate();
+ const effective=relevant.flatMap(c=>{
+  const balance=chargeBalance(c,allocations,reversals),plan=plans.find(p=>p.charge_id===c.id);
+  const schedule=plan?installmentBalances(items.filter(i=>i.plan_id===plan.id),balance.paid):[];
+  return schedule.length?schedule:[{...c,...balance}];
+ });
+ const outstanding=effective.filter(c=>c.remaining>0);
  const hasPlan=plans.some(p=>relevant.some(c=>c.id===p.charge_id));
- const late=relevant.some(c=>c.due_on<today);
- const kind=remaining<=0?'paid':hasPlan?'plan':late?'late':paid>0?'partial':'due';
- return {kind,charged,paid,remaining,due:relevant.map(c=>c.due_on).sort()[0],count:relevant.length};
+ const late=outstanding.some(c=>c.due_on<today);
+ const kind=remaining<=0?'paid':late?'late':paid>0?'partial':hasPlan?'plan':'due';
+ return {kind,charged,paid,remaining,due:(outstanding.length?outstanding:effective).map(c=>c.due_on).sort()[0],count:relevant.length};
 }
 const monthCell=(state,lang,w)=>{
  const value=state.kind==='none'?'—':state.kind==='missing'?w.missingCharge:formatMoney(state.charged/100,lang);
@@ -133,7 +138,13 @@ export async function renderExcelRegister(ctx){
  const search=el('input');search.type='search';search.placeholder=w.search;search.setAttribute('aria-label',w.search);
  const yearLabel=el('label','',w.year),yearSelect=el('select');yearSelect.setAttribute('aria-label',w.year);
  const nowYear=Number(localDate().slice(0,4));
- const yearSet=new Set([nowYear-1,nowYear,nowYear+1,nowYear+2,...tenancies.flatMap(t=>[Number(t.starts_on?.slice(0,4)),Number(t.ends_on?.slice(0,4))])].filter(y=>Number.isInteger(y)&&y>=2020&&y<=2100));
+ const yearSet=new Set([nowYear-1,nowYear,nowYear+1,nowYear+2]);
+ for(const [from,to] of [...tenancies.map(t=>[t.starts_on,t.ends_on]),...residents.map(r=>[r.accommodation_from,r.accommodation_to])]){
+  const a=Number(String(from||'').slice(0,4)),b=Number(String(to||'').slice(0,4));
+  if(!Number.isInteger(a)||!Number.isInteger(b)||a<2020||b>2100||b<a)continue;
+  for(let y=a;y<=b;y++)yearSet.add(y);
+ }
+ for(const c of charges){const y=Number(String(c.period||'').slice(0,4));if(Number.isInteger(y)&&y>=2020&&y<=2100)yearSet.add(y);}
  for(const y of [...yearSet].sort((a,b)=>a-b)){const o=el('option','',String(y));o.value=String(y);o.selected=y===nowYear;yearSelect.append(o)}
  yearLabel.append(yearSelect);
  const exportButton=button('Excel (.xlsx)',()=>exportRows());
@@ -293,7 +304,7 @@ export async function renderExcelRegister(ctx){
  const lineValues=(group,entry)=>{
   const person=entry.person,stay=entry.stay;
   const [first,last]=displayNames(person,entry.reg);
-  const sum=Array.from({length:12},(_,month)=>periodLedger({entry,year:selectedYear(),month:month+1,charges,allocations,reversals,plans}));
+  const sum=Array.from({length:12},(_,month)=>periodLedger({entry,year:selectedYear(),month:month+1,charges,allocations,reversals,plans,items:extra.installment_items}));
   const charged=sum.reduce((n,s)=>n+s.charged,0),paid=sum.reduce((n,s)=>n+s.paid,0);
   const reg=entry.reg||{},q={...(entry.enquiry||{})};
   // Registration data is a fallback only for an explicitly matched approved contract.
