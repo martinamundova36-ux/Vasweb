@@ -2,10 +2,10 @@
 // Sensitive personal data stays in tenant-scoped RLS rows; photographs are stored
 // in the existing private residence-portal-files bucket through residence-files.
 const words={
- sk:{title:'Osobný dotazník študenta',intro:'Vyplň svoje údaje online a pripoj fotografiu. Údaje uvidíš len ty a oprávnená recepcia. Osobný dotazník nenahrádza overenú ubytovaciu zmluvu.',identity:'Overené údaje zo zmluvy',address:'Trvalá adresa (ulica, PSČ, mesto, krajina)',birth:'Dátum narodenia',nationality:'Národnosť',gender:'Pohlavie',id:'Číslo občianskeho preukazu / pasu',telephone:'Telefón',parent:'Kontaktný e-mail rodiča (ak je potrebný)',school:'Škola v Bratislave',iban:'IBAN (nepovinné)',room:'Preferovaný typ izby',duration:'Preferovaná dĺžka ubytovania',from:'Preferovaný príchod',to:'Preferovaný odchod',photo:'Fotografia študenta',selectPhoto:'Vložiť fotografiu online (JPG alebo PNG, max. 3 MB)',photoHint:'Fotografia sa uloží iba do súkromnej študentskej zóny. Recepcia ju môže zobraziť pri overovaní.',save:'Uložiť dotazník a fotografiu',saving:'Ukladám údaje…',saved:'Dotazník a fotografia sú uložené.',savedWithoutPhoto:'Dotazník je uložený.',photoFailed:'Dotazník sa uložil, ale fotografiu sa nepodarilo nahrať. Skús fotografiu nahrať znova.',failed:'Dotazník sa nepodarilo uložiť. Skontroluj prihlásenie alebo internetové pripojenie.',invalidPhoto:'Fotografia musí byť JPG alebo PNG a mať maximálne 3 MB.',notFound:'Nemáš schválený študentský účet. Dotazník vyplníš po schválení registrácie.',privacy:'Ochrana osobných údajov a GDPR',download:'Stiahnuť prázdny dotazník (PDF)',none:'Nevybrané',male:'Muž',female:'Žena',other:'Iné / nechcem uviesť',five:'5 mesiacov',ten:'10 mesiacov',twelve:'12 mesiacov',current:'Aktuálne uložená fotografia'},
- en:{title:'Student personal questionnaire',intro:'Complete your information online and add your photo. Only you and authorised reception staff can view it. This questionnaire does not replace the verified accommodation contract.',identity:'Verified contract details',address:'Permanent address (street, postcode, city, country)',birth:'Date of birth',nationality:'Nationality',gender:'Sex / gender',id:'ID card or passport number',telephone:'Telephone',parent:'Parent contact email (if applicable)',school:'School in Bratislava',iban:'IBAN (optional)',room:'Preferred room type',duration:'Preferred stay duration',from:'Preferred arrival',to:'Preferred departure',photo:'Student photograph',selectPhoto:'Insert photo online (JPG or PNG, max 3 MB)',photoHint:'Your photo is uploaded to private residence storage and may be seen by authorised reception staff.',save:'Save questionnaire and photo',saving:'Saving…',saved:'Questionnaire and photo saved.',savedWithoutPhoto:'Questionnaire saved.',photoFailed:'Questionnaire saved, but photo upload failed. Please try again.',failed:'Questionnaire could not be saved. Check your login or connection.',invalidPhoto:'Choose a JPG or PNG photograph under 3 MB.',notFound:'Your resident account is not approved yet. Complete the questionnaire after approval.',privacy:'Privacy information (GDPR)',download:'Download blank questionnaire (PDF)',none:'Not selected',male:'Male',female:'Female',other:'Other / prefer not to say',five:'5 months',ten:'10 months',twelve:'12 months',current:'Currently saved photo'},
- ru:{title:'Анкета студента',intro:'Заполните анкету онлайн и добавьте фото. Доступ есть только у вас и уполномоченных сотрудников.',identity:'Проверенные данные',address:'Постоянный адрес',birth:'Дата рождения',nationality:'Гражданство',gender:'Пол',id:'Номер паспорта / удостоверения',telephone:'Телефон',parent:'Электронная почта родителя',school:'Учебное заведение в Братиславе',iban:'IBAN (необязательно)',room:'Предпочтительный тип комнаты',duration:'Срок проживания',from:'Дата заезда',to:'Дата выезда',photo:'Фотография студента',selectPhoto:'Загрузить фото онлайн (JPG/PNG до 3 МБ)',photoHint:'Фото хранится приватно и доступно только уполномоченным сотрудникам.',save:'Сохранить анкету и фото',saving:'Сохраняем…',saved:'Анкета и фото сохранены.',savedWithoutPhoto:'Анкета сохранена.',photoFailed:'Анкета сохранена, но загрузка фото не удалась.',failed:'Не удалось сохранить анкету.',invalidPhoto:'Только JPG/PNG, не больше 3 МБ.',notFound:'Заполнить можно после подтверждения регистрации.',privacy:'Конфиденциальность (GDPR)',download:'Скачать пустую анкету (PDF)',none:'Не выбрано',male:'Мужчина',female:'Женщина',other:'Другое',five:'5 месяцев',ten:'10 месяцев',twelve:'12 месяцев',current:'Текущее фото'},
- uk:{title:'Анкета студента',intro:'Заповніть анкету онлайн та додайте фото. Доступ є лише у вас і уповноважених працівників.',identity:'Перевірені дані',address:'Постійна адреса',birth:'Дата народження',nationality:'Громадянство',gender:'Стать',id:'Номер паспорта / посвідчення',telephone:'Телефон',parent:'Електронна адреса одного з батьків',school:'Навчальний заклад у Братиславі',iban:'IBAN (необов’язково)',room:'Бажаний тип кімнати',duration:'Тривалість проживання',from:'Дата заїзду',to:'Дата виїзду',photo:'Фотографія студента',selectPhoto:'Завантажити фото онлайн (JPG/PNG до 3 МБ)',photoHint:'Фото зберігається приватно та доступне лише уповноваженим працівникам.',save:'Зберегти анкету й фото',saving:'Зберігаємо…',saved:'Анкету й фото збережено.',savedWithoutPhoto:'Анкету збережено.',photoFailed:'Анкета збережена, але фото не вдалося завантажити.',failed:'Не вдалося зберегти анкету.',invalidPhoto:'Тільки JPG/PNG до 3 МБ.',notFound:'Заповніть після підтвердження реєстрації.',privacy:'Конфіденційність (GDPR)',download:'Завантажити порожню анкету (PDF)',none:'Не обрано',male:'Чоловік',female:'Жінка',other:'Інше',five:'5 місяців',ten:'10 місяців',twelve:'12 місяців',current:'Наявне фото'}
+ sk:{title:'Osobný dotazník študenta',intro:'Vyplň svoje údaje online a pripoj fotografiu. Údaje uvidíš len ty a oprávnená recepcia. Osobný dotazník nenahrádza overenú ubytovaciu zmluvu.',identity:'Overené údaje zo zmluvy',address:'Trvalá adresa (ulica, PSČ, mesto, krajina)',birth:'Dátum narodenia',nationality:'Národnosť',gender:'Pohlavie',id:'Číslo občianskeho preukazu / pasu',telephone:'Telefón',parent:'Kontaktný e-mail rodiča (ak je potrebný)',school:'Škola v Bratislave',iban:'IBAN (nepovinné)',room:'Preferovaný typ izby',duration:'Preferovaná dĺžka ubytovania',from:'Preferovaný príchod',to:'Preferovaný odchod',photo:'Fotografia študenta',selectPhoto:'Vybrať fotografiu z galérie alebo fotoaparátu (automatická úprava)',photoHint:'Fotografia sa uloží iba do súkromnej študentskej zóny. Recepcia ju môže zobraziť pri overovaní.',save:'Uložiť dotazník a fotografiu',saving:'Ukladám údaje…',saved:'Dotazník a fotografia sú uložené.',savedWithoutPhoto:'Dotazník je uložený.',photoFailed:'Fotografiu sa nepodarilo uložiť na server. Dotazník zatiaľ nie je odoslaný na schválenie. Skús odoslanie znova.',failed:'Dotazník sa nepodarilo uložiť. Skontroluj prihlásenie alebo internetové pripojenie.',invalidPhoto:'Fotografiu sa nepodarilo spracovať. Skús inú fotografiu JPG, PNG alebo WebP. Obrázky HEIC fungujú iba v podporovaných prehliadačoch.',notFound:'Nemáš schválený študentský účet. Dotazník vyplníš po schválení registrácie.',privacy:'Ochrana osobných údajov a GDPR',download:'Stiahnuť prázdny dotazník (PDF)',none:'Nevybrané',male:'Muž',female:'Žena',other:'Iné / nechcem uviesť',five:'5 mesiacov',ten:'10 mesiacov',twelve:'12 mesiacov',current:'Aktuálne uložená fotografia'},
+ en:{title:'Student personal questionnaire',intro:'Complete your information online and add your photo. Only you and authorised reception staff can view it. This questionnaire does not replace the verified accommodation contract.',identity:'Verified contract details',address:'Permanent address (street, postcode, city, country)',birth:'Date of birth',nationality:'Nationality',gender:'Sex / gender',id:'ID card or passport number',telephone:'Telephone',parent:'Parent contact email (if applicable)',school:'School in Bratislava',iban:'IBAN (optional)',room:'Preferred room type',duration:'Preferred stay duration',from:'Preferred arrival',to:'Preferred departure',photo:'Student photograph',selectPhoto:'Choose a photo from your phone or camera (automatically optimized)',photoHint:'Your photo is uploaded to private residence storage and may be seen by authorised reception staff.',save:'Save questionnaire and photo',saving:'Saving…',saved:'Questionnaire and photo saved.',savedWithoutPhoto:'Questionnaire saved.',photoFailed:'Photo upload failed. The questionnaire has not been submitted for approval. Please retry.',failed:'Questionnaire could not be saved. Check your login or connection.',invalidPhoto:'Could not process that photo. Try JPG, PNG or WebP. HEIC images need a compatible browser.',notFound:'Your resident account is not approved yet. Complete the questionnaire after approval.',privacy:'Privacy information (GDPR)',download:'Download blank questionnaire (PDF)',none:'Not selected',male:'Male',female:'Female',other:'Other / prefer not to say',five:'5 months',ten:'10 months',twelve:'12 months',current:'Currently saved photo'},
+ ru:{title:'Анкета студента',intro:'Заполните анкету онлайн и добавьте фото. Доступ есть только у вас и уполномоченных сотрудников.',identity:'Проверенные данные',address:'Постоянный адрес',birth:'Дата рождения',nationality:'Гражданство',gender:'Пол',id:'Номер паспорта / удостоверения',telephone:'Телефон',parent:'Электронная почта родителя',school:'Учебное заведение в Братиславе',iban:'IBAN (необязательно)',room:'Предпочтительный тип комнаты',duration:'Срок проживания',from:'Дата заезда',to:'Дата выезда',photo:'Фотография студента',selectPhoto:'Выберите фото из галереи или камеры (автоматическая обработка)',photoHint:'Фото хранится приватно и доступно только уполномоченным сотрудникам.',save:'Сохранить анкету и фото',saving:'Сохраняем…',saved:'Анкета и фото сохранены.',savedWithoutPhoto:'Анкета сохранена.',photoFailed:'Загрузка фото не удалась. Анкета ещё не отправлена на проверку. Попробуйте ещё раз.',failed:'Не удалось сохранить анкету.',invalidPhoto:'Не удалось обработать фото. Попробуйте JPG, PNG или WebP. Для HEIC нужен совместимый браузер.',notFound:'Заполнить можно после подтверждения регистрации.',privacy:'Конфиденциальность (GDPR)',download:'Скачать пустую анкету (PDF)',none:'Не выбрано',male:'Мужчина',female:'Женщина',other:'Другое',five:'5 месяцев',ten:'10 месяцев',twelve:'12 месяцев',current:'Текущее фото'},
+ uk:{title:'Анкета студента',intro:'Заповніть анкету онлайн та додайте фото. Доступ є лише у вас і уповноважених працівників.',identity:'Перевірені дані',address:'Постійна адреса',birth:'Дата народження',nationality:'Громадянство',gender:'Стать',id:'Номер паспорта / посвідчення',telephone:'Телефон',parent:'Електронна адреса одного з батьків',school:'Навчальний заклад у Братиславі',iban:'IBAN (необов’язково)',room:'Бажаний тип кімнати',duration:'Тривалість проживання',from:'Дата заїзду',to:'Дата виїзду',photo:'Фотографія студента',selectPhoto:'Виберіть фото з галереї або камери (автоматична обробка)',photoHint:'Фото зберігається приватно та доступне лише уповноваженим працівникам.',save:'Зберегти анкету й фото',saving:'Зберігаємо…',saved:'Анкету й фото збережено.',savedWithoutPhoto:'Анкету збережено.',photoFailed:'Не вдалося завантажити фото. Анкету ще не надіслано на перевірку. Спробуйте ще раз.',failed:'Не вдалося зберегти анкету.',invalidPhoto:'Не вдалося обробити фото. Спробуйте JPG, PNG або WebP. HEIC потребує сумісного браузера.',notFound:'Заповніть після підтвердження реєстрації.',privacy:'Конфіденційність (GDPR)',download:'Завантажити порожню анкету (PDF)',none:'Не обрано',male:'Чоловік',female:'Жінка',other:'Інше',five:'5 місяців',ten:'10 місяців',twelve:'12 місяців',current:'Наявне фото'}
 };
 // Public room categories are displayed as on the Student House gallery.
 // Stored legacy Excel codes remain unchanged for reception and room allocation.
@@ -13,7 +13,54 @@ const fridgeLabels={sk:{question:'Máš vlastnú chladničku?',yes:'Áno',no:'Ni
 const n=(tag,cls,txt)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(txt!=null)el.textContent=String(txt);return el};
 const wrap=(title,control)=>{const label=n('label','enquiry-label');label.append(n('span','',title),control);return label};
 function choices(items,value){const el=n('select');for(const [v,label]of items){const opt=n('option','',label);opt.value=v;el.append(opt)}el.value=value||'';return el}
-function validatePhoto(file){return !file||(file.size>0&&file.size<=3000000&&['image/png','image/jpeg'].includes(file.type))}
+// Phone photos are optimized in the browser: the private storage API accepts
+// only real JPEG/PNG data up to 3 MB. The original image is never uploaded.
+const MOBILE_PHOTO_INPUT_LIMIT=40000000;
+const MOBILE_PHOTO_OUTPUT_LIMIT=2900000;
+async function prepareEnquiryPhoto(file){
+ if(!(file instanceof File)||!file.size||file.size>MOBILE_PHOTO_INPUT_LIMIT)throw Error('invalid_photo');
+ if(!(/^image\/(jpeg|png|webp|heic|heif|avif|jpg)$/i.test(file.type)||/\.(jpe?g|png|webp|heic|heif|avif)$/i.test(file.name)))throw Error('invalid_photo');
+ let image,objectUrl;
+ try{
+  try{image=await createImageBitmap(file,{imageOrientation:'from-image'});}
+  catch{
+   objectUrl=URL.createObjectURL(file);
+   image=new Image();
+   await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=reject;image.src=objectUrl;});
+  }
+  const width=image.naturalWidth||image.width,height=image.naturalHeight||image.height;
+  if(!width||!height||width*height>100000000)throw Error('invalid_photo');
+  const canvas=document.createElement('canvas'),context=canvas.getContext('2d');
+  if(!context)throw Error('invalid_photo');
+  let scale=Math.min(1,1600/Math.max(width,height));
+  for(const quality of [0.86,0.74,0.62,0.5,0.4]){
+   canvas.width=Math.max(1,Math.round(width*scale));
+   canvas.height=Math.max(1,Math.round(height*scale));
+   context.imageSmoothingEnabled=true;context.imageSmoothingQuality='high';
+   context.fillStyle='#ffffff';context.fillRect(0,0,canvas.width,canvas.height);
+   context.drawImage(image,0,0,canvas.width,canvas.height);
+   const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',quality));
+   if(blob?.size&&blob.size<=MOBILE_PHOTO_OUTPUT_LIMIT){
+    const filename=(file.name||'student-photo').replace(/\.[^.]+$/,'')+'.jpg';
+    return new File([blob],filename,{type:'image/jpeg',lastModified:Date.now()});
+   }
+   scale*=0.78;
+  }
+  throw Error('invalid_photo');
+ }catch{throw Error('invalid_photo');}
+ finally{
+  if(typeof image?.close==='function')image.close();
+  if(objectUrl)URL.revokeObjectURL(objectUrl);
+ }
+}
+function photoProgress(lang){
+ return ({
+  sk:{processing:'Spracúvam fotografiu z telefónu…',ready:'✓ Fotografia je pripravená na uloženie.',failed:'Fotografiu sa nepodarilo spracovať. Vyber inú fotografiu.'},
+  en:{processing:'Optimizing your phone photo…',ready:'✓ Photo ready to upload.',failed:'Could not process the photo. Choose another photo.'},
+  ru:{processing:'Обрабатываем фото с телефона…',ready:'✓ Фото готово к отправке.',failed:'Не удалось обработать фото. Выберите другое.'},
+  uk:{processing:'Обробляємо фото з телефону…',ready:'✓ Фото готове до завантаження.',failed:'Не вдалося обробити фото. Виберіть інше.'}
+ })[lang]||{processing:'Processing photo…',ready:'Photo ready.',failed:'Photo could not be processed.'};
+}
 const formatDate=(s)=>{if(!s)return '';const a=String(s).slice(0,10).split('-');return a.length===3?a.reverse().join('. '):String(s)};
 export async function renderStudentEnquiry(ctx){
  const t=words[ctx.lang]||words.sk;
@@ -76,17 +123,33 @@ export async function renderStudentEnquiry(ctx){
  add('school',t.school,'text',250);
  add('iban',t.iban,'text',80);
  const photoBox=n('div','enquiry-photo'),photoLabel=n('strong','',t.photo),photoInput=n('input'),preview=n('img','enquiry-preview'),photoHint=n('p','muted',t.photoHint);
- photoInput.type='file';photoInput.accept='image/jpeg,image/png';photoInput.setAttribute('aria-label',t.selectPhoto);
+ photoInput.type='file';photoInput.accept='image/*';photoInput.setAttribute('aria-label',t.selectPhoto);
  const photoText=n('label','',t.selectPhoto);photoText.append(photoInput);
+ const photoFeedback=n('p','enquiry-status');photoFeedback.setAttribute('role','status');photoFeedback.setAttribute('aria-live','polite');
  preview.alt=t.photo;preview.hidden=true;preview.loading='lazy';
- photoBox.append(photoLabel,preview,photoText,photoHint);
- let previewUrl=null,hasSavedPhoto=false;
+ photoBox.append(photoLabel,preview,photoText,photoFeedback,photoHint);
+ let previewUrl=null,hasSavedPhoto=false,preparedPhoto=null,photoTask=Promise.resolve(),photoSelection=0;
+ const messages=photoProgress(ctx.lang);
  photoInput.addEventListener('change',()=>{
+  const current=++photoSelection;
   if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null;}
-  const file=photoInput.files?.[0];
-  if(!file)return;
-  if(!validatePhoto(file)){photoInput.value='';status.textContent=t.invalidPhoto;return}
-  previewUrl=URL.createObjectURL(file);preview.src=previewUrl;preview.hidden=false;status.textContent='';
+  const file=photoInput.files?.[0]||null;
+  preparedPhoto=null;preview.hidden=true;
+  if(!file){photoFeedback.textContent='';photoTask=Promise.resolve();return;}
+  photoFeedback.textContent=messages.processing;
+  photoTask=(async()=>{
+   try{
+    const result=await prepareEnquiryPhoto(file);
+    if(current!==photoSelection||!ctx.isCurrent()||!root.isConnected)return;
+    preparedPhoto=result;
+    previewUrl=URL.createObjectURL(result);preview.src=previewUrl;preview.hidden=false;
+    photoFeedback.textContent=messages.ready+' '+(result.size/1000000).toFixed(2)+' MB';
+   }catch{
+    if(current!==photoSelection)return;
+    photoInput.value='';preparedPhoto=null;
+    photoFeedback.textContent=t.invalidPhoto;
+   }
+  })();
  });
  form.append(identity,grid,photoBox,privacy);
  const status=n('p','enquiry-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
@@ -118,9 +181,12 @@ export async function renderStudentEnquiry(ctx){
  }catch{ /* Photo may be added later without blocking text form. */ }
  form.addEventListener('submit',async event=>{
   event.preventDefault();if(!form.reportValidity())return;
-  const chosen=photoInput.files?.[0]||null;
+  const selected=photoInput.files?.[0]||null;
+  await photoTask;
+  if(!ctx.isCurrent()||!root.isConnected)return;
+  const chosen=selected?preparedPhoto:null;
+  if(selected&&!chosen){status.textContent=t.invalidPhoto;photoInput.focus();return;}
   if(!chosen&&!hasSavedPhoto){status.textContent=({sk:"Pred odoslaním dotazníka vlož fotografiu študenta.",en:"Please upload your student photograph before submitting.",ru:"Загрузите свою фотографию перед отправкой анкеты.",uk:"Завантажте своє фото перед надсиланням анкети."})[ctx.lang];photoInput.focus();return;}
-  if(!validatePhoto(chosen)){status.textContent=t.invalidPhoto;return;}
   const now=new Date().toISOString();
   // A prefilled questionnaire is not complete until the resident has actively
   // reviewed and submitted it after accepting their password invitation.
@@ -140,7 +206,7 @@ export async function renderStudentEnquiry(ctx){
     const body=new FormData();body.append('action','upload');body.append('tenant_id',ctx.tenant);
     body.append('kind','profile_photo');body.append('file',chosen);
     const {data,error:uploadError}=await ctx.db.functions.invoke('residence-files',{body});
-    if(uploadError||!data?.ok){status.textContent=t.photoFailed;return;}
+    if(uploadError||!data?.ok){status.textContent=t.photoFailed;photoFeedback.textContent=t.photoFailed;return;}
     hasSavedPhoto=true;photoInput.required=false;photoInput.value='';
    }
    const {error}=await ctx.db.from('resident_enquiries')
