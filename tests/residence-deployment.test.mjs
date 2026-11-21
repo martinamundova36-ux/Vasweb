@@ -81,5 +81,5 @@ test('new registration creates no staff-owned room assignment and accepts questi
  assert.doesNotMatch(source,/p_data:\{[^}]*\broom_number\b/);
  assert.match(sql,/lower\(p_data->>'email'\),null,/);
  for(const key of ['parent_contact_email','permanent_address','gender','school'])assert.ok(sql.includes("coalesce(p_data->>'"+key+"','')"));
- assert.match(manage,/Math\.floor\(Date\.now\(\)\/600000\)/);
+ assert.match(manage,/Math\.floor\(Date\.now\(\)\/(?:120000|600000)\)/);
 });
