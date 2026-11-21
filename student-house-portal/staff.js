@@ -349,7 +349,7 @@ export async function renderStaffScreen(ctx) {
  }
  function approvalEditor(person,actions,editors={}){
   const existing=actions.querySelector('form');if(existing){existing.scrollIntoView?.({block:'center'});existing.querySelector('input')?.focus?.();return;}
-  const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Splatnosť je predvyplnená na 1. deň predchádzajúceho mesiaca (napr. december → 1. november). Skontrolujte každú sumu a dátum podľa zmluvy, najmä neúplné mesiace. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Due dates default to the selected day of the previous month (e.g. December → 1 November). Check every amount and date against the contract, especially partial months. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, особенно неполные месяцы. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, особливо неповні місяці. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
+  const labels=({sk:['Overené mesačné nájomné (€)','Zmluvný deň splatnosti (1–28)','Pripraviť predpisy na kontrolu','Splatnosť je predvyplnená na 1. deň predchádzajúceho mesiaca (napr. december → 1. november). Skontrolujte každú sumu a dátum podľa zmluvy, každý mesiac sa účtuje celý. Nejde o prijaté platby.','Schváliť overenú zmluvu a predpisy'],en:['Verified monthly rent (€)','Contractual due day (1–28)','Prepare charges for review','Due dates default to the selected day of the previous month (e.g. December → 1 November). Check every amount and date against the contract, each month is charged in full. These are charges, not received payments.','Approve verified contract and charges'],ru:['Проверенная месячная аренда (€)','День оплаты по договору (1–28)','Подготовить начисления','Проверьте суммы и сроки по договору, каждый месяц оплачивается полностью. Это начисления, не полученные платежи.','Подтвердить договор и начисления'],uk:['Перевірена місячна оренда (€)','День оплати за договором (1–28)','Підготувати нарахування','Перевірте суми й строки за договором, кожен місяць оплачується повністю. Це нарахування, не отримані платежі.','Підтвердити договір і нарахування']})[ctx.lang]||[];
   const form=el('form','staff-form'),rent=el('input'),due=el('input'),schedule=el('div');
   rent.type='number';rent.min='0.01';rent.max='100000';rent.step='0.01';rent.required=true;
   due.type='number';due.min='1';due.max='28';due.step='1';due.value='1';due.required=true;
@@ -358,6 +358,17 @@ export async function renderStaffScreen(ctx) {
   contract.value=person.contract_number||editors.contractInput?.value||'';contract.required=true;contract.minLength=5;contract.maxLength=100;
   for(const entry of roomCatalog){const option=el('option','',entry.name);option.value=entry.name;room.append(option);}room.value=person.room_number||'';room.required=true;
   from.type=to.type='date';from.required=to.required=true;from.value=person.accommodation_from||'';to.value=person.accommodation_to||'';
+  const duration=Number(registeredQuestionnaires.find(q=>q.registration_id===person.id)?.preferred_duration_months);
+  const stayCopy=({sk:['Dĺžka pobytu','mesiacov','Chýba platná dĺžka pobytu. Vráť registráciu študentovi na opravu.','Celý prvý aj posledný mesiac sa účtuje podľa mesačného nájmu.'],en:['Length of stay','months','Missing valid length of stay. Return the registration for correction.','The full monthly rent applies to every month, including the first and last.'],ru:['Срок проживания','мес.','Укажите срок проживания: верните заявку на исправление.','Каждый месяц оплачивается полностью, включая первый и последний.'],uk:['Тривалість проживання','міс.','Немає дійсного строку проживання. Поверніть заявку на виправлення.','Кожен місяць оплачується повністю, включно з першим і останнім.']})[ctx.lang]||[];
+  if(![5,10,12].includes(duration)){actions.append(el('p','danger',stayCopy[2]));return;}
+  const syncEnd=()=>{
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(from.value)){to.value='';return;}
+   const [y,m]=from.value.split('-').map(Number);
+   to.value=new Date(Date.UTC(y,m-1+duration,0)).toISOString().slice(0,10);
+  };
+  to.readOnly=true;
+  syncEnd();from.addEventListener('input',syncEnd);
+  form.append(el('p','mini-note',stayCopy[0]+': '+duration+' '+stayCopy[1]),el('p','mini-note',stayCopy[3]));
   const en=ctx.lang==='en';
   for(const [title,input] of [[w.contract,contract],[w.room,room],[en?'Arrival':'Príchod',from],[en?'Departure':'Odchod',to]]){input.setAttribute('aria-label',title);const label=el('label','',title);label.append(input);form.append(label);}
   const inline=el('p','mini-note');inline.setAttribute('role','status');form.append(inline);
@@ -371,12 +382,12 @@ export async function renderStaffScreen(ctx) {
    if(!/^\d{4}-\d{2}$/.test(start)||!/^\d{4}-\d{2}$/.test(end)||start>end){status(w.failed,true);return;}
    const rows=[],calendar=el('details'),calendarTitle=el('summary');calendar.append(calendarTitle);let period=start;
    while(period<=end&&rows.length<121){
-    const amount=el('input'),date=el('input');amount.type='number';amount.min='0.01';amount.max='100000';amount.step='0.01';amount.value=rent.value;amount.required=true;amount.setAttribute('aria-label',period+' €');
+    const amount=el('input'),date=el('input');amount.type='number';amount.min='0.01';amount.max='100000';amount.step='0.01';amount.value=rent.value;amount.required=true;amount.readOnly=true;amount.setAttribute('aria-label',period+' €');
     date.type='date';date.value=advanceRentDueDate(period,Number(due.value));date.required=true;date.setAttribute('aria-label',period);
     const line=el('label','',period);line.append(amount,date);calendar.append(line);rows.push({period,amount,date});
     const [year,month]=period.split('-').map(Number);period=month===12?String(year+1)+'-01':String(year)+'-'+String(month+1).padStart(2,'0');
    }
-   if(period<=end){status(w.failed,true);return;}
+   if(period<=end||rows.length!==duration){status(w.failed,true);return;}
    const paymentPreview=el('p','mini-note');
     const showFirstPayment=()=>{
      const firstRent=Number(rows[0]?.amount.value);
