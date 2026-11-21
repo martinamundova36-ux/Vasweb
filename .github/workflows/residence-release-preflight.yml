@@ -31,6 +31,8 @@ jobs:
           node-version: '22'
       - name: Run release isolation test
         run: node --test tests/residence-deployment.test.mjs
+      - name: Verify actual registration approval and invitation queue logic
+        run: node tests/manage.test.mjs
       - name: Build browser-only residence artifact
         run: node scripts/build-residence-pages.mjs
       - name: Verify no Supabase functions or reports are public
