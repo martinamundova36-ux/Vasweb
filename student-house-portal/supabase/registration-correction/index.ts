@@ -107,8 +107,21 @@ Deno.serve(async(req:Request)=>{
   const updated:Record<string,string>={};
   for(const key of fields)updated[key]=txt(input[key],key==="email"?254:key.startsWith("accommodation_")?10:80);
   updated.email=updated.email.toLowerCase();
-  const arrival=txt(input.expected_arrival,10);
-  const duration=Number(input.preferred_duration_months);
+  let arrival=txt(input.expected_arrival,10);
+  let duration=Number(input.preferred_duration_months);
+  // Old correction pages did not send duration or actual-arrival date.
+  // Keep compatibility only when the original arrival is still in the corrected month.
+  if(!arrival||![5,10,12].includes(duration)){
+   const {data:oldStay,error:stayError}=await service.from('registration_enquiries')
+    .select('preferred_from,preferred_duration_months').eq('tenant_id',entry.tenant_id)
+    .eq('registration_id',entry.id).maybeSingle();
+   if(stayError||!oldStay)return reply(origin,{error:'registration_data_missing'},409);
+   if(!arrival&&String(oldStay.preferred_from||'').slice(0,7)===updated.accommodation_from.slice(0,7))
+    arrival=String(oldStay.preferred_from);
+   if(![5,10,12].includes(duration)){
+    duration=[5,10,12].find(n=>{const [y,m]=updated.accommodation_from.split('-').map(Number);return y>=2000&&y<=2099&&new Date(Date.UTC(y,m-1+n,0)).toISOString().slice(0,10)===updated.accommodation_to;})||0;
+   }
+  }
   if(!updated.first_name||updated.first_name.length>80||!updated.last_name||updated.last_name.length>80
    ||!EMAIL.test(updated.email)||updated.email.length>254||!dateOK(updated.accommodation_from)
    ||updated.accommodation_from.slice(8)!=='01'||!dateOK(updated.accommodation_to)
