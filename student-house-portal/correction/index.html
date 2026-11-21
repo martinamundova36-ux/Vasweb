@@ -45,10 +45,11 @@ footer{margin:25px 0 0;font-size:12px;color:#72829b}
 <div class="grid">
 <label><span data-label="first_name">Meno</span><input id="first_name" name="first_name" maxlength="80" autocomplete="given-name" required></label>
 <label><span data-label="last_name">Priezvisko</span><input id="last_name" name="last_name" maxlength="80" autocomplete="family-name" required></label>
-<label><span data-label="email">E-mail</span><input id="email" type="email" name="email" maxlength="254" autocomplete="email" required></label>
-<label><span data-label="room_number">Číslo izby</span><input id="room_number" name="room_number" maxlength="30"></label>
-<p class="note" style="grid-column:1/-1">Číslo ubytovacej zmluvy priraďuje iba recepcia Student House Bratislava a študent ho nemôže upravovať.</p>
+<label><span data-label="email">E-mail</span><input id="email" type="email" name="email" maxlength="254" autocomplete="email" readonly required></label>
+<p id="staffOnlyNote" class="note" style="grid-column:1/-1">Číslo izby a zmluvy prideľuje iba recepcia. Zmenu e-mailu rieši recepcia.</p>
+
 <label><span data-label="accommodation_from">Ubytovanie od</span><input id="accommodation_from" type="month" name="accommodation_from" required></label>
+<label><span data-label="expected_arrival">Predpokladaný skutočný príchod</span><input id="expected_arrival" type="date" name="expected_arrival" required></label>
 <label><span id="durationLabel">Dĺžka pobytu</span><select id="duration" name="duration" required><option value="">Vyber dĺžku pobytu</option><option value="5">5 mesiacov</option><option value="10">10 mesiacov</option><option value="12">12 mesiacov</option></select></label>
 <label><span data-label="accommodation_to">Ubytovanie do</span><input id="accommodation_to" type="date" name="accommodation_to" readonly></label>
 <p id="durationNote" class="note" role="note" style="grid-column:1/-1;padding:12px 15px;background:#eaf1f9;color:#142b4d;border-left:4px solid #e8a68e;border-radius:9px;font-weight:600">Prvý mesiac sa platí celý. Odchod je posledný deň posledného plateného mesiaca.</p>
@@ -56,20 +57,30 @@ footer{margin:25px 0 0;font-size:12px;color:#72829b}
 <button id="submit" type="submit">Odoslať opravené údaje recepcii</button>
 </form>
 <p class="muted" id="privacy">Odkaz je jednorazový a platí najviac sedem dní. K údajom má prístup len recepcia Student House Bratislava.</p>
-<p><a href="https://www.webu.sk/student-house-portal/student/" id="back">Späť na Student House</a></p>
+<p><a href="/student-house-portal/student/" id="back">Späť na Student House</a></p>
 <footer>Student House Bratislava · Bezpečná oprava ubytovacej registrácie</footer>
 </main>
 <script>
 (()=>{
 "use strict";
 const i18n={
- sk:{title:"Oprava registrácie",intro:"Recepcia ti vrátila registráciu na opravu. Oprav údaje priamo v tomto formulári a odošli ich späť na kontrolu. Novú registráciu nevytváraj.",loading:"Načítavam tvoju registráciu…",heading:"Oprav údaje",first_name:"Meno",last_name:"Priezvisko",email:"E-mail",room_number:"Číslo izby",contract_number:"Číslo ubytovacej zmluvy",accommodation_from:"Ubytovanie od",accommodation_to:"Ubytovanie do",submit:"Odoslať opravené údaje recepcii",sending:"Odosielam opravenú registráciu…",invalid:"Skontroluj meno, e-mail a dátumy pobytu.",expired:"Odkaz je neplatný alebo jeho platnosť vypršala. Požiadaj recepciu o nový opravný odkaz.",error:"Opravu sa nepodarilo uložiť. Skús znova.",done:"Údaje boli odoslané. Tvoja registrácia znova čaká na schválenie recepciou. Novú registráciu nevytváraj.",reason:"Recepcia požaduje opravu:",back:"Späť na Student House",privacy:"Odkaz je jednorazový a platí najviac sedem dní. K údajom má prístup len recepcia Student House Bratislava."},
- en:{title:"Correct your registration",intro:"Reception has returned your registration for correction. Update the fields below and send the same request back for review. Do not create a new registration.",loading:"Loading your registration…",heading:"Edit your details",first_name:"First name",last_name:"Last name",email:"Email",room_number:"Room number",contract_number:"Accommodation contract number",accommodation_from:"Accommodation from",accommodation_to:"Accommodation to",submit:"Send corrected details to reception",sending:"Sending your updated registration…",invalid:"Please check your name, email and accommodation dates.",expired:"This link is invalid or expired. Contact reception for a new correction link.",error:"Could not save your changes. Please try again.",done:"Your corrected registration was submitted for reception review. Do not register again.",reason:"Reception requests the following correction:",back:"Back to Student House",privacy:"This single-use link expires within seven days. Your personal data is restricted to authorised reception staff."}
+ sk:{title:"Oprava registrácie",intro:"Recepcia ti vrátila registráciu na opravu. Oprav údaje a odošli ich späť na kontrolu. Novú registráciu nevytváraj.",loading:"Načítavam tvoju registráciu…",heading:"Oprav údaje",first_name:"Meno",last_name:"Priezvisko",email:"E-mail",accommodation_from:"Ubytovanie od",accommodation_to:"Ubytovanie do",expected_arrival:"Predpokladaný skutočný príchod",staffOnlyNote:"Číslo izby a zmluvy prideľuje iba recepcia. Zmenu e-mailu rieši recepcia.",submit:"Odoslať opravené údaje recepcii",sending:"Odosielam opravenú registráciu…",invalid:"Skontroluj meno, e-mail, dĺžku pobytu a dátum príchodu.",expired:"Odkaz je neplatný alebo jeho platnosť vypršala. Požiadaj recepciu o nový opravný odkaz.",error:"Opravu sa nepodarilo uložiť. Skús znova.",done:"Údaje boli odoslané. Tvoja registrácia znova čaká na schválenie recepciou.",reason:"Recepcia požaduje opravu:",back:"Späť na Student House",privacy:"Odkaz je jednorazový a platí najviac sedem dní. Údaje spracúva oprávnená recepcia."},
+ en:{title:"Correct your registration",intro:"Reception returned your registration for correction. Update your details and send the same request for review. Do not register again.",loading:"Loading your registration…",heading:"Edit your details",first_name:"First name",last_name:"Last name",email:"Email",accommodation_from:"Accommodation from",accommodation_to:"Accommodation to",expected_arrival:"Expected actual arrival",staffOnlyNote:"Only reception assigns room and contract numbers. Contact reception to change your email.",submit:"Send corrected details",sending:"Sending your updated registration…",invalid:"Check your name, email, duration and arrival date.",expired:"This link is invalid or expired. Contact reception for a new link.",error:"Could not save your changes. Please try again.",done:"Your correction was submitted and is awaiting reception review.",reason:"Reception requests:",back:"Back to Student House",privacy:"This single-use link expires within seven days. Only authorised reception staff access your data."},
+ ru:{title:"Исправление регистрации",intro:"Ресепшен вернул заявку на исправление. Исправьте данные и отправьте ту же заявку повторно. Не создавайте новую регистрацию.",loading:"Загружаем заявку…",heading:"Исправьте данные",first_name:"Имя",last_name:"Фамилия",email:"Эл. почта",accommodation_from:"Проживание с",accommodation_to:"Проживание до",expected_arrival:"Ожидаемая фактическая дата приезда",staffOnlyNote:"Номер комнаты и договора назначает ресепшен. Для изменения почты обратитесь на ресепшен.",submit:"Отправить исправления",sending:"Отправляем заявку…",invalid:"Проверьте имя, почту, срок проживания и дату приезда.",expired:"Ссылка недействительна или истекла. Попросите новую ссылку на ресепшене.",error:"Не удалось сохранить изменения. Попробуйте снова.",done:"Исправленная заявка отправлена на проверку ресепшену.",reason:"Ресепшен просит исправить:",back:"Вернуться в Student House",privacy:"Одноразовая ссылка действует не более семи дней. Доступ к данным есть только у уполномоченных сотрудников ресепшена."},
+ uk:{title:"Виправлення реєстрації",intro:"Рецепція повернула заявку на виправлення. Відредагуйте дані та повторно надішліть ту саму заявку. Не створюйте нову реєстрацію.",loading:"Завантажуємо заявку…",heading:"Виправте дані",first_name:"Ім’я",last_name:"Прізвище",email:"Ел. пошта",accommodation_from:"Проживання з",accommodation_to:"Проживання до",expected_arrival:"Очікувана фактична дата прибуття",staffOnlyNote:"Номер кімнати та договору призначає рецепція. Для зміни пошти зверніться до рецепції.",submit:"Надіслати виправлення",sending:"Надсилаємо заявку…",invalid:"Перевірте ім’я, пошту, термін проживання і дату прибуття.",expired:"Посилання недійсне або його термін минув. Зверніться до рецепції за новим.",error:"Не вдалося зберегти зміни. Спробуйте ще раз.",done:"Виправлену заявку надіслано на перевірку рецепції.",reason:"Рецепція просить виправити:",back:"Повернутися до Student House",privacy:"Одноразове посилання діє не більше семи днів. Дані доступні лише уповноваженій рецепції."}
 };
-const lang=String(navigator.language||"sk").toLowerCase().startsWith("sk")?"sk":"en";
+const languageQuery=new URLSearchParams(location.search).get("lang");
+const languagePreference=String(languageQuery||navigator.language||"sk").toLowerCase().split("-")[0];
+const lang=languagePreference==="ua"?"uk":Object.hasOwn(i18n,languagePreference)?languagePreference:"en";
 const t=i18n[lang],$=id=>document.getElementById(id);
-const keys=["first_name","last_name","email","room_number","accommodation_from","accommodation_to"];
-const stayText=lang==="sk"?["Dĺžka pobytu","Vyber dĺžku pobytu","mesiacov","DÔLEŽITÉ: Ubytovanie vždy začína 1. dňa mesiaca. Aj pri neskoršom príchode platíš celý mesiac. Dátum príchodu je samostatný."]:["Length of stay","Select length of stay","months","IMPORTANT: Accommodation always begins on the 1st of the month. The full month is charged even if you arrive later. Arrival is recorded separately."];
+const keys=["first_name","last_name","email","accommodation_from","accommodation_to","expected_arrival"];
+const stayCopy={
+ sk:["Dĺžka pobytu","Vyber dĺžku pobytu","mesiacov","DÔLEŽITÉ: Pobyt začína 1. dňa mesiaca. Aj pri neskoršom príchode sa platí celý mesiac."],
+ en:["Length of stay","Select duration","months","IMPORTANT: The stay begins on the first of the month. The full month is charged even if you arrive later."],
+ ru:["Срок проживания","Выберите срок","месяцев","ВАЖНО: Проживание начинается 1-го числа месяца. Оплачивается полный месяц даже при позднем приезде."],
+ uk:["Тривалість проживання","Оберіть термін","місяців","ВАЖЛИВО: Проживання починається з 1-го числа місяця. Оплачується повний місяць навіть за пізнього прибуття."]
+};
+const stayText=stayCopy[lang];
 $("durationLabel").textContent=stayText[0];$("duration").options[0].textContent=stayText[1];$("durationNote").textContent=stayText[3];
 for(let i=1;i<4;i++)$("duration").options[i].textContent=$("duration").options[i].value+" "+stayText[2];
 const endDate=(start,months)=>{
@@ -83,7 +94,7 @@ const syncEnd=()=>{$("accommodation_to").value=endDate(firstOfMonth(),Number($("
 $("accommodation_from").addEventListener("change",syncEnd);$("duration").addEventListener("change",syncEnd);
 
 document.documentElement.lang=lang;
-for(const key of ["title","intro","heading","submit","back","privacy"])$(key).textContent=t[key];
+for(const key of ["title","intro","heading","submit","back","privacy","staffOnlyNote"])$(key).textContent=t[key];
 document.title=t.title+" | Student House Bratislava";
 for(const key of keys)document.querySelector('[data-label="'+key+'"]').textContent=t[key];
 const params=new URLSearchParams(location.hash.slice(1));
@@ -119,6 +130,8 @@ $("form").addEventListener("submit",async event=>{
  if(!$("form").reportValidity()||!token)return;
  const data={action:"submit",token};
  for(const key of keys)data[key]=key==="accommodation_from"?firstOfMonth():$(key).value.trim();
+ data.preferred_duration_months=Number($("duration").value);
+ if(!data.expected_arrival||data.expected_arrival<data.accommodation_from||data.expected_arrival.slice(0,7)!==data.accommodation_from.slice(0,7)){status(t.invalid,true);return;}
  if(!data.accommodation_to||data.accommodation_to!==endDate(data.accommodation_from,Number($("duration").value))){status(t.invalid,true);return;}
  $("submit").disabled=true;status(t.sending);
  try{

@@ -6,7 +6,15 @@ const source=stripTypeScriptTypes(fs.readFileSync('student-house-portal/supabase
 async function scenario(config={}){
  let handler;const calls=[];
  const query=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='organization_memberships'?{role:config.role||'reception'}:table==='documents'?(config.documentAllowed?{id:'d',tenant_id:'t',object_path:'t/private.pdf'}:null):table==='registration_requests'?{id:'50000000-0000-0000-0000-000000000001',email:'qa@example.invalid',status:'invited',first_name:'QA',last_name:'Student',room_number:'TEST',contract_number:'TEST-C1',accommodation_from:'2026-11-01',accommodation_to:'2026-11-30'}:table==='rooms'?{id:'r',name:'TEST'}:null,error:null}).then(ok)):()=>query(table)});
- const serviceQuery=table=>new Proxy({}, {get:(_,name)=>name==='then'?(ok=>Promise.resolve({data:table==='residents'?(config.body?.action==='activate_approved_login'?{user_id:'u'}:[{id:'r'}]):table==='organization_memberships'?(config.body?.action==='activate_approved_login'?{role:'student',active:true}:null):null,error:null}).then(ok)):()=>serviceQuery(table)});
+ const serviceQuery=table=>new Proxy({}, {get:(_,name)=>{
+  if(name==='then')return ok=>Promise.resolve({
+   data:table==='residents'?(config.body?.action==='activate_approved_login'?{user_id:'u'}:[{id:'r'}]):
+     table==='organization_memberships'?(config.body?.action==='activate_approved_login'?{role:'student',active:true}:null):null,
+   error:table==='residence_mail_outbox'&&config.mailFailure?{code:'queue_failed'}:null
+  }).then(ok);
+  if((name==='insert'||name==='upsert')&&table==='residence_mail_outbox')return ()=>{calls.push('queue');return serviceQuery(table)};
+  return ()=>serviceQuery(table);
+ }});
  const service={
   auth:{
    admin:{
@@ -27,7 +35,7 @@ async function scenario(config={}){
   rpc:async(name,args)=>{calls.push(name);if(name==='residence_account_has_password')return {data:config.hasPassword===true,error:null};return {error:config.rpcFailure?{}:null};}
  };
  const client={auth:{getUser:async()=>({data:{user:config.unauthorized?null:{id:'actor'}},error:null})},from:query};
- const context={Response,console:{error(){}},createClient:(u,k)=>k==='service'?service:client,Deno:{env:{get:k=>k==='SUPABASE_SERVICE_ROLE_KEY'?'service':'public'},serve:fn=>handler=fn}};
+ const context={Response,crypto:globalThis.crypto,console:{error(){}},createClient:(u,k)=>k==='service'?service:client,Deno:{env:{get:k=>k==='SUPABASE_SERVICE_ROLE_KEY'?'service':'public'},serve:fn=>handler=fn}};
  vm.runInNewContext(source,context);
  const body={action:'invite',role:'student',verified_assignment:{contract_number:'TEST-C1',room_number:'TEST',accommodation_from:'2026-11-01',accommodation_to:'2026-11-30',room_code:'TEST-CODE',deposit_eur:'600.00',administration_fee_eur:'100.00'},tenant_id:'30000000-0000-0000-0000-000000000001',registration_id:'50000000-0000-0000-0000-000000000001',email:'qa@example.invalid',name:'QA Student',verified_monthly_rent:300,verified_due_day:5,verified_schedule:[{period:'2026-11',amount:300,due_on:'2026-11-05'}],...config.body};
  const response=await handler(new Request('https://edge.test/manage',{method:'POST',headers:{Origin:'https://www.webu.sk',Authorization:'Bearer synthetic','Content-Type':'application/json'},body:JSON.stringify(body)}));
@@ -41,26 +49,26 @@ assert.equal(r.status,400);assert.deepEqual(r.calls,[]);
 r=await scenario({mailFailure:true});
 assert.equal(r.status,200,'Approval must not be lost when a post-commit email fails');
 assert.equal(r.body.ok,true);assert.equal(r.body.email_sent,false);
-assert.deepEqual(r.calls,['create_user','residence_approve_registration_verified','residence_account_has_password','magiclink']);
+assert.deepEqual(r.calls,['create_user','residence_approve_registration_verified','residence_account_has_password','queue']);
 r=await scenario({rpcFailure:true});
 assert.equal(r.status,409);assert.equal(r.body.ok,undefined);
 assert.deepEqual(r.calls,['create_user','residence_approve_registration_verified','delete_user'],'Do not email before a failed approval; clean up only the fresh identity');
 r=await scenario();assert.equal(r.status,200);
-assert.deepEqual(r.calls,['create_user','residence_approve_registration_verified','residence_account_has_password','magiclink'],'Invite must follow DB commit');
-assert.equal(r.body.ok,true);assert.equal(r.body.email_sent,true);
+assert.deepEqual(r.calls,['create_user','residence_approve_registration_verified','residence_account_has_password','queue'],'Invite must follow DB commit');
+assert.equal(r.body.ok,true);assert.equal(r.body.email_queued,true);assert.equal(r.body.email_sent,false);
 r=await scenario({existingAccount:true});
-assert.equal(r.status,200);assert.deepEqual(r.calls,['residence_approve_registration_verified','residence_account_has_password','magiclink'],'Preserve existing Auth credentials');
+assert.equal(r.status,200);assert.deepEqual(r.calls,['residence_approve_registration_verified','residence_account_has_password','queue'],'Preserve existing Auth credentials');
 r=await scenario({existingAccount:true,hasPassword:true});
 assert.equal(r.status,200);assert.equal(r.body.login_ready,true);
 assert.equal(r.body.email_sent,false,'Approved password accounts do not need an email invitation');
-assert.deepEqual(r.calls,['residence_approve_registration_verified','residence_account_has_password','confirm_email']);
+assert.deepEqual(r.calls,['residence_approve_registration_verified','residence_account_has_password','confirm_email','queue']);
 r=await scenario({body:{action:'activate_approved_login'},hasPassword:true});
 assert.equal(r.status,200);assert.equal(r.body.login_ready,true);
 assert.deepEqual(r.calls,['residence_account_has_password','confirm_email']);
 r=await scenario({body:{action:'activate_approved_login'},hasPassword:false});
 assert.equal(r.status,409);assert.deepEqual(r.calls,['residence_account_has_password']);
 r=await scenario({body:{registration_id:undefined,room_number:'TEST'}});
-assert.equal(r.status,200);assert.deepEqual(r.calls,['email','provision_member'],'Keep legacy manual staff invitations');
+assert.equal(r.status,400);assert.deepEqual(r.calls,[],'Student invitation cannot bypass verified registration');
 r=await scenario({body:{action:'download',document_id:'d'}});assert.equal(r.status,403);assert.deepEqual(r.calls,[]);
 r=await scenario({documentAllowed:true,body:{action:'download',document_id:'d'}});assert.equal(r.status,200);assert.deepEqual(r.calls,['sign']);
 

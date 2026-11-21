@@ -59,7 +59,6 @@ Deno.serve(async(request:Request)=>{
   const first_name=asText(body.first_name,80);
   const last_name=asText(body.last_name,80);
   const email=asText(body.email,254).toLowerCase();
-  const room_number=asText(body.room_number,30);
   // Contract numbers and verified room assignments are written by reception only.
   // Ignore any attempted contract_number in public submissions.
   const accommodation_from=asText(body.accommodation_from,10);
@@ -120,7 +119,7 @@ Deno.serve(async(request:Request)=>{
    }
    newUserId=account.user.id;
   }
-  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,room_number,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival,preferred_duration_months:duration}});
+  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival,preferred_duration_months:duration}});
   if(registrationError||!created?.id){
    console.error('registration_transaction_failed',registrationError?.code);
    if(newUserId){const {error:cleanupError}=await client.auth.admin.deleteUser(newUserId);if(cleanupError)console.error('registration_auth_cleanup_failed',cleanupError.code);}

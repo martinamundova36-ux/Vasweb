@@ -1,2 +1,3 @@
 tests/node_modules
 student-house-portal/supabase/.temp/
+.residence-pages-dist/

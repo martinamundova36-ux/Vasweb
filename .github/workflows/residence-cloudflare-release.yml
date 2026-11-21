@@ -1,0 +1,49 @@
+name: Student House Residence – controlled Cloudflare production release
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type RELEASE only after reception, legal, domain, email and backup sign-off'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: student-house-residence-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' && inputs.confirmation == 'RELEASE' }}
+    runs-on: ubuntu-latest
+    environment: student-house-production
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify generated entry documents
+        run: node scripts/build-student-house-entries.mjs --check
+      - name: Verify static deployment does not leak server code
+        run: node --test tests/residence-deployment.test.mjs
+      - name: Verify portal regression
+        run: node --test tests/residence-portal.test.mjs
+      - name: Build isolated student portal
+        run: node scripts/build-residence-pages.mjs
+      - name: Check Cloudflare credentials exist (do not print them)
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CF_TOKEN" || { echo "::error::Missing CLOUDFLARE_API_TOKEN secret"; exit 1; }
+          test -n "$CF_ACCOUNT" || { echo "::error::Missing CLOUDFLARE_ACCOUNT_ID secret"; exit 1; }
+      - name: Deploy approved portal to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy .residence-pages-dist --project-name=studenthouse-residence --branch=main

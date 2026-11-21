@@ -19,7 +19,8 @@ test('students cannot choose room number before reception assigns it',()=>{
   assert.doesNotMatch(portal,/id="regRoom"/);
   assert.doesNotMatch(portal,/\$\(['"]regRoom['"]\)/);
   assert.match(portal,/room_number:''/);
-  assert.match(backend,/const room_number=asText\(body\.room_number,30\)/);
+  assert.doesNotMatch(backend,/const room_number=asText\(body\.room_number,30\)/);
+  assert.doesNotMatch(backend,/p_data:\{[^}]*\broom_number\b/);
   assert.doesNotMatch(backend,/room_number\.length\s*<\s*1/);
 });
 
