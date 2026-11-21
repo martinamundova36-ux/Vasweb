@@ -36,3 +36,19 @@ test('Cloudflare release contains browser files, never server/database code or i
     assert.match(readFileSync(join(out,'_redirects'),'utf8'),/\/student-house-portal\/ 302/);
   } finally {rmSync(tmp,{recursive:true,force:true});}
 });
+
+test('password recovery redirects stay on the deployed portal origin', () => {
+  const portal = readFileSync(join(root, 'student-house-portal/index.html'), 'utf8');
+  assert.match(portal, /redirectTo:location\.origin\+'\/student-house-portal\/'/);
+  assert.match(portal, /window\.location\.replace\(location\.origin\+'\/student-house-portal\/'/);
+  assert.doesNotMatch(portal, /redirectTo:'https:\/\/www\.webu\.sk\/student-house-portal\//);
+  for (const mode of ['student','admin','questionnaire']) {
+    const entry = readFileSync(join(root, 'student-house-portal', mode, 'index.html'), 'utf8');
+    assert.match(entry, /redirectTo:location\.origin\+'\/student-house-portal\/'/);
+    assert.match(entry, /window\.location\.replace\(location\.origin\+'\/student-house-portal\/'/);
+  }
+  const manage = readFileSync(join(root,'student-house-portal/supabase/manage/index.ts'), 'utf8');
+  const mail = readFileSync(join(root,'student-house-portal/supabase/residence-mail/index.ts'), 'utf8');
+  assert.match(manage, /Deno\.env\.get\('PORTAL_ORIGIN'\)/);
+  assert.match(mail, /Deno\.env\.get\('RESIDENCE_PORTAL_BASE_URL'\)/);
+});
