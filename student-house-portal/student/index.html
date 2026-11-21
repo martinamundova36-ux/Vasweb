@@ -303,9 +303,10 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 <label for="regNationality" id="labNationality">Štátna príslušnosť</label><input id="regNationality" maxlength="80" required>
 </div><p class="muted">Ďalšie údaje a fotografiu doplníš po schválení recepciou.</p></fieldset>
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
+<p id="regMonthNotice" role="note" style="padding:14px 16px;background:#eaf1f9;color:#142b4d;border-left:4px solid #e8a68e;border-radius:10px;font-weight:600;line-height:1.6">DÔLEŽITÉ: Ubytovanie sa počíta od 1. dňa mesiaca. Aj pri neskoršom príchode sa platí celý mesiac. Dátum príchodu vyplň osobitne.</p>
 <div class="reg-fields">
 <label for="regRoomType" id="labRoomType">Preferovaný typ izby</label><select id="regRoomType" required><option value="">Bez preferencie</option><option value="M2">Manzard 2</option><option value="Š1+1">Standard 1+1</option><option value="SUI 2">Suite 2</option><option value="D2">De Luxe 2</option><option value="Š2">Standard 2</option><option value="D2V">De Luxe 2V</option></select>
-<label for="regFrom" id="labFrom">Ubytovanie od</label><input id="regFrom" type="date" required>
+<label for="regFrom" id="labFrom">Začiatok pobytu (od 1. dňa mesiaca)</label><input id="regFrom" type="month" required>
 <label for="regDuration" id="labDuration">Dĺžka pobytu</label><select id="regDuration" required><option value="">Vyber dĺžku pobytu</option><option value="5">5 mesiacov</option><option value="10">10 mesiacov</option><option value="12">12 mesiacov</option></select>
 <label for="regTo" id="labTo">Ubytovanie do</label><input id="regTo" type="date" readonly aria-describedby="regStayRule"><p id="regStayRule" class="mini-note" style="grid-column:1/-1">Prvý mesiac sa platí celý, aj pri príchode v priebehu mesiaca. Odchod je posledný deň posledného plateného mesiaca.</p>
 <label for="regArrival" id="labArrival">Predpokladaný príchod</label><input id="regArrival" type="date" required>
@@ -509,13 +510,13 @@ function registrationEnd(start,months){
  return new Date(Date.UTC(y,m-1+months,0)).toISOString().slice(0,10);
 }
 const stayRuleCopy={
- sk:['Dĺžka pobytu','Vyber dĺžku pobytu','mesiacov','Prvý mesiac sa platí celý, aj pri príchode v priebehu mesiaca. Odchod je posledný deň posledného plateného mesiaca.'],
- en:['Length of stay','Select length of stay','months','The first month is charged in full even if you arrive during the month. Departure is the last day of the final paid month.'],
- ru:['Срок проживания','Выберите срок проживания','мес.','Первый месяц оплачивается полностью, даже при заезде в середине месяца. Выезд — последний день последнего оплачиваемого месяца.'],
- uk:['Тривалість проживання','Оберіть тривалість проживання','міс.','Перший місяць оплачується повністю, навіть при заїзді протягом місяця. Виїзд — останній день останнього оплачуваного місяця.']
+ sk:['Dĺžka pobytu','Vyber dĺžku pobytu','mesiacov','Pobyt sa eviduje od 1. dňa mesiaca. Odchod je posledný deň posledného plateného mesiaca.','Začiatok pobytu – mesiac','DÔLEŽITÉ: Ubytovanie sa vždy počíta od 1. dňa zvoleného mesiaca. Aj pri neskoršom príchode sa platí celý kalendárny mesiac. Predpokladaný dátum príchodu vyplň samostatne.'],
+ en:['Length of stay','Select length of stay','months','Accommodation starts on the 1st of the month. Departure is the last day of the final paid month.','Stay start – select month','IMPORTANT: Your accommodation period always starts on the 1st day of the selected month. The full calendar month is charged even if you arrive later. Enter your expected arrival date separately.'],
+ ru:['Срок проживания','Выберите срок проживания','мес.','Срок проживания начинается с 1-го числа месяца. Выезд — в последний день последнего оплаченного месяца.','Начало проживания — выберите месяц','ВАЖНО: Срок проживания всегда начинается с 1-го числа выбранного месяца. Даже при более позднем приезде оплачивается полный календарный месяц. Дату предполагаемого приезда укажите отдельно.'],
+ uk:['Тривалість проживання','Оберіть тривалість проживання','міс.','Період проживання починається з 1-го числа місяця. Виїзд — останнього дня останнього оплаченого місяця.','Початок проживання — оберіть місяць','ВАЖЛИВО: Період проживання завжди починається з 1-го числа обраного місяця. Навіть за пізнішого прибуття оплачується повний календарний місяць. Очікувану дату прибуття вкажіть окремо.']
 };
 function updateRegistrationStay(){
- const from=$('regFrom').value,months=Number($('regDuration').value),arrival=$('regArrival');
+ const month=$('regFrom').value,from=/^\d{4}-(0[1-9]|1[0-2])$/.test(month)?month+'-01':'',months=Number($('regDuration').value),arrival=$('regArrival');
  $('regTo').value=registrationEnd(from,months);
  arrival.min=from;
  arrival.max=from?new Date(Date.UTC(Number(from.slice(0,4)),Number(from.slice(5,7)),0)).toISOString().slice(0,10):'';
@@ -527,7 +528,7 @@ function translateRegister(){
  const stayWords=stayRuleCopy[lang]||stayRuleCopy.sk;
  $('labDuration').textContent=stayWords[0];$('regDuration').options[0].textContent=stayWords[1];
  for(let i=1;i<4;i++)$('regDuration').options[i].textContent=$('regDuration').options[i].value+' '+stayWords[2];
- $('regStayRule').textContent=stayWords[3];
+ $('regStayRule').textContent=stayWords[3];$('labFrom').textContent=stayWords[4];$('regMonthNotice').textContent=stayWords[5];
  const r=R[lang];
  const ext=REG_EXT[lang]||REG_EXT.sk;
  for(const [id,key] of Object.entries({regPersonalTitle:'personal',regStayTitle:'stay',labPhone:'phone',labRoomType:'roomType',labArrival:'arrival',regStaffOnly:'staff'}))$(id).textContent=ext[key];
@@ -585,7 +586,7 @@ $("regForm").addEventListener("invalid",e=>{
 $("regForm").addEventListener("input",()=>{$("regMessage").textContent='';});
 $("regForm").addEventListener("submit",async e=>{
  e.preventDefault();
- const r=R[lang],from=$("regFrom").value,to=$("regTo").value,msg=$("regMessage"),btn=$("regSend");
+ const r=R[lang],month=$("regFrom").value,from=/^\d{4}-(0[1-9]|1[0-2])$/.test(month)?month+'-01':'',to=$("regTo").value,msg=$("regMessage"),btn=$("regSend");
  msg.textContent="";
  const date_of_birth=normalizeBirthDate($("regBirth").value);
  if(!date_of_birth){msg.style.color="#a32c30";msg.textContent=({sk:'Zadaj platný dátum narodenia DD.MM.RRRR.',en:'Enter a valid birth date DD.MM.YYYY.',ru:'Введите верную дату рождения ДД.ММ.ГГГГ.',uk:'Введіть правильну дату народження ДД.ММ.РРРР.'}[lang]||'Zadaj platný dátum narodenia.');$("regBirth").focus();return;}
