@@ -93,6 +93,8 @@ export async function renderStudentEnquiry(ctx){
  privacy.href=(ctx.lang==='en'?'https://studenthousebratislavanew.wordpress.com/en/privacy-policy/':'https://studenthousebratislavanew.wordpress.com/gdpr/');
  privacy.target='_blank';privacy.rel='noopener noreferrer';
  const identity=n('div','enquiry-identity');
+ // The identity/contract assignment is read-only for the student.
+ // Staff-only fields are stored in resident_staff_details with own-resident SELECT RLS.
  identity.append(n('strong','',t.identity),n('p','',String(ctx.resident.full_name||'')+' · '+String(ctx.resident.email||'')));
  // Contract numbers, assigned room, dates, deposits and monthly charges are verified
  // by reception. The student questionnaire cannot change them.
@@ -103,6 +105,42 @@ export async function renderStudentEnquiry(ctx){
   [({sk:"Ubytovanie do",en:"Accommodation to",ru:"Проживание до",uk:"Проживання до"})[ctx.lang],formatDate(ctx.resident.accommodation_to)]
  ])identity.append(n('p','',title+': '+String(value||'—')));
  identity.append(n('p','muted',({sk:"Depozit, kód izby, poplatky a mesačný splátkový kalendár spravuje recepcia. Overené platby uvidíš v záložke Platby.",en:"Deposit, room access code, fees and monthly payment schedule are maintained by reception. You can see verified payments in the Payments section.",ru:"Депозит, код доступа, сборы и график платежей ведёт ресепшен. Подтверждённые платежи доступны в разделе «Платежи».",uk:"Депозит, код доступу, збори та графік платежів веде рецепція. Підтверджені платежі доступні в розділі «Платежі»."})[ctx.lang]));
+
+ const receptionWords=({
+  sk:{title:'Údaje potvrdené recepciou',code:'Kód izby',codeShow:'Zobraziť kód izby',codeHide:'Skryť kód izby',deposit:'Depozit',administration:'Administratívny poplatok',rent:'Mesačný nájom',missing:'Zatiaľ nepotvrdené recepciou',duration:'Dĺžka pobytu'},
+  en:{title:'Reception-verified details',code:'Room code',codeShow:'Show room code',codeHide:'Hide room code',deposit:'Deposit',administration:'Administration fee',rent:'Monthly rent',missing:'Awaiting reception confirmation',duration:'Stay duration'},
+  ru:{title:'Данные, подтверждённые ресепшеном',code:'Код комнаты',codeShow:'Показать код',codeHide:'Скрыть код',deposit:'Депозит',administration:'Административный сбор',rent:'Аренда за месяц',missing:'Ожидает подтверждения ресепшена',duration:'Срок проживания'},
+  uk:{title:'Дані, підтверджені рецепцією',code:'Код кімнати',codeShow:'Показати код',codeHide:'Приховати код',deposit:'Депозит',administration:'Адміністративний збір',rent:'Місячна оренда',missing:'Очікує підтвердження рецепції',duration:'Тривалість проживання'}
+ })[ctx.lang]||{title:'Údaje potvrdené recepciou',code:'Kód izby',codeShow:'Zobraziť kód izby',codeHide:'Skryť kód izby',deposit:'Depozit',administration:'Administratívny poplatok',rent:'Mesačný nájom',missing:'Zatiaľ nepotvrdené recepciou',duration:'Dĺžka pobytu'};
+ const receptionCard=n('section','enquiry-identity'),verifiedGrid=n('dl','identity-fields');
+ receptionCard.append(n('strong','',receptionWords.title),verifiedGrid);
+ const [{data:verified,error:verifiedError},{data:stays,error:staysError}]=await Promise.all([
+  ctx.db.from('resident_staff_details').select('room_code,deposit_eur,administration_fee_eur')
+   .eq('tenant_id',ctx.tenant).eq('resident_id',ctx.resident.id).maybeSingle(),
+  ctx.db.from('tenancies').select('rent,starts_on,ends_on')
+   .eq('tenant_id',ctx.tenant).eq('resident_id',ctx.resident.id)
+ ]);
+ if(!ctx.isCurrent()||!root.isConnected)return;
+ const amount=v=>(v===0||v==='0.00'||(v!=null&&v!==''&&Number.isFinite(Number(v))))?
+     Number(v).toFixed(2)+' €':receptionWords.missing;
+ const stay=(stays||[]).find(t=>t.starts_on===ctx.resident.accommodation_from)||stays?.[0];
+ for(const [label,value] of [[receptionWords.rent,staysError?receptionWords.missing:amount(stay?.rent)],
+   [receptionWords.deposit,verifiedError?receptionWords.missing:amount(verified?.deposit_eur)],
+   [receptionWords.administration,verifiedError?receptionWords.missing:amount(verified?.administration_fee_eur)]])
+  verifiedGrid.append(n('dt','',label),n('dd','readonly-value',value));
+ const codeWrapper=n('div','enquiry-identity');
+ codeWrapper.append(n('strong','',receptionWords.code));
+ const codeValue=n('input');
+ codeValue.type='password';codeValue.readOnly=true;
+ codeValue.value=verified?.room_code||'';
+ codeValue.placeholder=receptionWords.missing;
+ const toggle=n('button','btn-secondary',receptionWords.codeShow);toggle.type='button';
+ toggle.addEventListener('click',()=>{
+  codeValue.type=codeValue.type==='password'?'text':'password';
+  toggle.textContent=codeValue.type==='password'?receptionWords.codeShow:receptionWords.codeHide;
+ });
+ codeWrapper.append(codeValue,toggle);receptionCard.append(codeWrapper);
+
  const grid=n('div','enquiry-grid'),fields={};
  const add=(key,label,type='text',maxLength=200)=>{
   const inp=n(type==='textarea'?'textarea':'input');if(type!=='textarea')inp.type=type;
@@ -151,7 +189,7 @@ export async function renderStudentEnquiry(ctx){
    }
   })();
  });
- form.append(identity,grid,photoBox,privacy);
+ form.append(identity,receptionCard,grid,photoBox,privacy);
  const status=n('p','enquiry-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  for(const key of ['permanent_address','date_of_birth','nationality','identity_document_number','telephone','school','parent_contact_email','iban'])if(fields[key])fields[key].required=true;
  fields.gender.required=true;
