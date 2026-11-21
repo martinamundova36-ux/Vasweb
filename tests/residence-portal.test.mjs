@@ -53,3 +53,22 @@ test('generated staff and student entry pages match registration security',()=>{
     }
   }
 });
+
+test('documents map questionnaire passport number and refund IBAN without inventing values',async()=>{
+  const code=readFileSync(resolve(root,'student-house-portal/residence-document.js'),'utf8');
+  const mod=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
+  const contract=mod.fieldsForDocument('contract_draft',{}, {identity_document_number:'TEST-PASSPORT'});
+  assert.equal(contract.passport_number,'TEST-PASSPORT');
+  assert.ok(mod.documentFields.contract_draft.includes('passport_number'));
+  const refund=mod.fieldsForDocument('deposit_template',{}, {iban:'TEST-IBAN'});
+  assert.equal(refund.refund_iban,'TEST-IBAN');
+  assert.equal(mod.fieldsForDocument('deposit_template',{},{}).refund_iban,undefined);
+});
+
+test('reception register loads registration data and never treats planned arrival as confirmed',()=>{
+  const source=readFileSync(resolve(root,'student-house-portal/room-register.js'),'utf8');
+  assert.match(source,/'registration_enquiries'\]\.map/);
+  assert.match(source,/reg\.contract_number===person\.verified_contract_number/);
+  assert.match(source,/e\.registration_id===reg\.id&&e\.tenant_id===person\.tenant_id/);
+  assert.doesNotMatch(source,/actual_arrival_on\s*:\s*(?:q|reg|verifiedRegistration)\./);
+});
