@@ -71,3 +71,15 @@ test('correction does not expose staff room number, updates expected arrival and
   const finance=readFileSync(join(root,'student-house-portal/supabase/residence-finance/index.ts'),'utf8');
   assert.match(finance,/Deno\.env\.get\("PORTAL_ORIGIN"\)/);
 });
+
+// Protect public registration against a user forging room or contract fields.
+test('new registration creates no staff-owned room assignment and accepts questionnaire fields later', () => {
+ const source=readFileSync(join(root,'student-house-portal/supabase/register-student/index.ts'),'utf8');
+ const sql=readFileSync(join(root,'student-house-portal/supabase/migrations/20261121170023_registration_room_assignment_reception_only.sql'),'utf8');
+ const manage=readFileSync(join(root,'student-house-portal/supabase/manage/index.ts'),'utf8');
+ assert.doesNotMatch(source,/const room_number=asText\(body\.room_number/);
+ assert.doesNotMatch(source,/p_data:\{[^}]*\broom_number\b/);
+ assert.match(sql,/lower\(p_data->>'email'\),null,/);
+ for(const key of ['parent_contact_email','permanent_address','gender','school'])assert.ok(sql.includes("coalesce(p_data->>'"+key+"','')"));
+ assert.match(manage,/Math\.floor\(Date\.now\(\)\/600000\)/);
+});

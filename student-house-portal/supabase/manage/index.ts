@@ -25,12 +25,18 @@ async function queueStudentAccess(tenant:string,email:string,kind:AccessKind,ori
  } as const;
  const message=content[kind];
  const {error}=await service.from('residence_mail_outbox').insert({
-  tenant_id:tenant,dedupe:'resident-access:'+kind+':'+crypto.randomUUID(),
+  tenant_id:tenant,dedupe:'resident-access:'+kind+':'+tenant+':'+email.toLowerCase()+':'+Math.floor(Date.now()/600000),
   audience:'student',recipient:email,subject:message.subject,body:message.body,
   ...(message.auth_link_type?{auth_link_type:message.auth_link_type}:{
    link:origin+'/student-house-portal/questionnaire/?signin=1'
   })
  });
+ if(error?.code==='23505'){
+  const key='resident-access:'+kind+':'+tenant+':'+email.toLowerCase()+':'+Math.floor(Date.now()/600000);
+  const {data:existing,error:lookupError}=await service.from('residence_mail_outbox')
+   .select('status').eq('dedupe',key).maybeSingle();
+  if(!lookupError&&['pending','processing','accepted'].includes(existing?.status||''))return true;
+ }
  if(error){console.error('student_access_queue_failed',error.code);return false;}
  return true;
 }
