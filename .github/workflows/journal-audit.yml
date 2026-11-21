@@ -37,6 +37,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '15 6 * * *'
+concurrency:
+  group: webu-journal-audit-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   audit:
     runs-on: ubuntu-latest

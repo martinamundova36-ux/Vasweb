@@ -13,9 +13,14 @@ on:
       - 'supabase/functions/register-student/**'
       - 'tests/residence-portal.test.mjs'
 
+concurrency:
+  group: residence-regression-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   residence-regression:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     permissions:
       contents: read
     steps:

@@ -10,9 +10,14 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+# Frequent portal edits should finish only the latest functional smoke test.
+concurrency:
+  group: student-house-smoke-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   public-registration-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - name: Verify Studenthouse sharing and WEBU creator credit
@@ -148,6 +153,7 @@ jobs:
 
   isolated-functional-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
