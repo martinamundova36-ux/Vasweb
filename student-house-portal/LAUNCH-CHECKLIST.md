@@ -73,4 +73,4 @@ This only prepares an artifact. It does not connect Cloudflare, switch DNS, or p
 - Three synthetic DB registrations with 5, 10 and 12 calendar-month durations all succeeded without questionnaire-only fields; transactions were rolled back.
 - Public attempts to supply `room_number` and `contract_number` now leave both staff-owned fields unassigned in the database. Verified with a rolled-back transaction.
 - Supabase migration history contains `handle_optional_registration_fields_for_questionnaire` and `registration_room_assignment_reception_only`; repository migration sources reflect the final functions.
-- Student invitation messages use the existing residence SMTP outbox, with a 10-minute dedupe window to avoid repeated costly sends. Inbox delivery still needs production-domain end-to-end confirmation.
+- Student invitation messages use the existing residence SMTP outbox, with a short deduplication window to avoid repeated costly sends. Inbox delivery still needs production-domain end-to-end confirmation.

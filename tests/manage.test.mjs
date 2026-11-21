@@ -12,7 +12,7 @@ async function scenario(config={}){
      table==='organization_memberships'?(config.body?.action==='activate_approved_login'?{role:'student',active:true}:null):null,
    error:table==='residence_mail_outbox'&&config.mailFailure?{code:'queue_failed'}:null
   }).then(ok);
-  if(name==='insert'&&table==='residence_mail_outbox')return ()=>{calls.push('queue');return serviceQuery(table)};
+  if((name==='insert'||name==='upsert')&&table==='residence_mail_outbox')return ()=>{calls.push('queue');return serviceQuery(table)};
   return ()=>serviceQuery(table);
  }});
  const service={
@@ -68,7 +68,7 @@ assert.deepEqual(r.calls,['residence_account_has_password','confirm_email']);
 r=await scenario({body:{action:'activate_approved_login'},hasPassword:false});
 assert.equal(r.status,409);assert.deepEqual(r.calls,['residence_account_has_password']);
 r=await scenario({body:{registration_id:undefined,room_number:'TEST'}});
-assert.equal(r.status,200);assert.deepEqual(r.calls,['email','provision_member'],'Keep legacy manual staff invitations');
+assert.equal(r.status,400);assert.deepEqual(r.calls,[],'Student invitation cannot bypass verified registration');
 r=await scenario({body:{action:'download',document_id:'d'}});assert.equal(r.status,403);assert.deepEqual(r.calls,[]);
 r=await scenario({documentAllowed:true,body:{action:'download',document_id:'d'}});assert.equal(r.status,200);assert.deepEqual(r.calls,['sign']);
 

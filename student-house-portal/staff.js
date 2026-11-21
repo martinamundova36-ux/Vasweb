@@ -233,9 +233,16 @@ export async function renderStaffScreen(ctx) {
        const {data,error}=await ctx.db.functions.invoke('manage',{body:{
         action:'resend_student_access',role:'student',tenant_id:ctx.tenant,registration_id:person.id
        }});
-       status(!error&&data?.ok?
-        (data?.email_queued===true?({sk:'✓ Pozvánka je vo fronte na odoslanie. Doručenie ešte nie je potvrdené.',en:'✓ Invitation queued. Inbox delivery is not yet confirmed.',ru:'✓ Приглашение в очереди отправки. Доставка пока не подтверждена.',uk:'✓ Запрошення в черзі на надсилання. Доставку ще не підтверджено.'})[ctx.lang]:(ctx.lang==='en'?'Invitation sent to the approved resident.':'Pozvánka bola odoslaná na e-mail schváleného študenta.')):
-        (ctx.lang==='en'?'Invitation could not be sent. Check SMTP.':'Pozvánku sa nepodarilo poslať. Skontroluj SMTP.'),!!error||!data?.ok);
+       const queued=!error&&data?.ok&&data?.email_queued===true;
+       status(queued?
+        ({sk:'Pozvánka je vo fronte na odoslanie. Doručenie do schránky zatiaľ nie je potvrdené.',
+          en:'Invitation queued for SMTP delivery. Inbox receipt is not yet confirmed.',
+          ru:'Приглашение добавлено в очередь отправки. Доставка в почтовый ящик ещё не подтверждена.',
+          uk:'Запрошення додано до черги надсилання. Доставку в поштову скриньку ще не підтверджено.'})[ctx.lang]:
+        ({sk:'Pozvánku sa nepodarilo zaradiť do odosielania. Skontroluj SMTP frontu.',
+          en:'Unable to queue the invitation. Check the SMTP queue.',
+          ru:'Не удалось добавить приглашение в очередь. Проверьте SMTP.',
+          uk:'Не вдалося додати запрошення до черги. Перевірте SMTP.'})[ctx.lang],!queued);
       }catch{status(w.failed,true)}
       finally{pendingAction=false;resend.disabled=false;}
      });
@@ -448,13 +455,10 @@ export async function renderStaffScreen(ctx) {
    if(approve&&verified.verified_assignment)Object.assign(person,verified.verified_assignment);
    person.status=approve?'invited':'rejected';success=true;
    const loginReady=approve&&response.data?.login_ready===true;
-   const emailSent=response.data?.email_sent;
-   const emailQueued=response.data?.email_queued===true;
-   const invitationEmailFailed=approve&&!loginReady&&!emailQueued&&emailSent!==true;
+   const emailRequested=response.data?.email_queued===true||response.data?.email_sent===true;
+   const invitationEmailFailed=approve&&!loginReady&&!emailRequested;
    status(loginReady
      ?(ctx.lang==='en'?'Registration approved. Student can sign in with the original password and continue the questionnaire inside Studenthouse.':'Registrácia schválená. Študent sa môže prihlásiť heslom z registrácie a pokračovať v dotazníku v Studenthouse.')
-     :emailQueued
-       ?({sk:'✓ Registrácia schválená. Pozvánka čaká vo fronte na odoslanie.',en:'✓ Registration approved. Invitation queued for delivery.',ru:'✓ Регистрация одобрена. Приглашение в очереди отправки.',uk:'✓ Реєстрацію схвалено. Запрошення в черзі на надсилання.'})[ctx.lang]
      :invitationEmailFailed
        ?(ctx.lang==='en'?'Approved, but student login is not activated. Check password recovery.':'Registrácia schválená, ale prihlásenie nie je aktivované. Skontroluj obnovu hesla.')
        :(approve?w.inviteOK:w.rejected));
