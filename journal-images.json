@@ -2992,6 +2992,230 @@
         "1280": "ca4a39fca5395a34095c29daf5c94686f46203f399b374edbc1d9d714b46df79",
         "social": "c579411a019c89c099f6a4235f4f37da7aa2018f851e9addb941a9fa0095f898"
       }
+    },
+    {
+      "id": "commons-ca535bde71577a",
+      "provider": "Wikimedia Commons",
+      "provider_id": "111182177",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Camping-Office-osoto-Hisayaodori-1.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Camping-Office-osoto-Hisayaodori-1.jpg/1920px-Camping-Office-osoto-Hisayaodori-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Evelyn-rose",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-21",
+      "original_sha256": "5c5f09e51b28947af849dab5dc1873e0627f9b7a74a4cbe71072dc664712f432",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-ca535bde71577a-640.webp",
+        "1280": "/assets/journal/commons-ca535bde71577a-1280.webp",
+        "social": "/assets/journal/commons-ca535bde71577a-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "00632d092c92f5201c1c90431b6a81809bb39048b4806b2674183aada8e936c2",
+        "1280": "c10a02780687e7651da374950b9164b6da6ba02c12d1c481b21cb7b2ce64f4d2",
+        "social": "d945162af6e6affb84d0294ef1138f3168dec9e5bc213e54939e7e760021d2f6"
+      }
+    },
+    {
+      "id": "commons-5ebe28392941a9",
+      "provider": "Wikimedia Commons",
+      "provider_id": "203562072",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_holding_a_laptop_in_her_office.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Woman_holding_a_laptop_in_her_office.jpg/1920px-Woman_holding_a_laptop_in_her_office.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-21",
+      "original_sha256": "492fd3b381a9b67af787a52745a2a5bc35a3871eb79720291a301979486aeac7",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-5ebe28392941a9-640.webp",
+        "1280": "/assets/journal/commons-5ebe28392941a9-1280.webp",
+        "social": "/assets/journal/commons-5ebe28392941a9-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "6212999dfbbb7d6cb582e8e2bbd4196777c19ff61b4715d23b98348dd5226d5e",
+        "1280": "ef706aeb7f1bbb362aff11b6299b01fec0af455351a00b080d434ee59a1bc282",
+        "social": "6a5d7f45937799c122fe9fe0324a3b210d619a03c5e0a8554162febbd35c1de1"
+      }
+    },
+    {
+      "id": "commons-cec523e5e5d5d0",
+      "provider": "Wikimedia Commons",
+      "provider_id": "196292967",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Individual_holding_white_pills_while_working_on_a_laptop_in_a_modern_home_office_during_the_day.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Individual_holding_white_pills_while_working_on_a_laptop_in_a_modern_home_office_during_the_day.jpg/1920px-Individual_holding_white_pills_while_working_on_a_laptop_in_a_modern_home_office_during_the_day.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-21",
+      "original_sha256": "ce0f6da33df4471d67d741797c5cd5bbbdfc45ea9bfbc3b980ced395b2d6a5cf",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-cec523e5e5d5d0-640.webp",
+        "1280": "/assets/journal/commons-cec523e5e5d5d0-1280.webp",
+        "social": "/assets/journal/commons-cec523e5e5d5d0-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "64406e6ec114a95b46d0ad1321ae5058690a478490be75fdd53ae51b9a541508",
+        "1280": "6260c2f2509303b818675717813d4530db3ba3a1959fbb5a251596ba63e8ea7e",
+        "social": "bea2ca57a55bee3a82542f61d466308196b8d4841c97fd6e128fa33649f3e245"
+      }
+    },
+    {
+      "id": "commons-4932b8948433b1",
+      "provider": "Wikimedia Commons",
+      "provider_id": "116757406",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_sitting_at_her_office_table_and_typing_the_number_from_a_plastic_card_on_the_laptop._(51536551788).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Woman_sitting_at_her_office_table_and_typing_the_number_from_a_plastic_card_on_the_laptop._%2851536551788%29.jpg/1920px-Woman_sitting_at_her_office_table_and_typing_the_number_from_a_plastic_card_on_the_laptop._%2851536551788%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Nenad Stojkovic",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-21",
+      "original_sha256": "9c1dfbfc6f882ed1ccdaf1981b9e36f0ee9c5f0bb42a3086c78254f5360064dd",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-4932b8948433b1-640.webp",
+        "1280": "/assets/journal/commons-4932b8948433b1-1280.webp",
+        "social": "/assets/journal/commons-4932b8948433b1-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "b1de6eaffc9f31505d5d4f528064ba3f58b0f2a56c9419e030f8a37016e0332b",
+        "1280": "0663b7545b6bcafdf8b61aab0f4a9fd1ec67ef1cebf77cee85b04e9b4a1c1b5c",
+        "social": "7260c094f623280179922f51db3247a660df9dd2dcda06ea8dd5dfea01f32d1d"
+      }
+    },
+    {
+      "id": "commons-2aa03ab9d6f0aa",
+      "provider": "Wikimedia Commons",
+      "provider_id": "115441146",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Citizen_SLD-100NR_calculator.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Citizen_SLD-100NR_calculator.jpg/1920px-Citizen_SLD-100NR_calculator.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "LoMit",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-21",
+      "original_sha256": "22a42655b7a4e1b0399acba5fa5e900fa959d8904c9006abef6f2fca4f38e976",
+      "topics": [
+        "pricing"
+      ],
+      "alt": {
+        "sk": "Kalkulačka na pracovnom stole",
+        "en": "Calculator on a work desk"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-2aa03ab9d6f0aa-640.webp",
+        "1280": "/assets/journal/commons-2aa03ab9d6f0aa-1280.webp",
+        "social": "/assets/journal/commons-2aa03ab9d6f0aa-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d838466dc18336656392030c922523366d6534188c739ce38a44ad25f9f33f7c",
+        "1280": "92ad1bcc028255dfe3c7ae2ac2fc1b8fdfb134b7b0d646fdc665a98303dcd948",
+        "social": "f435cf66a7863716dd6087e852f16d8eb2557c79385a48e313b5d14e377e3bc3"
+      }
+    },
+    {
+      "id": "commons-1f385ca7a0dc08",
+      "provider": "Wikimedia Commons",
+      "provider_id": "143655939",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Hall_nord_p%C3%B4le_intermodal,_gare_de_Marseille_Saint-Charles.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Hall_nord_p%C3%B4le_intermodal%2C_gare_de_Marseille_Saint-Charles.jpg/1920px-Hall_nord_p%C3%B4le_intermodal%2C_gare_de_Marseille_Saint-Charles.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "TCY",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-21",
+      "original_sha256": "29cba51bce5d2edfcc5f9de19b80f786972408dd7e1480e594d9b049ae4e0603",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-1f385ca7a0dc08-640.webp",
+        "1280": "/assets/journal/commons-1f385ca7a0dc08-1280.webp",
+        "social": "/assets/journal/commons-1f385ca7a0dc08-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "bf670d2fcc07f347024821bfad0a4e1c17bfc44f1eafd98f22982bdefb9d173f",
+        "1280": "4a13aa73dea224439284931e253b2edbb20c8781e22384b89a4b20699bdc20bf",
+        "social": "de2fdd09919f4577134925897fb72f0da0fcfb172bc4a11ee53273b59801ea69"
+      }
+    },
+    {
+      "id": "commons-8f37556ebfc055",
+      "provider": "Wikimedia Commons",
+      "provider_id": "194137060",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_reading_and_working_on_laptop_at_home.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Woman_reading_and_working_on_laptop_at_home.jpg/1920px-Woman_reading_and_working_on_laptop_at_home.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-21",
+      "original_sha256": "27574d6a8b64d8368c78f4c21cb375287b46994e91ab479137bba65c2795529b",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-8f37556ebfc055-640.webp",
+        "1280": "/assets/journal/commons-8f37556ebfc055-1280.webp",
+        "social": "/assets/journal/commons-8f37556ebfc055-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "32fb348e820fb1d92ac6951c7d16111a492bdb6efefd38eed038ca3ecc3a19ba",
+        "1280": "eee7c5ef750db2c46cfe38a2476743e3fb3bfaa65cbb9d36fba82b1b3ccc6552",
+        "social": "029be90e6ae5798c44805f0cedd75c4ed02ec4df9ba85dbc95d464cd15cb520c"
+      }
     }
   ],
   "assignments": {
@@ -3079,6 +3303,13 @@
     "blog-journal-vplyv-byrokratickeho-riadenia-na-zdravie-zamestnancov.html": "commons-4dbdd3a59d9f84",
     "blog-journal-digitalne-vedenie-a-udrzatelnost-v-malych-a-strednych-podnikoch.html": "commons-1407392ceabf03",
     "blog-journal-manazment-casu-ako-nastroj-pre-well-being-a-vykonnost.html": "commons-bd177bb0294d66",
-    "blog-journal-vplyv-kariernej-historie-ceo-na-riadenie-dodavatelskeho-retazca.html": "commons-735b3dc52d0ca2"
+    "blog-journal-vplyv-kariernej-historie-ceo-na-riadenie-dodavatelskeho-retazca.html": "commons-735b3dc52d0ca2",
+    "blog-journal-the-influence-of-debt-and-liquidity-policies-on-financial-distress-at-pt.html": "commons-ca535bde71577a",
+    "blog-journal-prudential-regulatory-compliance-and-financial-performance-of-microfinance.html": "commons-5ebe28392941a9",
+    "blog-journal-the-impact-of-generative-artificial-intelligence-on-employee-green-well.html": "commons-cec523e5e5d5d0",
+    "blog-journal-effects-of-workplace-bullying-on-early-retirement-a-prospective-cohort.html": "commons-4932b8948433b1",
+    "blog-journal-statistical-modelling-of-credit-riskiness-of-bodaboda-credit-business-in.html": "commons-2aa03ab9d6f0aa",
+    "blog-journal-vplyv-dlhovej-a-likviditnej-politiky-na-financne-tazkosti-analyza-pt.html": "commons-1f385ca7a0dc08",
+    "blog-journal-vplyv-sikany-na-pracovisku-na-predcasny-odchod-do-dochodku-10-rocna.html": "commons-8f37556ebfc055"
   }
 }

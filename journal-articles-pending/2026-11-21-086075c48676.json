@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.61536/escalate.v4i4.970",
+  "generated_on": "2026-11-21",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Vplyv dlhovej a likviditnej politiky na finančné ťažkosti: Analýza PT Sepatu Bata Tbk",
+      "description": "Štúdia analyzuje finančné zdravie spoločnosti PT Sepatu Bata Tbk v rokoch 2013 – 2025, pričom skúma vzťah medzi zadlženosťou, likviditou a rizikom úpadku.",
+      "lead": "Táto analýza skúma finančnú stabilitu spoločnosti PT Sepatu Bata Tbk v priebehu trinástich rokov. Výskum sa zameriava na to, ako dlhová politika a likvidita ovplyvňujú pravdepodobnosť finančných ťažkostí, pričom poskytuje cenné poznatky o riadení krátkodobých záväzkov a štruktúry kapitálu v kontexte meniacej sa trhovej situácie a rastúceho tlaku na firemné financie.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Finančná stabilita podnikov je kľúčovým ukazovateľom ich dlhodobej životaschopnosti, najmä v odvetviach čeliacich vysokej konkurencii. Štúdia sa zameriava na spoločnosť PT Sepatu Bata Tbk, ktorá v sledovanom období vykazovala známky zhoršujúcej sa finančnej kondície. Tento výskum analyzuje, do akej miery môžu špecifické finančné rozhodnutia, ako je správa dlhu a likviditných rezerv, predpovedať alebo zmierňovať riziko finančného zlyhania v korporátnom prostredí.",
+            "Autori Fadillah a Ganar skúmajú tento problém prostredníctvom kvantitatívnej analýzy finančných výkazov. Cieľom je pochopiť dynamiku medzi zadlženosťou a schopnosťou spoločnosti plniť si krátkodobé záväzky. Pre podnikateľov a finančných manažérov predstavuje táto analýza dôležitý pohľad na to, ako môžu zdanlivo bežné finančné ukazovatele signalizovať hlbšie štrukturálne problémy v rámci organizácie, ak nie sú správne monitorované a riadené v čase krízy."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Štúdia sa zamerala na finančné výkazy spoločnosti PT Sepatu Bata Tbk za obdobie rokov 2013 až 2025. Podľa abstraktu bol hlavným cieľom výskumu analyzovať vplyv dlhovej politiky a likviditnej politiky na finančné ťažkosti firmy. Výskumníci sa snažili zistiť, či tieto faktory pôsobia na finančnú stabilitu podniku čiastočne alebo simultánne, pričom využili kvantitatívny prístup a deskriptívnu metódu na spracovanie sekundárnych údajov z účtovných závierok.",
+            "Konkrétne bola dlhová politika meraná pomocou pomeru dlhu k vlastnému imaniu (DER) a likvidita bola hodnotená prostredníctvom bežného pomeru (CR). Finančné ťažkosti boli kvantifikované pomocou Altmanovho Z-skóre, čo je uznávaný nástroj na predpovedanie rizika bankrotu. Štúdia sa snažila identifikovať, či zmeny v týchto ukazovateľoch priamo korelujú s negatívnym vývojom finančného zdravia spoločnosti, čo je kľúčové pre pochopenie mechanizmov, ktoré vedú k zhoršenej finančnej situácii v priebehu trinásťročného pozorovacieho obdobia."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu výsledky ukazujú, že pomer dlhu k vlastnému imaniu (DER) nemá podľa abstraktu štatisticky významný vplyv na finančné ťažkosti (p = 0,207). Naopak, likvidita meraná bežným pomerom (CR) má podľa abstraktu pozitívny a štatisticky významný vplyv na finančné ťažkosti (p < 0,001). Tieto zistenia naznačujú, že v prípade skúmanej spoločnosti je schopnosť riadiť likviditu kritickejším faktorom pre udržanie finančnej stability než samotná úroveň zadlženosti.",
+            "Simultánna analýza podľa abstraktu potvrdila, že DER a CR spoločne významne ovplyvňujú finančné ťažkosti (F = 23,597; p < 0,001), pričom upravený koeficient determinácie dosiahol hodnotu 0,790. To znamená, že tieto dva faktory dokážu vysvetliť veľkú časť variability finančného zdravia spoločnosti. Záverom je, že riadenie obežných aktív a krátkodobých záväzkov je nevyhnutné pre prevenciu finančného úpadku, čo podčiarkuje dôležitosť operatívneho finančného plánovania v podniku."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Výskum využil kvantitatívnu metodiku založenú na trinásťročných údajoch z finančných výkazov PT Sepatu Bata Tbk. Použité štatistické metódy zahŕňali deskriptívnu štatistiku, testy klasických predpokladov a viacnásobnú lineárnu regresiu. Hoci tento prístup poskytuje jasný obraz o historickom vývoji spoločnosti, je dôležité poznamenať, že štúdia sa obmedzuje len na jednu konkrétnu firmu, čo limituje zovšeobecniteľnosť výsledkov na iné odvetvia alebo trhové podmienky.",
+            "Medzi limity patrí aj skutočnosť, že analýza vychádza výlučne zo sekundárnych účtovných údajov. Podľa abstraktu nie je jasné, aké externé ekonomické faktory, ako napríklad zmeny v spotrebiteľskom správaní alebo makroekonomické šoky, mohli ovplyvniť výsledky. Navyše, keďže ide o prípadovú štúdiu jednej spoločnosti, výsledky nemusia platiť pre iné podniky s odlišnou štruktúrou kapitálu alebo v iných geografických oblastiach, čo vyžaduje opatrnosť pri interpretácii zistení v širšom kontexte."
+          ]
+        },
+        {
+          "heading": "Čo si z výskumu môže odniesť podnikateľ",
+          "paragraphs": [
+            "Podnikatelia by mali venovať zvýšenú pozornosť riadeniu likvidity, pretože štúdia naznačuje, že jej vplyv na finančné zdravie je významnejší než samotná úroveň zadlženosti. Udržiavanie dostatočnej hotovosti a efektívne riadenie krátkodobých záväzkov sú kľúčové pre prežitie. Napríklad, podnikateľ môže pravidelne testovať svoj bežný pomer (CR) a simulovať vplyv oneskorených platieb od odberateľov na svoju schopnosť plniť záväzky, aby včas identifikoval potenciálne riziká finančných ťažkostí.",
+            "Je však nutné pripomenúť, že tieto zistenia sú špecifické pre PT Sepatu Bata Tbk a nemusia byť univerzálne aplikovateľné. Podnikateľ by mal tieto ukazovatele vnímať ako súčasť širšieho riadenia rizík, nie ako jediný indikátor úspechu. Odporúča sa kombinovať kvantitatívne finančné analýzy s kvalitatívnym hodnotením trhového prostredia, pretože finančné výkazy odrážajú minulé udalosti, zatiaľ čo strategické rozhodnutia musia zohľadňovať budúce výzvy a meniace sa podmienky v odvetví."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Štúdia Fadillaha a Ganara zdôrazňuje, že likvidita je kľúčovým pilierom finančnej stability spoločnosti. Hoci zadlženosť je dôležitá, schopnosť firmy splácať krátkodobé záväzky sa ukázala ako rozhodujúci faktor pri predpovedaní finančných ťažkostí. Pre manažérov to znamená, že prioritou by malo byť udržiavanie zdravej likviditnej pozície, ktorá poskytuje potrebnú flexibilitu pri riešení nepredvídaných finančných tlakov a zabezpečuje kontinuitu podnikania v náročných obdobiach.",
+            "Výskum poskytuje cenný pohľad na finančné riadenie prostredníctvom analýzy konkrétneho prípadu. Hoci sú výsledky obmedzené na jednu spoločnosť, zdôrazňujú potrebu systematického monitorovania finančných ukazovateľov. Pre podnikateľov je to pripomienka, že finančné zdravie nie je statický stav, ale dynamický proces, ktorý vyžaduje neustálu pozornosť a prispôsobovanie sa interným aj externým podmienkam, aby sa predišlo dlhodobým problémom a zabezpečila sa stabilita podniku."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "The Influence of Debt and Liquidity Policies on Financial Distress: An Analysis of PT Sepatu Bata Tbk",
+      "description": "This study analyzes the financial health of PT Sepatu Bata Tbk from 2013–2025, examining the relationship between debt, liquidity, and insolvency risk.",
+      "lead": "This analysis examines the financial stability of PT Sepatu Bata Tbk over a thirteen-year period. The research focuses on how debt policy and liquidity influence the probability of financial distress, providing valuable insights into managing short-term liabilities and capital structure in the context of shifting market conditions and increasing pressure on corporate finances.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Financial stability is a critical indicator of a company's long-term viability, especially in sectors facing intense competition. This study focuses on PT Sepatu Bata Tbk, which exhibited signs of deteriorating financial health during the observation period. The research analyzes the extent to which specific financial decisions, such as debt management and liquidity reserves, can predict or mitigate the risk of financial failure within a corporate environment.",
+            "Authors Fadillah and Ganar examine this issue through a quantitative analysis of financial statements. The goal is to understand the dynamics between leverage and the company's ability to meet short-term obligations. For entrepreneurs and financial managers, this analysis provides an important perspective on how seemingly standard financial metrics can signal deeper structural problems within an organization if they are not correctly monitored and managed during times of crisis."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "The study focused on the financial statements of PT Sepatu Bata Tbk for the period from 2013 to 2025. According to the abstract, the primary objective was to analyze the effect of debt policy and liquidity policy on the firm's financial distress. The researchers sought to determine whether these factors act on financial stability partially or simultaneously, utilizing a quantitative approach and descriptive method to process secondary data from accounting records.",
+            "Specifically, debt policy was measured using the Debt to Equity Ratio (DER), and liquidity was evaluated through the Current Ratio (CR). Financial distress was quantified using the Altman Z-Score, a recognized tool for predicting bankruptcy risk. The study aimed to identify whether changes in these indicators directly correlate with the negative development of the company's financial health, which is crucial for understanding the mechanisms leading to financial distress over the thirteen-year observation period."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, the results show that the Debt to Equity Ratio (DER) has no statistically significant effect on financial distress (p = 0.207). Conversely, liquidity measured by the Current Ratio (CR) has a positive and statistically significant effect on financial distress (p < 0.001). These findings suggest that for the company studied, the ability to manage liquidity is a more critical factor for maintaining financial stability than the level of debt itself.",
+            "Simultaneous analysis, according to the abstract, confirmed that DER and CR together significantly affect financial distress (F = 23.597; p < 0.001), with an Adjusted R Square reaching 0.790. This indicates that these two factors can explain a large portion of the variability in the company's financial health. In conclusion, managing current assets and short-term liabilities is essential for preventing financial failure, which underscores the importance of operational financial planning within the enterprise."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The research utilized a quantitative methodology based on thirteen years of data from the financial statements of PT Sepatu Bata Tbk. The statistical methods employed included descriptive statistics, classical assumption tests, and multiple linear regression. While this approach provides a clear picture of the company's historical development, it is important to note that the study is limited to one specific firm, which restricts the generalizability of the results to other sectors or market conditions.",
+            "Limitations also include the fact that the analysis is based solely on secondary accounting data. According to the abstract, it is unclear what external economic factors, such as changes in consumer behavior or macroeconomic shocks, may have influenced the results. Furthermore, as this is a case study of a single company, the findings may not apply to other enterprises with different capital structures or in different geographic regions, requiring caution when interpreting the findings in a broader context."
+          ]
+        },
+        {
+          "heading": "Business relevance and limitations",
+          "paragraphs": [
+            "Entrepreneurs should pay increased attention to liquidity management, as the study suggests its impact on financial health is more significant than the level of debt. Maintaining sufficient cash and effectively managing short-term liabilities are key to survival. For example, an entrepreneur could regularly test their Current Ratio (CR) and simulate the impact of delayed payments from customers on their ability to meet obligations to identify potential risks of financial distress early.",
+            "However, it must be remembered that these findings are specific to PT Sepatu Bata Tbk and may not be universally applicable. An entrepreneur should view these indicators as part of broader risk management, not as the sole indicator of success. It is recommended to combine quantitative financial analysis with qualitative assessment of the market environment, as financial statements reflect past events, while strategic decisions must account for future challenges and changing industry conditions."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The study by Fadillah and Ganar emphasizes that liquidity is a key pillar of a company's financial stability. Although debt is important, a firm's ability to pay short-term obligations proved to be the decisive factor in predicting financial distress. For managers, this means that the priority should be maintaining a healthy liquidity position, which provides the necessary flexibility to address unforeseen financial pressures and ensures business continuity during difficult periods.",
+            "The research provides a valuable perspective on financial management through the analysis of a specific case. Although the results are limited to one company, they highlight the need for systematic monitoring of financial indicators. For entrepreneurs, it is a reminder that financial health is not a static state but a dynamic process that requires constant attention and adaptation to both internal and external conditions to avoid long-term problems and ensure business stability."
+          ]
+        }
+      ]
+    }
+  }
+}

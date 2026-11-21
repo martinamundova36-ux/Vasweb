@@ -172,3 +172,17 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-bd177bb0294d66: [Musicaline](https://commons.wikimedia.org/wiki/File:Coucher_de_soleil_au_bureau.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-735b3dc52d0ca2: [rzv](https://commons.wikimedia.org/wiki/File:GetJar-2.jpg), licencia [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-ca535bde71577a: [Evelyn-rose](https://commons.wikimedia.org/wiki/File:Camping-Office-osoto-Hisayaodori-1.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-5ebe28392941a9: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_holding_a_laptop_in_her_office.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-cec523e5e5d5d0: [Shixart1985](https://commons.wikimedia.org/wiki/File:Individual_holding_white_pills_while_working_on_a_laptop_in_a_modern_home_office_during_the_day.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-4932b8948433b1: [Nenad Stojkovic](https://commons.wikimedia.org/wiki/File:Woman_sitting_at_her_office_table_and_typing_the_number_from_a_plastic_card_on_the_laptop._(51536551788).jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-2aa03ab9d6f0aa: [LoMit](https://commons.wikimedia.org/wiki/File:Citizen_SLD-100NR_calculator.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-1f385ca7a0dc08: [TCY](https://commons.wikimedia.org/wiki/File:Hall_nord_p%C3%B4le_intermodal,_gare_de_Marseille_Saint-Charles.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-8f37556ebfc055: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_reading_and_working_on_laptop_at_home.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
