@@ -3,7 +3,8 @@ const money=new Intl.NumberFormat('sk-SK',{style:'currency',currency:'EUR'});
 const date=value=>value.split('-').reverse().join('.');
 const node=(tag,text)=>{const e=document.createElement(tag);if(text)e.textContent=text;return e;};
 function validIban(value){
- if(!/^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$/.test(value))return false;
+ if(!/^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$/.test(value)||value.length>34)return false;
+ if(value.startsWith('SK')&&value.length!==24)return false;
  return [...(value.slice(4)+value.slice(0,4))].reduce((remainder,char)=>(remainder*(char>'9'?100:10)+(char>'9'?char.charCodeAt(0)-55:Number(char)))%97,0)===1;
 }
 async function paymentImages(items,bank){
@@ -54,7 +55,7 @@ const beneficiaries=['Student House Bratislava','Gargallo s.r.o.'];
 export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber='',saveToProfile}={}){
  if(!person||!items.length)return;
  const panel=node('details'),summary=node('summary','Splátkový kalendár s QR kódmi'),form=node('form');
- const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,true],['Variabilný symbol (číslo zmluvy)','symbol',10,false]];
+ const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,false],['Variabilný symbol (číslo zmluvy)','symbol',10,false]];
  const fields={};
  for(const [label,key,max,required] of inputs){
   const wrapper=node('label',label),input=node(key==='beneficiary'?'select':'input');input.required=required;
@@ -62,26 +63,45 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    input.append(new Option('Vyber príjemcu',''));
    for(const name of beneficiaries)input.append(new Option(name,name));
   }else input.maxLength=max;
+  if(key==='iban'){
+   input.placeholder='SK__ ____ ____ ____ ____ ____';
+   input.autocomplete='off';input.spellcheck=false;input.inputMode='text';
+   input.setAttribute('aria-describedby','qr-iban-hint');
+   const hint=node('small','Vyplň celý IBAN ubytovateľa z bankovníctva (slovenský IBAN začína SK a má 24 znakov). Samotné číslo účtu nestačí.');
+   hint.id='qr-iban-hint';wrapper.append(hint);
+  }
   if(key==='symbol'){input.value=String(contractNumber??'').trim();input.readOnly=true;}
   wrapper.append(input);form.append(wrapper);fields[key]=input;
  }
- const retry=node('button','Skúsiť znova'),status=node('p'),preview=node('div');
- status.setAttribute('role','status');retry.type='button';retry.hidden=true;form.append(status,retry,preview);
- let url,timeout,version=0,requested='';
+ const confirm=node('button','Potvrdiť údaje a vytvoriť QR PDF');
+ confirm.type='submit';confirm.style.cssText='display:block;width:100%;margin:14px 0;padding:13px 18px;background:#152d4d;color:#fff;font-weight:700;border:0;border-radius:11px;cursor:pointer';
+ const retry=node('button','Skúsiť vytvoriť PDF znova'),status=node('p'),preview=node('div');
+ status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ retry.type='button';retry.hidden=true;
+ form.append(confirm,status,retry,preview);
+ let url=null,version=0,generating=false;
  const accountKey=()=>accountScope&&fields.beneficiary.value?accountScope+':'+fields.beneficiary.value:'';
+ const bankDetails=()=>({
+  beneficiary:fields.beneficiary.value.trim(),
+  iban:fields.iban.value.replace(/\s/g,'').toUpperCase(),
+  symbol:fields.symbol.value.trim()
+ });
+ function validateBank(bank){
+  if(!beneficiaries.includes(bank.beneficiary))return 'Vyber príjemcu platby.';
+  if(!bank.iban)return 'Doplň celý IBAN ubytovateľa. Bez neho nie je možné vytvoriť QR platbu.';
+  if(/^\d+$/.test(bank.iban))return 'Zadané je iba číslo účtu, nie IBAN. Slovenský IBAN má 24 znakov a začína SK. Skopíruj ho z bankovníctva.';
+  if(bank.iban.startsWith('SK')&&bank.iban.length!==24)return 'Slovenský IBAN musí mať presne 24 znakov vrátane SK. Skontroluj ho v bankovníctve.';
+  if(!validIban(bank.iban))return 'IBAN je neplatný alebo má nesprávne kontrolné číslice. Skontroluj celý IBAN ubytovateľa.';
+  if(!/^\d{1,10}$/.test(bank.symbol))return 'Chýba overený číselný variabilný symbol (1 až 10 číslic). Skontroluj číslo zmluvy.';
+  return '';
+ }
  function refresh(){
-  clearTimeout(timeout);version++;requested='';retry.hidden=true;status.style.color='';preview.replaceChildren();
+  version++;generating=false;confirm.disabled=false;confirm.textContent='Potvrdiť údaje a vytvoriť QR PDF';
+  retry.hidden=true;status.style.color='';preview.replaceChildren();
   if(url){URL.revokeObjectURL(url);url=null;}
-  const bank={beneficiary:fields.beneficiary.value.trim(),iban:fields.iban.value.replace(/\s/g,'').toUpperCase(),symbol:fields.symbol.value.trim()};
-  if(!/^\d{1,10}$/.test(bank.symbol)){status.textContent='Chýba overené číselné číslo zmluvy (1 až 10 číslic).';return;}
-  if(!beneficiaries.includes(bank.beneficiary)||!validIban(bank.iban)){
-   status.textContent='Vyber príjemcu a doplň jeho skutočný IBAN. PDF sa vytvorí automaticky.';return;
-  }
-  status.textContent='Vytváram dokument…';const run=version;
-  timeout=setTimeout(()=>void generate(bank,run),300);
+  status.textContent='Po zadaní platného IBAN-u stlač „Potvrdiť údaje a vytvoriť QR PDF“.';
  }
  async function generate(bank,run){
-  requested=bank.beneficiary+'|'+bank.iban;
   try{
    const images=await paymentImages(items,bank);
    const file=await pdfDocument(plan,person,items,bank,images);
@@ -114,17 +134,30 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
     const figure=node('figure'),img=node('img');img.src=src;img.width=116;img.height=116;img.alt='PAY by square · splátka '+(index+1);
     figure.append(img,node('figcaption',date(items[index].due_on)+' · '+money.format(Number(items[index].amount))+(items[index].description?' · '+items[index].description:'')));preview.append(figure);
    }
-   status.textContent='Platobné PDF je pripravené.';
-  }catch(error){if(run===version){status.textContent='Dokument sa nepodarilo vytvoriť. '+error.message;retry.hidden=false;}}
+   status.style.color='#166534';status.textContent='✓ Platobné QR PDF je pripravené. Môžeš ho stiahnuť alebo uložiť do profilu študenta.';
+  }catch(error){if(run===version){status.style.color='#b91c1c';status.textContent='Dokument sa nepodarilo vytvoriť. '+(error?.message||'Skús znova.');retry.hidden=false;}}
+  finally{if(run===version){generating=false;confirm.disabled=false;confirm.textContent='Vytvoriť QR PDF znova';}}
  }
- form.addEventListener('input',event=>{if(event.target!==fields.beneficiary)refresh();});
+ async function submitBank(){
+  if(generating)return;
+  const bank=bankDetails(),problem=validateBank(bank);
+  if(problem){
+   status.style.color='#b91c1c';status.textContent=problem;
+   if(!bank.iban||/^\d+$/.test(bank.iban)||!validIban(bank.iban))fields.iban.focus();
+   return;
+  }
+  generating=true;retry.hidden=true;confirm.disabled=true;confirm.textContent='Vytváram QR PDF…';
+  status.style.color='';status.textContent='Overujem bankové údaje a vytváram QR kódy pre splátky…';
+  const run=++version;await generate(bank,run);
+ }
+ form.addEventListener('input',refresh);
  fields.beneficiary.addEventListener('change',()=>{fields.iban.value=recentAccounts.get(accountKey())||'';refresh();});
- form.addEventListener('submit',event=>event.preventDefault());
- retry.addEventListener('click',refresh);
+ form.addEventListener('submit',event=>{event.preventDefault();void submitBank();});
+ retry.addEventListener('click',()=>void submitBank());
  function prepare(){
   const cached=recentAccounts.get(accountKey());
   if(cached&&!fields.iban.value)fields.iban.value=cached;
-  if(!requested)refresh();
+  refresh();
  }
  panel.addEventListener('toggle',()=>{if(panel.open)prepare();});
  panel.open=open;
