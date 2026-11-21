@@ -1551,7 +1551,7 @@ async function renderPanel(){
     else message(({sk:"Údaje o ubytovaní sa zobrazia po priradení izby recepciou.",en:"Your accommodation details will appear after reception assigns your room.",ru:"Данные о проживании появятся после назначения комнаты.",uk:"Дані про проживання з’являться після призначення кімнати."})[lang]);
    }
    if(!staff){
-    const studentUI=await import('/student-house-portal/student-finance.js?v=i18n2-20261114-fees2');
+    const studentUI=await import('/student-house-portal/student-finance.js?v=20261121-manual-payments1');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='overview')return;
     studentUI.renderPaymentHighlight({root:container,resident,tenancies:d.tenancies,charges:d.rent_charges,allocations:d.payment_allocations,reversals:d.payment_reversals,plans:d.installment_plans,items:d.installment_items,lang,onOpen:navigate});
     studentUI.renderStudentWelcome({root:container,resident,tenancies:d.tenancies,lang,onOpen:navigate});
@@ -1780,7 +1780,7 @@ async function renderPanel(){
      list('rent_charges',filter),list('payment_allocations'),list('payment_reversals'),list('installment_plans',filter),list('installment_items')
     ]);
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=i18n2-20261114-fees2');
+    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261121-manual-payments1');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
     renderMonthlyCalendar({root:container,charges,allocations,reversals,plans,items,lang,onOpen:navigate});
     return;
