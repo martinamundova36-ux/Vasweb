@@ -72,3 +72,38 @@ test('reception register loads registration data and never treats planned arriva
   assert.match(source,/e\.registration_id===reg\.id&&e\.tenant_id===person\.tenant_id/);
   assert.doesNotMatch(source,/actual_arrival_on\s*:\s*(?:q|reg|verifiedRegistration)\./);
 });
+
+
+test('reception registration approval records private room code, deposit and administrative fee',()=>{
+ const staff=readFileSync(resolve(root,'student-house-portal/staff.js'),'utf8');
+ const backend=readFileSync(resolve(root,'supabase/functions/manage/index.ts'),'utf8');
+ assert.match(staff,/room_code:roomCode\.value\.trim\(\)/);
+ assert.match(staff,/deposit_eur:Number\(deposit\.value\)\.toFixed\(2\)/);
+ assert.match(staff,/administration_fee_eur:Number\(adminFee\.value\)\.toFixed\(2\)/);
+ assert.match(backend,/room_code,deposit_eur,administration_fee_eur/);
+ assert.match(backend,/verified_fees_required/);
+ assert.match(backend,/room_code_required/);
+});
+
+test('resident questionnaire displays reception amounts read-only and never saves them as questionnaire fields',()=>{
+ const code=readFileSync(resolve(root,'student-house-portal/enquiry.js'),'utf8');
+ const inputBlock=code.slice(code.indexOf('const receptionCard='),code.indexOf("const grid=n('div','enquiry-grid')"));
+ assert.match(inputBlock,/resident_staff_details/);
+ assert.match(inputBlock,/codeValue\.readOnly=true/);
+ assert.match(inputBlock,/deposit_eur/);
+ assert.match(inputBlock,/administration_fee_eur/);
+ const saves=code.slice(code.indexOf("draft.addEventListener('click'"),code.indexOf("form.addEventListener('submit'"));
+ assert.doesNotMatch(saves,/values\.room_code|values\.deposit_eur|values\.administration_fee_eur/);
+});
+
+test('contract and full-stay payment PDF are enabled only after reception approves questionnaire',()=>{
+ const staff=readFileSync(resolve(root,'student-house-portal/staff.js'),'utf8');
+ assert.match(staff,/if\(label===questionnaireApproved\)void prepareDocumentFlow\(\)/);
+ assert.match(staff,/missingDocumentFields\('contract_draft',data\)/);
+ assert.match(staff,/uploadPrivateDocument\(person\.id,file,create,'contract_draft'\)/);
+ assert.match(staff,/const periods=stayPeriods\(person\.accommodation_from,person\.accommodation_to\)/);
+ assert.match(staff,/depositPresent/);
+ assert.match(staff,/adminPresent/);
+ assert.match(staff,/attachInstallmentDocument\(documentFlow/);
+ assert.match(staff,/uploadPrivateDocument\(id,file,button,'schedule_draft'\)/);
+});
