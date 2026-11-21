@@ -56,7 +56,7 @@ test('Student House app and share preview never use root WEBU favicon', () => {
   }
   for (const path of pages.slice(0, 4)) {
     const html = fs.readFileSync(path, 'utf8');
-    assert.ok(html.includes('property="og:image" content="https://www.webu.sk/student-house-portal/icons/icon-512.png"'), path + ' has share image');
+    assert.ok(html.includes('property="og:image" content="https://portal.student-house.sk/student-house-portal/icons/icon-512.png"'), path + ' has share image');
     assert.ok(html.includes('property="og:site_name" content="Student House Bratislava"'), path + ' has Student House brand');
     assert.ok(!html.includes('by WEBU</title>'), path + ' title must not contain WEBU');
   }

@@ -30,7 +30,7 @@ async function scenario(config={}){
  const context={Response,console:{error(){}},createClient:(u,k)=>k==='service'?service:client,Deno:{env:{get:k=>k==='SUPABASE_SERVICE_ROLE_KEY'?'service':'public'},serve:fn=>handler=fn}};
  vm.runInNewContext(source,context);
  const body={action:'invite',role:'student',verified_assignment:{contract_number:'TEST-C1',room_number:'TEST',accommodation_from:'2026-11-01',accommodation_to:'2026-11-30',room_code:'TEST-CODE',deposit_eur:'600.00',administration_fee_eur:'100.00'},tenant_id:'30000000-0000-0000-0000-000000000001',registration_id:'50000000-0000-0000-0000-000000000001',email:'qa@example.invalid',name:'QA Student',verified_monthly_rent:300,verified_due_day:5,verified_schedule:[{period:'2026-11',amount:300,due_on:'2026-11-05'}],...config.body};
- const response=await handler(new Request('https://edge.test/manage',{method:'POST',headers:{Origin:'https://www.webu.sk',Authorization:'Bearer synthetic','Content-Type':'application/json'},body:JSON.stringify(body)}));
+ const response=await handler(new Request('https://edge.test/manage',{method:'POST',headers:{Origin:'https://portal.student-house.sk',Authorization:'Bearer synthetic','Content-Type':'application/json'},body:JSON.stringify(body)}));
  return {status:response.status,body:await response.json(),calls};
 }
 let r=await scenario({unauthorized:true});assert.equal(r.status,401);assert.deepEqual(r.calls,[]);
