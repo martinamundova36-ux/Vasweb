@@ -16,8 +16,9 @@ class Element {
  replaceChildren(...items){for(const c of this.children)c.parent=null;this.children=[];this._text='';this.append(...items);}
  addEventListener(name,fn){this.listeners[name]=fn;}
  reportValidity(){return true;}
- querySelectorAll(tag){return this.children.flatMap(c=>[...(c.tagName===tag?[c]:[]),...c.querySelectorAll(tag)]);}
+ querySelectorAll(tag){return this.children.flatMap(c=>[...((tag==='[role=alert]'?c.attributes.role==='alert':c.tagName===tag)?[c]:[]),...c.querySelectorAll(tag)]);}
  querySelector(tag){return this.querySelectorAll(tag)[0];}
+ remove(){const p=this.parent;if(p){p.children=p.children.filter(x=>x!==this);this.parent=null;}}
  replaceWith(other){const parent=this.parent;if(!parent)return;const i=parent.children.indexOf(this);parent.children[i]=other;other.parent=parent;this.parent=null;}
 }
 globalThis.document={createElement:tag=>new Element(tag)};
@@ -29,15 +30,20 @@ const registration={id:'request-a',tenant_id:tenant,first_name:'Žofia',last_nam
 function fixture(section,overrides={}){
  const root=new Element('div');root.connected=true;
  const calls=[];
- const ctx={root,notice:new Element('p'),lang:'sk',tenant,role:'reception',section,day:x=>x||'—',success:'Saved',refresh:()=>{},isCurrent:()=>true,fileLink:()=>{},list:async table=>table==='residents'?[{...person}]:table==='registration_requests'?[{...registration}]:table==='rooms'?[{name:'125',category:'M2',capacity:2}]:[],
+ const ctx={root,notice:new Element('p'),lang:'sk',tenant,role:'reception',section,day:x=>x||'—',success:'Saved',refresh:()=>{},isCurrent:()=>true,fileLink:()=>{},list:async table=>table==='residents'?[{...person}]:table==='registration_requests'?[{...registration}]:table==='registration_enquiries'?[{registration_id:registration.id,preferred_duration_months:10,preferred_from:'2026-09-11'}]:table==='rooms'?[{name:'125',category:'M2',capacity:2}]:[],
  db:{rpc:async()=>({data:[]}),from:()=>({update(value){this.value=value;return this;},eq(){return this;},select:async function(){return {data:[{id:registration.id,...this.value}]};}}),functions:{invoke:async(name,input)=>{calls.push({name,...input});return {data:{ok:true},error:null};}}},...overrides};return {ctx,calls,root};
 }
 const findButton=(root,label)=>root.querySelectorAll('button').find(b=>b.textContent===label);
+const approvalForm=root=>root.querySelectorAll('form').find(x=>x.className?.includes('registration-approval-form'));
+const fieldByLabel=(form,name)=>form.querySelectorAll('label').find(l=>l._text===name)?.children[0];
+const prepareApproval=f=>{
+ const form=approvalForm(f.root);assert.ok(form,'Unified approval form exists');
+ fieldByLabel(form,'Mesačný nájom (€)').value='300';
+ fieldByLabel(form,'Mesačný nájom (€)').listeners.input();
+ return form;
+};
 async function approveFixture(f){
- findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
- const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu');
- const form=prepare.parent;const rent=form.querySelectorAll('input')[0];rent.value='300';
- prepare.listeners.click();form.onsubmit({preventDefault(){}});await tick();
+ const form=prepareApproval(f);form.listeners.submit({preventDefault(){}});await tick();
 }
 
 test('Search handles Slovak diacritics, multiple fields, status and empty results',()=>{
@@ -63,7 +69,7 @@ test('Registration approval uses existing server endpoint with tenant and studen
  await approveFixture(f);
  assert.equal(f.calls.length,1);assert.equal(f.calls[0].name,'manage');assert.equal(f.calls[0].body.tenant_id,tenant);
  assert.equal(f.calls[0].body.registration_id,registration.id);assert.equal(f.calls[0].body.role,'student');
- assert.match(f.ctx.notice.textContent,/Doručenie.*nie je overené/);assert.equal(findButton(f.root,'Overiť a schváliť registráciu'),undefined);
+ assert.match(f.ctx.notice.textContent,/Doručenie.*nie je overené/);assert.equal(findButton(f.root,'Schváliť registráciu'),undefined);
 });
 test('Rejected approval confirmation performs no write',async()=>{
  const f=fixture('registrations');await renderStaffScreen(f.ctx);globalThis.confirm=()=>false;
@@ -71,7 +77,7 @@ test('Rejected approval confirmation performs no write',async()=>{
 });
 test('Email limit is visible, does not approve, and prevents blind retry',async()=>{
  let calls=0;const f=fixture('registrations',{db:{from:()=>({update(value){this.value=value;return this;},eq(){return this;},select:async function(){return {data:[{id:registration.id,...this.value}]};}}),functions:{invoke:async()=>{calls++;return {data:{error:'over_email_send_rate_limit'}};}}}});
- await renderStaffScreen(f.ctx);const button=findButton(f.root,'Overiť a schváliť registráciu');await approveFixture(f);
+ await renderStaffScreen(f.ctx);const button=findButton(f.root,'Schváliť registráciu');await approveFixture(f);
  assert.match(f.ctx.notice.textContent,/dočasne obmedzené/);assert.equal(button.disabled,false);assert.equal(calls,1);
 });
 test('Profile shows contract, room and dates with private document status',async()=>{
@@ -107,17 +113,13 @@ test('Failed approval never displays a success check or Excel confirmation',asyn
  assert.doesNotMatch(f.ctx.notice.textContent,/✓ Registrácia úspešne schválená/);
  assert.equal(findButton(f.ctx.notice,'Otvoriť študenta v Excel evidencii'),undefined);
 });
-test('Changing the rent after calendar preparation clearly requests a new preview',async()=>{
- const f=fixture('registrations');await renderStaffScreen(f.ctx);
- findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
- const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu'),form=prepare.parent,rent=form.querySelectorAll('input')[0];
- rent.value='300';prepare.listeners.click();
- assert.ok(findButton(form,'Schváliť overenú zmluvu a predpisy'));
+test('Changing rent immediately updates all ten full monthly charges',async()=>{
+ const f=fixture('registrations');await renderStaffScreen(f.ctx);const form=prepareApproval(f);
+ const rent=fieldByLabel(form,'Mesačný nájom (€)');
+ assert.match(form.textContent,/3000\.00/);
  rent.value='350';rent.listeners.input();
- assert.match(form.textContent,/Nájomné alebo deň splatnosti sa zmenili/);
- assert.equal(findButton(form,'Schváliť overenú zmluvu a predpisy'),undefined);
- form.onsubmit({preventDefault(){}});
- assert.ok(findButton(form,'Schváliť overenú zmluvu a predpisy'));
+ assert.match(form.textContent,/3500\.00/);
+ assert.equal(form.querySelector('details').querySelector('div').children.length,10);
  assert.equal(f.calls.length,0);
 });
 test('Reloaded registrations can show the current staff member’s recent database-confirmed approval',async()=>{
@@ -134,55 +136,52 @@ test('A future approved resident appears in the Excel year of their stay',()=>{
  assert.equal(buildRegisterGroups({...data,year:2027})[0].entries.find(e=>e.person).person.id,'future');
 });
 
-test('Approval opens the missing contract editor; saving persists the number before calendar preparation',async()=>{
- const request={...registration,contract_number:null};let savedPayload;
- const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='residents'?[]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(payload){savedPayload=payload;return this;},eq(){return this;},select:async()=>({data:[{id:request.id,contract_number:'VERIFIED-555'}],error:null})}),functions:{invoke:async()=>({data:{ok:true}})}}});
- await renderStaffScreen(f.ctx);findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
- const editor=f.root.querySelectorAll('details').find(e=>e.querySelectorAll('input').some(i=>i.attributes['aria-label']==='Číslo zmluvy'));
- assert.ok(findButton(f.root,'Pripraviť predpisy na kontrolu'));
- const field=editor.querySelector('input');field.value='VERIFIED-555';const form=editor.querySelector('form');
- await form.listeners.submit({preventDefault(){}});
- assert.deepEqual(savedPayload,{contract_number:'VERIFIED-555'});assert.match(f.root.textContent,/VERIFIED-555/);
- findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
- assert.ok(findButton(f.root,'Pripraviť predpisy na kontrolu'));
-});
-test('A failed contract save preserves the entered value and editor instead of asking for it again',async()=>{
+test('Missing contract blocks approval until entered in the same form',async()=>{
  const request={...registration,contract_number:null};
- const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(){return this;},eq(){return this;},select:async()=>({data:null,error:{code:'42501'}})})}});
- await renderStaffScreen(f.ctx);findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
- const editor=f.root.querySelectorAll('details').find(e=>e.querySelectorAll('input').some(i=>i.attributes['aria-label']==='Číslo zmluvy'));
- const field=editor.querySelector('input');field.value='KEEP-THIS-555';await editor.querySelector('form').listeners.submit({preventDefault(){}});
- assert.equal(field.value,'KEEP-THIS-555');assert.ok(f.root.querySelectorAll('input').includes(field));
- assert.match(editor.textContent,/nepodarilo uložiť/);
- assert.equal(findButton(editor,'Uložiť overené číslo zmluvy').disabled,false);
+ const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='registration_enquiries'?[{registration_id:request.id,preferred_duration_months:10}]:table==='rooms'?[{name:'125',capacity:2}]:[]});
+ await renderStaffScreen(f.ctx);const form=prepareApproval(f);
+ form.listeners.submit({preventDefault(){}});await tick();assert.equal(f.calls.length,0);
+ fieldByLabel(form,'Číslo zmluvy').value='VERIFIED-555';
+ form.listeners.submit({preventDefault(){}});await tick();assert.equal(f.calls.length,1);
+ assert.equal(f.calls[0].body.verified_assignment.contract_number,'VERIFIED-555');
 });
-
-test('Unified approval sends contract, room, dates and calendar in one server request; calendar stays collapsed',async()=>{
- const writes=[];let payload;
- const request={...registration,contract_number:null,accommodation_to:'2034-03-13'};
- const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{from:()=>({update(){writes.push('partial-write');return this;},eq(){return this;},select:async()=>({data:[]})}),functions:{invoke:async(_name,args)=>{writes.push('approval');payload=args.body;return {data:{ok:true}};}}}});
- await renderStaffScreen(f.ctx);findButton(f.root,'Overiť a schváliť registráciu').listeners.click();
- const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu'),form=prepare.parent;
- form.querySelectorAll('input')[0].value='300';form.querySelectorAll('input').find(i=>i.attributes['aria-label']==='Číslo zmluvy').value='REAL-555';
- prepare.listeners.click();const schedule=form.querySelector('div'),calendar=schedule.querySelector('details');
- assert.ok(calendar);assert.notEqual(calendar.open,true);
- assert.ok(findButton(schedule,'Schváliť overenú zmluvu a predpisy'));
- form.onsubmit({preventDefault(){}});await tick();
- assert.deepEqual(writes,['approval'],'No client-side partial assignment writes before approval');
+test('Missing or invalid stay duration blocks approval without guessing data',async()=>{
+ for(const duration of [null,6]){
+ const f=fixture('registrations',{list:async table=>table==='registration_requests'?[registration]:table==='registration_enquiries'?[{registration_id:registration.id,preferred_duration_months:duration}]:table==='rooms'?[{name:'125',capacity:2}]:[]});
+ await renderStaffScreen(f.ctx);assert.equal(approvalForm(f.root),undefined);
+ assert.match(f.root.textContent,/Chýba platná dĺžka pobytu/);
+ assert.ok(findButton(f.root,'Vrátiť študentovi na opravu'));assert.equal(f.calls.length,0);
+ }
+});
+test('Unified approval sends contract, room, actual arrival and full calendar atomically',async()=>{
+ const writes=[];let payload;const request={...registration,contract_number:null,room_number:null};
+ const f=fixture('registrations',{list:async table=>table==='registration_requests'?[request]:table==='registration_enquiries'?[{registration_id:request.id,preferred_duration_months:10,preferred_from:'2026-09-11'}]:table==='rooms'?[{name:'125',capacity:2}]:[],db:{rpc:async()=>({data:[]}),from:()=>({update(){writes.push('partial-write');return this;},eq(){return this;},select:async()=>({data:[]})}),functions:{invoke:async(_name,args)=>{writes.push('approval');payload=args.body;return {data:{ok:true}};}}}});
+ await renderStaffScreen(f.ctx);const form=prepareApproval(f);
+ fieldByLabel(form,'Číslo zmluvy').value='REAL-555';fieldByLabel(form,'Pridelená izba').value='125';fieldByLabel(form,'Skutočný príchod').value='2026-09-11';
+ assert.notEqual(form.querySelector('details').open,true);
+ form.listeners.submit({preventDefault(){}});await tick();
+ assert.deepEqual(writes,['approval']);
  assert.equal(payload.verified_assignment.contract_number,'REAL-555');
- assert.equal(payload.verified_assignment.accommodation_to,'2034-03-13');
- assert.equal(payload.verified_schedule.length,91);
+ assert.equal(payload.verified_assignment.room_number,'125');
+ assert.equal(payload.verified_assignment.actual_arrival_on,'2026-09-11');
+ assert.equal(payload.verified_assignment.accommodation_to,'2027-06-30');
+ assert.equal(payload.verified_schedule.length,10);
+ assert.equal(payload.verified_schedule[0].period,'2026-09');
+ assert.equal(payload.verified_schedule[9].period,'2027-06');
+ assert.ok(payload.verified_schedule.every(row=>row.amount===300));
 });
-test('Failed atomic approval preserves all entered terms for a safe retry',async()=>{
- let calls=0;const f=fixture('registrations',{db:{from:()=>({update(){throw Error('unexpected partial write')},eq(){return this;},select:async()=>({data:[]})}),functions:{invoke:async()=>{calls++;return {data:{error:'approval_conflict'}};}}}});
- await renderStaffScreen(f.ctx);await approveFixture(f);assert.equal(calls,1);
- const prepare=findButton(f.root,'Pripraviť predpisy na kontrolu');
- assert.equal(prepare.parent.querySelector('input').value,'300');
- assert.equal(prepare.disabled,false);
- assert.ok(findButton(f.root,'Schváliť overenú zmluvu a predpisy'));
+test('Failed atomic approval preserves fields and allows safe retry',async()=>{
+ let calls=0;const f=fixture('registrations',{db:{from:()=>({update(){throw Error('unexpected partial write')}}),functions:{invoke:async()=>{calls++;return {data:{error:'approval_conflict'}};}}}});
+ await renderStaffScreen(f.ctx);const form=prepareApproval(f);
+ fieldByLabel(form,'Skutočný príchod').value='2026-09-11';
+ form.listeners.submit({preventDefault(){}});await tick();assert.equal(calls,1);
+ assert.equal(fieldByLabel(form,'Mesačný nájom (€)').value,'300');
+ assert.equal(fieldByLabel(form,'Číslo zmluvy').value,'TEST-001');
+ assert.equal(fieldByLabel(form,'Skutočný príchod').value,'2026-09-11');
+ assert.equal(findButton(f.root,'Schváliť registráciu').disabled,false);
  assert.doesNotMatch(f.ctx.notice.textContent,/✓ Registrácia úspešne schválená/);
+ form.listeners.submit({preventDefault(){}});await tick();assert.equal(calls,2);
 });
-
 test('Automatic refresh preserves a resident profile and forms even after focus leaves the page',()=>{
  const html=fs.readFileSync('student-house-portal/index.html','utf8');
  const body=html.match(/function editingRecord\(\)\{([\s\S]*?)\n\}/)[1];

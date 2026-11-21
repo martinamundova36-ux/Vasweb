@@ -22,29 +22,32 @@ try{
    return route.abort();
   });
   await page.goto('https://portal.test/student-house-portal/student/?view=register');
-  await page.locator('#regRoom').waitFor();
-  assert.ok(await page.locator('#registration').isVisible(),'Direct registration link should open registration');
-  assert.equal(await page.locator('#regRoom').evaluate(el=>el.tagName),'SELECT','Room number must be a dropdown');
-  assert.equal(await page.locator('#regRoomType').evaluate(el=>el.tagName),'SELECT','Room type must be a dropdown');
-  assert.equal(await page.locator('#regRoomType option').count(),7,'Six public room types plus no preference');
-  assert.equal(await page.locator('#regRoom option').count(),65,'All 64 rooms plus no preference');
-  const types=[['M2',4],['Š1+1',5],['SUI 2',13],['D2',19],['Š2',17],['D2V',7]];
-  for(const [type,count] of types){
-   await page.locator('#regRoomType').selectOption(type);
-   assert.equal(await page.locator('#regRoom option').count(),count,'Wrong room choices for '+type);
+  await page.locator('#regDuration').waitFor();
+  assert.ok(await page.locator('#registration').isVisible(),'Direct registration opens registration');
+  assert.equal(await page.locator('#regRoom').count(),0,'Specific room is assigned only by reception');
+  assert.equal(await page.locator('#regContract').count(),0,'Contract number is staff-only');
+  assert.equal(await page.locator('#regRoomType option').count(),7);
+  assert.deepEqual(await page.locator('#regDuration option').evaluateAll(xs=>xs.map(x=>x.value)),['','5','10','12']);
+  assert.equal(await page.locator('#regDuration').getAttribute('required'),'');
+  assert.equal(await page.locator('#regArrival').getAttribute('required'),'');
+  assert.equal(await page.locator('#regTo').getAttribute('readonly'),'');
+  await page.locator('#regFrom').fill('2026-11-11');
+  for(const [months,end] of [['5','2027-03-31'],['10','2027-08-31'],['12','2027-10-31']]){
+   await page.locator('#regDuration').selectOption(months);
+   assert.equal(await page.locator('#regTo').inputValue(),end);
   }
-  await page.locator('#regRoomType').selectOption('M2');
-  await page.locator('#regRoom').selectOption('124');
-  assert.equal(await page.locator('#regRoom').inputValue(),'124');
+  await page.locator('#regArrival').fill('2026-11-15');
   await page.locator('#regRoomType').selectOption('D2');
-  assert.equal(await page.locator('#regRoom').inputValue(),'','Incompatible room must clear');
   for(const code of ['en','ru','uk','sk']){
    await page.locator('#lang').selectOption(code);
-   assert.equal(await page.locator('#regRoom').evaluate(x=>x.tagName),'SELECT');
-   assert.equal(await page.locator('#regRoom option').count(),19,'Language switch should preserve D2 filter');
+   assert.equal(await page.locator('#regRoom').count(),0);
+   assert.equal(await page.locator('#regRoomType').inputValue(),'D2');
+   assert.equal(await page.locator('#regDuration').inputValue(),'12');
+   assert.equal(await page.locator('#regArrival').inputValue(),'2026-11-15');
+   assert.equal(await page.locator('#regTo').inputValue(),'2027-10-31');
   }
   if(errors.length)throw new Error('Browser runtime error: '+errors.join('; '));
   await page.close();
-  console.log('PASS '+width+'px: registration opened; 64 room numbers filtered by six room types, all four languages');
+  console.log('PASS '+width+'px: registration opened; reception-only assignment, 5/10/12 months, dates, all four languages');
  }
 }finally{await browser.close()}
