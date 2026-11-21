@@ -958,7 +958,7 @@ function templateCard(tenant,files,kind,title,staff){
    preview.onclick=async()=>{
     preview.disabled=true;status.textContent='';
     try{
-     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=1');
+     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=20261121-document-fields1');
      let attachment;
      if(kind==='rules_template'&&latest){
       const url=await fileLink(latest.id,tenant,true);
@@ -1250,9 +1250,9 @@ async function renderResidentDocuments(tenant,staff,own){
     prepare.onclick=async()=>{
      prepare.disabled=true;
      try{
-      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields}=await import('/student-house-portal/residence-document.js?v=1');
+      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields}=await import('/student-house-portal/residence-document.js?v=20261121-document-fields1');
       const [{data:answers,error},tenancies,details]=await Promise.all([
-       db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle(),
+       db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number,iban').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle(),
        workingKind==='contract_draft'?list('tenancies',{resident_id:person.id}):[],
        ['contract_draft','deposit_template'].includes(workingKind)?list('resident_staff_details',{resident_id:person.id}):[]
       ]);
@@ -1276,7 +1276,7 @@ async function renderResidentDocuments(tenant,staff,own){
        if(missing.length)throw Error('Chýbajú povinné údaje: '+missing.join(', '));
        const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
        const pdf=await PDFDocument.load(attachment),form=pdf.getForm();
-       const expected=[...documentFields[workingKind],...(workingKind==='contract_draft'?['passport_number']:workingKind==='certificate_draft'?['document_number']:[])];
+       const expected=[...documentFields[workingKind],...(workingKind==='certificate_draft'?['document_number']:workingKind==='deposit_template'?['refund_iban']:[])];
        const filled=new Set();
        for(const field of form.getFields()){
         if(!(field instanceof PDFTextField))continue;
@@ -1596,7 +1596,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261120-compact1');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261121-registration-sync1');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),openAdmin:()=>{navigate('overview');showStaffMenu();},isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){
