@@ -8,7 +8,8 @@ const service=createClient(url,Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,{auth:
 const origins=new Set(["https://www.webu.sk","https://webu.sk"]);
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const fields=["first_name","last_name","email","room_number","contract_number","accommodation_from","accommodation_to"] as const;
+// Contract numbers are reception-owned and MUST NOT be included in a student correction token.
+const fields=["first_name","last_name","email","room_number","accommodation_from","accommodation_to"] as const;
 const encoder=new TextEncoder();
 const digest=async(secret:string)=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",encoder.encode(secret)))].map(x=>x.toString(16).padStart(2,"0")).join("");
 const reply=(origin:string,body:unknown,status=200)=>{
@@ -75,9 +76,16 @@ Deno.serve(async(req:Request)=>{
     entity:"registration_requests",entity_id:registration
    });
    if(auditError)console.error("registration_correction_audit_failed",auditError.code);
+   const link="https://www.webu.sk/student-house-portal/correction/#token="+secret;
+   const {error:mailError}=await service.from('residence_mail_outbox').insert({
+    tenant_id:tenant,dedupe:'registration-correction:'+registration+':'+hash,
+    audience:'student',recipient:row.email,
+    subject:'Student House: oprava registrácie / registration correction',
+    body:'Recepcia vrátila registráciu na opravu. Otvor odkaz do 7 dní. / Reception returned your registration for correction. Open the link within 7 days. / Заявку нужно исправить. Ссылка действует 7 дней. / Заявку потрібно виправити. Посилання діє 7 днів.',link
+   });
+   if(mailError)console.error('registration_correction_mail_queue_failed',mailError.code);
    return reply(origin,{ok:true,recipient:row.email,
-    name:[row.first_name,row.last_name].join(" "),expires_at:expires,
-    link:"https://www.webu.sk/student-house-portal/correction/#token="+secret
+    name:[row.first_name,row.last_name].join(" "),expires_at:expires,email_queued:!mailError,link
    });
   }
   if(action!=="load"&&action!=="submit")return reply(origin,{error:"invalid_action"},400);
@@ -85,28 +93,30 @@ Deno.serve(async(req:Request)=>{
   if(!/^[A-Za-z0-9_-]{43}$/.test(secret))return reply(origin,{error:"invalid_or_expired"},404);
   const hash=await digest(secret);
   const {data:entry,error:lookupError}=await service.from("registration_requests")
-   .select("id,tenant_id,status,correction_reason,correction_expires_at,first_name,last_name,email,room_number,contract_number,accommodation_from,accommodation_to")
+   .select("id,tenant_id,status,correction_reason,correction_expires_at,first_name,last_name,email,room_number,accommodation_from,accommodation_to")
    .eq("correction_token_hash",hash).eq("status","correction_requested")
    .gt("correction_expires_at",new Date().toISOString()).maybeSingle();
   if(lookupError||!entry)return reply(origin,{error:"invalid_or_expired"},404);
   if(action==="load"){
-   const editable=Object.fromEntries(fields.map(k=>[k,entry[k]]));
+   const {data:stay,error:stayError}=await service.from('registration_enquiries').select('preferred_duration_months').eq('tenant_id',entry.tenant_id).eq('registration_id',entry.id).maybeSingle();
+   if(stayError)return reply(origin,{error:'request_failed'},400);
+   const editable={...Object.fromEntries(fields.map(k=>[k,entry[k]])),preferred_duration_months:stay?.preferred_duration_months??null};
    return reply(origin,{ok:true,reason:entry.correction_reason,expires_at:entry.correction_expires_at,fields:editable});
   }
   const updated:Record<string,string>={};
-  for(const key of fields)updated[key]=txt(input[key],key==="email"?254:key==="contract_number"?60:key==="room_number"?30:key.startsWith("accommodation_")?10:80);
+  for(const key of fields)updated[key]=txt(input[key],key==="email"?254:key==="room_number"?30:key.startsWith("accommodation_")?10:80);
   updated.email=updated.email.toLowerCase();
   if(!updated.first_name||updated.first_name.length>80||!updated.last_name||updated.last_name.length>80
    ||!EMAIL.test(updated.email)||updated.email.length>254
-   ||!updated.room_number||updated.room_number.length>30
-   ||updated.contract_number.length<5||updated.contract_number.length>60
+   ||updated.room_number.length>30
    ||!dateOK(updated.accommodation_from)||!dateOK(updated.accommodation_to)
-   ||updated.accommodation_to<=updated.accommodation_from)
+   ||updated.accommodation_to<=updated.accommodation_from
+   ||![5,10,12].some(n=>{const [y,m]=updated.accommodation_from.split('-').map(Number);return y>=2000&&y<=2099&&new Date(Date.UTC(y,m-1+n,0)).toISOString().slice(0,10)===updated.accommodation_to;}))
     return reply(origin,{error:"invalid_fields"},400);
   // Registration remains pending until an authorised receptionist has verified
   // the contract. The correction token is consumed atomically and cannot be reused.
   const {data:corrected,error:saveError}=await service.from("registration_requests").update({
-    ...updated,status:"pending",correction_token_hash:null,correction_expires_at:null,
+    ...updated,room_number:updated.room_number||null,status:"pending",correction_token_hash:null,correction_expires_at:null,
     correction_completed_at:new Date().toISOString(),reviewed_by:null,reviewed_at:null
   }).eq("id",entry.id).eq("tenant_id",entry.tenant_id).eq("status","correction_requested")
     .eq("correction_token_hash",hash).gt("correction_expires_at",new Date().toISOString())
