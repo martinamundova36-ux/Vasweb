@@ -234,7 +234,7 @@ export async function renderStaffScreen(ctx) {
         action:'resend_student_access',role:'student',tenant_id:ctx.tenant,registration_id:person.id
        }});
        status(!error&&data?.ok?
-        (ctx.lang==='en'?'Invitation sent to the approved resident.':'Pozvánka bola odoslaná na e-mail schváleného študenta.'):
+        (data?.email_queued===true?({sk:'✓ Pozvánka je vo fronte na odoslanie. Doručenie ešte nie je potvrdené.',en:'✓ Invitation queued. Inbox delivery is not yet confirmed.',ru:'✓ Приглашение в очереди отправки. Доставка пока не подтверждена.',uk:'✓ Запрошення в черзі на надсилання. Доставку ще не підтверджено.'})[ctx.lang]:(ctx.lang==='en'?'Invitation sent to the approved resident.':'Pozvánka bola odoslaná na e-mail schváleného študenta.')):
         (ctx.lang==='en'?'Invitation could not be sent. Check SMTP.':'Pozvánku sa nepodarilo poslať. Skontroluj SMTP.'),!!error||!data?.ok);
       }catch{status(w.failed,true)}
       finally{pendingAction=false;resend.disabled=false;}
@@ -449,9 +449,12 @@ export async function renderStaffScreen(ctx) {
    person.status=approve?'invited':'rejected';success=true;
    const loginReady=approve&&response.data?.login_ready===true;
    const emailSent=response.data?.email_sent;
-   const invitationEmailFailed=approve&&!loginReady&&emailSent===false;
+   const emailQueued=response.data?.email_queued===true;
+   const invitationEmailFailed=approve&&!loginReady&&!emailQueued&&emailSent!==true;
    status(loginReady
      ?(ctx.lang==='en'?'Registration approved. Student can sign in with the original password and continue the questionnaire inside Studenthouse.':'Registrácia schválená. Študent sa môže prihlásiť heslom z registrácie a pokračovať v dotazníku v Studenthouse.')
+     :emailQueued
+       ?({sk:'✓ Registrácia schválená. Pozvánka čaká vo fronte na odoslanie.',en:'✓ Registration approved. Invitation queued for delivery.',ru:'✓ Регистрация одобрена. Приглашение в очереди отправки.',uk:'✓ Реєстрацію схвалено. Запрошення в черзі на надсилання.'})[ctx.lang]
      :invitationEmailFailed
        ?(ctx.lang==='en'?'Approved, but student login is not activated. Check password recovery.':'Registrácia schválená, ale prihlásenie nie je aktivované. Skontroluj obnovu hesla.')
        :(approve?w.inviteOK:w.rejected));
