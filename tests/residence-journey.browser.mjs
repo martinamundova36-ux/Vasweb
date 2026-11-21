@@ -92,6 +92,7 @@ try{
   return route.abort();
  });
  const p=await ctx.newPage(),a=await ctx.newPage();
+ for(const [role,page] of [['student',p],['admin',a]])page.on('pageerror',err=>console.error('QA UI error',role,err.message));
  for(const page of [p,a])page.on('dialog',d=>d.accept());
  const go=async(page,path)=>page.goto('https://portal.test/student-house-portal/'+path);
  const sign=async(page,who)=>{await page.locator('#email').fill(who);await page.locator('#password').fill(password);await page.locator('#signbtn').click();};
@@ -104,7 +105,7 @@ try{
  await go(p,'student/?signin=1');await sign(p,email);await p.waitForFunction(()=>document.querySelector('#error').textContent.length>0);assert.equal(await p.locator('#app').isVisible(),false);console.log('QA STEP 2 pending student denied');
  await go(a,'');await a.locator('#chooseStaff').click();await sign(a,staffEmail);await a.locator('#app:not(.hide)').waitFor();await tab(a,'Registrácie');
  const form=a.locator('.registration-approval-form');await form.waitFor();
- await form.getByLabel('Číslo zmluvy',{exact:true}).fill('QA-2026-001');await form.getByLabel('Pridelená izba',{exact:true}).selectOption('QA-125');
+ await form.getByLabel('Číslo zmluvy',{exact:true}).fill('QA-2026-001');await form.locator('select').selectOption('QA-125');
  await form.getByLabel('Mesačný nájom (€)',{exact:true}).fill('300');await form.getByLabel('Skutočný príchod',{exact:true}).fill(arrival);
  await form.getByRole('button',{name:'Schváliť registráciu',exact:true}).click();
  await a.getByText('✓ Registrácia úspešne schválená',{exact:true}).waitFor();assert.equal(rows('rent_charges').length,10);assert.equal(rows('payments').length,0);console.log('QA STEP 3 admin approval, real arrival and full calendar (no payment)');
