@@ -1,0 +1,44 @@
+name: WEBU Residence isolated release preflight
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/build-residence-pages.mjs'
+      - 'tests/residence-deployment.test.mjs'
+      - '.github/workflows/residence-release-preflight.yml'
+      - 'student-house-portal/**'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build-residence-pages.mjs'
+      - 'tests/residence-deployment.test.mjs'
+      - '.github/workflows/residence-release-preflight.yml'
+      - 'student-house-portal/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    name: Build a safe stand-alone portal release
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run release isolation test
+        run: node --test tests/residence-deployment.test.mjs
+      - name: Build browser-only residence artifact
+        run: node scripts/build-residence-pages.mjs
+      - name: Verify no Supabase functions or reports are public
+        run: |
+          test -f .residence-pages-dist/student-house-portal/index.html
+          test -f .residence-pages-dist/student-house-portal/student/index.html
+          test -f .residence-pages-dist/student-house-portal/admin/index.html
+          test -f .residence-pages-dist/student-house-portal/sw.js
+          test ! -e .residence-pages-dist/student-house-portal/supabase
+          test ! -e .residence-pages-dist/student-house-portal/reports
+          test ! -e .residence-pages-dist/student-house-portal/DOCUMENTS-SETUP.md
