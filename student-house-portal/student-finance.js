@@ -8,7 +8,13 @@ const words = {
  ru: {month:'Ближайший или неоплаченный платёж',due:'К оплате',late:'Просрочено',partial:'Частично оплачено',paid:'Оплачено',plan:'Утверждённый график платежей',total:'Начислено',balance:'Осталось оплатить',dueDate:'Срок оплаты',see:'График платежей',unassigned:'Ресепшен ещё не связал подтверждённый договор и начисления. Данные появятся после утверждения.',missing:'Начисление за этот месяц пока не подтверждено. Уточните на ресепшене.',calendar:'Ежемесячные начисления по договору',empty:'Начисления ещё не созданы. Ресепшен добавит их после утверждения договора.',amount:'Сумма',payment:'Оплачено',installments:'Согласованные платежи',quick:'Быстрые действия',photo:'Загрузить фото',clean:'Запросить уборку',message:'Написать на ресепшен',docs:'Скачать документы',myDetails:'Подтверждённые данные',room:'Комната',contract:'Договор',fromTo:'Проживание',check:'Данные проверяются',noCurrent:'Нет начисления за текущий месяц.'},
  uk: {month:'Найближчий або несплачений платіж',due:'До сплати',late:'Прострочено',partial:'Частково сплачено',paid:'Сплачено',plan:'Затверджений графік платежів',total:'Нараховано',balance:'Залишилося сплатити',dueDate:'Термін сплати',see:'Графік платежів',unassigned:'Рецепція ще не прив’язала перевірений договір та нарахування. Дані з’являться після підтвердження.',missing:'Нарахування за цей місяць ще не підтверджено. Уточніть на рецепції.',calendar:'Щомісячні платежі за договором',empty:'Нарахування ще не створені. Рецепція додасть їх після підтвердження договору.',amount:'Сума',payment:'Сплачено',installments:'Узгоджені платежі',quick:'Швидкі дії',photo:'Завантажити фото',clean:'Замовити прибирання',message:'Написати рецепції',docs:'Завантажити документи',myDetails:'Мої підтверджені дані',room:'Кімната',contract:'Договір',fromTo:'Проживання',check:'Рецепція перевіряє дані',noCurrent:'Немає нарахувань за поточний місяць.'}
 };
-const dict=lang=>words[lang]||words.sk;
+const manualNotes={
+ sk:{dueToday:'Splatné dnes',late:'Po splatnosti – úhrada neevidovaná',note:'Platby v hotovosti aj prevodom eviduje recepcia manuálne. Ak si už zaplatil(a), stav sa zmení po zaevidovaní úhrady.'},
+ en:{dueToday:'Due today',late:'Overdue – no payment recorded',note:'Reception records cash and bank transfer payments manually. If you have already paid, your status will update once reception records the payment.'},
+ ru:{dueToday:'Срок оплаты сегодня',late:'Просрочено — оплата не зарегистрирована',note:'Ресепшен вручную регистрирует наличные платежи и банковские переводы. Если вы уже оплатили, статус изменится после регистрации оплаты.'},
+ uk:{dueToday:'Термін сплати сьогодні',late:'Прострочено — сплату не зареєстровано',note:'Рецепція вручну реєструє готівкові платежі та банківські перекази. Якщо ви вже сплатили, статус зміниться після реєстрації оплати.'}
+};
+const dict=lang=>({...words[lang]||words.sk,...manualNotes[lang]||manualNotes.sk});
 const node=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=String(value);return n};
 const locale=lang=>({sk:"sk-SK",en:"en-GB",ru:"ru-RU",uk:"uk-UA"})[lang]||"sk-SK";
 const currency=(value,lang)=>new Intl.NumberFormat(locale(lang),{style:'currency',currency:'EUR'}).format(Number(value)||0);
@@ -20,6 +26,7 @@ const chargeLabel=(r,lang)=>r.kind==='deposit'?({sk:'Depozit – 2× nájom',en:
 const paymentStatus=(record,today,hasPlan=false)=>{
  if(record.remaining<=0)return 'paid';
  if(record.due_on<today)return 'late';
+ if(record.due_on===today)return 'dueToday';
  if(record.paid>0)return 'partial';
  if(hasPlan)return 'plan';
  return 'due';
@@ -57,12 +64,13 @@ export function renderPaymentHighlight({root,resident,tenancies,charges,allocati
   const remaining=rows.reduce((v,r)=>v+r.remaining,0);
   const planIds=new Set((plans||[]).map(p=>p.charge_id));
   const hasPlan=rows.some(r=>planIds.has(r.id));
-  const state=remaining<=0?'paid':rows.some(r=>r.due_on<today)?'late':remaining<total?'partial':hasPlan?'plan':'due';
+  const state=remaining<=0?'paid':rows.some(r=>r.due_on<today)?'late':rows.some(r=>r.due_on===today)?'dueToday':remaining<total?'partial':hasPlan?'plan':'due';
   panel.append(node('p','student-monthly-balance',currency(remaining/100,lang)));
-  const status=node('span','student-payment-state payment-'+state,t[state]);status.setAttribute('role','status');panel.append(status);
+  const status=node('span','student-payment-state payment-'+(state==='dueToday'?'due':state),t[state]);status.setAttribute('role','status');panel.append(status);
   panel.append(summaryField(t.total,currency(total/100,lang)),summaryField(t.balance,currency(remaining/100,lang)));
   panel.append(summaryField(t.dueDate,rows.map(r=>r.due_on).sort()[0]?dateValue(rows.map(r=>r.due_on).sort()[0],lang):'—'));
  }
+ panel.append(node('p','muted student-manual-payment-note',t.note));
  panel.append(action(t.see,()=>onOpen('installments')));
  root.append(panel);
 }
@@ -78,7 +86,7 @@ export function renderStudentActions({root,lang,onOpen}){
 
 export function renderMonthlyCalendar({root,charges,allocations,reversals,plans,items,lang,onOpen}){
  const t=dict(lang),today=todaySK(),rows=getRows({charges,allocations,reversals});
- root.append(node('h4','section-subtitle',t.calendar));
+ root.append(node('h4','section-subtitle',t.calendar),node('p','muted student-manual-payment-note',t.note));
  if(!rows.length){root.append(node('div','empty-message',t.empty));root.append(action(t.message,()=>onOpen('requests')));return;}
  const planned=new Map((plans||[]).map(p=>[p.charge_id,p]));
  const ordered=rows.sort((a,b)=>String(a.period).localeCompare(String(b.period))||String(a.due_on).localeCompare(String(b.due_on)));
@@ -88,7 +96,7 @@ export function renderMonthlyCalendar({root,charges,allocations,reversals,plans,
   const state=paymentStatus(pending||r,today,!!plan);
   const line=node('article','student-payment-row');
   const heading=node('div','student-payment-head');
-  heading.append(node('strong','',chargeLabel(r,lang)),node('span','student-payment-state payment-'+state,t[state]));
+  heading.append(node('strong','',chargeLabel(r,lang)),node('span','student-payment-state payment-'+(state==='dueToday'?'due':state),t[state]));
   line.append(heading);
   line.append(summaryField(t.amount,currency(r.amount,lang)),summaryField(t.dueDate,dateValue(r.due_on,lang)));
   line.append(summaryField(t.payment,currency(r.paid/100,lang)),summaryField(t.balance,currency(r.remaining/100,lang)));
@@ -98,7 +106,7 @@ export function renderMonthlyCalendar({root,charges,allocations,reversals,plans,
    for(const [index,installment] of schedule.entries()){
     const row=node('div','student-payment-row');
     const status=paymentStatus(installment,today);
-    row.append(node('strong','',String(index+1)+'. · '+dateValue(installment.due_on,lang)),node('span','student-payment-state payment-'+status,t[status]));
+    row.append(node('strong','',String(index+1)+'. · '+dateValue(installment.due_on,lang)),node('span','student-payment-state payment-'+(status==='dueToday'?'due':status),t[status]));
     row.append(summaryField(t.amount,currency(installment.amount,lang)),summaryField(t.payment,currency(installment.paid/100,lang)),summaryField(t.balance,currency(installment.remaining/100,lang)));
     line.append(row);
    }
