@@ -465,8 +465,8 @@ export async function renderStaffScreen(ctx) {
    if(invitationEmailFailed){
     const subject='Student House Bratislava – '+(ctx.lang==='en'?'registration approved':'registrácia schválená');
     const body=ctx.lang==='en'
-     ?'Hello,\n\nYour accommodation was approved. Use the Forgot password option at https://www.webu.sk/student-house-portal/student/ to request a password setup link. Then complete the questionnaire and upload your signed contract, house rules and GDPR acknowledgement.\n\nStudent House Bratislava Reception'
-     :'Ahoj,\n\nTvoja registrácia bola schválená. Na https://www.webu.sk/student-house-portal/student/ klikni na Zabudnuté heslo a vyžiadaj si odkaz na vytvorenie hesla. Potom vyplň dotazník a odošli podpísanú zmluvu, ubytovací poriadok a GDPR.\n\nRecepcia Student House Bratislava';
+     ?'Hello,\n\nYour accommodation was approved. Use the Forgot password option at https://portal.student-house.sk/student-house-portal/student/ to request a password setup link. Then complete the questionnaire and upload your signed contract, house rules and GDPR acknowledgement.\n\nStudent House Bratislava Reception'
+     :'Ahoj,\n\nTvoja registrácia bola schválená. Na https://portal.student-house.sk/student-house-portal/student/ klikni na Zabudnuté heslo a vyžiadaj si odkaz na vytvorenie hesla. Potom vyplň dotazník a odošli podpísanú zmluvu, ubytovací poriadok a GDPR.\n\nRecepcia Student House Bratislava';
     const mail=el('a','btn-secondary',ctx.lang==='en'?'Open Gmail approval message':'Otvoriť Gmail – schválenie študenta');
     mail.href='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(person.email)
       +'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
@@ -613,7 +613,7 @@ export async function renderStaffScreen(ctx) {
       accepted:'Questionnaire verified and approved.',fail:'The request could not be saved.',
       gmail:'Open Gmail to notify student',mailSubject:'Student House Bratislava – correct your questionnaire',
       mailBody:'Hello,\n\nReception reviewed your Student House Bratislava questionnaire and asks you to correct:\n\n',
-      mailEnd:'\n\nSign in and open Personal Questionnaire to make the changes:\nhttps://www.webu.sk/student-house-portal/student/?tab=enquiry\n\nRegards,\nStudent House Bratislava Reception'
+      mailEnd:'\n\nSign in and open Personal Questionnaire to make the changes:\nhttps://portal.student-house.sk/student-house-portal/student/?tab=enquiry\n\nRegards,\nStudent House Bratislava Reception'
      }:{
       returned:'Dotazník vrátený na opravu',resubmitted:'Študent opravil dotazník – čaká na opätovnú kontrolu',
       approved:'Dotazník overený recepciou',request:'Poslať späť zle vyplnený dotazník',
@@ -623,7 +623,7 @@ export async function renderStaffScreen(ctx) {
       accepted:'Dotazník bol schválený.',fail:'Nepodarilo sa uložiť požiadavku.',
       gmail:'Otvoriť Gmail a upozorniť študenta',mailSubject:'Student House Bratislava – oprava dotazníka',
       mailBody:'Ahoj,\n\npri kontrole tvojho osobného dotazníka Student House Bratislava sme zistili údaje, ktoré je potrebné opraviť:\n\n',
-      mailEnd:'\n\nPrihlás sa do študentskej zóny a otvor Osobný dotazník:\nhttps://www.webu.sk/student-house-portal/student/?tab=enquiry\n\nPo opätovnom odoslaní dotazník skontrolujeme.\n\nRecepcia Student House Bratislava'
+      mailEnd:'\n\nPrihlás sa do študentskej zóny a otvor Osobný dotazník:\nhttps://portal.student-house.sk/student-house-portal/student/?tab=enquiry\n\nPo opätovnom odoslaní dotazník skontrolujeme.\n\nRecepcia Student House Bratislava'
      };
     if(reviewError){enquiryBox.append(el('p','danger',labels.fail));}
     else{

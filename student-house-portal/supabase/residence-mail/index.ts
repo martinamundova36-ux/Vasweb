@@ -2,7 +2,7 @@ import {createClient} from 'npm:@supabase/supabase-js@2.119.0';
 import nodemailer from 'npm:nodemailer@7.0.10';
 
 const db=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false}});
-const base='https://www.webu.sk/student-house-portal/';
+const base='https://portal.student-house.sk/student-house-portal/';
 const escape=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 // This endpoint accepts no recipient or message from callers. Only RLS-protected,
 // server-enqueued events may be sent. An atomic lease limits all callers together.

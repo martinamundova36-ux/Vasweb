@@ -3,13 +3,13 @@ import {createClient} from "npm:@supabase/supabase-js@2.119.0";
 const url=Deno.env.get("SUPABASE_URL")!;
 const publicKey=Deno.env.get("SUPABASE_ANON_KEY")!;
 const service=createClient(url,Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,{auth:{persistSession:false}});
-const allowed=new Set(["https://www.webu.sk","https://webu.sk"]);
+const allowed=new Set(["https://portal.student-house.sk","https://www.webu.sk","https://webu.sk"]);
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const date=(v:unknown)=>{if(typeof v!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;const n=Date.parse(v+"T12:00:00Z");return Number.isFinite(n)&&new Date(n).toISOString().startsWith(v)};
 const amount=(v:unknown):number|null=>{const s=String(v??"");if(!/^\d{1,6}(\.\d{1,2})?$/.test(s))return null;const n=Number(s);return n>0&&n<=100000?n:null};
 Deno.serve(async req=>{
  const origin=req.headers.get("origin")||"";
- const cors={"Access-Control-Allow-Origin":origin||"https://www.webu.sk","Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type","Access-Control-Allow-Methods":"POST,OPTIONS","Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store","Vary":"Origin"};
+ const cors={"Access-Control-Allow-Origin":origin||"https://portal.student-house.sk","Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type","Access-Control-Allow-Methods":"POST,OPTIONS","Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store","Vary":"Origin"};
  const reply=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:cors});
  if(origin&&!allowed.has(origin))return new Response("Forbidden",{status:403});
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:cors});

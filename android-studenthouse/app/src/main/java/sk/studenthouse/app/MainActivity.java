@@ -24,7 +24,7 @@ import android.webkit.WebViewClient;
  * No JavaScript bridge, privileged app permissions or private data cache is added.
  */
 public final class MainActivity extends Activity {
-    private static final String HOME = "https://www.webu.sk/student-house-portal/";
+    private static final String HOME = "https://portal.student-house.sk/student-house-portal/";
     private static final String PORTAL_PATH = "/student-house-portal/";
     private static final int FILE_CHOOSER_REQUEST = 501;
     private WebView browser;
@@ -37,7 +37,7 @@ public final class MainActivity extends Activity {
         String host = uri.getHost();
         String path = uri.getPath();
         return "https".equalsIgnoreCase(scheme)
-            && ("www.webu.sk".equalsIgnoreCase(host) || "webu.sk".equalsIgnoreCase(host))
+            && ("portal.student-house.sk".equalsIgnoreCase(host))
             && uri.getUserInfo() == null
             && path != null
             && (path.equals("/student-house-portal") || path.startsWith(PORTAL_PATH));

@@ -7,7 +7,7 @@ const SECRET = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const client = createClient(SUPABASE_URL,SECRET,{auth:{persistSession:false}});
 // Compatibility for the existing Student House registration until its domain goes live.
 const LEGACY_TENANT = "ae045243-98f0-4f22-a736-d33a92f9ba61";
-const LEGACY_ORIGINS = new Set(["https://www.webu.sk","https://webu.sk"]);
+const LEGACY_ORIGINS = new Set(["https://portal.student-house.sk","https://www.webu.sk","https://webu.sk"]);
 // A registration can target another residence only through a previously verified HTTPS domain.
 async function resolveTenant(origin:string):Promise<string|null> {
  if(!origin || LEGACY_ORIGINS.has(origin))return LEGACY_TENANT;
@@ -34,7 +34,7 @@ function isDate(s:string):boolean {
  return Number.isFinite(n) && new Date(n).toISOString().startsWith(s);
 }
 function cors(origin:string):Record<string,string> {
- return {"Access-Control-Allow-Origin":origin||"https://www.webu.sk","Vary":"Origin","Access-Control-Allow-Headers":"content-type, apikey, authorization, x-client-info, x-retry-count, traceparent, tracestate, baggage","Access-Control-Allow-Methods":"POST, OPTIONS","Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store"};
+ return {"Access-Control-Allow-Origin":origin||"https://portal.student-house.sk","Vary":"Origin","Access-Control-Allow-Headers":"content-type, apikey, authorization, x-client-info, x-retry-count, traceparent, tracestate, baggage","Access-Control-Allow-Methods":"POST, OPTIONS","Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store"};
 }
 function safeResponse(body:unknown,status:number,origin:string) {
  return new Response(JSON.stringify(body),{status,headers:cors(origin)});

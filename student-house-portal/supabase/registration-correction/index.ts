@@ -5,7 +5,7 @@ import {createClient} from "npm:@supabase/supabase-js@2.119.0";
 // role granted by these endpoints. The editable link is a 256-bit bearer secret.
 const url=Deno.env.get("SUPABASE_URL")!;
 const service=createClient(url,Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,{auth:{persistSession:false}});
-const origins=new Set(["https://www.webu.sk","https://webu.sk"]);
+const origins=new Set(["https://portal.student-house.sk","https://www.webu.sk","https://webu.sk"]);
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Contract numbers are reception-owned and MUST NOT be included in a student correction token.
@@ -76,7 +76,7 @@ Deno.serve(async(req:Request)=>{
     entity:"registration_requests",entity_id:registration
    });
    if(auditError)console.error("registration_correction_audit_failed",auditError.code);
-   const link="https://www.webu.sk/student-house-portal/correction/#token="+secret;
+   const link="https://portal.student-house.sk/student-house-portal/correction/#token="+secret;
    const {error:mailError}=await service.from('residence_mail_outbox').insert({
     tenant_id:tenant,dedupe:'registration-correction:'+registration+':'+hash,
     audience:'student',recipient:row.email,
