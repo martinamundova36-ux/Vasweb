@@ -1,0 +1,21 @@
+{
+  "project": "WEBU Residence",
+  "source_repository": "martinamundova36-ux/Vasweb",
+  "source_commit": "d3d68dccf09ec95884ce8e1d6f22097290934821",
+  "source_tree": "cd684292c46632f27418c4556fcc37a56017ec1c",
+  "destination_repository": "martinamundova36-ux/WEBU-Residence",
+  "stage": "source-separated-not-cut-over",
+  "included_top_level": [
+    "student-house-portal",
+    "supabase",
+    "android-studenthouse"
+  ],
+  "remaining_actions": [
+    "create-independent-repository",
+    "move-copy-clean-history",
+    "configure-independent-hosting",
+    "update-urls-and-auth-allowlist",
+    "run-production-verification",
+    "remove-source-from-vasweb-after-cutover"
+  ]
+}

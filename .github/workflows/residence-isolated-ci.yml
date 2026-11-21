@@ -1,0 +1,23 @@
+name: Residence isolated checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: residence-isolated-ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  portal-tests:
+    if: github.repository == 'martinamundova36-ux/WEBU-Residence'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix tests
+      - run: npm test --prefix tests
