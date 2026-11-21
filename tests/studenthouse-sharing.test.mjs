@@ -31,10 +31,12 @@ test('full Student House Bratislava branding in installable and Android apps', (
   const androidManifest = fs.readFileSync('android-studenthouse/app/src/main/AndroidManifest.xml', 'utf8');
   const offline = fs.readFileSync('student-house-portal/offline.html', 'utf8');
   const install = fs.readFileSync('student-house-portal/install.js', 'utf8');
-  assert.equal(manifest.name, 'Student House Bratislava');
-  assert.equal(manifest.short_name, 'Student House Bratislava');
-  assert.match(androidManifest, /android:label="Student House Bratislava"/);
-  assert.match(main, /content="Student House Bratislava"/);
+  assert.equal(manifest.name, 'SH Bratislava');
+  assert.equal(manifest.short_name, 'SH Bratislava');
+  assert.match(androidManifest, /android:label="SH Bratislava"/);
+  assert.match(main, /name="application-name" content="SH Bratislava"/);
+  assert.match(main, /name="apple-mobile-web-app-title" content="SH Bratislava"/);
+  assert.match(main, /property="og:site_name" content="Student House Bratislava"/);
   assert.match(main, /Zdieľať Student House Bratislava/);
   assert.match(main, /Nainštalovať Student House Bratislava/);
   assert.match(share, /title: 'Student House Bratislava'/);
