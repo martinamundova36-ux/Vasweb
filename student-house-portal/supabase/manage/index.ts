@@ -211,7 +211,7 @@ Deno.serve(async(req)=>{
   const email=String(body.email).trim().toLowerCase();
   const residentName=registration ? (registration.first_name+' '+registration.last_name).trim() : body.name.trim();
   const redirect=(origin||portalOrigin)+'/student-house-portal/'+(role==='student'?'questionnaire/':'?view=reception');
-  let uid:string|undefined,existingUser=false,emailSent=false,createdForApproval=false,loginReady=false;
+  let uid:string|undefined,existingUser=false,emailSent=false,createdForApproval=false,loginReady=false,approvalNoticeQueued=false;
   // Pending accounts may already have an Auth password. Reception approves the room, signed
   // contract data and monthly rent. New email accounts receive a one-time invite.
   // Older applicants who previously created an Auth account receive a password
@@ -303,6 +303,7 @@ Deno.serve(async(req)=>{
       // Students who already chose a password still receive a notice without a magic link.
       const queued=await queueStudentAccess(tenant,email,'approved_password',origin||portalOrigin);
       if(!queued)console.error('approved_password_notice_queue_failed');
+      else approvalNoticeQueued=true;
     }
   }else{
     const {data:existing,error:checkError}=await service.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',uid).maybeSingle();
@@ -323,7 +324,7 @@ Deno.serve(async(req)=>{
   const {error:auditError}=await service.from('audit_logs').insert({
     tenant_id:tenant,actor_id:user.id,action:'RESIDENT_ACCESS_APPROVED',entity:'organization_memberships',entity_id:uid
   });if(auditError)console.error('invite_audit_failed',auditError.code);
-  return reply({ok:true,email_sent:false,email_queued:registration?emailSent:emailSent,login_ready:loginReady,existing_account:existingUser});
+  return reply({ok:true,email_sent:registration?false:emailSent,email_queued:registration?(emailSent||approvalNoticeQueued):false,login_ready:loginReady,existing_account:existingUser});
 
  }catch(e){console.error('manage_request_failed');return reply({error:'request_failed'},400)}
 });
