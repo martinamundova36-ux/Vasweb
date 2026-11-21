@@ -90,6 +90,9 @@ Deno.serve(async(req)=>{
   if(body.action==='invite'&&(typeof body.email!=='string'||body.email.length>254||!/^\S+@\S+\.\S+$/.test(body.email)||typeof body.name!=='string'||body.name.trim().length<1||body.name.length>200))return reply({error:'invalid_data'},400);
 
   const role=body.role;if(!['student','reception','org_admin'].includes(role))return reply({error:'invalid_role'},400);
+  // Student membership must originate from a verified pending registration.
+  // No direct manual student invitation may bypass room, dates or reception approval.
+  if(body.action==='invite'&&role==='student'&&!body.registration_id)return reply({error:'registration_required'},400);
   const tenant=body.tenant_id;
   if(typeof tenant!=='string'||!/^[0-9a-f-]{36}$/i.test(tenant))return reply({error:'invalid_tenant'},400);
   const {data:m,error:roleError}=await client.from('organization_memberships').select('role').eq('tenant_id',tenant).eq('user_id',user.id).eq('active',true).maybeSingle();
