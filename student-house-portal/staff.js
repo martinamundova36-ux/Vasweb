@@ -1,4 +1,5 @@
 import {advanceRentDueDate} from './ledger.js';
+import {stayPeriods} from './stay-periods.js';
 // Staff screens use the existing authenticated client and tenant-scoped server policies.
 export const normalize = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
 export function filterResidents(rows, query = '', status = 'all') {
@@ -460,11 +461,21 @@ export async function renderStaffScreen(ctx) {
  }
  async function profile(person){
   if(!ctx.isCurrent())return;
+  const roomCatalog=await ctx.list('rooms').catch(()=>[]);
+  if(!ctx.isCurrent())return;
+  const assignedRoom=roomCatalog.find(x=>String(x.name||'').trim()===String(person.verified_room_number||'').trim());
+  const months=stayPeriods(person.accommodation_from,person.accommodation_to).length;
+  const verifiedWords=({
+   sk:{months:'Dĺžka pobytu',monthWord:'mesiacov',roomType:'Typ pridelenej izby'},
+   en:{months:'Stay duration',monthWord:'months',roomType:'Assigned room type'},
+   ru:{months:'Срок проживания',monthWord:'месяцев',roomType:'Тип назначенной комнаты'},
+   uk:{months:'Тривалість проживання',monthWord:'місяців',roomType:'Тип призначеної кімнати'}
+  })[ctx.lang]||{months:'Dĺžka pobytu',monthWord:'mesiacov',roomType:'Typ pridelenej izby'};
   filters.hidden=true;count.hidden=true;results.className='staff-profile';results.replaceChildren(button(w.back,()=>{filters.hidden=false;count.hidden=false;results.className='staff-directory';paint();}));
   results.append(el('h3','',person.full_name));
   results.append(residentPhotoView(person,false));
   const details=el('dl','identity-fields');
-  details.append(field(w.email,person.email),field(w.room,person.verified_room_number||w.noRoom),field(w.contract,person.verified_contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.state,person.active?w.activeOne:w.inactiveOne));results.append(details);
+  details.append(field(w.email,person.email),field(w.room,person.verified_room_number||w.noRoom),field(w.contract,person.verified_contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(verifiedWords.months,months?String(months)+' '+verifiedWords.monthWord:'—'),field(verifiedWords.roomType,assignedRoom?.category||'—'),field(w.state,person.active?w.activeOne:w.inactiveOne));results.append(details);
   const form=el('form','staff-form'),room=el('input');room.value=person.verified_room_number||'';room.maxLength=30;room.setAttribute('aria-label',w.room);
   const save=button(w.save,()=>{},'');save.type='submit';const lab=el('label','',w.room);lab.append(room);form.append(lab,save);
   form.addEventListener('submit',async event=>{
@@ -516,16 +527,18 @@ export async function renderStaffScreen(ctx) {
       [translated?'Telephone':'Telefón',enquiry.telephone],
       [translated?'Parent contact email':'E-mail rodiča',enquiry.parent_contact_email],
       [translated?'School':'Škola',enquiry.school],
-      ['IBAN',enquiry.iban],
-      [translated?'Preferred room':'Preferovaný typ izby',displayRoomType(enquiry.preferred_room_type)],
-      [translated?'Stay duration (months)':'Dĺžka pobytu (mesiace)',enquiry.preferred_duration_months],
-      [translated?'Preferred arrival':'Preferovaný príchod',ctx.day(enquiry.preferred_from)],
-      [translated?'Preferred departure':'Preferovaný odchod',ctx.day(enquiry.preferred_to)]
+      ['IBAN',enquiry.iban]
     ];
     const dataList=el('dl','identity-fields');
     for(const [name,value] of values)dataList.append(field(name,value||'—'));
     const reviewHint=el('p','mini-note',({sk:'Údaje od študenta čakajú na kontrolu recepcie.',en:'Student-submitted information awaits reception review.',ru:'Данные студента ожидают проверки на ресепшене.',uk:'Дані студента очікують перевірки на рецепції.'})[ctx.lang]);
-    enquiryBox.append(dataList,reviewHint);
+    const sourceNotice=el('p','small',({
+     sk:'Dátumy ubytovania, dĺžka pobytu a pridelená izba sú automaticky prevzaté zo schválenej evidencie vyššie; študent ich v dotazníku nevypĺňa.',
+     en:'Stay dates, duration and assigned room come from the verified accommodation record above; students do not enter them twice.',
+     ru:'Даты проживания, срок и назначенная комната берутся из подтверждённой записи выше; студент не заполняет их повторно.',
+     uk:'Дати проживання, тривалість і призначена кімната беруться з підтвердженого запису вище; студент не заповнює їх повторно.'
+    })[ctx.lang]);
+    enquiryBox.append(dataList,sourceNotice,reviewHint);
 
     const {data:review,error:reviewError}=await ctx.db.from('resident_enquiry_reviews')
       .select('review_status,correction_reason,requested_at')
