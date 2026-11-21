@@ -1551,7 +1551,7 @@ async function renderPanel(){
     else message(({sk:"Údaje o ubytovaní sa zobrazia po priradení izby recepciou.",en:"Your accommodation details will appear after reception assigns your room.",ru:"Данные о проживании появятся после назначения комнаты.",uk:"Дані про проживання з’являться після призначення кімнати."})[lang]);
    }
    if(!staff){
-    const studentUI=await import('/student-house-portal/student-finance.js?v=20261121-manual-payments1');
+    const studentUI=await import('/student-house-portal/student-finance.js?v=20261121-full-stay1');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='overview')return;
     studentUI.renderPaymentHighlight({root:container,resident,tenancies:d.tenancies,charges:d.rent_charges,allocations:d.payment_allocations,reversals:d.payment_reversals,plans:d.installment_plans,items:d.installment_items,lang,onOpen:navigate});
     studentUI.renderStudentWelcome({root:container,resident,tenancies:d.tenancies,lang,onOpen:navigate});
@@ -1596,7 +1596,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261121-mobile-cards1');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261121-full-stay1');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),openAdmin:()=>{navigate('overview');showStaffMenu();},isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){
@@ -1704,7 +1704,7 @@ async function renderPanel(){
   }
   if(tab==='payments'){
    heading(label('payments'),label('financeNote'));
-   if(staff){const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261113-finance2');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
+   if(staff){const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261121-full-stay1');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
    const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
    const [charges,paid,people,allocations,reversals]=await Promise.all([list('rent_charges',filter),list('payments',filter),staff?list('residents'):Promise.resolve([]),list('payment_allocations'),list('payment_reversals')]);
    const {cents,chargeBalance}=await import('/student-house-portal/ledger.js?v=20261112-entry5-authfix1');
@@ -1776,13 +1776,13 @@ async function renderPanel(){
    heading(label('installments'),staff?label('planNote'):'');
    if(!staff){
     const filter={resident_id:own||'00000000-0000-0000-0000-000000000000'};
-    const [charges,allocations,reversals,plans,items]=await Promise.all([
-     list('rent_charges',filter),list('payment_allocations'),list('payment_reversals'),list('installment_plans',filter),list('installment_items')
+    const [charges,allocations,reversals,plans,items,tenancies]=await Promise.all([
+     list('rent_charges',filter),list('payment_allocations'),list('payment_reversals'),list('installment_plans',filter),list('installment_items'),list('tenancies',filter)
     ]);
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261121-manual-payments1');
+    const {renderMonthlyCalendar}=await import('/student-house-portal/student-finance.js?v=20261121-full-stay1');
     if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-    renderMonthlyCalendar({root:container,charges,allocations,reversals,plans,items,lang,onOpen:navigate});
+    renderMonthlyCalendar({root:container,charges,allocations,reversals,plans,items,tenancies,lang,onOpen:navigate});
     return;
    }
    const plans=await list('installment_plans',staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'});
