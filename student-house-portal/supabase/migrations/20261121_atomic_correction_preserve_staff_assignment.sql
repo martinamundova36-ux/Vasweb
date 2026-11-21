@@ -9,15 +9,15 @@ declare
  end_on date;
  arriving_on date;
  duration integer;
- first_name text;
- last_name text;
+ v_first_name text;
+ v_last_name text;
  requested_email text;
 begin
  if p_hash is null or p_hash !~ '^[0-9a-f]{64}$' or p_data is null
    or jsonb_typeof(p_data)<>'object' then return false; end if;
- if coalesce(p_data->>'accommodation_from','') !~ '^\\d{4}-\\d{2}-\\d{2}$'
-  or coalesce(p_data->>'accommodation_to','') !~ '^\\d{4}-\\d{2}-\\d{2}$'
-  or coalesce(p_data->>'expected_arrival','') !~ '^\\d{4}-\\d{2}-\\d{2}$'
+ if coalesce(p_data->>'accommodation_from','') !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+  or coalesce(p_data->>'accommodation_to','') !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+  or coalesce(p_data->>'expected_arrival','') !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
   or coalesce(p_data->>'preferred_duration_months','') not in ('5','10','12')
  then return false; end if;
  begin
@@ -32,11 +32,11 @@ begin
    or end_on<>(date_trunc('month',start_on::timestamp)+make_interval(months=>duration)-interval '1 day')::date
    or arriving_on<start_on or date_trunc('month',arriving_on::timestamp)<>date_trunc('month',start_on::timestamp)
  then return false;end if;
- first_name:=btrim(coalesce(p_data->>'first_name',''));
- last_name:=btrim(coalesce(p_data->>'last_name',''));
+ v_first_name:=btrim(coalesce(p_data->>'first_name',''));
+ v_last_name:=btrim(coalesce(p_data->>'last_name',''));
  requested_email:=lower(btrim(coalesce(p_data->>'email','')));
- if length(first_name)<1 or length(last_name)<1 or length(first_name)>80 or length(last_name)>80
-  or length(requested_email)>254 or requested_email !~ '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$'
+ if length(v_first_name)<1 or length(v_last_name)<1 or length(v_first_name)>80 or length(v_last_name)>80
+  or length(requested_email)>254 or requested_email !~ '^[^[:space:]@]+@[^[:space:]@]+[.][^[:space:]@]+$'
  then return false; end if;
  select * into req from public.registration_requests
  where correction_token_hash=p_hash and status='correction_requested'
@@ -49,7 +49,7 @@ begin
  where tenant_id=req.tenant_id and registration_id=req.id;
  if not found then raise exception 'registration_enquiry_missing' using errcode='23514';end if;
  update public.registration_requests set
-  first_name=first_name,last_name=last_name,
+  first_name=v_first_name,last_name=v_last_name,
   accommodation_from=start_on,accommodation_to=end_on,
   status='pending',correction_token_hash=null,correction_expires_at=null,
   correction_completed_at=now(),reviewed_by=null,reviewed_at=null
