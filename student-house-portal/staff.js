@@ -508,6 +508,37 @@ export async function renderStaffScreen(ctx) {
     person.verified_room_number=room.value.trim();status(ctx.success);details.children[1].querySelector('dd').textContent=room.value.trim()||w.noRoom;
    }catch{if(ctx.isCurrent())status(w.failed,true);}finally{save.disabled=false;}
   });results.append(form);
+  // Verified fee and access details belong to reception, not the student questionnaire.
+  const staffFacts=el('section','data-card'),verifiedTitle=({
+    sk:'Údaje recepcie – izba a poplatky',en:'Reception-verified room and fees',
+    ru:'Подтверждённые данные ресепшена',uk:'Підтверджені дані рецепції'
+   })[ctx.lang];
+  const missingVerified=({sk:'Recepcia ešte nepotvrdila',en:'Not yet verified by reception',ru:'Ещё не подтверждено',uk:'Ще не підтверджено'})[ctx.lang];
+  staffFacts.append(el('h4','section-subtitle',verifiedTitle));
+  results.append(staffFacts);
+  try{
+   const [{data:record,error},{data:stays,error:stayError}]=await Promise.all([
+    ctx.db.from('resident_staff_details')
+     .select('room_code,deposit_eur,administration_fee_eur')
+     .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle(),
+    ctx.db.from('tenancies').select('rent,starts_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id)
+   ]);
+   if(!ctx.isCurrent()||!staffFacts.isConnected)return;
+   if(error||stayError)throw Error('staff_details_unavailable');
+   const rentRecord=(stays||[]).find(x=>x.starts_on===person.accommodation_from)||(stays||[])[0];
+   const toMoney=value=>value!=null&&value!==''&&Number.isFinite(Number(value))?Number(value).toFixed(2)+' €':missingVerified;
+   const report=el('dl','identity-fields');
+   const labels=({sk:['Mesačný nájom','Depozit','Administratívny poplatok','Kód izby','Zobraziť kód','Skryť kód','Doplniť v Excel evidencii'],
+     en:['Monthly rent','Deposit','Administration fee','Room code','Show code','Hide code','Edit in room register'],
+     ru:['Аренда за месяц','Депозит','Административный сбор','Код комнаты','Показать код','Скрыть код','Дополнить в реестре'],
+     uk:['Місячна оренда','Депозит','Адміністративний збір','Код кімнати','Показати код','Приховати код','Доповнити в реєстрі']})[ctx.lang];
+   report.append(field(labels[0],toMoney(rentRecord?.rent)),field(labels[1],toMoney(record?.deposit_eur)),field(labels[2],toMoney(record?.administration_fee_eur)));
+   const access=el('div'),code=el('span','readonly-value',record?.room_code?'••••••':missingVerified),toggle=button(labels[4],()=>{const hidden=code.textContent==='••••••';code.textContent=hidden?record.room_code:'••••••';toggle.textContent=hidden?labels[5]:labels[4];});
+   access.append(el('dt','',labels[3]),code);
+   if(record?.room_code)access.append(toggle);
+   report.append(access);staffFacts.append(report);
+   if(typeof ctx.openRooms==='function')staffFacts.append(button(labels[6],()=>ctx.openRooms(person.verified_room_number,person.accommodation_from)));
+  }catch{if(ctx.isCurrent())staffFacts.append(el('p','danger',w.fileFailed));}
   const arrivalWords=({sk:['Skutočný príchod','Zatiaľ nepotvrdený','Uložiť skutočný príchod','✓ Skutočný príchod uložený','Dátum sa nepodarilo načítať alebo uložiť.'],en:['Actual arrival','Not yet confirmed','Save actual arrival','✓ Actual arrival saved','Unable to load or save date.'],ru:['Фактический заезд','Не подтверждён','Сохранить дату заезда','✓ Дата заезда сохранена','Не удалось загрузить или сохранить дату.'],uk:['Фактичне прибуття','Не підтверджено','Зберегти дату прибуття','✓ Дату прибуття збережено','Не вдалося завантажити або зберегти дату.']})[ctx.lang];
   const arrivalForm=el('form','staff-form'),arrivalInput=el('input'),arrivalNotice=el('p','mini-note'),arrivalSave=el('button','',arrivalWords[2]);
   arrivalInput.type='date';arrivalInput.max=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'});arrivalInput.disabled=true;arrivalSave.type='submit';arrivalSave.disabled=true;arrivalNotice.setAttribute('role','status');
