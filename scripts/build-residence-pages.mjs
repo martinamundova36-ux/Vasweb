@@ -24,7 +24,7 @@ let files = 0;
 function copyPublicFile(file, target) {
   const stat = lstatSync(file);
   if (stat.isSymbolicLink()) throw new Error('Symlinks not permitted in release: ' + file);
-  if (!stat.isFile() || !allowedExtensions.has(extname(file).toLowerCase())) return;
+  if (!stat.isFile() || !allowedExtensions.has(extname(file).toLowerCase()) || ['preview.html'].includes(file.split('/').pop())) return;
   mkdirSync(dirname(target), {recursive: true});
   copyFileSync(file, target);
   files++;
