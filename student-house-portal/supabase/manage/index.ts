@@ -1,6 +1,6 @@
 import {createClient} from 'npm:@supabase/supabase-js@2.119.0';
 const url=Deno.env.get('SUPABASE_URL')!;
-const portalOrigin='https://www.webu.sk';
+const portalOrigin=(Deno.env.get('PORTAL_ORIGIN')||'https://www.webu.sk').replace(/\/+$/,'');
 const service=createClient(url,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false}});
 Deno.serve(async(req)=>{
  const origin=req.headers.get('origin')||'';
