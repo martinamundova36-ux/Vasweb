@@ -186,3 +186,23 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-1f385ca7a0dc08: [TCY](https://commons.wikimedia.org/wiki/File:Hall_nord_p%C3%B4le_intermodal,_gare_de_Marseille_Saint-Charles.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-8f37556ebfc055: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_reading_and_working_on_laptop_at_home.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-38f3187b572f23: [מקף־עברי](https://commons.wikimedia.org/wiki/File:%D7%94%D7%90%D7%91%D7%99%D7%96%D7%A0%D7%A1_%E2%80%93_%D7%97%D7%9C%D7%9C_%D7%A2%D7%91%D7%95%D7%93%D7%94_%D7%9E%D7%A9%D7%95%D7%AA%D7%A3_%D7%A2%D7%91%D7%95%D7%A8_%D7%A4%D7%A8%D7%99%D7%9C%D7%A0%D7%A1%D7%A8%D7%99%D7%9D,_%D7%9E%D7%A8%D7%9B%D7%96_%D7%9B%D7%99%D7%95%D7%95%D7%A0%D7%99%D7%9D_%D7%91%D7%90%D7%A9%D7%93%D7%95%D7%93,_%D7%99%D7%95%D7%9C%D7%99_2024.jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-85d5c769e29bc9: [JESHOOTS.COM  jeshoots](https://commons.wikimedia.org/wiki/File:Businessman_working_and_writing_notes_in_office_(Unsplash).jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-101f48b0a72a59: [Shixart1985](https://commons.wikimedia.org/wiki/File:Woman_stretches_at_home_office_desk_while_working_on_laptop.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-ee13ed77e03524: [Nenad Stojkovic](https://commons.wikimedia.org/wiki/File:Woman_sitting_at_her_office_table,_looking_at_a_plastic_card_and_typing_on_the_laptop._Donut_with_pink_frosting_next_to_her._(51532248284).jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-178e9c7d04d619: [Volkdentoklin](https://commons.wikimedia.org/wiki/File:Typical-workflow.png), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-6c9f0e409bb94d: [Fadesga](https://commons.wikimedia.org/wiki/File:Sinergia_Design_07.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-8a262e4faab66c: [Bench Accounting  benchaccounting](https://commons.wikimedia.org/wiki/File:Man_at_a_laptop_in_an_office_(Unsplash).jpg), licencia [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-5316e1cfdc3de9: [Volkdentoklin](https://commons.wikimedia.org/wiki/File:Kaplan-Meyer_plot.png), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-d56688e32b44a8: [David Maina Ndirangu](https://commons.wikimedia.org/wiki/File:Carrying_out_land_office_survey_work.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-0153a94e9d5b65: [Shixart1985](https://commons.wikimedia.org/wiki/File:Middle-aged_woman_working_on_laptop_while_holding_smartphone_at_a_wooden_table.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.

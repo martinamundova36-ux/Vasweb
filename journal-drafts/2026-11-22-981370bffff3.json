@@ -1,0 +1,154 @@
+{
+  "doi": "10.24818/beman/2026.s.i.6-16",
+  "title": "MANAGING THE DIGITAL SHIFT: INFORMATION SYSTEMS AND AI IN EU FIRMS",
+  "authors": [
+    "Darko SHULESKI"
+  ],
+  "publisher": "Bucharest University of Economic Studies",
+  "venue": "Business Excellence and Management",
+  "source_date": "2026-11-22",
+  "type": "journal-article",
+  "url": "https://doi.org/10.24818/beman/2026.s.i.6-16",
+  "abstract_available": true,
+  "abstract_words": 204,
+  "selection_keywords": [
+    "artificial intelligence",
+    "business",
+    "customer",
+    "enterprise",
+    "management",
+    "productivity"
+  ],
+  "verified_at": "2026-11-22",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-22",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-22",
+    "source_url": "https://doi.org/10.24818/beman/2026.s.i.6-16",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-22",
+    "content_sha256": "20d3b38e798fc36572c2ce4bed0accf4288373cda09bfd3200180a4a7f7a3543",
+    "languages": {
+      "sk": {
+        "title": "Riadenie digitálnej transformácie: Informačné systémy a AI v podnikoch EÚ",
+        "description": "Analýza pripravenosti európskych firiem na digitálne technológie a AI. Štúdia skúma rozdiely v adopcii systémov medzi členskými štátmi EÚ a ich vplyv na výkon.",
+        "lead": "Táto štúdia analyzuje úroveň integrácie informačných systémov a umelej inteligencie v podnikoch naprieč 27 krajinami EÚ. Podľa abstraktu výskum identifikuje priepastné rozdiely v digitálnej vyspelosti medzi jednotlivými regiónmi a zdôrazňuje kľúčovú úlohu digitálnych zručností populácie pri adopcii moderných technológií, pričom poskytuje cenný pohľad na postavenie Rumunska v rámci európskeho digitálneho trhu.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Digitálna transformácia predstavuje pre súčasné podniky nevyhnutnosť, nie len strategickú výhodu. Táto štúdia sa zameriava na to, ako európske firmy integrujú pokročilé technológie, ako sú cloud computing, business intelligence a umelá inteligencia. Podľa abstraktu je cieľom výskumu zmapovať stav digitálnej integrácie v 27 členských štátoch EÚ a identifikovať faktory, ktoré ovplyvňujú schopnosť podnikov efektívne využívať tieto nástroje v každodennej prevádzke.",
+              "Výskum Darka Shuleskiho prináša komparatívny pohľad na technologickú pripravenosť európskeho podnikateľského sektora. Zameriava sa na podniky s desiatimi a viac zamestnancami, pričom analyzuje šesť kľúčových ukazovateľov digitálnej integrácie. Podľa abstraktu štúdia poskytuje empirický základ pre pochopenie toho, prečo niektoré krajiny zaostávajú v adopcii inovácií a aké sú hlavné prekážky, ktorým čelia podniky v menej rozvinutých digitálnych ekosystémoch v rámci Európskej únie."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Štúdia skúmala integráciu šiestich špecifických technológií: plánovanie podnikových zdrojov (ERP), riadenie vzťahov so zákazníkmi (CRM), business intelligence, cloud computing, umelú inteligenciu a dátovú analytiku. Podľa abstraktu boli tieto ukazovatele analyzované ako jedna koherentná dimenzia v podnikoch s desiatimi a viac zamestnancami v 27 krajinách EÚ. Dáta pochádzajú z prieskumov Eurostatu o využívaní informačných a komunikačných technológií v podnikoch za obdobie rokov 2019 až 2025.",
+              "Okrem samotnej miery adopcie technológií sa výskum zameral na koreláciu medzi digitálnou integráciou a makroekonomickými faktormi. Podľa abstraktu autori skúmali vzťah medzi technologickou vyspelosťou a ukazovateľmi, ako sú produktivita práce, príjem na obyvateľa a úroveň digitálnych zručností populácie. Štúdia sa špecificky zameriava na postavenie Rumunska, ktoré sa v kompozitnom indexe umiestnilo na 26. mieste, pričom v oblasti umelej inteligencie obsadilo poslednú priečku vo všetkých sledovaných rokoch."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Výskum identifikoval jasnú skupinu lídrov, ktorú tvoria štyri krajiny, zatiaľ čo šesť krajín strednej a východnej Európy, vrátane Rumunska, patrí do skupiny s nízkou mierou adopcie. Podľa abstraktu sa priepasť medzi Rumunskom a priemerom EÚ v sledovaných technológiách časom dokonca zväčšila. Tento trend je prítomný vo všetkých veľkostných kategóriách podnikov, vrátane veľkých firiem, čo naznačuje systémový problém v prístupe k inováciám v danom regióne.",
+              "Zaujímavým zistením je, že integrácia technológií úzko súvisí skôr s digitálnymi zručnosťami populácie než s príjmom na obyvateľa. Podľa abstraktu je asociácia medzi digitálnou integráciou a produktivitou práce iba mierna. Tieto výsledky naznačujú, že samotná dostupnosť technológií nestačí; kľúčovým faktorom pre úspešnú digitálnu transformáciu je schopnosť zamestnancov a manažérov tieto nástroje efektívne ovládať a implementovať do firemných procesov v reálnom čase."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Metodológia štúdie zahŕňala deskriptívnu štatistiku, analýzu sigma a beta konvergencie, kompozitný index integrácie a hierarchickú klastrovú analýzu. Podľa abstraktu boli tieto metódy použité na spracovanie dát z prieskumov Eurostatu. Štúdia sa spolieha na kvantitatívne dáta, ktoré umožňujú porovnanie medzi krajinami, avšak obmedzuje sa na podniky s desiatimi a viac zamestnancami, čo znamená, že mikropodniky a živnostníci nie sú v analýze zahrnutí.",
+              "Limity štúdie vyplývajú z povahy sekundárnych dát a zamerania na makroúroveň. Podľa abstraktu štúdia neposkytuje hĺbkový kvalitatívny pohľad na to, prečo konkrétne firmy zlyhávajú pri adopcii AI. Keďže ide o observačnú štúdiu, nemožno z nej vyvodiť priame kauzálne závery o vplyve technológií na produktivitu. Navyše, zistenia o Rumunsku nemožno automaticky zovšeobecňovať na iné krajiny strednej a východnej Európy bez ďalšieho skúmania špecifických národných podmienok."
+            ]
+          },
+          {
+            "heading": "Čo si z výskumu môže odniesť podnikateľ",
+            "paragraphs": [
+              "Podnikatelia by mali vnímať digitálnu transformáciu nie ako nákup softvéru, ale ako investíciu do zručností svojho tímu. Podľa abstraktu je korelácia medzi digitálnymi zručnosťami a integráciou technológií silnejšia než korelácia s ekonomickým bohatstvom. Pre podnikateľa to znamená, že aj v ekonomicky menej rozvinutom prostredí môže firma získať konkurenčnú výhodu, ak sa zameria na vzdelávanie zamestnancov v oblasti dátovej analytiky a moderných informačných systémov.",
+              "Napríklad, ak podnikateľ zvažuje implementáciu systému umelej inteligencie na automatizáciu zákazníckej podpory, mal by najprv zmerať aktuálnu úroveň digitálnych zručností svojho tímu. Ak zistí, že zručnosti sú nízke, investícia do školení musí predchádzať nákupu technológie. Podnikateľ by mal sledovať, či sa po zavedení nástroja skutočne zvýšila produktivita, pričom musí brať do úvahy, že podľa abstraktu je táto väzba v širšom meradle len mierna a závisí od mnohých iných faktorov."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Štúdia poskytuje cenný prehľad o digitálnej priepasti v rámci EÚ a zdôrazňuje, že technologický pokrok nie je automatický. Podľa abstraktu je nevyhnutné, aby podniky a tvorcovia politík venovali väčšiu pozornosť rozvoju digitálnych zručností, ktoré sú hlavným predpokladom úspešnej integrácie moderných systémov. Bez tohto základu zostávajú pokročilé technológie, ako je AI, nevyužité, čo bráni zvyšovaniu produktivity práce a konkurencieschopnosti na európskom trhu.",
+              "Zistenia Darka Shuleskiho pripomínajú, že digitálna transformácia je dlhodobý proces, ktorý si vyžaduje strategický prístup. Podľa abstraktu je situácia v krajinách s nízkou mierou adopcie, ako je Rumunsko, varovným signálom pre manažérov, aby nepodceňovali vzdelávanie a systematickú integráciu technológií. Pre podnikateľov je kľúčové pochopiť, že úspech závisí od kombinácie správnych nástrojov a pripravenosti ľudského kapitálu, čo je univerzálna lekcia pre akýkoľvek trh v rámci Európskej únie."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Managing the Digital Shift: Information Systems and AI in EU Firms",
+        "description": "An analysis of EU firms' readiness for digital technologies and AI. The study examines adoption gaps across member states and their impact on performance.",
+        "lead": "This study analyzes the integration level of management information systems and artificial intelligence across enterprises in 27 EU member states. According to the abstract, the research identifies significant gaps in digital maturity between regions and emphasizes the critical role of population digital skills in technology adoption, providing valuable insights into Romania's position within the European digital landscape.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "Digital transformation is a necessity for modern enterprises, rather than just a strategic advantage. This study focuses on how European firms integrate advanced technologies such as cloud computing, business intelligence, and artificial intelligence. According to the abstract, the research aims to map the state of digital integration across 27 EU member states and identify factors that influence the ability of enterprises to effectively utilize these tools in their daily operations.",
+              "Darko Shuleski's research provides a comparative view of the technological readiness of the European business sector. It focuses on enterprises with ten or more employees, analyzing six key indicators of digital integration. According to the abstract, the study provides an empirical basis for understanding why some countries lag in innovation adoption and what the main obstacles are for enterprises operating in less developed digital ecosystems within the European Union."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "The study examined the integration of six specific technologies: enterprise resource planning (ERP), customer relationship management (CRM), business intelligence, cloud computing, artificial intelligence, and data analytics. According to the abstract, these indicators were analyzed as a single coherent dimension in enterprises with ten or more employees across 27 EU countries. The data are derived from Eurostat surveys on information and communication technology usage in enterprises for the period 2019–2025.",
+              "Beyond the rate of technology adoption, the research focused on the correlation between digital integration and macroeconomic factors. According to the abstract, the authors examined the relationship between technological maturity and indicators such as labor productivity, income per capita, and the digital skills of the population. The study specifically focuses on the position of Romania, which ranked 26th on the composite index, occupying the last position in artificial intelligence in every observed year."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "The research identified a clear leading group consisting of four countries, while six Central and Eastern European countries, including Romania, make up the low-adoption group. According to the abstract, the gap between Romania and the EU aggregate in the observed technologies has actually widened over time. This trend is present across all size classes, including large enterprises, which suggests a systemic problem in accessing innovation within that specific region.",
+              "An interesting finding is that technology integration is more closely associated with the digital skills of the population than with income per capita. According to the abstract, the association between digital integration and labor productivity is only moderate. These results suggest that the mere availability of technology is insufficient; the key factor for successful digital transformation is the ability of employees and managers to effectively master these tools and implement them into business processes in real time."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The study's methodology included descriptive statistics, sigma and beta convergence analysis, a composite integration index, and hierarchical cluster analysis. According to the abstract, these methods were used to process data from Eurostat surveys. The study relies on quantitative data that allows for cross-country comparison; however, it is limited to enterprises with ten or more employees, meaning that micro-enterprises and sole traders are not included in the analysis.",
+              "The study's limitations stem from the nature of secondary data and the focus on the macro level. According to the abstract, the study does not provide an in-depth qualitative view of why specific firms fail in AI adoption. As this is an observational study, direct causal conclusions regarding the impact of technology on productivity cannot be drawn. Furthermore, findings regarding Romania cannot be automatically generalized to other Central and Eastern European countries without further examination of specific national conditions."
+            ]
+          },
+          {
+            "heading": "Business relevance and limitations",
+            "paragraphs": [
+              "Entrepreneurs should view digital transformation not as a software purchase, but as an investment in their team's skills. According to the abstract, the correlation between digital skills and technology integration is stronger than the correlation with economic wealth. For an entrepreneur, this means that even in an economically less developed environment, a firm can gain a competitive advantage if it focuses on training employees in data analytics and modern information systems.",
+              "For example, if an entrepreneur considers implementing an AI system for customer support automation, they should first measure the current level of their team's digital skills. If they find that skills are low, training investment must precede technology purchase. The entrepreneur should monitor whether productivity actually increases after the tool is introduced, while keeping in mind that, according to the abstract, this link is only moderate on a broader scale and depends on many other factors."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study provides a valuable overview of the digital divide within the EU and emphasizes that technological progress is not automatic. According to the abstract, it is essential for enterprises and policymakers to pay greater attention to the development of digital skills, which are the primary prerequisite for the successful integration of modern systems. Without this foundation, advanced technologies like AI remain underutilized, which hinders the growth of labor productivity and competitiveness in the European market.",
+              "Darko Shuleski's findings serve as a reminder that digital transformation is a long-term process requiring a strategic approach. According to the abstract, the situation in low-adoption countries like Romania is a warning sign for managers not to underestimate education and the systematic integration of technology. For entrepreneurs, it is crucial to understand that success depends on a combination of the right tools and the readiness of human capital, which is a universal lesson for any market within the European Union."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.24818/beman/2026.s.i.6-16",
+        "apa7": "Darko SHULESKI (2026). MANAGING THE DIGITAL SHIFT: INFORMATION SYSTEMS AND AI IN EU FIRMS. Business Excellence and Management. https://doi.org/10.24818/beman/2026.s.i.6-16",
+        "access": "abstract"
+      }
+    ]
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "20d3b38e798fc36572c2ce4bed0accf4288373cda09bfd3200180a4a7f7a3543",
+  "image_id": "commons-d56688e32b44a8",
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-22",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-riadenie-digitalnej-transformacie-informacne-systemy-a-ai-v-podnikoch-eu.html",
+    "https://www.webu.sk/blog-journal-riadenie-digitalnej-transformacie-informacne-systemy-a-ai-v-podnikoch-eu-en.html"
+  ]
+}

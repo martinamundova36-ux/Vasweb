@@ -11937,6 +11937,756 @@
           }
         ]
       }
+    },
+    {
+      "id": "blog-journal-digitalizacia-servisnych-zaznamov-v-autoservisoch-analyza-systemu-fifo",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-22",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.56127/juit.v5i3.3110",
+          "apa7": "Abdurrahman Ali Almaani, Juwari Juwari, Karno Diantoro, Abdur Rohman (2026). Development of a Web-Based Digital Service Record System with FIFO Queue Management at Hexen Garage. Jurnal Ilmiah Teknik. https://doi.org/10.56127/juit.v5i3.3110",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-digitalizacia-servisnych-zaznamov-v-autoservisoch-analyza-systemu-fifo.html",
+          "title": "Digitalizácia servisných záznamov v autoservisoch: Analýza systému FIFO",
+          "description": "Štúdia skúma vývoj webového systému pre správu servisných záznamov a riadenie radov FIFO v autoservise Hexen Garage s cieľom zlepšiť prevádzkovú efektivitu.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "737657b8984efc2e7b7a428e57d4821ee7ed6cbf14dbc455646ecb28e12a4c8d"
+        },
+        "en": {
+          "path": "blog-journal-digitalizacia-servisnych-zaznamov-v-autoservisoch-analyza-systemu-fifo-en.html",
+          "title": "Digitalizing Service Records in Automotive Workshops: A FIFO System Analysis",
+          "description": "This study examines the development of a web-based service record system and FIFO queue management for Hexen Garage to improve operational efficiency.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "32391027fec606dcfc44f62e03df26e9a06d4119464a187ce6777ca71981ec9f"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-inovacie-sluzieb-a-spokojnost-zamestnancov-v-bankovom-sektore-analyza",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-22",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.70382/mejaimr.v14i2.0153",
+          "apa7": "STEPHEN, ABEL, ITODO JOHN ITODO, GABRIEL NDAFTE (2026). MEDIATING EFFECT OF JOB SATISFACTION ON THE RELATIONSHIP BETWEEN SERVICE INNOVATIONS AND EMPLOYEE PERFORMANCE IN DEPOSIT MONEY BANKS IN MUBI, ADAMAWA STATE, NIGERIA. International Journal of African Innovation and Multidisciplinary Research. https://doi.org/10.70382/mejaimr.v14i2.0153",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-inovacie-sluzieb-a-spokojnost-zamestnancov-v-bankovom-sektore-analyza.html",
+          "title": "Inovácie služieb a spokojnosť zamestnancov v bankovom sektore: Analýza vplyvov",
+          "description": "Štúdia skúma, ako inovácie služieb ovplyvňujú výkonnosť zamestnancov v nigérijských bankách prostredníctvom spokojnosti v práci ako čiastočného mediátora.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "28c7fe5bc1715362b243b9179b5f145075dfb601edabfca13ece8eafbb22e983"
+        },
+        "en": {
+          "path": "blog-journal-inovacie-sluzieb-a-spokojnost-zamestnancov-v-bankovom-sektore-analyza-en.html",
+          "title": "Service Innovations and Employee Satisfaction in Banking: Analyzing the Impact",
+          "description": "This study examines how service innovations influence employee performance in Nigerian banks, with job satisfaction acting as a partial mediator.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "aaaee993c316217a4789ea97f9638fe59820d6033563847b2f5abb521473503a"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-udrzatelnost-a-kultura-bezpecnosti-strategicke-piliere-moderneho-podniku",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-22",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.35870/ljit.v4i2.9067",
+          "apa7": "Rio Martino Rusliputra, Agustinus Purna Irawan, Cokki Cokki (2026). The Role of Sustainability Management and Safety Culture in the Sustainable Performance of Companies. LANCAH: Jurnal Inovasi dan Tren. https://doi.org/10.35870/ljit.v4i2.9067",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-udrzatelnost-a-kultura-bezpecnosti-strategicke-piliere-moderneho-podniku.html",
+          "title": "Udržateľnosť a kultúra bezpečnosti: Strategické piliere moderného podniku",
+          "description": "Analýza úlohy manažmentu udržateľnosti a kultúry bezpečnosti pri dosahovaní dlhodobej výkonnosti organizácií podľa akademického výskumu.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "517d3de59f5edf0c3303b6aeba89f6beabd026b21de58b078afb96310026574a"
+        },
+        "en": {
+          "path": "blog-journal-udrzatelnost-a-kultura-bezpecnosti-strategicke-piliere-moderneho-podniku-en.html",
+          "title": "Sustainability and Safety Culture: Strategic Pillars for Modern Enterprise",
+          "description": "An analysis of the role of sustainability management and safety culture in achieving long-term organizational performance based on academic research.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "4a3b75bb903d3a50447b9c1cf7cb27112cf54208001cb4bf5a122d95e354b816"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-riadenie-digitalnej-transformacie-informacne-systemy-a-ai-v-podnikoch-eu",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-22",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.24818/beman/2026.s.i.6-16",
+          "apa7": "Darko SHULESKI (2026). MANAGING THE DIGITAL SHIFT: INFORMATION SYSTEMS AND AI IN EU FIRMS. Business Excellence and Management. https://doi.org/10.24818/beman/2026.s.i.6-16",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-riadenie-digitalnej-transformacie-informacne-systemy-a-ai-v-podnikoch-eu.html",
+          "title": "Riadenie digitálnej transformácie: Informačné systémy a AI v podnikoch EÚ",
+          "description": "Analýza pripravenosti európskych firiem na digitálne technológie a AI. Štúdia skúma rozdiely v adopcii systémov medzi členskými štátmi EÚ a ich vplyv na výkon.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "b6d8e67a815ea18f0b02b2f6637d8fba8c9d0c834d3990d374eb97c53a0d4d3e"
+        },
+        "en": {
+          "path": "blog-journal-riadenie-digitalnej-transformacie-informacne-systemy-a-ai-v-podnikoch-eu-en.html",
+          "title": "Managing the Digital Shift: Information Systems and AI in EU Firms",
+          "description": "An analysis of EU firms' readiness for digital technologies and AI. The study examines adoption gaps across member states and their impact on performance.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "0e1a23e1314937f2d6bf406ceeb2f13b590d0d5196050779ca87ed86fa67b956"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
+    },
+    {
+      "id": "blog-journal-inkluzivne-vedenie-a-inovacie-v-timoch-uloha-organizacnej-kultury",
+      "kind": "research_commentary",
+      "review_status": "automated_abstract_only",
+      "reviewed_at": "2026-11-22",
+      "source_records": [
+        {
+          "id": "doi-source",
+          "url": "https://doi.org/10.70382/nijhcsr.v14i6.046",
+          "apa7": "OLABISI IRENE ESHO THAKMA, ITODO JOHN ITODO, LDAMA JOHN, RACHEAL AMOS, NANAAISHA KAIGAMA (2026). INCLUSIVE LEADERSHIP AND TEAM INNOVATION: THE MODERATING ROLE OF ORGANIZATIONAL CULTURE IN FEDERAL TERTIARY INSTITUTIONS IN NORTH EAST NIGERIA. International Journal of Humanities and Cultural Studies Research. https://doi.org/10.70382/nijhcsr.v14i6.046",
+          "access": "abstract"
+        }
+      ],
+      "scientific_full_text_compared": false,
+      "source_restriction": true,
+      "methodology": {},
+      "results": [],
+      "practical_recommendations": "separate WEBU commentary, not verified study findings",
+      "image": "licensed catalog assignment",
+      "publication": "automated_abstract_editorial",
+      "notes": [
+        "Only publisher-supplied abstract and Crossref bibliography were checked automatically; no full-text or scientific review."
+      ],
+      "languages": {
+        "sk": {
+          "path": "blog-journal-inkluzivne-vedenie-a-inovacie-v-timoch-uloha-organizacnej-kultury.html",
+          "title": "Inkluzívne vedenie a inovácie v tímoch: Úloha organizačnej kultúry",
+          "description": "Štúdia skúma, ako inkluzívne vedenie ovplyvňuje inovačný potenciál tímov a akú rolu pri tom zohráva nastavenie organizačnej kultúry v akademickom prostredí.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "d24055810e8bda5f9d16fb43c62e292a2030479ff09e204dbe3e4071bfe603d2"
+        },
+        "en": {
+          "path": "blog-journal-inkluzivne-vedenie-a-inovacie-v-timoch-uloha-organizacnej-kultury-en.html",
+          "title": "Inclusive Leadership and Team Innovation: The Role of Organizational Culture",
+          "description": "This study examines how inclusive leadership impacts team innovation and the moderating role of organizational culture within an academic setting.",
+          "language_review": "AI-generated, abstract-scoped; not manually verified",
+          "published_at": "2026-11-22",
+          "modified_at": null,
+          "seo": "technical pipeline passed",
+          "links": "local pipeline passed",
+          "content_sha256": "bf3989a70d7be26a4cf8174d5a592ae1d2f648f06f0882f4434094f17968e522"
+        }
+      },
+      "claim_review": {
+        "sk": [
+          {
+            "section": "Úvod",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo skúmala štúdia",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Hlavné zistenia a význam",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Metodika a limity",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Čo si z výskumu môže odniesť podnikateľ",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Záver",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ],
+        "en": [
+          {
+            "section": "Introduction",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "What the study examined",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Findings and interpretation",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Methodology and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Business relevance and limitations",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          },
+          {
+            "section": "Conclusion",
+            "claim_kind": "unverified_abstract_based_commentary",
+            "source_ids": [
+              "doi-source"
+            ],
+            "comparison": "Abstract-based AI commentary; no independent fact-check of research findings."
+          }
+        ]
+      }
     }
   ]
 }

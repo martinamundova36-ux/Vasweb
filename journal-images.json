@@ -3216,6 +3216,326 @@
         "1280": "eee7c5ef750db2c46cfe38a2476743e3fb3bfaa65cbb9d36fba82b1b3ccc6552",
         "social": "029be90e6ae5798c44805f0cedd75c4ed02ec4df9ba85dbc95d464cd15cb520c"
       }
+    },
+    {
+      "id": "commons-38f3187b572f23",
+      "provider": "Wikimedia Commons",
+      "provider_id": "153470653",
+      "source_page": "https://commons.wikimedia.org/wiki/File:%D7%94%D7%90%D7%91%D7%99%D7%96%D7%A0%D7%A1_%E2%80%93_%D7%97%D7%9C%D7%9C_%D7%A2%D7%91%D7%95%D7%93%D7%94_%D7%9E%D7%A9%D7%95%D7%AA%D7%A3_%D7%A2%D7%91%D7%95%D7%A8_%D7%A4%D7%A8%D7%99%D7%9C%D7%A0%D7%A1%D7%A8%D7%99%D7%9D,_%D7%9E%D7%A8%D7%9B%D7%96_%D7%9B%D7%99%D7%95%D7%95%D7%A0%D7%99%D7%9D_%D7%91%D7%90%D7%A9%D7%93%D7%95%D7%93,_%D7%99%D7%95%D7%9C%D7%99_2024.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/%D7%94%D7%90%D7%91%D7%99%D7%96%D7%A0%D7%A1_%E2%80%93_%D7%97%D7%9C%D7%9C_%D7%A2%D7%91%D7%95%D7%93%D7%94_%D7%9E%D7%A9%D7%95%D7%AA%D7%A3_%D7%A2%D7%91%D7%95%D7%A8_%D7%A4%D7%A8%D7%99%D7%9C%D7%A0%D7%A1%D7%A8%D7%99%D7%9D%2C_%D7%9E%D7%A8%D7%9B%D7%96_%D7%9B%D7%99%D7%95%D7%95%D7%A0%D7%99%D7%9D_%D7%91%D7%90%D7%A9%D7%93%D7%95%D7%93%2C_%D7%99%D7%95%D7%9C%D7%99_2024.jpg/1920px-%D7%94%D7%90%D7%91%D7%99%D7%96%D7%A0%D7%A1_%E2%80%93_%D7%97%D7%9C%D7%9C_%D7%A2%D7%91%D7%95%D7%93%D7%94_%D7%9E%D7%A9%D7%95%D7%AA%D7%A3_%D7%A2%D7%91%D7%95%D7%A8_%D7%A4%D7%A8%D7%99%D7%9C%D7%A0%D7%A1%D7%A8%D7%99%D7%9D%2C_%D7%9E%D7%A8%D7%9B%D7%96_%D7%9B%D7%99%D7%95%D7%95%D7%A0%D7%99%D7%9D_%D7%91%D7%90%D7%A9%D7%93%D7%95%D7%93%2C_%D7%99%D7%95%D7%9C%D7%99_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "מקף־עברי",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "c010b29119d0a86c5ae134b1d7366cadfdb28e34cf596393da1feb6e91acd1ae",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-38f3187b572f23-640.webp",
+        "1280": "/assets/journal/commons-38f3187b572f23-1280.webp",
+        "social": "/assets/journal/commons-38f3187b572f23-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "70b2fafbcdf52fc9aaa8665d4066009ac5992ec73f092952f81d12156b633d94",
+        "1280": "fa96b89e9b301596d001ea14582e12b658ea48b6cde1524704db908f25a6e2bd",
+        "social": "6dc7e41c5f6e85bd869958b07c70c556ae055191e67c8eece4eae75f37938ce6"
+      }
+    },
+    {
+      "id": "commons-85d5c769e29bc9",
+      "provider": "Wikimedia Commons",
+      "provider_id": "61740079",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Businessman_working_and_writing_notes_in_office_(Unsplash).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Businessman_working_and_writing_notes_in_office_%28Unsplash%29.jpg/1920px-Businessman_working_and_writing_notes_in_office_%28Unsplash%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "JESHOOTS.COM  jeshoots",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "c723a97323e67e2d9bc6c1852b1d52b7cd330965934f977cf111bb6059c8fd29",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-85d5c769e29bc9-640.webp",
+        "1280": "/assets/journal/commons-85d5c769e29bc9-1280.webp",
+        "social": "/assets/journal/commons-85d5c769e29bc9-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "1870ed59afa9ca3e9cf90daa845279141ad55b630b0fd6a2276fd15e734c48e1",
+        "1280": "32d4a67829e357f207a2d21b8aa7405e887fae31d248513de956ba6b9db22dd6",
+        "social": "af67672a44a9999e2c6c79201ec4469fee5934d15ad1a110bfc0b5c51e8f1e79"
+      }
+    },
+    {
+      "id": "commons-101f48b0a72a59",
+      "provider": "Wikimedia Commons",
+      "provider_id": "186214215",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_stretches_at_home_office_desk_while_working_on_laptop.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Woman_stretches_at_home_office_desk_while_working_on_laptop.jpg/1920px-Woman_stretches_at_home_office_desk_while_working_on_laptop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "8b33ea6f0bf7a49c1e8e6b22dddcfffc15efa5a267c30c169b2421e0fa771787",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-101f48b0a72a59-640.webp",
+        "1280": "/assets/journal/commons-101f48b0a72a59-1280.webp",
+        "social": "/assets/journal/commons-101f48b0a72a59-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "990cc9b4f1f97fff51e696bc95052be93fda9d15ae6f8c84e19a44358bc3b424",
+        "1280": "d535ba6973447940f75874faa4e3762d57d4fc85f27f528af638d139de2f5229",
+        "social": "da75a96f680642204250194baabd0613289d46110b3c11177bdf80374207bd1e"
+      }
+    },
+    {
+      "id": "commons-ee13ed77e03524",
+      "provider": "Wikimedia Commons",
+      "provider_id": "116757486",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Woman_sitting_at_her_office_table,_looking_at_a_plastic_card_and_typing_on_the_laptop._Donut_with_pink_frosting_next_to_her._(51532248284).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Woman_sitting_at_her_office_table%2C_looking_at_a_plastic_card_and_typing_on_the_laptop._Donut_with_pink_frosting_next_to_her._%2851532248284%29.jpg/1920px-Woman_sitting_at_her_office_table%2C_looking_at_a_plastic_card_and_typing_on_the_laptop._Donut_with_pink_frosting_next_to_her._%2851532248284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Nenad Stojkovic",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "acaa38bc380e3b415da7389dab2907ea47558ce912fbead1825937986487c719",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-ee13ed77e03524-640.webp",
+        "1280": "/assets/journal/commons-ee13ed77e03524-1280.webp",
+        "social": "/assets/journal/commons-ee13ed77e03524-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "1f99c7cbb568b7d6abd2045727710cc4c18fc2cfeefccec0069bbbf9d88e83aa",
+        "1280": "d92f760f13561fc59541b51394c064f58c85480ca61a1a92ca2abed160b1bf1b",
+        "social": "f41f800bf90589d370872c824f3797924c1fd0f0a104a3627b06ef43ad1ce642"
+      }
+    },
+    {
+      "id": "commons-178e9c7d04d619",
+      "provider": "Wikimedia Commons",
+      "provider_id": "128096119",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Typical-workflow.png",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Typical-workflow.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Volkdentoklin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "c67d103aa4d37ef06c2835294575f3a216bf60145856abe77e0775b712211cb5",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Analytická práca s dátami na počítači",
+        "en": "Data analysis on a computer"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-178e9c7d04d619-640.webp",
+        "1280": "/assets/journal/commons-178e9c7d04d619-1280.webp",
+        "social": "/assets/journal/commons-178e9c7d04d619-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "2c0f6a2f04e939872900ba636355d7a3ed66c89a7fe32d4f5eb6b225a596eb1c",
+        "1280": "160325e1f1c02090cc4668b95c027f2a2674984fb868595161e207e6452fa2c1",
+        "social": "09f9b58e1c247ea950a3e5b6d2965d8e1f139ff8529834f3bf2fc304956255b6"
+      }
+    },
+    {
+      "id": "commons-6c9f0e409bb94d",
+      "provider": "Wikimedia Commons",
+      "provider_id": "78113375",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Sinergia_Design_07.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Sinergia_Design_07.jpg/1920px-Sinergia_Design_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Fadesga",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "24fa90ea63f241c2f75f8124b16559d059b54a0812b8ec295fa7acbde606d6d0",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-6c9f0e409bb94d-640.webp",
+        "1280": "/assets/journal/commons-6c9f0e409bb94d-1280.webp",
+        "social": "/assets/journal/commons-6c9f0e409bb94d-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "55c25dd31ec086894bc7e4cf2d7b93a692536db10491c227d3e46ca15367332e",
+        "1280": "8f24d37e9b2e1f15b0bbdab7867cf8b8ce14cab35b3de042b95789abd54e4e1a",
+        "social": "f5a8b4e6a26abdca8ae5b301a121c48d948b9787af72927c0c24a0207101a0ec"
+      }
+    },
+    {
+      "id": "commons-8a262e4faab66c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "58855029",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Man_at_a_laptop_in_an_office_(Unsplash).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Man_at_a_laptop_in_an_office_%28Unsplash%29.jpg/1920px-Man_at_a_laptop_in_an_office_%28Unsplash%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Bench Accounting  benchaccounting",
+      "license": "CC0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "bd4b898ca2548b1d92eb8fd0f24f36549eeb8e3282c2025d7dbf8c5a55058150",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-8a262e4faab66c-640.webp",
+        "1280": "/assets/journal/commons-8a262e4faab66c-1280.webp",
+        "social": "/assets/journal/commons-8a262e4faab66c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "2a26eba0fbb4155bf831a07681892de22d46b8c6da84186a816e8d24f0b5a128",
+        "1280": "bf4ca77feab25d28a1da1af4f55617eb3541b8b67e9296409668f0aaa007a4fc",
+        "social": "314b683d524cfe4a8d84cbd927fe19ca07eb5423f0621ab48858169aca6dc138"
+      }
+    },
+    {
+      "id": "commons-5316e1cfdc3de9",
+      "provider": "Wikimedia Commons",
+      "provider_id": "128096118",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Kaplan-Meyer_plot.png",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Kaplan-Meyer_plot.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Volkdentoklin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "30b500b4ce9d58a0adb1029cd2cc4a00d6da72e0b632f8eb09978816fe78500e",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Analytická práca s dátami na počítači",
+        "en": "Data analysis on a computer"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-5316e1cfdc3de9-640.webp",
+        "1280": "/assets/journal/commons-5316e1cfdc3de9-1280.webp",
+        "social": "/assets/journal/commons-5316e1cfdc3de9-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d1f6176e03b1558f6a1bd86b3168a5d6a0c47ac9a9b1f4bac6a1105f08af648a",
+        "1280": "3530e7892842cd14088d5e836e1607543de4e999f1e950649951510e95462cce",
+        "social": "37eb2ad6f261d8fd8c066a0098ff1e2fd222c7b23a73ddf3c5f4b600693fdeed"
+      }
+    },
+    {
+      "id": "commons-d56688e32b44a8",
+      "provider": "Wikimedia Commons",
+      "provider_id": "63821899",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Carrying_out_land_office_survey_work.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Carrying_out_land_office_survey_work.jpg/1920px-Carrying_out_land_office_survey_work.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "David Maina Ndirangu",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "e5d3b05bf607db13e68bcfecc71debd8eef3b5ec940ba888254b307f304a7ffb",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-d56688e32b44a8-640.webp",
+        "1280": "/assets/journal/commons-d56688e32b44a8-1280.webp",
+        "social": "/assets/journal/commons-d56688e32b44a8-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "b631bbd0272df5f40be09ed6c3a1312d943f999bc54d670e5961fc8b32896fd4",
+        "1280": "15f5d40773767e94e1a83b8dab29a0ec80bfb297f36e7ebf41f7732cea7acc0b",
+        "social": "635bbdea90e4142c9d8baaee82ce30f65cb18603c9b13bf9ca0aa1acf9a8ba28"
+      }
+    },
+    {
+      "id": "commons-0153a94e9d5b65",
+      "provider": "Wikimedia Commons",
+      "provider_id": "200124880",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Middle-aged_woman_working_on_laptop_while_holding_smartphone_at_a_wooden_table.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Middle-aged_woman_working_on_laptop_while_holding_smartphone_at_a_wooden_table.jpg/1920px-Middle-aged_woman_working_on_laptop_while_holding_smartphone_at_a_wooden_table.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-22",
+      "original_sha256": "68939c5e0a570cdb4c34d12327f7b50708348ec46436a1e23edb69d5d2585a65",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-0153a94e9d5b65-640.webp",
+        "1280": "/assets/journal/commons-0153a94e9d5b65-1280.webp",
+        "social": "/assets/journal/commons-0153a94e9d5b65-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "3bcb21dc0b6112f1dbc690013734d60345cf3b237dadd1ab2046f27062ab1fcd",
+        "1280": "0ca84f86db18af28d0ef54b67a0be98a782aef7b990c003f8b7de6ebc9593030",
+        "social": "bce44175649b6a809a94426c3d724f2d54f0cdcc8f1da4e872affda265bfdd53"
+      }
     }
   ],
   "assignments": {
@@ -3310,6 +3630,16 @@
     "blog-journal-effects-of-workplace-bullying-on-early-retirement-a-prospective-cohort.html": "commons-4932b8948433b1",
     "blog-journal-statistical-modelling-of-credit-riskiness-of-bodaboda-credit-business-in.html": "commons-2aa03ab9d6f0aa",
     "blog-journal-vplyv-dlhovej-a-likviditnej-politiky-na-financne-tazkosti-analyza-pt.html": "commons-1f385ca7a0dc08",
-    "blog-journal-vplyv-sikany-na-pracovisku-na-predcasny-odchod-do-dochodku-10-rocna.html": "commons-8f37556ebfc055"
+    "blog-journal-vplyv-sikany-na-pracovisku-na-predcasny-odchod-do-dochodku-10-rocna.html": "commons-8f37556ebfc055",
+    "blog-journal-development-of-a-web-based-digital-service-record-system-with-fifo-queue.html": "commons-38f3187b572f23",
+    "blog-journal-managing-the-digital-shift-information-systems-and-ai-in-eu-firms.html": "commons-85d5c769e29bc9",
+    "blog-journal-inclusive-leadership-and-team-innovation-the-moderating-role-of.html": "commons-101f48b0a72a59",
+    "blog-journal-mediating-effect-of-job-satisfaction-on-the-relationship-between-service.html": "commons-ee13ed77e03524",
+    "blog-journal-the-role-of-sustainability-management-and-safety-culture-in-the.html": "commons-178e9c7d04d619",
+    "blog-journal-digitalizacia-servisnych-zaznamov-v-autoservisoch-analyza-systemu-fifo.html": "commons-6c9f0e409bb94d",
+    "blog-journal-inovacie-sluzieb-a-spokojnost-zamestnancov-v-bankovom-sektore-analyza.html": "commons-8a262e4faab66c",
+    "blog-journal-udrzatelnost-a-kultura-bezpecnosti-strategicke-piliere-moderneho-podniku.html": "commons-5316e1cfdc3de9",
+    "blog-journal-riadenie-digitalnej-transformacie-informacne-systemy-a-ai-v-podnikoch-eu.html": "commons-d56688e32b44a8",
+    "blog-journal-inkluzivne-vedenie-a-inovacie-v-timoch-uloha-organizacnej-kultury.html": "commons-0153a94e9d5b65"
   }
 }

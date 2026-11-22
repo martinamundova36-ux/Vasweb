@@ -1,24 +1,30 @@
 {
-  "checked_at": "2026-11-21T13:29:12.691593+00:00",
+  "checked_at": "2026-11-22T13:17:04.704798+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 6-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
   "preparation_start": "06:07 Europe/Bratislava",
   "backup_checks": "Every :07/:27/:47 from 06:07 through 11:47; stop after 5 published articles",
-  "next_scheduled_local": "2026-11-22T06:07:00+01:00",
-  "next_scheduled_utc": "2026-11-22T05:07:00+00:00",
+  "next_scheduled_local": "2026-11-23T06:07:00+01:00",
+  "next_scheduled_utc": "2026-11-23T05:07:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
   "generator_capability": "abstract_scoped_bilingual_editorials",
   "automatically_written_full_articles": 0,
-  "automatically_prepared_abstract_editorials": 2,
+  "automatically_prepared_abstract_editorials": 5,
   "published_today": [
-    "2026-11-21-086075c48676",
-    "2026-11-21-77b7cef51827"
+    "2026-11-22-1a6d7100c0d6",
+    "2026-11-22-4f32c3571fbb",
+    "2026-11-22-6fa5acf2df87",
+    "2026-11-22-981370bffff3",
+    "2026-11-22-e729bfd68a22"
   ],
   "published_automatically_today": [
-    "2026-11-21-086075c48676",
-    "2026-11-21-77b7cef51827"
+    "2026-11-22-6fa5acf2df87",
+    "2026-11-22-1a6d7100c0d6",
+    "2026-11-22-e729bfd68a22",
+    "2026-11-22-981370bffff3",
+    "2026-11-22-4f32c3571fbb"
   ],
   "published_manually_today": [],
   "ready_bilingual_articles": [],
@@ -145,7 +151,12 @@
     "2026-11-20-a8f6632aa7b4",
     "2026-11-20-c7fa9b451c75",
     "2026-11-21-086075c48676",
-    "2026-11-21-77b7cef51827"
+    "2026-11-21-77b7cef51827",
+    "2026-11-22-1a6d7100c0d6",
+    "2026-11-22-4f32c3571fbb",
+    "2026-11-22-6fa5acf2df87",
+    "2026-11-22-981370bffff3",
+    "2026-11-22-e729bfd68a22"
   ],
   "paid_ai_enabled": false,
   "scientific_review_limit": "Automated abstracts are labelled clearly; no independent full-text claim verification or scientific peer review",
