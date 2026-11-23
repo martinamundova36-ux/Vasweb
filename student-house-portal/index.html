@@ -366,7 +366,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
  <p class="muted" id="step2PreviewHelp">Po schválení registrácie otvor odkaz z e-mailu. Údaje sa automaticky prepoja s tvojím študentským profilom a recepciou.</p>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel"STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
 </main></div></div>
 <footer class="studenthouse-brand-credit">Created by <a href="https://www.webu.sk/" target="_blank" rel="noopener noreferrer">WEBU</a></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
@@ -2125,20 +2125,36 @@ async function signedIn(u){
    option.textContent=organizationNames[id]||'Ubytovacie zariadenie';select.append(option);
   }
   $('orgSelectorWrap').classList.toggle('hide',ids.length<2);
+  // Authorization is already confirmed. Show the portal immediately; do not
+  // wait for the room register and other network data to finish rendering.
+  member=allowedMemberships[0];
+  $('records').textContent=({sk:'Načítavam administráciu a údaje ubytovania…',en:'Loading your portal and accommodation data…',ru:'Загружаем кабинет и данные проживания…',uk:'Завантажуємо кабінет і дані проживання…'})[lang];
+  $('app').classList.remove('hide');
+  $('login').classList.add('hide');
+  document.body.classList.add('portal-open');
   await chooseOrganization(ids[0]);
   if(!member||!portalRoleAllowed(member.role))throw new Error('portal_initialization_no_authorized_organization');
   status.textContent='';
   status.style.color='#b03b38';
-  $('app').classList.remove('hide');
-  $('login').classList.add('hide');
-  document.body.classList.add('portal-open');
  }catch(error){
   console.error('portal_initialization_failed',error);
-  $('login').classList.remove('hide');
-  $('app').classList.add('hide');
-  document.body.classList.remove('portal-open');
-  status.style.color='#b03b38';
-  status.textContent=({sk:'Prihlásenie bolo overené, ale administráciu sa nepodarilo načítať. Skús znova tlačidlo Prihlásiť sa. Ak problém pretrváva, kontaktuj správcu aplikácie.',en:'Sign-in was verified, but the portal could not load. Try Sign in again. If the problem persists, contact the administrator.',ru:'Вход подтверждён, но кабинет не загрузился. Повторите вход. Если ошибка сохраняется, обратитесь к администратору.',uk:'Вхід підтверджено, але кабінет не завантажився. Спробуйте увійти знову. Якщо проблема повториться, зверніться до адміністратора.'})[lang];
+  const message=({sk:'Údaje administrácie sa nepodarilo načítať. Skontroluj pripojenie a obnov stránku. Pri opakovaní chyby kontaktuj správcu aplikácie.',en:'The portal data could not load. Check your connection and refresh the page. If the issue persists, contact the administrator.',ru:'Не удалось загрузить данные кабинета. Проверьте соединение и обновите страницу. Если ошибка повторится, обратитесь к администратору.',uk:'Не вдалося завантажити дані кабінету. Перевірте з’єднання й оновіть сторінку. Якщо помилка повториться, зверніться до адміністратора.'})[lang];
+  if(member&&portalRoleAllowed(member.role)){
+   $('app').classList.remove('hide');
+   $('login').classList.add('hide');
+   document.body.classList.add('portal-open');
+   const notice=document.createElement('p');
+   notice.className='danger';
+   notice.setAttribute('role','alert');
+   notice.textContent=message;
+   $('records').replaceChildren(notice);
+  }else{
+   $('login').classList.remove('hide');
+   $('app').classList.add('hide');
+   document.body.classList.remove('portal-open');
+   status.style.color='#b03b38';
+   status.textContent=message;
+  }
  }
 }
 function changeLanguage(e){lang=e.target.value;translate();translateRegister();if(member){renderTabs();void renderPanel()}}
