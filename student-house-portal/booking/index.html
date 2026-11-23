@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#142b4d">
+<title>Rezervácia ubytovania | Student House Bratislava</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#142b4d;background:#f2f6fb}
+*{box-sizing:border-box}body{margin:0}header{background:#142b4d;color:#fff;padding:24px max(20px,calc((100% - 960px)/2))}
+header a{color:#fff;text-decoration:none;font-weight:700}header h1{font-size:clamp(26px,5vw,42px);line-height:1.15;margin:24px 0 8px}
+header p{color:#d8e4f1;max-width:720px;line-height:1.6;margin:0 0 18px}
+main{max-width:960px;margin:32px auto 60px;padding:0 20px}
+section{background:#fff;border-radius:20px;box-shadow:0 12px 40px #142b4d15;padding:clamp(20px,4vw,42px)}
+fieldset{border:0;padding:0;margin:0 0 22px}
+legend{font-size:21px;font-weight:800;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 20px}
+label{display:block;font-size:14px;font-weight:700;margin:0 0 7px}
+input,select{display:block;width:100%;min-height:48px;border:1px solid #b9cadd;border-radius:10px;padding:10px 12px;font:inherit;background:#fff;color:#142b4d}
+input:focus,select:focus{outline:3px solid #b4d5fc;outline-offset:1px}
+.readonly{background:#e9f4eb;color:#145f38;font-weight:800;border-color:#a9d8ba}
+.full{grid-column:1/-1}.note{color:#546880;font-size:14px;line-height:1.65}
+.notice{background:#eef5fd;border-left:5px solid #142b4d;padding:15px 17px;border-radius:10px;margin:20px 0 24px;line-height:1.6}
+.note strong{color:#142b4d}button{cursor:pointer;border:0;background:#f28b82;color:#142b4d;font-weight:800;font-size:17px;border-radius:12px;padding:16px 24px;min-height:54px}
+button:disabled{opacity:.55;cursor:progress}.buttons{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+#status{line-height:1.6;font-weight:650;min-height:26px}#status.error{color:#a52134}#status.success{color:#17643c}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:14px;font-weight:500;line-height:1.6}.check input{width:20px;height:20px;min-height:20px;margin-top:2px;flex:none}
+a{color:#154f88}.foot{font-size:13px;color:#72859a;text-align:center;margin:24px 0}
+.honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+@media(max-width:640px){main{padding:0 12px;margin:16px auto 40px}.grid{grid-template-columns:1fr}header{padding:22px 18px}section{border-radius:14px}}
+</style>
+</head>
+<body>
+<header>
+<a id="back" href="https://studenthousebratislavanew.wordpress.com/rezervacie/">← Student House Bratislava</a>
+<h1 id="heading">Žiadosť o ubytovanie</h1>
+<p id="intro">Vyber mesiac začiatku ubytovania a dĺžku pobytu. Presný odchod sa vypočíta automaticky.</p>
+<label for="lang" id="langLabel">Jazyk / Language</label>
+<select id="lang" style="max-width:190px"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select>
+</header>
+<main><section>
+<form id="bookingForm" autocomplete="on" novalidate>
+<fieldset><legend id="personalLegend">Kontaktné údaje</legend>
+<div class="grid">
+<div><label for="first" id="firstLabel">Meno *</label><input id="first" name="given-name" maxlength="80" autocomplete="given-name" required></div>
+<div><label for="last" id="lastLabel">Priezvisko *</label><input id="last" name="family-name" maxlength="80" autocomplete="family-name" required></div>
+<div><label for="email" id="emailLabel">E-mail *</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" required></div>
+<div><label for="phone" id="phoneLabel">Telefón s predvoľbou *</label><input id="phone" name="tel" type="tel" maxlength="60" autocomplete="tel" placeholder="+421 ..." required></div>
+<div><label for="school" id="schoolLabel">Univerzita alebo škola *</label><input id="school" maxlength="250" required></div>
+<div><label for="nationality" id="nationalityLabel">Štátna príslušnosť *</label><input id="nationality" maxlength="80" required></div>
+<div><label for="room" id="roomLabel">Typ izby *</label><select id="room" required><option value="">Vyber typ izby</option><option>Mansard 2</option><option>Standard 1+1</option><option>Suite 2</option><option>De Luxe 2</option><option>Standard 2</option><option>De Luxe 2V</option></select></div>
+<div><label for="roomUsage" id="roomUsageLabel">Ubytovanie *</label><select id="roomUsage" required><option value="">Vyber možnosť</option><option value="shared">Zdieľaná izba</option><option value="private">Celá izba pre mňa</option><option value="standard11">Samostatná izba Standard 1+1</option></select></div>
+</div></fieldset>
+<fieldset><legend id="stayLegend">Termín pobytu</legend>
+<div class="grid">
+<div><label for="month" id="monthLabel">Začiatok pobytu (od 1. dňa mesiaca) *</label><input id="month" type="month" required></div>
+<div><label for="months" id="monthsLabel">Dĺžka pobytu *</label><select id="months" required><option value="">Vyber dĺžku</option><option value="5">5 mesiacov</option><option value="10">10 mesiacov</option><option value="12">12 mesiacov</option></select></div>
+<div><label for="to" id="toLabel">Automatický dátum odchodu</label><input id="to" class="readonly" type="date" readonly aria-readonly="true" required></div>
+<div><label for="arrival" id="arrivalLabel">Skutočný plánovaný deň príchodu *</label><input id="arrival" type="date" required></div>
+</div>
+<div class="notice" id="stayNote">Ubytovanie sa počíta od prvého dňa zvoleného mesiaca. Aj pri neskoršom príchode sa platí celý mesiac. Odchod je posledný deň posledného plateného mesiaca.</div>
+<div class="note" id="example">Príklad: 1. 11. 2026 + 5 mesiacov = odchod 31. 3. 2027.</div>
+</fieldset>
+<div class="honeypot" aria-hidden="true"><label for="website">Website</label><input id="website" tabindex="-1" autocomplete="off"></div>
+<label class="check"><input id="gdpr" type="checkbox" required><span id="gdprText">Súhlasím so spracúvaním údajov na vybavenie žiadosti a oboznámil/a som sa s <a id="privacy" href="https://studenthousebratislavanew.wordpress.com/gdpr/" target="_blank" rel="noopener">informáciami o ochrane osobných údajov</a>. *</span></label>
+<p class="note" id="approvalNote">Odoslanie žiadosti nie je potvrdená rezervácia. Schválenie vykonáva recepcia.</p>
+<div class="buttons"><button id="submit" type="submit">Odoslať žiadosť</button><span id="status" role="status" aria-live="polite"></span></div>
+</form>
+</section><p class="foot">Student House Bratislava · WEBU Residence</p></main>
+<script>
+(()=>{
+'use strict';
+const D=document, get=id=>D.getElementById(id), query=new URLSearchParams(location.search);
+const labels={
+sk:{heading:'Žiadosť o ubytovanie',intro:'Vyber mesiac začiatku ubytovania a dĺžku pobytu. Dátum odchodu sa vypočíta automaticky.',langLabel:'Jazyk rozhrania',personalLegend:'Kontaktné údaje',firstLabel:'Meno *',lastLabel:'Priezvisko *',emailLabel:'E-mail *',phoneLabel:'Telefón s predvoľbou *',schoolLabel:'Univerzita alebo škola *',nationalityLabel:'Štátna príslušnosť *',roomLabel:'Typ izby *',roomUsageLabel:'Ubytovanie *',stayLegend:'Termín pobytu',monthLabel:'Začiatok pobytu (od 1. dňa mesiaca) *',monthsLabel:'Dĺžka pobytu *',toLabel:'Automatický dátum odchodu',arrivalLabel:'Skutočný plánovaný deň príchodu *',stayNote:'Ubytovanie sa počíta od prvého dňa zvoleného mesiaca. Aj pri neskoršom príchode sa platí celý mesiac. Odchod je posledný deň posledného plateného mesiaca.',example:'Príklad: 1. 11. 2026 + 5 mesiacov = odchod 31. 3. 2027.',approvalNote:'Odoslanie žiadosti nie je potvrdená rezervácia. Schválenie vykonáva recepcia.',submit:'Odoslať žiadosť',loading:'Odosielam…',success:'✓ Žiadosť je zaevidovaná a čaká na schválenie recepciou.',duplicate:'Tento e-mail už má evidovanú žiadosť. Novú žiadosť sme nevytvorili. Kontaktuj recepciu.',invalid:'Skontroluj povinné údaje a termín pobytu.',fail:'Žiadosť sa nepodarilo odoslať. Skús neskôr alebo kontaktuj recepciu.',chooseRoom:'Vyber typ izby',chooseUsage:'Vyber možnosť',shared:'Zdieľaná izba',private:'Celá izba pre mňa',standard11:'Samostatná izba Standard 1+1',chooseDuration:'Vyber dĺžku',monthWords:'mesiacov',gdpr:'Súhlasím so spracúvaním údajov na vybavenie žiadosti a oboznámil/a som sa s informáciami o ochrane osobných údajov. *',privacy:'informáciami o ochrane osobných údajov'},
+en:{heading:'Accommodation request',intro:'Choose your starting month and stay duration. The departure date is calculated automatically.',langLabel:'Interface language',personalLegend:'Contact details',firstLabel:'First name *',lastLabel:'Last name *',emailLabel:'Email *',phoneLabel:'Phone with country code *',schoolLabel:'University or school *',nationalityLabel:'Nationality *',roomLabel:'Room type *',roomUsageLabel:'Accommodation option *',stayLegend:'Accommodation dates',monthLabel:'Stay begins (1st day of selected month) *',monthsLabel:'Length of stay *',toLabel:'Automatically calculated departure',arrivalLabel:'Actual planned arrival date *',stayNote:'The contract period starts on the first of the selected month. You pay for the full month even if you arrive later. Departure is the last day of the final paid month.',example:'Example: Nov 1, 2026 + 5 months = Mar 31, 2027.',approvalNote:'Submitting a request does not confirm a booking. Reception reviews every application.',submit:'Send accommodation request',loading:'Sending…',success:'✓ Your request was recorded and awaits reception approval.',duplicate:'An application already exists for this email. No duplicate was created. Contact reception.',invalid:'Check required fields and accommodation dates.',fail:'Request could not be submitted. Try later or contact reception.',chooseRoom:'Choose room type',chooseUsage:'Choose an option',shared:'Shared room',private:'Entire room for myself',standard11:'Private room Standard 1+1',chooseDuration:'Select duration',monthWords:'months',gdpr:'I agree to processing of my information for this accommodation request and have read the privacy notice. *',privacy:'privacy notice'},
+ru:{heading:'Заявка на проживание',intro:'Выберите месяц начала и срок проживания. Дата выезда рассчитывается автоматически.',langLabel:'Язык интерфейса',personalLegend:'Контактные данные',firstLabel:'Имя *',lastLabel:'Фамилия *',emailLabel:'Электронная почта *',phoneLabel:'Телефон с кодом страны *',schoolLabel:'Университет или учебное заведение *',nationalityLabel:'Гражданство *',roomLabel:'Тип комнаты *',roomUsageLabel:'Вариант проживания *',stayLegend:'Срок проживания',monthLabel:'Начало проживания (1-го числа месяца) *',monthsLabel:'Срок проживания *',toLabel:'Автоматическая дата выезда',arrivalLabel:'Фактическая дата приезда *',stayNote:'Период проживания начинается с первого дня выбранного месяца. Даже при позднем приезде оплачивается целый месяц. Выезд — последний день последнего оплаченного месяца.',example:'Пример: 01.11.2026 + 5 месяцев = выезд 31.03.2027.',approvalNote:'Отправка заявки не означает подтверждённое бронирование. Заявку рассматривает ресепшен.',submit:'Отправить заявку',loading:'Отправляем…',success:'✓ Заявка зарегистрирована и ожидает подтверждения ресепшена.',duplicate:'Заявка с этим e-mail уже существует. Новая не создана. Обратитесь на ресепшен.',invalid:'Проверьте обязательные поля и даты.',fail:'Не удалось отправить заявку. Попробуйте позже или свяжитесь с ресепшеном.',chooseRoom:'Выберите тип комнаты',chooseUsage:'Выберите вариант',shared:'Общая комната',private:'Комната только для меня',standard11:'Отдельная комната Standard 1+1',chooseDuration:'Выберите срок',monthWords:'месяцев',gdpr:'Я согласен/согласна на обработку данных для рассмотрения заявки и ознакомился(-лась) с политикой конфиденциальности. *',privacy:'политикой конфиденциальности'},
+uk:{heading:'Заявка на проживання',intro:'Оберіть місяць початку й тривалість проживання. Дата виїзду обчислюється автоматично.',langLabel:'Мова інтерфейсу',personalLegend:'Контактні дані',firstLabel:'Ім’я *',lastLabel:'Прізвище *',emailLabel:'Електронна пошта *',phoneLabel:'Телефон із кодом країни *',schoolLabel:'Університет або навчальний заклад *',nationalityLabel:'Громадянство *',roomLabel:'Тип кімнати *',roomUsageLabel:'Варіант проживання *',stayLegend:'Період проживання',monthLabel:'Початок проживання (з 1-го числа місяця) *',monthsLabel:'Тривалість проживання *',toLabel:'Автоматична дата виїзду',arrivalLabel:'Фактична дата приїзду *',stayNote:'Період проживання починається з першого дня обраного місяця. Навіть за пізнішого приїзду сплачується повний місяць. Виїзд — останній день останнього оплаченого місяця.',example:'Приклад: 01.11.2026 + 5 місяців = виїзд 31.03.2027.',approvalNote:'Надсилання заявки не є підтвердженим бронюванням. Заявку перевіряє рецепція.',submit:'Надіслати заявку',loading:'Надсилаємо…',success:'✓ Заявку зареєстровано, вона очікує схвалення рецепцією.',duplicate:'Заявка з цим e-mail уже існує. Нову не створено. Зверніться до рецепції.',invalid:'Перевірте обов’язкові поля та дати.',fail:'Не вдалося надіслати заявку. Спробуйте пізніше або зверніться до рецепції.',chooseRoom:'Оберіть тип кімнати',chooseUsage:'Оберіть варіант',shared:'Спільна кімната',private:'Ціла кімната для мене',standard11:'Окрема кімната Standard 1+1',chooseDuration:'Оберіть тривалість',monthWords:'місяців',gdpr:'Я погоджуюся на обробку даних для розгляду заявки та ознайомився(-лася) з політикою конфіденційності. *',privacy:'політикою конфіденційності'}
+};
+let lang=['sk','en','ru','uk'].includes(query.get('lang'))?query.get('lang'):'sk';
+const home={sk:'https://studenthousebratislavanew.wordpress.com/rezervacie/',en:'https://studenthousebratislavanew.wordpress.com/en/booking/',ru:'https://studenthousebratislavanew.wordpress.com/ru/booking/',uk:'https://studenthousebratislavanew.wordpress.com/ua/booking/'};
+function calculateDeparture(month,months){
+ if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)||![5,10,12].includes(months))return '';
+ const [y,m]=month.split('-').map(Number);
+ if(y<2000||y>2099)return '';
+ return new Date(Date.UTC(y,m-1+months,0)).toISOString().slice(0,10);
+}
+function updateStay(){
+ const month=get('month').value,months=Number(get('months').value);
+ const first=/^\d{4}-(0[1-9]|1[0-2])$/.test(month)?month+'-01':'';
+ const arrival=get('arrival'),out=get('to');
+ out.value=calculateDeparture(month,months);
+ arrival.min=first;
+ arrival.max=first?new Date(Date.UTC(Number(month.slice(0,4)),Number(month.slice(5,7)),0)).toISOString().slice(0,10):'';
+ if(first&&(!arrival.value||arrival.value<first||arrival.value>arrival.max))arrival.value=first;
+ if(!first){arrival.value='';arrival.removeAttribute('min');arrival.removeAttribute('max');}
+}
+function translate(){
+ const t=labels[lang];
+ D.documentElement.lang=lang;
+ get('lang').value=lang;get('back').href=home[lang];
+ for(const id of ['heading','intro','langLabel','personalLegend','firstLabel','lastLabel','emailLabel','phoneLabel','schoolLabel','nationalityLabel','roomLabel','roomUsageLabel','stayLegend','monthLabel','monthsLabel','toLabel','arrivalLabel','stayNote','example','approvalNote'])get(id).textContent=t[id];
+ get('submit').textContent=t.submit;
+ get('room').options[0].textContent=t.chooseRoom;get('roomUsage').options[0].textContent=t.chooseUsage;
+ ['shared','private','standard11'].forEach((x,i)=>get('roomUsage').options[i+1].textContent=t[x]);
+ get('months').options[0].textContent=t.chooseDuration;
+ for(const [i,n] of [5,10,12].entries())get('months').options[i+1].textContent=n+' '+t.monthWords;
+ const span=get('gdprText');span.replaceChildren(D.createTextNode(t.gdpr.split(t.privacy)[0]),get('privacy'),D.createTextNode(t.gdpr.split(t.privacy)[1]||''));
+ get('privacy').textContent=t.privacy;
+ get('privacy').href='https://studenthousebratislavanew.wordpress.com/'+(lang==='sk'?'gdpr/':(lang==='uk'?'ua':lang)+'/'+(lang==='sk'?'':'privacy-policy/'));
+ D.title=t.heading+' | Student House Bratislava';
+}
+get('month').addEventListener('change',updateStay);
+get('months').addEventListener('change',updateStay);
+get('lang').addEventListener('change',e=>{
+ lang=e.target.value;
+ const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState(null,'',u);
+ translate();
+});
+get('bookingForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const form=e.currentTarget,btn=get('submit'),status=get('status'),t=labels[lang];
+ status.textContent='';status.className='';
+ updateStay();
+ const from=get('month').value+'-01',to=get('to').value,arrival=get('arrival').value,months=Number(get('months').value);
+ if(!form.checkValidity()||!to||to!==calculateDeparture(get('month').value,months)||arrival.slice(0,7)!==get('month').value){
+  status.textContent=t.invalid;status.className='error';form.reportValidity();return;
+ }
+ const payload={
+  first_name:get('first').value.trim(),last_name:get('last').value.trim(),email:get('email').value.trim(),
+  telephone:get('phone').value.trim(),school:get('school').value.trim(),nationality:get('nationality').value.trim(),
+  preferred_room_type:(get('room').value+' / '+get('roomUsage').options[get('roomUsage').selectedIndex].textContent).slice(0,120),
+  expected_arrival:arrival,accommodation_from:from,accommodation_to:to,preferred_duration_months:months,
+  privacy_acknowledged:get('gdpr').checked,website:get('website').value
+ };
+ btn.disabled=true;btn.textContent=t.loading;
+ try{
+  const response=await fetch('https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student',{
+   method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),cache:'no-store'});
+  const result=await response.json();
+  if(response.ok&&result?.ok&&response.status===201){
+   status.className='success';status.textContent=t.success;
+   form.reset();updateStay();
+  }else if(response.ok&&result?.already_registered){
+   status.className='error';status.textContent=t.duplicate;
+  }else{status.className='error';status.textContent=t.fail;}
+ }catch(error){status.className='error';status.textContent=t.fail;}
+ finally{btn.disabled=false;btn.textContent=t.submit;}
+});
+const now=new Date(),ym=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+get('month').min=ym;
+get('month').max=String(now.getFullYear()+4)+'-12';
+get('lang').value=lang;translate();updateStay();
+})();
+</script>
+</body></html>
