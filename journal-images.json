@@ -3536,6 +3536,166 @@
         "1280": "0ca84f86db18af28d0ef54b67a0be98a782aef7b990c003f8b7de6ebc9593030",
         "social": "bce44175649b6a809a94426c3d724f2d54f0cdcc8f1da4e872affda265bfdd53"
       }
+    },
+    {
+      "id": "commons-47373942e86836",
+      "provider": "Wikimedia Commons",
+      "provider_id": "130145090",
+      "source_page": "https://commons.wikimedia.org/wiki/File:GO_Work.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/GO_Work.jpg/1920px-GO_Work.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Technologie- und Gründerzentrum",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-23",
+      "original_sha256": "b586b6cce6e15927276b2475ef353a9548d5ab801747605b588e4f487e7d2857",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-47373942e86836-640.webp",
+        "1280": "/assets/journal/commons-47373942e86836-1280.webp",
+        "social": "/assets/journal/commons-47373942e86836-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "2f8f3b611df128ef28530ca3e8dc66e078307453ed3611ba0b332dbeb0e84ff0",
+        "1280": "ef325a4dbe14527d1f8263ca38836c6d3e7544ee31c24d80f0749d628e7bff50",
+        "social": "60eec5f998f587b674272a8b32b0a196ac66372b70288ee3d7c5160f5a9ce190"
+      }
+    },
+    {
+      "id": "commons-4ae6f939d1f685",
+      "provider": "Wikimedia Commons",
+      "provider_id": "186269466",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Professional_woman_working_at_desk_with_laptop_and_documents_in_bright_office_setting.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Professional_woman_working_at_desk_with_laptop_and_documents_in_bright_office_setting.jpg/1920px-Professional_woman_working_at_desk_with_laptop_and_documents_in_bright_office_setting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-23",
+      "original_sha256": "acc90d0a19689dbf08414c81cdb8518fbd89b8888a7f7ac0392e60277c90f629",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-4ae6f939d1f685-640.webp",
+        "1280": "/assets/journal/commons-4ae6f939d1f685-1280.webp",
+        "social": "/assets/journal/commons-4ae6f939d1f685-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "3f46f03079eda9beb04258596f18a2823e4c35cc6bbe8f3c6e1d2341f4128da2",
+        "1280": "547d26ad98030095db6af87989e2b96246d714547a932e0d174a5aa74be15ce2",
+        "social": "3f431069b94355f198cab9c4d213614c39cd03e3195190fd71156d92f818b8f7"
+      }
+    },
+    {
+      "id": "commons-95f2cb2783cac9",
+      "provider": "Wikimedia Commons",
+      "provider_id": "186214238",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Senior_woman_practicing_self-care_and_stretching_in_home_office_while_working_on_laptop.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Senior_woman_practicing_self-care_and_stretching_in_home_office_while_working_on_laptop.jpg/1920px-Senior_woman_practicing_self-care_and_stretching_in_home_office_while_working_on_laptop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-23",
+      "original_sha256": "b56934e119d68f8793dcbd4140ec1b764b2f19b5607cd5995e1f86bfe3ec8b90",
+      "topics": [
+        "ai"
+      ],
+      "alt": {
+        "sk": "Práca s digitálnymi nástrojmi na notebooku",
+        "en": "Working with digital tools on a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-95f2cb2783cac9-640.webp",
+        "1280": "/assets/journal/commons-95f2cb2783cac9-1280.webp",
+        "social": "/assets/journal/commons-95f2cb2783cac9-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "a908b36487626d8236e0af598153ee13502982c22b608cd816f72f5928ca059f",
+        "1280": "a17969511c0c5bda53cdd22663eb8791d0c224d982125dbf0a0c462052e97326",
+        "social": "fb12ac200ff99b103920b0c2a274482e5eaacdea99654c65fed0705d1ffc365c"
+      }
+    },
+    {
+      "id": "commons-90a0d6ff934f33",
+      "provider": "Wikimedia Commons",
+      "provider_id": "196010783",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Feeling_discomfort_at_home_while_working_on_a_laptop_during_the_day.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Feeling_discomfort_at_home_while_working_on_a_laptop_during_the_day.jpg/1920px-Feeling_discomfort_at_home_while_working_on_a_laptop_during_the_day.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Shixart1985",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "commercial_use_verified_at": "2026-11-23",
+      "original_sha256": "712bbbd51fa474bcf2381bed0975eb7642d3fd5ef20bfe8f87007865cd37be9c",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Práca na notebooku v kancelárii",
+        "en": "Working on a laptop in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-90a0d6ff934f33-640.webp",
+        "1280": "/assets/journal/commons-90a0d6ff934f33-1280.webp",
+        "social": "/assets/journal/commons-90a0d6ff934f33-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "a5ac5513d4522a78741beead48af9281728129e5aedcf7aba2687db88af5a73a",
+        "1280": "e9893974b371faf243a154b14145e4aa8f8a4a49b258104ac2233fba22dc0f08",
+        "social": "436813f8b7ab2d559b3c65938f092098504548ca836cedfd7b653336c1dcd6ec"
+      }
+    },
+    {
+      "id": "commons-b698233b04a1ff",
+      "provider": "Wikimedia Commons",
+      "provider_id": "77495433",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Reception_hall_with_reflecting_floor_and_chandelier_at_The_Fullerton_Bay_Hotel_Singapore.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Reception_hall_with_reflecting_floor_and_chandelier_at_The_Fullerton_Bay_Hotel_Singapore.jpg/1920px-Reception_hall_with_reflecting_floor_and_chandelier_at_The_Fullerton_Bay_Hotel_Singapore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-23",
+      "original_sha256": "86e149223d3a0ba684defa9cf67297b776b31e1b10ceee7193530c4c9e506e64",
+      "topics": [
+        "tourism"
+      ],
+      "alt": {
+        "sk": "Hotelová recepcia ako prostredie podnikania v cestovnom ruchu",
+        "en": "Hotel reception in the tourism industry"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-b698233b04a1ff-640.webp",
+        "1280": "/assets/journal/commons-b698233b04a1ff-1280.webp",
+        "social": "/assets/journal/commons-b698233b04a1ff-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d9fd0052304fe7b0d791cee7c740287fcbac508efd3a2e49e0591b9a8226381e",
+        "1280": "9aaa9509d530ce26b695fe84aa2a09bffe3a67f92d9ef857bd286ad31639c9bc",
+        "social": "0bf31d48e716b5c704c73ebaa436dd3266b096996f61f9335ef9230db6043d6a"
+      }
     }
   ],
   "assignments": {
@@ -3640,6 +3800,11 @@
     "blog-journal-inovacie-sluzieb-a-spokojnost-zamestnancov-v-bankovom-sektore-analyza.html": "commons-8a262e4faab66c",
     "blog-journal-udrzatelnost-a-kultura-bezpecnosti-strategicke-piliere-moderneho-podniku.html": "commons-5316e1cfdc3de9",
     "blog-journal-riadenie-digitalnej-transformacie-informacne-systemy-a-ai-v-podnikoch-eu.html": "commons-d56688e32b44a8",
-    "blog-journal-inkluzivne-vedenie-a-inovacie-v-timoch-uloha-organizacnej-kultury.html": "commons-0153a94e9d5b65"
+    "blog-journal-inkluzivne-vedenie-a-inovacie-v-timoch-uloha-organizacnej-kultury.html": "commons-0153a94e9d5b65",
+    "blog-journal-management-consultants-monsters-or-benign-change-agents-the-case-of-the.html": "commons-47373942e86836",
+    "blog-journal-psychological-safety-work-related-flow-and-employee-innovation-a-person.html": "commons-4ae6f939d1f685",
+    "blog-journal-the-implications-of-digital-leadership-for-productivity-innovation-and.html": "commons-95f2cb2783cac9",
+    "blog-journal-transformational-leadership-and-innovative-work-behavior-a-comparison.html": "commons-90a0d6ff934f33",
+    "blog-journal-the-effect-of-performance-appraisal-on-the-work-performance-of-employees.html": "commons-b698233b04a1ff"
   }
 }

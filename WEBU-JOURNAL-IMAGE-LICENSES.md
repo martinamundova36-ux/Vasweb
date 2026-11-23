@@ -206,3 +206,13 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-d56688e32b44a8: [David Maina Ndirangu](https://commons.wikimedia.org/wiki/File:Carrying_out_land_office_survey_work.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-0153a94e9d5b65: [Shixart1985](https://commons.wikimedia.org/wiki/File:Middle-aged_woman_working_on_laptop_while_holding_smartphone_at_a_wooden_table.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-47373942e86836: [Technologie- und Gründerzentrum](https://commons.wikimedia.org/wiki/File:GO_Work.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-4ae6f939d1f685: [Shixart1985](https://commons.wikimedia.org/wiki/File:Professional_woman_working_at_desk_with_laptop_and_documents_in_bright_office_setting.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-95f2cb2783cac9: [Shixart1985](https://commons.wikimedia.org/wiki/File:Senior_woman_practicing_self-care_and_stretching_in_home_office_while_working_on_laptop.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-90a0d6ff934f33: [Shixart1985](https://commons.wikimedia.org/wiki/File:Feeling_discomfort_at_home_while_working_on_a_laptop_during_the_day.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-b698233b04a1ff: [Basile Morin](https://commons.wikimedia.org/wiki/File:Reception_hall_with_reflecting_floor_and_chandelier_at_The_Fullerton_Bay_Hotel_Singapore.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.

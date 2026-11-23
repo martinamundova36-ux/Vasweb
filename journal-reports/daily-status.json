@@ -1,33 +1,23 @@
 {
-  "checked_at": "2026-11-22T13:17:04.704798+00:00",
+  "checked_at": "2026-11-23T15:55:26.144124+00:00",
   "timezone": "Europe/Bratislava",
   "schedule": "7,27,47 6-11 * * *",
   "primary_target": "08:00 Europe/Bratislava",
   "preparation_start": "06:07 Europe/Bratislava",
   "backup_checks": "Every :07/:27/:47 from 06:07 through 11:47; stop after 5 published articles",
-  "next_scheduled_local": "2026-11-23T06:07:00+01:00",
-  "next_scheduled_utc": "2026-11-23T05:07:00+00:00",
+  "next_scheduled_local": "2026-11-24T06:07:00+01:00",
+  "next_scheduled_utc": "2026-11-24T05:07:00+00:00",
   "scheduler_timing": "Configured target; GitHub can queue/delay scheduled jobs. Future execution is not yet observed.",
   "daily_maximum": 5,
   "generator_capability": "abstract_scoped_bilingual_editorials",
   "automatically_written_full_articles": 0,
-  "automatically_prepared_abstract_editorials": 5,
-  "published_today": [
-    "2026-11-22-1a6d7100c0d6",
-    "2026-11-22-4f32c3571fbb",
-    "2026-11-22-6fa5acf2df87",
-    "2026-11-22-981370bffff3",
-    "2026-11-22-e729bfd68a22"
-  ],
-  "published_automatically_today": [
-    "2026-11-22-6fa5acf2df87",
-    "2026-11-22-1a6d7100c0d6",
-    "2026-11-22-e729bfd68a22",
-    "2026-11-22-981370bffff3",
-    "2026-11-22-4f32c3571fbb"
-  ],
+  "automatically_prepared_abstract_editorials": 1,
+  "published_today": [],
+  "published_automatically_today": [],
   "published_manually_today": [],
-  "ready_bilingual_articles": [],
+  "ready_bilingual_articles": [
+    "2026-11-23-3f0009cd3010"
+  ],
   "pending_editorial_work": [
     {
       "id": "2026-11-04-5b5dc38594ea",
@@ -95,6 +85,22 @@
     },
     {
       "id": "2026-11-21-9f7cb064dafb",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-23-c7b3445706e8",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-23-e547bf1a3ac6",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-23-f67afac80dd4",
+      "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
+    },
+    {
+      "id": "2026-11-23-f8b4c5d5c6dc",
       "reason": "A reviewed bilingual article is required; bibliographic templates cannot be published"
     }
   ],

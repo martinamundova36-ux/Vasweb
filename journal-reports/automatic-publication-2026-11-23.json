@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-23",
+  "automatically_published": [],
+  "published_this_run": [],
+  "held_due_to_missing_review_or_gates": 5,
+  "publication_errors": [
+    {
+      "id": "2026-11-23-3f0009cd3010",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    }
+  ],
+  "mode": "transparent_abstract_editorials"
+}
