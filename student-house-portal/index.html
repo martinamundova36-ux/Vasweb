@@ -1117,22 +1117,23 @@ async function renderProfile(tenant){
  for(const [name,value]of [[({sk:'Dátum narodenia',en:'Date of birth',ru:'Дата рождения',uk:'Дата народження'})[lang],enquiry.date_of_birth?day(enquiry.date_of_birth):'—'],[({sk:'Štátna príslušnosť',en:'Nationality',ru:'Гражданство',uk:'Громадянство'})[lang],enquiry.nationality||'—'],[({sk:'Telefón',en:'Telephone',ru:'Телефон',uk:'Телефон'})[lang],enquiry.telephone||'—'],[({sk:'Typ ubytovania',en:'Accommodation type',ru:'Тип проживания',uk:'Тип проживання'})[lang],room?.category||enquiry.preferred_room_type||'—']]){const cell=make('div');cell.append(make('label','',name),make('div','readonly-value',value));details.append(cell);}
  const staffVerified=staffResult.error?null:staffResult.data;
  const paidLabels=({
-  sk:{rent:'Mesačný nájom',deposit:'Depozit',fee:'Administratívny poplatok',code:'Kód izby',show:'Zobraziť kód',hide:'Skryť kód',missing:'Zatiaľ nepotvrdené recepciou'},
-  en:{rent:'Monthly rent',deposit:'Deposit',fee:'Administration fee',code:'Room code',show:'Show code',hide:'Hide code',missing:'Awaiting reception confirmation'},
-  ru:{rent:'Аренда в месяц',deposit:'Депозит',fee:'Административный сбор',code:'Код комнаты',show:'Показать код',hide:'Скрыть код',missing:'Ожидает подтверждения ресепшена'},
-  uk:{rent:'Місячна оренда',deposit:'Депозит',fee:'Адміністративний збір',code:'Код кімнати',show:'Показати код',hide:'Приховати код',missing:'Очікує підтвердження рецепції'}
+  sk:{rent:'Mesačný nájom',deposit:'Depozit',fee:'Administratívny poplatok',code:'Kód izby (číslo zmluvy)',missing:'Zatiaľ nepotvrdené recepciou'},
+  en:{rent:'Monthly rent',deposit:'Deposit',fee:'Administration fee',code:'Room code (contract number)',missing:'Awaiting reception confirmation'},
+  ru:{rent:'Аренда в месяц',deposit:'Депозит',fee:'Административный сбор',code:'Код комнаты (номер договора)',missing:'Ожидает подтверждения ресепшена'},
+  uk:{rent:'Місячна оренда',deposit:'Депозит',fee:'Адміністративний збір',code:'Код кімнати (номер договору)',missing:'Очікує підтвердження рецепції'}
  })[lang];
  const displayEuro=v=>v!=null&&v!==''&&Number.isFinite(Number(v))?Number(v).toFixed(2)+' €':paidLabels.missing;
  for(const [name,value] of [[paidLabels.rent,displayEuro(tenancy?.rent)],[paidLabels.deposit,displayEuro(staffVerified?.deposit_eur)],[paidLabels.fee,displayEuro(staffVerified?.administration_fee_eur)]]){
   const cell=make('div');cell.append(make('label','',name),make('div','readonly-value',value));details.append(cell);
  }
- const codeCell=make('div'),codeLabel=make('label','',paidLabels.code),codeValue=make('div','readonly-value',staffVerified?.room_code?'••••••':paidLabels.missing);
- codeCell.append(codeLabel,codeValue);
- if(staffVerified?.room_code){
-  const toggle=make('button','btn-secondary',paidLabels.show);toggle.type='button';
-  toggle.onclick=()=>{const hide=codeValue.textContent==='••••••';codeValue.textContent=hide?staffVerified.room_code:'••••••';toggle.textContent=hide?paidLabels.hide:paidLabels.show;};
-  codeCell.append(toggle);
- }
+ // The displayed room code is the reception-verified accommodation contract number.
+ // It is an identifier, not a password; always show it as readable text.
+ const contractCode=String(resident.verified_contract_number||staffVerified?.room_code||'').trim();
+ const codeCell=make('div');
+ codeCell.append(
+  make('label','',paidLabels.code),
+  make('div','readonly-value',contractCode||paidLabels.missing)
+ );
  details.append(codeCell);
  grid.append(photoRow,details);$('records').append(grid);
  const avatar=files.find(x=>x.kind==='profile_photo'&&x.user_id===user.id&&x.active);
