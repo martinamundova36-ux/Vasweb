@@ -1,7 +1,7 @@
 {
   "id": "/student-house-portal/",
-  "name": "SH Bratislava",
-  "short_name": "SH Bratislava",
+  "name": "Student House Bratislava",
+  "short_name": "Student House Bratislava",
   "description": "Študentská zóna, recepcia a administrácia Student House Bratislava.",
   "lang": "sk",
   "start_url": "/student-house-portal/?source=studenthouse-app",
