@@ -2080,46 +2080,66 @@ async function renderPanel(){
 
 async function signedIn(u){
  if(resetMode)return;
- user=u;$('login').classList.toggle('hide',!!u);$('app').classList.add('hide');
+ user=u;
+ // Never hide both login and portal while awaiting asynchronous authorization.
+ $('app').classList.add('hide');
  document.body.classList.remove('portal-open');
+ $('login').classList.remove('hide');
  if(!u){
+  $('error').textContent='';
+  $('error').style.color='#b03b38';
   $('studentNoticeBell').hidden=true;$('studentOnboardingBanner').classList.add('hide');
   stopLiveSync();member=null;resident=null;memberships=[];organizationNames={};
   $('orgLabel').textContent='STUDENT HOUSE BRATISLAVA';$('orgSelectorWrap').classList.add('hide');
   document.title='Student House Bratislava | Študentská zóna';return;
  }
  $('user').textContent=u.email;
- // The verified first administrator is provisioned server-side; no browser self-elevation.
- const {data:ms,error}=await db.from('organization_memberships')
-  .select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50);
- if(error||!ms?.length){
-  if(staffEntryMode){await db.auth.signOut({scope:'local'});await signedIn(null);$('error').textContent=portalMessages[lang].staff;return;}
-  await db.auth.signOut({scope:'local'});await signedIn(null);$('tabs').replaceChildren();
-  if(questionnaireEntryMode)showQuestionnairePreviewNotice('unapproved');
-  else $('error').textContent=t[9];
-  return;
+ const status=$('error');
+ status.style.color='#526a86';
+ status.textContent=({sk:'Overujem oprávnenia a načítavam tvoju zónu…',en:'Checking access and loading your portal…',ru:'Проверяем доступ и загружаем кабинет…',uk:'Перевіряємо доступ і завантажуємо кабінет…'})[lang];
+ try{
+  const {data:ms,error}=await db.from('organization_memberships')
+   .select('tenant_id,role').eq('user_id',u.id).eq('active',true).limit(50);
+  if(error)throw error;
+  if(!ms?.length){
+   await db.auth.signOut({scope:'local'});await signedIn(null);$('tabs').replaceChildren();
+   if(questionnaireEntryMode)showQuestionnairePreviewNotice('unapproved');
+   else $('error').textContent=staffEntryMode?portalMessages[lang].staff:t[9];
+   return;
+  }
+  const allowedMemberships=ms.filter(m=>portalRoleAllowed(m.role));
+  if(!allowedMemberships.length){
+   await db.auth.signOut({scope:'local'});await signedIn(null);
+   if(questionnaireEntryMode)showQuestionnairePreviewNotice('unauthorized');
+   else $('error').textContent=staffEntryMode?portalMessages[lang].staff:portalMessages[lang].student;
+   return;
+  }
+  memberships=allowedMemberships;
+  const ids=[...new Set(allowedMemberships.map(m=>m.tenant_id))];
+  const {data:orgs,error:orgError}=await db.from('organizations').select('id,name').in('id',ids).limit(50);
+  if(orgError)console.error('organization_lookup_failed',orgError);
+  organizationNames=Object.fromEntries((orgs||[]).map(o=>[o.id,o.name]));
+  const select=$('orgSelector');select.replaceChildren();
+  for(const id of ids){
+   const option=document.createElement('option');option.value=id;
+   option.textContent=organizationNames[id]||'Ubytovacie zariadenie';select.append(option);
+  }
+  $('orgSelectorWrap').classList.toggle('hide',ids.length<2);
+  await chooseOrganization(ids[0]);
+  if(!member||!portalRoleAllowed(member.role))throw new Error('portal_initialization_no_authorized_organization');
+  status.textContent='';
+  status.style.color='#b03b38';
+  $('app').classList.remove('hide');
+  $('login').classList.add('hide');
+  document.body.classList.add('portal-open');
+ }catch(error){
+  console.error('portal_initialization_failed',error);
+  $('login').classList.remove('hide');
+  $('app').classList.add('hide');
+  document.body.classList.remove('portal-open');
+  status.style.color='#b03b38';
+  status.textContent=({sk:'Prihlásenie bolo overené, ale administráciu sa nepodarilo načítať. Skús znova tlačidlo Prihlásiť sa. Ak problém pretrváva, kontaktuj správcu aplikácie.',en:'Sign-in was verified, but the portal could not load. Try Sign in again. If the problem persists, contact the administrator.',ru:'Вход подтверждён, но кабинет не загрузился. Повторите вход. Если ошибка сохраняется, обратитесь к администратору.',uk:'Вхід підтверджено, але кабінет не завантажився. Спробуйте увійти знову. Якщо проблема повториться, зверніться до адміністратора.'})[lang];
  }
- const allowedMemberships=ms.filter(m=>portalRoleAllowed(m.role));
- if(!allowedMemberships.length){
-  // Deny the wrong role without revoking the other portal's session.
-  await db.auth.signOut({scope:'local'});await signedIn(null);
-  if(questionnaireEntryMode)showQuestionnairePreviewNotice('unauthorized');
-  else $('error').textContent=staffEntryMode?portalMessages[lang].staff:portalMessages[lang].student;
-  return;
- }
- memberships=allowedMemberships;
- const ids=[...new Set(allowedMemberships.map(m=>m.tenant_id))];
- const {data:orgs,error:orgError}=await db.from('organizations').select('id,name').in('id',ids).limit(50);
- if(orgError)console.error('organization_lookup_failed');
- organizationNames=Object.fromEntries((orgs||[]).map(o=>[o.id,o.name]));
- const select=$('orgSelector');select.replaceChildren();
- for(const id of ids){
-  const option=document.createElement('option');option.value=id;
-  option.textContent=organizationNames[id]||'Ubytovacie zariadenie';select.append(option);
- }
- $('orgSelectorWrap').classList.toggle('hide',ids.length<2);
- await chooseOrganization(ids[0]);
- if(member&&portalRoleAllowed(member.role)){$('app').classList.remove('hide');document.body.classList.add('portal-open');}
 }
 function changeLanguage(e){lang=e.target.value;translate();translateRegister();if(member){renderTabs();void renderPanel()}}
 $('lang').addEventListener('change',changeLanguage);$('appLang').addEventListener('change',changeLanguage);$('step2PreviewLang').addEventListener('change',changeLanguage);translate();translateRegister();
@@ -2283,9 +2303,9 @@ function queueSignedIn(account,explicit=false){
  if(authHydrationQueued)return;
  authHydrationQueued=true;
  // Do not call Supabase APIs from within onAuthStateChange.
- setTimeout(()=>{
-  authHydrationQueued=false;
-  if(!resetMode)void signedIn(account);
+ setTimeout(async()=>{
+  try{if(!resetMode)await signedIn(account)}
+  finally{authHydrationQueued=false}
  },0);
 }
 db.auth.onAuthStateChange((event,session)=>{
