@@ -717,7 +717,7 @@ ru:{admin:"Администрация Student House Bratislava",reception:"Ре�
 uk:{admin:"Адміністрація Student House Bratislava",reception:"Рецепція Student House Bratislava",student:"Мій студентський кабінет",adminRole:"Вхід: адміністратор",receptionRole:"Вхід: рецепція",studentRole:"Вхід: студент",adminOverview:"Огляд адміністрації",studentOverview:"Моє проживання",account:"Налаштування облікового запису"}
 };
 const dashboardLabel=k=>DASH[lang][k];
-const label=k=>(ui[lang]||ui.sk)[k]||ui.sk[k]||k;
+const label=k=>k==='questionnaires'?({sk:'Dotazníky – správa',en:'Questionnaire management',ru:'Управление анкетами',uk:'Керування анкетами'})[lang]:(ui[lang]||ui.sk)[k]||ui.sk[k]||k;
 const make=(tag,cls,value)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(value!==undefined)e.textContent=String(value);return e};
 const financeTerms={
 sk:{resident:"Študent",chargeAdd:"Pridať mesačný predpis",paymentAdd:"Zaevidovať overenú platbu",period:"Mesiac",amount:"Suma v €",date:"Dátum",due:"Splatnosť",method:"Spôsob platby",reference:"Referencia / variabilný symbol",bank:"Bankový prevod",cash:"Hotovosť",other:"Iné",saveCharge:"Uložiť predpis",savePayment:"Uložiť úhradu",saved:"Údaje boli uložené.",failed:"Zápis sa nepodaril. Skontroluj údaje alebo duplicitu.",needsResident:"Najprv schváľ registráciu študenta.",planAdd:"Schváliť splátkový kalendár",charge:"Predpis",title:"Názov splátkového kalendára",installments:"Počet splátok",savePlan:"Schváliť splátky",planAmount:"Súčet splátok sa musí rovnať celej sume vybraného predpisu.",balance:"Evidovaný rozdiel predpisov a prijatých úhrad",receipts:"Platby musí recepcia overiť pred zapísaním.",dates:"Termíny splátok",missingCharges:"Najprv vytvor predpis nájomného."},
@@ -830,7 +830,7 @@ function showStaffMenu(){
  });
 }
 $('staffMenuShortcut').addEventListener('click',showStaffMenu);
-const icons={account:'🔒',enquiry:'▤',profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉',notifications:'🔔'};
+const icons={questionnaires:'▤',account:'🔒',enquiry:'▤',profile:'◉',overview:'⌂',registrations:'✓',residents:'♙',rooms:'▦',payments:'€',installments:'≡',documents:'▤',requests:'✉',cleaning:'✧',notices:'◉',notifications:'🔔'};
 
 const docLabels = {
  sk:{contract:"Ubytovacia zmluva",signedContract:"Podpísaná ubytovacia zmluva",onboarding:"Krok 3 z 3 – dokumenty na podpis",contractNeeded:"Individuálnu zmluvu ešte recepcia nenahrala.",contractUpload:"Nahrať individuálnu zmluvu (PDF)",rules:"Ubytovací poriadok",gdpr:"Informácie o spracúvaní osobných údajov (GDPR)",signedRules:"Podpísaný ubytovací poriadok",signedGdpr:"Podpísané potvrdenie o oboznámení sa s GDPR",load:"Stiahnuť",upload:"Nahrať súbor",photo:"Profilová fotografia",profileInfo:"Overené údaje o tvojom ubytovaní",first:"Meno",last:"Priezvisko",room:"Číslo izby",email:"E-mail",noRoom:"Izba zatiaľ nie je priradená",manual:"Údaje potvrdzuje recepcia. Ak niektorý údaj nesedí, požiadaj o opravu cez Požiadavky.",photoHelp:"Fotografia JPG alebo PNG, maximálne 3 MB.",uploadHelp:"Najprv stiahni dokument od recepcie, vyplň ho a podpíš. Potom sem nahraj podpísané PDF alebo fotografiu (JPG/PNG), maximálne 6 MB.",wait:"Čaká na kontrolu",approved:"Schválené",rejected:"Vrátené na opravu",missing:"Dokument zatiaľ recepcia nenahrala.",privacy:"Osobné údaje, fotografie a podpisy sú prístupné iba oprávneným osobám. Podrobnosti v informáciách GDPR.",uploadTemplate:"Nahrať aktuálne PDF",signedReceived:"Podpísané dokumenty od študentov",staffProfile:"Fotografie študentov",downloadForReview:"Zobraziť odovzdaný dokument",reviewApprove:"Schváliť",reviewReject:"Vrátiť na opravu",reviewNote:"Poznámka pri kontrole",viewPhoto:"Zobraziť fotografiu",requestCorrection:"Požiadať o opravu údajov",fileError:"Nahratie súboru zlyhalo. Skontroluj formát, veľkosť a oprávnenie.",fileSuccess:"Súbor bol bezpečne odoslaný.",adminTemplates:"Správa PDF vzorov a kontrola dokumentov",privateDocuments:"Ďalšie osobné dokumenty"},
@@ -1270,7 +1270,7 @@ async function renderResidentDocuments(tenant,staff,own){
   const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
-  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261121-qr-confirm-v2'),list('residents')]);
+  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261124-questionnaire-admin1'),list('residents')]);
   const [saving,,,,,approved,returned,scheduleApproved,saveError]=reviewCopy[lang]||reviewCopy.en;
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
@@ -1489,7 +1489,7 @@ function renderTabs(){
  const isAdmin=isStaff();
  const shortcut=$('staffMenuShortcut');shortcut.hidden=!isAdmin;
  shortcut.textContent=({sk:'Menu administrácie',en:'Administration menu',ru:'Меню администратора',uk:'Меню адміністрації'})[lang]||'Menu administrácie';
- const keys=isAdmin?['rooms','overview','registrations','residents','payments','installments','documents','requests','cleaning','notices']:['overview','notifications','profile','enquiry','documents','rooms','payments','installments','requests','cleaning','notices'];
+ const keys=isAdmin?['rooms','overview','registrations','questionnaires','residents','payments','installments','documents','requests','cleaning','notices']:['overview','notifications','profile','enquiry','documents','rooms','payments','installments','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label',({sk:"Sekcie",en:"Sections",ru:"Разделы",uk:"Розділи"})[lang]);parent.setAttribute('role','navigation');
  const inWizard=!isAdmin&&resident&&!studentProfileOpen();
  const progress=$('wizardProgress');progress.classList.toggle('hide',!inWizard);
@@ -1729,13 +1729,13 @@ async function renderPanel(){
    return;
   }
   container.replaceChildren();
-  if(staff&&['registrations','residents'].includes(tab)){
+  if(staff&&['registrations','residents','questionnaires'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261121-qr-confirm-v2');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261124-questionnaire-admin1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
-   await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section,lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
+   await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section:section==='questionnaires'?'residents':section,questionnaireMode:section==='questionnaires',lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
     uploadPrivateDocument:(residentId,file,button,kind='resident_document')=>sendFile(tenant,kind,file,button,residentId),
     openRooms:(roomNumber,startsOn)=>{pendingRoomFocus={room:String(roomNumber||''),year:Number(String(startsOn||'').slice(0,4))||null};navigate('rooms')},
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab===section&&isStaff()});
@@ -1854,7 +1854,22 @@ async function renderPanel(){
   }
   if(tab==='payments'){
    heading(label('payments'),label('financeNote'));
-   if(staff){const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261121-full-stay1');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
+   if(staff){
+    const copy=({
+     sk:['Prepojenie banky · Tatra banka','Automatická synchronizácia nie je nakonfigurovaná','Na automatické načítavanie a párovanie prijatých platieb je potrebné prepojiť firemný bankový účet s aplikáciou. Využiť možno Tatra banka Premium API – Účty, po schválení integrácie bankou a autorizácii oprávnenou osobou.','Systém bude po dokončení integrácie porovnávať prijaté bankové pohyby s variabilným symbolom, sumou a splatnosťou. Nejednoznačné platby skontroluje recepcia. Hotovosť sa naďalej eviduje manuálne.','Kým bankové prepojenie nie je aktivované a overené, platby eviduj manuálne podľa bankového výpisu. Nikdy sem nezadávaj prihlasovacie údaje do banky.','Informácie a aktivácia Premium API','Vývojárske rozhranie banky'],
+     en:['Bank connection · Tatra banka','Automatic synchronization is not configured','Automatic retrieval and reconciliation of incoming payments requires linking the company bank account to the application. Tatra banka Premium API – Accounts can be used after bank integration approval and authorization by an authorized representative.','Once integrated, incoming transactions can be matched by payment reference, amount and due date. Reception reviews ambiguous matches. Cash remains manually recorded.','Until the connection is activated and verified, record payments manually against the bank statement. Never enter banking credentials here.','Premium API information and activation','Bank developer portal'],
+     ru:['Подключение банка · Tatra banka','Автоматическая синхронизация не настроена','Для автоматической загрузки и сверки поступлений необходимо подключить корпоративный банковский счёт к приложению. Premium API – Accounts банка Tatra banka требует согласования интеграции и авторизации уполномоченным лицом.','После интеграции платежи можно сопоставлять по назначению, сумме и сроку оплаты. Неоднозначные платежи проверяет ресепшен. Наличные учитываются вручную.','До активации и проверки подключения сверяйте платежи вручную по банковской выписке. Не вводите здесь банковские пароли.','Информация и активация Premium API','Портал разработчиков банка'],
+     uk:['Підключення банку · Tatra banka','Автоматичну синхронізацію не налаштовано','Для автоматичного завантаження та звірки надходжень необхідно підключити корпоративний рахунок до застосунку. Premium API – Accounts банку Tatra banka потребує погодження інтеграції та авторизації уповноваженою особою.','Після інтеграції платежі можна зіставляти за призначенням, сумою та терміном оплати. Неоднозначні платежі перевіряє рецепція. Готівка обліковується вручну.','До активації та перевірки підключення звіряйте платежі вручну за банківською випискою. Не вводьте тут банківські паролі.','Інформація та активація Premium API','Портал розробників банку']
+    })[lang];
+    const bankCard=make('section','student-documents-cta');
+    const bankStatus=make('p','status-pill',copy[1]);bankStatus.setAttribute('role','status');
+    bankCard.append(make('h3','',copy[0]),bankStatus,make('p','',copy[2]),make('p','',copy[3]),make('p','mini-note',copy[4]));
+    const links=make('div','staff-actions');
+    for(const [url,title] of [['https://www.tatrabanka.sk/sk/business/ucty-platby/premium-api-ucty/',copy[5]],['https://developer.tatrabanka.sk/pages/devportal/sk/',copy[6]]]){
+     const a=make('a','btn-secondary',title);a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.style.cssText='display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:9px;text-decoration:underline;max-width:100%;white-space:normal';links.append(a);
+    }
+    bankCard.append(links);container.append(bankCard);
+    const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261121-full-stay1');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
    const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
    const [charges,paid,people,allocations,reversals]=await Promise.all([list('rent_charges',filter),list('payments',filter),staff?list('residents'):Promise.resolve([]),list('payment_allocations'),list('payment_reversals')]);
    const {cents,chargeBalance}=await import('/student-house-portal/ledger.js?v=20261112-entry5-authfix1');
