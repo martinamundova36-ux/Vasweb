@@ -33,7 +33,7 @@ a{color:#154f88}.foot{font-size:13px;color:#72859a;text-align:center;margin:24px
 </head>
 <body>
 <header>
-<a id="back" href="https://studenthousebratislavanew.wordpress.com/rezervacie/">← Student House Bratislava</a>
+<a id="back" href="https://studenthousebratislavanew.wordpress.com/">← Student House Bratislava</a>
 <h1 id="heading">Žiadosť o ubytovanie</h1>
 <p id="intro">Vyber mesiac začiatku ubytovania a dĺžku pobytu. Presný odchod sa vypočíta automaticky.</p>
 <label for="lang" id="langLabel">Jazyk / Language</label>
@@ -79,7 +79,7 @@ ru:{heading:'Заявка на проживание',intro:'Выберите м�
 uk:{heading:'Заявка на проживання',intro:'Оберіть місяць початку й тривалість проживання. Дата виїзду обчислюється автоматично.',langLabel:'Мова інтерфейсу',personalLegend:'Контактні дані',firstLabel:'Ім’я *',lastLabel:'Прізвище *',emailLabel:'Електронна пошта *',phoneLabel:'Телефон із кодом країни *',schoolLabel:'Університет або навчальний заклад *',nationalityLabel:'Громадянство *',roomLabel:'Тип кімнати *',roomUsageLabel:'Варіант проживання *',stayLegend:'Період проживання',monthLabel:'Початок проживання (з 1-го числа місяця) *',monthsLabel:'Тривалість проживання *',toLabel:'Автоматична дата виїзду',arrivalLabel:'Очікувана дата приїзду *',stayNote:'Період проживання починається з першого дня обраного місяця. Навіть за пізнішого приїзду сплачується повний місяць. Виїзд — останній день останнього оплаченого місяця.',example:'Приклад: 1 вересня 2027 + 5 місяців = виїзд 31 січня 2028.',approvalNote:'Я розумію, що заявка не є зобов’язанням і не гарантує бронювання. Рецепція зв’яжеться зі мною лише за наявності вільної кімнати.',submit:'Надіслати заявку',loading:'Надсилаємо…',success:'✓ Заявку зареєстровано, вона очікує схвалення рецепцією.',duplicate:'Заявка з цим e-mail уже існує. Нову не створено. Зверніться до рецепції.',invalid:'Перевірте обов’язкові поля та дати.',fail:'Не вдалося надіслати заявку. Спробуйте пізніше або зверніться до рецепції.',chooseRoom:'Оберіть тип кімнати',chooseUsage:'Оберіть варіант',shared:'Спільна кімната',private:'Ціла кімната для мене',standard11:'Окрема кімната Standard 1+1',chooseDuration:'Оберіть тривалість',monthWords:'місяців',gdpr:'Я погоджуюся на обробку даних для розгляду заявки та ознайомився(-лася) з політикою конфіденційності. *',privacy:'політикою конфіденційності'}
 };
 let lang=['sk','en','ru','uk'].includes(query.get('lang'))?query.get('lang'):'sk';
-const home={sk:'https://studenthousebratislavanew.wordpress.com/rezervacie/',en:'https://studenthousebratislavanew.wordpress.com/en/booking/',ru:'https://studenthousebratislavanew.wordpress.com/ru/booking/',uk:'https://studenthousebratislavanew.wordpress.com/ua/booking/'};
+const home={sk:'https://studenthousebratislavanew.wordpress.com/',en:'https://studenthousebratislavanew.wordpress.com/en/',ru:'https://studenthousebratislavanew.wordpress.com/ru/',uk:'https://studenthousebratislavanew.wordpress.com/ua/'};
 function calculateDeparture(month,months){
  if(!/^\d{4}-(02|09)$/.test(month)||![5,10,12].includes(months))return '';
  const [y,m]=month.split('-').map(Number);
