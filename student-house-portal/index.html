@@ -243,6 +243,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 .student-documents-cta h3{font-size:20px;margin:0 0 7px;color:#142b4d}
 .student-documents-cta p{font-size:14px;color:#405776;margin:0 0 15px}
 .student-documents-cta button{min-height:44px}
+.student-webu-offer{background:#142b4d;color:#fff;border:1px solid #29466a;border-radius:16px;padding:clamp(16px,3vw,26px);margin:28px 0 8px;overflow-wrap:anywhere}.student-webu-offer .webu-kicker{display:block;color:#f28b82;font-size:12px;font-weight:750;letter-spacing:.06em;margin-bottom:9px}.student-webu-offer h3{color:#fff;font-size:clamp(20px,3vw,26px);line-height:1.2;margin:0 0 9px}.student-webu-offer p{color:#e3ebf5;font-size:15px;line-height:1.5;margin:0 0 12px}.student-webu-offer ul{display:grid;gap:8px;margin:0 0 16px;padding-left:22px}.student-webu-offer li{color:#fff;font-size:14px}.student-webu-offer li::marker{color:#f28b82}.student-webu-offer a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 17px;border-radius:10px;background:#f28b82;color:#142b4d;font-weight:750;text-decoration:none}.student-webu-offer a:hover{text-decoration:underline}.student-webu-offer a:focus-visible{outline:3px solid #fff;outline-offset:3px}@media(max-width:650px){.student-webu-offer a{display:flex;width:100%}}
 @media(max-width:650px){.student-documents-cta{padding:16px}.student-documents-cta button{width:100%}}
 @media(max-width:750px){.staff-directory{grid-template-columns:minmax(0,1fr)!important}.staff-person{width:100%;box-sizing:border-box}.staff-actions{flex-wrap:wrap}.staff-actions>button{max-width:100%;white-space:normal}}
 .staff-approval-success{padding:20px;border:2px solid #29815b;border-radius:14px;background:#effaf3;color:#145234;margin:18px 0;scroll-margin-top:90px}.staff-approval-title{font-size:21px;display:block}.staff-approval-success p{margin:8px 0;overflow-wrap:anywhere}.staff-approval-success button{margin-top:10px}
@@ -1150,6 +1151,25 @@ async function renderProfile(tenant){
  $('records').append(ask);
  message(dl('privacy'));
  const policy=make('a','policy-link','GDPR');policy.href=privacyUrls[lang];policy.target='_blank';policy.rel='noopener noreferrer';$('records').append(policy);
+
+ // Optional external offer, displayed exclusively inside an activated student's personal profile.
+ // No resident data, tracking parameters, third-party embeds or database requests.
+ if(!staffEntryMode&&!isStaff()&&member?.role==='student'&&member.tenant_id===tenant&&studentProfileOpen()&&tab==='profile'){
+  const copy={
+   sk:['WEBU · EXTERNÁ PONUKA','Tvoje nápady. Profesionálne spracovanie.','Potrebuješ prezentáciu do školy, na pracovný pohovor alebo pre firmu?',['Profesionálne a firemné prezentácie','Tvorba webových stránok','Prezentácia podnikateľských projektov'],'Navštíviť WEBU'],
+   en:['WEBU · EXTERNAL OFFER','Your ideas. Professionally presented.','Need a presentation for university, a job interview or a business?',['Professional and corporate presentations','Website design','Business project presentations'],'Visit WEBU'],
+   ru:['WEBU · ВНЕШНЕЕ ПРЕДЛОЖЕНИЕ','Твои идеи. Профессиональное оформление.','Нужна презентация для учёбы, собеседования или компании?',['Профессиональные и корпоративные презентации','Создание сайтов','Презентации бизнес-проектов'],'Посетить WEBU'],
+   uk:['WEBU · ЗОВНІШНЯ ПРОПОЗИЦІЯ','Твої ідеї. Професійне оформлення.','Потрібна презентація для навчання, співбесіди чи компанії?',['Професійні та корпоративні презентації','Створення вебсайтів','Презентації бізнес-проєктів'],'Відвідати WEBU']
+  };
+  const [kicker,title,intro,items,cta]=copy[lang]||copy.sk;
+  const offer=make('aside','student-webu-offer');
+  const heading=make('h3','',title);heading.id='student-webu-offer-title';
+  offer.setAttribute('aria-labelledby',heading.id);
+  const list=make('ul');items.forEach(item=>list.append(make('li','',item)));
+  const link=make('a','',cta);link.href='https://www.webu.sk/';link.target='_blank';link.rel='noopener noreferrer';link.referrerPolicy='no-referrer';
+  offer.append(make('span','webu-kicker',kicker),heading,make('p','',intro),list,link);
+  $('records').append(offer);
+ }
 }
 function additionalDocumentTitle(kind){
  if(kind==='signed_deposit')return ({sk:'Vyplnená žiadosť o vrátenie depozitu',en:'Completed deposit refund request',ru:'Заполненное заявление на возврат депозита',uk:'Заповнена заява на повернення депозиту'})[lang];
