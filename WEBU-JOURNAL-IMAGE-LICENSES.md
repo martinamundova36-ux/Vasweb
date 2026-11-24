@@ -218,3 +218,9 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-b698233b04a1ff: [Basile Morin](https://commons.wikimedia.org/wiki/File:Reception_hall_with_reflecting_floor_and_chandelier_at_The_Fullerton_Bay_Hotel_Singapore.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-371175bb394dcf: [LA2](https://commons.wikimedia.org/wiki/File:East_Sweden_Game_kontorsinteri%C3%B6r_20170907_1.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- pexels-26806048: [Angela Chacón](https://www.pexels.com/photo/female-coworkers-discussing-solar-energy-in-an-office-26806048/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-9301305: [Mikhail Nilov](https://www.pexels.com/photo/businesspeople-working-with-a-laptop-9301305/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-27207632: [Mark Stebnicki](https://www.pexels.com/photo/a-herd-of-cows-standing-in-a-field-27207632/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7658251: [Pavel Danilyuk](https://www.pexels.com/photo/people-working-in-office-7658251/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- pexels-7821554: [RDNE Stock project](https://www.pexels.com/photo/papers-on-the-table-7821554/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n

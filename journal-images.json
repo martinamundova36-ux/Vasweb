@@ -3728,6 +3728,166 @@
         "1280": "5d8de70a94669ff73b1493c9dd8f1f55bc3ff3e19c51be68a81ef192e30d7439",
         "social": "987c7ca37d9f40a1aa0ceef32caaff0d7aeee6573e8a92305c62efc1f81ec2d4"
       }
+    },
+    {
+      "id": "pexels-26806048",
+      "provider": "Pexels",
+      "provider_id": "26806048",
+      "source_page": "https://www.pexels.com/photo/female-coworkers-discussing-solar-energy-in-an-office-26806048/",
+      "download_url": "https://images.pexels.com/photos/26806048/pexels-photo-26806048.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Angela Chacón",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-24",
+      "original_sha256": "e4337a30d31ca7b5cf94b00c5a90ee57b3d5a40b6e0bb0ffa5d8f0f3cae8658d",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Kolegyne diskutujú o solárnej energii v kancelárii",
+        "en": "Coworkers discussing solar energy in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-26806048-640.webp",
+        "1280": "/assets/journal/pexels-26806048-1280.webp",
+        "social": "/assets/journal/pexels-26806048-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "4ba9c024a495f80de81d2d53d828209932189ee8683be6ee5ab337fb06196182",
+        "1280": "1fb16fee10c8ca07e9ce52e3fcacc059052300a99710b986f22ee2d9fc85c1c6",
+        "social": "0589880cfc16fc1956711c6a296800b6d4362e5ffe1847d36061941152f39386"
+      }
+    },
+    {
+      "id": "pexels-9301305",
+      "provider": "Pexels",
+      "provider_id": "9301305",
+      "source_page": "https://www.pexels.com/photo/businesspeople-working-with-a-laptop-9301305/",
+      "download_url": "https://images.pexels.com/photos/9301305/pexels-photo-9301305.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Mikhail Nilov",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-24",
+      "original_sha256": "aa28b5bc22738a2067e70b222abd200af9256cfa9902a918009bec8e57627104",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Dvaja kolegovia spolupracujú pri notebooku",
+        "en": "Two colleagues collaborating at a laptop"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-9301305-640.webp",
+        "1280": "/assets/journal/pexels-9301305-1280.webp",
+        "social": "/assets/journal/pexels-9301305-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "1a91d1c7579be24450f1af49b3efc65bff9c974e08ae7beff03de46600b3875b",
+        "1280": "3ead38cd26763a0732f903b968809b296741b83917ea71beba5f3aca157f473e",
+        "social": "c98d6fd4265abe0418e343fbce6843c227ca57241fd01fceccb480d74d917e4b"
+      }
+    },
+    {
+      "id": "pexels-27207632",
+      "provider": "Pexels",
+      "provider_id": "27207632",
+      "source_page": "https://www.pexels.com/photo/a-herd-of-cows-standing-in-a-field-27207632/",
+      "download_url": "https://images.pexels.com/photos/27207632/pexels-photo-27207632.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Mark Stebnicki",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-24",
+      "original_sha256": "f0dcbdba060579f588f3ecf3fd21516c4d1867b7c3a01515cc8f425dd9e63d48",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Hovädzí dobytok na pastvine; ilustračná fotografia živočíšnej výroby, nie certifikácie halal",
+        "en": "Cattle grazing in a pasture; illustrative livestock photograph, not evidence of halal certification"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-27207632-640.webp",
+        "1280": "/assets/journal/pexels-27207632-1280.webp",
+        "social": "/assets/journal/pexels-27207632-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "702f07b30ebb90d598ac25f64521ff3554604131bd44c5a0e3b6b64f8a2ff083",
+        "1280": "2ad3fb54e900734d510f154467c38d35d344518a88599d7d75f5a2b91f9225d9",
+        "social": "aa32b23697d3018712fd17ea37cfc1a60485ce5db3dffb430b74e04adc45eac2"
+      }
+    },
+    {
+      "id": "pexels-7658251",
+      "provider": "Pexels",
+      "provider_id": "7658251",
+      "source_page": "https://www.pexels.com/photo/people-working-in-office-7658251/",
+      "download_url": "https://images.pexels.com/photos/7658251/pexels-photo-7658251.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "Pavel Danilyuk",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-24",
+      "original_sha256": "6d23fcb2531b64dd88bebba9598bb2ab6bf8010222dcdc97c03aabb3fcc29dea",
+      "topics": [
+        "workplace"
+      ],
+      "alt": {
+        "sk": "Zamestnanci spolupracujú v kancelárii s digitálnou technikou",
+        "en": "Employees collaborating with digital technology in an office"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7658251-640.webp",
+        "1280": "/assets/journal/pexels-7658251-1280.webp",
+        "social": "/assets/journal/pexels-7658251-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "5d15fdf230ba736d4eab1bb4b0e09c7414ca907deb0a346acd98f43dbc7ae559",
+        "1280": "f6a90a1e630d7d83e9c92ee0d694c96ef7307fd10549fe706f767edb881ba6e6",
+        "social": "b10ce1b4806272f5ad202501522780b40b10396e768a484e83e3b440f9726e5f"
+      }
+    },
+    {
+      "id": "pexels-7821554",
+      "provider": "Pexels",
+      "provider_id": "7821554",
+      "source_page": "https://www.pexels.com/photo/papers-on-the-table-7821554/",
+      "download_url": "https://images.pexels.com/photos/7821554/pexels-photo-7821554.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "creator": "RDNE Stock project",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_verified_at": "2026-11-24",
+      "original_sha256": "7e7afa9a25cf941e3cf202aedd6a03e711d4c442517d532a3f4875bcd627ebe2",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Finančné dokumenty a výkazy na pracovnom stole",
+        "en": "Financial documents and reports on a work desk"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/pexels-7821554-640.webp",
+        "1280": "/assets/journal/pexels-7821554-1280.webp",
+        "social": "/assets/journal/pexels-7821554-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "691c7b1a3141b1ab0232544bce73fa80dcd908d6b73f91d04602455020c6f657",
+        "1280": "223d9aa22407de61abfb1afe69793a011c3defd757ec6e028e74e737cd5c92dc",
+        "social": "9536da4bd3d8681f3b4ed5cc092147983eb820af427cfa0f4f87552c92e01dbb"
+      }
     }
   ],
   "assignments": {
@@ -3838,6 +3998,11 @@
     "blog-journal-the-implications-of-digital-leadership-for-productivity-innovation-and.html": "commons-95f2cb2783cac9",
     "blog-journal-transformational-leadership-and-innovative-work-behavior-a-comparison.html": "commons-90a0d6ff934f33",
     "blog-journal-the-effect-of-performance-appraisal-on-the-work-performance-of-employees.html": "commons-b698233b04a1ff",
-    "blog-journal-commentary-a-practical-response-to-the-challenge-of-genai-implementation.html": "commons-371175bb394dcf"
+    "blog-journal-commentary-a-practical-response-to-the-challenge-of-genai-implementation.html": "commons-371175bb394dcf",
+    "blog-journal-socialne-zodpovedne-vedenie-a-ekologicke-spravanie-zamestnancov.html": "pexels-26806048",
+    "blog-journal-implementacia-genai-v-malych-podnikoch-prakticky-pohlad.html": "pexels-9301305",
+    "blog-journal-integracia-islamskych-principov-do-dodavatelskych-retazcov-pohlad-na-halal.html": "pexels-27207632",
+    "blog-journal-generativna-ai-a-transformacia-profesionalnej-identity-zamestnancov.html": "pexels-7658251",
+    "blog-journal-harmonizacia-standardov-a-esg-novy-pohlad-na-udrzatelnost-firiem.html": "pexels-7821554"
   }
 }

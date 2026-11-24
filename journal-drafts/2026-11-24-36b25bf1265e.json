@@ -22,10 +22,6 @@
   "source": "Crossref REST API",
   "content_kind": "bibliographic overview, not scientific analysis",
   "drafted_at": "2026-11-24",
-  "scientific_review_status": "needs_editorial_review",
-  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
-  "image_id": "commons-371175bb394dcf",
-  "image_status": "licensed_catalog_assignment_pending_editorial_relevance_check",
   "editorial": {
     "status": "automated_abstract_editorial",
     "generated_by": "gemini_from_abstract",
@@ -143,5 +139,14 @@
         "access": "abstract"
       }
     ]
-  }
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "06b56130fd9ecf93e54b39f7364a0e45ac95ee5e5091039b58cbd8b04c2bc94c",
+  "image_id": "pexels-9301305",
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-24",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-implementacia-genai-v-malych-podnikoch-prakticky-pohlad.html",
+    "https://www.webu.sk/blog-journal-implementacia-genai-v-malych-podnikoch-prakticky-pohlad-en.html"
+  ]
 }
