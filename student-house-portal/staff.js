@@ -95,17 +95,37 @@ export async function renderStaffScreen(ctx) {
  const cw=correctionLang[ctx.lang]||correctionLang.sk;
  w.correction_requested=cw.state;
  if (!allowed) {ctx.root.replaceChildren(el('p','danger',w.noAccess));return;}
+ const questionnaireMode=ctx.section==='residents'&&ctx.questionnaireMode===true;
+ const questionnaireWords=({
+ sk:['Všetky dotazníky','Čakajú na kontrolu','Schválené','Vrátené na opravu','Neodoslané','Otvoriť dotazník'],
+ en:['All questionnaires','Awaiting review','Approved','Returned for correction','Not submitted','Open questionnaire'],
+ ru:['Все анкеты','Ожидают проверки','Одобрены','Возвращены на исправление','Не отправлены','Открыть анкету'],
+ uk:['Усі анкети','Очікують перевірки','Схвалені','Повернені на виправлення','Не надіслані','Відкрити анкету']
+ })[ctx.lang]||['Všetky dotazníky','Čakajú na kontrolu','Schválené','Vrátené na opravu','Neodoslané','Otvoriť dotazník'];
  const refresh = button(w.refresh, () => ctx.refresh());
  ctx.root.append(refresh, ctx.notice);
  const filters = el('div','staff-filters');
  const search = el('input'); search.type='search';search.placeholder=w.search;search.setAttribute('aria-label',w.search);
  const select = el('select');select.setAttribute('aria-label',ctx.section==='residents'?w.state:w.allRegistrations);
- const options=ctx.section==='residents'?[['all',w.all],['active',w.active],['inactive',w.inactive]]:[['pending',w.pending],['correction_requested',cw.state],['invited',w.invited],['rejected',w.rejected],['all',w.allRegistrations]];
+ const options=questionnaireMode?['all','pending','approved','returned','missing'].map((key,i)=>[key,questionnaireWords[i]]):ctx.section==='residents'?[['all',w.all],['active',w.active],['inactive',w.inactive]]:[['pending',w.pending],['correction_requested',cw.state],['invited',w.invited],['rejected',w.rejected],['all',w.allRegistrations]];
  for(const [value,label] of options){const o=el('option','',label);o.value=value;select.append(o);}
  const count=el('p','muted');count.setAttribute('aria-live','polite');
  filters.append(search,select);ctx.root.append(filters,count,el('p','small',w.limit));
  const results=el('div','staff-directory');ctx.root.append(results);
  const records=await ctx.list(ctx.section==='residents'?'residents':'registration_requests');
+ const questionnaireStatus=new Map();
+ if(questionnaireMode){
+  const [enquiries,reviews]=await Promise.all([ctx.list('resident_enquiries'),ctx.list('resident_enquiry_reviews')]);
+  const byResident=new Map(enquiries.map(x=>[x.resident_id,x]));
+  const reviewByResident=new Map(reviews.map(x=>[x.resident_id,x]));
+  for(const person of records){
+   const enquiry=byResident.get(person.id),review=reviewByResident.get(person.id);
+   const submitted=Date.parse(String(enquiry?.student_submitted_at||''));
+   const corrected=submitted>Date.parse(String(review?.requested_at||''));
+   questionnaireStatus.set(person.id,!Number.isFinite(submitted)?'missing':!review||corrected?'pending':review.review_status==='approved'?'approved':'returned');
+  }
+  select.value='pending';
+ }
  // Photos remain in the private tenant bucket. Only staff may request short-lived
  // signed URLs; no image bytes or permanent storage URLs are stored in the list.
  let privatePhotos=[];
@@ -203,7 +223,7 @@ export async function renderStaffScreen(ctx) {
  let pendingAction=false;
  const paint=()=>{
   if(pendingAction)return;
-  const filtered=ctx.section==='residents'?filterResidents(records,search.value,select.value):filterRegistrations(records,search.value,select.value);
+  const filtered=questionnaireMode?filterResidents(records,search.value,'all').filter(p=>select.value==='all'||questionnaireStatus.get(p.id)===select.value):ctx.section==='residents'?filterResidents(records,search.value,select.value):filterRegistrations(records,search.value,select.value);
   count.textContent=w.count+': '+filtered.length+' / '+records.length;results.replaceChildren();
   if(!filtered.length){results.append(el('p','empty-message',w.empty));return;}
   for(const person of filtered){
@@ -212,7 +232,11 @@ export async function renderStaffScreen(ctx) {
    if(ctx.section==='residents')card.append(residentPhotoView(person,true));
    card.append(el('h4','',name),el('p','muted',person.email),el('p','',w.room+': '+(person.verified_room_number||person.room_number||w.noRoom)));
    card.append(el('span','status-pill',ctx.section==='residents'?(person.active?w.activeOne:w.inactiveOne):state(person.status)));
-   if(ctx.section==='residents')card.append(button(w.open,()=>{void profile(person);}));
+   if(questionnaireMode){
+    const stateKey=questionnaireStatus.get(person.id);
+    card.append(el('p','status-pill',questionnaireWords[['all','pending','approved','returned','missing'].indexOf(stateKey)]));
+    card.append(button(questionnaireWords[5],()=>{void profile(person);}));
+   }else if(ctx.section==='residents')card.append(button(w.open,()=>{void profile(person);}));
    else{
     const details=el('dl','identity-fields');details.append(field(w.contract,person.contract_number||'Pridelí recepcia'),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.registered,ctx.day(person.created_at)));card.append(details);
     const q=registeredQuestionnaires.find(x=>x.registration_id===person.id);
@@ -500,7 +524,7 @@ export async function renderStaffScreen(ctx) {
    ru:{months:'Срок проживания',monthWord:'месяцев',roomType:'Тип назначенной комнаты'},
    uk:{months:'Тривалість проживання',monthWord:'місяців',roomType:'Тип призначеної кімнати'}
   })[ctx.lang]||{months:'Dĺžka pobytu',monthWord:'mesiacov',roomType:'Typ pridelenej izby'};
-  filters.hidden=true;count.hidden=true;results.className='staff-profile';results.replaceChildren(button(w.back,()=>{filters.hidden=false;count.hidden=false;results.className='staff-directory';paint();}));
+  filters.hidden=true;count.hidden=true;results.className='staff-profile';results.replaceChildren(button(w.back,()=>{if(questionnaireMode){ctx.refresh();return;}filters.hidden=false;count.hidden=false;results.className='staff-directory';paint();}));
   results.append(el('h3','',person.full_name));
   results.append(residentPhotoView(person,false));
   const details=el('dl','identity-fields');
@@ -569,6 +593,7 @@ export async function renderStaffScreen(ctx) {
   const enquiryBox=el('section','data-card');
   enquiryBox.append(el('h4','section-subtitle',enquiryTitle));
   results.append(enquiryBox);
+  if(questionnaireMode)enquiryBox.scrollIntoView?.({block:'start',behavior:'auto'});
   try{
    const {data:enquiry,error:enquiryError}=await ctx.db.from('resident_enquiries').select('*')
      .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle();
