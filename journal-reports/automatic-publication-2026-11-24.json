@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-24",
+  "automatically_published": [],
+  "published_this_run": [],
+  "held_due_to_missing_review_or_gates": 5,
+  "publication_errors": [
+    {
+      "id": "2026-11-24-2f1ce8032f8f",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    },
+    {
+      "id": "2026-11-24-36b25bf1265e",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    },
+    {
+      "id": "2026-11-24-5e5c7f23bed3",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    },
+    {
+      "id": "2026-11-24-6e4c731709aa",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    },
+    {
+      "id": "2026-11-24-745a93123cd8",
+      "reason": "f not photo:raise ValueError('needs_image: no unused, relevant licensed photograph from Pexels/Commons')\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: needs_image: no unused, relevant licensed photograph from Pexels/Commons\n"
+    }
+  ],
+  "mode": "transparent_abstract_editorials"
+}

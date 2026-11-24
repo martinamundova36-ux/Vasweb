@@ -216,3 +216,5 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-90a0d6ff934f33: [Shixart1985](https://commons.wikimedia.org/wiki/File:Feeling_discomfort_at_home_while_working_on_a_laptop_during_the_day.jpg), licencia [CC BY 2.0](https://creativecommons.org/licenses/by/2.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-b698233b04a1ff: [Basile Morin](https://commons.wikimedia.org/wiki/File:Reception_hall_with_reflecting_floor_and_chandelier_at_The_Fullerton_Bay_Hotel_Singapore.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-371175bb394dcf: [LA2](https://commons.wikimedia.org/wiki/File:East_Sweden_Game_kontorsinteri%C3%B6r_20170907_1.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.

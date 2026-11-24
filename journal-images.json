@@ -3696,6 +3696,38 @@
         "1280": "9aaa9509d530ce26b695fe84aa2a09bffe3a67f92d9ef857bd286ad31639c9bc",
         "social": "0bf31d48e716b5c704c73ebaa436dd3266b096996f61f9335ef9230db6043d6a"
       }
+    },
+    {
+      "id": "commons-371175bb394dcf",
+      "provider": "Wikimedia Commons",
+      "provider_id": "62258142",
+      "source_page": "https://commons.wikimedia.org/wiki/File:East_Sweden_Game_kontorsinteri%C3%B6r_20170907_1.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/East_Sweden_Game_kontorsinteri%C3%B6r_20170907_1.jpg/1920px-East_Sweden_Game_kontorsinteri%C3%B6r_20170907_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "LA2",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-24",
+      "original_sha256": "0c29073496d01e70aa5d37e46caec5062d925d0cba50c76cbeaa9e8434d6dd63",
+      "topics": [
+        "business"
+      ],
+      "alt": {
+        "sk": "Moderné kancelárske pracovisko",
+        "en": "Modern office workspace"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-371175bb394dcf-640.webp",
+        "1280": "/assets/journal/commons-371175bb394dcf-1280.webp",
+        "social": "/assets/journal/commons-371175bb394dcf-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "49376f007d48e605863128cd93067bd4b2b19cb5e6d219db78571b71bfd0321c",
+        "1280": "5d8de70a94669ff73b1493c9dd8f1f55bc3ff3e19c51be68a81ef192e30d7439",
+        "social": "987c7ca37d9f40a1aa0ceef32caaff0d7aeee6573e8a92305c62efc1f81ec2d4"
+      }
     }
   ],
   "assignments": {
@@ -3805,6 +3837,7 @@
     "blog-journal-psychological-safety-work-related-flow-and-employee-innovation-a-person.html": "commons-4ae6f939d1f685",
     "blog-journal-the-implications-of-digital-leadership-for-productivity-innovation-and.html": "commons-95f2cb2783cac9",
     "blog-journal-transformational-leadership-and-innovative-work-behavior-a-comparison.html": "commons-90a0d6ff934f33",
-    "blog-journal-the-effect-of-performance-appraisal-on-the-work-performance-of-employees.html": "commons-b698233b04a1ff"
+    "blog-journal-the-effect-of-performance-appraisal-on-the-work-performance-of-employees.html": "commons-b698233b04a1ff",
+    "blog-journal-commentary-a-practical-response-to-the-challenge-of-genai-implementation.html": "commons-371175bb394dcf"
   }
 }
