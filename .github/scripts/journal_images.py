@@ -29,13 +29,19 @@ def validate_photo(photo,root=ROOT):
  for name in photo['files'].values():
   if not name.startswith('/assets/journal/') or not (root/name.lstrip('/')).is_file():raise ValueError('Local image missing: '+name)
 
-# Four source-matched real editorial photographs, individually checked on Pexels.
+# Source-matched real editorial photographs, individually checked on Pexels.
 # A photo is used once, with its original page/creator and license retained.
 CURATED_PEXELS={
  '10.60027/jelr.2026.e2985':('8190815','a-group-of-people-having-a-meeting-in-the-office','Kampus Production','workplace','Tím odborníkov diskutuje pri digitálnej prezentácii','Professionals discuss a digital presentation in an office'),
  '10.35816/jiksh.v15i2.426':('6129145','nurses-smiling-at-each-other','RDNE Stock project','workplace','Zdravotnícky tím spolupracuje v nemocničnom prostredí','Healthcare colleagues work together in a hospital'),
  '10.55041/ijcope.v2i11.025':('27857668','a-display-of-vegetables-in-a-grocery-store','Chixpix','retail','Čerstvé potraviny vystavené v predajni','Fresh food on display in a grocery store'),
  '10.55041/ijcope.v2i11.030':('7857559','female-business-partners-preparing-parcels','Kampus Production','retail','Príprava balíkov pre internetový obchod','Packing parcels for an online store'),
+ # 24 November 2026: distinct source-checked Pexels photographs for the five prepared SK/EN articles.
+ '10.1108/ijoes-01-2026-0007':('26806048','female-coworkers-discussing-solar-energy-in-an-office','Angela Chacón','workplace','Kolegyne diskutujú o solárnej energii v kancelárii','Coworkers discussing solar energy in an office'),
+ '10.1108/jsibr-07-2026-0019':('9301305','businesspeople-working-with-a-laptop','Mikhail Nilov','business','Dvaja kolegovia spolupracujú pri notebooku','Two colleagues collaborating at a laptop'),
+ '10.1108/jima-07-2026-0576':('27207632','a-herd-of-cows-standing-in-a-field','Mark Stebnicki','business','Hovädzí dobytok na pastvine; ilustračná fotografia živočíšnej výroby, nie certifikácie halal','Cattle grazing in a pasture; illustrative livestock photograph, not evidence of halal certification'),
+ '10.30737/risk.v7i2.8268':('7658251','people-working-in-office','Pavel Danilyuk','workplace','Zamestnanci spolupracujú v kancelárii s digitálnou technikou','Employees collaborating with digital technology in an office'),
+ '10.1108/jcefts-04-2026-0039':('7821554','papers-on-the-table','RDNE Stock project','business','Finančné dokumenty a výkazy na pracovnom stole','Financial documents and reports on a work desk'),
 }
 
 def acquire_curated_pexels_photo(source,data,root=ROOT):
