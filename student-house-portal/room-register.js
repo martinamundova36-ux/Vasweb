@@ -132,6 +132,57 @@ export async function renderExcelRegister(ctx){
  if(!ctx.isCurrent())return;
  const root=el('section','room-register');
 
+ const payWords=({sk:['Zaplatené','✓ Zaplatené','Potvrdiť prijatú úhradu','Dátum prijatia','Spôsob platby','Bankový prevod','Hotovosť','Doklad / referencia platby','Potvrdiť','Zrušiť','Úhrada nebola uložená. Obnov údaje a over, či už nebola zaevidovaná.','Doplniť predpis','Overená suma nájomného','Splatnosť podľa zmluvy','Zadaj iba skutočne prijatú úhradu podľa výpisu alebo pokladničného dokladu.','Uložiť predpis','Predpis nie je úhrada.','Čiastočná úhrada','Suma prijatej úhrady'],
+ en:['Mark paid','✓ Paid','Confirm received payment','Date received','Payment method','Bank transfer','Cash','Receipt / payment reference','Confirm','Cancel','Payment not saved. Refresh and check whether it was already recorded.','Add charge','Verified rent amount','Contract due date','Record only money actually received according to the statement or receipt.','Save charge','A charge is not a receipt.','Partial payment','Amount received'],
+ ru:['Оплачено','✓ Оплачено','Подтвердить полученный платёж','Дата получения','Способ оплаты','Банковский перевод','Наличные','Документ / номер платежа','Подтвердить','Отмена','Платёж не сохранён. Обновите данные и проверьте запись.','Добавить начисление','Проверенная сумма аренды','Срок по договору','Записывайте только фактически полученные платежи.','Сохранить начисление','Начисление не является оплатой.','Частичная оплата','Полученная сумма'],
+ uk:['Сплачено','✓ Сплачено','Підтвердити отриманий платіж','Дата отримання','Спосіб оплати','Банківський переказ','Готівка','Документ / номер платежу','Підтвердити','Скасувати','Платіж не збережено. Оновіть дані та перевірте запис.','Додати нарахування','Перевірена сума оренди','Термін за договором','Вносьте лише фактично отримані платежі.','Зберегти нарахування','Нарахування не є оплатою.','Часткова оплата','Отримана сума']})[ctx.lang]||[];
+ function paymentDialog(entry,selected,period,missing=false,partial=false){
+  if(!ctx.isCurrent()||!entry.person)return;
+  const relevant=selected.map(c=>({charge:c,remaining:chargeBalance(c,allocations,reversals).remaining})).filter(c=>c.remaining>0);
+  const total=relevant.reduce((a,b)=>a+b.remaining,0);
+  if(!missing&&!total)return;
+  const modal=el('dialog');modal.style.cssText='max-width:min(460px,92vw);width:100%;border:1px solid #cfdaea;border-radius:16px;padding:22px;color:#142b4d';
+  const form=el('form');const label=(caption,control)=>{const l=el('label','',caption);l.append(control);return l;};
+  const amount=el('input'),received=el('input'),method=el('select'),reference=el('input'),status=el('p','danger');
+  amount.type='number';amount.required=true;amount.min='0.01';amount.step='0.01';amount.value=missing?String(entry.stay?.rent??''):String(total/100);
+  if(!missing){amount.max=String(total/100);amount.readOnly=!partial;}
+  received.type='date';received.required=true;if(!missing){received.value=localDate();received.max=localDate();}
+  reference.required=true;reference.minLength=2;reference.maxLength=100;
+  for(const [value,text] of [['bank',payWords[5]],['cash',payWords[6]]]){const o=el('option','',text);o.value=value;method.append(o);}
+  const submit=el('button','',missing?payWords[15]:payWords[8]);submit.type='submit';
+  const cancel=button(payWords[9],()=>modal.close());
+  form.append(el('h3','',missing?payWords[11]:payWords[2]),el('p','',entry.person.full_name+' · '+period),el('p','muted',missing?payWords[16]:payWords[14]),label(missing?payWords[12]:payWords[18],amount),label(missing?payWords[13]:payWords[3],received));
+  if(!missing)form.append(label(payWords[4],method),label(payWords[7],reference));
+  form.append(submit,cancel,status);modal.append(form);document.body.append(modal);modal.addEventListener('close',()=>modal.remove(),{once:true});
+  form.onsubmit=async e=>{
+   e.preventDefault();if(submit.disabled||!ctx.isCurrent()||!form.reportValidity())return;
+   submit.disabled=true;cancel.disabled=true;
+   try{
+    if(missing){
+     const {data,error}=await ctx.db.functions.invoke('residence-finance',{body:{action:'charge',tenant_id:ctx.tenant,resident_id:entry.person.id,period,amount:amount.value,due_on:received.value}});
+     if(error||!data?.ok)throw Error('charge');
+    }else{
+     const amountCents=cents(amount.value);if(amountCents<=0||amountCents>total||received.value>localDate())throw Error('amount');
+     let left=amountCents;const targets=[];for(const r of relevant){const n=Math.min(left,r.remaining);if(n>0)targets.push({charge_id:r.charge.id,amount:n/100});left-=n;}
+     const {data,error}=await ctx.db.rpc('record_payment',{p_tenant:ctx.tenant,p_resident:entry.person.id,p_amount:amountCents/100,p_received:received.value,p_method:method.value,p_reference:reference.value.trim(),p_allocations:targets});
+     if(error||!data)throw Error('payment');
+    }
+    modal.close();if(ctx.isCurrent())ctx.refresh();
+   }catch{status.textContent=missing?w.saveError:payWords[10];submit.disabled=false;cancel.disabled=false;}
+  };modal.showModal();
+ }
+ function paymentActions(td,entry,selected,period,missing=false){
+  if(!entry.person)return;
+  if(missing){const add=button(payWords[11],e=>{e.stopPropagation();paymentDialog(entry,[],period,true);});add.style.cssText='display:block;font-size:11px;padding:5px;margin-top:6px;white-space:normal';td.append(add);return;}
+  if(!selected.length)return;
+  const remaining=selected.reduce((n,c)=>n+chargeBalance(c,allocations,reversals).remaining,0);
+  if(remaining<=0){td.append(el('span','month-status-label',payWords[1]));return;}
+  const add=button(payWords[0],e=>{e.stopPropagation();paymentDialog(entry,selected,period);});add.style.cssText='display:block;font-size:11px;padding:6px;margin-top:6px;background:#176346;color:white;white-space:normal';
+  const part=button(payWords[17],e=>{e.stopPropagation();paymentDialog(entry,selected,period,false,true);});part.style.cssText='display:block;font-size:10px;padding:4px;margin-top:3px;white-space:normal';
+  td.append(add,part);
+ }
+
+
  const title=el('h3','',w.title),intro=el('p','muted',w.desc);
  const counter=el('p','room-register-count',w.known+': '+rooms.length+' / '+EXPECTED_ROOMS+' · '+w.beds+': '+rooms.reduce((total,r)=>total+(Number(r.capacity)||0),0)+(rooms.length<EXPECTED_ROOMS?' · '+w.missingCount+': '+(EXPECTED_ROOMS-rooms.length):''));
  const controls=el('div','room-register-controls');
@@ -415,6 +466,9 @@ export async function renderExcelRegister(ctx){
     detail.append(pair(headings[i],record.values[i]));
    }
    card.append(detail);
+   const payments=el('details','register-mobile-details');payments.append(el('summary','',payWords[2]));
+   for(const [i,state] of record.sum.entries()){if(state.kind==='none')continue;const period=String(selectedYear())+'-'+String(i+1).padStart(2,'0'),p=el('div','register-mobile-pair');p.append(el('span','',period+' · '+w[state.kind]),el('span','',formatMoney(state.remaining/100,ctx.lang)));paymentActions(p,entry,charges.filter(c=>c.resident_id===entry.person.id&&c.period===period&&c.kind==='rent'),period,state.kind==='missing');payments.append(p);}
+   const initial=String(entry.stay?.starts_on||entry.person.accommodation_from||'').slice(0,7);for(const [kind,label] of [['deposit',w.deposit],['administration_fee',w.administration]]){const p=el('div','register-mobile-pair');p.append(el('span','',label));paymentActions(p,entry,charges.filter(c=>c.resident_id===entry.person.id&&c.period===initial&&c.kind===kind),initial);payments.append(p);}card.append(payments);
    const action=el('div','register-mobile-action');
    action.append(button(w.edit,()=>openEditor(action,entry)));
    if(ctx.openResidents)action.append(button(w.open,ctx.openResidents));
@@ -443,7 +497,12 @@ export async function renderExcelRegister(ctx){
    const email=cell(entry.person?.email||'—');email.classList.add('register-email');tr.append(email,cell(q.telephone||'—'));
    tr.append(cell(entry.person?.verified_contract_number||'—'),cell(formatDate(entry.stay?.starts_on||entry.person?.accommodation_from,ctx.lang)),cell(formatDate(entry.stay?.ends_on||entry.person?.accommodation_to,ctx.lang)),cell(formatDate(entry.detail?.actual_arrival_on,ctx.lang)));
    tr.append(cell(entry.detail?.room_code?w.masked:'—'),cell(fee(entry,'deposit_eur')),cell(fee(entry,'refrigerator_fee_eur')),cell(fee(entry,'verification_fee_eur')),cell(fee(entry,'administration_fee_eur')));
-   for(const state of sum)tr.append(monthCell(state,ctx.lang,w));
+   for(const [i,state] of sum.entries()){
+    const td=monthCell(state,ctx.lang,w),period=String(selectedYear())+'-'+String(i+1).padStart(2,'0');
+    if(entry.person&&state.kind!=='none')paymentActions(td,entry,charges.filter(c=>c.resident_id===entry.person.id&&c.period===period&&c.kind==='rent'),period,state.kind==='missing');
+    tr.append(td);
+   }
+   if(entry.person){const initial=String(entry.stay?.starts_on||entry.person.accommodation_from||'').slice(0,7);for(const [index,kind] of [[15,'deposit'],[18,'administration_fee']])paymentActions(tr.cells[index],entry,charges.filter(c=>c.resident_id===entry.person.id&&c.period===initial&&c.kind===kind),initial);}
    tr.append(cell(charged?formatMoney(charged/100,ctx.lang)+' / '+formatMoney(paid/100,ctx.lang):'—','register-total'));
    record.extras.forEach((field,index)=>{
     tr.append(cell(field,index===record.extras.length-1?'register-completeness':''));
@@ -453,6 +512,7 @@ export async function renderExcelRegister(ctx){
    else if(entry.person){action.append(button(w.edit,()=>openEditor(action,entry)));if(ctx.openResidents)action.append(button(w.open,ctx.openResidents));}
    else action.append(el('span','muted','—'));
    if(!group.placeholder&&editsAvailable)Array.from(tr.cells).forEach((td,index)=>{
+    if((index>=19&&index<31)||[15,18,31].includes(index))return; // Payment cells reflect ledger only, never manual text or color.
     const item=cellEdits.get(cellKey(record,index));
     td.classList.add('editable-register-cell');td.tabIndex=0;
     if(item?.cell_text!=null)td.textContent=item.cell_text;
