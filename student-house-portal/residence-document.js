@@ -50,7 +50,7 @@ export function mapPdfField(name, allowedFields) {
  return allowedFields.find(field=>[field,labels[field]].some(alias=>normalize(alias)===key));
 }
 // Original bilingual Student House contract: fields repeat across SK/EN and the annex.
-export async function fillOriginalStudentHouseContract({attachment,data,charges,person,slug='ubytovacia-zmluva'}){
+export async function fillOriginalStudentHouseContract({attachment,data,charges,plans=[],items=[],person,slug='ubytovacia-zmluva'}){
  const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
  const pdf=await PDFDocument.load(attachment),form=pdf.getForm();
  const names=String(data.student_name||'').trim().split(/\s+/);
@@ -80,7 +80,7 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
   values[prefix+'_supply']=date(c.due_on);values[prefix+'_due']=date(c.due_on);values[prefix+'_vat']='0%';values[prefix+'_purpose']='Splátka nájmu / Rent payment';
  }
  const available=new Set(form.getFields().map(f=>f.getName().split('__')[0]));
- if(!required.every(k=>available.has(k))||!available.has('rent_12_due')||!available.has('admin_fee_total'))throw Error('Nahraná predloha nie je pôvodná vyplniteľná zmluva Student House.');
+ if(!required.every(k=>available.has(k))||pdf.getPageCount()!==10||!available.has('rent_12_due')||!available.has('admin_fee_total'))throw Error('Nahraná predloha nie je pôvodná vyplniteľná zmluva Student House.');
  const filled=[];
  for(const field of form.getFields()){
   if(!(field instanceof PDFTextField))continue;
@@ -94,6 +94,27 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
  if(!fontResponse.ok)throw Error('Písmo zmluvy sa nepodarilo načítať.');
  const font=await pdf.embedFont(await fontResponse.arrayBuffer(),{subset:true});
  for(const field of filled){field.setFontSize(0);field.updateAppearances(font);}
+ // Preserve pages 1–7 of the signed-contract layout; page 8 is blank, pages 9–10 are the old annex.
+ // Build the new annex from the verified charges, not from the example student's figures.
+ const scheduleCharges=[admin[0],deposit[0],...rentRows.map(rows=>rows[0])];
+ const schedule=scheduleCharges.flatMap(ch=>{
+  const agreed=plans.filter(p=>p.charge_id===ch.id);
+  if(agreed.length>1)throw Error('Viacero splátkových dohôd k rovnakému predpisu.');
+  if(!agreed.length)return [{...ch,initial:ch.period===from}];
+  const parts=items.filter(i=>i.plan_id===agreed[0].id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
+  if(!parts.length||parts.some(i=>!Number.isFinite(Number(i.amount))||Number(i.amount)<=0)||Math.round(parts.reduce((sum,i)=>sum+Number(i.amount),0)*100)!==Math.round(Number(ch.amount)*100))throw Error('Splátková dohoda sa nezhoduje s predpisom.');
+  return parts.map(i=>({...ch,amount:i.amount,due_on:i.due_on,initial:false}));
+ });
+ const {contractScheduleDocument}=await import('./installment-document.js?v=20261125-contract-annex1');
+ const annex=await contractScheduleDocument({...data,first_name:values.first_name,last_name:values.last_name},schedule);
+ // Remove annex form fields before dropping its pages, to avoid dangling PDF widgets.
+ for(const field of [...form.getFields()]){
+  const n=field.getName();
+  if(/^(rent_|admin_fee_|deposit_(base|total))/.test(n)||/__(3|4|5|6)$/.test(n))form.removeField(field);
+ }
+ for(let i=pdf.getPageCount()-1;i>=7;i--)pdf.removePage(i);
+ const annexPdf=await PDFDocument.load(await annex.arrayBuffer());
+ for(const page of await pdf.copyPages(annexPdf,annexPdf.getPageIndices()))pdf.addPage(page);
  return new File([await pdf.save({updateFieldAppearances:false})],slug+'.pdf',{type:'application/pdf'});
 }
 export async function workingDocument({kind,title,slug,data,attachment}) {
