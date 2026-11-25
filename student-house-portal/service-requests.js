@@ -35,6 +35,20 @@ const calendarCopy={
  uk:{title:'Календар прибирання',day:'Оберіть день',time:'Вільний час',none:'На цей день немає вільного часу.',prev:'Попередній місяць',next:'Наступний місяць',today:'Сьогодні',price:'Прибирання кімнати · 30 €',help:'Оберіть день і час. Рецепція підтвердить запис.',staffHelp:'Оберіть день і години та опублікуйте запис для студентів.',start:'З',end:'До',bookings:'Записи',all:'Усі записи',occupied:'Зайнято',closed:'Закрито',conflict:'Не вдалося зберегти. Перевірте час і перетини.',unavailable:'Час може бути зайнятий. Оновіть календар та оберіть інший.',refresh:'Оновити календар',week:['Пн','Вт','Ср','Чт','Пт','Сб','Нд']}
 };
 const calWords=lang=>calendarCopy[lang]||calendarCopy.en;
+const SH_TENANT='ae045243-98f0-4f22-a736-d33a92f9ba61';
+const shTariffCopy={
+ sk:['Upratovanie kúpeľne','Bežné upratovanie (izba + kúpeľňa)','Hĺbkové upratovanie, vyklepávanie kobercov a umývanie okien','Cenník doplnkových služieb','Všetky ceny vrátane 23 % DPH','Prenájom väčšej chladničky','Prenájom vysávača','Prenájom žehličky','Predaj tovaru','Prikrývka 140 × 200 cm','Vankúš 90 × 70 cm','mesiac / izba','hodina','kus','izba','Vyber druh upratovania','O ostatné služby a tovar požiadaj na recepcii.'],
+ en:['Regular bathroom cleaning','Regular cleaning (room + bathroom)','Deep cleaning, carpet beating and window washing','Extra services price list','All prices include 23% VAT','Rent of larger fridge','Rent of vacuum cleaner','Rent of iron','Goods for sale','Quilt 140 × 200 cm','Pillow 90 × 70 cm','month / room','hour','piece','room','Choose cleaning type','Contact reception for other services and goods.'],
+ ru:['Обычная уборка ванной','Обычная уборка (комната + ванная)','Глубокая уборка, выбивание ковров и мытьё окон','Цены дополнительных услуг','Все цены включают НДС 23%','Аренда большого холодильника','Аренда пылесоса','Аренда утюга','Товары для продажи','Одеяло 140 × 200 см','Подушка 90 × 70 см','месяц / комната','час','штука','комната','Выберите вид уборки','За другими услугами и товарами обращайтесь на ресепшен.'],
+ uk:['Звичайне прибирання ванної','Звичайне прибирання (кімната + ванна)','Глибоке прибирання, вибивання килимів і миття вікон','Ціни додаткових послуг','Усі ціни включають ПДВ 23%','Оренда більшого холодильника','Оренда пилососа','Оренда праски','Товари на продаж','Ковдра 140 × 200 см','Подушка 90 × 70 см','місяць / кімната','година','штука','кімната','Оберіть вид прибирання','За іншими послугами й товарами звертайтеся на рецепцію.']
+};
+const cleaningTariffs=Object.freeze({bathroom:30,standard:60,deep:100});
+function renderExtrasTariff(root,copy){
+ const panel=element('details',undefined,'staff-form');panel.append(element('summary',copy[3]),element('p',copy[4],'muted'));
+ for(const [label,amount,unit] of [[copy[0],30,copy[14]],[copy[1],60,copy[14]],[copy[2],100,copy[14]],[copy[5],10,copy[11]],[copy[6],1,copy[12]],[copy[7],1,copy[12]]])panel.append(element('p',label+' · '+amount+' € / '+unit));
+ panel.append(element('h4',copy[8]),element('p',copy[9]+' · 33 € / '+copy[13]),element('p',copy[10]+' · 30 € / '+copy[13]),element('p',copy[16],'muted'));root.append(panel);
+}
+
 const dayOf=value=>bratislavaLocalDateTime(value).slice(0,10);
 const hourOf=value=>bratislavaLocalDateTime(value).slice(11,16);
 const isoDay=d=>d.toISOString().slice(0,10);
@@ -74,7 +88,7 @@ export async function renderServiceRequests(ctx){
  const uploadPhoto=async(id,file)=>{if(!validPhoto(file))throw Error('invalid_photo');const body=new FormData();body.append('action','upload');body.append('tenant_id',tenant);body.append('kind','fault_photo');body.append('request_id',id);body.append('file',file);const {data,error}=await db.functions.invoke('residence-files',{body});if(error||!data?.ok)throw Error('photo_failed');};
  const cleaning=ctx.cleaning,t=serviceWords(lang),table=cleaning?'cleaning_bookings':'service_requests';
  if(!isCurrent())return;root.replaceChildren();
- const cal=calWords(lang);root.append(element('h3',cleaning?cal.title:t.requests),element('p',cleaning?(staff?cal.staffHelp:cal.help):t.help,'muted'));if(cleaning)root.append(element('strong',cal.price));
+ const cal=calWords(lang),sh=tenant===SH_TENANT,copy=shTariffCopy[lang]||shTariffCopy.en;const tariffs=sh?cleaningTariffs:{standard:30};const types=sh?{bathroom:copy[0],standard:copy[1],deep:copy[2]}:{standard:t.types.standard};root.append(element('h3',cleaning?cal.title:t.requests),element('p',cleaning?(staff?cal.staffHelp:cal.help):t.help,'muted'));if(cleaning){if(sh)renderExtrasTariff(root,copy);else root.append(element('strong',cal.price));}
  const filter=staff?undefined:{resident_id:resident?.id||'00000000-0000-0000-0000-000000000000'};
  let slots=[];
  if(cleaning){const {data,error}=await db.rpc('residence_cleaning_availability',{p_tenant:tenant});if(error){root.append(element('p',t.loadFailed,'danger'));const retry=button(cal.refresh,'button');retry.onclick=refresh;root.append(retry);return;}slots=data||[];}
@@ -99,7 +113,7 @@ export async function renderServiceRequests(ctx){
   if(!cleaning&&record.urgent)card.append(element('strong',t.urgent));
   if(cleaning){
    detail(card,t.date,ctx.day(record.preferred_date));const booked=allSlots.find(s=>s.id===record.slot_id);detail(card,t.window,booked?hourOf(booked.starts_at)+' – '+hourOf(booked.ends_at):record.scheduled_at?dateTime(record.scheduled_at):t.windows[record.preferred_window]||record.preferred_window);
-   detail(card,t.type,t.types[record.cleaning_type]||t.types.standard);
+   detail(card,t.type,types[record.cleaning_type]||t.types[record.cleaning_type]||record.cleaning_type);
    detail(card,t.notes,record.notes);detail(card,t.scheduled,record.scheduled_at?dateTime(record.scheduled_at):null);
    detail(card,t.price,record.price_eur===null?null:ctx.money(record.price_eur));
   }else detail(card,t.description,record.description);
@@ -112,7 +126,7 @@ export async function renderServiceRequests(ctx){
    form.append(field(t.status,status),field(t.public,publicNote));
    let price,time;
    if(cleaning){
-    price=input('number');price.readOnly=true;price.value=record.price_eur??30;
+    price=input('number');price.readOnly=true;price.value=record.price_eur??'';
     // A date/time chosen at reception is explicitly interpreted as Bratislava local time.
     const choices=slotOptions(record.slot_id);const current=allSlots.find(s=>s.id===record.slot_id);if(current&&!choices[current.id])choices[current.id]=dateTime(current.starts_at)+' – '+hourOf(current.ends_at);time=select(choices,record.slot_id||'');
     form.append(field(t.price,price),field(t.scheduled,time));
@@ -172,18 +186,18 @@ export async function renderServiceRequests(ctx){
  detail(form,t.room,resident.verified_room_number||t.unassigned);
  let subject,description,category,urgent,date,windowSelect,note,cleaningType,slotSelect,faultPhoto;
  if(cleaning){
-  note=textArea('',1500);cleaningType={value:'standard'};slotSelect={value:''};
+  note=textArea('',1500);cleaningType=select(Object.fromEntries([['',sh?copy[15]:cw.choose],...Object.entries(types).map(([key,label])=>[key,label+' · '+tariffs[key]+' €'+(sh?' / '+copy[14]:'')])]),'');cleaningType.required=true;slotSelect={value:''};
   const hours=element('div');hours.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin:8px 0';
   const timeHeading=element('strong',cal.time);const selection=element('p','','muted');
   function showHours(day){
    slotSelect.value='';selection.textContent=day;hours.replaceChildren();
    const available=slots.filter(s=>s.remaining>0&&dayOf(s.starts_at)===day);
    if(!available.length)hours.append(element('p',cal.none,'muted'));
-   for(const s of available){const b=button(hourOf(s.starts_at)+' – '+hourOf(s.ends_at),'button');b.className='btn-secondary';b.setAttribute('aria-pressed','false');b.onclick=()=>{slotSelect.value=s.id;selection.textContent=day+' · '+b.textContent;for(const n of hours.querySelectorAll('button')){n.setAttribute('aria-pressed',String(n===b));n.style.outline=n===b?'2px solid #142b4d':'';}form.querySelector('button[type=submit]').disabled=false;};hours.append(b);}
+   for(const s of available){const b=button(hourOf(s.starts_at)+' – '+hourOf(s.ends_at),'button');b.className='btn-secondary';b.setAttribute('aria-pressed','false');b.onclick=()=>{slotSelect.value=s.id;selection.textContent=day+' · '+b.textContent;for(const n of hours.querySelectorAll('button')){n.setAttribute('aria-pressed',String(n===b));n.style.outline=n===b?'2px solid #142b4d':'';}form.querySelector('button[type=submit]').disabled=!cleaningType.value;};hours.append(b);}
    const submit=form.querySelector('button[type=submit]');if(submit)submit.disabled=true;
   }
   const calendar=cleaningCalendar(ctx,slots,showHours);
-  form.append(calendar.panel,timeHeading,hours,selection,field(t.notes,note));showHours(calendar.day);
+  form.append(field(t.type,cleaningType),calendar.panel,timeHeading,hours,selection,field(t.notes,note));cleaningType.onchange=()=>{const submit=form.querySelector('button[type=submit]');if(submit)submit.disabled=!cleaningType.value||!slotSelect.value;};showHours(calendar.day);
  }else{
   subject=input('text',true);subject.minLength=3;subject.maxLength=160;description=textArea('',4000);description.required=true;
   category=select(t.categories,'maintenance');urgent=input('checkbox');
@@ -196,7 +210,7 @@ export async function renderServiceRequests(ctx){
    const chosenPhoto=faultPhoto?.files?.[0];if(!validPhoto(chosenPhoto))throw Error('invalid_photo');
    const selectedSlot=cleaning?slots.find(s=>s.id===slotSelect.value):null;
    if(cleaning&&!selectedSlot)throw Error('slot_required');
-   const payload=cleaning?{slot_id:selectedSlot.id,preferred_date:bratislavaLocalDateTime(selectedSlot.starts_at).slice(0,10),preferred_window:'anytime',cleaning_type:cleaningType.value,notes:note.value.trim(),status:'requested',price_eur:30,staff_note:''}:{subject:subject.value.trim(),description:description.value.trim(),category:category.value,urgent:urgent.checked,status:'new',staff_note:''};
+   const payload=cleaning?{slot_id:selectedSlot.id,preferred_date:bratislavaLocalDateTime(selectedSlot.starts_at).slice(0,10),preferred_window:'anytime',cleaning_type:cleaningType.value,notes:note.value.trim(),status:'requested',price_eur:tariffs[cleaningType.value],staff_note:''}:{subject:subject.value.trim(),description:description.value.trim(),category:category.value,urgent:urgent.checked,status:'new',staff_note:''};
    const {data,error}=await db.from(table).insert({...payload,tenant_id:tenant,resident_id:resident.id}).select('id');
    if(error||!data?.length)throw Error('save_failed');if(chosenPhoto){try{await uploadPhoto(data[0].id,chosenPhoto);}catch{alert(pw.failed);}}if(isCurrent()){report(t.success);refresh();}
   }catch{report(cleaning?cal.unavailable:t.failed,true);submit.disabled=false;}
