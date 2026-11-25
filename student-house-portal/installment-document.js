@@ -84,8 +84,14 @@ export async function contractScheduleDocument(data,items){
     while((match=re.exec(line))){const start=match.index+match[0].indexOf(match[1]);if(match[1].trim()!=='—')ranges.push([start,start+match[1].length]);}
     if(line.startsWith('Izba /')&&line.includes('|'))ranges.push([line.indexOf('|')+1,line.length]);
    }
-   for(const [start,end] of ranges){const startX=x+c.measureText(line.slice(0,start)).width*scale;c.fillStyle='#fff099';c.fillRect(startX,y-size*.88,c.measureText(line.slice(start,end)).width*scale,size*1.08);}
-   c.fillStyle='#152d4d';c.fillText(line,x,y,max);
+   const cuts=[...new Set([0,line.length,...ranges.flat()])].sort((a,b)=>a-b);
+   const segments=cuts.slice(0,-1).map((start,i)=>({value:line.slice(start,cuts[i+1]),emphasis:ranges.some(([a,b])=>start>=a&&start<b)}));
+   const fontFor=part=>(bold||part.emphasis?'bold ':'')+size+'px SHContractSerif';
+   const width=segments.reduce((sum,part)=>{c.font=fontFor(part);return sum+c.measureText(part.value).width;},0);
+   const fit=Math.min(1,max/Math.max(1,width));
+   c.save();c.translate(x,y);c.scale(fit,1);let pos=0;
+   for(const part of segments){c.font=fontFor(part);c.fillStyle=part.emphasis?'#000000':'#152d4d';c.fillText(part.value,pos,0);pos+=c.measureText(part.value).width;}
+   c.restore();
   };
   const wrapped=(s,x,y,width,size=19,highlight=false)=>{c.font=size+'px SHContractSerif';const words=val(s).split(/\s+/);let line='';for(const word of words){if(line&&c.measureText(line+' '+word).width>width){text(line,x,y,size,false,width,highlight);y+=25;line='';}line+=(line?' ':'')+word;}text(line,x,y,size,false,width,highlight);return y+28;};
   c.drawImage(logo,55,30,360,360*logo.height/logo.width);
