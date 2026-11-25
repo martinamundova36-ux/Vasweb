@@ -72,8 +72,10 @@ export function buildStudentHouseSchedule(data,charges,plans=[],items=[],residen
   if(!agreed.length)return [{...ch,description:label,initial:ch.period===from}];
   const parts=items.filter(i=>i.plan_id===agreed[0].id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
   if(!parts.length||parts.some(i=>!Number.isFinite(Number(i.amount))||Number(i.amount)<=0)||Math.round(parts.reduce((sum,i)=>sum+Number(i.amount),0)*100)!==Math.round(Number(ch.amount)*100))throw Error('Splátková dohoda sa nezhoduje s predpisom.');
-  return parts.map(i=>({...ch,amount:i.amount,due_on:i.due_on,description:label+' · dohodnutá splatnosť',initial:false}));
- }).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||['administration_fee','deposit','rent'].indexOf(a.kind)-['administration_fee','deposit','rent'].indexOf(b.kind));
+  const byDate=new Map();
+  for(const i of parts){if(!/^\d{4}-\d{2}-\d{2}$/.test(String(i.due_on)))throw Error('Neplatný dátum dohodnutej splátky.');byDate.set(i.due_on,(byDate.get(i.due_on)||0)+Math.round(Number(i.amount)*100));}
+  return [...byDate].map(([due_on,cents])=>({...ch,amount:cents/100,due_on,description:label+' · dohodnutá splatnosť',initial:false}));
+ }).sort((a,b)=>Number(b.initial===true)-Number(a.initial===true)||String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||['administration_fee','deposit','rent'].indexOf(a.kind)-['administration_fee','deposit','rent'].indexOf(b.kind));
 }
 /** Original contract annex, using the same PAY by square encoder and branding as the standalone calendar. */
 export async function contractScheduleDocument(data,items){
