@@ -88,7 +88,7 @@ export async function renderServiceRequests(ctx){
  const uploadPhoto=async(id,file)=>{if(!validPhoto(file))throw Error('invalid_photo');const body=new FormData();body.append('action','upload');body.append('tenant_id',tenant);body.append('kind','fault_photo');body.append('request_id',id);body.append('file',file);const {data,error}=await db.functions.invoke('residence-files',{body});if(error||!data?.ok)throw Error('photo_failed');};
  const cleaning=ctx.cleaning,t=serviceWords(lang),table=cleaning?'cleaning_bookings':'service_requests';
  if(!isCurrent())return;root.replaceChildren();
- const cal=calWords(lang),sh=tenant===SH_TENANT,copy=shTariffCopy[lang]||shTariffCopy.en;const tariffs=sh?cleaningTariffs:{standard:30};const types=sh?{bathroom:copy[0],standard:copy[1],deep:copy[2]}:{standard:t.types.standard};root.append(element('h3',cleaning?cal.title:t.requests),element('p',cleaning?(staff?cal.staffHelp:cal.help):t.help,'muted'));if(cleaning){if(sh)renderExtrasTariff(root,copy);else root.append(element('strong',cal.price));}
+ const cal=calWords(lang),sh=tenant===SH_TENANT,copy=shTariffCopy[lang]||shTariffCopy.en;const tariffs=sh?cleaningTariffs:{standard:30};const types=sh?{bathroom:copy[0],standard:copy[1],deep:copy[2]}:{standard:t.types.standard};root.append(element('h3',cleaning?(staff?({sk:'Objednávky upratovania',en:'Cleaning orders',ru:'Заказы на уборку',uk:'Замовлення прибирання'})[lang]:cal.title):t.requests),element('p',cleaning?(staff?({sk:'Prehľad objednávok študentov a ich spracovanie.',en:'Review and process student bookings.',ru:'Просмотр и обработка заказов студентов.',uk:'Перегляд та обробка замовлень студентів.'})[lang]:cal.help):t.help,'muted'));if(cleaning){if(sh)renderExtrasTariff(root,copy);else root.append(element('strong',cal.price));}
  const filter=staff?undefined:{resident_id:resident?.id||'00000000-0000-0000-0000-000000000000'};
  let slots=[];
  if(cleaning){const {data,error}=await db.rpc('residence_cleaning_availability',{p_tenant:tenant});if(error){root.append(element('p',t.loadFailed,'danger'));const retry=button(cal.refresh,'button');retry.onclick=refresh;root.append(retry);return;}slots=data||[];}
@@ -100,11 +100,23 @@ export async function renderServiceRequests(ctx){
  const name=id=>people.find(p=>p.id===id)?.full_name||'';
  const notice=element('p');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');root.append(notice);
  const report=(message,bad=false)=>{if(!isCurrent())return;notice.textContent=message;notice.style.color=bad?'#a32c30':'';};
- let allSlots=slots;if(cleaning&&staff){allSlots=await ctx.list('cleaning_slots');await renderSlotManager({ctx,root,cw,t,report,records,slots:allSlots,people});}
- if(cleaning&&!slots.some(s=>s.remaining>0))root.append(element('p',cw.empty,'muted'));
- if(!records.length)root.append(element('p',t.empty,'muted'));
- for(const record of records.sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))){
-  const card=element('article',undefined,'file-item');
+ let allSlots=slots;
+ const orderWords=({sk:['Objednávky upratovania','Nové objednávky','Potvrdené','Vykonané','Nastavenie dostupných termínov','Moje objednávky','Zatiaľ žiadne objednávky upratovania.','Všetky','Čakajúce','Ostatné'],en:['Cleaning orders','New orders','Confirmed','Completed','Manage availability','My bookings','No cleaning orders yet.','All','Pending','Other'],ru:['Заказы на уборку','Новые заказы','Подтверждённые','Выполненные','Настройка доступного времени','Мои заказы','Заказов пока нет.','Все','Ожидающие','Другие'],uk:['Замовлення прибирання','Нові замовлення','Підтверджені','Виконані','Налаштування доступного часу','Мої замовлення','Замовлень поки немає.','Усі','Очікують','Інші']})[lang];
+ const orderHost=element('section'),orderList=element('div');let settings=null;
+ if(cleaning&&staff){
+  allSlots=await ctx.list('cleaning_slots');if(!isCurrent())return;
+  const kpis=element('div');kpis.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:16px 0';
+  const groups=[['requested',1],['approved',2],['completed',3]];
+  for(const [status,i] of groups){const n=records.filter(r=>r.status===status).length;const tile=element('div',undefined,'file-item');tile.style.cssText='padding:14px;background:'+(status==='requested'&&n?'#fff0ed':'#f3f7fb')+';border:1px solid '+(status==='requested'&&n?'#d73c35':'#d4e0ed')+';border-radius:12px';const count=element('strong',n);count.style.cssText='display:block;font-size:30px;color:'+(status==='requested'&&n?'#b42318':'#142b4d');tile.append(element('span',orderWords[i]),count);kpis.append(tile);}
+  root.append(kpis);orderHost.append(element('h4',orderWords[0]));
+  const filter=select({all:orderWords[7],pending:orderWords[8],approved:orderWords[2],completed:orderWords[3],other:orderWords[9]},'all');filter.setAttribute('aria-label',orderWords[0]);filter.onchange=()=>{for(const card of orderList.children){const s=card.dataset.orderStatus;card.hidden=filter.value!=='all'&&(filter.value==='pending'?['requested','proposed'].indexOf(s)<0:filter.value==='other'?['rejected','cancelled'].indexOf(s)<0:s!==filter.value);}};orderHost.append(filter);
+  settings=element('details');settings.append(element('summary',orderWords[4]));
+ }else if(cleaning){orderHost.append(element('h4',orderWords[5]));}
+ if(cleaning){orderHost.append(orderList);if(staff)root.append(orderHost);}
+ if(cleaning&&!staff&&!slots.some(s=>s.remaining>0))root.append(element('p',cw.empty,'muted'));
+ if(!records.length)(cleaning?orderList:root).append(element('p',cleaning?orderWords[6]:t.empty,'muted'));
+ for(const record of records.sort((a,b)=>(cleaning&&staff?Number(b.status==='requested')-Number(a.status==='requested'):0)||String(b.created_at).localeCompare(String(a.created_at)))){
+  const card=element('article',undefined,'file-item');if(cleaning){card.dataset.orderStatus=record.status;if(staff&&record.status==='requested'){card.style.cssText='border:2px solid #d73c35;background:#fff9f8';const flag=element('strong',orderWords[1].toUpperCase());flag.style.color='#b42318';card.append(flag);}}
   card.append(element('h4',cleaning?t.cleaning:record.subject));
   if(staff)detail(card,'',name(record.resident_id));
   detail(card,t.reference,record.id);detail(card,t.room,room(record.resident_id));
@@ -179,8 +191,9 @@ export async function renderServiceRequests(ctx){
     }catch{report(t.failed,true);send.disabled=false;}
    });history.append(messageForm);card.append(history);
   }
-  root.append(card);
+  (cleaning?orderList:root).append(card);
  }
+ if(cleaning&&staff){await renderSlotManager({ctx,root:settings,cw,t,report,records,slots:allSlots,people});root.append(settings);}
  if(staff||!resident)return;
  const form=element('form',undefined,'staff-form');form.append(element('h4',cleaning?t.cleaning:t.new));
  detail(form,t.room,resident.verified_room_number||t.unassigned);
@@ -193,7 +206,7 @@ export async function renderServiceRequests(ctx){
    slotSelect.value='';selection.textContent=day;hours.replaceChildren();
    const available=slots.filter(s=>s.remaining>0&&dayOf(s.starts_at)===day);
    if(!available.length)hours.append(element('p',cal.none,'muted'));
-   for(const s of available){const b=button(hourOf(s.starts_at)+' – '+hourOf(s.ends_at),'button');b.className='btn-secondary';b.setAttribute('aria-pressed','false');b.onclick=()=>{slotSelect.value=s.id;selection.textContent=day+' · '+b.textContent;for(const n of hours.querySelectorAll('button')){n.setAttribute('aria-pressed',String(n===b));n.style.outline=n===b?'2px solid #142b4d':'';}form.querySelector('button[type=submit]').disabled=!cleaningType.value;};hours.append(b);}
+   for(const s of available){const b=button(hourOf(s.starts_at)+' – '+hourOf(s.ends_at),'button');b.className='btn-secondary';b.setAttribute('aria-pressed','false');b.onclick=()=>{form.dataset.liveDirty='true';slotSelect.value=s.id;selection.textContent=day+' · '+b.textContent;for(const n of hours.querySelectorAll('button')){n.setAttribute('aria-pressed',String(n===b));n.style.outline=n===b?'2px solid #142b4d':'';}form.querySelector('button[type=submit]').disabled=!cleaningType.value;};hours.append(b);}
    const submit=form.querySelector('button[type=submit]');if(submit)submit.disabled=true;
   }
   const calendar=cleaningCalendar(ctx,slots,showHours);
@@ -214,7 +227,7 @@ export async function renderServiceRequests(ctx){
    const {data,error}=await db.from(table).insert({...payload,tenant_id:tenant,resident_id:resident.id}).select('id');
    if(error||!data?.length)throw Error('save_failed');if(chosenPhoto){try{await uploadPhoto(data[0].id,chosenPhoto);}catch{alert(pw.failed);}}if(isCurrent()){report(t.success);refresh();}
   }catch{report(cleaning?cal.unavailable:t.failed,true);submit.disabled=false;}
- });root.append(form);
+ });root.append(form);if(cleaning)root.append(orderHost);
 }
 
 export function bratislavaLocalDateTime(value){
