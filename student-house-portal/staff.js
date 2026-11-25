@@ -64,10 +64,49 @@ export async function failureCode(error, data) {
 }
 
 const archiveCopy={
- sk:{open:'Vymazať študenta',title:'Archivovať študenta',warning:'Archivácia vypne prístup študenta a uvoľní jeho miesto v evidencii izieb. Zmluvy, platby a história sa uchovajú. Trvalé vymazanie podlieha samostatnému schváleniu.',adminRequired:'Archiváciu môže potvrdiť iba správca. Prihláste sa účtom správcu.',cancel:'Zrušiť',confirm:'Potvrdiť archiváciu',archived:'Archivovaný',failed:'Archivácia zlyhala. Overte oprávnenia a obnovte prehľad.'},
- en:{open:'Delete student',title:'Archive student',warning:'Archiving removes student access and releases their place in the room register. Agreements, payments and history are retained. Permanent deletion requires separate approval.',adminRequired:'Only an administrator can confirm archiving. Sign in with an administrator account.',cancel:'Cancel',confirm:'Confirm archive',archived:'Archived',failed:'Archiving failed. Check permissions and refresh the list.'},
- ru:{open:'Удалить студента',title:'Архивировать студента',warning:'Архивация отключит доступ студента и освободит его место в реестре комнат. Договоры, платежи и история сохранятся. Окончательное удаление требует отдельного согласования.',adminRequired:'Подтвердить архивацию может только администратор. Войдите через аккаунт администратора.',cancel:'Отмена',confirm:'Подтвердить архивацию',archived:'В архиве',failed:'Не удалось архивировать. Проверьте права доступа и обновите список.'},
- uk:{open:'Видалити студента',title:'Архівувати студента',warning:'Архівування вимкне доступ студента та звільнить його місце в реєстрі кімнат. Договори, платежі й історія збережуться. Остаточне видалення потребує окремого погодження.',adminRequired:'Підтвердити архівування може лише адміністратор. Увійдіть з обліковим записом адміністратора.',cancel:'Скасувати',confirm:'Підтвердити архівування',archived:'В архіві',failed:'Не вдалося архівувати. Перевірте права доступу й оновіть список.'}
+ sk:{cancel:'Zrušiť',archived:'Archivovaný'},
+ en:{cancel:'Cancel',archived:'Archived'},
+ ru:{cancel:'Отмена',archived:'В архиве'},
+ uk:{cancel:'Скасувати',archived:'В архіві'}
+};
+
+const purgeCopy = {
+ "sk": [
+  "Trvalo vymazať študenta",
+  "Touto operáciou trvalo odstránite schválený testovací profil a jeho evidenciu. Na potvrdenie napíšte DELETE.",
+  "Potvrdiť trvalé vymazanie",
+  "Chýba platné schválenie vymazania po zálohe.",
+  "Najprv musí oprávnená osoba dokončiť zálohu a odstránenie súborov.",
+  "Študent bol trvalo vymazaný.",
+  "Trvalé vymazanie sa nepodarilo alebo je účet chránený."
+ ],
+ "en": [
+  "Permanently delete student",
+  "This permanently removes an approved test profile and its records. Type DELETE to continue.",
+  "Confirm permanent deletion",
+  "A valid deletion approval after backup is required.",
+  "An authorized operator must finish backing up and removing the files first.",
+  "Student permanently deleted.",
+  "Permanent deletion failed or the account is protected."
+ ],
+ "ru": [
+  "Удалить студента навсегда",
+  "Тестовый профиль и его записи будут удалены навсегда. Для подтверждения введите DELETE.",
+  "Подтвердить окончательное удаление",
+  "Требуется действующее разрешение после резервного копирования.",
+  "Уполномоченный сотрудник должен завершить резервное копирование и удаление файлов.",
+  "Студент удалён навсегда.",
+  "Удаление не удалось или аккаунт защищён."
+ ],
+ "uk": [
+  "Видалити студента назавжди",
+  "Тестовий профіль і його записи буде видалено назавжди. Для підтвердження введіть DELETE.",
+  "Підтвердити остаточне видалення",
+  "Потрібне чинне погодження після резервного копіювання.",
+  "Уповноважений працівник має завершити резервне копіювання й видалення файлів.",
+  "Студента видалено назавжди.",
+  "Видалення не вдалося або обліковий запис захищено."
+ ]
 };
 
 export async function renderStaffScreen(ctx) {
@@ -95,47 +134,59 @@ export async function renderStaffScreen(ctx) {
  const {words:w,el,button,field,state,status,allowed} = ui(ctx);
 
  const archive=archiveCopy[ctx.lang]||archiveCopy.sk;
- function confirmArchive(person){
-  if(!ctx.isCurrent())return;
+ const [purgeLabel,purgeWarning,purgeConfirm,approvalRequired,storagePending,purgeSuccess,purgeError]=purgeCopy[ctx.lang]||purgeCopy.sk;
+ function confirmPurge(person){
+  if(!ctx.isCurrent()||ctx.role!=='org_admin')return;
   const dialog=el('dialog','staff-archive-dialog');
-  const title=el('h3','',archive.title);
-  title.id='staff-archive-title';
+  const title=el('h3','',purgeLabel);
+  title.id='staff-purge-title';
   dialog.setAttribute('aria-labelledby',title.id);
   const details=el('dl','identity-fields');
   details.append(field(w.room,person.verified_room_number),field(w.contract,person.verified_contract_number));
-  const canArchive=ctx.role==='org_admin';
+  const code=el('input');
+  code.type='text';
+  code.autocomplete='off';
+  code.spellcheck=false;
+  const label=el('label','','DELETE');
+  label.append(code);
   const failure=inlineError();
   const cancel=button(archive.cancel,()=>dialog.close());
   cancel.autofocus=true;
-  const confirm=button(archive.confirm,async()=>{
+  const submit=button(purgeConfirm,async()=>{
+   if(!ctx.isCurrent()||code.value.trim()!=='DELETE'||pendingAction)return;
    pendingAction=true;
-   const reset=busyButton(confirm,[confirm,cancel]);
+   const reset=busyButton(submit,[submit,cancel]);
+   code.disabled=true;
    failure.textContent='';
-   let archivedAt;
+   let removed=false;
    try{
-    const {data,error}=await ctx.db.rpc('archive_residence_student',{p_tenant:ctx.tenant,p_resident:person.id});
-    if(error||!data)throw Error('archive_failed');
-    archivedAt=data;
+    const {data,error}=await ctx.db.rpc('purge_approved_test_student',{
+     p_tenant:ctx.tenant,p_resident:person.id,p_confirmation:code.value.trim()
+    });
+    removed=!error&&data==='deleted';
+    if(!removed)failure.textContent=data==='approval_required'?approvalRequired:data==='storage_pending'?storagePending:purgeError;
    }catch{
-    failure.textContent=archive.failed;
+    failure.textContent=purgeError;
    }finally{
     pendingAction=false;
+    code.disabled=false;
     reset();
    }
-   if(archivedAt){
-    person.archived_at=archivedAt;
-    person.active=false;
+   if(removed){
     dialog.close();
     if(ctx.isCurrent()){
+     const index=records.indexOf(person);
+     if(index>=0)records.splice(index,1);
      paint();
-     ctx.notice.replaceChildren(receipt(archive.archived+' · '+person.full_name));
+     ctx.notice.replaceChildren(receipt(purgeSuccess));
     }
    }
   },'staff-archive-danger');
+  submit.disabled=true;
+  code.addEventListener('input',()=>{submit.disabled=code.value.trim()!=='DELETE';});
   dialog.addEventListener('cancel',event=>{if(pendingAction)event.preventDefault();});
   dialog.addEventListener('close',()=>dialog.remove(),{once:true});
-  dialog.append(title,el('p','',person.full_name),details,el('p','',canArchive?archive.warning:archive.adminRequired),failure,cancel);
-  if(canArchive)dialog.append(confirm);
+  dialog.append(title,el('p','',person.full_name),details,el('p','',purgeWarning),label,failure,cancel,submit);
   ctx.root.append(dialog);
   dialog.showModal();
  }
@@ -292,8 +343,8 @@ export async function renderStaffScreen(ctx) {
     card.append(button(questionnaireWords[5],()=>{void profile(person);}));
    }else if(ctx.section==='residents'){
     card.append(button(w.open,()=>{void profile(person);}));
-    if(!person.archived_at){
-     const remove=button(archive.open,()=>confirmArchive(person),'staff-archive-danger');
+    if(ctx.role==='org_admin'){
+     const remove=button(purgeLabel,()=>confirmPurge(person),'staff-archive-danger');
      const icon=el('span','','🗑 ');
      icon.setAttribute('aria-hidden','true');
      remove.prepend(icon);
