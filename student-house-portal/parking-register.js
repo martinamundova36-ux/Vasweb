@@ -172,7 +172,13 @@ const billingWords={
 };
 
 function invoiceDraft(root,labels,data,lang,provider) {
- const [,,,,,title,customer,plate,period,,print,close,caption]=labels;
+ const [,,,,,,customer,plate,period,,,close]=labels;
+ const [title,print,addressHint,documentNote]=({
+  sk:['Faktúra za parkovanie','Tlačiť faktúru','Ulica, číslo, PSČ, mesto a krajina','Číslo prevzaté z účtovníctva'],
+  en:['Parking invoice','Print invoice','Street, number, postal code, city and country','Invoice number from accounting'],
+  ru:['Счёт за парковку','Печать счёта','Улица, дом, индекс, город и страна','Номер из бухгалтерии'],
+  uk:['Рахунок за паркування','Друк рахунку','Вулиця, номер, індекс, місто та країна','Номер із бухгалтерії']
+ })[lang]||['Faktúra za parkovanie','Tlačiť faktúru','Ulica, číslo, PSČ, mesto a krajina','Číslo prevzaté z účtovníctva'];
  const [supplier,address,number,issued,delivered,due,months,unit,net,vat,total,reference,service]=billingWords[lang]||billingWords.sk;
  const supplierLines=[provider.name,provider.address,'IČO '+provider.companyId+' · DIČ '+provider.taxId+' · IČ DPH '+provider.vatId,provider.register,provider.bank,'SWIFT/BIC '+provider.bic];
  const dialog=element('dialog');
@@ -181,8 +187,9 @@ function invoiceDraft(root,labels,data,lang,provider) {
  const fields=new Map();
  for(const [label,value,type,required] of [
   [customer,data.name,'text',true],[address,'','text',true],[plate,data.plate,'text',false],
-  [period,data.period,'text',true],[number,'','text',false],[issued,'','date',false],
-  [delivered,'','date',false],[due,'','date',false],[months,1,'number',true],
+  [period,/^\d{4}$/.test(data.period||'')?'':data.period,'text',true],
+  [number,'','text',true],[issued,'','date',true],[delivered,'','date',true],[due,'','date',true],
+  ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,1,'number',true],
   ['IBAN',provider.iban,'text',false],[reference,'','text',false]
  ]){
   const field=element('label',label);
@@ -191,6 +198,15 @@ function invoiceDraft(root,labels,data,lang,provider) {
   input.value=value??'';
   input.required=required;
   if(label==='IBAN')input.readOnly=true;
+  if(type==='text'){
+   input.maxLength=label===address?240:120;
+   if(required)input.pattern='.*\\S.*';
+  }
+  if(label===address){
+   input.placeholder=addressHint;
+   input.pattern='.*[\\p{L}].*';
+  }
+  if(label===number)input.placeholder=documentNote;
   if(type==='number'){input.min='1';input.max='120';input.step='1';}
   fields.set(label,input);
   field.append(input);
@@ -229,16 +245,18 @@ function invoiceDraft(root,labels,data,lang,provider) {
    parent.append(node);
    return node;
   };
-  add('style','body{font:15px system-ui,sans-serif;color:#142b4d;max-width:760px;margin:40px auto;padding:24px} h1{margin-bottom:4px} h2{font-size:16px;margin:26px 0 8px} p{margin:6px 0} dl{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px} dd{margin:0} .total{font-size:1.25em;font-weight:700;border-top:1px solid;padding-top:10px}',doc.head);
+  add('style','@page{size:A4;margin:16mm} body{font:11pt system-ui,sans-serif;color:#142b4d;max-width:760px;margin:12px auto;padding:8px;overflow-wrap:anywhere} h1{font-size:22pt;margin:0 0 5px} h2{font-size:13pt;margin:18px 0 6px} p{margin:4px 0} dl{display:grid;grid-template-columns:38% 1fr;gap:5px 10px;margin:8px 0 14px} dd{margin:0} .total{font-size:1.22em;font-weight:700;border-top:1px solid;padding-top:8px} @media print{body{margin:0;padding:0}}',doc.head);
   add('h1',title);
-  add('p',caption);
+  add('p',number+' '+fields.get(number).value.trim());
   add('h2',supplier);
   for(const line of supplierLines)add('p',line);
   add('h2',service+' · Tomášikova 34');
   const details=add('dl','');
   for(const [label,input] of fields){
+   if(label===number||!input.value.trim())continue;
    add('dt',label,details);
-   add('dd',input.value||'—',details);
+   const value=input.type==='date'?input.value.split('-').reverse().join('.'):input.value.trim();
+   add('dd',value,details);
   }
   add('p',unit+' '+money.format(50));
   for(const [label,value] of amounts())add('p',label+' '+value).className=label===total?'total':'';
