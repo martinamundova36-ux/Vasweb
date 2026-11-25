@@ -371,7 +371,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
  <p class="muted" id="step2PreviewHelp">Po schválení registrácie otvor odkaz z e-mailu. Údaje sa automaticky prepoja s tvojím študentským profilom a recepciou.</p>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><small style="display:block;color:#d4e2f3;font-size:11px;margin:4px 0">v2026.11.25.8</small><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><small style="display:block;color:#d4e2f3;font-size:11px;margin:4px 0">v2026.11.25.9</small><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
 </main></div></div>
 <footer class="studenthouse-brand-credit">Created by <a href="https://www.webu.sk/" target="_blank" rel="noopener noreferrer">WEBU</a></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
@@ -1063,13 +1063,15 @@ function templateCard(tenant,files,kind,title,staff){
    gdpr_template:['gdpr_template','gdpr'],certificate_template:['certificate_draft','potvrdenie-o-ubytovani'],
    deposit_template:['deposit_template','ziadost-o-vratenie-depozitu']
   }[kind];
-  if(working){
+  if(kind==='contract_template'&&tenant==='ae045243-98f0-4f22-a736-d33a92f9ba61'){
+   card.append(make('p','small',latest?'Používa sa nahraná originálna dvojjazyčná predloha.':'Nahraj originálnu vyplniteľnú zmluvu Student House. Pracovný vzor sa nepoužíva.'));
+  }else if(working){
    const preview=make('button','btn-secondary','Pripraviť pracovnú predlohu PDF');preview.type='button';
    const status=make('p','small');status.setAttribute('role','status');
    preview.onclick=async()=>{
     preview.disabled=true;status.textContent='';
     try{
-     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=20261125-provider1');
+     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=20261125-original-contract1');
      let attachment;
      if(kind==='rules_template'&&latest){
       const url=await fileLink(latest.id,tenant,true);
@@ -1281,7 +1283,7 @@ async function renderResidentDocuments(tenant,staff,own){
   const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
-  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261125-provider1'),list('residents')]);
+  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261125-original-contract1'),list('residents')]);
   const [saving,,,,,approved,returned,scheduleApproved,saveError]=reviewCopy[lang]||reviewCopy.en;
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
@@ -1406,15 +1408,16 @@ async function renderResidentDocuments(tenant,staff,own){
      input.oninput=()=>{prepared=null;};fields.set(key,input);card.append(labeled(label,input));
     }
     const preview=make('div','small');
-    const official=make('input');official.type='checkbox';official.disabled=!shared||workingKind==='rules_template';
+    const originalContract=workingKind==='contract_draft'&&isStudentHouse(tenant);
+    const official=make('input');official.type='checkbox';official.disabled=originalContract||!shared||workingKind==='rules_template';official.checked=!!shared&&originalContract;
     official.onchange=()=>{prepared=null;preview.replaceChildren();};
-    if(shared&&workingKind!=='rules_template')card.append(labeled('Použiť uloženú predlohu s PDF poľami',official));
+    if(originalContract)card.append(make('p','small',shared?'Použije sa originálna dvojjazyčná zmluva so splátkovým kalendárom.':'Najprv nahraj originálnu vyplniteľnú predlohu v Správe dokumentov.'));else if(shared&&workingKind!=='rules_template')card.append(labeled('Použiť uloženú predlohu s PDF poľami',official));
     let previewUrl=null;
-    const prepare=make('button','btn-secondary','Otvoriť pracovný náhľad PDF');prepare.type='button';
+    const prepare=make('button','btn-secondary',originalContract?'Vygenerovať originálnu zmluvu':'Otvoriť pracovný náhľad PDF');prepare.type='button';prepare.disabled=originalContract&&!shared;
     prepare.onclick=async()=>{
      prepare.disabled=true;
      try{
-      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields}=await import('/student-house-portal/residence-document.js?v=20261125-provider1');
+      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-original-contract1');
       const [{data:answers,error},tenancies,details]=await Promise.all([
        db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number,iban,nationality,telephone,parent_contact_email,school,preferred_room_type').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle(),
        workingKind==='contract_draft'?list('tenancies',{resident_id:person.id}):[],
@@ -1437,7 +1440,11 @@ async function renderResidentDocuments(tenant,staff,own){
       const missing=missingDocumentFields(workingKind,data);
       let result;
       prepared=null;
-      if(official.checked){
+      if(originalContract){
+       if(!attachment)throw Error('Nahraj originálnu vyplniteľnú predlohu.');
+       const charges=await list('rent_charges',{resident_id:person.id});
+       result=await fillOriginalStudentHouseContract({attachment,data,charges,person,slug});prepared=result;
+      }else if(official.checked){
        if(missing.length)throw Error('Chýbajú povinné údaje: '+missing.join(', '));
        const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
        const pdf=await PDFDocument.load(attachment),form=pdf.getForm();
@@ -1461,7 +1468,7 @@ async function renderResidentDocuments(tenant,staff,own){
       const open=make('a','btn-secondary','Zobraziť PDF na kontrolu');open.href=previewUrl;open.target='_blank';open.rel='noopener';
       const download=make('a','btn-secondary',official.checked?'Stiahnuť vyplnenú predlohu':'Stiahnuť pracovný vzor');download.href=previewUrl;download.download=result.name;
       preview.replaceChildren(open,download);
-      state.textContent=missing.length?'Doplň pred schválením: '+missing.join(', '):official.checked?'Vyplnená predloha je pripravená na kontrolu.':'Pracovný vzor je pripravený na kontrolu.';
+      state.textContent=originalContract?'Originálna zmluva je vyplnená a pripravená na kontrolu recepciou.':missing.length?'Doplň pred schválením: '+missing.join(', '):official.checked?'Vyplnená predloha je pripravená na kontrolu.':'Pracovný vzor je pripravený na kontrolu.';
      }catch(error){state.textContent=error.message||'Predlohu sa nepodarilo vyplniť.';}
      finally{prepare.disabled=false;}
     };
@@ -1757,7 +1764,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents','questionnaires'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261125-provider1');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261125-original-contract1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section:section==='questionnaires'?'residents':section,questionnaireMode:section==='questionnaires',lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
