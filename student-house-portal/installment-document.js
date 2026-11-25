@@ -87,25 +87,27 @@ export async function contractScheduleDocument(data,items){
  const val=v=>String(v??'').trim()||'—';
  const total=items.reduce((n,i)=>n+Math.round(Number(i.amount)*100),0)/100;
  const fmt=v=>v?date(v):'—';
- const perPage=3;
+ const firstPageCapacity=3,continuationCapacity=5;
  const face=await new FontFace('SHContractSerif','url(https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/tinos/Tinos-Regular.ttf)').load();
  const boldFace=await new FontFace('SHContractSerif','url(https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/tinos/Tinos-Bold.ttf)',{weight:'700'}).load();
  document.fonts.add(face);document.fonts.add(boldFace);
  // Approved layout: Student_House_kalendar_tucne_UKAZKA.pdf, A4, two-column party details,
- // three payment cards per page, black bold dynamic data, no yellow highlighting.
+ // Party details only on the first page; continuation pages contain payment cards only.
  const ink='#152d4d',black='#000000',paperBlue='#eaf0f6';
  const moneyText=v=>money.format(Number(v));
  const groupDigits=(s,groups)=>{let i=0;return groups.map(n=>{const part=s.slice(i,i+n);i+=n;return part;}).join(' ');};
  const left=[provider.name,provider.address,'IČO: '+groupDigits(provider.companyId,[2,3,3])+' | DIČ: '+groupDigits(provider.taxId,[3,3,4]),'IČ DPH: '+provider.vatId,'Mestský súd Bratislava III, Sro, 71278/B',provider.representatives,provider.bank,'IBAN: '+provider.iban.match(/.{1,4}/g).join(' '),'SWIFT/BIC: '+provider.bic,'Dodanie je oslobodené od dane.'];
  const right=['Meno / First name: '+val(data.first_name),'Priezvisko / Surname: '+val(data.last_name),'Bydlisko / Address: '+val(data.address),'Dátum narodenia / DOB: '+fmt(data.birth_date),'Národnosť / Nationality: '+val(data.nationality),'OP/pas / ID/passport: '+val(data.passport_number),'Kontakt / Phone: '+val(data.telephone),'E-mail: '+val(data.email),'Kontakt rodiča: '+val(data.parent_email),'Škola / School: '+val(data.school),'IBAN ubytovaného / Guest IBAN: '+val(data.student_iban)];
- for(let offset=0;offset<items.length;offset+=perPage){
-  if(offset)pdf.addPage();
+ for(let offset=0;offset<items.length;){
+  const firstPage=offset===0,capacity=firstPage?firstPageCapacity:continuationCapacity;
+  if(!firstPage)pdf.addPage();
   const canvas=node('canvas');canvas.width=1400;canvas.height=1980;
   const c=canvas.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,1400,1980);
   const text=(s,x,y,size=19,bold=false,max=1250,color=bold?black:ink)=>{
    c.font=(bold?'bold ':'')+size+'px SHContractSerif';c.fillStyle=color;c.fillText(val(s),x,y,max);
   };
   const rounded=(x,y,w,h,r=17)=>{c.fillStyle=paperBlue;c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.quadraticCurveTo(x+w,y,x+w,y+r);c.lineTo(x+w,y+h-r);c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);c.lineTo(x+r,y+h);c.quadraticCurveTo(x,y+h,x,y+h-r);c.lineTo(x,y+r);c.quadraticCurveTo(x,y,x+r,y);c.closePath();c.fill();};
+  if(firstPage){
   text('STUDENT HOUSE Bratislava',75,81,32,true,1250,ink);
   text('Splátkový kalendár / Payment schedule',75,151,43,true,1250,ink);
   text('Zmluva č. / Contract no. '+val(data.contract_number),75,195,23,true);
@@ -117,13 +119,15 @@ export async function contractScheduleDocument(data,items){
   text('Izba / Room: '+val(data.room_type)+' · '+val(data.room_number)+'   |   '+fmt(data.accommodation_from)+' – '+fmt(data.accommodation_to),75,685,23,true);
   text('Celková suma / Total: '+moneyText(total)+'   |   VS: '+symbol,75,724,26,true);
   text('Správa pre prijímateľa / Payment note: '+val(data.student_name),75,759,20,true);
-  for(let i=offset;i<Math.min(offset+perPage,items.length);i++){
-   const it=items[i],top=793+(i-offset)*355;
+  }
+  const firstTop=firstPage?793:75;
+  for(let i=offset;i<Math.min(offset+capacity,items.length);i++){
+   const it=items[i],top=firstTop+(i-offset)*355;
    rounded(75,top,1250,337);
    const first=it.initial===true,purpose=it.kind==='deposit'?'Depozit / Deposit':it.kind==='administration_fee'?'Administratívny poplatok / Administrative fee':'Splátka nájmu / Rent payment';
    const monthDate=it.kind==='rent'?new Date(it.period+'-01T12:00:00Z'):null;
    const month=monthDate?new Intl.DateTimeFormat('sk-SK',{month:'long',year:'numeric',timeZone:'UTC'}).format(monthDate)+' / '+new Intl.DateTimeFormat('en-GB',{month:'long',year:'numeric',timeZone:'UTC'}).format(monthDate):'—';
-   text(String(i+1).padStart(2,'0')+'   '+purpose,103,top+45,24,true,920);
+   text(purpose,103,top+45,24,true,920);
    text('Za mesiac / For month: '+month,103,top+81,19,it.kind==='rent',920);
    text('Dátum dodania / Supply day:',103,top+116,19,true,920,ink);
    text(first?'Deň prijatia platby / Day of receiving payment':fmt(it.due_on),103,top+146,19,!first,920);
@@ -136,8 +140,8 @@ export async function contractScheduleDocument(data,items){
    text('PAY by square',1110,top+303,18,true,200,ink);
   }
   text('Pred potvrdením platby skontrolujte údaje. / Verify payment details before confirmation.',75,1894,18,false);
-  text('Príloha / Annex   '+(Math.floor(offset/perPage)+1)+' / '+Math.ceil(items.length/perPage),75,1929,18,false);
   pdf.addImage(canvas,'PNG',0,0,210,297,undefined,'FAST');
+  offset+=capacity;
  }
  return new File([pdf.output('blob')],'splatkovy-kalendar.pdf',{type:'application/pdf'});
 }
