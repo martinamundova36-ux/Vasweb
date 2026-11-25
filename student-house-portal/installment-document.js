@@ -134,7 +134,7 @@ export async function contractScheduleDocument(data,items){
    text(first?'Splatnosť / Due:':'Splatnosť / Due: '+fmt(it.due_on),103,top+185,21,true,920);
    if(first)text('Do 3 dní od podpisu zmluvy / Within 3 days of signing',103,top+215,21,true,920);
    text('VS: '+symbol,103,top+247,20,true,920);
-   text('Základ dane / Base: '+moneyText(it.amount)+'   |   DPH / VAT: '+(it.kind==='rent'?'0 %':'—'),103,top+275,20,true,920);
+   text('Základ dane / Base: '+moneyText(it.amount)+'   |   DPH / VAT: '+(it.kind==='rent'?'0 %':''),103,top+275,20,true,920);
    text('Celková suma / Total: '+moneyText(it.amount),103,top+313,25,true,920);
    c.imageSmoothingEnabled=false;c.drawImage(qrImages[i],1053,top+24,241,241);c.imageSmoothingEnabled=true;
    text('PAY by square',1110,top+303,18,true,200,ink);
