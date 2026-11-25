@@ -1,0 +1,67 @@
+name: WEBU Scanner - deploy isolated API
+on:
+  push:
+    branches: [webu-scanner-api]
+    paths: ['webu-scanner-api/**', '.github/workflows/webu-scanner-api.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: webu-scanner-api-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: webu-scanner-api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and URL safety tests
+        run: |
+          node --check worker.mjs
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import {publicUrl} from './worker.mjs';
+          assert.equal(publicUrl('www.peligrosa.sk').protocol, 'https:');
+          for (const s of ['http://localhost','http://127.0.0.1','http://[::1]','http://169.254.169.254','http://10.1.2.3','https://a.internal','https://a.example','https://user:pass@webu.sk','https://webu.sk:444','https://webu.sk/?x=y','https://example.workers.dev']) assert.throws(()=>publicUrl(s),s);
+          console.log('URL tests passed');
+          JS
+      - name: Check deployment credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::Missing Cloudflare deployment credentials. Set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in GitHub Actions secrets."
+            exit 1
+          fi
+      - name: Deploy standalone Worker
+        id: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -o pipefail
+          npx --yes wrangler@4.50.0 deploy --config wrangler.toml | tee /tmp/webu-worker-deploy.log
+          endpoint=$(grep -Eo 'https://webu-scanner-api\.[a-zA-Z0-9.-]+\.workers\.dev' /tmp/webu-worker-deploy.log | tail -1)
+          test -n "$endpoint"
+          echo "endpoint=$endpoint/scan" >> "$GITHUB_OUTPUT"
+          echo "WEBU scanner endpoint: $endpoint/scan" >> "$GITHUB_STEP_SUMMARY"
+      - name: Live smoke tests
+        env:
+          ENDPOINT: ${{ steps.deploy.outputs.endpoint }}
+        run: |
+          for url in https://www.peligrosa.sk/ https://www.webu.sk/; do
+            curl --fail-with-body --max-time 25 -sS "$ENDPOINT" -H 'Origin: https://www.webu.sk' -H 'Content-Type: application/json' --data "$(jq -nc --arg url "$url" '{url:$url}')" > /tmp/webu-result.json
+            jq -e '.scope == "server-html" and any(.metrics[]; .label == "HTTP stav" and .value == "200") and any(.metrics[]; .label == "SEO titulok")' /tmp/webu-result.json
+          done
+          code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "$ENDPOINT" -H 'Origin: https://www.webu.sk' -H 'Content-Type: application/json' --data '{"url":"http://127.0.0.1/"}')
+          test "$code" = 422
+          code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 15 "$ENDPOINT" -H 'Origin: https://example.org' -H 'Content-Type: application/json' --data '{"url":"https://www.webu.sk/"}')
+          test "$code" = 403
+          echo 'Live smoke tests passed.' >> "$GITHUB_STEP_SUMMARY"
