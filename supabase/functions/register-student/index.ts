@@ -59,7 +59,6 @@ Deno.serve(async(request:Request)=>{
   const first_name=asText(body.first_name,80);
   const last_name=asText(body.last_name,80);
   const email=asText(body.email,254).toLowerCase();
-  const room_number=asText(body.room_number,30);
   // Contract numbers and verified room assignments are written by reception only.
   // Ignore any attempted contract_number in public submissions.
   const accommodation_from=asText(body.accommodation_from,10);
@@ -79,13 +78,13 @@ Deno.serve(async(request:Request)=>{
    const [year,month]=accommodation_from.split('-').map(Number);
    if(year>=2000&&year<=2099)computedEnd=new Date(Date.UTC(year,month-1+duration,0)).toISOString().slice(0,10);
   }
-  if(!computedEnd||accommodation_to!==computedEnd||!isDate(arrival)||arrival<accommodation_from||arrival.slice(0,7)!==accommodation_from.slice(0,7)){
+  if(accommodation_from.slice(8)!=='01'||!computedEnd||accommodation_to!==computedEnd||!isDate(arrival)||arrival<accommodation_from||arrival.slice(0,7)!==accommodation_from.slice(0,7)){
    return safeResponse({error:'invalid_stay_dates'},400,origin);
   }
-  const genderValid=['','male','female','other'].includes(gender);
+  const genderValid=['male','female','other'].includes(gender);
   const parentValid=!parent_contact_email||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(parent_contact_email);
   if(![true,"true"].includes(body.privacy_acknowledged) || first_name.length<1 || last_name.length<1 ||
-    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !genderValid || !parentValid ||
+    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !genderValid || !parentValid || !telephone || !nationality || !school || !date_of_birth || !preferred_room_type ||
     (date_of_birth&&(!isDate(date_of_birth)||date_of_birth>new Date().toISOString().slice(0,10))) ||
     (arrival&&(!isDate(arrival)||arrival>accommodation_to)) ||
     !isDate(accommodation_from)||!isDate(accommodation_to)||accommodation_to<=accommodation_from) {
@@ -120,7 +119,7 @@ Deno.serve(async(request:Request)=>{
    }
    newUserId=account.user.id;
   }
-  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,room_number,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival,preferred_duration_months:duration}});
+  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival,preferred_duration_months:duration}});
   if(registrationError||!created?.id){
    console.error('registration_transaction_failed',registrationError?.code);
    if(newUserId){const {error:cleanupError}=await client.auth.admin.deleteUser(newUserId);if(cleanupError)console.error('registration_auth_cleanup_failed',cleanupError.code);}
