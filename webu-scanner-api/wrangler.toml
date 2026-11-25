@@ -1,0 +1,14 @@
+name = "webu-scanner-api"
+main = "worker.mjs"
+compatibility_date = "2026-11-25"
+workers_dev = true
+
+[[ratelimits]]
+name = "PER_IP"
+namespace_id = "27101"
+simple = { limit = 5, period = 60 }
+
+[[ratelimits]]
+name = "GLOBAL"
+namespace_id = "27102"
+simple = { limit = 60, period = 60 }
