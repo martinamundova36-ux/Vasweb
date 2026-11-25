@@ -173,8 +173,8 @@ const billingWords={
 };
 
 function invoiceDraft(root,labels,data,lang,provider) {
- const [,,,,,,customer,plate,period,,,close]=labels;
- const [,,,,,,contactEmail,contactPhone,,,,,contactNote]=words[lang]||words.sk;
+ const [,,,,,,customer,plate,,,,close]=labels;
+ const [,,,,,,contactEmail,contactPhone,startLabel,endLabel,,,contactNote]=words[lang]||words.sk;
  const [title,print,addressHint,documentNote]=({
   sk:['Faktúra za parkovanie','Tlačiť faktúru','Ulica, číslo, PSČ, mesto a krajina','Číslo prevzaté z účtovníctva'],
   en:['Parking invoice','Print invoice','Street, number, postal code, city and country','Invoice number from accounting'],
@@ -191,7 +191,7 @@ function invoiceDraft(root,labels,data,lang,provider) {
  for(const [label,value,type,required] of [
   [customer,data.name,'text',true],[address,'','text',true],[plate,data.plate,'text',false],
   [contactEmail,data.email,'email',false],[contactPhone,data.phone,'tel',false],
-  [period,/^\d{4}$/.test(data.period||'')?'':data.period,'text',true],
+  [startLabel,data.startOn,'date',true],[endLabel,data.endOn,'date',true],
   [number,'','text',true],[issued,today,'date',true],[delivered,'','date',true],[due,'','date',true],
   ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,data.months||1,'number',true],
   ['IBAN',provider.iban,'text',false],[reference,'','text',false],[contactNote,data.note,'textarea',false]
@@ -234,6 +234,10 @@ function invoiceDraft(root,labels,data,lang,provider) {
  });
  fields.get(reference).pattern='[0-9]{1,10}';
  fields.get(reference).maxLength=10;
+ const start=fields.get(startLabel),end=fields.get(endLabel);
+ const constrainEnd=()=>{end.min=start.value;};
+ start.addEventListener('input',constrainEnd);
+ constrainEnd();
  fields.get(months).addEventListener('input',updateTotals);
  updateTotals();
  const cancel=element('button',close);
@@ -369,7 +373,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
   ledger.replaceChildren();
   appendWorkbookGrid(ledger,matches.sort((a,b)=>a.source_row-b.source_row),copy,saveCell,[...headers.slice(0,3),actions,...headers.slice(3)],(row,record)=>actionCell(row,record,'history',()=>{
    const [customer,registration]=parkingIdentity(record.entry);
-   return {name:customer,plate:registration,period:String(record.year)};
+   return {name:customer,plate:registration};
   }));
  }
  search.addEventListener('input',paintLedger);
@@ -386,7 +390,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
    const request=ordered[index];
    return actionCell(row,request,'request',()=>({
     name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
-    period:[request.start_on,request.end_on].filter(Boolean).join(' – '),months:request.months,
+    startOn:request.start_on,endOn:request.end_on,months:request.months,
     email:request.email,phone:request.telephone,note:request.note
    }));
   });
