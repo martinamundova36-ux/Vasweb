@@ -240,13 +240,25 @@ export async function renderStaffScreen(ctx) {
    else{
     const details=el('dl','identity-fields');details.append(field(w.contract,person.contract_number||'Pridelí recepcia'),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.registered,ctx.day(person.created_at)));card.append(details);
     const q=registeredQuestionnaires.find(x=>x.registration_id===person.id);
-    if(q){
-     const box=el('details','staff-form'),summary=el('summary','',ctx.lang==='en'?'Registration questionnaire':'Údaje z registrácie'),grid=el('dl','identity-fields');
-     for(const [label,value] of [['Telefón',q.telephone],['Národnosť',q.nationality],['Pohlavie',q.gender],
-       ['Dátum narodenia',ctx.day(q.date_of_birth)],['Trvalá adresa',q.permanent_address],['Vlastná chladnička',q.own_refrigerator===true?'Áno':q.own_refrigerator===false?'Nie':'—'],
-       ['Škola',q.school],['Kontakt rodiča',q.parent_contact_email],
-       ['Typ izby – preferencia',displayRoomType(q.preferred_room_type)],['Plánovaný príchod',ctx.day(q.preferred_from)]])grid.append(field(label,value||'—'));
-     box.append(summary,grid);card.append(box);
+    {
+     const labels=({
+      sk:['Údaje z registrácie','Meno','Priezvisko','E-mail','Telefón','Štátna príslušnosť','Dátum narodenia','Pohlavie','Vysoká škola','Preferovaný typ izby / obsadenosť','Dĺžka pobytu','Začiatok pobytu','Koniec pobytu','Plánovaný príchod','GDPR – oboznámenie','Potvrdené','Nepotvrdené','Nezadané v registrácii','mesiacov','Trvalá adresa','Kontakt rodiča','Chýba pripojený záznam registračných údajov.'],
+      en:['Registration details','First name','Last name','Email','Phone','Nationality','Date of birth','Gender','University','Preferred room type / occupancy','Length of stay','Stay starts','Stay ends','Expected arrival','GDPR acknowledgement','Confirmed','Not confirmed','Not supplied at registration','months','Permanent address','Parent contact','The linked registration details are missing.'],
+      ru:['Данные регистрации','Имя','Фамилия','Электронная почта','Телефон','Гражданство','Дата рождения','Пол','Университет','Тип комнаты / размещение','Срок проживания','Начало проживания','Конец проживания','Планируемый заезд','Ознакомление с GDPR','Подтверждено','Не подтверждено','Не указано при регистрации','мес.','Постоянный адрес','Контакт родителя','Связанные данные регистрации отсутствуют.'],
+      uk:['Дані реєстрації','Ім’я','Прізвище','Електронна пошта','Телефон','Громадянство','Дата народження','Стать','Університет','Тип кімнати / розміщення','Тривалість проживання','Початок проживання','Кінець проживання','Планове прибуття','Ознайомлення з GDPR','Підтверджено','Не підтверджено','Не вказано при реєстрації','міс.','Постійна адреса','Контакт батьків','Пов’язані дані реєстрації відсутні.']
+     })[ctx.lang];
+     const box=el('section','staff-form'),grid=el('dl','identity-fields');
+     box.append(el('h4','',labels[0]));
+     if(!q)box.append(el('p','danger',labels[21]));
+     const date=value=>value?ctx.day(value):'';
+     const entries=[[1,person.first_name],[2,person.last_name],[3,person.email],[4,q?.telephone],[5,q?.nationality],
+      [6,date(q?.date_of_birth)],[7,q?.gender],[8,q?.school],[9,q?.preferred_room_type?displayRoomType(q.preferred_room_type):''],
+      [10,q?.preferred_duration_months?q.preferred_duration_months+' '+labels[18]:''],[11,date(person.accommodation_from)],[12,date(person.accommodation_to)],[13,date(q?.preferred_from)],
+      [14,person.privacy_acknowledged_at?labels[15]+' · '+date(person.privacy_acknowledged_at):labels[16]]];
+     if(q?.permanent_address)entries.push([19,q.permanent_address]);
+     if(q?.parent_contact_email)entries.push([20,q.parent_contact_email]);
+     for(const [i,value] of entries)grid.append(field(labels[i],String(value??'').trim()||labels[17]));
+     box.append(grid);card.append(box);
     }
     if(person.status==='invited'){
      card.append(receipt(registrationApproved));
