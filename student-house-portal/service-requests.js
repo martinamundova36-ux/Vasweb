@@ -27,6 +27,45 @@ const input=(type,required=false)=>{const e=element('input');e.type=type;e.requi
 const button=(label,type='submit')=>{const b=element('button',label);b.type=type;return b;};
 const detail=(root,label,value)=>{if(value!==null&&value!==undefined&&value!=='')root.append(element('p',label+': '+value,'small'));};
 
+
+const calendarCopy={
+ sk:{title:'Kalendár upratovania',day:'Vyber deň',time:'Voľné hodiny',none:'Na tento deň nie sú voľné hodiny.',prev:'Predchádzajúci mesiac',next:'Nasledujúci mesiac',today:'Dnes',price:'Upratovanie izby · 30 €',help:'Vyber deň a voľný čas. Recepcia potvrdí termín.',staffHelp:'Vyber deň, nastav hodiny a zverejni termín pre študentov.',start:'Od',end:'Do',bookings:'Rezervácie',all:'Všetky rezervácie',occupied:'Obsadené',closed:'Uzavreté',conflict:'Termín sa nepodarilo uložiť. Skontroluj hodiny a prekrývanie termínov.',unavailable:'Termín už nemusí byť voľný. Obnov kalendár a vyber iný čas.',refresh:'Obnoviť kalendár',week:['Po','Ut','St','Št','Pi','So','Ne']},
+ en:{title:'Cleaning calendar',day:'Choose a day',time:'Available times',none:'No available times on this day.',prev:'Previous month',next:'Next month',today:'Today',price:'Room cleaning · €30',help:'Choose a day and time. Reception confirms your appointment.',staffHelp:'Choose a day, set the hours and publish the appointment for students.',start:'From',end:'To',bookings:'Bookings',all:'All bookings',occupied:'Full',closed:'Closed',conflict:'Unable to save. Check the hours and overlapping appointments.',unavailable:'This time may no longer be available. Refresh and choose another time.',refresh:'Refresh calendar',week:['Mon','Tue','Wed','Thu','Fri','Sat','Sun']},
+ ru:{title:'Календарь уборки',day:'Выберите день',time:'Свободное время',none:'На этот день нет свободного времени.',prev:'Предыдущий месяц',next:'Следующий месяц',today:'Сегодня',price:'Уборка комнаты · 30 €',help:'Выберите день и время. Ресепшен подтвердит запись.',staffHelp:'Выберите день и часы, затем опубликуйте запись для студентов.',start:'С',end:'До',bookings:'Записи',all:'Все записи',occupied:'Занято',closed:'Закрыто',conflict:'Не удалось сохранить. Проверьте время и пересечения.',unavailable:'Время может быть занято. Обновите календарь и выберите другое.',refresh:'Обновить календарь',week:['Пн','Вт','Ср','Чт','Пт','Сб','Вс']},
+ uk:{title:'Календар прибирання',day:'Оберіть день',time:'Вільний час',none:'На цей день немає вільного часу.',prev:'Попередній місяць',next:'Наступний місяць',today:'Сьогодні',price:'Прибирання кімнати · 30 €',help:'Оберіть день і час. Рецепція підтвердить запис.',staffHelp:'Оберіть день і години та опублікуйте запис для студентів.',start:'З',end:'До',bookings:'Записи',all:'Усі записи',occupied:'Зайнято',closed:'Закрито',conflict:'Не вдалося зберегти. Перевірте час і перетини.',unavailable:'Час може бути зайнятий. Оновіть календар та оберіть інший.',refresh:'Оновити календар',week:['Пн','Вт','Ср','Чт','Пт','Сб','Нд']}
+};
+const calWords=lang=>calendarCopy[lang]||calendarCopy.en;
+const dayOf=value=>bratislavaLocalDateTime(value).slice(0,10);
+const hourOf=value=>bratislavaLocalDateTime(value).slice(11,16);
+const isoDay=d=>d.toISOString().slice(0,10);
+const calendarSelection=new Map();
+function cleaningCalendar(ctx,slots,onDay){
+ const w=calWords(ctx.lang),key=ctx.tenant+':'+ctx.userId+':'+ctx.staff,today=bratislavaToday(),panel=element('section',undefined,'staff-form');
+ let picked=calendarSelection.get(key)||today;
+ if(!ctx.staff&&picked<today)picked=today;
+ let month=new Date(picked.slice(0,7)+'-01T00:00:00Z');
+ const header=element('div'),title=element('strong'),prev=button('‹','button'),next=button('›','button'),now=button(w.today,'button'),grid=element('div');
+ header.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap';
+ grid.style.cssText='display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;width:100%;margin:12px 0';
+ prev.setAttribute('aria-label',w.prev);next.setAttribute('aria-label',w.next);header.append(prev,title,next,now);panel.append(header,grid);
+ function draw(){
+  title.textContent=new Intl.DateTimeFormat(ctx.lang==='uk'?'uk-UA':ctx.lang,{month:'long',year:'numeric',timeZone:'UTC'}).format(month);
+  grid.replaceChildren();
+  for(const label of w.week){const d=element('span',label);d.style.cssText='text-align:center;font-size:12px;font-weight:600';grid.append(d);}
+  const offset=(month.getUTCDay()+6)%7,last=new Date(Date.UTC(month.getUTCFullYear(),month.getUTCMonth()+1,0)).getUTCDate();
+  for(let i=0;i<offset;i++)grid.append(element('span'));
+  for(let i=1;i<=last;i++){
+   const date=isoDay(new Date(Date.UTC(month.getUTCFullYear(),month.getUTCMonth(),i))),count=slots.filter(s=>dayOf(s.starts_at)===date&&(ctx.staff||s.remaining>0)).length;
+   const b=button(String(i)+(count?' ·'+count:''),'button');
+   b.style.cssText='min-width:0;width:100%;padding:8px 1px;min-height:42px;font-size:12px;border:1px solid #d4e0ed;border-radius:8px;background:'+(date===picked?'#142b4d':count?'#e2f2e7':'#fff')+';color:'+(date===picked?'#fff':'#142b4d');
+   b.disabled=!ctx.staff&&(date<today||!count);b.setAttribute('aria-label',date+(count?' · '+count:''));b.setAttribute('aria-pressed',String(date===picked));b.onclick=()=>{picked=date;calendarSelection.set(key,picked);draw();onDay(picked);};grid.append(b);
+  }
+ }
+ const shift=n=>{month=new Date(Date.UTC(month.getUTCFullYear(),month.getUTCMonth()+n,1));draw();};
+ prev.onclick=()=>shift(-1);next.onclick=()=>shift(1);now.onclick=()=>{picked=today;calendarSelection.set(key,picked);month=new Date(today.slice(0,7)+'-01T00:00:00Z');draw();onDay(picked);};
+ draw();return {panel,day:picked};
+}
+
 export async function renderServiceRequests(ctx){
  const dateTime=value=>formatDateTime(value,ctx.lang);
  const {root,db,list,tenant,staff,resident,userId,lang,isCurrent,refresh}=ctx;
@@ -35,10 +74,10 @@ export async function renderServiceRequests(ctx){
  const uploadPhoto=async(id,file)=>{if(!validPhoto(file))throw Error('invalid_photo');const body=new FormData();body.append('action','upload');body.append('tenant_id',tenant);body.append('kind','fault_photo');body.append('request_id',id);body.append('file',file);const {data,error}=await db.functions.invoke('residence-files',{body});if(error||!data?.ok)throw Error('photo_failed');};
  const cleaning=ctx.cleaning,t=serviceWords(lang),table=cleaning?'cleaning_bookings':'service_requests';
  if(!isCurrent())return;root.replaceChildren();
- root.append(element('h3',cleaning?t.cleaning:t.requests),element('p',t.help,'muted'));
+ const cal=calWords(lang);root.append(element('h3',cleaning?cal.title:t.requests),element('p',cleaning?(staff?cal.staffHelp:cal.help):t.help,'muted'));if(cleaning)root.append(element('strong',cal.price));
  const filter=staff?undefined:{resident_id:resident?.id||'00000000-0000-0000-0000-000000000000'};
  let slots=[];
- if(cleaning){const {data,error}=await db.rpc('residence_cleaning_availability',{p_tenant:tenant});if(error)throw error;slots=data||[];}
+ if(cleaning){const {data,error}=await db.rpc('residence_cleaning_availability',{p_tenant:tenant});if(error){root.append(element('p',t.loadFailed,'danger'));const retry=button(cal.refresh,'button');retry.onclick=refresh;root.append(retry);return;}slots=data||[];}
  const cw=capacityWords[lang]||capacityWords.en;
  const slotOptions=(selected='')=>Object.fromEntries([['',cw.choose],...slots.filter(s=>s.remaining>0||s.id===selected).map(s=>[s.id,dateTime(s.starts_at)+' – '+dateTime(s.ends_at)+' · '+s.resource+' · '+cw.free+': '+s.remaining])]);
  const [records,people,messages,files]=await Promise.all([list(table,filter),staff?list('residents'):Promise.resolve(resident?[resident]:[]),cleaning?Promise.resolve([]):list('service_request_messages'),cleaning?Promise.resolve([]):list('residence_portal_files',{kind:'fault_photo'})]);
@@ -47,7 +86,7 @@ export async function renderServiceRequests(ctx){
  const name=id=>people.find(p=>p.id===id)?.full_name||'';
  const notice=element('p');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');root.append(notice);
  const report=(message,bad=false)=>{if(!isCurrent())return;notice.textContent=message;notice.style.color=bad?'#a32c30':'';};
- if(cleaning&&staff)await renderSlotManager({ctx,root,cw,t,report,records});
+ let allSlots=slots;if(cleaning&&staff){allSlots=await ctx.list('cleaning_slots');await renderSlotManager({ctx,root,cw,t,report,records,slots:allSlots,people});}
  if(cleaning&&!slots.some(s=>s.remaining>0))root.append(element('p',cw.empty,'muted'));
  if(!records.length)root.append(element('p',t.empty,'muted'));
  for(const record of records.sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)))){
@@ -59,7 +98,7 @@ export async function renderServiceRequests(ctx){
   detail(card,t.status,t.statuses[record.status]||record.status);
   if(!cleaning&&record.urgent)card.append(element('strong',t.urgent));
   if(cleaning){
-   detail(card,t.date,ctx.day(record.preferred_date));detail(card,t.window,t.windows[record.preferred_window]||record.preferred_window);
+   detail(card,t.date,ctx.day(record.preferred_date));const booked=allSlots.find(s=>s.id===record.slot_id);detail(card,t.window,booked?hourOf(booked.starts_at)+' – '+hourOf(booked.ends_at):record.scheduled_at?dateTime(record.scheduled_at):t.windows[record.preferred_window]||record.preferred_window);
    detail(card,t.type,t.types[record.cleaning_type]||t.types.standard);
    detail(card,t.notes,record.notes);detail(card,t.scheduled,record.scheduled_at?dateTime(record.scheduled_at):null);
    detail(card,t.price,record.price_eur===null?null:ctx.money(record.price_eur));
@@ -73,9 +112,9 @@ export async function renderServiceRequests(ctx){
    form.append(field(t.status,status),field(t.public,publicNote));
    let price,time;
    if(cleaning){
-    price=input('number');price.min='0';price.max='100000';price.step='0.01';price.value=record.price_eur??'';
+    price=input('number');price.readOnly=true;price.value=record.price_eur??30;
     // A date/time chosen at reception is explicitly interpreted as Bratislava local time.
-    time=select(slotOptions(record.slot_id),record.slot_id||'');
+    const choices=slotOptions(record.slot_id);const current=allSlots.find(s=>s.id===record.slot_id);if(current&&!choices[current.id])choices[current.id]=dateTime(current.starts_at)+' – '+hourOf(current.ends_at);time=select(choices,record.slot_id||'');
     form.append(field(t.price,price),field(t.scheduled,time));
    }
    const save=button(t.save);
@@ -96,7 +135,7 @@ export async function renderServiceRequests(ctx){
     save.disabled=true;save.textContent=saving;errorBox.textContent='';
     try{
      const payload={status:status.value,staff_note:publicNote.value.trim()};
-     if(cleaning){payload.price_eur=price.value===''?null:Number(price.value);payload.slot_id=time.value||record.slot_id||null;const selectedSlot=slots.find(s=>s.id===time.value);payload.scheduled_at=selectedSlot?.starts_at||record.scheduled_at||null;}
+     if(cleaning){payload.slot_id=time.value||record.slot_id||null;const selectedSlot=allSlots.find(s=>s.id===time.value);payload.scheduled_at=selectedSlot?.starts_at||record.scheduled_at||null;}
      const {data,error}=await db.from(table).update(payload).eq('tenant_id',tenant).eq('id',record.id).eq('updated_at',record.updated_at).select('id');
      if(error||!data?.length)throw Error('save_failed');
      if(isCurrent()){setSaved(payload.status);refresh();}
@@ -133,25 +172,34 @@ export async function renderServiceRequests(ctx){
  detail(form,t.room,resident.verified_room_number||t.unassigned);
  let subject,description,category,urgent,date,windowSelect,note,cleaningType,slotSelect,faultPhoto;
  if(cleaning){
-  date=input('date',true);date.min=bratislavaToday();windowSelect=select(t.windows,'anytime');cleaningType=select(t.types,'standard');note=textArea('',1500);
-  slotSelect=select(slotOptions(),'');slotSelect.required=true;
-  form.append(field(cw.slots,slotSelect),field(t.type,cleaningType),field(t.notes,note));
+  note=textArea('',1500);cleaningType={value:'standard'};slotSelect={value:''};
+  const hours=element('div');hours.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin:8px 0';
+  const timeHeading=element('strong',cal.time);const selection=element('p','','muted');
+  function showHours(day){
+   slotSelect.value='';selection.textContent=day;hours.replaceChildren();
+   const available=slots.filter(s=>s.remaining>0&&dayOf(s.starts_at)===day);
+   if(!available.length)hours.append(element('p',cal.none,'muted'));
+   for(const s of available){const b=button(hourOf(s.starts_at)+' – '+hourOf(s.ends_at),'button');b.className='btn-secondary';b.setAttribute('aria-pressed','false');b.onclick=()=>{slotSelect.value=s.id;selection.textContent=day+' · '+b.textContent;for(const n of hours.querySelectorAll('button')){n.setAttribute('aria-pressed',String(n===b));n.style.outline=n===b?'2px solid #142b4d':'';}form.querySelector('button[type=submit]').disabled=false;};hours.append(b);}
+   const submit=form.querySelector('button[type=submit]');if(submit)submit.disabled=true;
+  }
+  const calendar=cleaningCalendar(ctx,slots,showHours);
+  form.append(calendar.panel,timeHeading,hours,selection,field(t.notes,note));showHours(calendar.day);
  }else{
   subject=input('text',true);subject.minLength=3;subject.maxLength=160;description=textArea('',4000);description.required=true;
   category=select(t.categories,'maintenance');urgent=input('checkbox');
   faultPhoto=input('file');faultPhoto.accept='image/jpeg,image/png';form.append(field(t.subject,subject),field(t.description,description),field(t.category,category),field(t.urgent,urgent),field(pw.photo,faultPhoto));
  }
- const submit=button(t.submit);submit.disabled=cleaning&&!slots.some(s=>s.remaining>0);form.append(submit);
+ const submit=button(t.submit);submit.disabled=cleaning;form.append(submit);
  form.addEventListener('submit',async event=>{
   event.preventDefault();if(!isCurrent()||!form.reportValidity())return;submit.disabled=true;
   try{
    const chosenPhoto=faultPhoto?.files?.[0];if(!validPhoto(chosenPhoto))throw Error('invalid_photo');
    const selectedSlot=cleaning?slots.find(s=>s.id===slotSelect.value):null;
    if(cleaning&&!selectedSlot)throw Error('slot_required');
-   const payload=cleaning?{slot_id:selectedSlot.id,preferred_date:bratislavaLocalDateTime(selectedSlot.starts_at).slice(0,10),preferred_window:'anytime',cleaning_type:cleaningType.value,notes:note.value.trim(),status:'requested'}:{subject:subject.value.trim(),description:description.value.trim(),category:category.value,urgent:urgent.checked,status:'new',staff_note:''};
+   const payload=cleaning?{slot_id:selectedSlot.id,preferred_date:bratislavaLocalDateTime(selectedSlot.starts_at).slice(0,10),preferred_window:'anytime',cleaning_type:cleaningType.value,notes:note.value.trim(),status:'requested',price_eur:30,staff_note:''}:{subject:subject.value.trim(),description:description.value.trim(),category:category.value,urgent:urgent.checked,status:'new',staff_note:''};
    const {data,error}=await db.from(table).insert({...payload,tenant_id:tenant,resident_id:resident.id}).select('id');
    if(error||!data?.length)throw Error('save_failed');if(chosenPhoto){try{await uploadPhoto(data[0].id,chosenPhoto);}catch{alert(pw.failed);}}if(isCurrent()){report(t.success);refresh();}
-  }catch{report(t.failed,true);submit.disabled=false;}
+  }catch{report(cleaning?cal.unavailable:t.failed,true);submit.disabled=false;}
  });root.append(form);
 }
 
@@ -169,18 +217,30 @@ export function bratislavaInstant(local){
  throw Error('invalid_datetime');
 }
 
-async function renderSlotManager({ctx,root,cw,t,report,records}){
- const dateTime=value=>formatDateTime(value,ctx.lang);
- const {db,tenant,isCurrent,refresh}=ctx,section=element('details');section.open=true;section.append(element('summary',cw.slots));
- const slots=await ctx.list('cleaning_slots');if(!isCurrent())return;
- for(const slot of slots.filter(s=>s.starts_at>new Date().toISOString()).sort((a,b)=>a.starts_at.localeCompare(b.starts_at))){
-  const used=records.filter(r=>r.slot_id===slot.id&&!['rejected','cancelled'].includes(r.status)).length;
-  const row=element('p',dateTime(slot.starts_at)+' – '+dateTime(slot.ends_at)+' · '+slot.resource+' · '+used+'/'+slot.capacity+' '+(slot.enabled?'':'×'));
-  if(slot.enabled){const close=button(cw.close,'button');close.onclick=async()=>{close.disabled=true;const {data,error}=await db.from('cleaning_slots').update({enabled:false}).eq('tenant_id',tenant).eq('id',slot.id).eq('updated_at',slot.updated_at).select('id');if(error||!data?.length){report(t.failed,true);close.disabled=false;}else refresh();};row.append(close);}section.append(row);
+async function renderSlotManager({ctx,root,cw,t,report,records,slots,people}){
+ const w=calWords(ctx.lang),{db,tenant,isCurrent,refresh}=ctx,section=element('section',undefined,'staff-form');
+ const selected=element('strong'),rows=element('div'),form=element('form'),start=input('time',true),end=input('time',true),resource=input('text',true),capacity=input('number',true);
+ let day=bratislavaToday();resource.maxLength=100;resource.value='Upratovanie';capacity.min='1';capacity.max='20';capacity.value='1';start.value='';end.value='';
+ const add=button(cw.add);const retry=button(w.refresh,'button');retry.onclick=refresh;
+ const timeFields=element('div');timeFields.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px';timeFields.append(field(w.start,start),field(w.end,end));
+ form.append(timeFields,field(cw.resource,resource),field(cw.capacity,capacity),add);
+ function showDay(value){
+  day=value;selected.textContent=w.day+': '+ctx.day(day);rows.replaceChildren();add.disabled=day<bratislavaToday();
+  const chosen=slots.filter(s=>dayOf(s.starts_at)===day).sort((a,b)=>a.starts_at.localeCompare(b.starts_at));
+  if(!chosen.length)rows.append(element('p',cw.empty,'muted'));
+  for(const slot of chosen){
+   const bookings=records.filter(r=>r.slot_id===slot.id&&!['rejected','cancelled'].includes(r.status));
+   const row=element('article',undefined,'file-item');
+   row.append(element('strong',hourOf(slot.starts_at)+' – '+hourOf(slot.ends_at)+' · '+slot.resource),element('p',cw.free+': '+Math.max(0,slot.capacity-bookings.length)+' / '+slot.capacity+' · '+(!slot.enabled?w.closed:bookings.length>=slot.capacity?w.occupied:''),'muted'));
+   for(const r of bookings){const p=people.find(x=>x.id===r.resident_id);row.append(element('p',(p?.verified_room_number||t.unassigned)+' · '+(p?.full_name||'')+' · '+(t.statuses[r.status]||r.status),'small'));}
+   if(slot.enabled&&slot.starts_at>new Date().toISOString()){const close=button(cw.close,'button');close.className='btn-secondary';close.onclick=async()=>{close.disabled=true;try{const {data,error}=await db.from('cleaning_slots').update({enabled:false}).eq('tenant_id',tenant).eq('id',slot.id).eq('updated_at',slot.updated_at).select('id');if(error||!data?.length)throw Error('save_failed');if(isCurrent())refresh();}catch{report(w.conflict,true);close.disabled=false;}};row.append(close);}
+   rows.append(row);
+  }
  }
- const form=element('form',undefined,'staff-form'),start=input('datetime-local',true),end=input('datetime-local',true),resource=input('text',true),capacity=input('number',true);
- resource.maxLength=100;resource.value='Upratovanie';capacity.min='1';capacity.max='20';capacity.value='1';
- form.append(field(cw.start,start),field(cw.end,end),field(cw.resource,resource),field(cw.capacity,capacity));const add=button(cw.add);form.append(add);
- form.onsubmit=async event=>{event.preventDefault();if(!form.reportValidity())return;add.disabled=true;try{const starts_at=bratislavaInstant(start.value),ends_at=bratislavaInstant(end.value);if(starts_at<=new Date().toISOString()||ends_at<=starts_at)throw Error('invalid_date');const {data,error}=await db.from('cleaning_slots').insert({tenant_id:tenant,starts_at,ends_at,resource:resource.value.trim(),capacity:Number(capacity.value)}).select('id');if(error||!data?.length)throw Error('save_failed');if(isCurrent())refresh();}catch{report(t.failed,true);add.disabled=false;}};
- section.append(form);root.append(section);
+ const calendar=cleaningCalendar(ctx,slots,showDay);section.append(element('h4',w.title),calendar.panel,selected,rows,form,retry);showDay(calendar.day);
+ form.onsubmit=async event=>{event.preventDefault();if(!form.reportValidity()||!isCurrent())return;add.disabled=true;
+  try{const starts_at=bratislavaInstant(day+'T'+start.value),ends_at=bratislavaInstant(day+'T'+end.value);if(starts_at<=new Date().toISOString()||ends_at<=starts_at||!resource.value.trim())throw Error('invalid_date');
+   const {data,error}=await db.from('cleaning_slots').insert({tenant_id:tenant,starts_at,ends_at,resource:resource.value.trim(),capacity:Number(capacity.value)}).select('id');if(error||!data?.length)throw Error('save_failed');if(isCurrent())refresh();
+  }catch{report(w.conflict,true);add.disabled=false;}
+ };root.append(section,element('h4',w.all));
 }
