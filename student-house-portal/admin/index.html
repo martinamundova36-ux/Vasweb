@@ -312,11 +312,14 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
 <label for="regPhone" id="labPhone">Telefónne číslo</label><input id="regPhone" type="tel" autocomplete="tel" maxlength="60" placeholder="+421 ..." required>
 <label for="regBirth" id="labBirth">Dátum narodenia</label><input id="regBirth" type="text" inputmode="numeric" autocomplete="bday" placeholder="DD.MM.RRRR" pattern="\d{2}\.\d{2}\.\d{4}" maxlength="10" title="DD.MM.RRRR" required>
 <label for="regNationality" id="labNationality">Štátna príslušnosť</label><input id="regNationality" maxlength="80" required>
+<label for="regGender" id="labGender">Pohlavie</label><select id="regGender" required><option value="">Vyber</option><option value="female">Žena</option><option value="male">Muž</option><option value="other">Iné</option></select>
+<label for="regSchool" id="labSchool">Vysoká škola / univerzita</label><input id="regSchool" maxlength="250" required list="regSchoolList"><datalist id="regSchoolList"><option value="Univerzita Komenského v Bratislave"></option><option value="Slovenská technická univerzita v Bratislave"></option><option value="Ekonomická univerzita v Bratislave"></option><option value="Slovenská zdravotnícka univerzita"></option><option value="Vysoká škola múzických umení"></option><option value="Vysoká škola výtvarných umení"></option><option value="Paneurópska vysoká škola"></option><option value="Vysoká škola manažmentu"></option><option value="Akadémia Policajného zboru"></option></datalist>
 </div><p class="muted">Ďalšie údaje a fotografiu doplníš po schválení recepciou.</p></fieldset>
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
 <p id="regMonthNotice" role="note" style="padding:14px 16px;background:#eaf1f9;color:#142b4d;border-left:4px solid #e8a68e;border-radius:10px;font-weight:600;line-height:1.6">DÔLEŽITÉ: Ubytovanie sa počíta od 1. dňa mesiaca. Aj pri neskoršom príchode sa platí celý mesiac. Dátum príchodu vyplň osobitne.</p>
 <div class="reg-fields">
 <label for="regRoomType" id="labRoomType">Preferovaný typ izby</label><select id="regRoomType" required><option value="">Bez preferencie</option><option value="M2">Manzard 2</option><option value="Š1+1">Standard 1+1</option><option value="SUI 2">Suite 2</option><option value="D2">De Luxe 2</option><option value="Š2">Standard 2</option><option value="D2V">De Luxe 2V</option></select>
+<label for="regOccupancy" id="labOccupancy">Obsadenosť izby</label><select id="regOccupancy" required><option value="">Vyber</option><option value="shared">Zdieľaná izba</option><option value="private">Celá izba</option></select>
 <label for="regFrom" id="labFrom">Začiatok pobytu (od 1. dňa mesiaca)</label><input id="regFrom" type="month" required>
 <label for="regDuration" id="labDuration">Dĺžka pobytu</label><select id="regDuration" required><option value="">Vyber dĺžku pobytu</option><option value="5">5 mesiacov</option><option value="10">10 mesiacov</option><option value="12">12 mesiacov</option></select>
 <label for="regTo" id="labTo">Ubytovanie do</label><input id="regTo" type="date" readonly aria-describedby="regStayRule"><p id="regStayRule" class="mini-note" style="grid-column:1/-1">Prvý mesiac sa platí celý, aj pri príchode v priebehu mesiaca. Odchod je posledný deň posledného plateného mesiaca.</p>
@@ -544,6 +547,8 @@ function translateRegister(){
  const ext=REG_EXT[lang]||REG_EXT.sk;
  for(const [id,key] of Object.entries({regPersonalTitle:'personal',regStayTitle:'stay',labPhone:'phone',labRoomType:'roomType',labArrival:'arrival',regStaffOnly:'staff'}))$(id).textContent=ext[key];
  $('regRoomType').options[0].textContent=ext.any;
+ const newLabels=({sk:['Pohlavie','Vyber','Vysoká škola / univerzita','Obsadenosť izby','Zdieľaná izba','Celá izba'],en:['Gender','Select','University / college','Room occupancy','Shared room','Entire room'],ru:['Пол','Выберите','Университет / вуз','Размещение','Общая комната','Вся комната'],uk:['Стать','Оберіть','Університет / заклад освіти','Розміщення','Спільна кімната','Уся кімната']})[lang];
+ $('labGender').textContent=newLabels[0];$('regGender').options[0].textContent=newLabels[1];['female','male','other'].forEach((key,i)=>$('regGender').options[i+1].textContent=ext[key]);$('labSchool').textContent=newLabels[2];$('labOccupancy').textContent=newLabels[3];$('regOccupancy').options[0].textContent=newLabels[1];$('regOccupancy').options[1].textContent=newLabels[4];$('regOccupancy').options[2].textContent=newLabels[5];
  const regLabels={sk:['Dátum narodenia','Štátna príslušnosť','Heslo (minimálne 12 znakov)','Potvrdiť heslo'],en:['Date of birth','Nationality','Password (at least 12 characters)','Confirm password'],ru:['Дата рождения','Гражданство','Пароль (не менее 12 символов)','Подтвердите пароль'],uk:['Дата народження','Громадянство','Пароль (не менше 12 символів)','Підтвердьте пароль']}[lang]||[];
  ['labBirth','labNationality','regPasswordLabel','regPasswordConfirmLabel'].forEach((id,i)=>$(id).textContent=regLabels[i]);
  updateRoomPreferenceOptions();
@@ -604,10 +609,10 @@ $("regForm").addEventListener("submit",async e=>{
  if(!from||!to||to!==registrationEnd(from,Number($("regDuration").value))||!$("regArrival").value||$("regArrival").value<from||$("regArrival").value.slice(0,7)!==from.slice(0,7)||$("regPassword").value!==$("regPasswordConfirm").value){msg.style.color="#a32c30";msg.textContent=r.invalid;return;}
  const payload={
   first_name:$("regFirst").value.trim(),last_name:$("regLast").value.trim(),email:$("regEmail").value.trim(),
-  room_number:'',preferred_room_type:$("regRoomType").value,
-  telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),gender:'',date_of_birth,
+  room_number:'',preferred_room_type:$("regRoomType").value+' / '+($("regOccupancy").value==='private'?'Celá izba':'Zdieľaná izba'),
+  telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),gender:$("regGender").value,date_of_birth,
   password:$("regPassword").value,password_confirmation:$("regPasswordConfirm").value,
-  permanent_address:'',school:'',parent_contact_email:'',
+  permanent_address:'',school:$("regSchool").value.trim(),parent_contact_email:'',
   expected_arrival:$("regArrival").value,
   accommodation_from:from,accommodation_to:to,preferred_duration_months:Number($("regDuration").value),privacy_acknowledged:$("regPrivacy").checked,website:$("regWebsite").value
  };
