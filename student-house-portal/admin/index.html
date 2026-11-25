@@ -2108,7 +2108,7 @@ async function renderPanel(){
   }
   if(tab==='requests'||tab==='cleaning'){
    const serviceTab=tab,serviceTenant=tenant;
-   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261125-cleaning-calendar1');
+   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261125-cleaning-tariffs2');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    await renderServiceRequests({root:container,db,list,tenant,staff,resident,userId:user.id,lang,openFile:id=>{void fileLink(id,tenant);},
     cleaning:serviceTab==='cleaning',day,money,
