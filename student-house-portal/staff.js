@@ -684,7 +684,7 @@ export async function renderStaffScreen(ctx) {
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle(),
          ctx.db.from('tenancies').select('rent,starts_on,ends_on')
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id),
-         ctx.db.from('rent_charges').select('kind,period,amount,due_on')
+         ctx.db.from('rent_charges').select('id,kind,period,amount,due_on')
           .eq('tenant_id',ctx.tenant).eq('resident_id',person.id)
         ]);
         if(staffResult.error||staysResult.error||billsResult.error)throw Error('unavailable');
@@ -706,7 +706,7 @@ export async function renderStaffScreen(ctx) {
          event.preventDefault();if(!ctx.isCurrent()||!contract.reportValidity())return;
          create.disabled=true;contractStatus.textContent='';
          try{
-          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-original-contract1');
+          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-contract-annex1');
           const assignedRoom=(await ctx.list('rooms')).find(r=>String(r.name)===String(person.verified_room_number));
           const data=fieldsForDocument('contract_draft',person,enquiry,{...stay,room_type:assignedRoom?.category||''},verified,{
            provider:provider.value.trim(),payment_terms:terms.value.trim()
@@ -718,7 +718,8 @@ export async function renderStaffScreen(ctx) {
            const url=await ctx.fileLink(templates[0].id,ctx.tenant,true);
            if(!url)throw Error('Predloha sa nepodarila otvoriť.');
            const response=await fetch(url);if(!response.ok)throw Error('Predloha sa nepodarila načítať.');
-           file=await fillOriginalStudentHouseContract({attachment:await response.arrayBuffer(),data,charges:(billsResult.data||[]).map(c=>({...c,resident_id:person.id})),person});
+           const [plans,items]=await Promise.all([ctx.list('installment_plans',{resident_id:person.id}),ctx.list('installment_items')]);
+           file=await fillOriginalStudentHouseContract({attachment:await response.arrayBuffer(),data,charges:(billsResult.data||[]).map(c=>({...c,resident_id:person.id})),plans,items,person});
            if(!ctx.isCurrent())return;
            const previewUrl=URL.createObjectURL(file),preview=el('a','btn-secondary','Stiahnuť vyplnenú zmluvu na kontrolu');preview.href=previewUrl;preview.download=file.name;
            contractStatus.replaceChildren(preview);return;
