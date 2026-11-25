@@ -174,6 +174,7 @@ const billingWords={
 
 function invoiceDraft(root,labels,data,lang,provider) {
  const [,,,,,,customer,plate,period,,,close]=labels;
+ const [,,,,,,contactEmail,contactPhone,,,,,contactNote]=words[lang]||words.sk;
  const [title,print,addressHint,documentNote]=({
   sk:['Faktúra za parkovanie','Tlačiť faktúru','Ulica, číslo, PSČ, mesto a krajina','Číslo prevzaté z účtovníctva'],
   en:['Parking invoice','Print invoice','Street, number, postal code, city and country','Invoice number from accounting'],
@@ -189,14 +190,15 @@ function invoiceDraft(root,labels,data,lang,provider) {
  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
  for(const [label,value,type,required] of [
   [customer,data.name,'text',true],[address,'','text',true],[plate,data.plate,'text',false],
+  [contactEmail,data.email,'email',false],[contactPhone,data.phone,'tel',false],
   [period,/^\d{4}$/.test(data.period||'')?'':data.period,'text',true],
   [number,'','text',true],[issued,today,'date',true],[delivered,'','date',true],[due,'','date',true],
   ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,data.months||1,'number',true],
-  ['IBAN',provider.iban,'text',false],[reference,'','text',false]
+  ['IBAN',provider.iban,'text',false],[reference,'','text',false],[contactNote,data.note,'textarea',false]
  ]){
   const field=element('label',label);
-  const input=element('input');
-  input.type=type;
+  const input=element(type==='textarea'?'textarea':'input');
+  if(type==='textarea'){input.maxLength=1000;input.rows=3;}else input.type=type;
   input.value=value??'';
   input.required=required;
   if(label==='IBAN')input.readOnly=true;
@@ -267,11 +269,13 @@ function invoiceDraft(root,labels,data,lang,provider) {
   add('h2',service+' · Tomášikova 34');
   const details=add('dl','');
   for(const [label,input] of fields){
-   if(label===number||!input.value.trim())continue;
+   if(label===number||label===contactNote||!input.value.trim())continue;
    add('dt',label,details);
    const value=input.type==='date'?input.value.split('-').reverse().join('.'):input.value.trim();
    add('dd',value,details);
   }
+  const note=fields.get(contactNote).value.trim();
+  if(note){const paragraph=add('p',contactNote+' · '+note);paragraph.style.whiteSpace='pre-wrap';}
   add('p',unit+' '+money.format(50));
   for(const [label,value] of amounts())add('p',label+' '+value).className=label===total?'total':'';
   submit.disabled=true;
@@ -382,7 +386,8 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
    const request=ordered[index];
    return actionCell(row,request,'request',()=>({
     name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
-    period:[request.start_on,request.end_on].filter(Boolean).join(' – '),months:request.months
+    period:[request.start_on,request.end_on].filter(Boolean).join(' – '),months:request.months,
+    email:request.email,phone:request.telephone,note:request.note
    }));
   });
  } else {
