@@ -119,7 +119,7 @@ function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions) 
   for(const [index,value] of values.entries()){
    const cell=element('td');
    const button=element('button',value??'—');
-   const heading=headers[index+1];
+   const heading=headers[index<2?index+1:index+2];
    button.type='button';
    button.className='parking-edit-cell';
    function display(next){
@@ -152,7 +152,7 @@ function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions) 
    });
   }
  }
-  for(const [index,row] of Array.from(body.rows).entries())row.append(rowActions(row,history[index]));
+  for(const [index,row] of Array.from(body.rows).entries())row.insertBefore(rowActions(row,history[index]),row.cells[3]);
  scroll.append(table);
  root.append(style,scroll);
 }
@@ -240,7 +240,10 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
     del.disabled=bill.disabled=false;
    }
   });
-  cell.append(bill,del);
+  const controls=element('div');
+  controls.style.cssText='display:flex;gap:6px;flex-wrap:wrap;padding:6px';
+  controls.append(bill,del);
+  cell.append(controls);
   return cell;
  }
  const statusLine=element('p');
@@ -269,7 +272,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
   const query=search.value.trim().toLocaleLowerCase();
   const matches=history.filter(record=>!query||[record.entry,...record.months].some(value=>String(value??'').toLocaleLowerCase().includes(query)));
   ledger.replaceChildren();
-  appendWorkbookGrid(ledger,matches.sort((a,b)=>a.source_row-b.source_row),copy,saveCell,[...headers,actions],(row,record)=>actionCell(row,record,'history',()=>{
+  appendWorkbookGrid(ledger,matches.sort((a,b)=>a.source_row-b.source_row),copy,saveCell,[...headers.slice(0,3),actions,...headers.slice(3)],(row,record)=>actionCell(row,record,'history',()=>{
    const [customer,registration]=parkingIdentity(record.entry);
    return {name:customer,plate:registration,period:String(record.year)};
   }));
