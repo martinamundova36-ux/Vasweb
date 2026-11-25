@@ -1,0 +1,120 @@
+name: WEBU Scanner - Lighthouse reports
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/webu-scanner-reports.yml']
+  schedule:
+    - cron: '35 5 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: webu-lighthouse-reports
+  cancel-in-progress: false
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions: {}
+    strategy:
+      fail-fast: false
+      matrix:
+        site: [webu, peligrosa]
+        device: [mobile, desktop]
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Measure public homepage
+        env:
+          SITE: ${{ matrix.site }}
+          DEVICE: ${{ matrix.device }}
+        run: |
+          set -euo pipefail
+          case "$SITE" in
+            webu) URL=https://www.webu.sk/ ;;
+            peligrosa) URL=https://www.peligrosa.sk/ ;;
+            *) exit 1 ;;
+          esac
+          export URL
+          export CHROME_PATH="$(command -v google-chrome || command -v chromium)"
+          extra=()
+          if [ "$DEVICE" = desktop ]; then extra+=(--preset=desktop); fi
+          npx --yes lighthouse@13.6.0 "$URL" --output=json --output-path=/tmp/webu-lhr.json --chrome-flags="--headless --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --locale=sk --quiet "${extra[@]}"
+          mkdir -p /tmp/webu-report
+          python3 - <<'PY'
+          import os,json,math
+          from pathlib import Path
+          from urllib.parse import urlparse
+          x=json.loads(Path('/tmp/webu-lhr.json').read_text())
+          if x.get('runtimeError'): raise SystemExit('Lighthouse runtime error')
+          site=os.environ['SITE']; device=os.environ['DEVICE']; url=os.environ['URL']
+          final=x.get('finalDisplayedUrl') or x.get('finalUrl') or ''
+          if urlparse(final).hostname not in {site+'.sk','www.'+site+'.sk'}: raise SystemExit('Unexpected final hostname')
+          keys=['performance','accessibility','best-practices','seo']
+          scores={}
+          for k in keys:
+              s=x.get('categories',{}).get(k,{}).get('score')
+              if not isinstance(s,(int,float)) or not math.isfinite(s) or not 0<=s<=1: raise SystemExit('Missing score '+k)
+              scores[k]=round(s*100)
+          issues=[]
+          for a in sorted(x.get('audits',{}).values(),key=lambda a:a.get('score') if isinstance(a.get('score'),(int,float)) else 2):
+              s=a.get('score')
+              if isinstance(s,(int,float)) and s<0.9 and a.get('scoreDisplayMode') in ('binary','numeric','metricSavings'):
+                  issues.append({'id':str(a.get('id',''))[:100],'title':str(a.get('title',''))[:240],'value':str(a.get('displayValue',''))[:180]})
+          metrics={}
+          for k in ['first-contentful-paint','largest-contentful-paint','total-blocking-time','cumulative-layout-shift','speed-index']:
+              a=x.get('audits',{}).get(k,{})
+              if a.get('displayValue'): metrics[k]=str(a['displayValue'])[:100]
+          out={'site':site,'device':device,'url':url,'finalUrl':final,'checkedAt':x['fetchTime'],'lighthouseVersion':x['lighthouseVersion'],'scores':scores,'metrics':metrics,'issues':issues[:12]}
+          Path('/tmp/webu-report/'+site+'-'+device+'.json').write_text(json.dumps(out,ensure_ascii=False))
+          print(json.dumps({'site':site,'device':device,'scores':scores},ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: webu-audit-${{ matrix.site }}-${{ matrix.device }}
+          path: /tmp/webu-report/*.json
+          retention-days: 7
+          if-no-files-found: error
+  publish:
+    needs: measure
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: webu-audit-*
+          merge-multiple: true
+          path: /tmp/webu-audits
+      - name: Publish verified compact reports
+        run: |
+          set -euo pipefail
+          mkdir -p webu-scanner-reports
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from datetime import datetime, timezone
+          rows=[]
+          for site in ['webu','peligrosa']:
+              for device in ['mobile','desktop']:
+                  d=json.loads(Path('/tmp/webu-audits/'+site+'-'+device+'.json').read_text())
+                  assert d['site']==site and d['device']==device
+                  assert all(isinstance(v,int) and 0<=v<=100 for v in d['scores'].values()) and len(d['scores'])==4
+                  rows.append(d)
+          Path('webu-scanner-reports/latest.json').write_text(json.dumps({'version':1,'publishedAt':datetime.now(timezone.utc).isoformat(),'reports':rows},ensure_ascii=False))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- webu-scanner-reports/latest.json
+          git commit -m "Publish verified WEBU Lighthouse reports"
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 2
+          done
+          exit 1
