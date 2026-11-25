@@ -371,7 +371,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
  <p class="muted" id="step2PreviewHelp">Po schválení registrácie otvor odkaz z e-mailu. Údaje sa automaticky prepoja s tvojím študentským profilom a recepciou.</p>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><small style="display:block;color:#d4e2f3;font-size:11px;margin:4px 0">v2026.11.25.4</small><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><small style="display:block;color:#d4e2f3;font-size:11px;margin:4px 0">v2026.11.25.5</small><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
 </main></div></div>
 <footer class="studenthouse-brand-credit">Created by <a href="https://www.webu.sk/" target="_blank" rel="noopener noreferrer">WEBU</a></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
@@ -1771,7 +1771,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261121-fee-sync1');
+     const {renderExcelRegister}=await import('/student-house-portal/room-register.js?v=20261125-receipts1');
      await renderExcelRegister({root:container,db,tenant,lang,list,refresh:()=>renderPanel(),openResidents:()=>navigate('residents'),openAdmin:()=>{navigate('overview');showStaffMenu();},isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&isStaff()});
      if(generation!==renderGeneration)return;
      if(focus?.room){
@@ -1878,7 +1878,8 @@ async function renderPanel(){
    return;
   }
   if(tab==='payments'){
-   heading(label('payments'),label('financeNote'));
+   const words=({sk:['Prijaté platby','Zobrazujú sa iba skutočné úhrady potvrdené recepciou. Úhrady eviduj cez Excel evidenciu.','Hľadať podľa mena alebo e-mailu','Spolu prijaté','Zatiaľ žiadne potvrdené platby.','Otvoriť Excel evidenciu','Stornované úhrady sú v audite, nie v prijatých platbách.'],en:['Received payments','Only verified receipts are displayed. Record payments in the Excel register.','Search name or email','Total received','No confirmed payments yet.','Open Excel register','Reversed receipts remain in the audit.'],ru:['Полученные платежи','Показываются только подтверждённые оплаты. Вносите платежи в таблице.','Поиск имени или почты','Всего получено','Подтверждённых платежей пока нет.','Открыть таблицу Excel','Сторно сохраняется в журнале.'],uk:['Отримані платежі','Показуються лише підтверджені оплати. Вносьте платежі в таблиці.','Пошук імені або пошти','Усього отримано','Підтверджених платежів поки немає.','Відкрити таблицю Excel','Скасовані платежі залишаються в журналі.']})[lang];
+   heading(words[0],words[1]);let bankSettings=null;
    if(staff){
     const copy=({
      sk:['Prepojenie banky · Tatra banka','Automatická synchronizácia nie je nakonfigurovaná','Na automatické načítavanie a párovanie prijatých platieb je potrebné prepojiť firemný bankový účet s aplikáciou. Využiť možno Tatra banka Premium API – Účty, po schválení integrácie bankou a autorizácii oprávnenou osobou.','Systém bude po dokončení integrácie porovnávať prijaté bankové pohyby s variabilným symbolom, sumou a splatnosťou. Nejednoznačné platby skontroluje recepcia. Hotovosť sa naďalej eviduje manuálne.','Kým bankové prepojenie nie je aktivované a overené, platby eviduj manuálne podľa bankového výpisu. Nikdy sem nezadávaj prihlasovacie údaje do banky.','Informácie a aktivácia Premium API','Vývojárske rozhranie banky'],
@@ -1886,35 +1887,26 @@ async function renderPanel(){
      ru:['Подключение банка · Tatra banka','Автоматическая синхронизация не настроена','Для автоматической загрузки и сверки поступлений необходимо подключить корпоративный банковский счёт к приложению. Premium API – Accounts банка Tatra banka требует согласования интеграции и авторизации уполномоченным лицом.','После интеграции платежи можно сопоставлять по назначению, сумме и сроку оплаты. Неоднозначные платежи проверяет ресепшен. Наличные учитываются вручную.','До активации и проверки подключения сверяйте платежи вручную по банковской выписке. Не вводите здесь банковские пароли.','Информация и активация Premium API','Портал разработчиков банка'],
      uk:['Підключення банку · Tatra banka','Автоматичну синхронізацію не налаштовано','Для автоматичного завантаження та звірки надходжень необхідно підключити корпоративний рахунок до застосунку. Premium API – Accounts банку Tatra banka потребує погодження інтеграції та авторизації уповноваженою особою.','Після інтеграції платежі можна зіставляти за призначенням, сумою та терміном оплати. Неоднозначні платежі перевіряє рецепція. Готівка обліковується вручну.','До активації та перевірки підключення звіряйте платежі вручну за банківською випискою. Не вводьте тут банківські паролі.','Інформація та активація Premium API','Портал розробників банку']
     })[lang];
-    const bankCard=make('section','student-documents-cta');
+    const bankCard=make('details','student-documents-cta');bankCard.append(make('summary','',copy[0]));
     const bankStatus=make('p','status-pill',copy[1]);bankStatus.setAttribute('role','status');
-    bankCard.append(make('h3','',copy[0]),bankStatus,make('p','',copy[2]),make('p','',copy[3]),make('p','mini-note',copy[4]));
+    bankCard.append(bankStatus,make('p','',copy[2]),make('p','',copy[3]),make('p','mini-note',copy[4]));
     const links=make('div','staff-actions');
     for(const [url,title] of [['https://www.tatrabanka.sk/sk/business/ucty-platby/premium-api-ucty/',copy[5]],['https://developer.tatrabanka.sk/pages/devportal/sk/',copy[6]]]){
      const a=make('a','btn-secondary',title);a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.style.cssText='display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:9px;text-decoration:underline;max-width:100%;white-space:normal';links.append(a);
     }
-    bankCard.append(links);container.append(bankCard);
-    const {renderFinanceDashboard}=await import('/student-house-portal/finance-dashboard.js?v=20261121-full-stay1');await renderFinanceDashboard({root:container,db,list,tenant,lang,isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='payments'});if(generation!==renderGeneration)return;}
+    bankCard.append(links);bankSettings=bankCard;
+   }
+
    const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
-   const [charges,paid,people,allocations,reversals]=await Promise.all([list('rent_charges',filter),list('payments',filter),staff?list('residents'):Promise.resolve([]),list('payment_allocations'),list('payment_reversals')]);
-   const {cents,chargeBalance}=await import('/student-house-portal/ledger.js?v=20261112-entry5-authfix1');
-   const reversed=new Set(reversals.map(r=>r.payment_id));
-   const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
-   const residentLabel=id=>{const p=peopleById[id];return p?(p.full_name+' · '+(p.verified_room_number||'—')):'—'};
-   if(charges.length||paid.length){
-    const chargedCents=charges.reduce((acc,x)=>acc+cents(x.amount),0);
-    const paidCents=paid.filter(x=>!reversed.has(x.id)).reduce((acc,x)=>acc+cents(x.amount),0);
-    const summary=make('div','mini-note',fin('balance')+': '+money((chargedCents-paidCents)/100));
-    container.append(summary);
-   }
-   subheading(label('rent'));
-   if(!charges.length)empty();
-   for(const x of charges.sort((a,b)=>String(b.due_on).localeCompare(String(a.due_on)))){
-    container.append(row((staff?residentLabel(x.resident_id)+' · ':'')+x.period+' · '+money(x.amount),fin('due')+': '+day(x.due_on)+' · '+label('paid')+': '+money(chargeBalance(x,allocations,reversals).paid/100)+' · '+fin('balance')+': '+money(chargeBalance(x,allocations,reversals).remaining/100)));
-   }
-   subheading(label('paid'));
-   if(!paid.length)empty();
-   for(const x of paid.sort((a,b)=>String(b.received_on).localeCompare(String(a.received_on)))){
+   const [paid,people,reversals]=await Promise.all([list('payments',filter),staff?list('residents'):Promise.resolve([]),list('payment_reversals')]);
+   if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
+   const reversed=new Set(reversals.map(r=>r.payment_id)),peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
+   const residentLabel=id=>{const p=peopleById[id];return p?[p.full_name,p.email,p.verified_room_number].filter(Boolean).join(' · '):'—';};
+   const active=paid.filter(x=>!reversed.has(x.id));container.append(make('h3','',words[3]+': '+money(active.reduce((n,x)=>n+Math.round(Number(x.amount)*100),0)/100)));
+   const paymentList=make('section','data-list');
+   if(staff){const openExcel=make('button','btn-secondary',words[5]);openExcel.type='button';openExcel.onclick=()=>navigate('rooms');container.append(openExcel);const search=make('input');search.type='search';search.placeholder=words[2];search.setAttribute('aria-label',words[2]);search.oninput=()=>{const q=search.value.normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase().trim();for(const p of paymentList.children)p.classList.toggle('hide',!!q&&!String(p.dataset.paymentSearch||'').includes(q));};container.append(search);}
+   if(!active.length)paymentList.append(make('p','muted',words[4]));
+   for(const x of paid.filter(x=>!reversed.has(x.id)).sort((a,b)=>String(b.received_on).localeCompare(String(a.received_on)))){
     const paymentRow=row((reversed.has(x.id)?'↶ ':'✓ ')+(staff?residentLabel(x.resident_id)+' · ':'')+money(x.amount),day(x.received_on)+' · '+x.method+' · '+x.reference);
     const reversal=reversals.find(r=>r.payment_id===x.id);
     if(staff)paymentRow.append(actionReceipt(actionText(reversal?2:1)));
@@ -1927,39 +1919,11 @@ async function renderPanel(){
      form.onsubmit=async e=>{e.preventDefault();if(reverse.disabled||!form.reportValidity()||!confirm(({sk:'Stornovať túto evidovanú úhradu? Zostane v audite. Správnu platbu potom zaeviduj ako nový záznam.',en:'Reverse this recorded receipt? It remains in the audit. Record the corrected receipt as a new entry.',ru:'Сторнировать платёж? История сохранится. Верный платёж внесите новой записью.',uk:'Сторнувати платіж? Історія збережеться. Правильний платіж внесіть новим записом.'})[lang]))return;await saveStaffAction(reverse,reversalError,fin('failed'),async()=>{const {error}=await db.rpc('reverse_payment',{p_tenant:tenant,p_payment:x.id,p_reason:reason.value.trim()});if(error)throw error;void renderPanel();});};
      fix.append(caption,form);paymentRow.append(fix);
     }
-    container.append(paymentRow);
+    paymentRow.dataset.paymentSearch=[peopleById[x.resident_id]?.full_name,peopleById[x.resident_id]?.email,peopleById[x.resident_id]?.verified_room_number,x.reference].filter(Boolean).join(' ').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();paymentList.append(paymentRow);
    }
-   if(staff){
-    if(!people.length){message(fin('needsResident'));return;}
-    const chooseResident=()=>selector(people,'id',p=>p.full_name+' · '+(p.verified_room_number||'—'));
-    const chargeForm=make('form','staff-form');chargeForm.append(make('strong','',fin('chargeAdd')));
-    const chargeResident=chooseResident(),month=make('input'),chargeAmount=euroInput(),due=dateInput();
-    month.type='month';month.required=true;month.value=new Date().toISOString().slice(0,7);
-    chargeForm.append(labeled(fin('resident'),chargeResident),labeled(fin('period'),month),labeled(fin('amount'),chargeAmount),labeled(fin('due'),due));
-    const saveCharge=make('button','',fin('saveCharge'));saveCharge.type='submit';chargeForm.append(saveCharge);
-    chargeForm.addEventListener('submit',async e=>{
-     e.preventDefault();saveCharge.disabled=true;
-     const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'charge',tenant_id:tenant,resident_id:chargeResident.value,period:month.value,amount:chargeAmount.value,due_on:due.value}});
-     if(error||!data?.ok){alert(fin('failed'));saveCharge.disabled=false;return}
-     alert(fin('saved'));void renderPanel();
-    });
-    container.append(chargeForm);
-    const paymentForm=make('form','staff-form');paymentForm.append(make('strong','',fin('paymentAdd')));
-    const payResident=chooseResident(),payAmount=euroInput(),received=dateInput(),method=make('select'),reference=make('input');
-    received.value=new Date().toISOString().slice(0,10);reference.required=true;reference.minLength=2;reference.maxLength=100;
-    for(const [v,name] of [['bank',fin('bank')],['cash',fin('cash')],['other',fin('other')]]){const option=make('option','',name);option.value=v;method.append(option)}
-    paymentForm.append(labeled(fin('resident'),payResident),labeled(fin('amount'),payAmount),labeled(fin('date'),received),labeled(fin('method'),method),labeled(fin('reference'),reference),make('p','muted',fin('receipts')));
-    const savePayment=make('button','',fin('savePayment'));savePayment.type='submit';const paymentError=actionError();paymentForm.append(savePayment,paymentError);
-    paymentForm.addEventListener('submit',async e=>{
-     e.preventDefault();if(savePayment.disabled||!confirm(fin('receipts')))return;
-     await saveStaffAction(savePayment,paymentError,fin('failed'),async()=>{
-     const {data,error}=await db.functions.invoke('residence-finance',{body:{action:'payment',tenant_id:tenant,resident_id:payResident.value,amount:payAmount.value,received_on:received.value,method:method.value,reference:reference.value}});
-     if(error||!data?.ok)throw Error('save_failed');
-     void renderPanel();
-     });
-    });
-    container.append(paymentForm);
-   }
+
+   container.append(paymentList);
+   if(staff){container.append(make('p','mini-note',words[6]));if(bankSettings)container.append(bankSettings);}
    return;
   }
   if(tab==='installments'){
