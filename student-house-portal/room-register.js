@@ -1,3 +1,4 @@
+import {registerTemplates} from './register-template.js?v=1';
 import {operationalSheets} from './operational-export.js?v=20261114-full-register3';
 import {downloadWorkbook} from './excel.js';
 import {chargeBalance, cents, installmentBalances} from './ledger.js?v=20261113-installments1';
@@ -21,12 +22,10 @@ const genderName=(value,lang)=>{
  const names={sk:{female:'Žena',male:'Muž',other:'Neuvádza'},en:{female:'Female',male:'Male',other:'Not specified'},ru:{female:'Женщина',male:'Мужчина',other:'Не указано'},uk:{female:'Жінка',male:'Чоловік',other:'Не вказано'}};
  return (names[lang]||names.sk)[value]||'—';
 };
-const monthTitle=(year,month,lang)=>new Date(year,month-1,1).toLocaleDateString(lang==='en'?'en-GB':lang==='ru'?'ru-RU':lang==='uk'?'uk-UA':'sk-SK',{month:'short'});
 const localDate=()=>new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'});
 const formatDate=(value,lang)=>value?new Date(String(value).slice(0,10)+'T12:00:00').toLocaleDateString(lang==='en'?'en-GB':'sk-SK'):'—';
 const formatMoney=(n,lang)=>new Intl.NumberFormat(lang==='en'?'en-GB':'sk-SK',{style:'currency',currency:'EUR'}).format(Number(n)||0);
 const key=(s)=>String(s||'').normalize('NFC').trim().toLocaleLowerCase();
-const dateInYear=(from,to,year)=>(!from||from<=year+'-12-31')&&(!to||to>=year+'-01-01');
 const el=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=String(value);return n};
 const button=(value,fn,cls='btn-secondary')=>{const n=el('button',cls,value);n.type='button';n.addEventListener('click',fn);return n};
 const cell=(value,cls)=>{const n=el('td',cls,value??'—');return n};
@@ -57,32 +56,34 @@ function bedName(room,index) {
  const known=VERIFIED_LABELS[String(room.name)];
  return known?.[index]||String(room.name)+' '+(index+1);
 }
-export function buildRegisterGroups({rooms=[],tenancies=[],residents=[],registrations=[],details=[],enquiries=[],year,expected=EXPECTED_ROOMS}){
- const firstDay=String(year)+'-01-01',lastDay=String(year)+'-12-31';
+export function buildRegisterGroups({rooms=[],tenancies=[],residents=[],registrations=[],details=[],enquiries=[],year,template=null,periods=[],expected=EXPECTED_ROOMS}){
+ const firstDay=(periods[0]||year+'-01')+'-01',lastMonth=periods.at(-1)||year+'-12';
  residents=residents.filter(person=>!person.archived_at);
  const people=new Map(residents.map(x=>[x.id,x])),detailMap=new Map(details.map(x=>[x.resident_id,x])),questionMap=new Map(enquiries.map(x=>[x.resident_id,x]));
  const approved=registrations.filter(r=>r.status==='invited');
  const approvedFor=p=>approved.find(r=>r.contract_number&&r.contract_number===p.verified_contract_number&&key(r.email)===key(p.email))||approved.find(r=>key(r.email)===key(p.email)&&r.first_name);
  const sorted=sortedRooms(rooms);
+ if(template)sorted.sort((a,b)=>(Number(template.rooms[a.name]?.order)||Infinity)-(Number(template.rooms[b.name]?.order)||Infinity));
  const groups=sorted.map((room,pos)=>{
-  const stays=tenancies.filter(t=>t.room_id===room.id&&t.starts_on<=lastDay&&t.ends_on>=firstDay),seen=new Set();
+  const stays=tenancies.filter(t=>t.room_id===room.id&&t.starts_on.slice(0,7)<=lastMonth&&t.ends_on>=firstDay),seen=new Set();
   const entries=stays.flatMap(t=>{
    const person=people.get(t.resident_id);
    if(!person||seen.has(person.id))return [];
    seen.add(person.id);return [{person,stay:t,reg:approvedFor(person),detail:detailMap.get(person.id),enquiry:questionMap.get(person.id)}];
   });
   for(const person of residents){
-   if(key(person.verified_room_number)!==key(room.name)||tenancies.some(t=>t.resident_id===person.id)||!dateInYear(person.accommodation_from,person.accommodation_to,String(year))||seen.has(person.id))continue;
+   if(key(person.verified_room_number)!==key(room.name)||tenancies.some(t=>t.resident_id===person.id)||(person.accommodation_from?.slice(0,7)>lastMonth||person.accommodation_to&&person.accommodation_to<firstDay)||seen.has(person.id))continue;
    seen.add(person.id);entries.push({person,stay:null,reg:approvedFor(person),detail:detailMap.get(person.id),enquiry:questionMap.get(person.id)});
   }
   entries.sort((a,b)=>String(a.person.full_name).localeCompare(String(b.person.full_name),'sk'));
   const capacity=Math.max(1,Number(room.capacity)||1);
   // Preserve the three displayed rows in the original 305 (Š2+2) register;
   // its physical capacity remains 4 and is never silently changed.
-  const sourceRows=String(room.name)==='305'?3:capacity;
+  const layout=template?.rooms[room.name];
+  const sourceRows=layout?.rows.length??(String(room.name)==='305'?3:capacity);
   while(entries.length<sourceRows)entries.push({person:null,stay:null,reg:null,detail:null});
-  entries.forEach((e,i)=>{e.bedIndex=i+1;e.bedLabel=i<sourceRows?bedName(room,i):String(room.name)+' · '+(i+1);e.verifiedBedLabel=!!VERIFIED_LABELS[String(room.name)]?.[i]});
-  return {room,order:pos+1,entries,placeholder:false};
+  entries.forEach((e,i)=>{e.bedIndex=i+1;e.bedLabel=layout?.rows[i]?.[0]||(i<sourceRows?bedName(room,i):String(room.name)+' · '+(i+1));e.verifiedBedLabel=!!VERIFIED_LABELS[String(room.name)]?.[i]});
+  return {room,order:Number(layout?.order)||pos+1,entries,placeholder:false};
  });
  for(let i=groups.length;i<expected;i++)groups.push({room:{id:null,name:'#'+(i+1),category:'',capacity:null},order:i+1,entries:[{person:null,bedLabel:'#'+(i+1)}],placeholder:true});
  return groups;
@@ -215,7 +216,7 @@ export async function renderExcelRegister(ctx){
  const counter=el('p','room-register-count',w.known+': '+rooms.length+' / '+EXPECTED_ROOMS+' · '+w.beds+': '+rooms.reduce((total,r)=>total+(Number(r.capacity)||0),0)+(rooms.length<EXPECTED_ROOMS?' · '+w.missingCount+': '+(EXPECTED_ROOMS-rooms.length):''));
  const controls=el('div','room-register-controls');
  const search=el('input');search.type='search';search.placeholder=w.search;search.setAttribute('aria-label',w.search);
- const yearLabel=el('label','',w.year),yearSelect=el('select');yearSelect.setAttribute('aria-label',w.year);
+ const yearLabel=el('label','',({sk:'Obdobie',en:'Period',ru:'Период',uk:'Період'})[ctx.lang]||'Obdobie'),yearSelect=el('select');yearSelect.setAttribute('aria-label',w.year);
  const nowYear=Number(localDate().slice(0,4));
  const yearSet=new Set([nowYear-1,nowYear,nowYear+1,nowYear+2]);
  for(const [from,to] of [...tenancies.map(t=>[t.starts_on,t.ends_on]),...residents.map(r=>[r.accommodation_from,r.accommodation_to])]){
@@ -225,6 +226,15 @@ export async function renderExcelRegister(ctx){
  }
  for(const c of charges){const y=Number(String(c.period||'').slice(0,4));if(Number.isInteger(y)&&y>=2020&&y<=2100)yearSet.add(y);}
  for(const y of [...yearSet].sort((a,b)=>a-b)){const o=el('option','',String(y));o.value=String(y);o.selected=y===nowYear;yearSelect.append(o)}
+ for(const period of Object.keys(registerTemplates)){
+  const option=el('option','',period.slice(5)+'/'+period.slice(0,4));
+  option.value=period;
+  yearSelect.prepend(option);
+ }
+ const currentMonth=localDate().slice(0,7);
+ if(currentMonth>='2026-02'&&currentMonth<='2027-08'){
+  yearSelect.value=Object.keys(registerTemplates).filter(period=>period<=currentMonth).at(-1);
+ }
  yearLabel.append(yearSelect);
  const exportButton=button('Excel (.xlsx)',()=>exportRows());
  controls.append(search,yearLabel,exportButton);
@@ -261,7 +271,7 @@ export async function renderExcelRegister(ctx){
  mobileFilter.addEventListener('change',()=>paint());
  const cellEdits=new Map();
  const keyForRow=record=>[selectedYear(),record.group.room.id,record.entry.bedIndex,record.entry.person?.id||'empty'].join(':');
- const cellKey=(record,index)=>keyForRow(record)+':'+index;
+ const cellKey=(record,index)=>keyForRow(record)+':'+storageIndex(index);
  const ui=({
   sk:['Celá obrazovka','Zatvoriť celú obrazovku','Text bunky','Poznámka','Farba pozadia','Vlastná farba','Úpravy bunky sa ukladajú v evidencii.','Úpravy sa nepodarilo načítať alebo uložiť.'],
   en:['Full screen','Exit full screen','Cell text','Note','Background color','Custom color','Cell edits are saved in the register.','Could not load or save cell edits.'],
@@ -343,12 +353,14 @@ export async function renderExcelRegister(ctx){
  `;
  root.append(style);
  if(!editsAvailable)notice.textContent=ui[7];
- function editCell(record,index,target){
+ function editCell(record,index,target,pastedValue){
   if(!editsAvailable||!ctx.isCurrent())return;
   const key=cellKey(record,index),item=cellEdits.get(key),value=String(record.values[index]??'');
+  const canonical=index===9?'telephone':index===21+monthCount()?'permanent_address':null;
+  const enquiry=canonical&&record.entry.enquiry;
   const dialog=el('dialog'),form=el('form'),title=el('h4','',headings[index]);
   const textLabel=el('label','',ui[2]),textInput=el('textarea');
-  textInput.maxLength=2000;textInput.value=item?.cell_text??value;textInput.readOnly=headings[index]===w.code;textLabel.append(textInput);
+  textInput.maxLength=canonical?(canonical==='telephone'?60:500):2000;textInput.value=enquiry?.[canonical]??item?.cell_text??value;textInput.readOnly=headings[index]===w.code||!!canonical&&!enquiry;if(pastedValue!==undefined&&!textInput.readOnly)textInput.value=pastedValue.slice(0,textInput.maxLength);textLabel.append(textInput);
   const noteLabel=el('label','',ui[3]),noteInput=el('textarea');
   noteInput.maxLength=4000;noteInput.value=item?.note||'';noteLabel.append(noteInput);
   const colorLabel=el('label','',ui[4]),color=el('input');color.type='color';color.value=item?.color||'#fff1b8';colorLabel.append(color);
@@ -362,28 +374,58 @@ export async function renderExcelRegister(ctx){
   form.addEventListener('submit',async event=>{
    event.preventDefault();
    save.disabled=true;cancel.disabled=true;
-   const payload={tenant_id:ctx.tenant,row_key:keyForRow(record),column_index:index,cell_text:textInput.readOnly||textInput.value===value?null:textInput.value,note:noteInput.value.trim(),color:enable.checked?color.value:null};
+   const payload={tenant_id:ctx.tenant,row_key:keyForRow(record),column_index:storageIndex(index),cell_text:textInput.readOnly||textInput.value===value?null:textInput.value,note:noteInput.value.trim(),color:enable.checked?color.value:null};
    try{
+    if(enquiry&&textInput.value!==String(enquiry[canonical]??'')){
+     const {data,error}=await ctx.db.rpc('update_residence_register_contact',{
+      p_tenant:ctx.tenant,p_resident:record.entry.person.id,p_field:canonical,p_value:textInput.value
+     });
+     if(error||data!==true)throw error||Error('missing_enquiry');
+     enquiry[canonical]=textInput.value.trim();
+    }
+    if(canonical)payload.cell_text=null;
     const result=payload.cell_text===null&&!payload.note&&!payload.color
-     ?await ctx.db.from('room_register_cells').delete().match({tenant_id:ctx.tenant,row_key:payload.row_key,column_index:index})
+     ?await ctx.db.from('room_register_cells').delete().match({tenant_id:ctx.tenant,row_key:payload.row_key,column_index:payload.column_index})
      :await ctx.db.from('room_register_cells').upsert(payload,{onConflict:'tenant_id,row_key,column_index'});
     if(result.error)throw result.error;
     if(payload.cell_text===null&&!payload.note&&!payload.color)cellEdits.delete(key);
     else cellEdits.set(key,payload);
     const x=wrap.scrollLeft,y=wrap.scrollTop,row=target.parentElement.sectionRowIndex;
-    dialog.close();paint();wrap.scrollLeft=x;wrap.scrollTop=y;table.tBodies[0]?.rows[row]?.cells[index]?.focus({preventScroll:true});
+    dialog.close();paint();wrap.scrollLeft=x;wrap.scrollTop=y;table.tBodies[0]?.rows[row]?.querySelector('[data-column-index="'+index+'"]')?.focus({preventScroll:true});
    }catch{status.textContent=ui[7];save.disabled=false;cancel.disabled=false;}
   });
   dialog.showModal();
  }
- const headings=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,...Array.from({length:12},(_,i)=>monthTitle(Number(yearSelect.value),i+1,ctx.lang)),w.total,...(fullRegisterFields[ctx.lang]||fullRegisterFields.sk),w.action];
+ const headings=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,...Array.from({length:12},(_,i)=>String(i+1).padStart(2,'0')),w.total,...(fullRegisterFields[ctx.lang]||fullRegisterFields.sk),w.action];
  let entries=[];
- const selectedYear=()=>Number(yearSelect.value)||nowYear;
+ const selectedYear=()=>Number(yearSelect.value.slice(0,4))||nowYear;
+ const selectedTemplate=()=>registerTemplates[yearSelect.value];
+ const monthCount=()=>selectedTemplate()?.headers.filter(([title])=>/^\d{2}\/\d{2}$/.test(title)).length||12;
+ const months=()=>Array.from({length:monthCount()},(_,index)=>{
+  const date=new Date(Date.UTC(selectedYear(),Number(yearSelect.value.slice(5)||1)-1+index,1));
+  return date.toISOString().slice(0,7);
+ });
+ const storageIndex=index=>index<19?index:index>=19+monthCount()?index+12-monthCount():index;
+ function displayColumns(record){
+  const template=selectedTemplate();
+  if(!template)return headings.map((label,index)=>({label,index}));
+  const layout=record&&template.rooms[record.group.room.name]?.rows[record.entry.bedIndex-1];
+  const occupied=record?.entry.person?1:'';
+  const base=[0,1,2,...Array(9).fill(null),null,4,5,7,6,8,9,11,12,13,14,null,15,
+   ...(yearSelect.value==='2026-02'?[]:[16]),17,18,...months().map((_,index)=>19+index)];
+  const custom=[record?.entry.bedIndex===1?record?.group.order+'.':'',layout?.[0],layout?.[1],
+   ...(layout?.[2]||Array(9).fill('')),occupied];
+  return [
+   ...base.map((index,column)=>({index,label:template.headers[column][0],headerColor:template.headers[column][1],
+    color:layout?.[3]?.[column],value:column===0||column===2||index===null?custom[column]??(column===23&&record?.entry.person&&plans.some(p=>charges.some(c=>c.id===p.charge_id&&c.resident_id===record.entry.person.id))?'✓':''):undefined})),
+   ...[10,...headings.slice(19+monthCount()).map((_,index)=>19+monthCount()+index)].map(index=>({index,label:headings[index]}))
+  ];
+ }
  const fee=(entry,key)=>entry.detail?.[key]===null||entry.detail?.[key]===undefined?'—':formatMoney(entry.detail[key],ctx.lang);
  const lineValues=(group,entry)=>{
   const person=entry.person,stay=entry.stay;
   const [first,last]=displayNames(person,entry.reg);
-  const sum=Array.from({length:12},(_,month)=>periodLedger({entry,year:selectedYear(),month:month+1,charges,allocations,reversals,plans,items:extra.installment_items}));
+  const sum=months().map(period=>periodLedger({entry,year:Number(period.slice(0,4)),month:Number(period.slice(5)),charges,allocations,reversals,plans,items:extra.installment_items}));
   const charged=sum.reduce((n,s)=>n+s.charged,0),paid=sum.reduce((n,s)=>n+s.paid,0);
   const reg=entry.reg||{},q={...(entry.enquiry||{})};
   // Registration data is a fallback only for an explicitly matched approved contract.
@@ -456,7 +498,7 @@ export async function renderExcelRegister(ctx){
   };
  };
  function filteredRows(){
-  const all=buildRegisterGroups({rooms,tenancies,residents,registrations,details,enquiries,year:selectedYear()});
+  const all=buildRegisterGroups({rooms,tenancies,residents,registrations,details,enquiries,year:selectedYear(),template:selectedTemplate(),periods:months()});
   const needle=key(search.value);
   return all.filter(g=>!needle||key([g.room.name,g.room.category,...g.entries.flatMap(e=>[e.bedLabel,e.person?.full_name,e.person?.email,e.person?.verified_contract_number])].join(' ')).includes(needle));
  }
@@ -495,7 +537,7 @@ export async function renderExcelRegister(ctx){
    }
    card.append(detail);
    const payments=el('details','register-mobile-details');payments.append(el('summary','',payWords[2]));
-   for(const [i,state] of record.sum.entries()){if(state.kind==='none')continue;const period=String(selectedYear())+'-'+String(i+1).padStart(2,'0'),p=el('div','register-mobile-pair');p.append(el('span','',period+' · '+w[state.kind]),el('span','',formatMoney(state.remaining/100,ctx.lang)));paymentActions(p,entry,charges.filter(c=>c.resident_id===entry.person.id&&c.period===period&&c.kind==='rent'),period,state.kind==='missing');payments.append(p);}
+   for(const [i,state] of record.sum.entries()){if(state.kind==='none')continue;const period=months()[i],p=el('div','register-mobile-pair');p.append(el('span','',period+' · '+w[state.kind]),el('span','',formatMoney(state.remaining/100,ctx.lang)));paymentActions(p,entry,charges.filter(c=>c.resident_id===entry.person.id&&c.period===period&&c.kind==='rent'),period,state.kind==='missing');payments.append(p);}
    const initial=String(entry.stay?.starts_on||entry.person.accommodation_from||'').slice(0,7);for(const [kind,label] of [['deposit',w.deposit],['administration_fee',w.administration]]){const p=el('div','register-mobile-pair');p.append(el('span','',label));paymentActions(p,entry,charges.filter(c=>c.resident_id===entry.person.id&&c.period===initial&&c.kind===kind),initial);payments.append(p);}card.append(payments);
    const action=el('div','register-mobile-action');
    action.append(button(w.edit,()=>openEditor(action,entry)));const quick=button(quickPayLabel,()=>openPaymentPicker(entry));quick.style.cssText='background:#176346;color:white;font-weight:750';action.append(quick);
@@ -508,13 +550,13 @@ export async function renderExcelRegister(ctx){
   const groups=filteredRows();
   entries=groups.flatMap(g=>g.entries.map(e=>lineValues(g,e)));
   count.textContent=w.filter+': '+groups.length+' / '+Math.max(EXPECTED_ROOMS,rooms.length);
-  headings.splice(19,12,...Array.from({length:12},(_,i)=>monthTitle(selectedYear(),i+1,ctx.lang)));
+  headings.splice(19,headings.length-19-1-fullRegisterFields.sk.length-1,...months().map(period=>period.slice(5)+'/'+period.slice(2,4)));
   paintMobile();
   table.replaceChildren();
   const header=el('thead'),headerLine=el('tr');
-  headings.forEach(h=>{const th=el('th','',h);th.scope='col';headerLine.append(th);});header.append(headerLine);table.append(header);
+  displayColumns().forEach(({label,headerColor})=>{const th=el('th','',label);th.scope='col';if(headerColor){th.style.backgroundColor=headerColor;th.style.color='#17253a';}headerLine.append(th);});header.append(headerLine);table.append(header);
   const body=el('tbody');table.append(body);
-  if(!entries.length){const tr=el('tr'),td=cell(w.empty);td.colSpan=headings.length;tr.append(td);body.append(tr);return;}
+  if(!entries.length){const tr=el('tr'),td=cell(w.empty);td.colSpan=displayColumns().length;tr.append(td);body.append(tr);return;}
   let groupNumber=-1;
   for(const record of entries){
    const {group,entry,first,last,sum,charged,paid,question:q,missing}=record;
@@ -526,7 +568,7 @@ export async function renderExcelRegister(ctx){
    tr.append(cell(entry.person?.verified_contract_number||'—'),cell(formatDate(entry.stay?.starts_on||entry.person?.accommodation_from,ctx.lang)),cell(formatDate(entry.stay?.ends_on||entry.person?.accommodation_to,ctx.lang)),cell(formatDate(entry.detail?.actual_arrival_on,ctx.lang)));
    tr.append(cell(entry.detail?.room_code?w.masked:'—'),cell(fee(entry,'deposit_eur')),cell(fee(entry,'refrigerator_fee_eur')),cell(fee(entry,'verification_fee_eur')),cell(fee(entry,'administration_fee_eur')));
    for(const [i,state] of sum.entries()){
-    const td=monthCell(state,ctx.lang,w),period=String(selectedYear())+'-'+String(i+1).padStart(2,'0');
+    const td=monthCell(state,ctx.lang,w),period=months()[i];
     if(entry.person&&state.kind!=='none')paymentActions(td,entry,charges.filter(c=>c.resident_id===entry.person.id&&c.period===period&&c.kind==='rent'),period,state.kind==='missing');
     tr.append(td);
    }
@@ -540,16 +582,28 @@ export async function renderExcelRegister(ctx){
    else if(entry.person){action.append(button(w.edit,()=>openEditor(action,entry)));const quick=button(quickPayLabel,()=>openPaymentPicker(entry));quick.style.cssText='background:#176346;color:white;font-weight:750';action.append(quick);if(ctx.openResidents)action.append(button(w.open,ctx.openResidents));}
    else action.append(el('span','muted','—'));
    if(!group.placeholder&&editsAvailable)Array.from(tr.cells).forEach((td,index)=>{
-    if((index>=19&&index<31)||[15,18,31].includes(index)||index===tr.cells.length-1)return; // Payment cells reflect ledger only, never manual text or color.
+    if((index>=19&&index<=19+sum.length)||[15,18].includes(index)||index===tr.cells.length-1)return; // Payment cells reflect ledger only, never manual text or color.
     const item=cellEdits.get(cellKey(record,index));
-    td.classList.add('editable-register-cell');td.tabIndex=0;
-    if(item?.cell_text!=null)td.textContent=item.cell_text;
+    td.classList.add('editable-register-cell');td.tabIndex=0;td.dataset.columnIndex=String(index);
+    if(item?.cell_text!=null&&index!==9&&index!==21+monthCount())td.textContent=item.cell_text;
     if(item?.color)td.style.backgroundColor=item.color;
     if(item?.note){
      const dot=el('span','register-note-dot');dot.setAttribute('role','img');dot.setAttribute('aria-label',ui[3]);td.append(dot);
      td.title=ui[3]+': '+item.note;
     }
     td.addEventListener('click',()=>editCell(record,index,td));
+    td.addEventListener('copy',event=>{
+     if(!event.clipboardData||headings[index]===w.code)return;
+     event.clipboardData.setData('text/plain',td.firstChild?.textContent||'');
+     event.preventDefault();
+    });
+    td.addEventListener('paste',event=>{
+     if(!event.clipboardData||headings[index]===w.code)return;
+     const value=event.clipboardData.getData('text/plain');
+     if(value.includes('\t'))return;
+     event.preventDefault();
+     editCell(record,index,td,value);
+    });
     td.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();editCell(record,index,td);}});
    });
    if(entry.person){
@@ -569,7 +623,21 @@ export async function renderExcelRegister(ctx){
      summary.title=[summary.title,record.extras.at(-1)].filter(Boolean).join('\n');
     }
    }
-   tr.append(action);body.append(tr);
+   tr.append(action);
+   if(selectedTemplate()){
+    const cells=Array.from(tr.cells);
+    tr.replaceChildren(...displayColumns(record).map(({index,value,color})=>{
+     const td=index===null?cell(value):cells[index];
+     if(value!==undefined&&!cellEdits.get(cellKey(record,index))?.cell_text){
+      const note=td.querySelector('.register-note-dot');
+      td.textContent=value;
+      if(note)td.append(note);
+     }
+     if(color&&!td.style.backgroundColor)td.style.backgroundColor=color;
+     return td;
+    }));
+   }
+   body.append(tr);
   }
  }
  function openEditor(host,entry){
@@ -630,9 +698,9 @@ export async function renderExcelRegister(ctx){
  }
  function exportRows(){
   const year=selectedYear();
-  const header=[w.seq,w.room,w.category,w.capacity,w.nationality,w.gender,w.first,w.last,w.email,w.telephone,w.contract,w.from,w.to,w.arrival,w.code,w.deposit,w.fridge,w.verification,w.administration,
-   ...Array.from({length:12},(_,i)=>monthTitle(year,i+1,ctx.lang)),w.total,...(fullRegisterFields[ctx.lang]||fullRegisterFields.sk)];
-  const lines=[header,...entries.map(r=>r.values.slice(0,-1).map((value,index)=>cellEdits.get(cellKey(r,index))?.cell_text??value))];
+  const header=displayColumns().filter(column=>column.index!==headings.length-1).map(column=>column.label);
+  const lines=[header,...entries.map(record=>displayColumns(record).filter(column=>column.index!==headings.length-1).map(({index,value})=>
+   (index===9||index===21+monthCount()?null:cellEdits.get(cellKey(record,index))?.cell_text)??value??record.values[index]??''))];
   downloadWorkbook('student-house-register-'+year,[{name:'Evidencia',rows:lines},...operationalSheets({
    residents,enquiries,details,tenancies,reviews:extra.resident_enquiry_reviews,files:extra.residence_portal_files,registrations,
    cleaning:extra.cleaning_bookings,requests:extra.service_requests,charges,payments:extra.payments,

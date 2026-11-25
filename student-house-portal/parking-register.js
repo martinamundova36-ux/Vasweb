@@ -1,3 +1,4 @@
+import {downloadWorkbook} from './excel.js';
 const words = {
  sk:['Žiadosti z formulára','Otvoriť parkovací formulár','Zatiaľ tu nie sú žiadosti.','Excel 2025–2026 · testovacie údaje','Meno','EČV','E-mail','Telefón','Od','Do','Suma (€)','Stav','Poznámka','Záznam z Excelu'],
  en:['Form requests','Open parking form','No requests yet.','Excel 2025–2026 · test data','Name','Registration plate','Email','Phone','From','To','Amount (€)','Status','Note','Excel entry'],
@@ -75,7 +76,7 @@ function editCell(root, copy, heading, value, save) {
  input.select();
 }
 
-function appendWorkbookGrid(root, history, copy, saveCell) {
+function appendWorkbookGrid(root, history, copy, saveCell, matchingRows) {
  const style = element('style', `
  .parking-workbook {overflow-x:auto; max-width:100%; border:1px solid #899aaa; margin-bottom:1.5rem}
  .parking-workbook table {border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; font:14px Arial,sans-serif; color:#17253a}
@@ -97,10 +98,14 @@ function appendWorkbookGrid(root, history, copy, saveCell) {
  const body = table.createTBody();
  const source = new Map(history.map(row => [row.source_row,row]));
  const covered = new Set();
+ const sourceRows=[...source.keys()].sort((a,b)=>b-a);
+ const columnOwner=line=>sourceRows.find(sourceLine=>sourceLine<=line);
  for (let line=1; line<=50; line++) {
   const headingYear = line===1 ? 2025 : line===23 ? 2026 : null;
   const record = source.get(line);
   const row = body.insertRow();
+  const owner = columnOwner(line);
+  row.hidden=matchingRows!==null&&!headingYear&&!matchingRows.has(owner);
   for (let column=1; column<=13; column++) {
    const key = line+':'+column;
    if (covered.has(key)) continue;
@@ -150,7 +155,29 @@ export function renderParkingRegister(root, lang, requests, history, saveCell) {
  root.append(element('h4', imported));
  const copy=editWords[lang]||editWords.sk;
  root.append(element('p',copy[0]));
- appendWorkbookGrid(root, history, copy, saveCell);
+ const search = element('input');
+ search.type='search';
+ search.placeholder=({sk:'Hľadať meno alebo EČV',en:'Find name or plate',ru:'Имя или номер авто',uk:'Ім’я або номер авто'})[lang]||'Hľadať';
+ search.setAttribute('aria-label',search.placeholder);
+ const exportButton=element('button','Excel (.xlsx)');
+ exportButton.type='button';
+ exportButton.addEventListener('click',()=>{
+  const sheets=[...new Set(history.map(record=>record.year))].sort().map(year=>({
+   name:String(year), rows:[[year,...Array.from({length:12},(_,i)=>i+1)],
+    ...history.filter(record=>record.year===year).sort((a,b)=>a.source_row-b.source_row).map(record=>[record.entry,...record.months])]
+  }));
+  downloadWorkbook('Parkovanie',sheets);
+ });
+ const ledger=element('div');
+ root.append(search,exportButton,ledger);
+ function paintLedger(){
+  const query=search.value.trim().toLocaleLowerCase();
+  const matches=query?new Set(history.filter(record=>[record.entry,...record.months].some(value=>String(value??'').toLocaleLowerCase().includes(query))).map(record=>record.source_row)):null;
+  ledger.replaceChildren();
+  appendWorkbookGrid(ledger,history,copy,saveCell,matches);
+ }
+ search.addEventListener('input',paintLedger);
+ paintLedger();
  const link = element('a', form);
  link.href = '/student-house-portal/parking/?lang=' + encodeURIComponent(lang);
  root.append(element('h4', inbox), link);
