@@ -163,49 +163,86 @@ const actionWords={
  ru:['Действия','Удалить','Подготовить счёт','Удалить эту запись навсегда?','Не удалось удалить запись.','Черновик счёта – парковка','Клиент','Номер автомобиля','Период','Сумма (€)','Печать черновика','Закрыть','Рабочий документ для счёта'],
  uk:['Дії','Видалити','Підготувати рахунок','Видалити цей запис назавжди?','Не вдалося видалити запис.','Чернетка рахунку – паркування','Клієнт','Номер авто','Період','Сума (€)','Друк чернетки','Закрити','Робочий документ для рахунку']
 };
-function invoiceDraft(root,labels,data) {
- const [,,,,,title,customer,plate,period,amount,print,close,caption]=labels;
+const billingWords={
+ sk:['Dodávateľ','Fakturačná adresa','Číslo faktúry','Dátum vystavenia','Dátum dodania','Splatnosť','Počet mesiacov','Cena za mesiac bez DPH','Základ bez DPH','DPH (23 %)','Celkom s DPH','Variabilný symbol','Prenájom parkovacieho miesta'],
+ en:['Supplier','Billing address','Invoice number','Issue date','Supply date','Due date','Months','Monthly price excl. VAT','Net amount','VAT (23%)','Total incl. VAT','Payment reference','Parking space rental'],
+ ru:['Поставщик','Платёжный адрес','Номер счёта','Дата выставления','Дата оказания услуги','Срок оплаты','Месяцев','Цена за месяц без НДС','Сумма без НДС','НДС (23%)','Итого с НДС','Код платежа','Аренда парковочного места'],
+ uk:['Постачальник','Платіжна адреса','Номер рахунку','Дата виставлення','Дата надання послуги','Строк оплати','Місяців','Ціна за місяць без ПДВ','Сума без ПДВ','ПДВ (23%)','Разом з ПДВ','Код платежу','Оренда паркомісця']
+};
+
+function invoiceDraft(root,labels,data,lang) {
+ const [,,,,,title,customer,plate,period,,print,close,caption]=labels;
+ const [supplier,address,number,issued,delivered,due,months,unit,net,vat,total,reference,service]=billingWords[lang]||billingWords.sk;
+ const supplierLines=['Gargallo s.r.o.','Tomášikova 34, 821 01 Bratislava – Ružinov','IČO 46 078 223 · DIČ 2023222300 · IČ DPH SK2023222300','Obchodný register Mestského súdu Bratislava III, oddiel Sro, vložka 71278/B'];
  const dialog=element('dialog');
  dialog.className='parking-edit-dialog';
  const form=element('form');
- for(const [label,value,type] of [[customer,data.name,'text'],[plate,data.plate,'text'],[period,data.period,'text'],[amount,data.amount,'number']]){
+ const fields=new Map();
+ for(const [label,value,type,required] of [
+  [customer,data.name,'text',true],[address,'','text',true],[plate,data.plate,'text',false],
+  [period,data.period,'text',true],[number,'','text',false],[issued,'','date',false],
+  [delivered,'','date',false],[due,'','date',false],[months,1,'number',true],
+  ['IBAN','','text',false],[reference,'','text',false]
+ ]){
   const field=element('label',label);
   const input=element('input');
   input.type=type;
   input.value=value??'';
-  input.required=label!==plate;
-  if(type==='number'){input.min='0.01';input.step='0.01';}
+  input.required=required;
+  if(type==='number'){input.min='1';input.max='120';input.step='1';}
+  fields.set(label,input);
   field.append(input);
   form.append(field);
  }
+ const money=new Intl.NumberFormat(({sk:'sk-SK',en:'en-IE',ru:'ru-RU',uk:'uk-UA'})[lang]||'sk-SK',{style:'currency',currency:'EUR'});
+ const totals=element('p');
+ totals.setAttribute('aria-live','polite');
+ function amounts(){
+  const base=5000*fields.get(months).valueAsNumber;
+  const tax=Math.round(base*23/100);
+  return [[net,base],[vat,tax],[total,base+tax]].map(([label,cents])=>[label,money.format(cents/100)]);
+ }
+ function updateTotals(){
+  const input=fields.get(months);
+  totals.textContent=input.value&&input.validity.valid?amounts().map(([label,value])=>label+' '+value).join(' · '):'';
+ }
+ fields.get(months).addEventListener('input',updateTotals);
+ updateTotals();
  const cancel=element('button',close);
  cancel.type='button';
  cancel.addEventListener('click',()=>dialog.close());
  const submit=element('button',print);
  submit.type='submit';
- form.append(submit,cancel);
+ form.append(totals,submit,cancel);
  form.addEventListener('submit',event=>{
   event.preventDefault();
   const paper=window.open('','_blank');
   if(!paper)return;
   paper.opener=null;
   paper.document.title=title;
-  const heading=paper.document.createElement('h1');
-  heading.textContent=title;
-  const doc=paper.document.createElement('dl');
-  for(const [index,label] of [customer,plate,period,amount].entries()){
-   const key=paper.document.createElement('dt');
-   const value=paper.document.createElement('dd');
-   key.textContent=label;
-   value.textContent=form.querySelectorAll('input')[index].value;
-   doc.append(key,value);
+  const doc=paper.document;
+  const add=(tag,value,parent=doc.body)=>{
+   const node=doc.createElement(tag);
+   node.textContent=value;
+   parent.append(node);
+   return node;
+  };
+  add('style','body{font:15px system-ui,sans-serif;color:#142b4d;max-width:760px;margin:40px auto;padding:24px} h1{margin-bottom:4px} h2{font-size:16px;margin:26px 0 8px} p{margin:6px 0} dl{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px} dd{margin:0} .total{font-size:1.25em;font-weight:700;border-top:1px solid;padding-top:10px}',doc.head);
+  add('h1',title);
+  add('p',caption);
+  add('h2',supplier);
+  for(const line of supplierLines)add('p',line);
+  add('h2',service+' · Tomášikova 34');
+  const details=add('dl','');
+  for(const [label,input] of fields){
+   add('dt',label,details);
+   add('dd',input.value||'—',details);
   }
-  const footer=paper.document.createElement('p');
-  footer.textContent=caption;
-  paper.document.body.append(heading,doc,footer);
+  add('p',unit+' '+money.format(50));
+  for(const [label,value] of amounts())add('p',label+' '+value).className=label===total?'total':'';
   paper.print();
  });
- dialog.append(element('h3',title),form);
+ dialog.append(element('h3',title),element('p',supplier+' · '+supplierLines[0]),element('p',unit+' '+money.format(50)),form);
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
  root.append(dialog);
  dialog.showModal();
@@ -222,7 +259,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
   cell.style.minWidth='185px';
   const bill=element('button',invoice);
   bill.type='button';
-  bill.addEventListener('click',()=>invoiceDraft(root,labels,data()));
+  bill.addEventListener('click',()=>invoiceDraft(root,labels,data(),lang));
   const del=element('button',remove);
   del.type='button';
   del.addEventListener('click',async()=>{
@@ -291,7 +328,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
    const request=ordered[index];
    return actionCell(row,request,'request',()=>({
     name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
-    period:[request.start_on,request.end_on].filter(Boolean).join(' – '),amount:request.total_eur
+    period:[request.start_on,request.end_on].filter(Boolean).join(' – ')
    }));
   });
  } else {
