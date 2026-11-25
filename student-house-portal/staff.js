@@ -707,7 +707,7 @@ export async function renderStaffScreen(ctx) {
          event.preventDefault();if(!ctx.isCurrent()||!contract.reportValidity())return;
          create.disabled=true;contractStatus.textContent='';
          try{
-          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-contract-bold1');
+          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-unified-qr1');
           const assignedRoom=(await ctx.list('rooms')).find(r=>String(r.name)===String(person.verified_room_number));
           const data=fieldsForDocument('contract_draft',person,enquiry,{...stay,room_type:assignedRoom?.category||''},verified,{
            provider:provider.value.trim(),payment_terms:terms.value.trim()
@@ -746,13 +746,13 @@ export async function renderStaffScreen(ctx) {
         if(!fullRent||!depositPresent||!adminPresent){
          documentFlow.append(el('p','danger',documentWording.missingRent));return;
         }
-        if(original&&ctx.isCurrent()&&contract.isConnected){contract.requestSubmit();}
+        if(original&&ctx.isCurrent()&&contract.isConnected){contract.requestSubmit();return;}
         const descriptions={rent:documentWording.rent,deposit:documentWording.deposit,administration_fee:documentWording.admin};
         const items=charges.filter(x=>periods.includes(x.period)&&['rent','deposit','administration_fee'].includes(x.kind))
          .sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||
           ['rent','deposit','administration_fee'].indexOf(a.kind)-['rent','deposit','administration_fee'].indexOf(b.kind))
          .map(x=>({due_on:x.due_on,amount:Number(x.amount),description:descriptions[x.kind]+(x.kind==='rent'?' '+x.period:'')}));
-        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261125-provider1');
+        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261125-unified-qr1');
         if(!ctx.isCurrent()||!documentFlow.isConnected)return;
         const symbol=normalizeContractSymbol(person.verified_contract_number)||(!isStudentHouse(ctx.tenant)?normalizeContractSymbol(verified.room_code):'');
         attachInstallmentDocument(documentFlow,{title:'Splátkový kalendár – Student House Bratislava'},person,items,{
