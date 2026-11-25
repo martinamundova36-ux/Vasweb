@@ -67,25 +67,40 @@ export async function contractScheduleDocument(data,items){
  const total=items.reduce((n,i)=>n+Math.round(Number(i.amount)*100),0)/100;
  const fmt=v=>v?date(v):'—';
  const perPage=3;
+ const face=await new FontFace('SHContractSerif','url(https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/tinos/Tinos-Regular.ttf)').load();
+ const boldFace=await new FontFace('SHContractSerif','url(https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/tinos/Tinos-Bold.ttf)',{weight:'700'}).load();
+ document.fonts.add(face);document.fonts.add(boldFace);
  for(let offset=0;offset<items.length;offset+=perPage){
   if(offset)pdf.addPage();
   const canvas=node('canvas');canvas.width=1400;canvas.height=1980;
   const c=canvas.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,1400,1980);
-  const text=(s,x,y,size=22,bold=false,max=1250)=>{c.fillStyle='#152d4d';c.font=(bold?'bold ':'')+size+'px sans-serif';c.fillText(val(s),x,y,max);};
-  const wrapped=(s,x,y,width,size=19)=>{c.font=size+'px sans-serif';const words=val(s).split(/\s+/);let line='';for(const word of words){if(line&&c.measureText(line+' '+word).width>width){text(line,x,y,size,false,width);y+=25;line='';}line+=(line?' ':'')+word;}text(line,x,y,size,false,width);return y+28;};
+  const text=(s,x,y,size=22,bold=false,max=1250,highlight=false)=>{
+   const line=val(s);c.font=(bold?'bold ':'')+size+'px SHContractSerif';
+   const scale=Math.min(1,max/Math.max(1,c.measureText(line).width));
+   const ranges=[];
+   if(highlight===true)ranges.push([0,line.length]);
+   else if(highlight==='values'){
+    const re=/:\s*([^|]+?)(?=\s*\||$)/g;let match;
+    while((match=re.exec(line))){const start=match.index+match[0].indexOf(match[1]);if(match[1].trim()!=='—')ranges.push([start,start+match[1].length]);}
+    if(line.startsWith('Izba /')&&line.includes('|'))ranges.push([line.indexOf('|')+1,line.length]);
+   }
+   for(const [start,end] of ranges){const startX=x+c.measureText(line.slice(0,start)).width*scale;c.fillStyle='#fff099';c.fillRect(startX,y-size*.88,c.measureText(line.slice(start,end)).width*scale,size*1.08);}
+   c.fillStyle='#152d4d';c.fillText(line,x,y,max);
+  };
+  const wrapped=(s,x,y,width,size=19,highlight=false)=>{c.font=size+'px SHContractSerif';const words=val(s).split(/\s+/);let line='';for(const word of words){if(line&&c.measureText(line+' '+word).width>width){text(line,x,y,size,false,width,highlight);y+=25;line='';}line+=(line?' ':'')+word;}text(line,x,y,size,false,width,highlight);return y+28;};
   c.drawImage(logo,55,30,360,360*logo.height/logo.width);
   text('Splátkový kalendár / Payment schedule',55,142,40,true);
-  text('Zmluva č. / Contract no. '+val(data.contract_number),55,181,26,true);
+  text('Zmluva č. / Contract no. '+val(data.contract_number),55,181,26,true,1250,true);
   c.strokeStyle='#cfdaea';c.beginPath();c.moveTo(55,199);c.lineTo(1345,199);c.stroke();
   text('Ubytovateľ / Accommodation provider',55,235,24,true,620);
   text('Ubytovaný / Guest',720,235,24,true,625);
   const left=[provider.name,provider.address,'IČO / Company ID: '+provider.companyId,'DIČ / Tax ID: '+provider.taxId,'IČ DPH / VAT ID: '+provider.vatId,provider.register,'Zastúpený / Represented by: '+provider.representatives,provider.bank,'IBAN: '+provider.iban,'SWIFT/BIC: '+provider.bic,'Dodanie je oslobodené od dane / Supply is tax exempt'];
   const right=['Meno / First name: '+val(data.first_name),'Priezvisko / Surname: '+val(data.last_name),'Bydlisko / Address: '+val(data.address),'Dátum narodenia / Date of birth: '+fmt(data.birth_date),'Národnosť / Nationality: '+val(data.nationality),'OP/pas / ID/passport: '+val(data.passport_number),'Kontakt / Phone: '+val(data.telephone),'E-mail: '+val(data.email),'Kontakt rodiča / Parent contact: '+val(data.parent_email),'Škola / School: '+val(data.school),'IBAN ubytovaného / Guest IBAN: '+val(data.student_iban)];
-  let ly=269,ry=269;for(const line of left)ly=wrapped(line,55,ly,620);for(const line of right)ry=wrapped(line,720,ry,625);
+  let ly=269,ry=269;for(const line of left)ly=wrapped(line,55,ly,620);for(const line of right)ry=wrapped(line,720,ry,625,19,'values');
   let y=Math.max(ly,ry)+12;
-  text('Izba / Room: '+val(data.room_type)+' · '+val(data.room_number)+'   |   Ubytovanie / Stay: '+fmt(data.accommodation_from)+' – '+fmt(data.accommodation_to),55,y,25,true,1290);y+=38;
-  text('Celková suma / Total: '+money.format(total)+'   |   VS / Variable symbol: '+symbol,55,y,25,true);y+=30;
-  text('Správa pre prijímateľa / Payment note: '+val(data.student_name),55,y,20,false,1290);y+=20;
+  text('Izba / Room: '+val(data.room_type)+' · '+val(data.room_number)+'   |   Ubytovanie / Stay: '+fmt(data.accommodation_from)+' – '+fmt(data.accommodation_to),55,y,25,true,1290,'values');y+=38;
+  text('Celková suma / Total: '+money.format(total)+'   |   VS / Variable symbol: '+symbol,55,y,25,true,1250,'values');y+=30;
+  text('Správa pre prijímateľa / Payment note: '+val(data.student_name),55,y,20,false,1290,'values');y+=20;
   const rowHeight=Math.min(250,Math.floor((1900-y)/perPage));
   if(rowHeight<220)throw Error('Údaje zmluvných strán sú príliš dlhé pre prílohu. Skontroluj údaje.');
   for(let i=offset;i<Math.min(offset+perPage,items.length);i++){
@@ -93,13 +108,13 @@ export async function contractScheduleDocument(data,items){
    c.fillStyle='#eef3f9';c.fillRect(55,top,1290,rowHeight-10);
    const first=it.initial===true,purpose=it.kind==='deposit'?'Depozit / Deposit':it.kind==='administration_fee'?'Administratívny poplatok / Administrative fee':'Splátka nájmu / Rent payment';
    const month=it.kind==='rent'?new Intl.DateTimeFormat('sk-SK',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(it.period+'-01T12:00:00Z'))+' / '+new Intl.DateTimeFormat('en-GB',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(it.period+'-01T12:00:00Z')):'—';
-   text((i+1)+'. '+purpose,75,top+32,25,true,1010);
-   text('Za mesiac / For month: '+month,75,top+62,21,false,1010);
-   text('Dátum dodania / Supply day: '+(first?'Deň prijatia platby / Day of receiving payment':fmt(it.due_on)),75,top+90,20,false,1010);
-   text('Splatnosť / Due: '+(first?'Do 3 dní od podpisu / Within 3 days of signing · ':'')+fmt(it.due_on),75,top+118,20,false,1010);
-   text('Variabilný symbol / Variable symbol: '+symbol,75,top+146,20,false,1010);
-   text('Základ dane / Base: '+money.format(Number(it.amount))+'   |   DPH / VAT: '+(it.kind==='rent'?'0%':'—'),75,top+174,20,false,1010);
-   text('Celková suma / Total: '+money.format(Number(it.amount)),75,top+204,24,true,1010);
+   text((i+1)+'. '+purpose,75,top+32,25,true,1010,true);
+   text('Za mesiac / For month: '+month,75,top+62,21,false,1010,'values');
+   text('Dátum dodania / Supply day: '+(first?'Deň prijatia platby / Day of receiving payment':fmt(it.due_on)),75,top+90,20,false,1010,'values');
+   text('Splatnosť / Due: '+(first?'Do 3 dní od podpisu / Within 3 days of signing · ':'')+fmt(it.due_on),75,top+118,20,false,1010,'values');
+   text('Variabilný symbol / Variable symbol: '+symbol,75,top+146,20,false,1010,'values');
+   text('Základ dane / Base: '+money.format(Number(it.amount))+'   |   DPH / VAT: '+(it.kind==='rent'?'0%':'—'),75,top+174,20,false,1010,'values');
+   text('Celková suma / Total: '+money.format(Number(it.amount)),75,top+204,24,true,1010,'values');
    const side=Math.min(186,rowHeight-24);c.drawImage(qrImages[i],1325-side,top+8,side,side);
   }
   text('PAY by square · Pred potvrdením skontrolujte údaje / Verify details before payment.',55,1938,19,false,1150);
