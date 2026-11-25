@@ -64,10 +64,10 @@ export async function failureCode(error, data) {
 }
 
 const archiveCopy={
- sk:{cancel:'Zrušiť',archived:'Archivovaný'},
- en:{cancel:'Cancel',archived:'Archived'},
- ru:{cancel:'Отмена',archived:'В архиве'},
- uk:{cancel:'Скасувати',archived:'В архіві'}
+ sk:{title:'Archivovať študenta',warning:'Archivácia vypne prístup študenta a uvoľní jeho miesto v evidencii izieb. Zmluvy, platby a história sa uchovajú. Trvalé vymazanie podlieha samostatnému schváleniu.',cancel:'Zrušiť',confirm:'Potvrdiť archiváciu',archived:'Archivovaný',failed:'Archivácia zlyhala. Overte oprávnenia a obnovte prehľad.'},
+ en:{title:'Archive student',warning:'Archiving removes student access and releases their place in the room register. Agreements, payments and history are retained. Permanent deletion requires separate approval.',cancel:'Cancel',confirm:'Confirm archive',archived:'Archived',failed:'Archiving failed. Check permissions and refresh the list.'},
+ ru:{title:'Архивировать студента',warning:'Архивация отключит доступ студента и освободит его место в реестре комнат. Договоры, платежи и история сохранятся. Окончательное удаление требует отдельного согласования.',cancel:'Отмена',confirm:'Подтвердить архивацию',archived:'В архиве',failed:'Не удалось архивировать. Проверьте права доступа и обновите список.'},
+ uk:{title:'Архівувати студента',warning:'Архівування вимкне доступ студента та звільнить його місце в реєстрі кімнат. Договори, платежі й історія збережуться. Остаточне видалення потребує окремого погодження.',cancel:'Скасувати',confirm:'Підтвердити архівування',archived:'В архіві',failed:'Не вдалося архівувати. Перевірте права доступу й оновіть список.'}
 };
 
 const purgeCopy = {
@@ -135,6 +135,50 @@ export async function renderStaffScreen(ctx) {
 
  const archive=archiveCopy[ctx.lang]||archiveCopy.sk;
  const [purgeLabel,purgeWarning,purgeConfirm,approvalRequired,storagePending,purgeSuccess,purgeError]=purgeCopy[ctx.lang]||purgeCopy.sk;
+ function confirmArchive(person){
+  if(!ctx.isCurrent()||ctx.role!=='org_admin'||person.archived_at)return;
+  const dialog=el('dialog','staff-archive-dialog');
+  const title=el('h3','',archive.title);
+  title.id='staff-archive-title';
+  dialog.setAttribute('aria-labelledby',title.id);
+  const details=el('dl','identity-fields');
+  details.append(field(w.room,person.verified_room_number),field(w.contract,person.verified_contract_number));
+  const failure=inlineError();
+  const cancel=button(archive.cancel,()=>dialog.close());
+  cancel.autofocus=true;
+  const confirm=button(archive.confirm,async()=>{
+   if(!ctx.isCurrent()||pendingAction)return;
+   pendingAction=true;
+   const reset=busyButton(confirm,[confirm,cancel]);
+   failure.textContent='';
+   let archivedAt;
+   try{
+    const {data,error}=await ctx.db.rpc('archive_residence_student',{p_tenant:ctx.tenant,p_resident:person.id});
+    if(error||!data)throw Error('archive_failed');
+    archivedAt=data;
+   }catch{
+    failure.textContent=archive.failed;
+   }finally{
+    pendingAction=false;
+    reset();
+   }
+   if(archivedAt){
+    person.archived_at=archivedAt;
+    person.active=false;
+    dialog.close();
+    if(ctx.isCurrent()){
+     paint();
+     ctx.notice.replaceChildren(receipt(archive.archived+' · '+person.full_name));
+    }
+   }
+  },'staff-archive-danger');
+  dialog.addEventListener('cancel',event=>{if(pendingAction)event.preventDefault();});
+  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+  dialog.append(title,el('p','',person.full_name),details,el('p','',archive.warning),failure,cancel,confirm);
+  ctx.root.append(dialog);
+  dialog.showModal();
+ }
+
  function confirmPurge(person){
   if(!ctx.isCurrent()||ctx.role!=='org_admin')return;
   const dialog=el('dialog','staff-archive-dialog');
@@ -344,6 +388,7 @@ export async function renderStaffScreen(ctx) {
    }else if(ctx.section==='residents'){
     card.append(button(w.open,()=>{void profile(person);}));
     if(ctx.role==='org_admin'){
+     if(!person.archived_at)card.append(button(archive.title,()=>confirmArchive(person)));
      const remove=button(purgeLabel,()=>confirmPurge(person),'staff-archive-danger');
      const icon=el('span','','🗑 ');
      icon.setAttribute('aria-hidden','true');
