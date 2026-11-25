@@ -706,7 +706,7 @@ export async function renderStaffScreen(ctx) {
          event.preventDefault();if(!ctx.isCurrent()||!contract.reportValidity())return;
          create.disabled=true;contractStatus.textContent='';
          try{
-          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-contract-highlight1');
+          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-contract-bold1');
           const assignedRoom=(await ctx.list('rooms')).find(r=>String(r.name)===String(person.verified_room_number));
           const data=fieldsForDocument('contract_draft',person,enquiry,{...stay,room_type:assignedRoom?.category||''},verified,{
            provider:provider.value.trim(),payment_terms:terms.value.trim()
