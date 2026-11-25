@@ -31,7 +31,7 @@ export function fieldsForDocument(kind, person, enquiry, tenancy, staff, extras 
   student_name:person.full_name,room_number:person.verified_room_number,contract_number:person.verified_contract_number,
   accommodation_from:person.accommodation_from,accommodation_to:person.accommodation_to,
   birth_date:enquiry?.date_of_birth,address:enquiry?.permanent_address,
-  nationality:enquiry?.nationality,telephone:enquiry?.telephone,email:person.email,parent_email:enquiry?.parent_contact_email,school:enquiry?.school,room_type:tenancy?.room_type||enquiry?.preferred_room_type,student_iban:enquiry?.iban,
+  nationality:enquiry?.nationality,telephone:enquiry?.telephone,email:person.email,parent_email:enquiry?.parent_contact_email,school:enquiry?.school,room_type:tenancy?.room_type,student_iban:enquiry?.iban,
   provider:providerText(person.tenant_id),
   ...(kind==='contract_draft'?{passport_number:enquiry?.identity_document_number}:{}),
   ...(kind==='deposit_template'?{refund_iban:enquiry?.iban}:{}),
