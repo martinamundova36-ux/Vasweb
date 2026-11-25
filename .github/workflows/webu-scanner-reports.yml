@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        site: [webu, peligrosa]
+        site: [webu, peligrosa, chatakubinskahola]
         device: [mobile, desktop]
     steps:
       - uses: actions/setup-node@v4
@@ -34,6 +34,7 @@ jobs:
           case "$SITE" in
             webu) URL=https://www.webu.sk/ ;;
             peligrosa) URL=https://www.peligrosa.sk/ ;;
+            chatakubinskahola) URL=https://www.chatakubinskahola.sk/ ;;
             *) exit 1 ;;
           esac
           export URL
@@ -100,7 +101,7 @@ jobs:
           from pathlib import Path
           from datetime import datetime, timezone
           rows=[]
-          for site in ['webu','peligrosa']:
+          for site in ['webu','peligrosa','chatakubinskahola']:
               for device in ['mobile','desktop']:
                   d=json.loads(Path('/tmp/webu-audits/'+site+'-'+device+'.json').read_text())
                   assert d['site']==site and d['device']==device
