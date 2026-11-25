@@ -727,7 +727,8 @@ ru:{admin:"Администрация Student House Bratislava",reception:"Ре�
 uk:{admin:"Адміністрація Student House Bratislava",reception:"Рецепція Student House Bratislava",student:"Мій студентський кабінет",adminRole:"Вхід: адміністратор",receptionRole:"Вхід: рецепція",studentRole:"Вхід: студент",adminOverview:"Огляд адміністрації",studentOverview:"Моє проживання",account:"Налаштування облікового запису"}
 };
 const dashboardLabel=k=>DASH[lang][k];
-const label=k=>k==='questionnaires'?({sk:'Dotazníky – správa',en:'Questionnaire management',ru:'Управление анкетами',uk:'Керування анкетами'})[lang]:(ui[lang]||ui.sk)[k]||ui.sk[k]||k;
+const parkingTitles={sk:'Parkovné',en:'Parking',ru:'Парковка',uk:'Паркування'};
+const label=k=>k==='parking'?parkingTitles[lang]||parkingTitles.sk:k==='questionnaires'?({sk:'Dotazníky – správa',en:'Questionnaire management',ru:'Управление анкетами',uk:'Керування анкетами'})[lang]:(ui[lang]||ui.sk)[k]||ui.sk[k]||k;
 const make=(tag,cls,value)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(value!==undefined)e.textContent=String(value);return e};
 const financeTerms={
 sk:{resident:"Študent",chargeAdd:"Pridať mesačný predpis",paymentAdd:"Zaevidovať overenú platbu",period:"Mesiac",amount:"Suma v €",date:"Dátum",due:"Splatnosť",method:"Spôsob platby",reference:"Referencia / variabilný symbol",bank:"Bankový prevod",cash:"Hotovosť",other:"Iné",saveCharge:"Uložiť predpis",savePayment:"Uložiť úhradu",saved:"Údaje boli uložené.",failed:"Zápis sa nepodaril. Skontroluj údaje alebo duplicitu.",needsResident:"Najprv schváľ registráciu študenta.",planAdd:"Schváliť splátkový kalendár",charge:"Predpis",title:"Názov splátkového kalendára",installments:"Počet splátok",savePlan:"Schváliť splátky",planAmount:"Súčet splátok sa musí rovnať celej sume vybraného predpisu.",balance:"Evidovaný rozdiel predpisov a prijatých úhrad",receipts:"Platby musí recepcia overiť pred zapísaním.",dates:"Termíny splátok",missingCharges:"Najprv vytvor predpis nájomného."},
@@ -1525,7 +1526,7 @@ function renderTabs(){
  const isAdmin=isStaff();
  const shortcut=$('staffMenuShortcut');shortcut.hidden=!isAdmin;
  shortcut.textContent=({sk:'Menu administrácie',en:'Administration menu',ru:'Меню администратора',uk:'Меню адміністрації'})[lang]||'Menu administrácie';
- const keys=isAdmin?['rooms','overview','registrations','questionnaires','residents','payments','installments','documents','requests','cleaning','notices']:['overview','notifications','profile','enquiry','documents','rooms','payments','installments','requests','cleaning','notices'];
+ const keys=isAdmin?['rooms','parking','overview','registrations','questionnaires','residents','payments','installments','documents','requests','cleaning','notices']:['overview','notifications','profile','enquiry','documents','rooms','payments','installments','requests','cleaning','notices'];
  const parent=$('tabs');parent.replaceChildren();parent.setAttribute('aria-label',({sk:"Sekcie",en:"Sections",ru:"Разделы",uk:"Розділи"})[lang]);parent.setAttribute('role','navigation');
  const inWizard=!isAdmin&&resident&&!studentProfileOpen();
  const progress=$('wizardProgress');progress.classList.toggle('hide',!inWizard);
@@ -1662,6 +1663,16 @@ async function renderPanel(){
  const tenant=member.tenant_id,staff=isStaff(),own=resident?.id;
  try {
   if(tab==='notifications'&&!staff){container.replaceChildren();await renderStudentNotifications(tenant,generation);return;}
+  if(tab==='parking'&&staff){
+   const [requests,history]=await Promise.all([list('parking_requests'),list('parking_register_test_rows')]);
+   if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
+   container.replaceChildren();
+   heading(label('parking'));
+   const {renderParkingRegister}=await import('/student-house-portal/parking-register.js?v=1');
+   if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
+   renderParkingRegister(container,lang,requests,history);
+   return;
+  }
   if(tab==='account'){renderPasswordSettings();return;}
   if(tab==='profile'&&!staff){container.replaceChildren();await renderProfile(tenant);return;}
   if(tab==='enquiry'&&!staff){
