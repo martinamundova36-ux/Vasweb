@@ -1,7 +1,8 @@
+import {providerText} from './student-house-provider.js';
 const core = ['student_name', 'room_number', 'contract_number'];
 const stay = [...core, 'accommodation_from', 'accommodation_to'];
 export const documentFields = {
- contract_draft: [...stay, 'birth_date', 'address', 'passport_number', 'monthly_rent', 'deposit', 'admin_fee', 'provider', 'payment_terms'],
+ contract_draft: [...stay, 'birth_date', 'address', 'passport_number', 'nationality', 'telephone', 'email', 'parent_email', 'school', 'room_type', 'monthly_rent', 'deposit', 'admin_fee', 'provider', 'payment_terms'],
  rules_template: core,
  gdpr_template: ['student_name', 'provider', 'notice_version'],
  certificate_draft: [...stay, 'provider', 'issue_date', 'certificate_fee'],
@@ -15,7 +16,7 @@ const labels = {
  deposit:'Evidovaný depozit (EUR)',admin_fee:'Administratívny poplatok (EUR)',provider:'Ubytovateľ / prevádzkovateľ',
  payment_terms:'Schválené platobné podmienky',notice_version:'Verzia informácií o spracúvaní',
  issue_date:'Dátum vystavenia',certificate_fee:'Poplatok za potvrdenie (EUR)',document_number:'Číslo dokumentu',
- signature_date:'Dátum podpisu',signature_place:'Miesto podpisu'
+ nationality:'Národnosť',telephone:'Kontakt',email:'E-mail',parent_email:'Kontakt na rodiča',school:'Škola',room_type:'Typ izby',student_iban:'IBAN ubytovaného',signature_date:'Dátum podpisu',signature_place:'Miesto podpisu'
 };
 const wording = {
  contract_draft:['Predmet a podmienky ubytovania','Podmienky uvedené nižšie vychádzajú zo schválenej evidencie recepcie. Znenie zmluvných ustanovení a údaje zmluvných strán doplní ubytovateľ v schválenej šablóne.','Podpis ubytovaného a podpis ubytovateľa'],
@@ -30,10 +31,13 @@ export function fieldsForDocument(kind, person, enquiry, tenancy, staff, extras 
   student_name:person.full_name,room_number:person.verified_room_number,contract_number:person.verified_contract_number,
   accommodation_from:person.accommodation_from,accommodation_to:person.accommodation_to,
   birth_date:enquiry?.date_of_birth,address:enquiry?.permanent_address,
+  nationality:enquiry?.nationality,telephone:enquiry?.telephone,email:person.email,parent_email:enquiry?.parent_contact_email,school:enquiry?.school,room_type:tenancy?.room_type||enquiry?.preferred_room_type,student_iban:enquiry?.iban,
+  provider:providerText(person.tenant_id),
   ...(kind==='contract_draft'?{passport_number:enquiry?.identity_document_number}:{}),
   ...(kind==='deposit_template'?{refund_iban:enquiry?.iban}:{}),
   monthly_rent:tenancy?.rent,deposit:staff?.deposit_eur,admin_fee:staff?.administration_fee_eur,
-  ...extras
+  ...Object.fromEntries(Object.entries(extras).filter(([key,value])=>key!=='provider'||String(value??'').trim())),
+  ...(providerText(person.tenant_id)?{provider:providerText(person.tenant_id)}:{})
  };
 }
 const present = value => value != null && String(value).trim() !== '';
@@ -52,7 +56,7 @@ export async function workingDocument({kind,title,slug,data,attachment}) {
   const original=await PDFDocument.load(attachment);
   for(const page of await pdf.copyPages(original, original.getPageIndices()))pdf.addPage(page);
  }
- const optional={certificate_draft:['document_number'],deposit_template:['refund_iban']}[kind]||[];
+ const optional={contract_draft:['student_iban'],certificate_draft:['document_number'],deposit_template:['refund_iban']}[kind]||[];
  const signature=['rules_template','gdpr_template','deposit_template'].includes(kind)?['signature_place','signature_date']:[];
  const details=[...documentFields[kind],...optional.filter(key=>kind==='deposit_template'||present(data[key])),...signature]
   .map(key=>labels[key]+': '+(present(data[key])?data[key]:'________________________'));
