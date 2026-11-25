@@ -49,6 +49,53 @@ export function mapPdfField(name, allowedFields) {
  const key = normalize(name);
  return allowedFields.find(field=>[field,labels[field]].some(alias=>normalize(alias)===key));
 }
+// Original bilingual Student House contract: fields repeat across SK/EN and the annex.
+export async function fillOriginalStudentHouseContract({attachment,data,charges,person,slug='ubytovacia-zmluva'}){
+ const {PDFDocument,PDFTextField}=await import('https://esm.sh/pdf-lib@1.17.1');
+ const pdf=await PDFDocument.load(attachment),form=pdf.getForm();
+ const names=String(data.student_name||'').trim().split(/\s+/);
+ const date=v=>/^\d{4}-\d{2}-\d{2}$/.test(String(v||''))?v.split('-').reverse().join('.'):String(v||'');
+ const euro=v=>Number.isFinite(Number(v))&&v!==null&&v!==''?new Intl.NumberFormat('sk-SK',{minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(v)):'';
+ const values={...data,first_name:data.first_name||names.shift()||'',last_name:data.last_name||names.join(' '),birth_date:date(data.birth_date),accommodation_from:date(data.accommodation_from),accommodation_to:date(data.accommodation_to),monthly_rent:euro(data.monthly_rent),deposit:euro(data.deposit),student_iban:data.student_iban||''};
+ const required=['first_name','last_name','student_name','contract_number','address','birth_date','nationality','passport_number','telephone','email','school','room_type','room_number','accommodation_from','accommodation_to','monthly_rent','deposit'];
+ const missing=required.filter(k=>!String(values[k]??'').trim());
+ if(missing.length)throw Error('Chýbajú údaje zmluvy: '+missing.join(', '));
+ const from=String(data.accommodation_from).slice(0,7),to=String(data.accommodation_to).slice(0,7);
+ const months=[];let month=new Date(from+'-01T12:00:00Z');
+ for(let i=0;i<13&&Number.isFinite(month.getTime())&&month.toISOString().slice(0,7)<=to;i++,month.setUTCMonth(month.getUTCMonth()+1))months.push(month.toISOString().slice(0,7));
+ if(!months.length||months.length>12)throw Error('Predloha podporuje najviac 12 mesiacov; skontroluj zmluvné obdobie.');
+ const own=(charges||[]).filter(c=>c.resident_id===person.id);
+ const rentRows=months.map(m=>own.filter(c=>c.kind==='rent'&&c.period===m));
+ const fee=(kind)=>own.filter(c=>c.kind===kind&&c.period===from);
+ const admin=fee('administration_fee'),deposit=fee('deposit');
+ if(rentRows.some(rows=>rows.length!==1)||admin.length!==1||deposit.length!==1)throw Error('Chýba jednoznačný schválený predpis nájmu, depozitu alebo administratívneho poplatku. Skontroluj Excel evidenciu.');
+ const same=(a,b)=>Number.isFinite(Number(a))&&Number.isFinite(Number(b))&&Math.round(Number(a)*100)===Math.round(Number(b)*100);
+ if(rentRows.some(rows=>!same(rows[0].amount,data.monthly_rent))||!same(admin[0].amount,data.admin_fee)||!same(deposit[0].amount,data.deposit))throw Error('Predpisy sa nezhodujú so zmluvnými sumami. Skontroluj Excel evidenciu.');
+ const feeValues=(prefix,c)=>{values[prefix+'_base']=euro(c.amount)+' €';values[prefix+'_total']=euro(c.amount)+' €';};
+ feeValues('admin_fee',admin[0]);feeValues('deposit',deposit[0]);
+ for(const [i,rows] of rentRows.entries()){
+  const c=rows[0],prefix='rent_'+String(i+1).padStart(2,'0');feeValues(prefix,c);
+  values[prefix+'_month']=new Intl.DateTimeFormat('sk-SK',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(c.period+'-01T12:00:00Z'));
+  values[prefix+'_reference']=String(data.contract_number).replace(/\s/g,'');
+  values[prefix+'_supply']=date(c.due_on);values[prefix+'_due']=date(c.due_on);values[prefix+'_vat']='0%';values[prefix+'_purpose']='Splátka nájmu / Rent payment';
+ }
+ const available=new Set(form.getFields().map(f=>f.getName().split('__')[0]));
+ if(!required.every(k=>available.has(k))||!available.has('rent_12_due')||!available.has('admin_fee_total'))throw Error('Nahraná predloha nie je pôvodná vyplniteľná zmluva Student House.');
+ const filled=[];
+ for(const field of form.getFields()){
+  if(!(field instanceof PDFTextField))continue;
+  const key=field.getName().split('__')[0];
+  if(values[key]!==undefined&&values[key]!==null){field.setText(String(values[key]));filled.push(field);}
+ }
+ // A Unicode font is necessary for student names and addresses with diacritics or Cyrillic.
+ const {default:fontkit}=await import('https://esm.sh/@pdf-lib/fontkit@1.1.1');
+ pdf.registerFontkit(fontkit);
+ const fontResponse=await fetch('https://cdn.jsdelivr.net/gh/notofonts/noto-fonts@main/hinted/ttf/NotoSans/NotoSans-Regular.ttf');
+ if(!fontResponse.ok)throw Error('Písmo zmluvy sa nepodarilo načítať.');
+ const font=await pdf.embedFont(await fontResponse.arrayBuffer(),{subset:true});
+ for(const field of filled){field.setFontSize(0);field.updateAppearances(font);}
+ return new File([await pdf.save({updateFieldAppearances:false})],slug+'.pdf',{type:'application/pdf'});
+}
 export async function workingDocument({kind,title,slug,data,attachment}) {
  const {PDFDocument}=await import('https://esm.sh/pdf-lib@1.17.1');
  const pdf=await PDFDocument.create();
