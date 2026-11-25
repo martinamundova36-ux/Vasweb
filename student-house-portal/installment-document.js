@@ -13,10 +13,11 @@ async function paymentImages(items,bank){
  return Promise.all(items.map(async item=>{
   const amount=Number(item.amount),paymentDueDate=item.due_on.replaceAll('-','');
   if(!Number.isFinite(amount)||amount<=0||!/^\d{8}$/.test(paymentDueDate))throw Error('Neplatná splátka.');
+  const paymentNote=String(bank.message||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').slice(0,140);
   const value=pay.encode({payments:[{type:pay.PaymentOptions.PaymentOrder,amount,currencyCode:pay.CurrencyCode.EUR,
-   paymentDueDate,bankAccounts:[{iban:bank.iban}],beneficiary:{name:bank.beneficiary},...(bank.symbol?{variableSymbol:bank.symbol}:{})}]});
+   paymentDueDate,bankAccounts:[{iban:bank.iban}],beneficiary:{name:bank.beneficiary},...(paymentNote?{paymentNote}:{}),...(bank.symbol?{variableSymbol:bank.symbol}:{})}]});
   const verified=pay.decode(value).payments[0];
-  if(verified.bankAccounts[0]?.iban!==bank.iban||verified.amount!==amount||verified.currencyCode!==pay.CurrencyCode.EUR||verified.paymentDueDate!==paymentDueDate||(bank.symbol&&verified.variableSymbol!==bank.symbol))throw Error('Platobné údaje v QR kóde sa nezhodujú.');
+  if(verified.bankAccounts[0]?.iban!==bank.iban||verified.amount!==amount||verified.currencyCode!==pay.CurrencyCode.EUR||verified.paymentDueDate!==paymentDueDate||(bank.symbol&&verified.variableSymbol!==bank.symbol)||(paymentNote&&verified.paymentNote!==paymentNote))throw Error('Platobné údaje v QR kóde sa nezhodujú.');
   return qr.default.toDataURL(value,{width:200,margin:4,errorCorrectionLevel:'M'});
  }));
 }
@@ -56,7 +57,7 @@ async function pdfDocument(plan,person,items,bank,images){
 export async function contractScheduleDocument(data,items){
  const provider=providerDetails('ae045243-98f0-4f22-a736-d33a92f9ba61'),symbol=normalizeContractSymbol(data.contract_number);
  if(!provider||!validIban(provider.iban)||!symbol)throw Error('Neplatné bankové údaje alebo variabilný symbol.');
- const bank={iban:provider.iban,beneficiary:provider.name,symbol};
+ const bank={iban:provider.iban,beneficiary:provider.name,symbol,message:data.student_name};
  const images=await paymentImages(items,bank);
  const {jsPDF}=await import('https://esm.sh/jspdf@3.0.4');
  const pdf=new jsPDF({format:'a4',compress:true});
@@ -65,7 +66,7 @@ export async function contractScheduleDocument(data,items){
  const val=v=>String(v??'').trim()||'—';
  const total=items.reduce((n,i)=>n+Math.round(Number(i.amount)*100),0)/100;
  const fmt=v=>v?date(v):'—';
- const perPage=4;
+ const perPage=3;
  for(let offset=0;offset<items.length;offset+=perPage){
   if(offset)pdf.addPage();
   const canvas=node('canvas');canvas.width=1400;canvas.height=1980;
@@ -83,9 +84,10 @@ export async function contractScheduleDocument(data,items){
   let ly=269,ry=269;for(const line of left)ly=wrapped(line,55,ly,620);for(const line of right)ry=wrapped(line,720,ry,625);
   let y=Math.max(ly,ry)+12;
   text('Izba / Room: '+val(data.room_type)+' · '+val(data.room_number)+'   |   Ubytovanie / Stay: '+fmt(data.accommodation_from)+' – '+fmt(data.accommodation_to),55,y,25,true,1290);y+=38;
-  text('Celková suma / Total: '+money.format(total)+'   |   VS / Variable symbol: '+symbol,55,y,25,true);y+=22;
+  text('Celková suma / Total: '+money.format(total)+'   |   VS / Variable symbol: '+symbol,55,y,25,true);y+=30;
+  text('Správa pre prijímateľa / Payment note: '+val(data.student_name),55,y,20,false,1290);y+=20;
   const rowHeight=Math.min(250,Math.floor((1900-y)/perPage));
-  if(rowHeight<195)throw Error('Údaje zmluvných strán sú príliš dlhé pre prílohu. Skontroluj údaje.');
+  if(rowHeight<220)throw Error('Údaje zmluvných strán sú príliš dlhé pre prílohu. Skontroluj údaje.');
   for(let i=offset;i<Math.min(offset+perPage,items.length);i++){
    const it=items[i],top=y+(i-offset)*rowHeight;
    c.fillStyle='#eef3f9';c.fillRect(55,top,1290,rowHeight-10);
