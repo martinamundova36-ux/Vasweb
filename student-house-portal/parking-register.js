@@ -1,3 +1,4 @@
+import {providerDetails} from './student-house-provider.js';
 import {downloadWorkbook} from './excel.js';
 const words = {
  sk:['Žiadosti z formulára','Otvoriť parkovací formulár','Zatiaľ tu nie sú žiadosti.','Excel 2025–2026 · testovacie údaje','Meno','EČV','E-mail','Telefón','Od','Do','Suma (€)','Stav','Poznámka','Záznam z Excelu'],
@@ -170,10 +171,10 @@ const billingWords={
  uk:['Постачальник','Платіжна адреса','Номер рахунку','Дата виставлення','Дата надання послуги','Строк оплати','Місяців','Ціна за місяць без ПДВ','Сума без ПДВ','ПДВ (23%)','Разом з ПДВ','Код платежу','Оренда паркомісця']
 };
 
-function invoiceDraft(root,labels,data,lang) {
+function invoiceDraft(root,labels,data,lang,provider) {
  const [,,,,,title,customer,plate,period,,print,close,caption]=labels;
  const [supplier,address,number,issued,delivered,due,months,unit,net,vat,total,reference,service]=billingWords[lang]||billingWords.sk;
- const supplierLines=['Gargallo s.r.o.','Tomášikova 34, 821 01 Bratislava – Ružinov','IČO 46 078 223 · DIČ 2023222300 · IČ DPH SK2023222300','Obchodný register Mestského súdu Bratislava III, oddiel Sro, vložka 71278/B'];
+ const supplierLines=[provider.name,provider.address,'IČO '+provider.companyId+' · DIČ '+provider.taxId+' · IČ DPH '+provider.vatId,provider.register,provider.bank,'SWIFT/BIC '+provider.bic];
  const dialog=element('dialog');
  dialog.className='parking-edit-dialog';
  const form=element('form');
@@ -182,13 +183,14 @@ function invoiceDraft(root,labels,data,lang) {
   [customer,data.name,'text',true],[address,'','text',true],[plate,data.plate,'text',false],
   [period,data.period,'text',true],[number,'','text',false],[issued,'','date',false],
   [delivered,'','date',false],[due,'','date',false],[months,1,'number',true],
-  ['IBAN','','text',false],[reference,'','text',false]
+  ['IBAN',provider.iban,'text',false],[reference,'','text',false]
  ]){
   const field=element('label',label);
   const input=element('input');
   input.type=type;
   input.value=value??'';
   input.required=required;
+  if(label==='IBAN')input.readOnly=true;
   if(type==='number'){input.min='1';input.max='120';input.step='1';}
   fields.set(label,input);
   field.append(input);
@@ -247,19 +249,21 @@ function invoiceDraft(root,labels,data,lang) {
  root.append(dialog);
  dialog.showModal();
 }
-export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow) {
+export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow, tenant) {
  const [inbox, form, empty, imported, name, plate, email, phone, from, to, amount, status, note] = words[lang] || words.sk;
 
  const copy=editWords[lang]||editWords.sk;
  const year=({sk:'Rok',en:'Year',ru:'Год',uk:'Рік'})[lang]||'Rok';
  const labels=actionWords[lang]||actionWords.sk;
+ const provider=providerDetails(tenant);
  const [actions,remove,invoice,confirmDelete,deleteError]=labels;
  function actionCell(row,record,kind,data){
   const cell=element('td');
   cell.style.minWidth='185px';
   const bill=element('button',invoice);
   bill.type='button';
-  bill.addEventListener('click',()=>invoiceDraft(root,labels,data(),lang));
+  bill.hidden=!provider;
+  bill.addEventListener('click',()=>invoiceDraft(root,labels,data(),lang,provider));
   const del=element('button',remove);
   del.type='button';
   del.addEventListener('click',async()=>{
