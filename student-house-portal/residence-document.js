@@ -107,7 +107,7 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
  }
  // Preserve pages 1–7 of the signed-contract layout; page 8 is blank, pages 9–10 are the old annex.
  // Build the new annex from the verified charges, not from the example student's figures.
- const {contractScheduleDocument,buildStudentHouseSchedule}=await import('./installment-document.js?v=20261125-unified-qr1');
+ const {contractScheduleDocument,buildStudentHouseSchedule}=await import('./installment-document.js?v=20261125-approved-qr2');
  const schedule=buildStudentHouseSchedule(data,charges,plans,items,person.id);
  const annex=await contractScheduleDocument({...data,first_name:values.first_name,last_name:values.last_name},schedule);
  // Remove annex form fields before dropping its pages, to avoid dangling PDF widgets.
