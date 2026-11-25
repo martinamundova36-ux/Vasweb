@@ -53,6 +53,28 @@ async function pdfDocument(plan,person,items,bank,images){
  return new File([pdf.output('blob')],'splatkovy-kalendar.pdf',{type:'application/pdf'});
 }
 
+// Single source of truth for Student House contractual payments and QR annexes.
+export function buildStudentHouseSchedule(data,charges,plans=[],items=[],residentId){
+ const from=String(data.accommodation_from||'').slice(0,7),to=String(data.accommodation_to||'').slice(0,7);
+ if(!/^\d{4}-\d{2}$/.test(from)||!/^\d{4}-\d{2}$/.test(to)||from>to)throw Error('Chýba overené obdobie ubytovania.');
+ const months=[];let month=new Date(from+'-01T12:00:00Z');
+ for(let i=0;i<13&&Number.isFinite(month.getTime())&&month.toISOString().slice(0,7)<=to;i++,month.setUTCMonth(month.getUTCMonth()+1))months.push(month.toISOString().slice(0,7));
+ if(!months.length||months.length>12)throw Error('Skontroluj obdobie ubytovania (najviac 12 mesiacov).');
+ const own=charges.filter(c=>c.resident_id===residentId);
+ const get=(kind,period,expected)=>{const matches=own.filter(c=>c.kind===kind&&c.period===period);if(matches.length!==1||expected==null||!Number.isFinite(Number(expected))||Math.round(Number(matches[0].amount)*100)!==Math.round(Number(expected)*100))throw Error('Chýba alebo nesedí overený predpis: '+kind+' '+period+'. Skontroluj Excel evidenciu.');return matches[0];};
+ const selected=[get('administration_fee',from,data.admin_fee),get('deposit',from,data.deposit),...months.map(m=>get('rent',m,data.monthly_rent))];
+ return selected.flatMap(ch=>{
+  if(Number(ch.amount)===0)return [];
+  if(!Number.isFinite(Number(ch.amount))||Number(ch.amount)<0)throw Error('Neplatná suma predpisu.');
+  const agreed=plans.filter(p=>p.charge_id===ch.id);
+  if(agreed.length>1)throw Error('Viacero dohôd k rovnakému predpisu.');
+  const label=ch.kind==='rent'?'Nájom '+ch.period:ch.kind==='deposit'?'Depozit':'Administratívny poplatok';
+  if(!agreed.length)return [{...ch,description:label,initial:ch.period===from}];
+  const parts=items.filter(i=>i.plan_id===agreed[0].id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
+  if(!parts.length||parts.some(i=>!Number.isFinite(Number(i.amount))||Number(i.amount)<=0)||Math.round(parts.reduce((sum,i)=>sum+Number(i.amount),0)*100)!==Math.round(Number(ch.amount)*100))throw Error('Splátková dohoda sa nezhoduje s predpisom.');
+  return parts.map(i=>({...ch,amount:i.amount,due_on:i.due_on,description:label+' · dohodnutá splatnosť',initial:false}));
+ }).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period)));
+}
 /** Original contract annex, using the same PAY by square encoder and branding as the standalone calendar. */
 export async function contractScheduleDocument(data,items){
  const provider=providerDetails('ae045243-98f0-4f22-a736-d33a92f9ba61'),symbol=normalizeContractSymbol(data.contract_number);
@@ -131,9 +153,10 @@ export async function contractScheduleDocument(data,items){
 }
 const recentAccounts=new Map();
 const beneficiaries=['Student House Bratislava','Gargallo s.r.o.'];
-export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber='',saveToProfile}={}){
+export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber='',saveToProfile,scheduleData=null}={}){
  if(!person||!items.length)return;
  const officialProvider=providerDetails(String(accountScope||'').split(':')[0]);
+ if(officialProvider&&!scheduleData){host.append(node('p','Použi úplný schválený QR kalendár v sekcii Splátkový kalendár.'));return;}
  const panel=node('details'),summary=node('summary','Splátkový kalendár s QR kódmi'),form=node('form');
  const inputs=[['Príjemca platby','beneficiary',70,true],['IBAN ubytovateľa','iban',42,false],['Variabilný symbol (číslo zmluvy)','symbol',10,false]];
  const fields={};
@@ -187,7 +210,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
  async function generate(bank,run){
   try{
    const images=await paymentImages(items,bank);
-   const file=await pdfDocument(plan,person,items,bank,images);
+   const file=officialProvider?await contractScheduleDocument(scheduleData,items):await pdfDocument(plan,person,items,bank,images);
    if(run!==version)return;
    if(accountScope)recentAccounts.set(accountScope+':'+bank.beneficiary,bank.iban);
    if(url)URL.revokeObjectURL(url);
