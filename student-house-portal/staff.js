@@ -25,7 +25,7 @@ const publicRoomTypeNames = {
  'Š2':'Standard 2',
  'D2V':'De Luxe 2V'
 };
-const displayRoomType = code => publicRoomTypeNames[code] || code || '—';
+const displayRoomType = (code,lang='sk') => {if(!code)return '—';const [type,...rest]=String(code).split(' / ');const occupancy=rest.join(' / ');const words=({sk:['Zdieľaná izba','Celá izba'],en:['Shared room','Entire room'],ru:['Общая комната','Вся комната'],uk:['Спільна кімната','Уся кімната']})[lang]||[];return (publicRoomTypeNames[type]||type)+(occupancy?' / '+(occupancy==='Zdieľaná izba'?words[0]:occupancy==='Celá izba'?words[1]:occupancy):'');};
 
 const approvalReceipts = new Map();
 
@@ -252,7 +252,7 @@ export async function renderStaffScreen(ctx) {
      if(!q)box.append(el('p','danger',labels[21]));
      const date=value=>value?ctx.day(value):'';
      const entries=[[1,person.first_name],[2,person.last_name],[3,person.email],[4,q?.telephone],[5,q?.nationality],
-      [6,date(q?.date_of_birth)],[7,q?.gender],[8,q?.school],[9,q?.preferred_room_type?displayRoomType(q.preferred_room_type):''],
+      [6,date(q?.date_of_birth)],[7,({sk:{female:'Žena',male:'Muž',other:'Iné'},en:{female:'Female',male:'Male',other:'Other'},ru:{female:'Женщина',male:'Мужчина',other:'Другое'},uk:{female:'Жінка',male:'Чоловік',other:'Інше'}})[ctx.lang]?.[q?.gender]||q?.gender],[8,q?.school],[9,q?.preferred_room_type?displayRoomType(q.preferred_room_type,ctx.lang):''],
       [10,q?.preferred_duration_months?q.preferred_duration_months+' '+labels[18]:''],[11,date(person.accommodation_from)],[12,date(person.accommodation_to)],[13,date(q?.preferred_from)],
       [14,person.privacy_acknowledged_at?labels[15]+' · '+date(person.privacy_acknowledged_at):labels[16]]];
      if(q?.permanent_address)entries.push([19,q.permanent_address]);
