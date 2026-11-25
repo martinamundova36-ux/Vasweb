@@ -258,13 +258,14 @@ export async function renderExcelRegister(ctx){
  for(const [value,label] of [['occupied',mobileWords[2]],['missing',mobileWords[3]],['complete',mobileWords[4]],['all',mobileWords[5]]]){
   const option=el('option','',label);option.value=value;mobileFilter.append(option);
  }
- let mobileTable=false;
- const mobileToggle=button(mobileWords[1],()=>{
+ let mobileTable=true;
+ root.classList.add('register-mobile-table-mode');
+ const mobileToggle=button(mobileWords[0],()=>{
   mobileTable=!mobileTable;root.classList.toggle('register-mobile-table-mode',mobileTable);
   mobileToggle.textContent=mobileTable?mobileWords[0]:mobileWords[1];
   mobileToggle.setAttribute('aria-pressed',String(mobileTable));
  });
- mobileToggle.setAttribute('aria-pressed','false');
+ mobileToggle.setAttribute('aria-pressed','true');
  mobileControls.append(mobileSummary,mobileFilter,mobileToggle);
  const mobileCards=el('div','register-mobile-cards');
  root.append(title,intro,counter,el('p','muted',w.bedHelp),controls,importArea,notice,count,mobileControls,mobileCards,wrap);ctx.root.append(root);
