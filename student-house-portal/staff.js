@@ -699,9 +699,10 @@ export async function renderStaffScreen(ctx) {
         terms.required=true;terms.maxLength=1500;terms.rows=3;terms.placeholder=documentWording.conditions;if(isStudentHouse(ctx.tenant))terms.value='Úhrady podľa schváleného splátkového kalendára. Podľa predloženej zmluvy: administratívny poplatok, depozit a prvý nájom do troch dní od podpisu; ďalšie nájomné vopred. Variabilný symbol: číslo zmluvy. Do správy pre prijímateľa meno a priezvisko. Skontrolovať zhodu dátumov splatnosti s kalendárom.';
         const providerLabel=el('label','',documentWording.provider),termsLabel=el('label','',documentWording.conditions);
         providerLabel.append(provider);termsLabel.append(terms);
-        const create=el('button','',documentWording.contract);create.type='submit';
+        const original=isStudentHouse(ctx.tenant);const originalLabel=({sk:'Vygenerovať zmluvu s QR kalendárom',en:'Generate contract with QR schedule',ru:'Создать договор с QR-графиком',uk:'Створити договір із QR-графіком'})[ctx.lang];
+        const create=el('button','',original?originalLabel:documentWording.contract);create.type='submit';
         const contractStatus=el('p','enquiry-status');contractStatus.setAttribute('role','status');
-        contract.append(providerLabel,termsLabel,create,contractStatus);documentFlow.append(contract);
+        if(!original)contract.append(providerLabel,termsLabel);contract.append(create,contractStatus);documentFlow.append(contract);
         contract.addEventListener('submit',async event=>{
          event.preventDefault();if(!ctx.isCurrent()||!contract.reportValidity())return;
          create.disabled=true;contractStatus.textContent='';
@@ -721,8 +722,11 @@ export async function renderStaffScreen(ctx) {
            const [plans,items]=await Promise.all([ctx.list('installment_plans',{resident_id:person.id}),ctx.list('installment_items')]);
            file=await fillOriginalStudentHouseContract({attachment:await response.arrayBuffer(),data,charges:(billsResult.data||[]).map(c=>({...c,resident_id:person.id})),plans,items,person});
            if(!ctx.isCurrent())return;
-           const previewUrl=URL.createObjectURL(file),preview=el('a','btn-secondary','Stiahnuť vyplnenú zmluvu na kontrolu');preview.href=previewUrl;preview.download=file.name;
-           contractStatus.replaceChildren(preview);return;
+           const previewUrl=URL.createObjectURL(file),preview=el('a','btn-secondary','Zobraziť vyplnenú zmluvu na kontrolu');preview.href=previewUrl;preview.target='_blank';preview.rel='noopener';
+           const download=el('a','btn-secondary','Stiahnuť PDF');download.href=previewUrl;download.download=file.name;
+           const publish=el('button','','Schváliť a sprístupniť zmluvu študentovi');publish.type='button';
+           publish.onclick=async()=>{if(!ctx.isCurrent()||publish.disabled||!confirm('Potvrdzuješ, že zmluva a QR kalendár boli skontrolované?'))return;publish.disabled=true;try{const ok=await ctx.uploadPrivateDocument(person.id,file,publish,'contract_draft');if(!ok)throw Error('upload_failed');publish.textContent='✓ Sprístupnené';publish.classList.add('staff-approval-success');}catch{publish.disabled=false;contractStatus.append(el('p','danger',documentWording.contractFail));}};
+           contractStatus.replaceChildren(preview,download,publish);return;
           }
           if(missingDocumentFields('contract_draft',data).length)throw Error('missing_contract_data');
           file=await workingDocument({kind:'contract_draft',title:'Ubytovacia zmluva',slug:'ubytovacia-zmluva',data});
@@ -742,6 +746,7 @@ export async function renderStaffScreen(ctx) {
         if(!fullRent||!depositPresent||!adminPresent){
          documentFlow.append(el('p','danger',documentWording.missingRent));return;
         }
+        if(original&&ctx.isCurrent()&&contract.isConnected){contract.requestSubmit();}
         const descriptions={rent:documentWording.rent,deposit:documentWording.deposit,administration_fee:documentWording.admin};
         const items=charges.filter(x=>periods.includes(x.period)&&['rent','deposit','administration_fee'].includes(x.kind))
          .sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||
