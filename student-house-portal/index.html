@@ -370,7 +370,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
  <p class="muted" id="step2PreviewHelp">Po schválení registrácie otvor odkaz z e-mailu. Údaje sa automaticky prepoja s tvojím študentským profilom a recepciou.</p>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><small style="display:block;color:#d4e2f3;font-size:11px;margin:4px 0">v2026.11.25.6</small><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><small style="display:block;color:#d4e2f3;font-size:11px;margin:4px 0">v2026.11.25.7</small><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
 </main></div></div>
 <footer class="studenthouse-brand-credit">Created by <a href="https://www.webu.sk/" target="_blank" rel="noopener noreferrer">WEBU</a></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
@@ -1886,14 +1886,14 @@ async function renderPanel(){
      ru:['Подключение банка · Tatra banka','Автоматическая синхронизация не настроена','Для автоматической загрузки и сверки поступлений необходимо подключить корпоративный банковский счёт к приложению. Premium API – Accounts банка Tatra banka требует согласования интеграции и авторизации уполномоченным лицом.','После интеграции платежи можно сопоставлять по назначению, сумме и сроку оплаты. Неоднозначные платежи проверяет ресепшен. Наличные учитываются вручную.','До активации и проверки подключения сверяйте платежи вручную по банковской выписке. Не вводите здесь банковские пароли.','Информация и активация Premium API','Портал разработчиков банка'],
      uk:['Підключення банку · Tatra banka','Автоматичну синхронізацію не налаштовано','Для автоматичного завантаження та звірки надходжень необхідно підключити корпоративний рахунок до застосунку. Premium API – Accounts банку Tatra banka потребує погодження інтеграції та авторизації уповноваженою особою.','Після інтеграції платежі можна зіставляти за призначенням, сумою та терміном оплати. Неоднозначні платежі перевіряє рецепція. Готівка обліковується вручну.','До активації та перевірки підключення звіряйте платежі вручну за банківською випискою. Не вводьте тут банківські паролі.','Інформація та активація Premium API','Портал розробників банку']
     })[lang];
-    const bankCard=make('details','student-documents-cta');bankCard.append(make('summary','',copy[0]));
+    const bankCard=make('section','student-documents-cta');bankCard.append(make('h3','',copy[0]));
     const bankStatus=make('p','status-pill',copy[1]);bankStatus.setAttribute('role','status');
     bankCard.append(bankStatus,make('p','',copy[2]),make('p','',copy[3]),make('p','mini-note',copy[4]));
     const links=make('div','staff-actions');
     for(const [url,title] of [['https://www.tatrabanka.sk/sk/business/ucty-platby/premium-api-ucty/',copy[5]],['https://developer.tatrabanka.sk/pages/devportal/sk/',copy[6]]]){
      const a=make('a','btn-secondary',title);a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.style.cssText='display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:9px;text-decoration:underline;max-width:100%;white-space:normal';links.append(a);
     }
-    bankCard.append(links);bankSettings=bankCard;
+    bankCard.append(links);bankSettings=bankCard;container.append(bankCard);
    }
 
    const filter=staff?undefined:{resident_id:own||'00000000-0000-0000-0000-000000000000'};
@@ -1922,7 +1922,7 @@ async function renderPanel(){
    }
 
    container.append(paymentList);
-   if(staff){container.append(make('p','mini-note',words[6]));if(bankSettings)container.append(bankSettings);}
+   if(staff){container.append(make('p','mini-note',words[6]));}
    return;
   }
   if(tab==='installments'){
