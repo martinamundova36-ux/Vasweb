@@ -11,13 +11,13 @@ function validIban(value){
 async function paymentImages(items,bank){
  const [pay,qr]=await Promise.all([import('https://esm.sh/bysquare@4.0.0/pay'),import('https://esm.sh/qrcode@1.5.4')]);
  return Promise.all(items.map(async item=>{
-  const amount=Number(item.amount),paymentDueDate=item.due_on.replaceAll('-','');
-  if(!Number.isFinite(amount)||amount<=0||!/^\d{8}$/.test(paymentDueDate))throw Error('Neplatná splátka.');
+  const amount=Number(item.amount),paymentDueDate=item.initial===true?null:item.due_on.replaceAll('-','');
+  if(!Number.isFinite(amount)||amount<=0||(item.initial!==true&&!/^\d{8}$/.test(paymentDueDate)))throw Error('Neplatná splátka.');
   const paymentNote=String(bank.message||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').slice(0,140);
   const value=pay.encode({payments:[{type:pay.PaymentOptions.PaymentOrder,amount,currencyCode:pay.CurrencyCode.EUR,
-   paymentDueDate,bankAccounts:[{iban:bank.iban}],beneficiary:{name:bank.beneficiary},...(paymentNote?{paymentNote}:{}),...(bank.symbol?{variableSymbol:bank.symbol}:{})}]});
+   ...(paymentDueDate?{paymentDueDate}:{}),bankAccounts:[{iban:bank.iban}],beneficiary:{name:bank.beneficiary},...(paymentNote?{paymentNote}:{}),...(bank.symbol?{variableSymbol:bank.symbol}:{})}]});
   const verified=pay.decode(value).payments[0];
-  if(verified.bankAccounts[0]?.iban!==bank.iban||verified.amount!==amount||verified.currencyCode!==pay.CurrencyCode.EUR||verified.paymentDueDate!==paymentDueDate||(bank.symbol&&verified.variableSymbol!==bank.symbol)||(paymentNote&&verified.paymentNote!==paymentNote))throw Error('Platobné údaje v QR kóde sa nezhodujú.');
+  if(verified.bankAccounts[0]?.iban!==bank.iban||verified.amount!==amount||verified.currencyCode!==pay.CurrencyCode.EUR||(paymentDueDate?verified.paymentDueDate!==paymentDueDate:!!verified.paymentDueDate)||(bank.symbol&&verified.variableSymbol!==bank.symbol)||(paymentNote&&verified.paymentNote!==paymentNote))throw Error('Platobné údaje v QR kóde sa nezhodujú.');
   return qr.default.toDataURL(value,{width:200,margin:4,errorCorrectionLevel:'M'});
  }));
 }
@@ -131,8 +131,8 @@ export async function contractScheduleDocument(data,items){
    text('Za mesiac / For month: '+month,103,top+81,19,it.kind==='rent',920);
    text('Dátum dodania / Supply day:',103,top+116,19,true,920,ink);
    text(first?'Deň prijatia platby / Day of receiving payment':fmt(it.due_on),103,top+146,19,!first,920);
-   text('Splatnosť / Due: '+fmt(it.due_on),103,top+185,21,true,920);
-   if(first)text('Do 3 dní od podpisu / Within 3 days of signing',103,top+212,18,false,920);
+   text(first?'Splatnosť / Due:':'Splatnosť / Due: '+fmt(it.due_on),103,top+185,21,true,920);
+   if(first)text('Do 3 dní od podpisu zmluvy / Within 3 days of signing',103,top+215,21,true,920);
    text('VS: '+symbol,103,top+247,20,true,920);
    text('Základ dane / Base: '+moneyText(it.amount)+'   |   DPH / VAT: '+(it.kind==='rent'?'0 %':'—'),103,top+275,20,true,920);
    text('Celková suma / Total: '+moneyText(it.amount),103,top+313,25,true,920);
@@ -232,7 +232,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
    }
    for(const [index,src] of images.entries()){
     const figure=node('figure'),img=node('img');img.src=src;img.width=116;img.height=116;img.alt='PAY by square · splátka '+(index+1);
-    figure.append(img,node('figcaption',date(items[index].due_on)+' · '+money.format(Number(items[index].amount))+(items[index].description?' · '+items[index].description:'')));preview.append(figure);
+    figure.append(img,node('figcaption',(items[index].initial===true?'Do 3 dní od podpisu zmluvy':date(items[index].due_on))+' · '+money.format(Number(items[index].amount))+(items[index].description?' · '+items[index].description:'')));preview.append(figure);
    }
    status.style.color='#166534';status.textContent='✓ Platobné QR PDF je pripravené. Môžeš ho stiahnuť alebo uložiť do profilu študenta.';
   }catch(error){if(run===version){status.style.color='#b91c1c';status.textContent='Dokument sa nepodarilo vytvoriť. '+(error?.message||'Skús znova.');retry.hidden=false;}}
