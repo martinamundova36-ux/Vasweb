@@ -27,8 +27,9 @@ export function validateRoomImport(text,existing){
 }
 export function roomRows(rooms,tenancies,residents,today){
  const people=new Map(residents.map(p=>[p.id,p]));
+ const archived=new Set(residents.filter(person=>person.archived_at).map(person=>person.id));
  return rooms.map(room=>{
-  const stays=tenancies.filter(t=>t.room_id===room.id&&t.starts_on<=today&&t.ends_on>=today);
+  const stays=tenancies.filter(t=>!archived.has(t.resident_id)&&t.room_id===room.id&&t.starts_on<=today&&t.ends_on>=today);
   return {...room,stays:stays.map(t=>({...t,person:people.get(t.resident_id)})),occupancy:stays.length===0?'free':stays.length>=room.capacity?'full':'partial'};
  });
 }

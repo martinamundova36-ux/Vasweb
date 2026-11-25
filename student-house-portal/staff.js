@@ -63,6 +63,13 @@ export async function failureCode(error, data) {
   try {const body = await error?.context?.clone().json(); return body?.error || body?.code || '';} catch {return '';}
 }
 
+const archiveCopy={
+ sk:{open:'Vymazať študenta',title:'Archivovať študenta',warning:'Archivácia vypne prístup študenta a uvoľní jeho miesto v evidencii izieb. Zmluvy, platby a história sa uchovajú. Trvalé vymazanie podlieha samostatnému schváleniu.',cancel:'Zrušiť',confirm:'Potvrdiť archiváciu',archived:'Archivovaný',failed:'Archivácia zlyhala. Overte oprávnenia a obnovte prehľad.'},
+ en:{open:'Delete student',title:'Archive student',warning:'Archiving removes student access and releases their place in the room register. Agreements, payments and history are retained. Permanent deletion requires separate approval.',cancel:'Cancel',confirm:'Confirm archive',archived:'Archived',failed:'Archiving failed. Check permissions and refresh the list.'},
+ ru:{open:'Удалить студента',title:'Архивировать студента',warning:'Архивация отключит доступ студента и освободит его место в реестре комнат. Договоры, платежи и история сохранятся. Окончательное удаление требует отдельного согласования.',cancel:'Отмена',confirm:'Подтвердить архивацию',archived:'В архиве',failed:'Не удалось архивировать. Проверьте права доступа и обновите список.'},
+ uk:{open:'Видалити студента',title:'Архівувати студента',warning:'Архівування вимкне доступ студента та звільнить його місце в реєстрі кімнат. Договори, платежі й історія збережуться. Остаточне видалення потребує окремого погодження.',cancel:'Скасувати',confirm:'Підтвердити архівування',archived:'В архіві',failed:'Не вдалося архівувати. Перевірте права доступу й оновіть список.'}
+};
+
 export async function renderStaffScreen(ctx) {
  const [saving,registrationApproved,registrationReturned,questionnaireApproved,questionnaireReturned,documentApproved,documentReturned,scheduleApproved,saveError]=reviewCopy[ctx.lang]||reviewCopy.en;
  function receipt(label){
@@ -86,6 +93,50 @@ export async function renderStaffScreen(ctx) {
  }
 
  const {words:w,el,button,field,state,status,allowed} = ui(ctx);
+
+ const archive=archiveCopy[ctx.lang]||archiveCopy.sk;
+ function confirmArchive(person){
+  if(!ctx.isCurrent())return;
+  const dialog=el('dialog','staff-archive-dialog');
+  const title=el('h3','',archive.title);
+  title.id='staff-archive-title';
+  dialog.setAttribute('aria-labelledby',title.id);
+  const details=el('dl','identity-fields');
+  details.append(field(w.room,person.verified_room_number),field(w.contract,person.verified_contract_number));
+  const failure=inlineError();
+  const cancel=button(archive.cancel,()=>dialog.close());
+  cancel.autofocus=true;
+  const confirm=button(archive.confirm,async()=>{
+   pendingAction=true;
+   const reset=busyButton(confirm,[confirm,cancel]);
+   failure.textContent='';
+   let archivedAt;
+   try{
+    const {data,error}=await ctx.db.rpc('archive_residence_student',{p_tenant:ctx.tenant,p_resident:person.id});
+    if(error||!data)throw Error('archive_failed');
+    archivedAt=data;
+   }catch{
+    failure.textContent=archive.failed;
+   }finally{
+    pendingAction=false;
+    reset();
+   }
+   if(archivedAt){
+    person.archived_at=archivedAt;
+    person.active=false;
+    dialog.close();
+    if(ctx.isCurrent()){
+     paint();
+     ctx.notice.replaceChildren(receipt(archive.archived+' · '+person.full_name));
+    }
+   }
+  },'staff-archive-danger');
+  dialog.addEventListener('cancel',event=>{if(pendingAction)event.preventDefault();});
+  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+  dialog.append(title,el('p','',person.full_name),details,el('p','',archive.warning),failure,cancel,confirm);
+  ctx.root.append(dialog);
+  dialog.showModal();
+ }
 
  const correctionLang={
   sk:{state:'Vrátená na opravu',return:'Vrátiť študentovi na opravu',reissue:'Vytvoriť nový opravný odkaz',prompt:'Napíš študentovi, ktoré údaje má opraviť. Napríklad nesprávne číslo zmluvy, meno, dátumy alebo izbu.',reason:'Dôvod vrátenia',create:'Pripraviť bezpečný odkaz na opravu',prepared:'Registrácia je vrátená na opravu. E-mail sa ešte NEODOSLAL – otvor Gmail a správu odošli.',gmail:'Otvoriť Gmail s pripraveným e-mailom',copy:'Skopírovať opravný odkaz',copied:'Odkaz je skopírovaný.',subject:'Student House Bratislava – oprava registrácie',body:'Dobrý deň,\n\npri kontrole vašej registrácie Student House Bratislava sme zistili údaje, ktoré je potrebné opraviť:\n\n',bodyEnd:'\n\nOtvorte bezpečný odkaz a opravte údaje (platnosť 7 dní):\n',closing:'\n\nPo odoslaní sa registrácia vráti na kontrolu recepcii.\n\nRecepcia Student House Bratislava',sendError:'Nepodarilo sa vytvoriť odkaz. Obnov prehľad.',existing:'Čaká sa na opravu údajov študentom.',expires:'Platnosť odkazu: 7 dní. Nový odkaz zneplatní predošlý.',empty:'Dôvod opravy musí mať aspoň 10 znakov.'},
@@ -232,12 +283,21 @@ export async function renderStaffScreen(ctx) {
    const name=ctx.section==='residents'?person.full_name:[person.first_name,person.last_name].join(' ');
    if(ctx.section==='residents')card.append(residentPhotoView(person,true));
    card.append(el('h4','',name),el('p','muted',person.email),el('p','',w.room+': '+(person.verified_room_number||person.room_number||w.noRoom)));
-   card.append(el('span','status-pill',ctx.section==='residents'?(person.active?w.activeOne:w.inactiveOne):state(person.status)));
+   card.append(el('span','status-pill',ctx.section==='residents'?(person.archived_at?archive.archived:person.active?w.activeOne:w.inactiveOne):state(person.status)));
    if(questionnaireMode){
     const stateKey=questionnaireStatus.get(person.id);
     card.append(el('p','status-pill',questionnaireWords[['all','pending','approved','returned','missing'].indexOf(stateKey)]));
     card.append(button(questionnaireWords[5],()=>{void profile(person);}));
-   }else if(ctx.section==='residents')card.append(button(w.open,()=>{void profile(person);}));
+   }else if(ctx.section==='residents'){
+    card.append(button(w.open,()=>{void profile(person);}));
+    if(ctx.role==='org_admin'&&!person.archived_at){
+     const remove=button(archive.open,()=>confirmArchive(person),'staff-archive-danger');
+     const icon=el('span','','🗑 ');
+     icon.setAttribute('aria-hidden','true');
+     remove.prepend(icon);
+     card.append(remove);
+    }
+   }
    else{
     const details=el('dl','identity-fields');details.append(field(w.contract,person.contract_number||'Pridelí recepcia'),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(w.registered,ctx.day(person.created_at)));card.append(details);
     const q=registeredQuestionnaires.find(x=>x.registration_id===person.id);

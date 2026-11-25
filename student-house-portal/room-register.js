@@ -59,6 +59,7 @@ function bedName(room,index) {
 }
 export function buildRegisterGroups({rooms=[],tenancies=[],residents=[],registrations=[],details=[],enquiries=[],year,expected=EXPECTED_ROOMS}){
  const firstDay=String(year)+'-01-01',lastDay=String(year)+'-12-31';
+ residents=residents.filter(person=>!person.archived_at);
  const people=new Map(residents.map(x=>[x.id,x])),detailMap=new Map(details.map(x=>[x.resident_id,x])),questionMap=new Map(enquiries.map(x=>[x.resident_id,x]));
  const approved=registrations.filter(r=>r.status==='invited');
  const approvedFor=p=>approved.find(r=>r.contract_number&&r.contract_number===p.verified_contract_number&&key(r.email)===key(p.email))||approved.find(r=>key(r.email)===key(p.email)&&r.first_name);
