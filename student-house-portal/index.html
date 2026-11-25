@@ -370,7 +370,7 @@ body[data-portal-entry="questionnaire"] #app #tabs:empty{display:none}
  <p class="muted" id="step2PreviewHelp">Po schválení registrácie otvor odkaz z e-mailu. Údaje sa automaticky prepoja s tvojím študentským profilom a recepciou.</p>
 </section>
 </div>
-<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><small style="display:block;color:#d4e2f3;font-size:11px;margin:4px 0">v2026.11.24.2</small><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
+<div id="app" class="hide"><div class="top"><div class="portal-brand"><div class="studenthouse-portal-original-logo"><img src="https://studenthousebratislavanew.wordpress.com/wp-content/uploads/2026/11/student-house-bratislava-original-logo-hires.png" alt="Originálne logo STUDENT HOUSE Bratislava s piatimi hviezdičkami" width="988" height="204" loading="eager" decoding="async"></div><small id="orgLabel">STUDENT HOUSE BRATISLAVA</small><h2 id="zone">Administrácia Student House Bratislava</h2><p id="roleLabel" class="portal-role"></p><p id="user" class="muted portal-email"></p><small style="display:block;color:#d4e2f3;font-size:11px;margin:4px 0">v2026.11.25.3</small><div id="orgSelectorWrap" class="hide" style="margin-top:14px"><label for="orgSelector">Ubytovacie zariadenie</label><select id="orgSelector" aria-label="Vybrať ubytovacie zariadenie"></select></div></div><div class="portal-account-actions"><select id="appLang" aria-label="Language / Jazyk" style="width:auto"><option value="sk">Slovenčina</option><option value="en">English</option><option value="ru">Русский</option><option value="uk">Українська</option></select><button type="button" id="studentNoticeBell" class="btn-switch-portal" aria-label="Súkromné upozornenia" hidden>🔔 Upozornenia</button><button type="button" id="accountShortcut" class="btn-switch-portal">⚙ Nastavenia účtu</button><button id="out" type="button">Odhlásiť sa</button></div></div><div id="wizardProgress" class="hide" role="status" aria-live="polite"></div><div id="studentOnboardingBanner" class="hide student-notice-banner" role="status" aria-live="polite"></div><div class="grid" id="tabs"></div><section class="results" id="records" aria-live="polite"></section><footer>Zabezpečené účty a údaje podľa oprávnení</footer></div>
 </main></div></div>
 <footer class="studenthouse-brand-credit">Created by <a href="https://www.webu.sk/" target="_blank" rel="noopener noreferrer">WEBU</a></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
@@ -1154,6 +1154,12 @@ async function renderProfile(tenant){
  const ask=make('button','btn-secondary',dl('requestCorrection'));ask.type='button';
  ask.addEventListener('click',()=>navigate('requests'));
  $('records').append(ask);
+ if(!isStaff()&&studentProfileOpen()&&tab==='profile'&&member?.tenant_id===tenant){
+  const cleaningRoot=make('section','student-documents-cta');
+  $('records').append(cleaningRoot);
+  const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261125-cleaning-orders3');
+  if(tab==='profile'&&member?.tenant_id===tenant&&cleaningRoot.isConnected)await renderServiceRequests({root:cleaningRoot,db,list,tenant,staff:false,resident,userId:user.id,lang,cleaning:true,day,money,isCurrent:()=>tab==='profile'&&member?.tenant_id===tenant&&cleaningRoot.isConnected,refresh:()=>void renderPanel()});
+ }
  message(dl('privacy'));
  const policy=make('a','policy-link','GDPR');policy.href=privacyUrls[lang];policy.target='_blank';policy.rel='noopener noreferrer';$('records').append(policy);
 
@@ -1489,6 +1495,15 @@ async function renderResidentDocuments(tenant,staff,own){
  }
 }
 
+async function refreshCleaningOrderBadge(){
+ if(!member||!db||!user||!isStaff())return;
+ const tenant=member.tenant_id,uid=user.id;
+ const {count,error}=await db.from('cleaning_bookings').select('id',{count:'exact',head:true}).eq('tenant_id',tenant).eq('status','requested');
+ if(error||member?.tenant_id!==tenant||user?.id!==uid||!isStaff())return;
+ const badge=document.getElementById('cleaningOrderBadge');if(!badge)return;
+ badge.hidden=!count;badge.style.display=count?'inline-block':'none';badge.textContent=count?String(count):'';
+ badge.parentElement?.setAttribute('aria-label',label('cleaning')+(count?' ('+count+')':''));
+}
 function renderTabs(){
  const isAdmin=isStaff();
  const shortcut=$('staffMenuShortcut');shortcut.hidden=!isAdmin;
@@ -1510,7 +1525,8 @@ function renderTabs(){
  const documentTabNames=isAdmin
   ? {sk:'Správa dokumentov',en:'Manage documents',ru:'Управление документами',uk:'Керування документами'}
   : {sk:'Stiahnuť / nahrať',en:'Download / upload',ru:'Скачать / загрузить',uk:'Завантажити / надіслати'};
- for(const key of keys){const text=key==='notifications'?({sk:'Upozornenia',en:'Notifications',ru:'Уведомления',uk:'Сповіщення'}[lang]||'Upozornenia'):key==='documents'?(documentTabNames[lang]||documentTabNames.sk):key==='enquiry'?({sk:'Osobný dotazník',en:'Questionnaire',ru:'Анкета',uk:'Анкета'}[lang]||'Osobný dotazník'):isAdmin&&key==='rooms'?({sk:'Excel evidencia',en:'Excel register',ru:'Таблица Excel',uk:'Таблиця Excel'}[lang]||'Excel evidencia'):label(key);const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+text);b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));parent.append(b)}
+ for(const key of keys){const text=key==='notifications'?({sk:'Upozornenia',en:'Notifications',ru:'Уведомления',uk:'Сповіщення'}[lang]||'Upozornenia'):key==='documents'?(documentTabNames[lang]||documentTabNames.sk):key==='enquiry'?({sk:'Osobný dotazník',en:'Questionnaire',ru:'Анкета',uk:'Анкета'}[lang]||'Osobný dotazník'):isAdmin&&key==='rooms'?({sk:'Excel evidencia',en:'Excel register',ru:'Таблица Excel',uk:'Таблиця Excel'}[lang]||'Excel evidencia'):label(key);const b=make('button','card'+(tab===key?' active':''),(icons[key]||'•')+'  '+text);b.type='button';b.setAttribute('aria-current',tab===key?'page':'false');b.addEventListener('click',()=>navigate(key));if(isAdmin&&key==='cleaning'){const badge=make('span','','');badge.id='cleaningOrderBadge';badge.hidden=true;badge.setAttribute('aria-live','polite');badge.style.cssText='display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:#b42318;color:white;font-size:13px;font-weight:800';badge.style.display='none';badge.hidden=true;b.append(badge);}parent.append(b)}
+ if(isAdmin)void refreshCleaningOrderBadge();
 }
 let renderGeneration=0;
 let pendingRoomFocus=null;
@@ -1526,7 +1542,7 @@ function stopLiveSync(){
 }
 function editingRecord(){
  // Keep the reviewed profile and open approval/calendar form intact across focus and timer events.
- if($('records').querySelector('.staff-profile,.staff-form,form[data-live-dirty="true"]'))return true;
+ if($('records').querySelector(tab==='cleaning'||(tab==='profile'&&!isStaff())?'.staff-profile,form[data-live-dirty="true"]':'.staff-profile,.staff-form,form[data-live-dirty="true"]'))return true;
  const x=document.activeElement;
  return !!(x&&$('records').contains(x)&&(x.matches('input,textarea,select,[contenteditable="true"]')||x.closest('.register-edit,.staff-form,.room-register-import')));
 }
@@ -1561,12 +1577,12 @@ function startLiveSync(){
  stopLiveSync();if(!member||!db)return;
  const tenant=member.tenant_id;
  const channel=db.channel('residence-live-'+tenant+'-'+(isStaff()?'staff':'student'));
- for(const table of LIVE_TABLES)channel.on('postgres_changes',{event:'*',schema:'public',table,filter:'tenant_id=eq.'+tenant},()=>{if(member?.tenant_id===tenant){scheduleLiveRefresh();if(table==='notifications')void refreshStudentNoticeBadge();}});
+ for(const table of LIVE_TABLES)channel.on('postgres_changes',{event:'*',schema:'public',table,filter:'tenant_id=eq.'+tenant},()=>{if(member?.tenant_id===tenant){scheduleLiveRefresh();if(table==='notifications')void refreshStudentNoticeBadge();if(table==='cleaning_bookings')void refreshCleaningOrderBadge();}});
  channel.subscribe();liveChannel=channel;
  // 60-second fallback also refreshes when realtime is unavailable.
- liveTimer=setInterval(scheduleLiveRefresh,60000);
+ liveTimer=setInterval(()=>{scheduleLiveRefresh();void refreshCleaningOrderBadge();},30000);
 }
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')scheduleLiveRefresh();});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){scheduleLiveRefresh();void refreshCleaningOrderBadge();}});
 window.addEventListener('focus',scheduleLiveRefresh);
 for(const event of ['input','change'])$('records').addEventListener(event,e=>{
  const form=e.target.closest?.('form');if(form)form.setAttribute('data-live-dirty','true');
@@ -2107,12 +2123,12 @@ async function renderPanel(){
   }
   if(tab==='requests'||tab==='cleaning'){
    const serviceTab=tab,serviceTenant=tenant;
-   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261125-cleaning-tariffs2');
+   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261125-cleaning-orders3');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    await renderServiceRequests({root:container,db,list,tenant,staff,resident,userId:user.id,lang,openFile:id=>{void fileLink(id,tenant);},
     cleaning:serviceTab==='cleaning',day,money,
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===serviceTenant&&tab===serviceTab,
-    refresh:()=>void renderPanel()});
+    refresh:()=>{void refreshCleaningOrderBadge();void renderPanel();}});
    return;
   }
   empty();
