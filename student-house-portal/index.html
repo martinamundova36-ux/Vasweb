@@ -1909,10 +1909,29 @@ async function renderPanel(){
    const reversed=new Set(reversals.map(r=>r.payment_id)),peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    const residentLabel=id=>{const p=peopleById[id];return p?[p.full_name,p.email,p.verified_room_number].filter(Boolean).join(' · '):'—';};
    const active=paid.filter(x=>!reversed.has(x.id));container.append(make('h3','',words[3]+': '+money(active.reduce((n,x)=>n+Math.round(Number(x.amount)*100),0)/100)));
-   const paymentList=make('section','data-list');
-   if(staff){const openExcel=make('button','btn-secondary',words[5]);openExcel.type='button';openExcel.onclick=()=>navigate('rooms');container.append(openExcel);const search=make('input');search.type='search';search.placeholder=words[2];search.setAttribute('aria-label',words[2]);search.oninput=()=>{const q=search.value.normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase().trim();for(const p of paymentList.children)p.classList.toggle('hide',!!q&&!String(p.dataset.paymentSearch||'').includes(q));};container.append(search);}
+   const paymentList=make('section','data-list'),monthGroups=new Map();
+   const locale=({sk:'sk-SK',en:'en-GB',ru:'ru-RU',uk:'uk-UA'})[lang];
+   const monthlyTotal=({sk:'Spolu za mesiac',en:'Monthly total',ru:'Всего за месяц',uk:'Усього за місяць'})[lang];
+   const missingDate=({sk:'Bez dátumu',en:'No date',ru:'Без даты',uk:'Без дати'})[lang];
+   const refreshPaymentGroups=q=>{
+    for(const group of monthGroups.values()){
+     let cents=0,count=0;
+     for(const p of group.rows){const match=!q||p.dataset.paymentSearch.includes(q);p.classList.toggle('hide',!match);if(match){count++;cents+=Number(p.dataset.paymentCents);}}
+     group.section.classList.toggle('hide',count===0);
+     group.total.textContent=monthlyTotal+': '+money(cents/100);
+    }
+   };
+   if(staff){const openExcel=make('button','btn-secondary',words[5]);openExcel.type='button';openExcel.onclick=()=>navigate('rooms');container.append(openExcel);const search=make('input');search.type='search';search.placeholder=words[2];search.setAttribute('aria-label',words[2]);search.oninput=()=>refreshPaymentGroups(search.value.normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase().trim());container.append(search);}
    if(!active.length)paymentList.append(make('p','muted',words[4]));
-   for(const x of paid.filter(x=>!reversed.has(x.id)).sort((a,b)=>String(b.received_on).localeCompare(String(a.received_on)))){
+   for(const x of active.slice().sort((a,b)=>String(b.received_on||'').localeCompare(String(a.received_on||'')))){
+    const rawMonth=String(x.received_on||'').slice(0,7),month=/^\d{4}-(0[1-9]|1[0-2])$/.test(rawMonth)?rawMonth:'';
+    if(!monthGroups.has(month)){
+     const section=make('section','data-list'),header=make('div'),total=make('strong');
+     const dateLabel=month?new Intl.DateTimeFormat(locale,{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(month+'-01T12:00:00Z')):missingDate;
+     const title=make('h3','',dateLabel);title.style.cssText='margin:0;text-transform:capitalize';
+     header.style.cssText='display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px;background:#e5edf7;border-radius:10px;margin-top:16px';
+     header.append(title,total);section.append(header);paymentList.append(section);monthGroups.set(month,{section,total,rows:[]});
+    }
     const paymentRow=row((reversed.has(x.id)?'↶ ':'✓ ')+(staff?residentLabel(x.resident_id)+' · ':'')+money(x.amount),day(x.received_on)+' · '+x.method+' · '+x.reference);
     const reversal=reversals.find(r=>r.payment_id===x.id);
     if(staff)paymentRow.append(actionReceipt(actionText(reversal?2:1)));
@@ -1925,8 +1944,9 @@ async function renderPanel(){
      form.onsubmit=async e=>{e.preventDefault();if(reverse.disabled||!form.reportValidity()||!confirm(({sk:'Stornovať túto evidovanú úhradu? Zostane v audite. Správnu platbu potom zaeviduj ako nový záznam.',en:'Reverse this recorded receipt? It remains in the audit. Record the corrected receipt as a new entry.',ru:'Сторнировать платёж? История сохранится. Верный платёж внесите новой записью.',uk:'Сторнувати платіж? Історія збережеться. Правильний платіж внесіть новим записом.'})[lang]))return;await saveStaffAction(reverse,reversalError,fin('failed'),async()=>{const {error}=await db.rpc('reverse_payment',{p_tenant:tenant,p_payment:x.id,p_reason:reason.value.trim()});if(error)throw error;void renderPanel();});};
      fix.append(caption,form);paymentRow.append(fix);
     }
-    paymentRow.dataset.paymentSearch=[peopleById[x.resident_id]?.full_name,peopleById[x.resident_id]?.email,peopleById[x.resident_id]?.verified_room_number,x.reference].filter(Boolean).join(' ').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();paymentList.append(paymentRow);
+    paymentRow.dataset.paymentSearch=[peopleById[x.resident_id]?.full_name,peopleById[x.resident_id]?.email,peopleById[x.resident_id]?.verified_room_number,x.reference].filter(Boolean).join(' ').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase();paymentRow.dataset.paymentCents=String(Math.round(Number(x.amount)*100));const group=monthGroups.get(month);group.rows.push(paymentRow);group.section.append(paymentRow);
    }
+   refreshPaymentGroups('');
 
    container.append(paymentList);
    if(staff){container.append(make('p','mini-note',words[6]));}
