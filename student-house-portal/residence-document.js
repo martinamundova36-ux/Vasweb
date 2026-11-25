@@ -90,7 +90,7 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
  // A Unicode font is necessary for student names and addresses with diacritics or Cyrillic.
  const {default:fontkit}=await import('https://esm.sh/@pdf-lib/fontkit@1.1.1');
  pdf.registerFontkit(fontkit);
- const fontResponse=await fetch('https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/tinos/Tinos-Regular.ttf');
+ const fontResponse=await fetch('https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/tinos/Tinos-Bold.ttf');
  if(!fontResponse.ok)throw Error('Písmo zmluvy sa nepodarilo načítať.');
  const font=await pdf.embedFont(await fontResponse.arrayBuffer(),{subset:true});
  for(const field of filled){
@@ -100,7 +100,7 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
   for(const widget of field.acroField.getWidgets()){
    const rect=widget.getRectangle();
    size=Math.min(size,Math.max(1,(rect.width-2)/Math.max(font.widthOfTextAtSize(value,1),0.1)),rect.height/1.1);
-   widget.getOrCreateAppearanceCharacteristics().setBackgroundColor([1,0.94,0.60]);
+   widget.getOrCreateAppearanceCharacteristics().setBackgroundColor([1,1,1]);
   }
   field.setFontSize(size);
   field.updateAppearances(font);
@@ -116,7 +116,7 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
   if(!parts.length||parts.some(i=>!Number.isFinite(Number(i.amount))||Number(i.amount)<=0)||Math.round(parts.reduce((sum,i)=>sum+Number(i.amount),0)*100)!==Math.round(Number(ch.amount)*100))throw Error('Splátková dohoda sa nezhoduje s predpisom.');
   return parts.map(i=>({...ch,amount:i.amount,due_on:i.due_on,initial:false}));
  });
- const {contractScheduleDocument}=await import('./installment-document.js?v=20261125-contract-highlight1');
+ const {contractScheduleDocument}=await import('./installment-document.js?v=20261125-contract-bold1');
  const annex=await contractScheduleDocument({...data,first_name:values.first_name,last_name:values.last_name},schedule);
  // Remove annex form fields before dropping its pages, to avoid dangling PDF widgets.
  for(const field of [...form.getFields()]){
