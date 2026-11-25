@@ -64,10 +64,10 @@ export async function failureCode(error, data) {
 }
 
 const archiveCopy={
- sk:{open:'Vymazať študenta',title:'Archivovať študenta',warning:'Archivácia vypne prístup študenta a uvoľní jeho miesto v evidencii izieb. Zmluvy, platby a história sa uchovajú. Trvalé vymazanie podlieha samostatnému schváleniu.',cancel:'Zrušiť',confirm:'Potvrdiť archiváciu',archived:'Archivovaný',failed:'Archivácia zlyhala. Overte oprávnenia a obnovte prehľad.'},
- en:{open:'Delete student',title:'Archive student',warning:'Archiving removes student access and releases their place in the room register. Agreements, payments and history are retained. Permanent deletion requires separate approval.',cancel:'Cancel',confirm:'Confirm archive',archived:'Archived',failed:'Archiving failed. Check permissions and refresh the list.'},
- ru:{open:'Удалить студента',title:'Архивировать студента',warning:'Архивация отключит доступ студента и освободит его место в реестре комнат. Договоры, платежи и история сохранятся. Окончательное удаление требует отдельного согласования.',cancel:'Отмена',confirm:'Подтвердить архивацию',archived:'В архиве',failed:'Не удалось архивировать. Проверьте права доступа и обновите список.'},
- uk:{open:'Видалити студента',title:'Архівувати студента',warning:'Архівування вимкне доступ студента та звільнить його місце в реєстрі кімнат. Договори, платежі й історія збережуться. Остаточне видалення потребує окремого погодження.',cancel:'Скасувати',confirm:'Підтвердити архівування',archived:'В архіві',failed:'Не вдалося архівувати. Перевірте права доступу й оновіть список.'}
+ sk:{open:'Vymazať študenta',title:'Archivovať študenta',warning:'Archivácia vypne prístup študenta a uvoľní jeho miesto v evidencii izieb. Zmluvy, platby a história sa uchovajú. Trvalé vymazanie podlieha samostatnému schváleniu.',adminRequired:'Archiváciu môže potvrdiť iba správca. Prihláste sa účtom správcu.',cancel:'Zrušiť',confirm:'Potvrdiť archiváciu',archived:'Archivovaný',failed:'Archivácia zlyhala. Overte oprávnenia a obnovte prehľad.'},
+ en:{open:'Delete student',title:'Archive student',warning:'Archiving removes student access and releases their place in the room register. Agreements, payments and history are retained. Permanent deletion requires separate approval.',adminRequired:'Only an administrator can confirm archiving. Sign in with an administrator account.',cancel:'Cancel',confirm:'Confirm archive',archived:'Archived',failed:'Archiving failed. Check permissions and refresh the list.'},
+ ru:{open:'Удалить студента',title:'Архивировать студента',warning:'Архивация отключит доступ студента и освободит его место в реестре комнат. Договоры, платежи и история сохранятся. Окончательное удаление требует отдельного согласования.',adminRequired:'Подтвердить архивацию может только администратор. Войдите через аккаунт администратора.',cancel:'Отмена',confirm:'Подтвердить архивацию',archived:'В архиве',failed:'Не удалось архивировать. Проверьте права доступа и обновите список.'},
+ uk:{open:'Видалити студента',title:'Архівувати студента',warning:'Архівування вимкне доступ студента та звільнить його місце в реєстрі кімнат. Договори, платежі й історія збережуться. Остаточне видалення потребує окремого погодження.',adminRequired:'Підтвердити архівування може лише адміністратор. Увійдіть з обліковим записом адміністратора.',cancel:'Скасувати',confirm:'Підтвердити архівування',archived:'В архіві',failed:'Не вдалося архівувати. Перевірте права доступу й оновіть список.'}
 };
 
 export async function renderStaffScreen(ctx) {
@@ -103,6 +103,7 @@ export async function renderStaffScreen(ctx) {
   dialog.setAttribute('aria-labelledby',title.id);
   const details=el('dl','identity-fields');
   details.append(field(w.room,person.verified_room_number),field(w.contract,person.verified_contract_number));
+  const canArchive=ctx.role==='org_admin';
   const failure=inlineError();
   const cancel=button(archive.cancel,()=>dialog.close());
   cancel.autofocus=true;
@@ -133,7 +134,8 @@ export async function renderStaffScreen(ctx) {
   },'staff-archive-danger');
   dialog.addEventListener('cancel',event=>{if(pendingAction)event.preventDefault();});
   dialog.addEventListener('close',()=>dialog.remove(),{once:true});
-  dialog.append(title,el('p','',person.full_name),details,el('p','',archive.warning),failure,cancel,confirm);
+  dialog.append(title,el('p','',person.full_name),details,el('p','',canArchive?archive.warning:archive.adminRequired),failure,cancel);
+  if(canArchive)dialog.append(confirm);
   ctx.root.append(dialog);
   dialog.showModal();
  }
@@ -290,7 +292,7 @@ export async function renderStaffScreen(ctx) {
     card.append(button(questionnaireWords[5],()=>{void profile(person);}));
    }else if(ctx.section==='residents'){
     card.append(button(w.open,()=>{void profile(person);}));
-    if(ctx.role==='org_admin'&&!person.archived_at){
+    if(!person.archived_at){
      const remove=button(archive.open,()=>confirmArchive(person),'staff-archive-danger');
      const icon=el('span','','🗑 ');
      icon.setAttribute('aria-hidden','true');
