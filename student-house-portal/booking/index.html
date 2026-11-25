@@ -49,6 +49,8 @@ a{color:#154f88}.foot{font-size:13px;color:#72859a;text-align:center;margin:24px
 <div><label for="phone" id="phoneLabel">Telefón s predvoľbou *</label><div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px"><select id="dial" aria-label="Country calling code" autocomplete="tel-country-code" required></select><input id="phone" name="tel" type="tel" maxlength="30" autocomplete="tel-national" placeholder="..." required></div></div>
 <div><label for="school" id="schoolLabel">Univerzita alebo škola *</label><select id="school" required><option value="">Vyber školu</option><option>Univerzita Komenského v Bratislave (UK)</option><option>Slovenská technická univerzita v Bratislave (STU)</option><option>Ekonomická univerzita v Bratislave (EUBA)</option><option>Paneurópska vysoká škola (PEVŠ)</option><option>Vysoká škola múzických umení (VŠMU)</option><option>Vysoká škola výtvarných umení (VŠVU)</option><option>Slovenská zdravotnícka univerzita (SZU)</option><option>Akadémia Policajného zboru v Bratislave</option><option>Bratislavská medzinárodná škola liberálnych štúdií (BISLA)</option><option>Vysoká škola ekonómie a manažmentu v Bratislave (VŠEM)</option><option>Vysoká škola manažmentu (VŠM)</option><option>Vysoká škola zdravotníctva a sociálnej práce sv. Alžbety</option><option>Vysoká škola NEWTON</option><option>Uczelnia Biznesu i Nauk Stosowanych Varsovia</option><option>University College Prague</option><option value="other">Iná škola</option></select><div id="schoolOtherWrap" hidden style="margin-top:8px"><label for="schoolOther" id="schoolOtherLabel">Názov školy *</label><input id="schoolOther" maxlength="250" disabled></div></div>
 <div><label for="nationality" id="nationalityLabel">Štátna príslušnosť *</label><select id="nationality" required></select></div>
+<div><label for="birth" id="birthLabel">Dátum narodenia *</label><input id="birth" name="bday" type="date" autocomplete="bday" min="1900-01-01" required></div>
+<div><label for="gender" id="genderLabel">Pohlavie *</label><select id="gender" required><option value="">Vyber</option><option value="female">Žena</option><option value="male">Muž</option><option value="other">Iné</option></select></div>
 <div><label for="room" id="roomLabel">Typ izby *</label><select id="room" required><option value="">Vyber typ izby</option><option>Mansard 2</option><option>Standard 1+1</option><option>Suite 2</option><option>De Luxe 2</option><option>Standard 2</option><option>De Luxe 2V</option></select></div>
 <div><label for="roomUsage" id="roomUsageLabel">Ubytovanie *</label><select id="roomUsage" required><option value="">Vyber možnosť</option><option value="shared">Zdieľaná izba</option><option value="private">Celá izba pre mňa</option><option value="standard11">Samostatná izba Standard 1+1</option></select></div>
 </div></fieldset>
@@ -121,7 +123,11 @@ function updateSchool(){
  const other=get('school').value==='other';get('schoolOtherWrap').hidden=!other;get('schoolOther').disabled=!other;get('schoolOther').required=other;
 }
 get('school').addEventListener('change',updateSchool);
+function todayBratislava(){return new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Bratislava"}).format(new Date());}
+get("birth").max=todayBratislava();
 function translate(){
+ const personal=({sk:["Dátum narodenia *","Pohlavie *","Vyber","Žena","Muž","Iné"],en:["Date of birth *","Gender *","Select","Female","Male","Other"],ru:["Дата рождения *","Пол *","Выберите","Женщина","Мужчина","Другое"],uk:["Дата народження *","Стать *","Оберіть","Жінка","Чоловік","Інше"]})[lang];
+ get("birthLabel").textContent=personal[0];get("genderLabel").textContent=personal[1];for(let i=0;i<4;i++)get("gender").options[i].textContent=personal[i+2];
  const schoolLabels={sk:['Vyber školu','Iná škola','Názov školy *'],en:['Select university','Other university / school','School name *'],ru:['Выберите вуз','Другой вуз / учебное заведение','Название учебного заведения *'],uk:['Оберіть університет','Інший університет / заклад','Назва закладу *']}[lang];
  const school=get('school');school.options[0].textContent=schoolLabels[0];school.options[school.options.length-1].textContent=schoolLabels[1];get('schoolOtherLabel').textContent=schoolLabels[2];updateSchool();
  populateChoices();
@@ -152,13 +158,14 @@ get('bookingForm').addEventListener('submit',async e=>{
  status.textContent='';status.className='';
  updateStay();
  const from=get('month').value+'-01',to=get('to').value,arrival=get('arrival').value,months=Number(get('months').value);
- if(!form.checkValidity()||(get('school').value==='other'&&!get('schoolOther').value.trim())||!dialing[get('dial').value]||!/^\d{4,14}$/.test(get('phone').value.replace(/[^0-9]/g,''))||!get('nonbinding').checked||!to||to!==calculateDeparture(get('month').value,months)||arrival.slice(0,7)!==get('month').value){
+ if(!form.checkValidity()||!get("birth").value||get("birth").value>todayBratislava()||!["female","male","other"].includes(get("gender").value)||(get('school').value==='other'&&!get('schoolOther').value.trim())||!dialing[get('dial').value]||!/^\d{4,14}$/.test(get('phone').value.replace(/[^0-9]/g,''))||!get('nonbinding').checked||!to||to!==calculateDeparture(get('month').value,months)||arrival.slice(0,7)!==get('month').value){
   status.textContent=t.invalid;status.className='error';form.reportValidity();return;
  }
  const payload={
   first_name:get('first').value.trim(),last_name:get('last').value.trim(),email:get('email').value.trim(),
   telephone:'+'+dialing[get('dial').value]+get('phone').value.replace(/[^0-9]/g,''),school:(get('school').value==='other'?get('schoolOther').value:get('school').value).trim(),nationality:new Intl.DisplayNames(['en'],{type:'region'}).of(get('nationality').value),
-  preferred_room_type:(get('room').value+' / '+get('roomUsage').options[get('roomUsage').selectedIndex].textContent).slice(0,120),
+  date_of_birth:get('birth').value,gender:get('gender').value,
+  preferred_room_type:(get('room').value+' / '+({shared:'Zdieľaná izba',private:'Celá izba',standard11:'Samostatná izba Standard 1+1'})[get('roomUsage').value]).slice(0,120),
   expected_arrival:arrival,accommodation_from:from,accommodation_to:to,preferred_duration_months:months,
   privacy_acknowledged:get('gdpr').checked,website:get('website').value
  };
