@@ -1516,7 +1516,7 @@ let renderGeneration=0;
 let pendingRoomFocus=null;
 
 // Automatic sync: approved registrations and verified accounting entries share one database.
-const LIVE_TABLES=['resident_enquiry_reviews','resident_enquiries','residence_portal_files','registration_requests','residents','rooms','tenancies','resident_staff_details','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','installment_items','cleaning_bookings','service_requests','service_request_messages','notifications'];
+const LIVE_TABLES=['resident_enquiry_reviews','resident_enquiries','residence_portal_files','registration_requests','residents','rooms','tenancies','resident_staff_details','rent_charges','payments','payment_allocations','payment_reversals','installment_plans','installment_items','cleaning_slots','cleaning_bookings','service_requests','service_request_messages','notifications'];
 let liveChannel=null,liveTimer=null,liveDebounce=null,liveBusy=false,livePending=false;
 function stopLiveSync(){
  if(liveTimer!==null){clearInterval(liveTimer);liveTimer=null;}
@@ -2107,7 +2107,7 @@ async function renderPanel(){
   }
   if(tab==='requests'||tab==='cleaning'){
    const serviceTab=tab,serviceTenant=tenant;
-   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=i18n2-20261120-review-status1');
+   const {renderServiceRequests}=await import('/student-house-portal/service-requests.js?v=20261125-cleaning-calendar1');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    await renderServiceRequests({root:container,db,list,tenant,staff,resident,userId:user.id,lang,openFile:id=>{void fileLink(id,tenant);},
     cleaning:serviceTab==='cleaning',day,money,
