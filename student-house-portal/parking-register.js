@@ -1,3 +1,4 @@
+import {paymentImages,studentHouseLogo} from './installment-document.js?v=parking-payment';
 import {providerDetails} from './student-house-provider.js';
 import {downloadWorkbook} from './excel.js';
 const words = {
@@ -185,11 +186,12 @@ function invoiceDraft(root,labels,data,lang,provider) {
  dialog.className='parking-edit-dialog';
  const form=element('form');
  const fields=new Map();
+ const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
  for(const [label,value,type,required] of [
   [customer,data.name,'text',true],[address,'','text',true],[plate,data.plate,'text',false],
   [period,/^\d{4}$/.test(data.period||'')?'':data.period,'text',true],
-  [number,'','text',true],[issued,'','date',true],[delivered,'','date',true],[due,'','date',true],
-  ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,1,'number',true],
+  [number,'','text',true],[issued,today,'date',true],[delivered,'','date',true],[due,'','date',true],
+  ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,data.months||1,'number',true],
   ['IBAN',provider.iban,'text',false],[reference,'','text',false]
  ]){
   const field=element('label',label);
@@ -224,6 +226,12 @@ function invoiceDraft(root,labels,data,lang,provider) {
   const input=fields.get(months);
   totals.textContent=input.value&&input.validity.valid?amounts().map(([label,value])=>label+' '+value).join(' · '):'';
  }
+ fields.get(number).addEventListener('input',()=>{
+  const value=fields.get(number).value.trim();
+  fields.get(reference).value=/^\d{1,10}$/.test(value)?value:'';
+ });
+ fields.get(reference).pattern='[0-9]{1,10}';
+ fields.get(reference).maxLength=10;
  fields.get(months).addEventListener('input',updateTotals);
  updateTotals();
  const cancel=element('button',close);
@@ -231,8 +239,10 @@ function invoiceDraft(root,labels,data,lang,provider) {
  cancel.addEventListener('click',()=>dialog.close());
  const submit=element('button',print);
  submit.type='submit';
- form.append(totals,submit,cancel);
- form.addEventListener('submit',event=>{
+ const feedback=element('p');
+ feedback.setAttribute('role','alert');
+ form.append(totals,feedback,submit,cancel);
+ form.addEventListener('submit',async event=>{
   event.preventDefault();
   const paper=window.open('','_blank');
   if(!paper)return;
@@ -246,6 +256,10 @@ function invoiceDraft(root,labels,data,lang,provider) {
    return node;
   };
   add('style','@page{size:A4;margin:16mm} body{font:11pt system-ui,sans-serif;color:#142b4d;max-width:760px;margin:12px auto;padding:8px;overflow-wrap:anywhere} h1{font-size:22pt;margin:0 0 5px} h2{font-size:13pt;margin:18px 0 6px} p{margin:4px 0} dl{display:grid;grid-template-columns:38% 1fr;gap:5px 10px;margin:8px 0 14px} dd{margin:0} .total{font-size:1.22em;font-weight:700;border-top:1px solid;padding-top:8px} @media print{body{margin:0;padding:0}}',doc.head);
+  const logo=add('img','');
+  logo.src=studentHouseLogo;
+  logo.alt='Student House Bratislava';
+  logo.style.cssText='display:block;width:220px;max-width:100%;margin-bottom:15px';
   add('h1',title);
   add('p',number+' '+fields.get(number).value.trim());
   add('h2',supplier);
@@ -260,7 +274,25 @@ function invoiceDraft(root,labels,data,lang,provider) {
   }
   add('p',unit+' '+money.format(50));
   for(const [label,value] of amounts())add('p',label+' '+value).className=label===total?'total':'';
-  paper.print();
+  submit.disabled=true;
+  feedback.textContent='';
+  try{
+   const baseCents=5000*fields.get(months).valueAsNumber;
+   const [image]=await paymentImages([{amount:(baseCents+Math.round(baseCents*23/100))/100,due_on:fields.get(due).value}],{
+    iban:provider.iban,beneficiary:provider.name,symbol:fields.get(reference).value,message:fields.get(number).value
+   });
+   const qr=add('img','');
+   qr.src=image;
+   qr.alt='PAY by square';
+   qr.style.cssText='display:block;width:33mm;margin-top:8px';
+   await Promise.all([logo.decode(),qr.decode()]);
+   paper.print();
+  }catch{
+   paper.close();
+   feedback.textContent=({sk:'Platobný QR kód sa nepodarilo vytvoriť.',en:'Could not generate the payment QR code.',ru:'Не удалось создать платёжный QR-код.',uk:'Не вдалося створити платіжний QR-код.'})[lang];
+  }finally{
+   submit.disabled=false;
+  }
  });
  dialog.append(element('h3',title),element('p',supplier+' · '+supplierLines[0]),element('p',unit+' '+money.format(50)),form);
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
@@ -350,7 +382,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
    const request=ordered[index];
    return actionCell(row,request,'request',()=>({
     name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
-    period:[request.start_on,request.end_on].filter(Boolean).join(' – ')
+    period:[request.start_on,request.end_on].filter(Boolean).join(' – '),months:request.months
    }));
   });
  } else {
