@@ -107,16 +107,8 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
  }
  // Preserve pages 1–7 of the signed-contract layout; page 8 is blank, pages 9–10 are the old annex.
  // Build the new annex from the verified charges, not from the example student's figures.
- const scheduleCharges=[admin[0],deposit[0],...rentRows.map(rows=>rows[0])];
- const schedule=scheduleCharges.flatMap(ch=>{
-  const agreed=plans.filter(p=>p.charge_id===ch.id);
-  if(agreed.length>1)throw Error('Viacero splátkových dohôd k rovnakému predpisu.');
-  if(!agreed.length)return [{...ch,initial:ch.period===from}];
-  const parts=items.filter(i=>i.plan_id===agreed[0].id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
-  if(!parts.length||parts.some(i=>!Number.isFinite(Number(i.amount))||Number(i.amount)<=0)||Math.round(parts.reduce((sum,i)=>sum+Number(i.amount),0)*100)!==Math.round(Number(ch.amount)*100))throw Error('Splátková dohoda sa nezhoduje s predpisom.');
-  return parts.map(i=>({...ch,amount:i.amount,due_on:i.due_on,initial:false}));
- });
- const {contractScheduleDocument}=await import('./installment-document.js?v=20261125-contract-bold1');
+ const {contractScheduleDocument,buildStudentHouseSchedule}=await import('./installment-document.js?v=20261125-unified-qr1');
+ const schedule=buildStudentHouseSchedule(data,charges,plans,items,person.id);
  const annex=await contractScheduleDocument({...data,first_name:values.first_name,last_name:values.last_name},schedule);
  // Remove annex form fields before dropping its pages, to avoid dangling PDF widgets.
  for(const field of [...form.getFields()]){
