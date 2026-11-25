@@ -706,18 +706,30 @@ export async function renderStaffScreen(ctx) {
          event.preventDefault();if(!ctx.isCurrent()||!contract.reportValidity())return;
          create.disabled=true;contractStatus.textContent='';
          try{
-          const {workingDocument,fieldsForDocument,missingDocumentFields}=await import('/student-house-portal/residence-document.js?v=20261125-provider1');
+          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-original-contract1');
           const assignedRoom=(await ctx.list('rooms')).find(r=>String(r.name)===String(person.verified_room_number));
           const data=fieldsForDocument('contract_draft',person,enquiry,{...stay,room_type:assignedRoom?.category||''},verified,{
            provider:provider.value.trim(),payment_terms:terms.value.trim()
           });
+          let file;
+          if(isStudentHouse(ctx.tenant)){
+           const templates=(await ctx.list('residence_portal_files',{kind:'contract_template',active:true})).sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
+           if(!templates.length)throw Error('Nahraj originálnu vyplniteľnú zmluvu v Správe dokumentov.');
+           const url=await ctx.fileLink(templates[0].id,ctx.tenant,true);
+           if(!url)throw Error('Predloha sa nepodarila otvoriť.');
+           const response=await fetch(url);if(!response.ok)throw Error('Predloha sa nepodarila načítať.');
+           file=await fillOriginalStudentHouseContract({attachment:await response.arrayBuffer(),data,charges:(billsResult.data||[]).map(c=>({...c,resident_id:person.id})),person});
+           if(!ctx.isCurrent())return;
+           const previewUrl=URL.createObjectURL(file),preview=el('a','btn-secondary','Stiahnuť vyplnenú zmluvu na kontrolu');preview.href=previewUrl;preview.download=file.name;
+           contractStatus.replaceChildren(preview);return;
+          }
           if(missingDocumentFields('contract_draft',data).length)throw Error('missing_contract_data');
-          const file=await workingDocument({kind:'contract_draft',title:'Ubytovacia zmluva',slug:'ubytovacia-zmluva',data});
+          file=await workingDocument({kind:'contract_draft',title:'Ubytovacia zmluva',slug:'ubytovacia-zmluva',data});
           const ok=await ctx.uploadPrivateDocument(person.id,file,create,'contract_draft');
           if(!ok)throw Error('upload_failed');
           contractStatus.classList.add('staff-approval-success');
           contractStatus.textContent=documentWording.contractReady;
-         }catch(error){contractStatus.textContent=documentWording.contractFail+(error?.message==='missing_contract_data'?' – skontroluj povinné údaje dotazníka.':'');}
+         }catch(error){contractStatus.textContent=documentWording.contractFail+(error?.message==='missing_contract_data'?' – skontroluj povinné údaje dotazníka.':isStudentHouse(ctx.tenant)?' – '+(error?.message||''):'');}
          finally{create.disabled=false;}
         });
         const periods=stayPeriods(person.accommodation_from,person.accommodation_to);
