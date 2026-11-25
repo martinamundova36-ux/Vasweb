@@ -10,7 +10,7 @@ function element(tag, text) {
  if (text != null) node.textContent = String(text);
  return node;
 }
-function appendTable(root, headers, rows) {
+function appendTable(root, headers, rows, appendActions) {
  const scroll = element('div');
  scroll.style.overflowX = 'auto';
  const table = element('table');
@@ -21,9 +21,10 @@ function appendTable(root, headers, rows) {
   header.append(cell);
  }
  const body = table.createTBody();
- for (const values of rows) {
+ for (const [index,values] of rows.entries()) {
   const row = body.insertRow();
   for (const value of values) row.append(element('td', value));
+  if(appendActions)row.append(appendActions(row,index));
  }
  scroll.append(table);
  root.append(scroll);
@@ -80,7 +81,7 @@ function parkingIdentity(value) {
  return [String(value??''),''];
 }
 
-function appendWorkbookGrid(root, history, copy, saveCell, headers) {
+function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions) {
  const style=element('style', `
  .parking-workbook {width:100%; max-width:100%; max-height:min(70vh,880px); overflow:auto; border:1px solid #cfdaea; border-radius:13px; margin-bottom:1.5rem}
  .parking-workbook table {border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; color:#142b4d; font:inherit; font-size:14px}
@@ -151,15 +152,99 @@ function appendWorkbookGrid(root, history, copy, saveCell, headers) {
    });
   }
  }
+  for(const [index,row] of Array.from(body.rows).entries())row.append(rowActions(row,history[index]));
  scroll.append(table);
  root.append(style,scroll);
 }
 
-export function renderParkingRegister(root, lang, requests, history, saveCell) {
+const actionWords={
+ sk:['Akcie','Vymazať','Pripraviť faktúru','Natrvalo vymazať tento záznam?','Vymazanie zlyhalo.','Návrh faktúry – parkovanie','Odberateľ','EČV','Obdobie','Suma (€)','Tlačiť návrh','Zavrieť','Pracovný podklad k faktúre'],
+ en:['Actions','Delete','Prepare invoice','Permanently delete this record?','Deletion failed.','Draft invoice – parking','Customer','Registration plate','Period','Amount (€)','Print draft','Close','Invoice working document'],
+ ru:['Действия','Удалить','Подготовить счёт','Удалить эту запись навсегда?','Не удалось удалить запись.','Черновик счёта – парковка','Клиент','Номер автомобиля','Период','Сумма (€)','Печать черновика','Закрыть','Рабочий документ для счёта'],
+ uk:['Дії','Видалити','Підготувати рахунок','Видалити цей запис назавжди?','Не вдалося видалити запис.','Чернетка рахунку – паркування','Клієнт','Номер авто','Період','Сума (€)','Друк чернетки','Закрити','Робочий документ для рахунку']
+};
+function invoiceDraft(root,labels,data) {
+ const [,,,,,title,customer,plate,period,amount,print,close,caption]=labels;
+ const dialog=element('dialog');
+ dialog.className='parking-edit-dialog';
+ const form=element('form');
+ for(const [label,value,type] of [[customer,data.name,'text'],[plate,data.plate,'text'],[period,data.period,'text'],[amount,data.amount,'number']]){
+  const field=element('label',label);
+  const input=element('input');
+  input.type=type;
+  input.value=value??'';
+  input.required=label!==plate;
+  if(type==='number'){input.min='0.01';input.step='0.01';}
+  field.append(input);
+  form.append(field);
+ }
+ const cancel=element('button',close);
+ cancel.type='button';
+ cancel.addEventListener('click',()=>dialog.close());
+ const submit=element('button',print);
+ submit.type='submit';
+ form.append(submit,cancel);
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  const paper=window.open('','_blank');
+  if(!paper)return;
+  paper.opener=null;
+  paper.document.title=title;
+  const heading=paper.document.createElement('h1');
+  heading.textContent=title;
+  const doc=paper.document.createElement('dl');
+  for(const [index,label] of [customer,plate,period,amount].entries()){
+   const key=paper.document.createElement('dt');
+   const value=paper.document.createElement('dd');
+   key.textContent=label;
+   value.textContent=form.querySelectorAll('input')[index].value;
+   doc.append(key,value);
+  }
+  const footer=paper.document.createElement('p');
+  footer.textContent=caption;
+  paper.document.body.append(heading,doc,footer);
+  paper.print();
+ });
+ dialog.append(element('h3',title),form);
+ dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+ root.append(dialog);
+ dialog.showModal();
+}
+export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow) {
  const [inbox, form, empty, imported, name, plate, email, phone, from, to, amount, status, note] = words[lang] || words.sk;
 
  const copy=editWords[lang]||editWords.sk;
  const year=({sk:'Rok',en:'Year',ru:'Год',uk:'Рік'})[lang]||'Rok';
+ const labels=actionWords[lang]||actionWords.sk;
+ const [actions,remove,invoice,confirmDelete,deleteError]=labels;
+ function actionCell(row,record,kind,data){
+  const cell=element('td');
+  cell.style.minWidth='185px';
+  const bill=element('button',invoice);
+  bill.type='button';
+  bill.addEventListener('click',()=>invoiceDraft(root,labels,data()));
+  const del=element('button',remove);
+  del.type='button';
+  del.addEventListener('click',async()=>{
+   if(!window.confirm(confirmDelete))return;
+   del.disabled=bill.disabled=true;
+   try{
+    await deleteRow(kind,record.id);
+    const list=kind==='history'?history:requests;
+    const index=list.indexOf(record);
+    if(index>=0)list.splice(index,1);
+    row.remove();
+    if(kind==='history')paintLedger();
+   }catch{
+    statusLine.textContent=deleteError;
+    del.disabled=bill.disabled=false;
+   }
+  });
+  cell.append(bill,del);
+  return cell;
+ }
+ const statusLine=element('p');
+ statusLine.setAttribute('role','alert');
  const monthHeaders=Array.from({length:12},(_,i)=>String(i+1).padStart(2,'0'));
  const headers=[year,name,plate,...monthHeaders];
  root.append(element('p',copy[0]));
@@ -179,12 +264,15 @@ export function renderParkingRegister(root, lang, requests, history, saveCell) {
  const ledger=element('div');
  const toolbar=element('div');toolbar.className='parking-toolbar';toolbar.style.cssText='display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px';
  toolbar.append(search,exportButton);
- root.append(toolbar,ledger);
+ root.append(toolbar,statusLine,ledger);
  function paintLedger(){
   const query=search.value.trim().toLocaleLowerCase();
   const matches=history.filter(record=>!query||[record.entry,...record.months].some(value=>String(value??'').toLocaleLowerCase().includes(query)));
   ledger.replaceChildren();
-  appendWorkbookGrid(ledger,matches.sort((a,b)=>a.source_row-b.source_row),copy,saveCell,headers);
+  appendWorkbookGrid(ledger,matches.sort((a,b)=>a.source_row-b.source_row),copy,saveCell,[...headers,actions],(row,record)=>actionCell(row,record,'history',()=>{
+   const [customer,registration]=parkingIdentity(record.entry);
+   return {name:customer,plate:registration,period:String(record.year)};
+  }));
  }
  search.addEventListener('input',paintLedger);
  paintLedger();
@@ -193,10 +281,16 @@ export function renderParkingRegister(root, lang, requests, history, saveCell) {
  root.append(element('h4', inbox), link);
  if (requests.length) {
   const ordered = [...requests].sort((a,b) => b.created_at.localeCompare(a.created_at));
-  appendTable(root, [name,plate,email,phone,from,to,amount,status,note], ordered.map(request => [
+  appendTable(root, [name,plate,email,phone,from,to,amount,status,note,actions], ordered.map(request => [
    [request.first_name,request.last_name].filter(Boolean).join(' '),request.vehicle_registration,
    request.email,request.telephone,request.start_on,request.end_on,request.total_eur,request.status,request.note
-  ]));
+  ]),(row,index)=>{
+   const request=ordered[index];
+   return actionCell(row,request,'request',()=>({
+    name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
+    period:[request.start_on,request.end_on].filter(Boolean).join(' – '),amount:request.total_eur
+   }));
+  });
  } else {
   root.append(element('p', empty));
  }
