@@ -1,3 +1,4 @@
+import {providerText,normalizeContractSymbol,isStudentHouse} from './student-house-provider.js';
 import {advanceRentDueDate} from './ledger.js';
 import {stayPeriods} from './stay-periods.js';
 // Staff screens use the existing authenticated client and tenant-scoped server policies.
@@ -694,8 +695,8 @@ export async function renderStaffScreen(ctx) {
         }
         const contract=el('form','staff-form');
         const provider=el('input'),terms=el('textarea');
-        provider.required=true;provider.maxLength=200;provider.placeholder=documentWording.provider;
-        terms.required=true;terms.maxLength=1500;terms.rows=3;terms.placeholder=documentWording.conditions;
+        provider.required=true;provider.maxLength=1200;provider.placeholder=documentWording.provider;provider.value=providerText(ctx.tenant);provider.readOnly=!!provider.value;
+        terms.required=true;terms.maxLength=1500;terms.rows=3;terms.placeholder=documentWording.conditions;if(isStudentHouse(ctx.tenant))terms.value='Úhrady podľa schváleného splátkového kalendára. Podľa predloženej zmluvy: administratívny poplatok, depozit a prvý nájom do troch dní od podpisu; ďalšie nájomné vopred. Variabilný symbol: číslo zmluvy. Do správy pre prijímateľa meno a priezvisko. Skontrolovať zhodu dátumov splatnosti s kalendárom.';
         const providerLabel=el('label','',documentWording.provider),termsLabel=el('label','',documentWording.conditions);
         providerLabel.append(provider);termsLabel.append(terms);
         const create=el('button','',documentWording.contract);create.type='submit';
@@ -705,8 +706,9 @@ export async function renderStaffScreen(ctx) {
          event.preventDefault();if(!ctx.isCurrent()||!contract.reportValidity())return;
          create.disabled=true;contractStatus.textContent='';
          try{
-          const {workingDocument,fieldsForDocument,missingDocumentFields}=await import('/student-house-portal/residence-document.js?v=20261121-reception-contract1');
-          const data=fieldsForDocument('contract_draft',person,enquiry,stay,verified,{
+          const {workingDocument,fieldsForDocument,missingDocumentFields}=await import('/student-house-portal/residence-document.js?v=20261125-provider1');
+          const assignedRoom=(await ctx.list('rooms')).find(r=>String(r.name)===String(person.verified_room_number));
+          const data=fieldsForDocument('contract_draft',person,enquiry,{...stay,room_type:assignedRoom?.category||''},verified,{
            provider:provider.value.trim(),payment_terms:terms.value.trim()
           });
           if(missingDocumentFields('contract_draft',data).length)throw Error('missing_contract_data');
@@ -732,10 +734,9 @@ export async function renderStaffScreen(ctx) {
          .sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||
           ['rent','deposit','administration_fee'].indexOf(a.kind)-['rent','deposit','administration_fee'].indexOf(b.kind))
          .map(x=>({due_on:x.due_on,amount:Number(x.amount),description:descriptions[x.kind]+(x.kind==='rent'?' '+x.period:'')}));
-        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261121-confirm-qr-iban2');
+        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261125-provider1');
         if(!ctx.isCurrent()||!documentFlow.isConnected)return;
-        const symbol=/^[0-9]{1,10}$/.test(String(person.verified_contract_number||'').trim())?String(person.verified_contract_number).trim():
-         /^[0-9]{1,10}$/.test(String(verified.room_code||'').trim())?String(verified.room_code).trim():'';
+        const symbol=normalizeContractSymbol(person.verified_contract_number)||(!isStudentHouse(ctx.tenant)?normalizeContractSymbol(verified.room_code):'');
         attachInstallmentDocument(documentFlow,{title:'Splátkový kalendár – Student House Bratislava'},person,items,{
          open:false,accountScope:ctx.tenant+':'+ctx.userId,contractNumber:symbol,
          saveToProfile:(id,file,button)=>ctx.uploadPrivateDocument(id,file,button,'schedule_draft')
