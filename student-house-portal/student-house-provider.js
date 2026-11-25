@@ -12,3 +12,6 @@ export const isStudentHouse=tenant=>tenant===STUDENT_HOUSE_TENANT;
 export const providerDetails=tenant=>isStudentHouse(tenant)?STUDENT_HOUSE_PROVIDER:null;
 export const providerText=tenant=>{const p=providerDetails(tenant);return p?[p.name,p.address,'IČO: '+p.companyId,'DIČ: '+p.taxId,'IČ DPH: '+p.vatId,p.register,p.representatives,p.bank,'IBAN: '+p.iban,'SWIFT/BIC: '+p.bic,'E-mail: '+p.receptionEmail].join(' · '):'';};
 export const normalizeContractSymbol=value=>{const digits=String(value??'').trim().replace(/\s/g,'');return /^\d{1,10}$/.test(digits)?digits:'';};
+
+// Article II: property owner, not the recipient of accommodation payments.
+export const STUDENT_HOUSE_PROPERTY_OWNER=Object.freeze({name:'Dorsino s.r.o.',address:'Tomášikova 34, 821 01 Bratislava',companyId:'46430245',taxId:'2820011568',vatId:'SK2820011568',register:'Mestský súd BA III, oddiel Sro, vložka č. 78133/B',leaseDate:'2014-09-10'});
