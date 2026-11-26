@@ -1,0 +1,147 @@
+{
+  "doi": "10.63313/epp.9062",
+  "title": "From Forecast Accuracy to Resilience: The Impact of Artificial Intelligence on Supply Chain Management",
+  "authors": [
+    "Zhixian He"
+  ],
+  "publisher": "Erytis Publishing Limited",
+  "venue": "Economics and Public Policy",
+  "source_date": "2026-11-26",
+  "type": "journal-article",
+  "url": "https://doi.org/10.63313/epp.9062",
+  "abstract_available": true,
+  "abstract_words": 204,
+  "selection_keywords": [
+    "artificial intelligence",
+    "management",
+    "organisational",
+    "supply chain"
+  ],
+  "verified_at": "2026-11-26",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-26",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-26",
+    "source_url": "https://doi.org/10.63313/epp.9062",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-26",
+    "content_sha256": "ab5cab4f74cf796457b989c094a81eda8269c2a727ec3743ad1b1859b8417d21",
+    "languages": {
+      "sk": {
+        "title": "Od presnosti predpovedí k odolnosti: Vplyv umelej inteligencie na riadenie dodávateľského reťazca",
+        "description": "Analýza vplyvu AI na dodávateľské reťazce. Zistite, ako technológia mení rozhodovacie procesy, zvyšuje efektivitu a aké sú reálne limity jej nasadenia.",
+        "lead": "Táto štúdia skúma, ako umelá inteligencia transformuje riadenie dodávateľských reťazcov prostredníctvom štyroch kľúčových mechanizmov. Podľa abstraktu výskum zdôrazňuje, že úspech implementácie AI nezávisí len od algoritmov, ale predovšetkým od kvality dátovej infraštruktúry, organizačnej kapacity a riadenia. Pre podnikateľov prináša dôležitý pohľad na to, ako AI mení povahu manažérskej práce a znižuje latenciu pri rozhodovaní v komplexných systémoch.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Umelá inteligencia sa čoraz častejšie prezentuje ako univerzálna technológia schopná vyriešiť komplexné výzvy v riadení dodávateľských reťazcov. Napriek tomuto nadšeniu však existujúca odborná literatúra zostáva roztrieštená, pričom sa zameriava na rôzne technologické rodiny a funkčné oblasti bez jednotného rámca. Tento výskum sa snaží preklenúť túto medzeru a poskytnúť ucelený pohľad na to, ako AI mení nielen rozhodovacie procesy, ale aj celkové výsledky podnikov v rámci globálnych dodávateľských sietí.",
+              "Podľa abstraktu štúdia analyzuje, ako sa AI integruje do operácií a akým spôsobom ovplyvňuje výkonnosť podnikov. Cieľom je pochopiť, či AI skutočne nahrádza ľudských plánovačov, alebo skôr mení ich rolu a zameranie pozornosti. Pre podnikateľov je kľúčové pochopiť, že technológia nie je samospásnym riešením, ale nástrojom, ktorého prínos je podmienený špecifickými organizačnými a štrukturálnymi predpokladmi, ktoré musia firmy najprv vybudovať, aby mohli naplno využiť potenciál automatizácie a analytiky."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Štúdia sa zamerala na identifikáciu štyroch hlavných mechanizmov, prostredníctvom ktorých AI ovplyvňuje dodávateľské reťazce. Podľa abstraktu ide o bohatšiu extrakciu a predpovedanie dopytových signálov, automatizované hodnotenie a monitorovanie dodávateľov a zmlúv, dynamickú optimalizáciu zásob, výroby a logistických rozhodnutí, a napokon o včasnejšiu detekciu a rýchlejšiu reakciu na narušenia. Tieto mechanizmy tvoria jadro technologického zásahu do tradičných procesov, ktoré boli doteraz závislé najmä od manuálnych vstupov a statických metód.",
+              "Okrem mechanizmov sa výskum zaoberal aj tzv. rebríkom delegovanej právomoci, ktorý siaha od jednoduchej deskriptívnej analytiky až po ohraničené autonómne rozhodovanie. Podľa abstraktu je realizácia týchto funkcií závislá od dátovej infraštruktúry, organizačnej absorpčnej kapacity a správy. Štúdia sa snaží vysvetliť, že technológia sama osebe, bez adekvátneho organizačného zázemia, nedokáže priniesť očakávané výsledky, čo je dôležité zistenie pre manažérov zvažujúcich investície do AI riešení v rámci svojich logistických operácií."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu sú hlásené výkonnostné efekty AI pozitívne, avšak podmienené viacerými faktormi. Prieskumné dôkazy spájajú analytiku poháňanú AI s lepšou prevádzkovou a environmentálnou výkonnosťou. Na druhej strane, benchmarkingové dôkazy naznačujú, že strojové učenie automaticky neprekonáva zavedené štatistické metódy. Toto zistenie je kľúčové, pretože vyvracia mýtus o okamžitej nadradenosti AI nad tradičnými prístupmi, pričom zdôrazňuje potrebu kritického hodnotenia každej implementovanej technológie v kontexte konkrétnych potrieb podniku.",
+              "Hlavným vplyvom AI podľa abstraktu nie je nahradenie ľudských plánovačov, ale skôr kompresia rozhodovacej latencie a prerozdelenie manažérskej pozornosti. Technológia umožňuje rýchlejšie spracovanie dát, čo vedie k tomu, že manažéri sa môžu sústrediť na strategickejšie úlohy namiesto rutinného spracovania informácií. Tento posun v pozornosti je zásadný pre zvýšenie odolnosti dodávateľského reťazca, pretože umožňuje organizáciám reagovať na trhové zmeny s väčšou agilitou a presnosťou, než bolo možné pri tradičných metódach plánovania."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Štúdia čerpá z deviatich koncepčných, empirických a prehľadových zdrojov publikovaných v rokoch 1997 až 2024. Podľa abstraktu ide o integratívny prístup, ktorý sa snaží spojiť roztrieštené poznatky z rôznych oblastí. Je dôležité poznamenať, že abstrakt neposkytuje podrobné informácie o veľkosti vzorky, štatistických testoch alebo o tom, či boli dáta zozbierané primárne alebo sekundárne. Tento nedostatok detailov obmedzuje možnosť nezávislého overenia robustnosti záverov a vyžaduje opatrnosť pri interpretácii výsledkov v rôznych odvetviach.",
+              "Medzi limity patrí skutočnosť, že abstrakt nešpecifikuje, aké konkrétne typy podnikov alebo odvetví boli v zdrojoch zastúpené. Podľa abstraktu je realizácia AI závislá od organizačnej kapacity, čo znamená, že výsledky nemusia byť generalizovateľné pre malé a stredné podniky s obmedzenými zdrojmi. Keďže štúdia kombinuje rôzne typy zdrojov, existuje riziko, že zistenia môžu byť ovplyvnené heterogenitou metodík použitých v pôvodných prácach, čo sťažuje určenie kauzálnych vzťahov medzi AI a výkonnosťou."
+            ]
+          },
+          {
+            "heading": "Čo si z výskumu môže odniesť podnikateľ",
+            "paragraphs": [
+              "Podnikatelia by mali vnímať AI ako nástroj na zníženie rozhodovacej latencie, nie ako náhradu za strategické myslenie. Podľa abstraktu je úspech podmienený dátovou infraštruktúrou a organizačnou kapacitou. Pred investíciou do AI je nevyhnutné auditovať kvalitu interných dát a schopnosť tímu interpretovať výstupy z analytických nástrojov. Ak dáta nie sú čisté a organizácia nie je pripravená na zmenu procesov, ani najpokročilejší algoritmus neprinesie očakávané zlepšenie prevádzkovej efektivity.",
+              "Napríklad, ak podnikateľ zvažuje zavedenie AI na predpovedanie dopytu, mal by najprv otestovať presnosť existujúcich štatistických metód v porovnaní s novým riešením. Mal by merať nielen presnosť predpovede, ale aj čas, ktorý manažéri strávia úpravou týchto predpovedí. Je dôležité sledovať, či AI skutočne skracuje čas potrebný na rozhodnutie o objednávke zásob. Tento prístup pomôže odlíšiť skutočný prínos technológie od marketingových prísľubov dodávateľov softvéru, pričom treba zohľadniť aj náklady na údržbu dát."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Výskum poskytuje cenný pohľad na to, že AI v dodávateľskom reťazci je predovšetkým o zmene manažérskej pozornosti a rýchlosti reakcie. Podľa abstraktu je kľúčom k úspechu integrácia technológie do existujúcich procesov s dôrazom na organizačnú pripravenosť. Technológia sama o sebe nezaručuje lepšie výsledky, pokiaľ nie je podporená kvalitnými dátami a správnym riadením, ktoré umožňuje efektívne využitie výstupov z analytických modelov.",
+              "Záverom možno povedať, že podniky, ktoré chcú využiť AI, musia investovať nielen do softvéru, ale aj do rozvoja schopností svojich zamestnancov. Podľa abstraktu je potrebné vnímať AI ako súčasť širšieho ekosystému, kde technológia, dáta a ľudský úsudok spolupracujú na dosiahnutí vyššej odolnosti. Pre podnikateľov to znamená, že cesta k úspechu vedie cez postupné zavádzanie a neustále overovanie prínosov v reálnych prevádzkových podmienkach, namiesto slepej dôvery v automatizované riešenia."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "From Forecast Accuracy to Resilience: The Impact of Artificial Intelligence on Supply Chain Management",
+        "description": "An analysis of AI's impact on supply chains. Explore how technology shifts decision-making, boosts efficiency, and the real limits of its implementation.",
+        "lead": "This study examines how artificial intelligence transforms supply chain management through four key mechanisms. According to the abstract, research highlights that implementation success depends not only on algorithms but primarily on data infrastructure, organizational capacity, and governance. For entrepreneurs, it provides critical insight into how AI changes the nature of managerial work and reduces decision latency within complex systems.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "Artificial intelligence is increasingly presented as a general-purpose technology capable of solving complex challenges in supply chain management. Despite this enthusiasm, existing academic literature remains fragmented, focusing on various technology families and functional areas without a unified framework. This research aims to bridge this gap and provide an integrative account of how AI changes not only decision-making processes but also the overall outcomes for businesses within global supply chain networks.",
+              "According to the abstract, the study analyzes how AI integrates into operations and how it influences business performance. The goal is to understand whether AI truly replaces human planners or rather changes their role and focus of attention. For entrepreneurs, it is crucial to understand that technology is not a panacea but a tool whose benefit is conditional on specific organizational and structural prerequisites that firms must build to fully leverage automation and analytics."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "The study focused on identifying four main mechanisms through which AI affects supply chains. According to the abstract, these include richer demand signal extraction and forecasting, automated evaluation and monitoring of suppliers and contracts, dynamic optimization of inventory, production and logistics decisions, and finally, earlier detection of and faster response to disruptions. These mechanisms form the core of the technological intervention into traditional processes that were previously dependent primarily on manual inputs and static methods.",
+              "In addition to these mechanisms, the research examined the so-called ladder of delegated authority, which ranges from simple descriptive analytics to bounded autonomous decision-making. According to the abstract, the realization of these functions depends on data infrastructure, organizational absorptive capacity, and governance. The study seeks to explain that technology itself, without adequate organizational backing, cannot deliver expected results, which is an important finding for managers considering investments in AI solutions within their logistics operations."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, reported performance effects of AI are positive but conditional. Survey evidence associates AI-enabled analytics with better operational and environmental performance. On the other hand, benchmarking evidence shows that machine learning does not automatically outperform established statistical methods. This finding is crucial as it refutes the myth of the immediate superiority of AI over traditional approaches, emphasizing the need for critical evaluation of every implemented technology in the context of a company's specific needs.",
+              "The principal impact of AI, according to the abstract, is less the substitution of human planners than the compression of decision latency and the reallocation of managerial attention. Technology enables faster data processing, allowing managers to focus on more strategic tasks instead of routine information processing. This shift in attention is essential for increasing supply chain resilience, as it allows organizations to respond to market changes with greater agility and precision than was possible with traditional planning methods."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The study draws on nine conceptual, empirical, and review sources published between 1997 and 2024. According to the abstract, it is an integrative approach that attempts to synthesize fragmented knowledge from various fields. It is important to note that the abstract does not provide detailed information about sample sizes, statistical tests, or whether the data were collected primarily or secondarily. This lack of detail limits the possibility of independently verifying the robustness of the conclusions and requires caution when interpreting results across different industries.",
+              "Limitations include the fact that the abstract does not specify which particular types of companies or industries were represented in the sources. According to the abstract, the realization of AI depends on organizational capacity, meaning that results may not be generalizable to small and medium-sized enterprises with limited resources. Since the study combines different types of sources, there is a risk that findings may be influenced by the heterogeneity of methodologies used in the original works, making it difficult to determine causal relationships between AI and performance."
+            ]
+          },
+          {
+            "heading": "Business relevance and limitations",
+            "paragraphs": [
+              "Entrepreneurs should view AI as a tool to reduce decision latency, not as a replacement for strategic thinking. According to the abstract, success is conditional on data infrastructure and organizational capacity. Before investing in AI, it is essential to audit the quality of internal data and the team's ability to interpret outputs from analytical tools. If data is not clean and the organization is not prepared for process change, even the most advanced algorithm will not bring the expected improvement in operational efficiency.",
+              "For example, if an entrepreneur is considering introducing AI for demand forecasting, they should first test the accuracy of existing statistical methods compared to the new solution. They should measure not only the accuracy of the forecast but also the time managers spend adjusting these forecasts. It is important to track whether AI actually shortens the time needed for inventory ordering decisions. This approach will help distinguish the real benefit of the technology from the marketing promises of software vendors, while also accounting for data maintenance costs."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The research provides valuable insight that AI in the supply chain is primarily about changing managerial attention and reaction speed. According to the abstract, the key to success is the integration of technology into existing processes with an emphasis on organizational readiness. Technology alone does not guarantee better results unless it is supported by quality data and proper management, which allows for the effective use of outputs from analytical models.",
+              "In conclusion, companies that want to leverage AI must invest not only in software but also in developing the skills of their employees. According to the abstract, it is necessary to view AI as part of a wider ecosystem where technology, data, and human judgment work together to achieve higher resilience. For entrepreneurs, this means that the path to success leads through gradual implementation and constant verification of benefits in real operational conditions, rather than blind trust in automated solutions."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.63313/epp.9062",
+        "apa7": "Zhixian He (2026). From Forecast Accuracy to Resilience: The Impact of Artificial Intelligence on Supply Chain Management. Economics and Public Policy. https://doi.org/10.63313/epp.9062",
+        "access": "abstract"
+      }
+    ]
+  }
+}

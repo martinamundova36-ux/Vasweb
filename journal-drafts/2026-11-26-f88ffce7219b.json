@@ -1,0 +1,158 @@
+{
+  "doi": "10.32782/business-navigator.89-22",
+  "title": "PRODUCT LIFE CYCLE MANAGEMENT BASED  ON THE INTEGRATION OF COMMODITY SCIENCE,  MARKETING, AND SALES FUNCTIONS",
+  "authors": [
+    "Nataliia Kalycheva",
+    "Iryna Chornobrovka",
+    "Olha Kopytko"
+  ],
+  "publisher": "Publishing House Helvetica (Publications)",
+  "venue": "Business Navigator",
+  "source_date": "2026-11-26",
+  "type": "journal-article",
+  "url": "https://doi.org/10.32782/business-navigator.89-22",
+  "abstract_available": true,
+  "abstract_words": 384,
+  "selection_keywords": [
+    "business",
+    "consumer",
+    "customer",
+    "enterprise",
+    "management",
+    "marketing",
+    "pricing",
+    "sales"
+  ],
+  "verified_at": "2026-11-26",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-26",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-26",
+    "source_url": "https://doi.org/10.32782/business-navigator.89-22",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-26",
+    "content_sha256": "8b5b1dab0d3d9083103e7e405fc98e0d4825d6435b7ea0d85a8eb72ab2a4caf5",
+    "languages": {
+      "sk": {
+        "title": "Integrácia komoditnej vedy, marketingu a predaja v riadení životného cyklu produktu",
+        "description": "Analýza prepájania kľúčových firemných funkcií pre efektívnejšie riadenie produktov v rôznych fázach ich životného cyklu podľa abstraktu štúdie.",
+        "lead": "Táto štúdia skúma, ako môžu podniky koordinovať komoditnú vedu, marketing a predajné stratégie. Podľa abstraktu je kľúčom k úspechu v neistom trhovom prostredí integrovaný prístup, ktorý zosúlaďuje technické vlastnosti produktu s potrebami zákazníkov a efektívnymi distribučnými kanálmi počas celého životného cyklu výrobku.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "V súčasnom dynamickom podnikateľskom prostredí čelia firmy čoraz väčšiemu tlaku na efektivitu. Podľa abstraktu je nevyhnutné, aby podniky prekonali izolovanosť svojich oddelení a vytvorili synergický systém, v ktorom komoditná veda, marketing a predaj spolupracujú na dosahovaní spoločných cieľov. Tento prístup je kľúčový pre zvládnutie výziev, ako sú meniace sa preferencie spotrebiteľov, rastúca konkurencia a nevyhnutná digitalizácia procesov.",
+              "Autori štúdie zdôrazňujú, že koordinácia týchto funkcií nie je len administratívnou úlohou, ale strategickou nevyhnutnosťou. Podľa abstraktu umožňuje tento integrovaný model podnikom lepšie reagovať na neistotu trhu a zabezpečiť, aby každé rozhodnutie o produkte vychádzalo z presných dát o jeho kvalite, trhovom potenciáli a reálnych predajných možnostiach v reálnom čase."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Štúdia sa zamerala na analýzu interakcie medzi tromi kľúčovými piliermi podnikového riadenia: komoditnou vedou, marketingom a predajom. Podľa abstraktu autori skúmali, ako tieto funkcie prispievajú k riadeniu životného cyklu produktu. Komoditná veda poskytuje vedecký základ pre hodnotenie kvality a bezpečnosti, marketing sa sústreďuje na identifikáciu potrieb a komunikáciu, zatiaľ čo predaj zabezpečuje distribúciu a vzťahy so zákazníkmi.",
+              "Výskum sa špecificky zameral na to, ako sa priority týchto funkcií menia v závislosti od štádia životného cyklu produktu, konkrétne pri uvedení na trh, raste, zrelosti a úpadku. Podľa abstraktu je hlavným cieľom štúdie navrhnúť model uzavretej slučky, ktorý využíva spätnú väzbu z trhu na neustálu úpravu manažérskych rozhodnutí a optimalizáciu produktovej ponuky v meniacich sa podmienkach."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu štúdia identifikuje, že každá fáza životného cyklu produktu vyžaduje odlišné zameranie. Pri uvedení produktu na trh je prioritou kvalita a nastavenie distribučných kanálov. Počas fázy rastu sa pozornosť presúva na stabilizáciu kvality a aktívnu propagáciu. Vo fáze zrelosti sa dôraz kladie na diferenciáciu a udržanie zákazníkov, zatiaľ čo pri úpadku musia firmy zvážiť ďalšiu podporu, modifikáciu alebo stiahnutie produktu z trhu.",
+              "Významným zistením je potreba neustálej spätnej väzby. Podľa abstraktu zmeny v predajných výsledkoch nemusia byť spôsobené len obchodnými faktormi, ale aj zmenami v kvalite produktu alebo preferenciách spotrebiteľov. Integrovaný model umožňuje podnikom včas identifikovať tieto príčiny a pružne reagovať, čo zvyšuje konkurencieschopnosť a efektivitu predaja. Tento systémový prístup transformuje izolované dáta na koherentné strategické rozhodnutia."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Metodika štúdie, ako je opísaná v abstrakte, spočíva v teoretickom a praktickom vymedzení funkčných rolí komoditnej vedy, marketingu a predaja. Autori navrhujú model uzavretej slučky, ktorý integruje prieskum trhu, hodnotenie komodít a analýzu predajných výsledkov. Ide o konceptuálny rámec, ktorý má slúžiť ako návod na koordináciu vnútorných podnikových procesov v podmienkach trhovej neistoty.",
+              "Je dôležité poznamenať, že abstrakt neposkytuje podrobnosti o empirickom zbere dát, veľkosti vzorky alebo špecifických štatistických metódach použitých na validáciu modelu. Preto nie je možné nezávisle overiť, či sú tieto zistenia aplikovateľné na všetky typy podnikov alebo odvetví. Čitateľ by mal brať na vedomie, že ide o teoretický model, ktorého praktická účinnosť závisí od špecifických podmienok konkrétneho podniku a kvality implementácie."
+            ]
+          },
+          {
+            "heading": "Čo si z výskumu môže odniesť podnikateľ",
+            "paragraphs": [
+              "Podnikatelia môžu tento model využiť na prehodnotenie spolupráce medzi svojimi oddeleniami. Podľa abstraktu je kľúčové, aby marketingové tímy úzko spolupracovali s tými, ktorí rozumejú technickým vlastnostiam produktu. Napríklad, ak podnikateľ zaznamená pokles predaja, mal by najprv analyzovať, či ide o problém v komunikácii alebo o zmenu v kvalitatívnych vlastnostiach produktu, ktoré už nespĺňajú očakávania zákazníkov.",
+              "Napríklad, ak uvádzate na trh nový ekologický obal, môžete otestovať tento model tak, že prepojíte spätnú väzbu od zákazníkov (marketing) priamo s oddelením kontroly kvality (komoditná veda). Ak zákazníci hlásia problémy s trvanlivosťou, môžete okamžite upraviť zloženie obalu. Limitom je, že tento proces vyžaduje vysokú úroveň vnútornej komunikácie a schopnosť rýchlo meniť výrobné parametre, čo nemusí byť v každej firme okamžite realizovateľné."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Štúdia poskytuje užitočný rámec pre pochopenie komplexnosti riadenia produktov. Podľa abstraktu integrácia komoditnej vedy, marketingu a predaja umožňuje podnikom lepšie reagovať na trhové zmeny. Hoci abstrakt neuvádza empirické dáta na potvrdenie univerzálnej platnosti, navrhovaný model uzavretej slučky ponúka logickú štruktúru pre manažérov, ktorí chcú zvýšiť efektivitu svojich procesov.",
+              "Záverom možno povedať, že úspech v modernom podnikaní závisí od schopnosti prepojiť technické znalosti o produkte s trhovou realitou. Podľa abstraktu je kľúčom k udržateľnému rastu neustála analýza spätnej väzby a ochota prispôsobovať stratégiu v každej fáze životného cyklu produktu. Pre podnikateľov to znamená investovať do systémov, ktoré umožňujú plynulý tok informácií medzi kľúčovými oddeleniami."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Integrating Commodity Science, Marketing, and Sales in Product Life Cycle Management",
+        "description": "An analysis of integrating key business functions to improve product management across life cycle stages, based on the study's abstract.",
+        "lead": "This study examines how businesses can coordinate commodity science, marketing, and sales strategies. According to the abstract, the key to success in uncertain market conditions is an integrated approach that aligns technical product properties with consumer needs and effective distribution channels throughout the entire product life cycle.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "In the current dynamic business environment, firms face increasing pressure to improve efficiency. According to the abstract, it is essential for enterprises to overcome departmental silos and create a synergistic system where commodity science, marketing, and sales collaborate to achieve common goals. This approach is crucial for managing challenges such as changing consumer preferences, increasing competition, and the necessary digitalization of business processes.",
+              "The study authors emphasize that coordinating these functions is not merely an administrative task but a strategic necessity. According to the abstract, this integrated model allows enterprises to better respond to market uncertainty and ensure that every product decision is based on accurate data regarding its quality, market potential, and real-time sales capabilities."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "The study focused on analyzing the interaction between three key pillars of business management: commodity science, marketing, and sales. According to the abstract, the authors examined how these functions contribute to product life cycle management. Commodity science provides a scientific basis for assessing quality and safety, marketing focuses on identifying needs and communication, while sales ensures distribution and customer relationship management.",
+              "The research specifically looked at how the priorities of these functions change depending on the product life cycle stage, namely introduction, growth, maturity, and decline. According to the abstract, the main goal of the study is to propose a closed-loop model that utilizes market feedback to continuously adjust managerial decisions and optimize the product offering in changing conditions."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, the study identifies that each stage of the product life cycle requires a different focus. At the introduction stage, the priority is quality and the establishment of distribution channels. During the growth phase, attention shifts to quality stabilization and active promotion. In the maturity phase, the emphasis is on differentiation and customer retention, while during decline, firms must assess whether to continue support, modify, or withdraw the product from the market.",
+              "A significant finding is the need for continuous feedback. According to the abstract, changes in sales results may not be caused only by sales-related factors, but also by changes in product quality or consumer preferences. The integrated model allows firms to identify these causes in time and respond flexibly, which increases competitiveness and sales efficiency. This systemic approach transforms isolated data into coherent strategic decisions."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The methodology of the study, as described in the abstract, consists of the theoretical and practical definition of the functional roles of commodity science, marketing, and sales. The authors propose a closed-loop model that integrates market research, commodity assessment, and sales analysis. It is a conceptual framework intended to serve as a guide for coordinating internal business processes under conditions of market uncertainty.",
+              "It is important to note that the abstract does not provide details on empirical data collection, sample size, or specific statistical methods used to validate the model. Therefore, it is not possible to independently verify whether these findings are applicable to all types of businesses or industries. The reader should be aware that this is a theoretical model whose practical effectiveness depends on the specific conditions of a given firm and the quality of implementation."
+            ]
+          },
+          {
+            "heading": "Business relevance and limitations",
+            "paragraphs": [
+              "Entrepreneurs can use this model to rethink collaboration between their departments. According to the abstract, it is crucial that marketing teams work closely with those who understand the technical properties of the product. For example, if an entrepreneur notices a decline in sales, they should first analyze whether it is a communication problem or a change in the qualitative properties of the product that no longer meet customer expectations.",
+              "For example, if you are launching a new eco-friendly packaging, you can test this model by connecting customer feedback (marketing) directly with the quality control department (commodity science). If customers report durability issues, you can immediately adjust the packaging composition. The limitation is that this process requires a high level of internal communication and the ability to quickly change production parameters, which may not be immediately feasible in every company."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study provides a useful framework for understanding the complexity of product management. According to the abstract, the integration of commodity science, marketing, and sales allows firms to respond better to market changes. Although the abstract does not provide empirical data to confirm universal validity, the proposed closed-loop model offers a logical structure for managers who want to increase the efficiency of their processes.",
+              "In conclusion, success in modern business depends on the ability to connect technical knowledge about the product with market reality. According to the abstract, the key to sustainable growth is constant feedback analysis and the willingness to adapt strategy at every stage of the product life cycle. For entrepreneurs, this means investing in systems that allow for a smooth flow of information between key departments."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.32782/business-navigator.89-22",
+        "apa7": "Nataliia Kalycheva, Iryna Chornobrovka, Olha Kopytko (2026). PRODUCT LIFE CYCLE MANAGEMENT BASED  ON THE INTEGRATION OF COMMODITY SCIENCE,  MARKETING, AND SALES FUNCTIONS. Business Navigator. https://doi.org/10.32782/business-navigator.89-22",
+        "access": "abstract"
+      }
+    ]
+  },
+  "approved_by": "abstract_automation",
+  "approved_content_sha256": "8b5b1dab0d3d9083103e7e405fc98e0d4825d6435b7ea0d85a8eb72ab2a4caf5",
+  "image_id": "commons-e5d6291900a462",
+  "image_status": "licensed_catalog_assignment",
+  "published_at": "2026-11-26",
+  "published_urls": [
+    "https://www.webu.sk/blog-journal-integracia-komoditnej-vedy-marketingu-a-predaja-v-riadeni-zivotneho-cyklu.html",
+    "https://www.webu.sk/blog-journal-integracia-komoditnej-vedy-marketingu-a-predaja-v-riadeni-zivotneho-cyklu-en.html"
+  ]
+}

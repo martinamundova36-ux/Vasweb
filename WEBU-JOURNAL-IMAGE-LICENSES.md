@@ -224,3 +224,10 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - pexels-27207632: [Mark Stebnicki](https://www.pexels.com/photo/a-herd-of-cows-standing-in-a-field-27207632/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
 - pexels-7658251: [Pavel Danilyuk](https://www.pexels.com/photo/people-working-in-office-7658251/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
 - pexels-7821554: [RDNE Stock project](https://www.pexels.com/photo/papers-on-the-table-7821554/), licencia [Pexels License](https://www.pexels.com/license/); skutočná ilustračná fotografia.\n
+- commons-3d59963f80badd: [CorraleH](https://commons.wikimedia.org/wiki/File:Data_Visualization_and_Quality_in_Wikidata_Datathon_I_01.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-ed94e7b0bd8772: [Matti Blume](https://commons.wikimedia.org/wiki/File:Sharp_Scientific_Calculator.jpg), licencia [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-d5ee41b36426ea: [Usrdewiki](https://commons.wikimedia.org/wiki/File:Seguimiento_Diario_de_Ventas_de_la_Soluci%C3%B3n_Past2Future_Business_Intelligence.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-e5d6291900a462: [Mister rf](https://commons.wikimedia.org/wiki/File:Metalmate_Calculator_02.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.

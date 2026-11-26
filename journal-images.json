@@ -3888,6 +3888,134 @@
         "1280": "223d9aa22407de61abfb1afe69793a011c3defd757ec6e028e74e737cd5c92dc",
         "social": "9536da4bd3d8681f3b4ed5cc092147983eb820af427cfa0f4f87552c92e01dbb"
       }
+    },
+    {
+      "id": "commons-3d59963f80badd",
+      "provider": "Wikimedia Commons",
+      "provider_id": "174655608",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Data_Visualization_and_Quality_in_Wikidata_Datathon_I_01.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Data_Visualization_and_Quality_in_Wikidata_Datathon_I_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "CorraleH",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-26",
+      "original_sha256": "80bfea4d66aa1ce91174f459c66f294d05500d1623b23ba9f8fb4ff4c6f540d9",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Analytická práca s dátami na počítači",
+        "en": "Data analysis on a computer"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-3d59963f80badd-640.webp",
+        "1280": "/assets/journal/commons-3d59963f80badd-1280.webp",
+        "social": "/assets/journal/commons-3d59963f80badd-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "942b9f8c8c7057254ad0c9e2f6884ff91ea18da70b8ab3e141919c2613d9ffe8",
+        "1280": "b71647b58fdebdcd9704fd540444a3c0afdad73a52ce486ada4b1479a0631712",
+        "social": "fc2ad39e7ec0023407b4c6d7ef4bbaf3c1bb94195f1ec4b0e55389cfee895008"
+      }
+    },
+    {
+      "id": "commons-ed94e7b0bd8772",
+      "provider": "Wikimedia Commons",
+      "provider_id": "267929",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Sharp_Scientific_Calculator.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Sharp_Scientific_Calculator.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Matti Blume",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "commercial_use_verified_at": "2026-11-26",
+      "original_sha256": "1b2e94e403e75de67c566ef74a911ea15cf3f141bfc335293f36ee87721d0717",
+      "topics": [
+        "pricing"
+      ],
+      "alt": {
+        "sk": "Kalkulačka na pracovnom stole",
+        "en": "Calculator on a work desk"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-ed94e7b0bd8772-640.webp",
+        "1280": "/assets/journal/commons-ed94e7b0bd8772-1280.webp",
+        "social": "/assets/journal/commons-ed94e7b0bd8772-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "6d864590531ce86b6c9c9f3f382b18b949d576b0a1df99021d2d0eadc8d3797a",
+        "1280": "870fa28d092cf5c1e503322ce7dfd3d371add22b54515bc8d717c356e84d9806",
+        "social": "442affe798cba601613e7392c8634d4e2956efd15e07c8826c8f085a08fc9343"
+      }
+    },
+    {
+      "id": "commons-d5ee41b36426ea",
+      "provider": "Wikimedia Commons",
+      "provider_id": "97567593",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Seguimiento_Diario_de_Ventas_de_la_Soluci%C3%B3n_Past2Future_Business_Intelligence.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Seguimiento_Diario_de_Ventas_de_la_Soluci%C3%B3n_Past2Future_Business_Intelligence.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Usrdewiki",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-26",
+      "original_sha256": "78fa5c4b0d2bc41e185ee3e51fc12af7657f0b7a7aa626def233c5e98519533b",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Analytická práca s dátami na počítači",
+        "en": "Data analysis on a computer"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-d5ee41b36426ea-640.webp",
+        "1280": "/assets/journal/commons-d5ee41b36426ea-1280.webp",
+        "social": "/assets/journal/commons-d5ee41b36426ea-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "1687e230b478cf40890ed57fae4456750d996705110d69234569f0faa491218d",
+        "1280": "29675a373e0ba3ac690341f8145d4871613c5b92334c7a15b3c7279dd3b110fb",
+        "social": "1a229eb63a3cf1f9e60dafa997d3fe254d18a0840c398c7b905875eb49e2828a"
+      }
+    },
+    {
+      "id": "commons-e5d6291900a462",
+      "provider": "Wikimedia Commons",
+      "provider_id": "131255222",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Metalmate_Calculator_02.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Metalmate_Calculator_02.jpg/1920px-Metalmate_Calculator_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Mister rf",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-26",
+      "original_sha256": "a7d4e7d0450f4a327b390d890e8a514e20d1a965b730f666406d1a816b35b48b",
+      "topics": [
+        "pricing"
+      ],
+      "alt": {
+        "sk": "Kalkulačka na pracovnom stole",
+        "en": "Calculator on a work desk"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-e5d6291900a462-640.webp",
+        "1280": "/assets/journal/commons-e5d6291900a462-1280.webp",
+        "social": "/assets/journal/commons-e5d6291900a462-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "054f591f633dcb59d37815d58ba9366b9c5c3e0ccc799d7c19efaa243f2b21e5",
+        "1280": "e654af506235eff26d948d670d6d744bb1d3747dc749910dabcfa673bbddeb08",
+        "social": "4e7083c2c1a64477b11abed34b0e673173a5c2e64c81757168c26b2a23c920b8"
+      }
     }
   ],
   "assignments": {
@@ -4003,6 +4131,10 @@
     "blog-journal-implementacia-genai-v-malych-podnikoch-prakticky-pohlad.html": "pexels-9301305",
     "blog-journal-integracia-islamskych-principov-do-dodavatelskych-retazcov-pohlad-na-halal.html": "pexels-27207632",
     "blog-journal-generativna-ai-a-transformacia-profesionalnej-identity-zamestnancov.html": "pexels-7658251",
-    "blog-journal-harmonizacia-standardov-a-esg-novy-pohlad-na-udrzatelnost-firiem.html": "pexels-7821554"
+    "blog-journal-harmonizacia-standardov-a-esg-novy-pohlad-na-udrzatelnost-firiem.html": "pexels-7821554",
+    "blog-journal-employee-well-being-and-organisational-sustainability-of-commercial-banks.html": "commons-3d59963f80badd",
+    "blog-journal-product-life-cycle-management-based-on-the-integration-of-commodity.html": "commons-ed94e7b0bd8772",
+    "blog-journal-pohoda-zamestnancov-a-udrzatelnost-komercnych-bank-v-nigerii.html": "commons-d5ee41b36426ea",
+    "blog-journal-integracia-komoditnej-vedy-marketingu-a-predaja-v-riadeni-zivotneho-cyklu.html": "commons-e5d6291900a462"
   }
 }
