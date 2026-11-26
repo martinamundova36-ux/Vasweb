@@ -1,7 +1,12 @@
-import {downloadWorkbook} from './excel.js';
+import {downloadWorkbook} from './excel.js?v=20261126-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
 import {buildStudentHouseSchedule} from './installment-document.js?v=20261126-register';
 const normalized=value=>String(value??'').trim().toLowerCase().normalize('NFC').replace(/\s+/g,' ');
+const roomNumber=value=>{
+ const text=normalized(value);
+ const match=text.match(/^(\d{1,4})([a-z])?(?: \d{1,2}(?: ?([a-z]))?)?$/);
+ return match?String(Number(match[1]))+(match[2]??match[3]??''):text;
+};
 const monthFor=value=>{
  const match=normalized(value).match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
  return match?'20'+match[2]+'-'+match[1]:null;
@@ -85,10 +90,11 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
     const contractName=normalized(person.full_name);
     const matches=sameEmail.filter(([row,v])=>{
      const name=normalized([raw(row,v,'meno'),raw(row,v,'priezvisko')].filter(Boolean).join(' '));
-     return name&&name===contractName&&normalized(raw(row,v,'izba'))===normalized(person.verified_room_number);
+     return name&&name===contractName&&roomNumber(raw(row,v,'izba'))===roomNumber(person.verified_room_number);
     });
     const appended=appendRows.get(sheet.sheet_order)||[];
     const row=matches.length===1&&emailCounts.get(normalized(person.email))===1?matches[0][0]:null;
+
     // A record without a verified import match remains a separate resident row.
     // Never claim a free bed or overwrite an ambiguous imported record.
     const target=row??'resident:'+person.id;
@@ -107,7 +113,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
     });
     const unallocated=sum(ownPayments.filter(p=>months.includes(p.received_on?.slice(0,7))),p=>cents(p.amount)-sum(ownAllocations.filter(a=>a.payment_id===p.id),a=>cents(a.amount)));
     const data={
-     izba:person.verified_room_number,'typ izby':room?.category,'typ':room?.category,
+     izba:row===null?person.verified_room_number:null,'typ izby':room?.category,'typ':room?.category,
      meno:first,priezvisko:last,email:person.email,'národnosť':enquiry?.nationality??detail?.nationality,
      príchod:submitted?.preferred_from,pohlavie:enquiry?.gender,'tel.č.':enquiry?.telephone,od:person.accommodation_from,do:person.accommodation_to,
      'kód izby':detail?.room_code,'číslo zmluvy':person.verified_contract_number,
@@ -173,8 +179,16 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  };
  const recordsFor=sheet=>[...sheet.payload.rows.slice(1),...(appendRows.get(sheet.sheet_order)||[])];
  const noteRows=()=>sheets.flatMap(sheet=>Object.entries(sheet.payload.comments||{}).map(([ref,note])=>[sheet.sheet_name,ref,note]));
+ function exportSheet(sheet){
+  const columns=columnsFor(sheet),headers=headersFor(sheet),records=recordsFor(sheet),automaticCells=new Set();
+  const rows=records.map(([row,values],position)=>columns.map((i,exportIndex)=>{
+   if(syncedCells.has(cellKey(sheet,row,i)))automaticCells.add(col(exportIndex)+(position+2));
+   return get(sheet,row,i,values[i]);
+  }));
+  return {name:sheet.sheet_name,rows:[columns.map(i=>headers[i]),...rows],automaticCells};
+ }
  tools.append(btn(w[4],()=>downloadWorkbook('Student-House-evidencia',[
-  ...sheets.map(sheet=>({name:sheet.sheet_name,rows:[columnsFor(sheet).map(i=>headersFor(sheet)[i]),...recordsFor(sheet).map(([row,values])=>columnsFor(sheet).map(i=>get(sheet,row,i,values[i])))]})),
+  ...sheets.map(exportSheet),
   {name:'Pôvodné poznámky',rows:[['Hárok','Bunka','Poznámka'],...noteRows()]},
   {name:'Úpravy evidencie',rows:[['Hárok','Riadok','Stĺpec','Hodnota','Poznámka'],...Array.from(edits.values()).map(e=>[sheets.find(s=>s.sheet_order===e.sheet_order)?.sheet_name,e.row_number,e.column_number,e.value,e.note])]}
  ])));
@@ -286,5 +300,5 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   }
   count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
  }
- section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
+ section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Záznamy bez jednoznačnej zhody v importe sa zobrazujú samostatne. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
 }
