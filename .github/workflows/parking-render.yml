@@ -1,0 +1,17 @@
+name: Parking register isolated render
+on:
+  push:
+    paths:
+      - 'student-house-portal/parking-register*.js'
+      - 'tests/parking-render.test.mjs'
+      - '.github/workflows/parking-render.yml'
+  workflow_dispatch:
+jobs:
+  parking-render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/parking-render.test.mjs

@@ -1,0 +1,599 @@
+import {paymentImages,studentHouseLogo} from './installment-document.js?v=parking-payment';
+import {providerDetails} from './student-house-provider.js';
+import {downloadWorkbook} from './excel.js';
+const words = {
+ sk:['Žiadosti z formulára','Otvoriť parkovací formulár','Zatiaľ tu nie sú žiadosti.','Excel 2025–2026 · testovacie údaje','Meno','EČV','E-mail','Telefón','Od','Do','Suma (€)','Stav','Poznámka','Záznam z Excelu'],
+ en:['Form requests','Open parking form','No requests yet.','Excel 2025–2026 · test data','Name','Registration plate','Email','Phone','From','To','Amount (€)','Status','Note','Excel entry'],
+ ru:['Заявки из формы','Открыть форму парковки','Заявок пока нет.','Excel 2025–2026 · тестовые данные','Имя','Номер автомобиля','Почта','Телефон','С','По','Сумма (€)','Статус','Примечание','Запись Excel'],
+ uk:['Заявки з форми','Відкрити форму паркування','Заявок поки немає.','Excel 2025–2026 · тестові дані','Ім’я','Номер авто','Пошта','Телефон','З','До','Сума (€)','Статус','Примітка','Запис Excel']
+};
+function element(tag, text) {
+ const node = document.createElement(tag);
+ if (text != null) node.textContent = String(text);
+ return node;
+}
+function appendTable(root, headers, rows, appendActions) {
+ const scroll = element('div');
+ scroll.style.overflowX = 'auto';
+ const table = element('table');
+ const header = table.createTHead().insertRow();
+ for (const title of headers) {
+  const cell = element('th', title);
+  cell.scope = 'col';
+  header.append(cell);
+ }
+ const body = table.createTBody();
+ for (const [index,values] of rows.entries()) {
+  const row = body.insertRow();
+  for (const value of values) row.append(element('td', value));
+  if(appendActions)row.append(appendActions(row,index));
+ }
+ scroll.append(table);
+ root.append(scroll);
+}
+const editWords = {
+ sk:['Klikni na bunku testovacieho záznamu a uprav hodnotu.','Upraviť bunku','Hodnota','Uložiť','Zrušiť','Uloženie zlyhalo. Skús znova.'],
+ en:['Select a cell in a test record to edit it.','Edit cell','Value','Save','Cancel','Could not save. Try again.'],
+ ru:['Выберите ячейку тестовой записи для изменения.','Изменить ячейку','Значение','Сохранить','Отмена','Не удалось сохранить. Повторите попытку.'],
+ uk:['Виберіть клітинку тестового запису для редагування.','Редагувати клітинку','Значення','Зберегти','Скасувати','Не вдалося зберегти. Спробуйте ще раз.']
+};
+const cellVatWords={
+ sk:{basis:'Výpočet DPH',gross:'Bez DPH / ponechať sumu',net:'S DPH – pripočítať 23 %',netTotal:'Základ bez DPH',vat:'DPH 23 %',grossTotal:'Celkom s DPH',saved:'Suma na uloženie',hint:'Po výbere S DPH sa hodnota automaticky zvýši o 23 %. Pre zmenu základu vyber Bez DPH. Uloží sa zobrazená hodnota.'},
+ en:{basis:'VAT calculation',gross:'Without VAT / keep amount',net:'Including VAT – add 23%',netTotal:'Net amount',vat:'VAT 23%',grossTotal:'Total incl. VAT',saved:'Amount to save',hint:'Selecting VAT increases the value by 23%. Switch back to edit the base. The displayed value is saved.'},
+ ru:{basis:'Расчёт НДС',gross:'Без НДС / сохранить сумму',net:'С НДС – добавить 23 %',netTotal:'Сумма без НДС',vat:'НДС 23 %',grossTotal:'Всего с НДС',saved:'Сумма для сохранения',hint:'При выборе НДС сумма увеличится на 23 %. Вернитесь к сумме без НДС для изменения базы. Сохраняется отображаемая сумма.'},
+ uk:{basis:'Розрахунок ПДВ',gross:'Без ПДВ / зберегти суму',net:'З ПДВ – додати 23 %',netTotal:'Сума без ПДВ',vat:'ПДВ 23 %',grossTotal:'Разом з ПДВ',saved:'Сума для збереження',hint:'При виборі ПДВ сума збільшиться на 23 %. Поверніться до суми без ПДВ для зміни бази. Зберігається відображена сума.'}
+};
+export function parkingVatAmounts(value,basis){
+ const raw=String(value??'').trim();
+ if(!/^-?\d+(?:[.,]\d{1,2})?$/.test(raw))return null;
+ const n=Number(raw.replace(',','.'));
+ if(!Number.isFinite(n)||Math.abs(n)>100000000)return null;
+ const sign=n<0?-1:1,cents=Math.round(Math.abs(n)*100);
+ const net=basis==='net'?cents:Math.round(cents*100/123);
+ const gross=basis==='net'?net+Math.round(net*23/100):cents;
+ return {net:sign*net,vat:sign*(gross-net),gross:sign*gross};
+}
+function editCell(root, copy, heading, value, save, vatLang=null) {
+ const [,title,label,saveLabel,cancelLabel,errorLabel]=copy;
+ const dialog=element('dialog');
+ dialog.className='parking-edit-dialog';
+ const form=element('form');
+ const input=element('textarea');
+ input.name='value';
+ input.maxLength=2000;
+ input.value=value??'';
+ const field=element('label',label);
+ field.append(input);
+ const error=element('p');
+ error.setAttribute('role','alert');
+ const cancel=element('button',cancelLabel);
+ cancel.type='button';
+ cancel.addEventListener('click',()=>dialog.close());
+ const submit=element('button',saveLabel);
+ submit.type='submit';
+ form.append(element('h3',title+' · '+heading),field);
+ let basis=null;
+ let originalBase=null;
+ if(vatLang){
+  const w=cellVatWords[vatLang]||cellVatWords.sk;
+  basis=element('select');basis.name='vatBasis';
+  for(const [key,label] of [['net',w.net],['gross',w.gross]]){const option=element('option',label);option.value=key;basis.append(option);}
+  basis.value='gross'; // Do not silently add VAT again to stored historical payments.
+  const vatLabel=element('label',w.basis);vatLabel.append(basis);
+  const preview=element('div');preview.setAttribute('aria-live','polite');preview.style.cssText='margin:12px 0;padding:12px;background:#edf3f9;border-radius:8px;line-height:1.6';
+  const money=new Intl.NumberFormat(vatLang,{style:'currency',currency:'EUR'});
+  const refresh=()=>{
+   const amounts=parkingVatAmounts(basis.value==='net'?originalBase:input.value,basis.value);
+   basis.disabled=!amounts;preview.replaceChildren();
+   if(amounts){
+    if(basis.value==='net'){for(const [label,key] of [[w.netTotal,'net'],[w.vat,'vat'],[w.grossTotal,'gross']])preview.append(element('div',label+': '+money.format(amounts[key]/100)));}
+    else preview.append(element('div',w.saved+': '+money.format(amounts.gross/100)));
+   }
+   preview.append(element('small',w.hint));
+  };
+  input.addEventListener('input',refresh);
+  basis.addEventListener('change',()=>{
+   if(basis.value==='net'){
+    const calculated=parkingVatAmounts(input.value,'net');
+    if(calculated){
+     originalBase=input.value;
+     input.value=(calculated.gross/100).toFixed(2).replace('.',vatLang==='en'?'.':',');
+     input.readOnly=true;
+    }else basis.value='gross';
+   }else if(originalBase!==null){
+    input.value=originalBase;originalBase=null;input.readOnly=false;
+   }
+   refresh();
+  });
+  form.append(vatLabel,preview);refresh();
+ }
+ form.append(error,cancel,submit);
+ dialog.append(form);
+ dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+ dialog.addEventListener('cancel',event=>{if(submit.disabled)event.preventDefault();});
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  submit.disabled=cancel.disabled=input.disabled=true;
+  error.textContent='';
+  try {
+   // The field already contains the final amount; never add VAT a second time.
+   await save(input.value);
+   dialog.close();
+  } catch {
+   error.textContent=errorLabel;
+   submit.disabled=cancel.disabled=input.disabled=false;
+  }
+ });
+ root.append(dialog);
+ dialog.showModal();
+ input.focus();
+ input.select();
+}
+
+function parkingIdentity(value) {
+ const match=/^(.*?)[\t ]{2,}(\S.*)$/s.exec(String(value??'').trimEnd());
+ if(match)return [match[1].trim(),match[2]];
+ return [String(value??''),''];
+}
+
+const monthlyWords={
+ sk:{due:'Predpis s DPH',paid:'Evidovaná úhrada',unpaid:'Nezaevidovaná',hint:'Pri nových žiadostiach je predpis 61,50 € za objednaný mesiac (50 € bez DPH). Kliknutím do bunky eviduješ skutočnú úhradu. Pri jednorazovej platbe mesačné sumy vyjadrujú cenu jednotlivých mesiacov, nie samostatné splatnosti.'},
+ en:{due:'Charge incl. VAT',paid:'Recorded payment',unpaid:'Not recorded',hint:'New requests show €61.50 per booked month (€50 excl. VAT). Click a cell to record actual payments. For a single payment, monthly charges show allocation, not separate due dates.'},
+ ru:{due:'Начислено с НДС',paid:'Учтённая оплата',unpaid:'Не учтена',hint:'Для новых заявок начисляется 61,50 € за месяц (50 € без НДС). Нажмите ячейку для учёта фактической оплаты. При разовой оплате суммы показывают стоимость месяцев, а не отдельные сроки.'},
+ uk:{due:'Нараховано з ПДВ',paid:'Облікована оплата',unpaid:'Не облікована',hint:'Для нових заявок нараховується 61,50 € за місяць (50 € без ПДВ). Натисніть клітинку для обліку фактичної оплати. При одноразовій оплаті суми показують вартість місяців, а не окремі строки.'}
+};
+function plannedMonth(record,index){
+ const value=record.planned_months?.[index];
+ return value==null?null:Number(value);
+}
+function monthText(record,index,lang){
+ const words=monthlyWords[lang]||monthlyWords.sk,amount=plannedMonth(record,index);
+ if(amount===null)return record.months[index];
+ const currency=new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'});
+ const paid=record.months[index];
+ return words.due+': '+currency.format(amount)+' · '+words.paid+': '+(paid==null||paid===''?words.unpaid:typeof paid==='number'?currency.format(paid):String(paid));
+}
+const unitWords={
+ sk:{type:'Typ zákazníka',choose:'Vyber typ zákazníka',student_house:'Rezident Student House',apartments:'Rezident apartmánov',external:'Externý zákazník',room:'Číslo izby',apartment:'Číslo apartmánu',unit:'Číslo izby / apartmánu',unknown:'Nezadané'},
+ en:{type:'Customer type',choose:'Choose customer type',student_house:'Student House resident',apartments:'Apartment resident',external:'External customer',room:'Room number',apartment:'Apartment number',unit:'Room / apartment number',unknown:'Not specified'},
+ ru:{type:'Тип клиента',choose:'Выберите тип клиента',student_house:'Житель Student House',apartments:'Житель апартаментов',external:'Внешний клиент',room:'Номер комнаты',apartment:'Номер апартаментов',unit:'Номер комнаты / апартаментов',unknown:'Не указано'},
+ uk:{type:'Тип клієнта',choose:'Оберіть тип клієнта',student_house:'Мешканець Student House',apartments:'Мешканець апартаментів',external:'Зовнішній клієнт',room:'Номер кімнати',apartment:'Номер апартаментів',unit:'Номер кімнати / апартаментів',unknown:'Не зазначено'}
+};
+function unitText(record,lang){
+ const w=unitWords[lang]||unitWords.sk;
+ return [w[record.resident_type]||w.unknown,record.unit_number].filter(Boolean).join(' · ');
+}
+function editUnit(root,record,lang,copy,save){
+ const w=unitWords[lang]||unitWords.sk;
+ const dialog=element('dialog');dialog.className='parking-edit-dialog';
+ const form=element('form'),type=element('select'),unit=element('input');
+ const typeLabel=element('label',w.type),unitLabel=element('label',w.unit);
+ for(const k of ['unknown','student_house','apartments','external']){const option=element('option',w[k]);option.value=k==='unknown'?'':k;type.append(option);}
+ type.value=record.resident_type||'';unit.value=record.unit_number||'';unit.maxLength=40;
+ const sync=()=>{const active=['student_house','apartments'].includes(type.value);unitLabel.hidden=!active;unit.required=active;unit.setCustomValidity(active&&!unit.value.trim()?w.unit:'');unitLabel.firstChild.textContent=(type.value==='apartments'?w.apartment:w.room);};
+ typeLabel.append(type);unitLabel.append(unit);type.addEventListener('change',sync);unit.addEventListener('input',sync);sync();
+ const error=element('p'),cancel=element('button',copy[4]),submit=element('button',copy[3]);cancel.type='button';submit.type='submit';cancel.onclick=()=>dialog.close();
+ form.append(element('h3',w.unit),typeLabel,unitLabel,error,cancel,submit);dialog.append(form);root.append(dialog);dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.showModal();
+ form.addEventListener('submit',async e=>{e.preventDefault();sync();if(!form.reportValidity())return;submit.disabled=true;try{await save(type.value||null,['student_house','apartments'].includes(type.value)?unit.value.trim():null);dialog.close();}catch{error.textContent=copy[5];submit.disabled=false;}});
+}
+function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions,lang,saveUnit) {
+ const style=element('style', `
+ .parking-workbook {width:100%; max-width:100%; max-height:min(70vh,880px); overflow:auto; border:1px solid #cfdaea; border-radius:13px; margin-bottom:1.5rem}
+ .parking-workbook table {border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; color:#142b4d; font:inherit; font-size:14px}
+ .parking-workbook :is(th,td) {padding:0; border-right:1px solid #d5e1ef; border-bottom:1px solid #d5e1ef; min-width:78px; background:#fff; vertical-align:middle; text-align:left}
+ .parking-workbook th {position:sticky; top:0; z-index:3; padding:14px 12px; background:#c5dfb4; text-transform:uppercase; font-weight:800}
+ .parking-workbook td:first-child {padding:0 12px; font-weight:800}
+ .parking-workbook tr:nth-child(odd) td {background:#e2efda}
+ .parking-workbook tr:nth-child(odd) td:nth-child(-n+3) {background:#c5dfb4}
+ .parking-workbook :is(th,td):nth-child(2) {min-width:12rem}
+ .parking-workbook :is(th,td):nth-child(3) {min-width:9rem}
+ .parking-workbook td.parking-note {background:#fff2cc}
+ .parking-workbook .parking-edit-cell {display:block; width:100%; min-height:44px; padding:10px 12px; border:0; border-radius:0; background:transparent; color:inherit; font:inherit; text-align:inherit; overflow-wrap:anywhere; cursor:pointer}
+ .parking-workbook .parking-charge {display:block;font-weight:750;color:#142b4d;white-space:nowrap}
+ .parking-workbook .parking-paid {display:block;font-size:11px;color:#52677f;margin-top:4px}
+ .parking-workbook .parking-edit-cell:hover,.parking-workbook .parking-edit-cell:focus-visible {outline:2px solid #215c39; outline-offset:-2px}
+ .parking-edit-dialog {width:min(28rem,90vw); padding:1rem; border:1px solid #899aaa; border-radius:10px}
+ .parking-edit-dialog textarea {display:block; width:100%; min-height:4rem}
+ .parking-edit-dialog button {margin-right:.5rem}
+ .parking-toolbar {display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:12px 0}
+ .parking-toolbar input {flex:1 1 16rem; width:auto}
+ `);
+ const scroll=element('div');
+ scroll.className='parking-workbook';
+ scroll.tabIndex=0;
+ const table=element('table');
+ const head=table.createTHead().insertRow();
+ for(const title of headers){
+  const cell=element('th',title);
+  cell.scope='col';
+  head.append(cell);
+ }
+ const body=table.createTBody();
+ for(const record of history){
+  const row=body.insertRow();
+  row.append(element('td',record.year));
+  const values=[...parkingIdentity(record.entry),...record.months];
+  for(const [index,value] of values.entries()){
+   const cell=element('td');
+   const button=element('button',value??'—');
+   const heading=headers[index<2?index+1:index+3];
+   button.type='button';
+   button.className='parking-edit-cell';
+   function display(next){
+    const planned=index>=2?plannedMonth(record,index-2):null;
+    if(planned!==null){
+     const w=monthlyWords[lang]||monthlyWords.sk,fmt=new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'});
+     const charge=element('span',fmt.format(planned));charge.className='parking-charge';
+     const actual=element('span',w.paid+': '+(next==null||next===''?w.unpaid:typeof next==='number'?fmt.format(next):next));actual.className='parking-paid';
+     button.replaceChildren(charge,actual);button.title=w.due+': '+fmt.format(planned);
+    }else button.textContent=next||next===0?next:'—';
+    button.setAttribute('aria-label',copy[1]+' · '+heading+' · '+(next??''));
+    cell.classList.toggle('parking-note',index>=2&&typeof next==='string'&&next.trim()!=='');
+   }
+   display(value);
+   cell.append(button);
+   row.append(cell);
+   button.addEventListener('click',()=>{
+    const fields=parkingIdentity(record.entry);
+    const previous=index<2?fields[index]:record.months[index-2];
+    editCell(root,copy,heading,previous,async text=>{
+     if(index<2){
+      fields[index]=text.trim();
+      const entry=fields[1]?fields.join('  '):fields[0];
+      await saveCell(record.id,0,entry);
+      record.entry=entry;
+      display(fields[index]);
+      return;
+     }
+     const trimmed=text.trim();
+     const number=/^-?(?:\d+|\d+[.,]\d+)$/.test(trimmed)?Number(trimmed.replace(',','.')):NaN;
+     const next=!trimmed?null:Number.isFinite(number)?number:text;
+     await saveCell(record.id,index-1,next);
+     record.months[index-2]=next;
+     display(next);
+    },index>=2?lang:null);
+   });
+  }
+ }
+  for(const [index,row] of Array.from(body.rows).entries()){
+   const record=history[index],cell=element('td'),button=element('button',unitText(record,lang));button.type='button';button.className='parking-edit-cell';
+   button.addEventListener('click',()=>editUnit(root,record,lang,copy,async(type,unit)=>{await saveUnit(record.id,type,unit);record.resident_type=type;record.unit_number=unit;button.textContent=unitText(record,lang);}));
+   row.insertBefore(cell,row.cells[3]);cell.append(button);row.insertBefore(rowActions(row,record),row.cells[4]);
+  }
+ scroll.append(table);
+ root.append(style,scroll);
+}
+
+const actionWords={
+ sk:['Akcie','Vymazať','Pripraviť faktúru','Natrvalo vymazať tento záznam?','Vymazanie zlyhalo.','Návrh faktúry – parkovanie','Odberateľ','EČV','Obdobie','Suma (€)','Tlačiť návrh','Zavrieť','Pracovný podklad k faktúre'],
+ en:['Actions','Delete','Prepare invoice','Permanently delete this record?','Deletion failed.','Draft invoice – parking','Customer','Registration plate','Period','Amount (€)','Print draft','Close','Invoice working document'],
+ ru:['Действия','Удалить','Подготовить счёт','Удалить эту запись навсегда?','Не удалось удалить запись.','Черновик счёта – парковка','Клиент','Номер автомобиля','Период','Сумма (€)','Печать черновика','Закрыть','Рабочий документ для счёта'],
+ uk:['Дії','Видалити','Підготувати рахунок','Видалити цей запис назавжди?','Не вдалося видалити запис.','Чернетка рахунку – паркування','Клієнт','Номер авто','Період','Сума (€)','Друк чернетки','Закрити','Робочий документ для рахунку']
+};
+const billingWords={
+ sk:['Dodávateľ','Fakturačná adresa','Číslo faktúry','Dátum vystavenia','Dátum dodania','Splatnosť','Počet mesiacov','Cena za mesiac bez DPH','Základ bez DPH','DPH (23 %)','Celkom s DPH','Variabilný symbol','Prenájom parkovacieho miesta'],
+ en:['Supplier','Billing address','Invoice number','Issue date','Supply date','Due date','Months','Monthly price excl. VAT','Net amount','VAT (23%)','Total incl. VAT','Payment reference','Parking space rental'],
+ ru:['Поставщик','Платёжный адрес','Номер счёта','Дата выставления','Дата оказания услуги','Срок оплаты','Месяцев','Цена за месяц без НДС','Сумма без НДС','НДС (23%)','Итого с НДС','Код платежа','Аренда парковочного места'],
+ uk:['Постачальник','Платіжна адреса','Номер рахунку','Дата виставлення','Дата надання послуги','Строк оплати','Місяців','Ціна за місяць без ПДВ','Сума без ПДВ','ПДВ (23%)','Разом з ПДВ','Код платежу','Оренда паркомісця']
+};
+
+const paymentWords={
+ sk:{label:'Spôsob úhrady',monthly:'Mesačne',full:'Jednorazovo',unknown:'Nezadaný',period:'Fakturovaný mesiac'},
+ en:{label:'Payment frequency',monthly:'Monthly',full:'One payment',unknown:'Not specified',period:'Billing month'},
+ ru:{label:'Периодичность оплаты',monthly:'Ежемесячно',full:'Одним платежом',unknown:'Не указано',period:'Месяц оплаты'},
+ uk:{label:'Періодичність оплати',monthly:'Щомісяця',full:'Одним платежем',unknown:'Не зазначено',period:'Місяць оплати'}
+};
+function paymentDetails(note){
+ const raw=String(note??''),match=/^\[Platba: (mesačne|jednorazovo)\]\r?\n?/.exec(raw);
+ return {mode:match?(match[1]==='mesačne'?'monthly':'full'):'unknown',note:match?raw.slice(match[0].length):raw};
+}
+function parkingPeriodEnd(start,n){
+ const [y,m,d]=start.split('-').map(Number);
+ const target=new Date(Date.UTC(y,m-1+n,1));
+ const last=new Date(Date.UTC(target.getUTCFullYear(),target.getUTCMonth()+1,0)).getUTCDate();
+ return new Date(Date.UTC(target.getUTCFullYear(),target.getUTCMonth(),d>last?last:d-1)).toISOString().slice(0,10);
+}
+function nextDay(date){
+ const x=new Date(date+'T12:00:00Z');x.setUTCDate(x.getUTCDate()+1);return x.toISOString().slice(0,10);
+}
+function invoiceDraft(root,labels,data,lang,provider,reserveNumber) {
+ const [,,,,,,customer,plate,,,,close]=labels;
+ const [,,,,,,contactEmail,contactPhone,startLabel,endLabel,,,contactNote]=words[lang]||words.sk;
+ const [title,print,addressHint,documentNote]=({
+  sk:['Faktúra za parkovanie','Tlačiť faktúru','Ulica, číslo, PSČ, mesto a krajina','Číslo prevzaté z účtovníctva'],
+  en:['Parking invoice','Print invoice','Street, number, postal code, city and country','Invoice number from accounting'],
+  ru:['Счёт за парковку','Печать счёта','Улица, дом, индекс, город и страна','Номер из бухгалтерии'],
+  uk:['Рахунок за паркування','Друк рахунку','Вулиця, номер, індекс, місто та країна','Номер із бухгалтерії']
+ })[lang]||['Faktúra za parkovanie','Tlačiť faktúru','Ulica, číslo, PSČ, mesto a krajina','Číslo prevzaté z účtovníctva'];
+ const [supplier,address,number,issued,delivered,due,months,unit,net,vat,total,reference,service]=billingWords[lang]||billingWords.sk;
+ const supplierLines=[provider.name,provider.address,'IČO '+provider.companyId+' · DIČ '+provider.taxId+' · IČ DPH '+provider.vatId,provider.register,provider.bank,'SWIFT/BIC '+provider.bic];
+ const dialog=element('dialog');
+ dialog.className='parking-edit-dialog';
+ const form=element('form');
+ const fields=new Map();
+ const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+ for(const [label,value,type,required] of [
+  [customer,data.name,'text',true],[address,data.address||'','text',true],[plate,data.plate,'text',false],
+  [contactEmail,data.email,'email',false],[contactPhone,data.phone,'tel',false],
+  [startLabel,data.startOn,'date',true],[endLabel,data.endOn,'date',true],
+  [number,'','text',true],[issued,today,'date',true],[delivered,'','date',true],[due,'','date',true],
+  ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,data.mode==='monthly'?1:data.months||1,'number',true],
+  ['IBAN',provider.iban,'text',false],[reference,'','text',false],[contactNote,data.note,'textarea',false]
+ ]){
+  const field=element('label',label);
+  const input=element(type==='textarea'?'textarea':'input');
+  if(type==='textarea'){input.maxLength=1000;input.rows=3;}else input.type=type;
+  input.value=value??'';
+  input.required=required;
+  if(label==='IBAN')input.readOnly=true;
+  if(type==='text'){
+   input.maxLength=label===address?240:120;
+   if(required)input.pattern='.*\\S.*';
+  }
+  if(label===address){
+   input.placeholder=addressHint;
+   input.pattern='.*[\\p{L}].*';
+  }
+  if(label===number){
+   input.placeholder=data.requestId?({sk:'Pridelí sa automaticky pri vytvorení',en:'Assigned automatically when created',ru:'Присваивается автоматически',uk:'Присвоюється автоматично'})[lang]:documentNote;
+   if(data.requestId){input.readOnly=true;input.required=false;}
+  }
+  if(type==='number'){input.min='1';input.max='120';input.step='1';}
+  fields.set(label,input);
+  field.append(input);
+  form.append(field);
+ }
+ const money=new Intl.NumberFormat(({sk:'sk-SK',en:'en-IE',ru:'ru-RU',uk:'uk-UA'})[lang]||'sk-SK',{style:'currency',currency:'EUR'});
+ const totals=element('p');
+ totals.setAttribute('aria-live','polite');
+ function amounts(){
+  const base=5000*fields.get(months).valueAsNumber;
+  const tax=Math.round(base*23/100);
+  return [[net,base],[vat,tax],[total,base+tax]].map(([label,cents])=>[label,money.format(cents/100)]);
+ }
+ function updateTotals(){
+  const input=fields.get(months);
+  totals.textContent=input.value&&input.validity.valid?amounts().map(([label,value])=>label+' '+value).join(' · '):'';
+ }
+ fields.get(number).addEventListener('input',()=>{
+  const value=fields.get(number).value.trim();
+  fields.get(reference).value=/^\d{1,10}$/.test(value)?value:'';
+ });
+ fields.get(reference).pattern='[0-9]{1,10}';
+ fields.get(reference).maxLength=10;
+ if(data.requestId)fields.get(reference).readOnly=true;
+ const start=fields.get(startLabel),end=fields.get(endLabel);
+ const pw=paymentWords[lang]||paymentWords.sk;
+ if(data.mode==="monthly"&&data.startOn&&data.endOn&&Number.isInteger(Number(data.months))&&Number(data.months)>0){
+  const periodLabel=element("label",pw.period),select=element("select");
+  for(let i=1;i<=Math.min(36,Number(data.months));i++){
+   const from=i===1?data.startOn:nextDay(parkingPeriodEnd(data.startOn,i-1));
+   const to=i===Number(data.months)?data.endOn:parkingPeriodEnd(data.startOn,i);
+   const option=element("option",from+" – "+to);option.value=String(i);option.dataset.from=from;option.dataset.to=to;select.append(option);
+  }
+  const choose=()=>{const o=select.selectedOptions[0];start.value=o.dataset.from;end.value=o.dataset.to;end.min=start.value;};
+  select.addEventListener("change",choose);periodLabel.append(select);form.prepend(periodLabel);choose();
+  fields.get(months).readOnly=true;start.readOnly=true;end.readOnly=true;
+ }
+
+ const constrainEnd=()=>{end.min=start.value;};
+ start.addEventListener('input',constrainEnd);
+ constrainEnd();
+ fields.get(months).addEventListener('input',updateTotals);
+ updateTotals();
+ const cancel=element('button',close);
+ cancel.type='button';
+ cancel.addEventListener('click',()=>dialog.close());
+ const submit=element('button',print);
+ submit.type='submit';
+ const feedback=element('p');
+ feedback.setAttribute('role','alert');
+ form.append(totals,feedback,submit,cancel);
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const paper=window.open('','_blank');
+  if(!paper)return;
+  paper.opener=null;
+  submit.disabled=true;
+  if(data.requestId){
+   try{
+    const assigned=await reserveNumber(data.requestId,start.value,end.value);
+    if(!/^PK\d{10}$/.test(assigned))throw Error('invalid_invoice_number');
+    fields.get(number).value=assigned;
+    fields.get(reference).value=assigned.slice(2);
+   }catch{
+    paper.close();submit.disabled=false;
+    feedback.textContent=({sk:'Číslo faktúry sa nepodarilo prideliť. Skús znova.',en:'Unable to assign invoice number. Try again.',ru:'Не удалось присвоить номер счёта.',uk:'Не вдалося присвоїти номер рахунку.'})[lang];return;
+   }
+  }
+  paper.document.title=title;
+  const doc=paper.document;
+  const add=(tag,value,parent=doc.body)=>{
+   const node=doc.createElement(tag);
+   node.textContent=value;
+   parent.append(node);
+   return node;
+  };
+  add('style','@page{size:A4;margin:16mm} body{font:11pt system-ui,sans-serif;color:#142b4d;max-width:760px;margin:12px auto;padding:8px;overflow-wrap:anywhere} h1{font-size:22pt;margin:0 0 5px} h2{font-size:13pt;margin:18px 0 6px} p{margin:4px 0} dl{display:grid;grid-template-columns:38% 1fr;gap:5px 10px;margin:8px 0 14px} dd{margin:0} .total{font-size:1.22em;font-weight:700;border-top:1px solid;padding-top:8px} @media print{body{margin:0;padding:0}}',doc.head);
+  const logo=add('img','');
+  logo.src=studentHouseLogo;
+  logo.alt='Student House Bratislava';
+  logo.style.cssText='display:block;width:220px;max-width:100%;margin-bottom:15px';
+  add('h1',title);
+  add('p',number+' '+fields.get(number).value.trim());
+  add('h2',supplier);
+  for(const line of supplierLines)add('p',line);
+  add('h2',service+' · Tomášikova 34');
+  const details=add('dl','');
+  for(const [label,input] of fields){
+   if(label===number||label===contactNote||!input.value.trim())continue;
+   add('dt',label,details);
+   const value=input.type==='date'?input.value.split('-').reverse().join('.'):input.value.trim();
+   add('dd',value,details);
+  }
+  const note=fields.get(contactNote).value.trim();
+  if(note){const paragraph=add('p',contactNote+' · '+note);paragraph.style.whiteSpace='pre-wrap';}
+  add('p',unit+' '+money.format(50));
+  for(const [label,value] of amounts())add('p',label+' '+value).className=label===total?'total':'';
+  submit.disabled=true;
+  feedback.textContent='';
+  try{
+   const baseCents=5000*fields.get(months).valueAsNumber;
+   const [image]=await paymentImages([{amount:(baseCents+Math.round(baseCents*23/100))/100,due_on:fields.get(due).value}],{
+    iban:provider.iban,beneficiary:provider.name,symbol:fields.get(reference).value,message:fields.get(number).value
+   });
+   const qr=add('img','');
+   qr.src=image;
+   qr.alt='PAY by square';
+   qr.style.cssText='display:block;width:33mm;margin-top:8px';
+   await Promise.all([logo.decode(),qr.decode()]);
+   paper.print();
+  }catch{
+   paper.close();
+   feedback.textContent=({sk:'Platobný QR kód sa nepodarilo vytvoriť.',en:'Could not generate the payment QR code.',ru:'Не удалось создать платёжный QR-код.',uk:'Не вдалося створити платіжний QR-код.'})[lang];
+  }finally{
+   submit.disabled=false;
+  }
+ });
+ dialog.append(element('h3',title),element('p',supplier+' · '+supplierLines[0]),element('p',unit+' '+money.format(50)),form);
+ dialog.addEventListener('close',()=>dialog.remove(),{once:true});
+ root.append(dialog);
+ dialog.showModal();
+}
+export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow, tenant, reserveNumber, addToRegister, saveUnit) {
+ const [inbox, form, empty, imported, name, plate, email, phone, from, to, amount, status, note] = words[lang] || words.sk;
+
+ const copy=editWords[lang]||editWords.sk;
+ const year=({sk:'Rok',en:'Year',ru:'Год',uk:'Рік'})[lang]||'Rok';
+ const labels=actionWords[lang]||actionWords.sk;
+ const provider=providerDetails(tenant);
+ const [actions,remove,invoice,confirmDelete,deleteError]=labels;
+ const transfer=({sk:['Pridať do tabuľky','✓ Pridané do tabuľky','Pridanie zlyhalo. Skús znova.'],en:['Add to register','✓ Added to register','Could not add. Try again.'],ru:['Добавить в таблицу','✓ Добавлено в таблицу','Не удалось добавить. Повторите попытку.'],uk:['Додати до таблиці','✓ Додано до таблиці','Не вдалося додати. Спробуйте ще раз.']})[lang]||['Pridať do tabuľky','✓ Pridané do tabuľky','Pridanie zlyhalo. Skús znova.'];
+ function actionCell(row,record,kind,data){
+  const cell=element('td');
+  cell.style.minWidth='185px';
+  const bill=element('button',invoice);
+  bill.type='button';
+  bill.hidden=!provider;
+  bill.addEventListener('click',()=>invoiceDraft(root,labels,data(),lang,provider,reserveNumber));
+  const del=element('button',remove);
+  del.type='button';
+  del.addEventListener('click',async()=>{
+   if(!window.confirm(confirmDelete))return;
+   del.disabled=bill.disabled=true;
+   try{
+    await deleteRow(kind,record.id);
+    const list=kind==='history'?history:requests;
+    const index=list.indexOf(record);
+    if(index>=0)list.splice(index,1);
+    row.remove();
+    if(kind==='history')paintLedger();
+   }catch{
+    statusLine.textContent=deleteError;
+    del.disabled=bill.disabled=false;
+   }
+  });
+  const controls=element('div');
+  controls.style.cssText='display:flex;gap:6px;flex-wrap:wrap;padding:6px';
+  if(kind==='request'){
+   const add=element('button',transfer[0]);add.type='button';
+   const linked=new Set(history.filter(x=>x.request_id===record.id).map(x=>Number(x.year)));
+   const first=Number(record.start_on.slice(0,4)),last=Number(record.end_on.slice(0,4));
+   const done=Array.from({length:last-first+1},(_,i)=>first+i).every(y=>linked.has(y));
+   if(done){add.textContent=transfer[1];add.disabled=true;add.style.background='#17643c';}
+   add.addEventListener('click',async()=>{
+    add.disabled=true;statusLine.textContent='';
+    try{await addToRegister(record.id);add.textContent=transfer[1];add.style.background='#17643c';}
+    catch{statusLine.textContent=transfer[2];add.disabled=false;}
+   });
+   controls.append(add);
+  }
+  controls.append(bill,del);
+  cell.append(controls);
+  return cell;
+ }
+ const statusLine=element('p');
+ statusLine.setAttribute('role','alert');
+ const link = element('a', form);
+ link.href = '/student-house-portal/parking/?lang=' + encodeURIComponent(lang);
+ root.append(element('h4', inbox), link);
+ const pw=paymentWords[lang]||paymentWords.sk;
+ const uw=unitWords[lang]||unitWords.sk;
+ if (requests.length) {
+  const ordered = [...requests].sort((a,b) => b.created_at.localeCompare(a.created_at));
+  appendTable(root, [name,plate,uw.unit,email,phone,({sk:'Trvalý pobyt',en:'Permanent address',ru:'Адрес проживания',uk:'Адреса проживання'})[lang],from,to,amount,pw.label,status,note,actions], ordered.map(request => [
+   [request.first_name,request.last_name].filter(Boolean).join(' '),request.vehicle_registration,unitText(request,lang),
+   request.email,request.telephone,request.permanent_address||'—',request.start_on,request.end_on,request.total_eur,pw[paymentDetails(request.note).mode],request.status,paymentDetails(request.note).note
+  ]),(row,index)=>{
+   const request=ordered[index];
+   return actionCell(row,request,'request',()=>({
+    name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
+    requestId:request.id,address:request.permanent_address,startOn:request.start_on,endOn:request.end_on,months:request.months,
+    email:request.email,phone:request.telephone,...paymentDetails(request.note)
+   }));
+  });
+ } else {
+  root.append(element('p', empty));
+ }
+ root.append(statusLine);
+ const monthHeaders=Array.from({length:12},(_,i)=>String(i+1).padStart(2,'0'));
+ const headers=[year,name,plate,uw.unit,...monthHeaders];
+ const currentYear=Number(new Intl.DateTimeFormat('en',{year:'numeric',timeZone:'Europe/Bratislava'}).format(new Date()));
+ const years=[...new Set([2025,2026,2027,currentYear,currentYear+1,...history.map(r=>Number(r.year))])].filter(Number.isInteger).sort((a,b)=>a-b);
+ const yearWords=({sk:['Rok evidencie','Všetky roky','V tomto roku zatiaľ nie sú záznamy.'],en:['Register year','All years','No entries for this year yet.'],ru:['Год учёта','Все годы','За этот год пока нет записей.'],uk:['Рік обліку','Усі роки','За цей рік поки немає записів.']})[lang]||['Rok evidencie','Všetky roky','V tomto roku zatiaľ nie sú záznamy.'];
+ const yearSelect=element('select');
+ yearSelect.setAttribute('aria-label',yearWords[0]);
+ yearSelect.id='parking-register-year';
+ const all=element('option',yearWords[1]);all.value='all';yearSelect.append(all);
+ for(const y of years){const option=element('option',String(y));option.value=String(y);yearSelect.append(option);}
+ const yearLabel=element('div');yearLabel.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0';
+ const yearTitle=element('strong',yearWords[0]);yearLabel.append(yearTitle);
+ yearSelect.hidden=true;yearLabel.append(yearSelect);
+ const yearButtons=new Map();
+ for(const value of ['all',...years.map(String)]){
+  const tab=element('button',value==='all'?yearWords[1]:value);tab.type='button';
+  tab.style.cssText='padding:10px 16px;border:1px solid #142b4d;border-radius:8px;min-height:44px';
+  tab.addEventListener('click',()=>{yearSelect.value=value;paintLedger();});
+  yearButtons.set(value,tab);yearLabel.append(tab);
+ }
+ yearSelect.value='2027';
+ root.append(element('p',copy[0]),element('p',(monthlyWords[lang]||monthlyWords.sk).hint));
+ const search = element('input');
+ search.type='search';
+ search.placeholder=({sk:'Hľadať meno alebo EČV',en:'Find name or plate',ru:'Имя или номер авто',uk:'Ім’я або номер авто'})[lang]||'Hľadať';
+ search.setAttribute('aria-label',search.placeholder);
+ const exportButton=element('button','Excel (.xlsx)');
+ exportButton.type='button';
+ exportButton.addEventListener('click',()=>{
+  const sheets=years.map(year=>({
+   name:String(year), rows:[headers,
+    ...history.filter(record=>Number(record.year)===year).sort((a,b)=>a.source_row-b.source_row).map(record=>[record.year,...parkingIdentity(record.entry),unitText(record,lang),...record.months.map((_,i)=>monthText(record,i,lang))])]
+  }));
+  downloadWorkbook('Parkovanie',sheets);
+ });
+ const ledger=element('div');
+ const toolbar=element('div');toolbar.className='parking-toolbar';toolbar.style.cssText='display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px';
+ toolbar.append(search,exportButton);
+ root.append(yearLabel,toolbar,ledger);
+ function paintLedger(){
+  const query=search.value.trim().toLocaleLowerCase();
+  const selected=yearSelect.value;
+  for(const [key,tab] of yearButtons){
+   const active=key===selected;tab.setAttribute('aria-pressed',String(active));tab.style.background=active?'#142b4d':'#ffffff';tab.style.color=active?'#ffffff':'#142b4d';
+  }
+  const matches=history.filter(record=>(selected==='all'||Number(record.year)===Number(selected))&&(!query||[record.entry,unitText(record,lang),...record.months].some(value=>String(value??'').toLocaleLowerCase().includes(query))));
+  ledger.replaceChildren();
+  if(selected!=='all')ledger.append(element('h4',yearWords[0]+' '+selected));
+  if(!matches.length&&selected!=='all')ledger.append(element('p',yearWords[2]));
+  const visibleHeaders=selected==='all'?headers:[...headers.slice(0,4),...monthHeaders.map(m=>m+'/'+selected.slice(-2))];
+  appendWorkbookGrid(ledger,matches.sort((a,b)=>Number(a.year)-Number(b.year)||a.source_row-b.source_row),copy,saveCell,[...visibleHeaders.slice(0,4),actions,...visibleHeaders.slice(4)],(row,record)=>actionCell(row,record,'history',()=>{
+   const [customer,registration]=parkingIdentity(record.entry);
+   const request=requests.find(x=>x.id===record.request_id);
+   return request?{name:customer,plate:registration,requestId:request.id,address:request.permanent_address,startOn:request.start_on,endOn:request.end_on,months:request.months,email:request.email,phone:request.telephone,...paymentDetails(request.note)}:{name:customer,plate:registration};
+  }),lang,saveUnit);
+ }
+ search.addEventListener('input',paintLedger);
+ yearSelect.addEventListener('change',paintLedger);
+ paintLedger();
+
+}
