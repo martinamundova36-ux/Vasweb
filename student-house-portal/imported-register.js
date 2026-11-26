@@ -44,23 +44,53 @@ export async function listImportedStudents(db,tenant,profiles){
  const identity=(name,email,room)=>JSON.stringify([normalized(name),normalized(email),email?roomNumber(room):normalized(room)]);
  const verified=new Set(profiles.filter(p=>p.email).map(p=>identity(p.full_name,p.email,p.verified_room_number)));
  const entries=new Map();
+ const amountOf=value=>{
+  const text=String(value??'').trim().replace(',','.');
+  return /^\d+(?:\.\d{1,2})?$/.test(text)?Number(text):null;
+ };
+ const monthOfDate=value=>/^\d{4}-(0[1-9]|1[0-2])-\d{2}$/.test(value)?value.slice(0,7):'';
  for(const sheet of [...sheets].reverse()){
   const header=sheet.payload.rows[0]?.[1]||[];
   if(!header.some(monthFor))continue;
   const columns=['meno','priezvisko','izba','email'].map(label=>header.findIndex(value=>normalized(value)===label));
   if(columns.some(i=>i<0))continue;
   for(const [row,values] of sheet.payload.rows.slice(1)){
-   const [first,last,room,email]=columns.map(i=>{
+   const cell=i=>{
     const edit=edits.get(sheet.sheet_order+':'+row+':'+(i+1));
     return String((edit?edit.value:values[i])??'').trim();
-   });
+   };
+   const get=label=>cell(header.findIndex(value=>normalized(value)===label));
+   const [first,last,room,email]=columns.map(cell);
    const name=first+' '+last;
    if(!first||!last||!/^\d/.test(room)||/\b(personál|personal|staff|recepcia|zamestnanec)\b/i.test(name))continue;
    const key=identity(name,email,room);
-   if(!verified.has(key)&&!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name});
+   if(verified.has(key))continue;
+   const from=get('od'),to=get('do'),contractNumber=get('číslo zmluvy');
+   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,monthly:null,months:new Map()});
+   const entry=entries.get(key);
+   if((entry.from&&from&&entry.from!==from)||(entry.to&&to&&entry.to!==to))continue;
+   entry.from||=from;entry.to||=to;entry.contractNumber||=contractNumber;
+   entry.monthly??=amountOf(get('splátky'));
+   header.forEach((label,i)=>{
+    const month=monthFor(label),value=cell(i);
+    if(month&&value&&!entry.months.has(month))entry.months.set(month,value);
+   });
   }
  }
- return [...entries.values()].sort((a,b)=>a.name.localeCompare(b.name,'sk')||a.room.localeCompare(b.room,'sk'));
+ return [...entries.values()].map(({monthly,months,...entry})=>{
+  const from=monthOfDate(entry.from),to=monthOfDate(entry.to);
+  const items=[];
+  if(from&&to&&from<=to){
+   const month=new Date(from+'-01T12:00:00Z');
+   for(let count=0;count<24&&month.toISOString().slice(0,7)<=to;count++){
+    const period=month.toISOString().slice(0,7);
+    const amount=months.has(period)?amountOf(months.get(period)):monthly;
+    if(amount>0)items.push({due_on:period+'-01',amount,description:'Nájom za '+period+' · izba '+entry.room});
+    month.setUTCMonth(month.getUTCMonth()+1);
+   }
+  }
+  return {...entry,items};
+ }).sort((a,b)=>a.name.localeCompare(b.name,'sk')||a.room.localeCompare(b.room,'sk'));
 }
 
 export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,focus,list,onRefresh}){
