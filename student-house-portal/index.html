@@ -1674,7 +1674,7 @@ async function renderPanel(){
    container.replaceChildren();
    heading(label('parking'));
    parkingStage='MODULE';
-   const {renderParkingRegister}=await import('/student-house-portal/parking-register-20261126.js?v=parking-schedule');
+   const {renderParkingRegister}=await import('/student-house-portal/parking-register-20261126.js?v=parking-months');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    parkingStage='RENDER';
    renderParkingRegister(container,lang,requests,history,async (row,column,value)=>{

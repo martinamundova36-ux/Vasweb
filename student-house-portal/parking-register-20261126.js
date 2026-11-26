@@ -280,12 +280,30 @@ function paymentDetails(note){
  const raw=String(note??''),match=/^\[Platba: (mesačne|jednorazovo)\]\r?\n?/.exec(raw);
  return {mode:match?(match[1]==='mesačne'?'monthly':'full'):'unknown',note:match?raw.slice(match[0].length):raw};
 }
+function parkingScheduleItems(records){
+ const planned=records.some(record=>Array.isArray(record.planned_months));
+ const months=new Map();
+ for(const record of records){
+  const year=Number(record.year);
+  if(!Number.isInteger(year)||year<1900||year>9999)continue;
+  for(let index=0;index<12;index++){
+   const raw=planned?plannedMonth(record,index):record.months?.[index];
+   const value=String(raw??'').trim();
+   if(!/^\d+(?:[.,]\d{1,2})?$/.test(value))continue;
+   const amount=Number(value.replace(',','.'));
+   if(amount<=0)continue;
+   months.set(year+'-'+String(index+1).padStart(2,'0')+'-01',amount);
+  }
+ }
+ return [...months].sort(([a],[b])=>a.localeCompare(b)).map(([due_on,amount])=>({due_on,amount}));
+}
+
 function parkingSchedule(root,labels,data,lang,provider) {
- const [title,generate,print,due,amount,reference,count,errorText]=({
-  sk:['Splátkový kalendár – parkovanie','Vygenerovať splátkový kalendár','Tlačiť / uložiť PDF','Splatnosť','Suma na úhradu (€)','Variabilný symbol (nepovinný)','Počet splátok','Platobné QR kódy sa nepodarilo vytvoriť.'],
-  en:['Parking payment schedule','Generate payment schedule','Print / save PDF','Due date','Amount due (€)','Payment reference (optional)','Number of installments','Could not generate payment QR codes.'],
-  ru:['График платежей за парковку','Создать график платежей','Печать / сохранить PDF','Срок оплаты','Сумма к оплате (€)','Код платежа (необязательно)','Количество платежей','Не удалось создать QR-коды.'],
-  uk:['Графік платежів за паркування','Створити графік платежів','Друк / зберегти PDF','Термін оплати','Сума до сплати (€)','Код платежу (необов’язково)','Кількість платежів','Не вдалося створити QR-коди.']
+ const [title,generate,print,due,reference,count,errorText]=({
+  sk:['Splátkový kalendár – parkovanie','Vygenerovať splátkový kalendár','Tlačiť / uložiť PDF','Splatnosť','Variabilný symbol (nepovinný)','Počet splátok','Platobné QR kódy sa nepodarilo vytvoriť.'],
+  en:['Parking payment schedule','Generate payment schedule','Print / save PDF','Due date','Payment reference (optional)','Number of installments','Could not generate payment QR codes.'],
+  ru:['График платежей за парковку','Создать график платежей','Печать / сохранить PDF','Срок оплаты','Код платежа (необязательно)','Количество платежей','Не удалось создать QR-коды.'],
+  uk:['Графік платежів за паркування','Створити графік платежів','Друк / зберегти PDF','Термін оплати','Код платежу (необов’язково)','Кількість платежів','Не вдалося створити QR-коди.']
  })[lang];
  const dialog=element('dialog'),form=element('form'),rows=element('div'),preview=element('div');
  dialog.className='parking-edit-dialog';
@@ -293,38 +311,29 @@ function parkingSchedule(root,labels,data,lang,provider) {
   const wrapper=element('label',label),input=element('input');
   input.type=type;wrapper.append(input);host.append(wrapper);return input;
  };
- const number=field(form,count,'number'),symbol=field(form,reference,'text');
- number.min='1';number.max='36';number.step='1';number.required=true;
- number.value=String(data.mode==='monthly'?Math.min(36,Number(data.months)||1):1);
+ const items=data.items;
+ const symbol=field(form,reference,'text');
  symbol.pattern='[0-9]{1,10}';symbol.maxLength=10;
  const close=element('button',labels[5]),submit=element('button',generate),status=element('p');
  close.type='button';submit.type='submit';status.setAttribute('role','status');
  close.addEventListener('click',()=>dialog.close());
- let fields=[];
- const rebuild=()=>{
-  const previous=fields.map(({date,value})=>[date.value,value.value]);
-  fields=[];rows.replaceChildren();preview.replaceChildren();
-  const size=number.valueAsNumber;
-  if(!Number.isInteger(size)||size<1||size>36)return;
-  for(let i=0;i<size;i++){
-   const date=field(rows,due+' '+(i+1),'date'),value=field(rows,amount+' '+(i+1),'number');
-   date.required=value.required=true;value.min='0.01';value.step='0.01';
-   if(previous[i])[date.value,value.value]=previous[i];
-   fields.push({date,value});
-  }
- };
- number.addEventListener('input',rebuild);
+ const money=new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'});
+ rows.append(element('p',count+' · '+items.length));
+ for(const item of items)rows.append(element('p',due+' '+item.due_on.split('-').reverse().join('.')+' · '+money.format(item.amount)));
+ if(!items.length){
+  submit.disabled=true;
+  status.textContent=({sk:'V tabuľke nie sú vyplnené mesačné sumy. Ak ide o novú žiadosť, pridaj ju najprv do tabuľky.',en:'No monthly amounts in the register. Add new requests to the register first.',ru:'В таблице нет сумм по месяцам. Сначала добавьте новую заявку в таблицу.',uk:'У таблиці немає сум за місяцями. Спершу додайте нову заявку до таблиці.'})[lang];
+ }
  form.addEventListener('input',()=>preview.replaceChildren());
- form.append(rows,submit,close,status,preview);rebuild();
+ form.append(rows,submit,close,status,preview);
  form.addEventListener('submit',async event=>{
   event.preventDefault();
-  if(submit.disabled||!form.reportValidity()||!fields.length)return;
-  const items=fields.map(({date,value})=>({due_on:date.value,amount:value.valueAsNumber}));
+  if(submit.disabled||!form.reportValidity()||!items.length)return;
   const bank={iban:provider.iban,beneficiary:provider.name,symbol:symbol.value,message:[data.name,data.plate].filter(Boolean).join(' ')};
   submit.disabled=true;status.textContent='';preview.replaceChildren();
   try{
    const images=await paymentImages(items,bank);
-   if(!dialog.open)return;
+   if(!dialog.open||symbol.value!==bank.symbol)return;
    const printButton=element('button',print);printButton.type='button';
    printButton.onclick=()=>{
     const paper=window.open('','_blank');if(!paper)return;
@@ -335,7 +344,6 @@ function parkingSchedule(root,labels,data,lang,provider) {
    const documentBody=element('article');
    documentBody.append(element('h1',title),element('p',bank.message),element('p',provider.name+' · IBAN '+provider.iban));
    if(bank.symbol)documentBody.append(element('p','VS '+bank.symbol));
-   const money=new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'});
    items.forEach((item,i)=>{
     const section=element('section');section.style.breakInside='avoid';
     const image=element('img');image.src=images[i];image.alt='PAY by square';image.width=140;
@@ -365,7 +373,11 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
   const bill=element('button',generateSchedule);
   bill.type='button';
   bill.hidden=!provider;
-  bill.addEventListener('click',()=>parkingSchedule(root,labels,data(),lang,provider));
+  bill.addEventListener('click',()=>{
+   const requestId=kind==='history'?record.request_id:record.id;
+   const records=requestId?history.filter(entry=>entry.request_id===requestId):[record];
+   parkingSchedule(root,labels,{...data(),items:parkingScheduleItems(records)},lang,provider);
+  });
   const del=element('button',remove);
   del.type='button';
   del.addEventListener('click',async()=>{
