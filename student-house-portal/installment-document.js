@@ -161,7 +161,7 @@ export async function contractScheduleDocument(data,items){
 const recentAccounts=new Map();
 const beneficiaries=['Student House Bratislava','Gargallo s.r.o.'];
 function scheduleEmailButton(email,download, status){
- const button=node('button','Poslať e-mailom');button.type='button';
+ const button=node('button','Otvoriť v Gmaile');button.type='button';
  const address=String(email??'').trim();
  button.disabled=!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(address);
  if(button.disabled)button.title='V evidencii chýba platný e-mail študenta.';
@@ -169,9 +169,11 @@ function scheduleEmailButton(email,download, status){
   const subject='Splátkový kalendár – Student House Bratislava';
   const body='Dobrý deň,\n\nv prílohe Vám posielame splátkový kalendár.\n\nRecepcia Student House Bratislava';
   download();
-  status.textContent='PDF sa stiahlo. Prilož ho k otvorenému e-mailu.';
+  status.textContent='Prilož stiahnuté PDF k rozpísanému e-mailu v Gmaile.';
   const link=node('a');
-  link.href='mailto:'+encodeURIComponent(address)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  const compose=new URL('https://mail.google.com/mail/');
+  compose.search=new URLSearchParams({view:'cm',fs:'1',to:address,su:subject,body}).toString();
+  link.href=compose.href;link.target='_blank';link.rel='noopener noreferrer';
   link.click();
  };
  return button;
