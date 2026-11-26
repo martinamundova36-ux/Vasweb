@@ -77,13 +77,19 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   const sheet=selected,rows=sheet.payload.rows,width=widthFor(sheet),q=search.value.trim().toLocaleLowerCase();
   const table=el('table'),head=table.createTHead().insertRow(),body=table.createTBody();
   const [headerRow,header]=rows[0];
-  for(let i=0;i<width;i++){const cell=el('th',header[i]??'');cell.scope='col';head.append(cell);}
+  // Preserve original cell coordinates for edits and comments.
+  const typeIndex=header.findIndex(v=>String(v??'').trim().toUpperCase()==='TYP');
+  const roomSheet=typeIndex>=0&&header.some(v=>String(v??'').trim().toUpperCase()==='IZBA');
+  const duplicateTypes=new Set(['Š2','D2','D2V','SUI2','Š1+1','Š2+2','M','MANŽ.POSTEĽ']);
+  const visibleColumns=Array.from({length:width},(_,i)=>i).filter(i=>!roomSheet||i<=typeIndex||!duplicateTypes.has(String(header[i]??'').trim().toUpperCase().replace(/\s+/g,'')));
+  const typeTitle={sk:'TYP IZBY',en:'ROOM TYPE',ru:'ТИП КОМНАТЫ',uk:'ТИП КІМНАТИ'};
+  for(const i of visibleColumns){const cell=el('th',roomSheet&&i===typeIndex?(typeTitle[lang]||typeTitle.sk):header[i]??'');cell.scope='col';head.append(cell);}
   let shown=0;
   for(const [row,values] of rows.slice(1)){
    const actual=valuesFor(sheet,row,values);
    if(q&&!actual.some((v,i)=>String(v??'').toLocaleLowerCase().includes(q)||noteFor(sheet,row,i).toLocaleLowerCase().includes(q)))continue;
    shown++;const tr=body.insertRow();
-   for(let i=0;i<width;i++){
+   for(const i of visibleColumns){
     const cell=el('td'),n=noteFor(sheet,row,i),v=actual[i];
     const control=writable?btn(v??'',()=>edit(sheet,row,i,values[i])):el('span',v??'');
     control.className='import-cell';if(n){control.title=n;control.append(el('span',' •'));control.lastChild.className='import-comment';}
