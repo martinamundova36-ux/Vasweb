@@ -1,18 +1,18 @@
 import {downloadWorkbook} from './excel.js';
 const words={
- sk:['Importovaná Excel evidencia','Živá evidencia systému','Pôvodné hárky z nahratého Excelu. Údaje a poznámky sú zachované; nejde o potvrdené bankové úhrady ani aktivované študentské účty.','Hľadať v tabuľke','Stiahnuť Excel','Upraviť bunku','Hodnota','Poznámka','Uložiť','Zrušiť','Uloženie zlyhalo.','Riadkov','Importovaná evidencia'],
- en:['Imported Excel register','Live system register','Original workbook sheets. Values and notes are retained; this does not verify bank payments or activate student accounts.','Search register','Download Excel','Edit cell','Value','Note','Save','Cancel','Could not save.','Rows','Imported register'],
- ru:['Импортированный реестр Excel','Рабочий реестр системы','Исходные листы Excel. Значения и примечания сохранены; банковские платежи не подтверждены, аккаунты не активированы.','Поиск','Скачать Excel','Изменить ячейку','Значение','Примечание','Сохранить','Отмена','Не удалось сохранить.','Строк','Импортированный реестр'],
- uk:['Імпортований реєстр Excel','Робочий реєстр системи','Вихідні аркуші Excel. Значення та примітки збережено; банківські платежі не підтверджено, облікові записи не активовано.','Пошук','Завантажити Excel','Редагувати клітинку','Значення','Примітка','Зберегти','Скасувати','Не вдалося зберегти.','Рядків','Імпортований реєстр']
+ sk:['Excel evidencia ubytovania','Späť do administrácie','','Hľadať v tabuľke','Stiahnuť Excel','Upraviť bunku','Hodnota','Poznámka','Uložiť','Zrušiť','Uloženie zlyhalo.','Riadkov','Importovaná evidencia'],
+ en:['Accommodation register','Back to administration','','Search register','Download Excel','Edit cell','Value','Note','Save','Cancel','Could not save.','Rows','Imported register'],
+ ru:['Реестр проживания','Назад в администрацию','','Поиск','Скачать Excel','Изменить ячейку','Значение','Примечание','Сохранить','Отмена','Не удалось сохранить.','Строк','Импортированный реестр'],
+ uk:['Реєстр проживання','Назад до адміністрації','','Пошук','Завантажити Excel','Редагувати клітинку','Значення','Примітка','Зберегти','Скасувати','Не вдалося зберегти.','Рядків','Імпортований реєстр']
 };
 const el=(tag,text)=>{const x=document.createElement(tag);if(text!==undefined&&text!==null)x.textContent=String(text);return x;};
 const btn=(text,fn)=>{const x=el('button',text);x.type='button';x.onclick=fn;return x;};
 const col=n=>{let s='';for(n++;n;n=Math.floor((n-1)/26))s=String.fromCharCode(65+(n-1)%26)+s;return s;};
-export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onLive}){
+export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,focus}){
  const w=words[lang]||words.sk;
  const {data,error}=await db.from('student_house_excel_imports').select('source_sha,sheet_order,sheet_name,payload,imported_at').eq('tenant_id',tenant).order('imported_at',{ascending:false}).order('sheet_order');
  if(!isCurrent())return true;
- if(error||!data?.length)return false;
+ if(error||!data?.length){root.append(el('p',({sk:'Evidenciu sa nepodarilo načítať.',en:'Could not load the register.',ru:'Не удалось загрузить реестр.',uk:'Не вдалося завантажити реєстр.'})[lang]));return false;}
  const sha=data[0].source_sha,sheets=data.filter(x=>x.source_sha===sha).sort((a,b)=>a.sheet_order-b.sheet_order);
  const edits=new Map();let writable=true;
  for(let start=0;;start+=500){
@@ -37,12 +37,13 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onLive}
  .sh-imported-register dialog{width:min(520px,92vw);border:1px solid #a6b5c6;border-radius:12px;padding:20px}
  .sh-imported-register dialog textarea{display:block;width:100%;min-height:70px;box-sizing:border-box;margin-bottom:10px}
  `);
- const tools=el('div');tools.className='import-toolbar';tools.append(btn(w[1],onLive));
+ const tools=el('div');tools.className='import-toolbar';tools.append(btn(w[1],onBack));
  const tabs=el('div');tabs.className='import-toolbar';
  const search=el('input');search.type='search';search.placeholder=w[3];search.setAttribute('aria-label',w[3]);
  const count=el('p');count.setAttribute('aria-live','polite');
  const scroll=el('div');scroll.className='import-scroll';scroll.tabIndex=0;
- let selected=sheets.find(x=>x.sheet_name==='od 09 2026')||sheets[0];
+ let selected=sheets.find(x=>x.sheet_name===(focus?.year===2027?'od 02 2027':'od 09 2026'))||sheets[0];
+ if(focus?.room)search.value=focus.room;
  const tabButtons=new Map();
  const get=(sheet,row,i,value)=>edits.has(sheet.sheet_order+':'+row+':'+(i+1))?edits.get(sheet.sheet_order+':'+row+':'+(i+1)).value:value??'';
  const noteFor=(sheet,row,i)=>edits.get(sheet.sheet_order+':'+row+':'+(i+1))?.note??sheet.payload.comments?.[col(i)+row]??'';
@@ -91,5 +92,5 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onLive}
   }
   count.textContent=w[11]+': '+shown+' / '+Math.max(0,rows.length-1);scroll.replaceChildren(table);
  }
- section.append(style,el('h3',w[0]),el('p',w[2]),tools,tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
+ section.append(style,el('h3',w[0]),tools,tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
 }
