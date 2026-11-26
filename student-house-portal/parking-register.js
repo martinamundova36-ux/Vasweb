@@ -457,6 +457,15 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  root.append(statusLine);
  const monthHeaders=Array.from({length:12},(_,i)=>String(i+1).padStart(2,'0'));
  const headers=[year,name,plate,...monthHeaders];
+ const currentYear=Number(new Intl.DateTimeFormat('en',{year:'numeric',timeZone:'Europe/Bratislava'}).format(new Date()));
+ const years=[...new Set([2025,2026,2027,currentYear,currentYear+1,...history.map(r=>Number(r.year))])].filter(Number.isInteger).sort((a,b)=>a-b);
+ const yearWords=({sk:['Rok evidencie','Všetky roky','V tomto roku zatiaľ nie sú záznamy.'],en:['Register year','All years','No entries for this year yet.'],ru:['Год учёта','Все годы','За этот год пока нет записей.'],uk:['Рік обліку','Усі роки','За цей рік поки немає записів.']})[lang]||['Rok evidencie','Všetky roky','V tomto roku zatiaľ nie sú záznamy.'];
+ const yearSelect=element('select');
+ yearSelect.setAttribute('aria-label',yearWords[0]);
+ yearSelect.id='parking-register-year';
+ const all=element('option',yearWords[1]);all.value='all';yearSelect.append(all);
+ for(const y of years){const option=element('option',String(y));option.value=String(y);yearSelect.append(option);}
+ const yearLabel=element('label',yearWords[0]);yearLabel.style.cssText='display:flex;align-items:center;gap:8px;white-space:nowrap';yearSelect.style.width='auto';yearLabel.append(yearSelect);
  root.append(element('p',copy[0]),element('p',(monthlyWords[lang]||monthlyWords.sk).hint));
  const search = element('input');
  search.type='search';
@@ -465,27 +474,30 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  const exportButton=element('button','Excel (.xlsx)');
  exportButton.type='button';
  exportButton.addEventListener('click',()=>{
-  const sheets=[...new Set(history.map(record=>record.year))].sort().map(year=>({
+  const sheets=years.map(year=>({
    name:String(year), rows:[headers,
-    ...history.filter(record=>record.year===year).sort((a,b)=>a.source_row-b.source_row).map(record=>[record.year,...parkingIdentity(record.entry),...record.months.map((_,i)=>monthText(record,i,lang))])]
+    ...history.filter(record=>Number(record.year)===year).sort((a,b)=>a.source_row-b.source_row).map(record=>[record.year,...parkingIdentity(record.entry),...record.months.map((_,i)=>monthText(record,i,lang))])]
   }));
   downloadWorkbook('Parkovanie',sheets);
  });
  const ledger=element('div');
  const toolbar=element('div');toolbar.className='parking-toolbar';toolbar.style.cssText='display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px';
- toolbar.append(search,exportButton);
+ toolbar.append(yearLabel,search,exportButton);
  root.append(toolbar,ledger);
  function paintLedger(){
   const query=search.value.trim().toLocaleLowerCase();
-  const matches=history.filter(record=>!query||[record.entry,...record.months].some(value=>String(value??'').toLocaleLowerCase().includes(query)));
+  const selected=yearSelect.value;
+  const matches=history.filter(record=>(selected==='all'||Number(record.year)===Number(selected))&&(!query||[record.entry,...record.months].some(value=>String(value??'').toLocaleLowerCase().includes(query))));
   ledger.replaceChildren();
-  appendWorkbookGrid(ledger,matches.sort((a,b)=>a.source_row-b.source_row),copy,saveCell,[...headers.slice(0,3),actions,...headers.slice(3)],(row,record)=>actionCell(row,record,'history',()=>{
+  if(!matches.length&&selected!=='all')ledger.append(element('p',yearWords[2]));
+  appendWorkbookGrid(ledger,matches.sort((a,b)=>Number(a.year)-Number(b.year)||a.source_row-b.source_row),copy,saveCell,[...headers.slice(0,3),actions,...headers.slice(3)],(row,record)=>actionCell(row,record,'history',()=>{
    const [customer,registration]=parkingIdentity(record.entry);
    const request=requests.find(x=>x.id===record.request_id);
    return request?{name:customer,plate:registration,requestId:request.id,address:request.permanent_address,startOn:request.start_on,endOn:request.end_on,months:request.months,email:request.email,phone:request.telephone,...paymentDetails(request.note)}:{name:customer,plate:registration};
   }),lang);
  }
  search.addEventListener('input',paintLedger);
+ yearSelect.addEventListener('change',paintLedger);
  paintLedger();
 
 }
