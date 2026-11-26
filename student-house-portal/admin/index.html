@@ -1661,7 +1661,7 @@ async function renderPanel(){
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    container.replaceChildren();
    heading(label('parking'));
-   const {renderParkingRegister}=await import('/student-house-portal/parking-register.js?v=20261126-address-invoice');
+   const {renderParkingRegister}=await import('/student-house-portal/parking-register.js?v=20261126-add-request');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    renderParkingRegister(container,lang,requests,history,async (row,column,value)=>{
     const {data,error}=await db.rpc('update_parking_register_cell',{p_tenant:tenant,p_row:row,p_column:column,p_value:value});
@@ -1673,6 +1673,10 @@ async function renderPanel(){
    },tenant,async (requestId,start,end)=>{
     const {data,error}=await db.rpc('reserve_parking_invoice_number',{p_tenant:tenant,p_request:requestId,p_start:start,p_end:end});
     if(error||!data)throw error||Error('invoice_number_missing');return data;
+   },async requestId=>{
+    const {data,error}=await db.rpc('add_parking_request_to_register',{p_tenant:tenant,p_request:requestId});
+    if(error||!Number.isInteger(data))throw error||Error('parking_transfer_failed');
+    if(generation===renderGeneration&&member?.tenant_id===tenant)await renderPanel();
    });
    return;
   }

@@ -355,7 +355,7 @@ function invoiceDraft(root,labels,data,lang,provider,reserveNumber) {
  root.append(dialog);
  dialog.showModal();
 }
-export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow, tenant, reserveNumber) {
+export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow, tenant, reserveNumber, addToRegister) {
  const [inbox, form, empty, imported, name, plate, email, phone, from, to, amount, status, note] = words[lang] || words.sk;
 
  const copy=editWords[lang]||editWords.sk;
@@ -363,6 +363,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  const labels=actionWords[lang]||actionWords.sk;
  const provider=providerDetails(tenant);
  const [actions,remove,invoice,confirmDelete,deleteError]=labels;
+ const transfer=({sk:['Pridať do tabuľky','✓ Pridané do tabuľky','Pridanie zlyhalo. Skús znova.'],en:['Add to register','✓ Added to register','Could not add. Try again.'],ru:['Добавить в таблицу','✓ Добавлено в таблицу','Не удалось добавить. Повторите попытку.'],uk:['Додати до таблиці','✓ Додано до таблиці','Не вдалося додати. Спробуйте ще раз.']})[lang]||['Pridať do tabuľky','✓ Pridané do tabuľky','Pridanie zlyhalo. Skús znova.'];
  function actionCell(row,record,kind,data){
   const cell=element('td');
   cell.style.minWidth='185px';
@@ -389,6 +390,19 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
   });
   const controls=element('div');
   controls.style.cssText='display:flex;gap:6px;flex-wrap:wrap;padding:6px';
+  if(kind==='request'){
+   const add=element('button',transfer[0]);add.type='button';
+   const linked=new Set(history.filter(x=>x.request_id===record.id).map(x=>Number(x.year)));
+   const first=Number(record.start_on.slice(0,4)),last=Number(record.end_on.slice(0,4));
+   const done=Array.from({length:last-first+1},(_,i)=>first+i).every(y=>linked.has(y));
+   if(done){add.textContent=transfer[1];add.disabled=true;add.style.background='#17643c';}
+   add.addEventListener('click',async()=>{
+    add.disabled=true;statusLine.textContent='';
+    try{await addToRegister(record.id);add.textContent=transfer[1];add.style.background='#17643c';}
+    catch{statusLine.textContent=transfer[2];add.disabled=false;}
+   });
+   controls.append(add);
+  }
   controls.append(bill,del);
   cell.append(controls);
   return cell;
@@ -415,6 +429,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  } else {
   root.append(element('p', empty));
  }
+ root.append(statusLine);
  const monthHeaders=Array.from({length:12},(_,i)=>String(i+1).padStart(2,'0'));
  const headers=[year,name,plate,...monthHeaders];
  root.append(element('p',copy[0]));
@@ -434,14 +449,15 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  const ledger=element('div');
  const toolbar=element('div');toolbar.className='parking-toolbar';toolbar.style.cssText='display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px';
  toolbar.append(search,exportButton);
- root.append(toolbar,statusLine,ledger);
+ root.append(toolbar,ledger);
  function paintLedger(){
   const query=search.value.trim().toLocaleLowerCase();
   const matches=history.filter(record=>!query||[record.entry,...record.months].some(value=>String(value??'').toLocaleLowerCase().includes(query)));
   ledger.replaceChildren();
   appendWorkbookGrid(ledger,matches.sort((a,b)=>a.source_row-b.source_row),copy,saveCell,[...headers.slice(0,3),actions,...headers.slice(3)],(row,record)=>actionCell(row,record,'history',()=>{
    const [customer,registration]=parkingIdentity(record.entry);
-   return {name:customer,plate:registration};
+   const request=requests.find(x=>x.id===record.request_id);
+   return request?{name:customer,plate:registration,requestId:request.id,address:request.permanent_address,startOn:request.start_on,endOn:request.end_on,months:request.months,email:request.email,phone:request.telephone,...paymentDetails(request.note)}:{name:customer,plate:registration};
   }));
  }
  search.addEventListener('input',paintLedger);
