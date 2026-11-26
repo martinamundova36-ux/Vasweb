@@ -63,6 +63,8 @@ a{color:#175182}
 <div><label for="email" id="emailLabel">E-mail *</label><input id="email" type="email" name="email" maxlength="254" autocomplete="email" required></div>
 <div><label for="phone" id="phoneLabel">Telefón s predvoľbou</label><div class="phone-grid" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px"><select id="dial" autocomplete="tel-country-code" aria-label="Predvoľba krajiny"></select><input id="phone" type="tel" name="tel" maxlength="30" autocomplete="tel-national" placeholder="900 123 456" aria-describedby="phoneHelp"></div><small id="phoneHelp" class="note"></small></div>
 <div class="full"><label for="address" id="addressLabel">Adresa trvalého pobytu *</label><input id="address" name="street-address" autocomplete="street-address" maxlength="240" minlength="3" required placeholder="Ulica, číslo, PSČ, mesto, krajina"></div>
+<div><label id="residentTypeLabel" for="residentType">Typ zákazníka *</label><select id="residentType" required><option value="">Vyber typ zákazníka</option><option value="student_house">Rezident Student House</option><option value="apartments">Rezident apartmánov</option><option value="external">Externý zákazník</option></select></div>
+<div id="unitWrap" hidden><label id="unitLabel" for="unitNumber">Číslo izby / apartmánu *</label><input id="unitNumber" maxlength="40" autocomplete="off"></div>
 <div class="full"><label for="plate" id="plateLabel">ŠPZ / EČV vozidla *</label><input id="plate" maxlength="30" required autocapitalize="characters" autocomplete="off" placeholder="BA123AB"></div>
 </div>
 </fieldset>
@@ -173,8 +175,24 @@ function update(){
  updatePayment();
 }
 const addressCopy={sk:['Adresa trvalého pobytu *','Ulica, číslo, PSČ, mesto, krajina'],en:['Permanent residence address *','Street, number, postal code, city, country'],ru:['Адрес постоянного проживания *','Улица, номер, индекс, город, страна'],uk:['Адреса постійного проживання *','Вулиця, номер, індекс, місто, країна']};
+const unitWords={
+ sk:{type:'Typ zákazníka',choose:'Vyber typ zákazníka',student_house:'Rezident Student House',apartments:'Rezident apartmánov',external:'Externý zákazník',room:'Číslo izby',apartment:'Číslo apartmánu',unit:'Číslo izby / apartmánu',unknown:'Nezadané'},
+ en:{type:'Customer type',choose:'Choose customer type',student_house:'Student House resident',apartments:'Apartment resident',external:'External customer',room:'Room number',apartment:'Apartment number',unit:'Room / apartment number',unknown:'Not specified'},
+ ru:{type:'Тип клиента',choose:'Выберите тип клиента',student_house:'Житель Student House',apartments:'Житель апартаментов',external:'Внешний клиент',room:'Номер комнаты',apartment:'Номер апартаментов',unit:'Номер комнаты / апартаментов',unknown:'Не указано'},
+ uk:{type:'Тип клієнта',choose:'Оберіть тип клієнта',student_house:'Мешканець Student House',apartments:'Мешканець апартаментів',external:'Зовнішній клієнт',room:'Номер кімнати',apartment:'Номер апартаментів',unit:'Номер кімнати / апартаментів',unknown:'Не зазначено'}
+};
+function updateUnit(){
+ const type=get('residentType').value,w=unitWords[lang],active=type==='student_house'||type==='apartments';
+ get('unitWrap').hidden=!active;get('unitNumber').required=active;
+ get('unitNumber').setCustomValidity(active&&!get('unitNumber').value.trim()?w.unit+' *':'');
+ get('unitLabel').textContent=(type==='apartments'?w.apartment:w.room)+' *';
+}
+get('residentType').addEventListener('change',updateUnit);
+get('unitNumber').addEventListener('input',updateUnit);
 function translate(){
- const t=texts[lang];get('addressLabel').textContent=addressCopy[lang][0];get('address').placeholder=addressCopy[lang][1];
+ const t=texts[lang],w=unitWords[lang];get('residentTypeLabel').textContent=w.type+' *';
+ for(const [i,k] of ['choose','student_house','apartments','external'].entries())get('residentType').options[i].textContent=w[k];
+ updateUnit();get('addressLabel').textContent=addressCopy[lang][0];get('address').placeholder=addressCopy[lang][1];
  document.documentElement.lang=lang;document.title=t.heading+" | Student House Bratislava";
  get("lang").value=lang;get("back").href=pageUrls[lang];
  for(const id of ["heading","intro","langLabel","contactLegend","firstLabel","lastLabel","emailLabel","phoneLabel","plateLabel","periodLegend","startLabel","monthsLabel","endLabel","monthlyLabel","totalLabel","periodNotice","noteLabel","ackText","help"])get(id).textContent=t[id];
@@ -195,7 +213,7 @@ get("form").addEventListener("submit",async e=>{
  e.preventDefault();
  const form=e.currentTarget,t=texts[lang],status=get("status"),send=get("send");
  status.textContent="";status.className="";
- validatePhone();update();
+ validatePhone();updateUnit();update();
  const months=Number(get("months").value),start_on=get("start").value,end_on=get("end").value;
  if(!form.checkValidity()||get("address").value.trim().length<3||!end_on||months>36||months<1||!Number.isInteger(months)||
     start_on<new Date().toISOString().slice(0,10)){
@@ -203,7 +221,7 @@ get("form").addEventListener("submit",async e=>{
  }
  const payload={
   first_name:get("first").value.trim(),last_name:get("last").value.trim(),email:get("email").value.trim(),
-  permanent_address:get("address").value.trim(),telephone:phoneNumber(),vehicle_registration:get("plate").value.trim(),
+  resident_type:get("residentType").value,unit_number:get("residentType").value==="external"?"":get("unitNumber").value.trim(),permanent_address:get("address").value.trim(),telephone:phoneNumber(),vehicle_registration:get("plate").value.trim(),
   months,start_on,end_on,note:"[Platba: "+(get("paymentMode").value==="monthly"?"mesačne":"jednorazovo")+"]\n"+get("note").value.trim(),locale:lang,
   privacy_acknowledged:get("consent").checked&&get("acknowledge").checked,website:get("website").value
  };
@@ -215,7 +233,7 @@ get("form").addEventListener("submit",async e=>{
   const answer=await response.json();
   if(response.ok&&answer.ok){
    status.className="success";status.textContent=answer.duplicate?t.duplicate:t.success;
-   if(!answer.duplicate){form.reset();get("dial").value="SK";validatePhone();update();}
+   if(!answer.duplicate){form.reset();get("dial").value="SK";validatePhone();updateUnit();update();}
   }else{
    status.className="error";status.textContent=response.status===429?t.limited:t.fail;
   }
