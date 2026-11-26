@@ -1281,7 +1281,7 @@ async function renderResidentDocuments(tenant,staff,own){
   const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
-  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261126-contract-id'),list('residents')]);
+  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261126-shared-schedule'),list('residents')]);
   const [saving,,,,,approved,returned,scheduleApproved,saveError]=reviewCopy[lang]||reviewCopy.en;
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
@@ -1794,11 +1794,12 @@ async function renderPanel(){
   if(staff&&['registrations','residents','questionnaires'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261126-contract-id');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261126-shared-schedule');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section:section==='questionnaires'?'residents':section,questionnaireMode:section==='questionnaires',lang,day,list,fileLink,success:label('success'),refresh:()=>renderPanel(),
     uploadPrivateDocument:(residentId,file,button,kind='resident_document')=>sendFile(tenant,kind,file,button,residentId),
+    openInstallments:(residentId)=>{selectedInstallmentStudent=residentId;navigate('installments');},
     openRooms:(roomNumber,startsOn)=>{pendingRoomFocus={room:String(roomNumber||''),year:Number(String(startsOn||'').slice(0,4))||null};navigate('rooms')},
     isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab===section&&isStaff()});
    return;
@@ -2003,13 +2004,17 @@ async function renderPanel(){
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const codesByRoom=new Map(roomCatalog.map(room=>[room.id,String(room.name||'').trim()]));
    const chargesById=new Map(charges.map(charge=>[charge.id,charge]));
-   const eligible=new Set([...plans,...charges,...stays].map(item=>item.resident_id));
+   const eligible=new Set(people.map(person=>person.id));
    const student=make('select');student.append(new Option('Vyber študenta',''));
    for(const person of people.filter(p=>eligible.has(p.id)).sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'))){
     student.append(new Option([person.full_name,person.email].filter(Boolean).join(' · '),person.id));
    }
    if(eligible.has(selectedInstallmentStudent))student.value=selectedInstallmentStudent;
    container.append(labeled('Vyber študenta',student));
+   const generatorActions=make('div','staff-actions');
+   for(const [title,target] of [['Schváliť registráciu a vytvoriť predpisy','registrations'],['Schváliť dotazník a pripraviť dokumenty','questionnaires'],['Správa dokumentov','documents']]){const action=make('button','btn-secondary',title);action.type='button';action.onclick=()=>navigate(target);generatorActions.append(action);}
+   container.append(generatorActions);
+   if(!people.length)container.append(make('p','muted','Zatiaľ nie je evidovaný žiadny schválený študent. Importovaný Excel nie je automaticky ubytovacia zmluva; najprv schváľ registráciu a vytvor predpisy.'));
    const matches=id=>Boolean(student.value&&id===student.value);
    const advanceHost=make('section','staff-form');
    container.append(advanceHost);
