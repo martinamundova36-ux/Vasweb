@@ -363,7 +363,7 @@ function invoiceDraft(root,labels,data,lang,provider,reserveNumber) {
  fields.get(reference).maxLength=10;
  if(data.requestId)fields.get(reference).readOnly=true;
  const start=fields.get(startLabel),end=fields.get(endLabel);
- const pw=paymentWords[lang]||paymentWords.sk;const uw=unitWords[lang]||unitWords.sk;
+ const pw=paymentWords[lang]||paymentWords.sk;
  if(data.mode==="monthly"&&data.startOn&&data.endOn&&Number.isInteger(Number(data.months))&&Number(data.months)>0){
   const periodLabel=element("label",pw.period),select=element("select");
   for(let i=1;i<=Math.min(36,Number(data.months));i++){
@@ -518,6 +518,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  link.href = '/student-house-portal/parking/?lang=' + encodeURIComponent(lang);
  root.append(element('h4', inbox), link);
  const pw=paymentWords[lang]||paymentWords.sk;
+ const uw=unitWords[lang]||unitWords.sk;
  if (requests.length) {
   const ordered = [...requests].sort((a,b) => b.created_at.localeCompare(a.created_at));
   appendTable(root, [name,plate,uw.unit,email,phone,({sk:'Trvalý pobyt',en:'Permanent address',ru:'Адрес проживания',uk:'Адреса проживання'})[lang],from,to,amount,pw.label,status,note,actions], ordered.map(request => [
