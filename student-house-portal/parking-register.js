@@ -37,7 +37,23 @@ const editWords = {
  ru:['Выберите ячейку тестовой записи для изменения.','Изменить ячейку','Значение','Сохранить','Отмена','Не удалось сохранить. Повторите попытку.'],
  uk:['Виберіть клітинку тестового запису для редагування.','Редагувати клітинку','Значення','Зберегти','Скасувати','Не вдалося зберегти. Спробуйте ще раз.']
 };
-function editCell(root, copy, heading, value, save) {
+const cellVatWords={
+ sk:{basis:'Zadaná suma',gross:'S DPH (23 %)',net:'Bez DPH',netTotal:'Základ bez DPH',vat:'DPH 23 %',grossTotal:'Celkom s DPH',hint:'Do bunky sa uloží suma s DPH. Textové poznámky zostanú nezmenené.'},
+ en:{basis:'Entered amount',gross:'Including VAT (23%)',net:'Excluding VAT',netTotal:'Net amount',vat:'VAT 23%',grossTotal:'Total incl. VAT',hint:'The cell stores the gross amount. Text notes remain unchanged.'},
+ ru:{basis:'Введённая сумма',gross:'С НДС (23 %)',net:'Без НДС',netTotal:'Сумма без НДС',vat:'НДС 23 %',grossTotal:'Всего с НДС',hint:'В ячейке сохраняется сумма с НДС. Текстовые примечания не изменяются.'},
+ uk:{basis:'Введена сума',gross:'З ПДВ (23 %)',net:'Без ПДВ',netTotal:'Сума без ПДВ',vat:'ПДВ 23 %',grossTotal:'Разом з ПДВ',hint:'У клітинці зберігається сума з ПДВ. Текстові примітки залишаються без змін.'}
+};
+export function parkingVatAmounts(value,basis){
+ const raw=String(value??'').trim();
+ if(!/^-?\d+(?:[.,]\d{1,2})?$/.test(raw))return null;
+ const n=Number(raw.replace(',','.'));
+ if(!Number.isFinite(n)||Math.abs(n)>100000000)return null;
+ const sign=n<0?-1:1,cents=Math.round(Math.abs(n)*100);
+ const net=basis==='net'?cents:Math.round(cents*100/123);
+ const gross=basis==='net'?net+Math.round(net*23/100):cents;
+ return {net:sign*net,vat:sign*(gross-net),gross:sign*gross};
+}
+function editCell(root, copy, heading, value, save, vatLang=null) {
  const [,title,label,saveLabel,cancelLabel,errorLabel]=copy;
  const dialog=element('dialog');
  dialog.className='parking-edit-dialog';
@@ -55,7 +71,25 @@ function editCell(root, copy, heading, value, save) {
  cancel.addEventListener('click',()=>dialog.close());
  const submit=element('button',saveLabel);
  submit.type='submit';
- form.append(element('h3',title+' · '+heading),field,error,cancel,submit);
+ form.append(element('h3',title+' · '+heading),field);
+ let basis=null;
+ if(vatLang){
+  const w=cellVatWords[vatLang]||cellVatWords.sk;
+  basis=element('select');basis.name='vatBasis';
+  for(const [key,label] of [['gross',w.gross],['net',w.net]]){const option=element('option',label);option.value=key;basis.append(option);}
+  const vatLabel=element('label',w.basis);vatLabel.append(basis);
+  const preview=element('div');preview.setAttribute('aria-live','polite');preview.style.cssText='margin:12px 0;padding:12px;background:#edf3f9;border-radius:8px;line-height:1.6';
+  const money=new Intl.NumberFormat(vatLang,{style:'currency',currency:'EUR'});
+  const refresh=()=>{
+   const amounts=parkingVatAmounts(input.value,basis.value);
+   basis.disabled=!amounts;preview.replaceChildren();
+   if(amounts){for(const [label,key] of [[w.netTotal,'net'],[w.vat,'vat'],[w.grossTotal,'gross']])preview.append(element('div',label+': '+money.format(amounts[key]/100)));}
+   preview.append(element('small',w.hint));
+  };
+  input.addEventListener('input',refresh);basis.addEventListener('change',refresh);
+  form.append(vatLabel,preview);refresh();
+ }
+ form.append(error,cancel,submit);
  dialog.append(form);
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
  dialog.addEventListener('cancel',event=>{if(submit.disabled)event.preventDefault();});
@@ -64,7 +98,8 @@ function editCell(root, copy, heading, value, save) {
   submit.disabled=cancel.disabled=input.disabled=true;
   error.textContent='';
   try {
-   await save(input.value);
+   const amount=basis?parkingVatAmounts(input.value,basis.value):null;
+   await save(amount?String(amount.gross/100):input.value);
    dialog.close();
   } catch {
    error.textContent=errorLabel;
@@ -175,7 +210,7 @@ function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions,l
      await saveCell(record.id,index-1,next);
      record.months[index-2]=next;
      display(next);
-    });
+    },index>=2?lang:null);
    });
   }
  }
