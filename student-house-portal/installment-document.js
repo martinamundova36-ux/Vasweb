@@ -62,20 +62,27 @@ export function buildStudentHouseSchedule(data,charges,plans=[],items=[],residen
  if(!months.length||months.length>12)throw Error('Skontroluj obdobie ubytovania (najviac 12 mesiacov).');
  const own=charges.filter(c=>c.resident_id===residentId);
  const get=(kind,period,expected)=>{const matches=own.filter(c=>c.kind===kind&&c.period===period);if(matches.length!==1||expected==null||!Number.isFinite(Number(expected))||Math.round(Number(matches[0].amount)*100)!==Math.round(Number(expected)*100))throw Error('Chýba alebo nesedí overený predpis: '+kind+' '+period+'. Skontroluj Excel evidenciu.');return matches[0];};
- const selected=[get('administration_fee',from,data.admin_fee),get('deposit',from,data.deposit),...months.map(m=>get('rent',m,data.monthly_rent))];
+ const fee=(kind,expected,optional=false)=>{
+  const present=own.filter(c=>c.kind===kind&&c.period===from);
+  if(!present.length&&((expected!=null&&Number(expected)===0)||(optional&&expected==null)))return [];
+  return [get(kind,from,expected)];
+ };
+ const selected=[...fee('administration_fee',data.admin_fee),...fee('deposit',data.deposit),
+  ...fee('refrigerator_fee',data.refrigerator_fee,true),...fee('verification_fee',data.verification_fee,true),
+  ...months.map(m=>get('rent',m,data.monthly_rent))];
  return selected.flatMap(ch=>{
   if(Number(ch.amount)===0)return [];
   if(!Number.isFinite(Number(ch.amount))||Number(ch.amount)<0)throw Error('Neplatná suma predpisu.');
   const agreed=plans.filter(p=>p.charge_id===ch.id);
   if(agreed.length>1)throw Error('Viacero dohôd k rovnakému predpisu.');
-  const label=ch.kind==='rent'?'Nájom '+ch.period:ch.kind==='deposit'?'Depozit':'Administratívny poplatok';
-  if(!agreed.length)return [{...ch,description:label,initial:ch.period===from}];
+  const label=ch.kind==='rent'?'Nájom '+ch.period:({deposit:'Depozit',administration_fee:'Administratívny poplatok',refrigerator_fee:'Poplatok za chladničku',verification_fee:'Overovací poplatok'})[ch.kind];
+  if(!agreed.length)return [{...ch,description:label,initial:ch.period===from&&['rent','deposit','administration_fee'].includes(ch.kind)}];
   const parts=items.filter(i=>i.plan_id===agreed[0].id).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
   if(!parts.length||parts.some(i=>!Number.isFinite(Number(i.amount))||Number(i.amount)<=0)||Math.round(parts.reduce((sum,i)=>sum+Number(i.amount),0)*100)!==Math.round(Number(ch.amount)*100))throw Error('Splátková dohoda sa nezhoduje s predpisom.');
   const byDate=new Map();
   for(const i of parts){if(!/^\d{4}-\d{2}-\d{2}$/.test(String(i.due_on)))throw Error('Neplatný dátum dohodnutej splátky.');byDate.set(i.due_on,(byDate.get(i.due_on)||0)+Math.round(Number(i.amount)*100));}
   return [...byDate].map(([due_on,cents])=>({...ch,amount:cents/100,due_on,description:label+' · dohodnutá splatnosť',initial:false}));
- }).sort((a,b)=>Number(b.initial===true)-Number(a.initial===true)||String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||['administration_fee','deposit','rent'].indexOf(a.kind)-['administration_fee','deposit','rent'].indexOf(b.kind));
+ }).sort((a,b)=>Number(b.initial===true)-Number(a.initial===true)||String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||['administration_fee','deposit','rent','refrigerator_fee','verification_fee'].indexOf(a.kind)-['administration_fee','deposit','rent','refrigerator_fee','verification_fee'].indexOf(b.kind));
 }
 /** Original contract annex, using the same PAY by square encoder and branding as the standalone calendar. */
 export async function contractScheduleDocument(data,items){
@@ -126,7 +133,7 @@ export async function contractScheduleDocument(data,items){
   for(let i=offset;i<Math.min(offset+capacity,items.length);i++){
    const it=items[i],top=firstTop+(i-offset)*355;
    rounded(75,top,1250,337);
-   const first=it.initial===true,purpose=it.kind==='deposit'?'Depozit / Deposit':it.kind==='administration_fee'?'Administratívny poplatok / Administrative fee':'Splátka nájmu / Rent payment';
+   const first=it.initial===true,purpose=it.kind==='rent'?'Splátka nájmu / Rent payment':({deposit:'Depozit / Deposit',administration_fee:'Administratívny poplatok / Administrative fee',refrigerator_fee:'Poplatok za chladničku / Refrigerator fee',verification_fee:'Overovací poplatok / Verification fee'})[it.kind];
    const monthDate=it.kind==='rent'?new Date(it.period+'-01T12:00:00Z'):null;
    const month=monthDate?new Intl.DateTimeFormat('sk-SK',{month:'long',year:'numeric',timeZone:'UTC'}).format(monthDate)+' / '+new Intl.DateTimeFormat('en-GB',{month:'long',year:'numeric',timeZone:'UTC'}).format(monthDate):'—';
    text(purpose,103,top+45,24,true,920);

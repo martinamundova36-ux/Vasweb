@@ -1,4 +1,14 @@
 import {downloadWorkbook} from './excel.js';
+import {chargeBalance, cents, installmentBalances} from './ledger.js';
+import {buildStudentHouseSchedule} from './installment-document.js?v=20261126-register';
+const normalized=value=>String(value??'').trim().toLowerCase().normalize('NFC').replace(/\s+/g,' ');
+const monthFor=value=>{
+ const match=normalized(value).match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
+ return match?'20'+match[2]+'-'+match[1]:null;
+};
+const feeFields={deposit:'deposit_eur',administration_fee:'administration_fee_eur',refrigerator_fee:'refrigerator_fee_eur',verification_fee:'verification_fee_eur'};
+const fees=new Map([['depozit','deposit'],['admin. poplatok','administration_fee'],['poplatok chladnička','refrigerator_fee'],['overovací poplatok','verification_fee']]);
+const extraColumns=['Číslo zmluvy','Dátum narodenia','Trvalé bydlisko','Číslo OP alebo pasu','Kontakt rodiča','Vysoká škola','IBAN študenta','Dĺžka pobytu (mesiace)','Skutočný príchod','Dodatočná chladnička','Stav registrácie','Stav dotazníka','Dátum odoslania dotazníka','Stav dokumentov','Aktivácia profilu','Preferovaný typ izby','Interné poznámky recepcie','Predpísané v období (€)','Priradené úhrady v období (€)','Zostáva uhradiť v období (€)','Nedoplatok po splatnosti (€)','Nepriradené prijaté platby (€)','Splatnosti a úhrady v období','Stav kalendára'];
 const words={
  sk:['Excel evidencia ubytovania','Späť do administrácie','','Hľadať v tabuľke','Stiahnuť Excel','Upraviť bunku','Hodnota','Poznámka','Uložiť','Zrušiť','Uloženie zlyhalo.','Riadkov','Importovaná evidencia'],
  en:['Accommodation register','Back to administration','','Search register','Download Excel','Edit cell','Value','Note','Save','Cancel','Could not save.','Rows','Imported register'],
@@ -8,7 +18,7 @@ const words={
 const el=(tag,text)=>{const x=document.createElement(tag);if(text!==undefined&&text!==null)x.textContent=String(text);return x;};
 const btn=(text,fn)=>{const x=el('button',text);x.type='button';x.onclick=fn;return x;};
 const col=n=>{let s='';for(n++;n;n=Math.floor((n-1)/26))s=String.fromCharCode(65+(n-1)%26)+s;return s;};
-export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,focus}){
+export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,focus,list,onRefresh}){
  const w=words[lang]||words.sk;
  const {data,error}=await db.from('student_house_excel_imports').select('source_sha,sheet_order,sheet_name,payload,imported_at').eq('tenant_id',tenant).order('imported_at',{ascending:false}).order('sheet_order');
  if(!isCurrent())return true;
@@ -23,40 +33,111 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   if((result.data||[]).length<500)break;
  }
 
- // Financial cells use the same validated schedule as the QR document. Never
- // assign a resident by room alone (rooms can have multiple occupants).
- const normalized=v=>String(v??'').trim().toLowerCase();
- const financialRows=new Map();let financialError=false;
+ const syncedCells=new Map(), receipts=new Map(), residentRows=new Map(), appendRows=new Map(), extraHeaders=new Map();
+ const cellKey=(sheet,row,i)=>sheet.sheet_order+':'+row+':'+(i+1);
+ const baseWidth=sheet=>Math.max(...sheet.payload.rows.map(([,values])=>values.length));
+ for(const sheet of sheets){
+  const header=sheet.payload.rows[0]?.[1]||[];
+  if(!header.some(monthFor)||!header.some(h=>normalized(h)==='izba'))continue;
+  extraHeaders.set(sheet.sheet_order,[...fees.keys(),...extraColumns].filter(h=>!header.some(v=>normalized(h)===normalized(v))));
+ }
+ let syncError=false, missingCalendars=0;
  try{
-  const load=async table=>{const all=[];for(let start=0;;start+=500){const {data,error}=await db.from(table).select('*').eq('tenant_id',tenant).order('id').range(start,start+499);if(error)throw error;all.push(...(data||[]));if((data||[]).length<500)return all;}};
-  const [people,stays,charges,plans,items,details]=await Promise.all(['residents','tenancies','rent_charges','installment_plans','installment_items','resident_staff_details'].map(load));
-  const {buildStudentHouseSchedule}=await import('./installment-document.js?v=20261125-qr-vat1');
-  for(const sheet of sheets){
-   const header=sheet.payload.rows[0]?.[1]||[],emailIndex=header.findIndex(v=>normalized(v)==='email'),roomIndex=header.findIndex(v=>normalized(v)==='izba');
-   if(emailIndex<0||roomIndex<0)continue;
-   for(const [row,values] of sheet.payload.rows.slice(1)){
-    const cell=i=>edits.get(sheet.sheet_order+':'+row+':'+(i+1))?.value??values[i];
-    const email=normalized(cell(emailIndex));if(!email)continue;
-    const matches=people.filter(p=>p.active&&!p.archived_at&&normalized(p.email)===email&&normalized(p.verified_room_number)===normalized(cell(roomIndex)));
-    if(matches.length!==1)continue;
-    const p=matches[0],contracts=stays.filter(s=>s.resident_id===p.id&&s.starts_on===p.accommodation_from&&s.ends_on===p.accommodation_to),d=details.filter(x=>x.resident_id===p.id);
-    if(contracts.length!==1||d.length!==1)continue;
-    let schedule;
-    try{schedule=buildStudentHouseSchedule({accommodation_from:p.accommodation_from,accommodation_to:p.accommodation_to,monthly_rent:contracts[0].rent,deposit:d[0].deposit_eur,admin_fee:d[0].administration_fee_eur},charges,plans,items,p.id);}catch{continue;}
-    const sums=new Map();
-    for(const entry of schedule){const key=entry.kind==='rent'?entry.period:entry.kind;sums.set(key,(sums.get(key)||0)+Math.round(Number(entry.amount)*100));}
-    header.forEach((label,i)=>{
-     const h=normalized(label),m=h.match(/^(\d{2})\/(\d{2})$/);
-     const key=m?'20'+m[2]+'-'+m[1]:h==='depozit'?'deposit':/^admin\.\s*poplatok$/.test(h)?'administration_fee':null;
-     if(!key)return;
-     const period=key==='deposit'||key==='administration_fee'?String(p.accommodation_from).slice(0,7):key;
-     const months=header.map(v=>String(v??'').match(/^(\d{2})\/(\d{2})$/)).filter(Boolean).map(m=>'20'+m[2]+'-'+m[1]);
-     if(!months.includes(period)||(!sums.has(key)&&key!=='deposit'&&key!=='administration_fee'))return;
-     financialRows.set(sheet.sheet_order+':'+row+':'+(i+1),(sums.get(key)||0)/100);
+  const [people,stays,charges,plans,items,details,enquiries,reviews,registrations,registrationAnswers,rooms,files,payments,allocations,reversals]=await Promise.all(
+   ['residents','tenancies','rent_charges','installment_plans','installment_items','resident_staff_details','resident_enquiries','resident_enquiry_reviews','registration_requests','registration_enquiries','rooms','residence_portal_files','payments','payment_allocations','payment_reversals'].map(list));
+  const emailCounts=new Map();
+  for(const p of people.filter(p=>p.active&&!p.archived_at)){const email=normalized(p.email);emailCounts.set(email,(emailCounts.get(email)||0)+1);}
+  const reversed=new Set(reversals.map(x=>x.payment_id));
+  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+  for(const person of people.filter(p=>p.active&&!p.archived_at)){
+   const requests=registrations.filter(r=>normalized(r.email)===normalized(person.email)&&r.contract_number===person.verified_contract_number&&['approved','invited'].includes(r.status));
+   const request=requests.length===1?requests[0]:null;
+   const submitted=registrationAnswers.find(a=>a.registration_id===request?.id);
+   const own=charges.filter(c=>c.resident_id===person.id);
+   const stay=stays.find(t=>t.resident_id===person.id&&t.starts_on===person.accommodation_from&&t.ends_on===person.accommodation_to);
+   const detail=details.find(d=>d.resident_id===person.id);
+   const review=reviews.find(r=>r.resident_id===person.id);
+   const answers=enquiries.find(e=>e.resident_id===person.id);
+   const verifiedEnquiry=review?.review_status==='approved'&&answers?.student_submitted_at&&Date.parse(review.requested_at)>=Date.parse(answers.student_submitted_at)?answers:null;
+   const enquiry=verifiedEnquiry??submitted;
+   const room=rooms.find(r=>r.id===stay?.room_id);
+   const from=String(person.accommodation_from??'').slice(0,7),to=String(person.accommodation_to??'').slice(0,7);
+   if(!from||!to||!person.verified_room_number||!normalized(person.email))continue;
+   let schedule=[],calendarStatus='Pripravený';
+   try{
+    schedule=buildStudentHouseSchedule({accommodation_from:person.accommodation_from,accommodation_to:person.accommodation_to,monthly_rent:stay?.rent,deposit:detail?.deposit_eur,admin_fee:detail?.administration_fee_eur,refrigerator_fee:detail?.refrigerator_fee_eur,verification_fee:detail?.verification_fee_eur},own,plans,items,person.id);
+   }catch(error){calendarStatus=error.message;missingCalendars++;}
+   const names=String(person.full_name??'').trim().split(/\s+/);
+   const first=request?.first_name??names[0],last=request?.last_name??names.slice(1).join(' ');
+   const ownPayments=payments.filter(p=>p.resident_id===person.id&&!reversed.has(p.id));
+   const paymentIds=new Set(ownPayments.map(p=>p.id));
+   const ownAllocations=allocations.filter(a=>paymentIds.has(a.payment_id));
+   for(const sheet of sheets.filter(s=>extraHeaders.has(s.sheet_order))){
+    const header=sheet.payload.rows[0][1],months=header.map(monthFor).filter(Boolean);
+    if(!months.some(m=>m>=from&&m<=to))continue;
+    const headers=[...Array.from({length:baseWidth(sheet)},(_,i)=>header[i]),...extraHeaders.get(sheet.sheet_order)];
+    const index=name=>headers.findIndex(h=>normalized(h)===name);
+    const raw=(row,values,name)=>{
+     const i=index(name),edit=edits.get(cellKey(sheet,row,i));
+     return edit?edit.value:values[i];
+    };
+    const sameEmail=sheet.payload.rows.slice(1).filter(([row,v])=>normalized(raw(row,v,'email'))===normalized(person.email));
+    const contractName=normalized(person.full_name);
+    const matches=sameEmail.filter(([row,v])=>{
+     const name=normalized([raw(row,v,'meno'),raw(row,v,'priezvisko')].filter(Boolean).join(' '));
+     return name&&name===contractName&&normalized(raw(row,v,'izba'))===normalized(person.verified_room_number);
+    });
+    const appended=appendRows.get(sheet.sheet_order)||[];
+    const row=matches.length===1&&emailCounts.get(normalized(person.email))===1?matches[0][0]:null;
+    // A record without a verified import match remains a separate resident row.
+    // Never claim a free bed or overwrite an ambiguous imported record.
+    const target=row??'resident:'+person.id;
+    if(row===null){appended.push([target,[]]);appendRows.set(sheet.sheet_order,appended);}
+    residentRows.set(cellKey(sheet,target,0),{person,detail});
+    const monthCharges=own.filter(c=>months.includes(c.period));
+    const monthSchedule=schedule.filter(c=>months.includes(c.period));
+    const paymentBalance=c=>chargeBalance(c,ownAllocations,[]).paid;
+    const sum=(items,amount)=>items.reduce((total,item)=>total+amount(item),0);
+    const paid=sum(monthCharges,paymentBalance),total=sum(monthCharges,c=>cents(c.amount));
+    if(monthCharges.length)receipts.set(cellKey(sheet,target,0),{person,charges:monthCharges.map(c=>({...c,remaining:cents(c.amount)-paymentBalance(c)}))});
+    const dueDetails=monthCharges.flatMap(charge=>{
+     const entries=monthSchedule.filter(item=>item.id===charge.id);
+     if(!entries.length&&Number(charge.amount)>0)return installmentBalances([{...charge,description:charge.kind+' '+charge.period}],paymentBalance(charge));
+     return installmentBalances(entries,paymentBalance(charge));
+    });
+    const unallocated=sum(ownPayments.filter(p=>months.includes(p.received_on?.slice(0,7))),p=>cents(p.amount)-sum(ownAllocations.filter(a=>a.payment_id===p.id),a=>cents(a.amount)));
+    const data={
+     izba:person.verified_room_number,'typ izby':room?.category,'typ':room?.category,
+     meno:first,priezvisko:last,email:person.email,'národnosť':enquiry?.nationality??detail?.nationality,
+     príchod:submitted?.preferred_from,pohlavie:enquiry?.gender,'tel.č.':enquiry?.telephone,od:person.accommodation_from,do:person.accommodation_to,
+     'kód izby':detail?.room_code,'číslo zmluvy':person.verified_contract_number,
+     'dátum narodenia':enquiry?.date_of_birth,'trvalé bydlisko':enquiry?.permanent_address,
+     'číslo op alebo pasu':enquiry?.identity_document_number,'kontakt rodiča':enquiry?.parent_contact_email,
+     'vysoká škola':enquiry?.school,'iban študenta':enquiry?.iban,
+     'dĺžka pobytu (mesiace)':(Number(to.slice(0,4))-Number(from.slice(0,4)))*12+Number(to.slice(5))-Number(from.slice(5))+1,
+     'skutočný príchod':detail?.actual_arrival_on,
+     'dodatočná chladnička':typeof enquiry?.own_refrigerator==='boolean'?(enquiry.own_refrigerator?'Áno':'Nie'):null,
+     'stav registrácie':request?.status,'stav dotazníka':review?.review_status,
+     'dátum odoslania dotazníka':answers?.student_submitted_at,'preferovaný typ izby':enquiry?.preferred_room_type,
+     'stav dokumentov':files.filter(f=>f.resident_id===person.id&&f.active).map(f=>f.kind+(f.review_status?' · '+f.review_status:'')).join('\n'),
+     'aktivácia profilu':person.profile_password_activated_at||'Čaká na aktiváciu',
+     'predpísané v období (€)':monthCharges.length?total/100:null,'priradené úhrady v období (€)':monthCharges.length?paid/100:null,
+     'zostáva uhradiť v období (€)':monthCharges.length?Math.max(0,total-paid)/100:null,'nepriradené prijaté platby (€)':unallocated/100,
+     'nedoplatok po splatnosti (€)':monthCharges.length?sum(dueDetails.filter(i=>i.due_on<today),i=>i.remaining)/100:null,
+     'splatnosti a úhrady v období':dueDetails.sort((a,b)=>a.due_on.localeCompare(b.due_on)).map(i=>i.due_on+' · '+i.description+' · '+i.amount+' € · prijaté '+(i.paid/100).toFixed(2)+' €').join('\n'),
+     splátky:monthSchedule.filter(i=>plans.some(p=>p.charge_id===i.id)).map(i=>i.due_on+' · '+i.amount+' €').join('\n'),
+     'stav kalendára':calendarStatus
+    };
+    headers.forEach((label,i)=>{
+     const key=normalized(label),month=monthFor(label),kind=fees.get(key);
+     const entries=monthCharges.filter(c=>month?c.kind==='rent'&&c.period===month:kind&&c.kind===kind);
+     const confirmedFee=kind&&months.includes(from)&&detail?.[feeFields[kind]];
+     const value=entries.length===1?Number(entries[0].amount):confirmedFee===0||confirmedFee==='0.00'?0:data[key];
+     if(value!==null&&value!==undefined&&value!=='')syncedCells.set(cellKey(sheet,target,i),value);
     });
    }
   }
- }catch{financialError=true;}
+ }catch{syncError=true;syncedCells.clear();appendRows.clear();receipts.clear();residentRows.clear();}
  if(!isCurrent())return true;
  const section=el('section');section.className='sh-imported-register';
  const style=el('style',`
@@ -74,26 +155,33 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  .sh-imported-register dialog textarea{display:block;width:100%;min-height:70px;box-sizing:border-box;margin-bottom:10px}
  `);
  const tools=el('div');tools.className='import-toolbar';tools.append(btn(w[1],onBack));
- const tabs=el('div');tabs.className='import-toolbar';
- const search=el('input');search.type='search';search.placeholder=w[3];search.setAttribute('aria-label',w[3]);
+ const tabs=el('div');tabs.className='import-toolbar room-register-controls';
+ const search=el('input');search.type='search';search.placeholder=w[3];search.className='import-search';search.setAttribute('aria-label',w[3]);
  const count=el('p');count.setAttribute('aria-live','polite');
- const scroll=el('div');scroll.className='import-scroll';scroll.tabIndex=0;
- let selected=sheets.find(x=>x.sheet_name===(focus?.year===2027?'od 02 2027':'od 09 2026'))||sheets[0];
- if(focus?.room)search.value=focus.room;
+ const scroll=el('div');scroll.className='import-scroll room-register-scroll';scroll.tabIndex=0;
+ let selected=sheets.find(x=>x.sheet_name===focus?.sheet)||sheets.find(x=>x.sheet_name===(focus?.year===2027?'od 02 2027':'od 09 2026'))||sheets[0];
+ search.value=focus?.search??focus?.room??'';
  const tabButtons=new Map();
- const get=(sheet,row,i,value)=>financialRows.has(sheet.sheet_order+':'+row+':'+(i+1))?financialRows.get(sheet.sheet_order+':'+row+':'+(i+1)):edits.has(sheet.sheet_order+':'+row+':'+(i+1))?edits.get(sheet.sheet_order+':'+row+':'+(i+1)).value:value??'';
- const noteFor=(sheet,row,i)=>edits.get(sheet.sheet_order+':'+row+':'+(i+1))?.note??sheet.payload.comments?.[col(i)+row]??'';
- const widthFor=sheet=>Math.max(...sheet.payload.rows.map(([,values])=>values.length));
- const valuesFor=(sheet,row,values)=>Array.from({length:widthFor(sheet)},(_,i)=>get(sheet,row,i,values[i]));
+ const get=(sheet,row,i,value)=>syncedCells.get(cellKey(sheet,row,i))??(edits.has(cellKey(sheet,row,i))?edits.get(cellKey(sheet,row,i)).value:value??'');
+ const noteFor=(sheet,row,i)=>edits.get(cellKey(sheet,row,i))?.note??sheet.payload.comments?.[col(i)+row]??'';
+ const valuesFor=(sheet,row,values)=>Array.from({length:baseWidth(sheet)+(extraHeaders.get(sheet.sheet_order)?.length||0)},(_,i)=>get(sheet,row,i,values[i]));
+ const headersFor=sheet=>[...Array.from({length:baseWidth(sheet)},(_,i)=>sheet.payload.rows[0][1][i]),...(extraHeaders.get(sheet.sheet_order)||[])];
+ const columnsFor=sheet=>{
+  const typeLabels=new Set(['š2','d2','d2v','sui2','š1+1','š2+2','m','manž.posteľ']);
+  const header=headersFor(sheet),typeIndex=header.findIndex(v=>['typ','typ izby'].includes(normalized(v)));
+  return header.map((_,i)=>i).filter(i=>typeIndex<0||i<=typeIndex||(!typeLabels.has(normalized(header[i]).replace(/\s+/g,''))&&!['typ','typ izby'].includes(normalized(header[i]))));
+ };
+ const recordsFor=sheet=>[...sheet.payload.rows.slice(1),...(appendRows.get(sheet.sheet_order)||[])];
  const noteRows=()=>sheets.flatMap(sheet=>Object.entries(sheet.payload.comments||{}).map(([ref,note])=>[sheet.sheet_name,ref,note]));
  tools.append(btn(w[4],()=>downloadWorkbook('Student-House-evidencia',[
-  ...sheets.map(sheet=>({name:sheet.sheet_name,rows:sheet.payload.rows.map(([row,values])=>valuesFor(sheet,row,values))})),
+  ...sheets.map(sheet=>({name:sheet.sheet_name,rows:[columnsFor(sheet).map(i=>headersFor(sheet)[i]),...recordsFor(sheet).map(([row,values])=>columnsFor(sheet).map(i=>get(sheet,row,i,values[i])))]})),
   {name:'Pôvodné poznámky',rows:[['Hárok','Bunka','Poznámka'],...noteRows()]},
   {name:'Úpravy evidencie',rows:[['Hárok','Riadok','Stĺpec','Hodnota','Poznámka'],...Array.from(edits.values()).map(e=>[sheets.find(s=>s.sheet_order===e.sheet_order)?.sheet_name,e.row_number,e.column_number,e.value,e.note])]}
  ])));
  for(const sheet of sheets){const t=btn(sheet.sheet_name,()=>{selected=sheet;paint();});tabButtons.set(sheet.sheet_order,t);tabs.append(t);}
  function edit(sheet,row,i,original){
   const dialog=el('dialog'),form=el('form'),value=el('textarea'),note=el('textarea'),status=el('p');
+  form.dataset.liveDirty='true';
   const before=get(sheet,row,i,original);value.value=String(before??'');value.maxLength=7900;note.value=noteFor(sheet,row,i);note.maxLength=8000;
   const valueLabel=el('label',w[6]),noteLabel=el('label',w[7]);valueLabel.append(value);noteLabel.append(note);
   const save=el('button',w[8]);save.type='submit';
@@ -108,33 +196,95 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    edits.set(sheet.sheet_order+':'+row+':'+(i+1),item);dialog.close();paint();
   };
  }
+ function editVerifiedFees({person,detail}){
+  const dialog=el('dialog'),form=el('form'),status=el('p'),changes=[];
+  form.dataset.liveDirty='true';
+  form.append(el('h3','Zmluvné poplatky · '+person.full_name),el('p','Zmena aktualizuje predpis. Nula zruší poplatok bez priradenej úhrady alebo splátkovej dohody.'));
+  for(const [name,kind] of fees){
+   const key=feeFields[kind],label=el('label',name+' (€)'),value=el('input');
+   value.type='number';value.min='0';value.max='100000';value.step='0.01';value.value=detail?.[key]??'';
+   changes.push({key,value,previous:value.value});
+   label.append(value);form.append(label);
+  }
+  const cancel=btn(w[9],()=>dialog.close()),save=el('button','Potvrdiť zmenu poplatkov');save.type='submit';
+  form.append(status,cancel,save);dialog.append(form);section.append(dialog);
+  dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.showModal();
+  form.onsubmit=async event=>{
+   event.preventDefault();
+   if(save.disabled||!isCurrent()||!form.reportValidity())return;
+   const changed=changes.filter(({value,previous})=>value.value!==previous);
+   if(!changed.length){dialog.close();return;}
+   if(changed.some(({value})=>value.value==='')){status.textContent='Na zrušenie poplatku zadaj nulu.';return;}
+   save.disabled=true;cancel.disabled=true;
+   try{
+    const payload=Object.fromEntries(changed.map(({key,value})=>[key,cents(value.value)/100]));
+    const {data,error}=await db.from('resident_staff_details').update(payload).eq('tenant_id',tenant).eq('resident_id',person.id).eq('updated_at',detail.updated_at).select('resident_id');
+    if(error||data?.length!==1)throw Error(error?.message||'stale_details');
+    delete form.dataset.liveDirty;dialog.close();onRefresh();
+   }catch{status.textContent='Zmenu sa nepodarilo uložiť. Skontroluj úhrady alebo splátkové dohody a obnov evidenciu.';save.disabled=false;cancel.disabled=false;}
+  };
+ }
+ function recordReceipt({person,charges}){
+  const dialog=el('dialog'),form=el('form'),target=el('select'),value=el('input'),received=el('input'),method=el('select'),reference=el('input'),status=el('p');
+  form.dataset.liveDirty='true';
+  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+  const open=charges.filter(c=>c.remaining>0).sort((a,b)=>a.due_on.localeCompare(b.due_on));
+  for(const c of open)target.append(new Option(c.period+' · '+c.kind+' · zostáva '+(c.remaining/100).toFixed(2)+' €',c.id));
+  target.append(new Option('Prijatá platba bez priradenia',''));
+  value.type='number';value.required=true;value.min='0.01';value.step='0.01';
+  const selectedCharge=()=>open.find(c=>c.id===target.value);
+  const setAmount=()=>{const c=selectedCharge();value.value=c?String(c.remaining/100):'';};
+  target.onchange=setAmount;setAmount();
+  received.type='date';received.required=true;received.value=today;received.max=today;
+  method.append(new Option('Bankový prevod','bank'),new Option('Hotovosť','cash'));
+  reference.required=true;reference.minLength=2;reference.maxLength=100;
+  const save=el('button','Potvrdiť prijatú platbu');save.type='submit';
+  const cancel=btn(w[9],()=>dialog.close());
+  form.append(el('h3','Prijatá platba · '+person.full_name),el('p','Suma nad zostatok predpisu zostane nepriradená.'));
+  for(const [title,control] of [['Predpis',target],['Prijatá suma (€)',value],['Dátum prijatia',received],['Spôsob platby',method],['Jedinečná referencia dokladu',reference]]){
+   const label=el('label',title);label.append(control);form.append(label);
+  }
+  form.append(status,cancel,save);dialog.append(form);section.append(dialog);
+  dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.showModal();
+  form.onsubmit=async event=>{
+   event.preventDefault();
+   if(save.disabled||!isCurrent()||!form.reportValidity())return;
+   save.disabled=true;cancel.disabled=true;
+   try{
+    const amount=cents(value.value),charge=selectedCharge();
+    if(amount<=0||reference.value.trim().length<2)throw Error('invalid_payment');
+    const {data,error}=await db.rpc('record_payment',{p_tenant:tenant,p_resident:person.id,p_amount:amount/100,p_received:received.value,p_method:method.value,p_reference:reference.value.trim(),p_allocations:charge?[{charge_id:charge.id,amount:Math.min(amount,charge.remaining)/100}]:[]});
+    if(error||!data)throw Error('payment');
+    delete form.dataset.liveDirty;dialog.close();onRefresh();
+   }catch{status.textContent='Platba sa neuložila. Skontroluj referenciu a aktuálny zostatok.';save.disabled=false;cancel.disabled=false;}
+  };
+ }
  function paint(){
   for(const [id,t] of tabButtons){const active=id===selected.sheet_order;t.setAttribute('aria-pressed',String(active));t.style.background=active?'#142b4d':'#ffffff';t.style.color=active?'#ffffff':'#142b4d';t.style.border='1px solid #142b4d';}
-  const sheet=selected,rows=sheet.payload.rows,width=widthFor(sheet),q=search.value.trim().toLocaleLowerCase();
+  const sheet=selected,rows=recordsFor(sheet),q=search.value.trim().toLocaleLowerCase();
+  section.dataset.sheet=sheet.sheet_name;
   const table=el('table'),head=table.createTHead().insertRow(),body=table.createTBody();
-  const [headerRow,header]=rows[0];
-  // Preserve original cell coordinates for edits and comments.
-  const typeIndex=header.findIndex(v=>String(v??'').trim().toUpperCase()==='TYP');
-  const roomSheet=typeIndex>=0&&header.some(v=>String(v??'').trim().toUpperCase()==='IZBA');
-  const duplicateTypes=new Set(['Š2','D2','D2V','SUI2','Š1+1','Š2+2','M','MANŽ.POSTEĽ']);
-  const visibleColumns=Array.from({length:width},(_,i)=>i).filter(i=>!roomSheet||i<=typeIndex||!duplicateTypes.has(String(header[i]??'').trim().toUpperCase().replace(/\s+/g,'')));
-  const typeTitle={sk:'TYP IZBY',en:'ROOM TYPE',ru:'ТИП КОМНАТЫ',uk:'ТИП КІМНАТИ'};
-  for(const i of visibleColumns){const cell=el('th',roomSheet&&i===typeIndex?(typeTitle[lang]||typeTitle.sk):header[i]??'');cell.scope='col';head.append(cell);}
+  const header=headersFor(sheet),visibleColumns=columnsFor(sheet);
+  for(const i of visibleColumns){const cell=el('th',header[i]??'');cell.scope='col';head.append(cell);}
+  if(extraHeaders.has(sheet.sheet_order))head.append(el('th','Finančná evidencia'));
   let shown=0;
-  for(const [row,values] of rows.slice(1)){
+  for(const [row,values] of rows){
    const actual=valuesFor(sheet,row,values);
    if(q&&!actual.some((v,i)=>String(v??'').toLocaleLowerCase().includes(q)||noteFor(sheet,row,i).toLocaleLowerCase().includes(q)))continue;
    shown++;const tr=body.insertRow();
    for(const i of visibleColumns){
     const cell=el('td'),n=noteFor(sheet,row,i),v=actual[i];
-    const synced=financialRows.has(sheet.sheet_order+':'+row+':'+(i+1));
-    const control=writable&&!synced?btn(v??'',()=>edit(sheet,row,i,values[i])):el('span',v??'');
-    if(synced){control.title='Predpis zo splátkového kalendára / Scheduled amount';cell.style.boxShadow='inset 3px 0 #17643c';}
+    const synced=syncedCells.has(cellKey(sheet,row,i));
+    const control=writable&&!synced&&typeof row==='number'?btn(v??'',()=>edit(sheet,row,i,values[i])):el('span',v??'');
+    if(synced){control.title='Údaj zo systému / Synchronized field';cell.style.boxShadow='inset 3px 0 #17643c';}
     control.className='import-cell';if(n){control.title=n;control.append(el('span',' •'));control.lastChild.className='import-comment';}
     cell.append(control);tr.append(cell);
    }
+   if(extraHeaders.has(sheet.sheet_order)){const cell=tr.insertCell(),key=cellKey(sheet,row,0),receipt=receipts.get(key),resident=residentRows.get(key);
+     if(receipt)cell.append(btn('Evidovať platbu',()=>recordReceipt(receipt)));
+     if(resident?.detail&&receipt?.charges.some(c=>c.kind==='rent'))cell.append(btn('Upraviť poplatky',()=>editVerifiedFees(resident)));}
   }
-  count.textContent=w[11]+': '+shown+' / '+Math.max(0,rows.length-1);scroll.replaceChildren(table);
+  count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
  }
- section.append(style,el('h3',w[0]),tools,el('p',financialError?'Splátkové kalendáre sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':financialRows.size?'Zelené označenie: predpísané sumy zo splátkového kalendára (nie potvrdené úhrady).':'Žiadne zhodné overené splátkové kalendáre. Zobrazené sú pôvodné hodnoty.'),tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
+ section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
 }

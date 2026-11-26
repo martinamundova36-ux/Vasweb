@@ -36,6 +36,7 @@ export function fieldsForDocument(kind, person, enquiry, tenancy, staff, extras 
   ...(kind==='contract_draft'?{passport_number:enquiry?.identity_document_number}:{}),
   ...(kind==='deposit_template'?{refund_iban:enquiry?.iban}:{}),
   monthly_rent:tenancy?.rent,deposit:staff?.deposit_eur,admin_fee:staff?.administration_fee_eur,
+  refrigerator_fee:staff?.refrigerator_fee_eur,verification_fee:staff?.verification_fee_eur,
   ...Object.fromEntries(Object.entries(extras).filter(([key,value])=>key!=='provider'||String(value??'').trim())),
   ...(providerText(person.tenant_id)?{provider:providerText(person.tenant_id)}:{})
  };
@@ -107,7 +108,7 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
  }
  // Preserve pages 1–7 of the signed-contract layout; page 8 is blank, pages 9–10 are the old annex.
  // Build the new annex from the verified charges, not from the example student's figures.
- const {contractScheduleDocument,buildStudentHouseSchedule}=await import('./installment-document.js?v=20261125-qr-vat1');
+ const {contractScheduleDocument,buildStudentHouseSchedule}=await import('./installment-document.js?v=20261126-register');
  const schedule=buildStudentHouseSchedule(data,charges,plans,items,person.id);
  const annex=await contractScheduleDocument({...data,first_name:values.first_name,last_name:values.last_name},schedule);
  // Remove annex form fields before dropping its pages, to avoid dangling PDF widgets.
