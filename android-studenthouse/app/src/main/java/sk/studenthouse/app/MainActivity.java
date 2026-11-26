@@ -25,6 +25,7 @@ import android.webkit.WebViewClient;
  */
 public final class MainActivity extends Activity {
     private static final String HOME = "https://www.webu.sk/student-house-portal/";
+    private static final String PUBLIC_WEBSITE = "https://studenthousebratislavanew.wordpress.com/";
     private static final String PORTAL_PATH = "/student-house-portal/";
     private static final int FILE_CHOOSER_REQUEST = 501;
     private WebView browser;
@@ -54,13 +55,13 @@ public final class MainActivity extends Activity {
                 if (!request.isForMainFrame()) return false;
                 Uri uri = request.getUrl();
                 if (isTrustedPortal(uri)) return false;
-                // Fixed public app link only. Never pass page URLs, tokens or student data.
+                // Fixed public website link only. Never pass page URLs, tokens or student data.
                 if ("studenthouse-share".equalsIgnoreCase(uri.getScheme())
                     && "app".equalsIgnoreCase(uri.getHost())) {
                     Intent send = new Intent(Intent.ACTION_SEND);
                     send.setType("text/plain");
                     send.putExtra(Intent.EXTRA_SUBJECT, "Student House Bratislava");
-                    send.putExtra(Intent.EXTRA_TEXT, "Student House Bratislava – študentská aplikácia.\n" + HOME);
+                    send.putExtra(Intent.EXTRA_TEXT, PUBLIC_WEBSITE);
                     startActivity(Intent.createChooser(send, "Zdieľať Student House Bratislava"));
                     return true;
                 }

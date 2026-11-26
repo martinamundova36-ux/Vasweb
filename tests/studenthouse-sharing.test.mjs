@@ -16,11 +16,14 @@ test('all portal entry variants expose share button and WEBU credit', () => {
     assert.match(html, /student-house-portal\/share\.js/);
   }
 });
-test('share payload is a fixed public app link, never current page URL', () => {
-  assert.match(share, /const publicUrl = 'https:\/\/www\.webu\.sk\/student-house-portal\/'/);
+test('share payload is a fixed public website link, never current page URL', () => {
+  assert.match(share, /const publicUrl = 'https:\/\/studenthousebratislavanew\.wordpress\.com\/'/);
   assert.doesNotMatch(share, /location\.href\s*[,;}\)]|location\.search|location\.hash|document\.URL|document\.location/);
   assert.match(share, /navigator\.share\(shareData\)/);
   assert.match(native, /Intent\.ACTION_SEND/);
+  assert.match(native, /Intent\.EXTRA_TEXT, PUBLIC_WEBSITE/);
+  assert.match(share, /facebook\.com\/sharer\/sharer\.php\?u=/);
+  assert.doesNotMatch(share, /studenthouse-share:\/\/app/);
   assert.match(native, /"studenthouse-share"\.equalsIgnoreCase\(uri\.getScheme\(\)\)/);
   assert.match(native, /send\.putExtra\(Intent\.EXTRA_TEXT/);
   assert.doesNotMatch(native, /addJavascriptInterface/);
