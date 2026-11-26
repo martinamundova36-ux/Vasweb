@@ -13,11 +13,11 @@ try{
   const f=id=>page.locator('#'+id);
   assert.ok(await f('dial').locator('option').count()>200);
   await f('dial').selectOption('UA');await f('phone').fill('501234567');
-  await f('months').fill('6');
+  await f('months').fill('6');await f('paymentMode').selectOption('monthly');
   for(const l of ['en','ru','uk','sk']){
    await f('lang').selectOption(l);
    assert.equal(await f('dial').inputValue(),'UA');
-   assert.equal(await f('phone').inputValue(),'501234567');
+   assert.equal(await f('phone').inputValue(),'501234567');assert.equal(await f('paymentMode').inputValue(),'monthly');
    assert.match(await f('total').innerText(),/300/);
    assert.match(await f('vatLine').innerText(),/69/);
    assert.match(await f('grossLine').innerText(),/369/);
@@ -25,7 +25,7 @@ try{
   await f('first').fill('Synthetic');await f('last').fill('Test');await f('email').fill('synthetic@example.invalid');
   await f('plate').fill('TEST123');await f('consent').check();await f('acknowledge').check();
   await f('send').click();await page.locator('#status.success').waitFor();
-  assert.equal(payload.telephone,'+380501234567');assert.equal(payload.months,6);
+  assert.equal(payload.telephone,'+380501234567');assert.equal(payload.months,6);assert.match(payload.note,/^\[Platba: mesačne\]/);
   await page.close();
  }
 }finally{await browser.close();}

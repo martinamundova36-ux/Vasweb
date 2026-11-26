@@ -73,10 +73,11 @@ a{color:#175182}
 <div><label for="end" id="endLabel">Dátum ukončenia (automaticky)</label><input id="end" type="date" class="readonly" readonly aria-readonly="true"></div>
 <div><label for="monthly" id="monthlyLabel">Cena za mesiac bez DPH</label><input id="monthly" class="readonly" readonly value="50 € bez DPH" aria-readonly="true"></div>
 </div>
+<div style="margin-top:18px"><label id="paymentLabel" for="paymentMode">Spôsob úhrady *</label><select id="paymentMode" required><option value="">Vyber spôsob úhrady</option><option value="monthly">Mesačne</option><option value="full">Jednorazovo za celé obdobie</option></select><p id="paymentSummary" class="note" aria-live="polite"></p></div>
 <div class="price"><small id="totalLabel">Celková cena bez DPH za zvolený počet mesiacov</small><strong id="total">50 € bez DPH</strong><small id="vatLine" style="margin-top:8px">DPH (23 %): 11,50 €</small><small id="grossLine" style="font-size:17px;color:#142b4d;margin-top:5px">Celkom s DPH: 61,50 €</small></div>
 <div class="notice" id="periodNotice">Príklad: od 24. 11. 2026 na 6 mesiacov → do 23. 5. 2027, spolu 300 € bez DPH. Dátum ukončenia je posledný deň parkovania.</div>
 </fieldset>
-<div class="full"><label for="note" id="noteLabel">Poznámka (nepovinné)</label><textarea id="note" maxlength="1000"></textarea></div>
+<div class="full"><label for="note" id="noteLabel">Poznámka (nepovinné)</label><textarea id="note" maxlength="960"></textarea></div>
 <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" autocomplete="off" tabindex="-1"></div>
 <label class="consent"><input type="checkbox" id="consent" required><span id="consentText">Oboznámil/a som sa s <a id="privacy" target="_blank" rel="noopener" href="https://studenthousebratislavanew.wordpress.com/gdpr/">informáciami o spracúvaní osobných údajov</a> a žiadam o posúdenie dlhodobého parkovania. *</span></label>
 <label class="consent"><input type="checkbox" id="acknowledge" required><span id="ackText">Rozumiem, že cena je 50 € za mesiac bez DPH a žiadosť nie je záväznou rezerváciou ani platbou. Parkovacie miesto potvrdí recepcia. *</span></label>
@@ -107,6 +108,17 @@ const localCopy={
  ru:{country:"Код страны",phone:"Номер без международного кода",invalid:"Проверьте номер телефона и код страны.",net:"без НДС",vat:"НДС (23 %)",gross:"Всего с НДС"},
  uk:{country:"Код країни",phone:"Номер без міжнародного коду",invalid:"Перевірте номер телефону та код країни.",net:"без ПДВ",vat:"ПДВ (23 %)",gross:"Разом з ПДВ"}
 };
+const paymentCopy={
+ sk:{label:'Spôsob úhrady *',choose:'Vyber spôsob úhrady',monthly:'Mesačne',full:'Jednorazovo za celé obdobie',per:'mesačných úhrad po',once:'Jedna úhrada',pending:'Termíny splatnosti potvrdí recepcia. Odoslanie žiadosti nie je platba.'},
+ en:{label:'Payment frequency *',choose:'Choose payment frequency',monthly:'Monthly',full:'One payment for the entire period',per:'monthly payments of',once:'One payment',pending:'Reception will confirm due dates. Submitting this request is not a payment.'},
+ ru:{label:'Периодичность оплаты *',choose:'Выберите способ оплаты',monthly:'Ежемесячно',full:'Одним платежом за весь период',per:'ежемесячных платежей по',once:'Один платёж',pending:'Сроки оплаты подтвердит ресепшен. Отправка заявки не является оплатой.'},
+ uk:{label:'Періодичність оплати *',choose:'Оберіть спосіб оплати',monthly:'Щомісяця',full:'Одним платежем за весь період',per:'щомісячних платежів по',once:'Один платіж',pending:'Строки оплати підтвердить рецепція. Надсилання заявки не є оплатою.'}
+};
+function updatePayment(){
+ const p=paymentCopy[lang],mode=get('paymentMode').value,n=Number(get('months').value);
+ const valid=Number.isInteger(n)&&n>=1&&n<=36;
+ get('paymentSummary').textContent=valid&&mode?((mode==='monthly'?n+' '+p.per+' '+euro(6150):p.once+': '+euro(n*6150))+' · '+localCopy[lang].gross+'. '+p.pending):p.pending;
+}
 function populateDial(){
  const el=get("dial"),previous=el.value||"SK",names=new Intl.DisplayNames([lang],{type:"region"});
  const countries=Object.keys(dialing).map(code=>({code,name:names.of(code)})).sort((a,b)=>a.name.localeCompare(b.name,lang));
@@ -157,6 +169,7 @@ function update(){
  get("total").textContent=valid?euro(base)+" "+words.net:"—";
  get("vatLine").textContent=words.vat+": "+(valid?euro(tax):"—");
  get("grossLine").textContent=words.gross+": "+(valid?euro(base+tax):"—");
+ updatePayment();
 }
 function translate(){
  const t=texts[lang];
@@ -166,10 +179,13 @@ function translate(){
  get("consentText").replaceChildren(document.createTextNode(t.gdprBefore),get("privacy"),document.createTextNode(t.gdprAfter));
  get("privacy").textContent=t.gdprLink;get("privacy").href=privacyUrls[lang];
  get("send").textContent=t.send;
+ const p=paymentCopy[lang];get("paymentLabel").textContent=p.label;
+ for(const [i,key] of ["choose","monthly","full"].entries())get("paymentMode").options[i].textContent=p[key];
  populateDial();validatePhone();update();
 }
 get("start").addEventListener("change",update);
 get("months").addEventListener("input",update);
+get("paymentMode").addEventListener("change",updatePayment);
 get("lang").addEventListener("change",e=>{
  lang=e.target.value;const u=new URL(location.href);u.searchParams.set("lang",lang);history.replaceState(null,"",u);translate();
 });
@@ -186,7 +202,7 @@ get("form").addEventListener("submit",async e=>{
  const payload={
   first_name:get("first").value.trim(),last_name:get("last").value.trim(),email:get("email").value.trim(),
   telephone:phoneNumber(),vehicle_registration:get("plate").value.trim(),
-  months,start_on,end_on,note:get("note").value.trim(),locale:lang,
+  months,start_on,end_on,note:"[Platba: "+(get("paymentMode").value==="monthly"?"mesačne":"jednorazovo")+"]\n"+get("note").value.trim(),locale:lang,
   privacy_acknowledged:get("consent").checked&&get("acknowledge").checked,website:get("website").value
  };
  send.disabled=true;send.textContent=t.sending;

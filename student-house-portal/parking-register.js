@@ -172,6 +172,25 @@ const billingWords={
  uk:['Постачальник','Платіжна адреса','Номер рахунку','Дата виставлення','Дата надання послуги','Строк оплати','Місяців','Ціна за місяць без ПДВ','Сума без ПДВ','ПДВ (23%)','Разом з ПДВ','Код платежу','Оренда паркомісця']
 };
 
+const paymentWords={
+ sk:{label:'Spôsob úhrady',monthly:'Mesačne',full:'Jednorazovo',unknown:'Nezadaný',period:'Fakturovaný mesiac'},
+ en:{label:'Payment frequency',monthly:'Monthly',full:'One payment',unknown:'Not specified',period:'Billing month'},
+ ru:{label:'Периодичность оплаты',monthly:'Ежемесячно',full:'Одним платежом',unknown:'Не указано',period:'Месяц оплаты'},
+ uk:{label:'Періодичність оплати',monthly:'Щомісяця',full:'Одним платежем',unknown:'Не зазначено',period:'Місяць оплати'}
+};
+function paymentDetails(note){
+ const raw=String(note??''),match=/^\[Platba: (mesačne|jednorazovo)\]\r?\n?/.exec(raw);
+ return {mode:match?(match[1]==='mesačne'?'monthly':'full'):'unknown',note:match?raw.slice(match[0].length):raw};
+}
+function parkingPeriodEnd(start,n){
+ const [y,m,d]=start.split('-').map(Number);
+ const target=new Date(Date.UTC(y,m-1+n,1));
+ const last=new Date(Date.UTC(target.getUTCFullYear(),target.getUTCMonth()+1,0)).getUTCDate();
+ return new Date(Date.UTC(target.getUTCFullYear(),target.getUTCMonth(),d>last?last:d-1)).toISOString().slice(0,10);
+}
+function nextDay(date){
+ const x=new Date(date+'T12:00:00Z');x.setUTCDate(x.getUTCDate()+1);return x.toISOString().slice(0,10);
+}
 function invoiceDraft(root,labels,data,lang,provider) {
  const [,,,,,,customer,plate,,,,close]=labels;
  const [,,,,,,contactEmail,contactPhone,startLabel,endLabel,,,contactNote]=words[lang]||words.sk;
@@ -193,7 +212,7 @@ function invoiceDraft(root,labels,data,lang,provider) {
   [contactEmail,data.email,'email',false],[contactPhone,data.phone,'tel',false],
   [startLabel,data.startOn,'date',true],[endLabel,data.endOn,'date',true],
   [number,'','text',true],[issued,today,'date',true],[delivered,'','date',true],[due,'','date',true],
-  ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,data.months||1,'number',true],
+  ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,data.mode==='monthly'?1:data.months||1,'number',true],
   ['IBAN',provider.iban,'text',false],[reference,'','text',false],[contactNote,data.note,'textarea',false]
  ]){
   const field=element('label',label);
@@ -235,6 +254,19 @@ function invoiceDraft(root,labels,data,lang,provider) {
  fields.get(reference).pattern='[0-9]{1,10}';
  fields.get(reference).maxLength=10;
  const start=fields.get(startLabel),end=fields.get(endLabel);
+ const pw=paymentWords[lang]||paymentWords.sk;
+ if(data.mode==="monthly"&&data.startOn&&data.endOn&&Number.isInteger(Number(data.months))&&Number(data.months)>0){
+  const periodLabel=element("label",pw.period),select=element("select");
+  for(let i=1;i<=Math.min(36,Number(data.months));i++){
+   const from=i===1?data.startOn:nextDay(parkingPeriodEnd(data.startOn,i-1));
+   const to=i===Number(data.months)?data.endOn:parkingPeriodEnd(data.startOn,i);
+   const option=element("option",from+" – "+to);option.value=String(i);option.dataset.from=from;option.dataset.to=to;select.append(option);
+  }
+  const choose=()=>{const o=select.selectedOptions[0];start.value=o.dataset.from;end.value=o.dataset.to;end.min=start.value;};
+  select.addEventListener("change",choose);periodLabel.append(select);form.prepend(periodLabel);choose();
+  fields.get(months).readOnly=true;start.readOnly=true;end.readOnly=true;
+ }
+
  const constrainEnd=()=>{end.min=start.value;};
  start.addEventListener('input',constrainEnd);
  constrainEnd();
@@ -381,17 +413,18 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  const link = element('a', form);
  link.href = '/student-house-portal/parking/?lang=' + encodeURIComponent(lang);
  root.append(element('h4', inbox), link);
+ const pw=paymentWords[lang]||paymentWords.sk;
  if (requests.length) {
   const ordered = [...requests].sort((a,b) => b.created_at.localeCompare(a.created_at));
-  appendTable(root, [name,plate,email,phone,from,to,amount,status,note,actions], ordered.map(request => [
+  appendTable(root, [name,plate,email,phone,from,to,amount,pw.label,status,note,actions], ordered.map(request => [
    [request.first_name,request.last_name].filter(Boolean).join(' '),request.vehicle_registration,
-   request.email,request.telephone,request.start_on,request.end_on,request.total_eur,request.status,request.note
+   request.email,request.telephone,request.start_on,request.end_on,request.total_eur,pw[paymentDetails(request.note).mode],request.status,paymentDetails(request.note).note
   ]),(row,index)=>{
    const request=ordered[index];
    return actionCell(row,request,'request',()=>({
     name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
     startOn:request.start_on,endOn:request.end_on,months:request.months,
-    email:request.email,phone:request.telephone,note:request.note
+    email:request.email,phone:request.telephone,...paymentDetails(request.note)
    }));
   });
  } else {
