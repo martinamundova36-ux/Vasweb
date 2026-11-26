@@ -23,20 +23,52 @@ const words={
 const el=(tag,text)=>{const x=document.createElement(tag);if(text!==undefined&&text!==null)x.textContent=String(text);return x;};
 const btn=(text,fn)=>{const x=el('button',text);x.type='button';x.onclick=fn;return x;};
 const col=n=>{let s='';for(n++;n;n=Math.floor((n-1)/26))s=String.fromCharCode(65+(n-1)%26)+s;return s;};
-export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,focus,list,onRefresh}){
- const w=words[lang]||words.sk;
+async function loadImport(db,tenant){
  const {data,error}=await db.from('student_house_excel_imports').select('source_sha,sheet_order,sheet_name,payload,imported_at').eq('tenant_id',tenant).order('imported_at',{ascending:false}).order('sheet_order');
- if(!isCurrent())return true;
- if(error||!data?.length){root.append(el('p',({sk:'Evidenciu sa nepodarilo načítať.',en:'Could not load the register.',ru:'Не удалось загрузить реестр.',uk:'Не вдалося завантажити реєстр.'})[lang]));return false;}
+ if(error)throw error;
+ if(!data?.length)return {sheets:[],edits:new Map(),writable:false};
  const sha=data[0].source_sha,sheets=data.filter(x=>x.source_sha===sha).sort((a,b)=>a.sheet_order-b.sheet_order);
  const edits=new Map();let writable=true;
  for(let start=0;;start+=500){
   const result=await db.from('student_house_excel_import_edits').select('sheet_order,row_number,column_number,value,note').eq('tenant_id',tenant).eq('source_sha',sha).order('sheet_order').order('row_number').order('column_number').range(start,start+499);
-  if(!isCurrent())return true;
   if(result.error){writable=false;break;}
   for(const item of result.data||[])edits.set(item.sheet_order+':'+item.row_number+':'+item.column_number,item);
   if((result.data||[]).length<500)break;
  }
+
+ return {sha,sheets,edits,writable};
+}
+
+export async function listImportedStudents(db,tenant,profiles){
+ const {sheets,edits}=await loadImport(db,tenant);
+ const identity=(name,email,room)=>JSON.stringify([normalized(name),normalized(email),email?roomNumber(room):normalized(room)]);
+ const verified=new Set(profiles.filter(p=>p.email).map(p=>identity(p.full_name,p.email,p.verified_room_number)));
+ const entries=new Map();
+ for(const sheet of [...sheets].reverse()){
+  const header=sheet.payload.rows[0]?.[1]||[];
+  if(!header.some(monthFor))continue;
+  const columns=['meno','priezvisko','izba','email'].map(label=>header.findIndex(value=>normalized(value)===label));
+  if(columns.some(i=>i<0))continue;
+  for(const [row,values] of sheet.payload.rows.slice(1)){
+   const [first,last,room,email]=columns.map(i=>{
+    const edit=edits.get(sheet.sheet_order+':'+row+':'+(i+1));
+    return String((edit?edit.value:values[i])??'').trim();
+   });
+   const name=first+' '+last;
+   if(!first||!last||!/^\d/.test(room)||/\b(personál|personal|staff|recepcia|zamestnanec)\b/i.test(name))continue;
+   const key=identity(name,email,room);
+   if(!verified.has(key)&&!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name});
+  }
+ }
+ return [...entries.values()].sort((a,b)=>a.name.localeCompare(b.name,'sk')||a.room.localeCompare(b.room,'sk'));
+}
+
+export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,focus,list,onRefresh}){
+ const w=words[lang]||words.sk;
+ const imported=await loadImport(db,tenant).catch(()=>null);
+ if(!isCurrent())return true;
+ if(!imported?.sheets.length){root.append(el('p','Evidenciu sa nepodarilo načítať.'));return false;}
+ const {sha,sheets,edits,writable}=imported;
 
  const syncedCells=new Map(), receipts=new Map(), residentRows=new Map(), appendRows=new Map(), extraHeaders=new Map();
  const cellKey=(sheet,row,i)=>sheet.sheet_order+':'+row+':'+(i+1);
