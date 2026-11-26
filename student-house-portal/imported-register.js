@@ -66,30 +66,38 @@ export async function listImportedStudents(db,tenant,profiles){
    const key=identity(name,email,room);
    if(verified.has(key))continue;
    const from=get('od'),to=get('do'),contractNumber=get('kód izby')||get('číslo zmluvy');
-   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,monthly:null,months:new Map()});
+   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,monthly:null,initialFees:new Map(),months:new Map()});
    const entry=entries.get(key);
    if((entry.from&&from&&entry.from!==from)||(entry.to&&to&&entry.to!==to))continue;
    entry.from||=from;entry.to||=to;entry.contractNumber||=contractNumber;
    entry.monthly??=amountOf(get('splátky'));
+   for(const [column,description] of [['depozit','Depozit'],['admin. poplatok','Administratívny poplatok']]){
+    const amount=amountOf(get(column));
+    if(amount!==null&&!entry.initialFees.has(description))entry.initialFees.set(description,amount);
+   }
    header.forEach((label,i)=>{
     const month=monthFor(label),value=cell(i);
     if(month&&value&&!entry.months.has(month))entry.months.set(month,value);
    });
   }
  }
- return [...entries.values()].map(({monthly,months,...entry})=>{
+ return [...entries.values()].map(({monthly,months,initialFees,...entry})=>{
   const from=monthOfDate(entry.from),to=monthOfDate(entry.to);
   const items=[];
   if(from&&to&&from<=to){
+   for(const [description,amount] of initialFees){
+    if(amount>0)items.push({initial:true,amount,description});
+   }
    const month=new Date(from+'-01T12:00:00Z');
    for(let count=0;count<24&&month.toISOString().slice(0,7)<=to;count++){
     const period=month.toISOString().slice(0,7);
     const amount=months.has(period)?amountOf(months.get(period)):monthly;
-    if(amount>0)items.push({due_on:period+'-01',amount,description:'Nájom za '+period+' · izba '+entry.room});
+    if(amount>0)items.push({initial:count===0,...(count===0?{}:{due_on:period+'-01'}),amount,description:'Nájom za '+period+' · izba '+entry.room});
     month.setUTCMonth(month.getUTCMonth()+1);
    }
   }
-  return {...entry,items};
+  const missingFees=['Depozit','Administratívny poplatok'].filter(label=>!initialFees.has(label));
+  return {...entry,items,missingFees};
  }).sort((a,b)=>a.name.localeCompare(b.name,'sk')||a.room.localeCompare(b.room,'sk'));
 }
 

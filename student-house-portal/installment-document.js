@@ -21,6 +21,7 @@ export async function paymentImages(items,bank){
   return qr.default.toDataURL(value,{width:200,margin:4,errorCorrectionLevel:'M'});
  }));
 }
+const installmentDueText=item=>item.initial===true?'Do 3 dní od podpisu zmluvy':date(item.due_on);
 async function pdfDocument(plan,person,items,bank,images){
  const {jsPDF}=await import('https://esm.sh/jspdf@3.0.4');
  const pdf=new jsPDF({format:'a4',compress:true});
@@ -45,7 +46,7 @@ async function pdfDocument(plan,person,items,bank,images){
    c.fillStyle='#eef3f9';c.fillRect(55,y,890,160);
    c.fillStyle='#152d4d';c.font='bold 28px sans-serif';
    c.fillText('Splátka '+(i+1)+' / '+items.length,75,y+43);
-   c.font='25px sans-serif';c.fillText('Splatnosť: '+date(items[i].due_on),75,y+84);
+   c.font='25px sans-serif';c.fillText('Splatnosť: '+installmentDueText(items[i]),75,y+84);
    c.fillText('Suma: '+money.format(Number(items[i].amount)),75,y+124);
    if(items[i].description){c.font='17px sans-serif';c.fillText(items[i].description,75,y+149,655);}
    c.drawImage(qrImages[i],755,y+4,152,152);
@@ -291,7 +292,8 @@ export function attachImportedInstallmentDocument(host,person,tenant){
  contract.value=normalizeContractSymbol(person.contractNumber);
  const items=person.items;
  if(person.from&&person.to)rows.append(node('p','Obdobie ubytovania · '+date(person.from)+' – '+date(person.to)));
- for(const item of items)rows.append(node('p',date(item.due_on)+' · '+money.format(item.amount)+' · '+item.description));
+ for(const item of items)rows.append(node('p',installmentDueText(item)+' · '+money.format(item.amount)+' · '+item.description));
+ if(person.missingFees?.length)rows.append(node('p','V Exceli chýba suma: '+person.missingFees.join(', ')+'.'));
  const generate=node('button','Vygenerovať splátkový kalendár');generate.type='submit';
  generate.disabled=!items.length;
  if(!items.length)status.textContent='V Exceli chýba platné obdobie alebo mesačné sumy.';
