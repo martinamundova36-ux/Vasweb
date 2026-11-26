@@ -83,7 +83,24 @@ function parkingIdentity(value) {
  return [String(value??''),''];
 }
 
-function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions) {
+const monthlyWords={
+ sk:{due:'Predpis s DPH',paid:'Evidovaná úhrada',unpaid:'Nezaevidovaná',hint:'Pri nových žiadostiach je predpis 61,50 € za objednaný mesiac (50 € bez DPH). Kliknutím do bunky eviduješ skutočnú úhradu. Pri jednorazovej platbe mesačné sumy vyjadrujú cenu jednotlivých mesiacov, nie samostatné splatnosti.'},
+ en:{due:'Charge incl. VAT',paid:'Recorded payment',unpaid:'Not recorded',hint:'New requests show €61.50 per booked month (€50 excl. VAT). Click a cell to record actual payments. For a single payment, monthly charges show allocation, not separate due dates.'},
+ ru:{due:'Начислено с НДС',paid:'Учтённая оплата',unpaid:'Не учтена',hint:'Для новых заявок начисляется 61,50 € за месяц (50 € без НДС). Нажмите ячейку для учёта фактической оплаты. При разовой оплате суммы показывают стоимость месяцев, а не отдельные сроки.'},
+ uk:{due:'Нараховано з ПДВ',paid:'Облікована оплата',unpaid:'Не облікована',hint:'Для нових заявок нараховується 61,50 € за місяць (50 € без ПДВ). Натисніть клітинку для обліку фактичної оплати. При одноразовій оплаті суми показують вартість місяців, а не окремі строки.'}
+};
+function plannedMonth(record,index){
+ const value=record.planned_months?.[index];
+ return value==null?null:Number(value);
+}
+function monthText(record,index,lang){
+ const words=monthlyWords[lang]||monthlyWords.sk,amount=plannedMonth(record,index);
+ if(amount===null)return record.months[index];
+ const currency=new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'});
+ const paid=record.months[index];
+ return words.due+': '+currency.format(amount)+' · '+words.paid+': '+(paid==null||paid===''?words.unpaid:typeof paid==='number'?currency.format(paid):String(paid));
+}
+function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions,lang) {
  const style=element('style', `
  .parking-workbook {width:100%; max-width:100%; max-height:min(70vh,880px); overflow:auto; border:1px solid #cfdaea; border-radius:13px; margin-bottom:1.5rem}
  .parking-workbook table {border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; color:#142b4d; font:inherit; font-size:14px}
@@ -96,6 +113,8 @@ function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions) 
  .parking-workbook :is(th,td):nth-child(3) {min-width:9rem}
  .parking-workbook td.parking-note {background:#fff2cc}
  .parking-workbook .parking-edit-cell {display:block; width:100%; min-height:44px; padding:10px 12px; border:0; border-radius:0; background:transparent; color:inherit; font:inherit; text-align:inherit; overflow-wrap:anywhere; cursor:pointer}
+ .parking-workbook .parking-charge {display:block;font-weight:750;color:#142b4d;white-space:nowrap}
+ .parking-workbook .parking-paid {display:block;font-size:11px;color:#52677f;margin-top:4px}
  .parking-workbook .parking-edit-cell:hover,.parking-workbook .parking-edit-cell:focus-visible {outline:2px solid #215c39; outline-offset:-2px}
  .parking-edit-dialog {width:min(28rem,90vw); padding:1rem; border:1px solid #899aaa; border-radius:10px}
  .parking-edit-dialog textarea {display:block; width:100%; min-height:4rem}
@@ -125,7 +144,13 @@ function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions) 
    button.type='button';
    button.className='parking-edit-cell';
    function display(next){
-    button.textContent=next||next===0?next:'—';
+    const planned=index>=2?plannedMonth(record,index-2):null;
+    if(planned!==null){
+     const w=monthlyWords[lang]||monthlyWords.sk,fmt=new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'});
+     const charge=element('span',fmt.format(planned));charge.className='parking-charge';
+     const actual=element('span',w.paid+': '+(next==null||next===''?w.unpaid:typeof next==='number'?fmt.format(next):next));actual.className='parking-paid';
+     button.replaceChildren(charge,actual);button.title=w.due+': '+fmt.format(planned);
+    }else button.textContent=next||next===0?next:'—';
     button.setAttribute('aria-label',copy[1]+' · '+heading+' · '+(next??''));
     cell.classList.toggle('parking-note',index>=2&&typeof next==='string'&&next.trim()!=='');
    }
@@ -432,7 +457,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  root.append(statusLine);
  const monthHeaders=Array.from({length:12},(_,i)=>String(i+1).padStart(2,'0'));
  const headers=[year,name,plate,...monthHeaders];
- root.append(element('p',copy[0]));
+ root.append(element('p',copy[0]),element('p',(monthlyWords[lang]||monthlyWords.sk).hint));
  const search = element('input');
  search.type='search';
  search.placeholder=({sk:'Hľadať meno alebo EČV',en:'Find name or plate',ru:'Имя или номер авто',uk:'Ім’я або номер авто'})[lang]||'Hľadať';
@@ -442,7 +467,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  exportButton.addEventListener('click',()=>{
   const sheets=[...new Set(history.map(record=>record.year))].sort().map(year=>({
    name:String(year), rows:[headers,
-    ...history.filter(record=>record.year===year).sort((a,b)=>a.source_row-b.source_row).map(record=>[record.year,...parkingIdentity(record.entry),...record.months])]
+    ...history.filter(record=>record.year===year).sort((a,b)=>a.source_row-b.source_row).map(record=>[record.year,...parkingIdentity(record.entry),...record.months.map((_,i)=>monthText(record,i,lang))])]
   }));
   downloadWorkbook('Parkovanie',sheets);
  });
@@ -458,7 +483,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
    const [customer,registration]=parkingIdentity(record.entry);
    const request=requests.find(x=>x.id===record.request_id);
    return request?{name:customer,plate:registration,requestId:request.id,address:request.permanent_address,startOn:request.start_on,endOn:request.end_on,months:request.months,email:request.email,phone:request.telephone,...paymentDetails(request.note)}:{name:customer,plate:registration};
-  }));
+  }),lang);
  }
  search.addEventListener('input',paintLedger);
  paintLedger();
