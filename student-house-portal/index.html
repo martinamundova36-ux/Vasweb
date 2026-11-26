@@ -2007,7 +2007,7 @@ async function renderPanel(){
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument,buildStudentHouseSchedule}=await import('/student-house-portal/installment-document.js?v=20261126-register');
+   const {attachInstallmentDocument,buildStudentHouseSchedule}=await import('/student-house-portal/installment-document.js?v=20261126-calendar-label');
    const unifiedQR=tenant==='ae045243-98f0-4f22-a736-d33a92f9ba61';
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=20261120-first-due1');

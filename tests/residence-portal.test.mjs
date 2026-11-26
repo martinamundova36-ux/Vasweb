@@ -111,7 +111,7 @@ test('contract and full-stay payment PDF are enabled only after reception approv
 
 test('QR payment form has an explicit submit button and explains incomplete IBAN instead of silently failing',()=>{
   const code=readFileSync(resolve(root,'student-house-portal/installment-document.js'),'utf8');
-  assert.match(code,/node\('button','Potvrdiť údaje a vytvoriť QR PDF'\)/);
+  assert.match(code,/node\('button','Vygenerovať splátkový kalendár'\)/);
   assert.match(code,/confirm\.type='submit'/);
   assert.match(code,/form\.addEventListener\('submit',event=>\{event\.preventDefault\(\);void submitBank\(\);\}\)/);
   assert.match(code,/^\s*if\(\/\^\\d\+\$\/\.test\(bank\.iban\)\)/m);

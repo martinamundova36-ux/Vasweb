@@ -181,7 +181,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
   if(officialProvider&&key==='iban'){input.value=officialProvider.iban;input.readOnly=true;}
   wrapper.append(input);form.append(wrapper);fields[key]=input;
  }
- const confirm=node('button','Potvrdiť údaje a vytvoriť QR PDF');
+ const confirm=node('button','Vygenerovať splátkový kalendár');
  confirm.type='submit';confirm.style.cssText='display:block;width:100%;margin:14px 0;padding:13px 18px;background:#152d4d;color:#fff;font-weight:700;border:0;border-radius:11px;cursor:pointer';
  const retry=node('button','Skúsiť vytvoriť PDF znova'),status=node('p'),preview=node('div');
  status.setAttribute('role','status');status.setAttribute('aria-live','polite');
@@ -205,10 +205,10 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
   return '';
  }
  function refresh(){
-  version++;generating=false;confirm.disabled=false;confirm.textContent='Potvrdiť údaje a vytvoriť QR PDF';
+  version++;generating=false;confirm.disabled=false;confirm.textContent='Vygenerovať splátkový kalendár';
   retry.hidden=true;status.style.color='';preview.replaceChildren();
   if(url){URL.revokeObjectURL(url);url=null;}
-  status.textContent='Po zadaní platného IBAN-u stlač „Potvrdiť údaje a vytvoriť QR PDF“.';
+  status.textContent='Po zadaní platného IBAN-u stlač „Vygenerovať splátkový kalendár“.';
  }
  async function generate(bank,run){
   try{
