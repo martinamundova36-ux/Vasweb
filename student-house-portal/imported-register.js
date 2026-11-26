@@ -85,13 +85,13 @@ export async function listImportedStudents(db,tenant,profiles){
   const from=monthOfDate(entry.from),to=monthOfDate(entry.to);
   const items=[];
   if(from&&to&&from<=to){
-   if(deposit>0)items.push({initial:true,amount:deposit,description:'Depozit'});
-   items.push({initial:true,amount:100,description:'Administratívny poplatok'});
+   if(deposit>0)items.push({initial:true,amount:deposit,kind:'deposit',description:'Depozit'});
+   items.push({initial:true,amount:100,kind:'administration_fee',description:'Administratívny poplatok'});
    const month=new Date(from+'-01T12:00:00Z');
    for(let count=0;count<24&&month.toISOString().slice(0,7)<=to;count++){
     const period=month.toISOString().slice(0,7);
     const amount=months.has(period)?amountOf(months.get(period)):monthly;
-    if(amount>0)items.push({initial:count===0,...(count===0?{}:{due_on:advanceRentDueDate(period)}),amount,description:'Nájom za '+period+' · izba '+entry.room});
+    if(amount>0)items.push({initial:count===0,...(count===0?{}:{due_on:advanceRentDueDate(period)}),amount,kind:'rent',period,description:'Nájom za '+period+' · izba '+entry.room});
     month.setUTCMonth(month.getUTCMonth()+1);
    }
   }
