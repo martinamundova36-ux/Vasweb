@@ -1816,7 +1816,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-stay-filter');
+     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-start-filter');
      const shown=await renderImportedExcel({root:container,db,tenant,lang,focus,list,onRefresh:()=>void refreshLiveView(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='rooms'&&isStaff(),onBack:()=>navigate('overview')});
      if(!shown||generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
@@ -2015,7 +2015,7 @@ async function renderPanel(){
    let importedPeople=[],importFailed=false,stayStatus;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261126-stay-filter');
+     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261126-start-filter');
      stayStatus=registerStayStatus;
      importedPeople=await listImportedStudents(db,tenant,approvedPeople);
     }catch{importFailed=true;}
@@ -2026,7 +2026,9 @@ async function renderPanel(){
    const importedById=new Map(importedPeople.map(person=>[person.id,person]));
    const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
    const statusFor=person=>stayStatus?.(person.from??person.accommodation_from,person.to??person.accommodation_to,today)??'unknown';
-   const filter=make('select');
+   const filter=make('select'),startFilter=dateInput();
+   const startLabel=({sk:'Nové nástupy od',en:'New arrivals from',ru:'Новые заезды с',uk:'Нові заїзди з'})[lang]||'Nové nástupy od';
+   const startFor=p=>p.from??p.accommodation_from;
    const statusLabels=({
     sk:['Stav pobytu','Aktuálne pobyty','Budúce pobyty','Ukončené pobyty','Bez dátumov pobytu','Všetky záznamy','Pre vybraný stav pobytu tu nie sú študenti.'],
     en:['Stay status','Current stays','Upcoming stays','Ended stays','Missing stay dates','All records','No students match the selected stay status.'],
@@ -2038,23 +2040,29 @@ async function renderPanel(){
    const selectedPerson=importedById.get(selectedInstallmentStudent)||approvedPeople.find(p=>p.id===selectedInstallmentStudent);
    filter.value=stayStatus?(selectedPerson?statusFor(selectedPerson):'current'):'all';
    function populateStudents(selectedId){
-    const accepts=person=>filter.value==='all'||statusFor(person)===filter.value;
+    const accepts=person=>(filter.value==='all'||statusFor(person)===filter.value)&&(!startFilter.value||(startFor(person)&&startFor(person)>=startFilter.value));
+    const startText=person=>startFor(person)?day(startFor(person)):'';
     student.replaceChildren(new Option('Vyber študenta',''));
     for(const person of approvedPeople.filter(accepts)){
-     student.append(new Option([person.full_name,person.email].filter(Boolean).join(' · '),person.id));
+     student.append(new Option([person.full_name,startText(person),person.email].filter(Boolean).join(' · '),person.id));
     }
     const shownImports=importedPeople.filter(accepts);
     if(shownImports.length){
      const group=make('optgroup');group.label='Študenti z importovaného Excelu';
-     for(const person of shownImports)group.append(new Option([person.name,'izba '+person.room,person.email].filter(Boolean).join(' · '),person.id));
+     for(const person of shownImports)group.append(new Option([person.name,'izba '+person.room,startText(person),person.email].filter(Boolean).join(' · '),person.id));
      student.append(group);
     }
     if([...student.options].some(option=>option.value===selectedId))student.value=selectedId;
-    emptyFilter.hidden=student.options.length>1||filter.value==='all';
+    emptyFilter.hidden=student.options.length>1||(filter.value==='all'&&!startFilter.value);
    }
    populateStudents(selectedInstallmentStudent);
-   if(stayStatus)container.append(labeled(statusLabels[0],filter),emptyFilter);
+   if(stayStatus)container.append(labeled(statusLabels[0],filter),labeled(startLabel,startFilter),emptyFilter);
    filter.addEventListener('change',()=>{
+    populateStudents(student.value);
+    student.dispatchEvent(new Event('change'));
+   });
+   startFilter.addEventListener('change',()=>{
+    if(startFilter.value)filter.value='all';
     populateStudents(student.value);
     student.dispatchEvent(new Event('change'));
    });

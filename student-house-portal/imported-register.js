@@ -43,7 +43,8 @@ async function loadImport(db,tenant){
 export async function listImportedStudents(db,tenant,profiles){
  const {sheets,edits}=await loadImport(db,tenant);
  const identity=(name,email,room)=>JSON.stringify([normalized(name),normalized(email),email?roomNumber(room):normalized(room)]);
- const verified=new Set(profiles.filter(p=>p.email).map(p=>identity(p.full_name,p.email,p.verified_room_number)));
+ const stayKey=(key,from)=>JSON.stringify([key,from??'']);
+ const verified=new Set(profiles.filter(p=>p.email&&p.accommodation_from).map(p=>stayKey(identity(p.full_name,p.email,p.verified_room_number),p.accommodation_from)));
  const entries=new Map();
  const amountOf=value=>{
   const text=String(value??'').trim().replace(',','.');
@@ -64,9 +65,9 @@ export async function listImportedStudents(db,tenant,profiles){
    const [first,last,room,email]=columns.map(cell);
    const name=first+' '+last;
    if(!first||!last||!/^\d/.test(room)||/\b(personál|personal|staff|recepcia|zamestnanec)\b/i.test(name))continue;
-   const key=identity(name,email,room);
-   if(verified.has(key))continue;
    const from=get('od'),to=get('do'),contractNumber=get('kód izby')||get('číslo zmluvy');
+   const key=stayKey(identity(name,email,room),from);
+   if(verified.has(key))continue;
    if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,monthly:null,deposit:null,months:new Map()});
    const entry=entries.get(key);
    if((entry.from&&from&&entry.from!==from)||(entry.to&&to&&entry.to!==to))continue;
