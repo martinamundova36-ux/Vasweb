@@ -1660,7 +1660,7 @@ async function renderPanel(){
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    container.replaceChildren();
    heading(label('parking'));
-   const {renderParkingRegister}=await import('/student-house-portal/parking-register.js?v=20261126-payment-frequency');
+   const {renderParkingRegister}=await import('/student-house-portal/parking-register.js?v=20261126-inbox-first');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    renderParkingRegister(container,lang,requests,history,async (row,column,value)=>{
     const {data,error}=await db.rpc('update_parking_register_cell',{p_tenant:tenant,p_row:row,p_column:column,p_value:value});

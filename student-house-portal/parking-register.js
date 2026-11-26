@@ -379,6 +379,26 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  }
  const statusLine=element('p');
  statusLine.setAttribute('role','alert');
+ const link = element('a', form);
+ link.href = '/student-house-portal/parking/?lang=' + encodeURIComponent(lang);
+ root.append(element('h4', inbox), link);
+ const pw=paymentWords[lang]||paymentWords.sk;
+ if (requests.length) {
+  const ordered = [...requests].sort((a,b) => b.created_at.localeCompare(a.created_at));
+  appendTable(root, [name,plate,email,phone,from,to,amount,pw.label,status,note,actions], ordered.map(request => [
+   [request.first_name,request.last_name].filter(Boolean).join(' '),request.vehicle_registration,
+   request.email,request.telephone,request.start_on,request.end_on,request.total_eur,pw[paymentDetails(request.note).mode],request.status,paymentDetails(request.note).note
+  ]),(row,index)=>{
+   const request=ordered[index];
+   return actionCell(row,request,'request',()=>({
+    name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
+    startOn:request.start_on,endOn:request.end_on,months:request.months,
+    email:request.email,phone:request.telephone,...paymentDetails(request.note)
+   }));
+  });
+ } else {
+  root.append(element('p', empty));
+ }
  const monthHeaders=Array.from({length:12},(_,i)=>String(i+1).padStart(2,'0'));
  const headers=[year,name,plate,...monthHeaders];
  root.append(element('p',copy[0]));
@@ -410,24 +430,5 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  }
  search.addEventListener('input',paintLedger);
  paintLedger();
- const link = element('a', form);
- link.href = '/student-house-portal/parking/?lang=' + encodeURIComponent(lang);
- root.append(element('h4', inbox), link);
- const pw=paymentWords[lang]||paymentWords.sk;
- if (requests.length) {
-  const ordered = [...requests].sort((a,b) => b.created_at.localeCompare(a.created_at));
-  appendTable(root, [name,plate,email,phone,from,to,amount,pw.label,status,note,actions], ordered.map(request => [
-   [request.first_name,request.last_name].filter(Boolean).join(' '),request.vehicle_registration,
-   request.email,request.telephone,request.start_on,request.end_on,request.total_eur,pw[paymentDetails(request.note).mode],request.status,paymentDetails(request.note).note
-  ]),(row,index)=>{
-   const request=ordered[index];
-   return actionCell(row,request,'request',()=>({
-    name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
-    startOn:request.start_on,endOn:request.end_on,months:request.months,
-    email:request.email,phone:request.telephone,...paymentDetails(request.note)
-   }));
-  });
- } else {
-  root.append(element('p', empty));
- }
+
 }
