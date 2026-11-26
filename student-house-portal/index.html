@@ -2012,25 +2012,52 @@ async function renderPanel(){
    const codesByRoom=new Map(roomCatalog.map(room=>[room.id,String(room.name||'').trim()]));
    const chargesById=new Map(charges.map(charge=>[charge.id,charge]));
    const approvedPeople=people.filter(p=>p.active&&!p.archived_at);
-   let importedPeople=[],importFailed=false;
+   let importedPeople=[],importFailed=false,stayStatus;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-stay-filter');
+     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261126-stay-filter');
+     stayStatus=registerStayStatus;
      importedPeople=await listImportedStudents(db,tenant,approvedPeople);
     }catch{importFailed=true;}
    }
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const student=make('select');student.append(new Option('Vyber študenta',''));
-   for(const person of approvedPeople.sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'))){
-    student.append(new Option([person.full_name,person.email].filter(Boolean).join(' · '),person.id));
-   }
+   const student=make('select');
+   approvedPeople.sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'));
    const importedById=new Map(importedPeople.map(person=>[person.id,person]));
-   if(importedPeople.length){
-    const group=make('optgroup');group.label='Študenti z importovaného Excelu';
-    for(const person of importedPeople)group.append(new Option([person.name,'izba '+person.room,person.email].filter(Boolean).join(' · '),person.id));
-    student.append(group);
+   const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+   const statusFor=person=>stayStatus?.(person.from??person.accommodation_from,person.to??person.accommodation_to,today)??'unknown';
+   const filter=make('select');
+   const statusLabels=({
+    sk:['Stav pobytu','Aktuálne pobyty','Budúce pobyty','Ukončené pobyty','Bez dátumov pobytu','Všetky záznamy','Pre vybraný stav pobytu tu nie sú študenti.'],
+    en:['Stay status','Current stays','Upcoming stays','Ended stays','Missing stay dates','All records','No students match the selected stay status.'],
+    ru:['Статус проживания','Текущие проживания','Будущие проживания','Завершённые проживания','Даты не указаны','Все записи','Нет студентов с выбранным статусом.'],
+    uk:['Статус проживання','Поточні проживання','Майбутні проживання','Завершені проживання','Дати не вказано','Усі записи','Немає студентів із вибраним статусом.']
+   })[lang]||['Stav pobytu','Aktuálne pobyty','Budúce pobyty','Ukončené pobyty','Bez dátumov pobytu','Všetky záznamy','Pre vybraný stav pobytu tu nie sú študenti.'];
+   const emptyFilter=make('p','muted',statusLabels[6]);
+   for(const [i,key] of ['current','future','ended','unknown','all'].entries())filter.append(new Option(statusLabels[i+1],key));
+   const selectedPerson=importedById.get(selectedInstallmentStudent)||approvedPeople.find(p=>p.id===selectedInstallmentStudent);
+   filter.value=stayStatus?(selectedPerson?statusFor(selectedPerson):'current'):'all';
+   function populateStudents(selectedId){
+    const accepts=person=>filter.value==='all'||statusFor(person)===filter.value;
+    student.replaceChildren(new Option('Vyber študenta',''));
+    for(const person of approvedPeople.filter(accepts)){
+     student.append(new Option([person.full_name,person.email].filter(Boolean).join(' · '),person.id));
+    }
+    const shownImports=importedPeople.filter(accepts);
+    if(shownImports.length){
+     const group=make('optgroup');group.label='Študenti z importovaného Excelu';
+     for(const person of shownImports)group.append(new Option([person.name,'izba '+person.room,person.email].filter(Boolean).join(' · '),person.id));
+     student.append(group);
+    }
+    if([...student.options].some(option=>option.value===selectedId))student.value=selectedId;
+    emptyFilter.hidden=student.options.length>1||filter.value==='all';
    }
-   if([...student.options].some(option=>option.value===selectedInstallmentStudent))student.value=selectedInstallmentStudent;
+   populateStudents(selectedInstallmentStudent);
+   if(stayStatus)container.append(labeled(statusLabels[0],filter),emptyFilter);
+   filter.addEventListener('change',()=>{
+    populateStudents(student.value);
+    student.dispatchEvent(new Event('change'));
+   });
    container.append(labeled('Vyber študenta',student));
    const generatorActions=make('div','staff-actions');
    for(const [title,target] of [['Schváliť registráciu a vytvoriť predpisy','registrations'],['Schváliť dotazník a pripraviť dokumenty','questionnaires'],['Správa dokumentov','documents']]){const action=make('button','btn-secondary',title);action.type='button';action.onclick=()=>navigate(target);generatorActions.append(action);}
