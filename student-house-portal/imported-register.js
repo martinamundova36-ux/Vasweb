@@ -1,3 +1,4 @@
+import {attachAccommodationAddendum} from './accommodation-addendum.js';
 import {advanceRentDueDate} from './ledger.js';
 import {downloadWorkbook} from './excel.js?v=20261126-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
@@ -68,7 +69,7 @@ export async function listImportedStudents(db,tenant,profiles){
    const from=get('od'),to=get('do'),contractNumber=get('kód izby')||get('číslo zmluvy');
    const key=stayKey(identity(name,email,room),from);
    if(verified.has(key))continue;
-   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,monthly:null,deposit:null,months:new Map()});
+   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,roomType:get('typ izby'),monthly:null,deposit:null,months:new Map()});
    const entry=entries.get(key);
    if((entry.from&&from&&entry.from!==from)||(entry.to&&to&&entry.to!==to))continue;
    entry.from||=from;entry.to||=to;entry.contractNumber||=contractNumber;
@@ -95,7 +96,7 @@ export async function listImportedStudents(db,tenant,profiles){
    }
   }
   const missingFees=deposit===null?['Depozit']:[];
-  return {...entry,items,missingFees};
+  return {...entry,monthly,items,missingFees};
  }).sort((a,b)=>a.name.localeCompare(b.name,'sk')||a.room.localeCompare(b.room,'sk'));
 }
 
@@ -399,6 +400,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   const header=headersFor(sheet),visibleColumns=columnsFor(sheet);
   const fromIndex=header.findIndex(v=>normalized(v)==='od'),toIndex=header.findIndex(v=>normalized(v)==='do');
   const hasStayDates=fromIndex>=0&&toIndex>=0;
+  const indexOf=label=>header.findIndex(value=>normalized(value)===label);
   filterLabel.hidden=!hasStayDates;
   const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
   for(const i of visibleColumns){const cell=el('th',header[i]??'');cell.scope='col';head.append(cell);}
@@ -420,7 +422,14 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    if(extraHeaders.has(sheet.sheet_order)){const cell=tr.insertCell(),key=cellKey(sheet,row,0),receipt=receipts.get(key),resident=residentRows.get(key);
      if(receipt)cell.append(btn('Evidovať platbu',()=>recordReceipt(receipt)));
      if(resident?.detail&&receipt?.charges.some(c=>c.kind==='rent'))cell.append(btn('Upraviť poplatky',()=>editVerifiedFees(resident)));
-     if(resident?.stay)cell.append(btn('Opraviť nájomné',()=>correctMonthlyRent(resident)));}
+     if(resident?.stay)cell.append(btn('Opraviť nájomné',()=>correctMonthlyRent(resident)));
+     const name=[actual[indexOf('meno')],actual[indexOf('priezvisko')]].map(v=>String(v??'').trim()).filter(Boolean).join(' ');
+     const contract=actual[indexOf('číslo zmluvy')]||actual[indexOf('kód izby')];
+     if(name&&contract&&hasStayDates){
+      const rent=resident?.stay?.rent??String(actual[indexOf('splátky')]??'').replace(',','.');
+      attachAccommodationAddendum(cell,{name,contract,room:actual[indexOf('izba')],roomType:actual[indexOf('typ izby')],email:actual[indexOf('email')],address:actual[indexOf('trvalé bydlisko')],rent},tenant);
+     }
+   }
   }
   count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
  }
