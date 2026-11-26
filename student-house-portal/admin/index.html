@@ -1572,7 +1572,7 @@ async function refreshLiveView(){
  liveBusy=true;livePending=false;
  const tenant=member.tenant_id,section=tab;
  const imported=document.querySelector('.sh-imported-register');
- if(section==='rooms'&&imported)pendingRoomFocus={sheet:imported.dataset.sheet,search:imported.querySelector('.import-search')?.value||''};
+ if(section==='rooms'&&imported)pendingRoomFocus={sheet:imported.dataset.sheet,search:imported.querySelector('.import-search')?.value||'',status:imported.querySelector('.import-stay-status')?.value||'all'};
  const oldSearch=document.querySelector('.room-register-controls > input[type="search"]');
  const oldYear=document.querySelector('.room-register-controls label select');
  const oldScroll=document.querySelector('.room-register-scroll');
@@ -1817,7 +1817,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-advance-period');
+     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-stay-filter');
      const shown=await renderImportedExcel({root:container,db,tenant,lang,focus,list,onRefresh:()=>void refreshLiveView(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='rooms'&&isStaff(),onBack:()=>navigate('overview')});
      if(!shown||generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
@@ -2016,7 +2016,7 @@ async function renderPanel(){
    let importedPeople=[],importFailed=false;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-advance-period');
+     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-stay-filter');
      importedPeople=await listImportedStudents(db,tenant,approvedPeople);
     }catch{importFailed=true;}
    }

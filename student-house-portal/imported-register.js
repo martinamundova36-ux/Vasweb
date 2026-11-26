@@ -98,6 +98,14 @@ export async function listImportedStudents(db,tenant,profiles){
  }).sort((a,b)=>a.name.localeCompare(b.name,'sk')||a.room.localeCompare(b.room,'sk'));
 }
 
+export function registerStayStatus(start,end,today){
+ const valid=value=>typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value);
+ if(!valid(start)||!valid(end)||start>end)return 'unknown';
+ if(end<today)return 'ended';
+ if(start>today)return 'future';
+ return 'current';
+}
+
 export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,focus,list,onRefresh}){
  const w=words[lang]||words.sk;
  const imported=await loadImport(db,tenant).catch(()=>null);
@@ -230,6 +238,19 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  const tools=el('div');tools.className='import-toolbar';tools.append(btn(w[1],onBack));
  const tabs=el('div');tabs.className='import-toolbar room-register-controls';
  const search=el('input');search.type='search';search.placeholder=w[3];search.className='import-search';search.setAttribute('aria-label',w[3]);
+ const stayLabels=({
+  sk:['Stav pobytu','Všetky záznamy','Aktuálne pobyty','Budúce pobyty','Ukončené pobyty','Bez dátumov pobytu'],
+  en:['Stay status','All records','Current stays','Upcoming stays','Ended stays','Missing stay dates'],
+  ru:['Статус проживания','Все записи','Текущие проживания','Будущие проживания','Завершённые проживания','Даты не указаны'],
+  uk:['Статус проживання','Усі записи','Поточні проживання','Майбутні проживання','Завершені проживання','Дати не вказано']
+ })[lang]||['Stav pobytu','Všetky záznamy','Aktuálne pobyty','Budúce pobyty','Ukončené pobyty','Bez dátumov pobytu'];
+ const stayFilter=el('select'),filterLabel=el('label',stayLabels[0]);
+ stayFilter.className='import-stay-status';filterLabel.append(stayFilter);
+ ['all','current','future','ended','unknown'].forEach((key,i)=>{
+  const option=el('option',stayLabels[i+1]);option.value=key;stayFilter.append(option);
+ });
+ stayFilter.value=focus?.status||'all';
+ const filterBar=el('div');filterBar.className='import-toolbar';filterBar.append(filterLabel,search);
  const count=el('p');count.setAttribute('aria-live','polite');
  const scroll=el('div');scroll.className='import-scroll room-register-scroll';scroll.tabIndex=0;
  let selected=sheets.find(x=>x.sheet_name===focus?.sheet)||sheets.find(x=>x.sheet_name===(focus?.year===2027?'od 02 2027':'od 09 2026'))||sheets[0];
@@ -375,11 +396,16 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   section.dataset.sheet=sheet.sheet_name;
   const table=el('table'),head=table.createTHead().insertRow(),body=table.createTBody();
   const header=headersFor(sheet),visibleColumns=columnsFor(sheet);
+  const fromIndex=header.findIndex(v=>normalized(v)==='od'),toIndex=header.findIndex(v=>normalized(v)==='do');
+  const hasStayDates=fromIndex>=0&&toIndex>=0;
+  filterLabel.hidden=!hasStayDates;
+  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
   for(const i of visibleColumns){const cell=el('th',header[i]??'');cell.scope='col';head.append(cell);}
   if(extraHeaders.has(sheet.sheet_order))head.append(el('th','Finančná evidencia'));
   let shown=0;
   for(const [row,values] of rows){
    const actual=valuesFor(sheet,row,values);
+   if(hasStayDates&&stayFilter.value!=='all'&&registerStayStatus(actual[fromIndex],actual[toIndex],today)!==stayFilter.value)continue;
    if(q&&!actual.some((v,i)=>String(v??'').toLocaleLowerCase().includes(q)||noteFor(sheet,row,i).toLocaleLowerCase().includes(q)))continue;
    shown++;const tr=body.insertRow();
    for(const i of visibleColumns){
@@ -397,5 +423,5 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   }
   count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
  }
- section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Záznamy bez jednoznačnej zhody v importe sa zobrazujú samostatne. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
+ section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Záznamy bez jednoznačnej zhody v importe sa zobrazujú samostatne. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,filterBar,count,scroll);root.append(section);search.oninput=paint;stayFilter.onchange=paint;paint();return true;
 }
