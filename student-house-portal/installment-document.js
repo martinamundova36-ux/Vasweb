@@ -274,3 +274,48 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
  if(open)prepare();
  return panel;
 }
+export function attachImportedInstallmentDocument(host,person,tenant){
+ const provider=providerDetails(tenant);
+ const form=node('form'),rows=node('div'),status=node('p'),result=node('div');
+ status.setAttribute('role','status');
+ const field=(parent,title,type)=>{
+  const label=node('label',title),input=node('input');input.type=type;input.required=true;
+  label.append(input);parent.append(label);return input;
+ };
+ const contract=field(form,'Overené číslo zmluvy (variabilný symbol)','text');
+ contract.inputMode='numeric';contract.pattern='[0-9]{1,10}';contract.maxLength=10;
+ const fields=[];
+ const add=node('button','Pridať splátku');add.type='button';
+ const generate=node('button','Vygenerovať splátkový kalendár');generate.type='submit';
+ function addPayment(){
+  const entry=node('fieldset');entry.append(node('legend','Splátka '+(fields.length+1)));
+  const date=field(entry,'Splatnosť','date'),amount=field(entry,'Overená suma (€)','number');
+  amount.min='0.01';amount.step='0.01';
+  fields.push({date,amount});rows.append(entry);add.disabled=fields.length>=24;
+ }
+ add.addEventListener('click',()=>{result.replaceChildren();addPayment();});
+ form.append(rows,add,generate,status,result);addPayment();
+ let revision=0;
+ form.addEventListener('input',()=>{revision++;result.replaceChildren();});
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(generate.disabled||!form.reportValidity())return;
+  const bank={iban:provider.iban,beneficiary:provider.name,symbol:normalizeContractSymbol(contract.value),message:person.name};
+  const items=fields.map(({date,amount})=>({due_on:date.value,amount:amount.valueAsNumber,description:'Ubytovanie · izba '+person.room}));
+  const run=revision;
+  generate.disabled=add.disabled=true;status.textContent='Pripravujem QR PDF…';result.replaceChildren();
+  try{
+   const images=await paymentImages(items,bank);
+   const file=await pdfDocument({title:'Splátkový kalendár'}, {full_name:person.name},items,bank,images);
+   if(run!==revision||!form.isConnected){status.textContent='';return;}
+   const download=node('button','Stiahnuť PDF');download.type='button';
+   download.onclick=()=>{
+    const url=URL.createObjectURL(file),link=node('a');link.href=url;link.download=file.name;link.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+   };
+   result.append(download);status.textContent='Splátkový kalendár je pripravený.';
+  }catch{status.textContent='QR PDF sa nepodarilo vytvoriť. Skontroluj údaje a skús znova.';}
+  finally{generate.disabled=false;add.disabled=fields.length>=24;}
+ });
+ host.append(form);
+}

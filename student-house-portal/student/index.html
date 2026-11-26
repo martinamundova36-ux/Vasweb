@@ -2005,7 +2005,7 @@ async function renderPanel(){
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument,buildStudentHouseSchedule}=await import('/student-house-portal/installment-document.js?v=20261126-calendar-label');
+   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261126-imported-calendar');
    const unifiedQR=tenant==='ae045243-98f0-4f22-a736-d33a92f9ba61';
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=20261120-first-due1');
@@ -2046,10 +2046,11 @@ async function renderPanel(){
     if(!student.value)return;
     const imported=importedById.get(student.value);
     if(imported){
-     advanceHost.append(make('strong','',imported.name+' · izba '+imported.room),make('p','muted','Záznam z Excelu. Pre vystavenie QR kalendára potrebuje študent schválený profil, overenú zmluvu a predpisy.'));
+     advanceHost.append(make('strong','',imported.name+' · izba '+imported.room),make('p','muted','Záznam z Excelu. Zadaj číslo zmluvy, splatnosti a sumy overené v evidencii. PDF sa vytvorí na stiahnutie.'));
      const open=make('button','btn-secondary','Otvoriť záznam v Exceli');open.type='button';
      open.onclick=()=>{pendingRoomFocus={sheet:imported.sheet,search:imported.email||imported.room};navigate('rooms');};
      advanceHost.append(open);
+     attachImportedInstallmentDocument(advanceHost,imported,tenant);
      return;
     }
     const contracts=stays.filter(stay=>matches(stay.resident_id)).sort((a,b)=>String(b.starts_on).localeCompare(String(a.starts_on)));
@@ -2156,7 +2157,7 @@ async function renderPanel(){
     const available=charges.filter(x=>!approved.has(x.id)).sort((a,b)=>
      String(peopleById[a.resident_id]?.full_name||'').localeCompare(String(peopleById[b.resident_id]?.full_name||''),'sk')||
      String(a.period||'').localeCompare(String(b.period||'')));
-    if(!available.length){message(fin('missingCharges'));return;}
+    if(!available.length){if(!importedPeople.length)message(fin('missingCharges'));return;}
     const planForm=make('form','staff-form');planForm.append(make('strong','',fin('planAdd')));
     const charge=selector([],'id',()=>''),availableById=new Map(available.map(item=>[item.id,item]));
     const updateCharges=()=>{
