@@ -38,10 +38,10 @@ const editWords = {
  uk:['Виберіть клітинку тестового запису для редагування.','Редагувати клітинку','Значення','Зберегти','Скасувати','Не вдалося зберегти. Спробуйте ще раз.']
 };
 const cellVatWords={
- sk:{basis:'Zadaná suma',gross:'S DPH (23 %)',net:'Bez DPH',netTotal:'Základ bez DPH',vat:'DPH 23 %',grossTotal:'Celkom s DPH',hint:'Do bunky sa uloží suma s DPH. Textové poznámky zostanú nezmenené.'},
- en:{basis:'Entered amount',gross:'Including VAT (23%)',net:'Excluding VAT',netTotal:'Net amount',vat:'VAT 23%',grossTotal:'Total incl. VAT',hint:'The cell stores the gross amount. Text notes remain unchanged.'},
- ru:{basis:'Введённая сумма',gross:'С НДС (23 %)',net:'Без НДС',netTotal:'Сумма без НДС',vat:'НДС 23 %',grossTotal:'Всего с НДС',hint:'В ячейке сохраняется сумма с НДС. Текстовые примечания не изменяются.'},
- uk:{basis:'Введена сума',gross:'З ПДВ (23 %)',net:'Без ПДВ',netTotal:'Сума без ПДВ',vat:'ПДВ 23 %',grossTotal:'Разом з ПДВ',hint:'У клітинці зберігається сума з ПДВ. Текстові примітки залишаються без змін.'}
+ sk:{basis:'Výpočet DPH',gross:'Bez prepočtu – ponechať zadanú sumu',net:'Pripočítať DPH (23 %)',netTotal:'Základ bez DPH',vat:'DPH 23 %',grossTotal:'Celkom s DPH',saved:'Suma na uloženie',hint:'Pri pripočítaní DPH sa zadaná suma zvýši o 23 %. Bez prepočtu zostane nezmenená.'},
+ en:{basis:'VAT calculation',gross:'No conversion – keep entered amount',net:'Add VAT (23%)',netTotal:'Net amount',vat:'VAT 23%',grossTotal:'Total incl. VAT',saved:'Amount to save',hint:'Adding VAT increases the entered amount by 23%. No conversion keeps the amount unchanged.'},
+ ru:{basis:'Расчёт НДС',gross:'Без пересчёта – сохранить сумму',net:'Добавить НДС (23 %)',netTotal:'Сумма без НДС',vat:'НДС 23 %',grossTotal:'Всего с НДС',saved:'Сумма для сохранения',hint:'При добавлении НДС введённая сумма увеличится на 23 %. Без пересчёта сумма не изменится.'},
+ uk:{basis:'Розрахунок ПДВ',gross:'Без перерахунку – зберегти суму',net:'Додати ПДВ (23 %)',netTotal:'Сума без ПДВ',vat:'ПДВ 23 %',grossTotal:'Разом з ПДВ',saved:'Сума для збереження',hint:'При додаванні ПДВ введена сума збільшиться на 23 %. Без перерахунку сума не зміниться.'}
 };
 export function parkingVatAmounts(value,basis){
  const raw=String(value??'').trim();
@@ -76,14 +76,18 @@ function editCell(root, copy, heading, value, save, vatLang=null) {
  if(vatLang){
   const w=cellVatWords[vatLang]||cellVatWords.sk;
   basis=element('select');basis.name='vatBasis';
-  for(const [key,label] of [['gross',w.gross],['net',w.net]]){const option=element('option',label);option.value=key;basis.append(option);}
+  for(const [key,label] of [['net',w.net],['gross',w.gross]]){const option=element('option',label);option.value=key;basis.append(option);}
+  basis.value='gross'; // Do not silently add VAT again to stored historical payments.
   const vatLabel=element('label',w.basis);vatLabel.append(basis);
   const preview=element('div');preview.setAttribute('aria-live','polite');preview.style.cssText='margin:12px 0;padding:12px;background:#edf3f9;border-radius:8px;line-height:1.6';
   const money=new Intl.NumberFormat(vatLang,{style:'currency',currency:'EUR'});
   const refresh=()=>{
    const amounts=parkingVatAmounts(input.value,basis.value);
    basis.disabled=!amounts;preview.replaceChildren();
-   if(amounts){for(const [label,key] of [[w.netTotal,'net'],[w.vat,'vat'],[w.grossTotal,'gross']])preview.append(element('div',label+': '+money.format(amounts[key]/100)));}
+   if(amounts){
+    if(basis.value==='net'){for(const [label,key] of [[w.netTotal,'net'],[w.vat,'vat'],[w.grossTotal,'gross']])preview.append(element('div',label+': '+money.format(amounts[key]/100)));}
+    else preview.append(element('div',w.saved+': '+money.format(amounts.gross/100)));
+   }
    preview.append(element('small',w.hint));
   };
   input.addEventListener('input',refresh);basis.addEventListener('change',refresh);
