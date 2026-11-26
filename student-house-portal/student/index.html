@@ -1817,7 +1817,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-addendum-calendar');
+     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-addendum-pdf');
      const shown=await renderImportedExcel({root:container,db,tenant,lang,focus,list,onRefresh:()=>void refreshLiveView(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='rooms'&&isStaff(),onBack:()=>navigate('overview')});
      if(!shown||generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
@@ -2013,16 +2013,17 @@ async function renderPanel(){
    const codesByRoom=new Map(roomCatalog.map(room=>[room.id,String(room.name||'').trim()]));
    const chargesById=new Map(charges.map(charge=>[charge.id,charge]));
    const approvedPeople=people.filter(p=>p.active&&!p.archived_at);
-   let importedPeople=[],importFailed=false,stayStatus;
+   let importedPeople=[],linkedImports=[],importFailed=false,stayStatus;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261126-addendum-calendar');
+     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261126-addendum-pdf');
      stayStatus=registerStayStatus;
-     importedPeople=await listImportedStudents(db,tenant,approvedPeople);
+     const records=await listImportedStudents(db,tenant,approvedPeople,{includeVerified:true});
+     importedPeople=records.filter(p=>!p.linked);linkedImports=records.filter(p=>p.linked);
     }catch{importFailed=true;}
    }
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachAccommodationAddendum}=staff&&unifiedQR?await import('/student-house-portal/accommodation-addendum.js?v=20261126-visible-addendum'): {};
+   const {attachAccommodationAddendum}=staff&&unifiedQR?await import('/student-house-portal/accommodation-addendum.js?v=20261126-addendum-pdf'): {};
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const student=make('select');
    approvedPeople.sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'));
@@ -2098,7 +2099,7 @@ async function renderPanel(){
      const open=make('button','btn-secondary','Otvoriť záznam v Exceli');open.type='button';
      open.onclick=()=>{pendingRoomFocus={sheet:imported.sheet,search:imported.email||imported.room};navigate('rooms');};
      advanceHost.append(open);
-     attachAccommodationAddendum?.(addendumAction,{name:imported.name,email:imported.email,room:imported.room,roomType:imported.roomType,contract:imported.contractNumber,rent:imported.monthly},tenant);
+     attachAccommodationAddendum?.(addendumAction,{...imported,originalEnd:imported.to,contract:imported.contractNumber,rent:imported.monthly},tenant);
      attachImportedInstallmentDocument(advanceHost,imported,tenant,{
       findProfile:(entry,symbol)=>{
        const email=String(entry.email||'').trim().toLowerCase();
@@ -2113,7 +2114,8 @@ async function renderPanel(){
     const contracts=stays.filter(stay=>matches(stay.resident_id)).sort((a,b)=>String(b.starts_on).localeCompare(String(a.starts_on)));
     advanceHost.append(make('strong','','Kalendár nájomného plateného vopred'));
     const person=peopleById[student.value];
-    if(person)attachAccommodationAddendum?.(addendumAction,{name:person.full_name,email:person.email,room:person.verified_room_number,roomType:roomCatalog.find(r=>String(r.name)===String(person.verified_room_number))?.category,contract:person.verified_contract_number,rent:contracts[0]?.rent},tenant);
+    const linked=person&&linkedImports.find(p=>p.from===person.accommodation_from&&String(p.contractNumber).replace(/\s/g,'')===String(person.verified_contract_number||'').replace(/\s/g,'')&&p.email.toLowerCase()===String(person.email||'').toLowerCase());
+    if(person)attachAccommodationAddendum?.(addendumAction,{...linked,originalEnd:person.accommodation_to,name:person.full_name,email:person.email,room:person.verified_room_number,roomType:roomCatalog.find(r=>String(r.name)===String(person.verified_room_number))?.category,contract:person.verified_contract_number,rent:contracts[0]?.rent},tenant);
     if(!contracts.length){advanceHost.append(make('p','muted','Pre študenta chýba evidovaný nájomný vzťah.'));return;}
     const contract=selector(contracts,'id',stay=>day(stay.starts_on)+' – '+day(stay.ends_on)+' · '+money(stay.rent));
     const firstDue=dateInput(),preview=make('div','data-list');
