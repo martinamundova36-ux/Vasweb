@@ -26,7 +26,6 @@ async function pdfDocument(plan,person,items,bank,images){
  const {jsPDF}=await import('https://esm.sh/jspdf@3.0.4');
  const pdf=new jsPDF({format:'a4',compress:true});
  const [logo,...qrImages]=await Promise.all([studentHouseLogo,...images].map(src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src;})));
- const total=items.reduce((sum,item)=>sum+Math.round(Number(item.amount)*100),0)/100;
  for(let offset=0;offset<items.length;){
   const firstPage=offset===0,capacity=firstPage?5:7;
   if(!firstPage)pdf.addPage();
@@ -38,12 +37,12 @@ async function pdfDocument(plan,person,items,bank,images){
    c.fillText(plan.title||'Dohodnutý splátkový kalendár',55,143,890);
    c.fillStyle='#152d4d';c.font='25px sans-serif';
    const header=['Študent: '+(person.full_name||'—'),'Príjemca: '+bank.beneficiary,'IBAN: '+bank.iban,
-    'Variabilný symbol: '+(bank.symbol||'—'),'Celková suma: '+money.format(total)];
+    'Variabilný symbol: '+(bank.symbol||'—')];
    if(person.from&&person.to)header.push('Obdobie ubytovania: '+date(person.from)+' – '+date(person.to));
    header.forEach((line,i)=>c.fillText(line,55,210+i*40,890));
   }
   for(let i=offset;i<Math.min(offset+capacity,items.length);i++){
-   const y=(firstPage?(person.from&&person.to?455:415):55)+(i-offset)*175;
+   const y=(firstPage?(person.from&&person.to?415:375):55)+(i-offset)*175;
    c.fillStyle='#eef3f9';c.fillRect(55,y,890,160);
    c.fillStyle='#152d4d';c.font='bold 28px sans-serif';
    c.fillText('Splátka '+(i+1)+' / '+items.length,75,y+43);
@@ -100,7 +99,6 @@ export async function contractScheduleDocument(data,items){
  const pdf=new jsPDF({format:'a4',compress:true});
  const qrImages=await Promise.all(images.map(src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src;})));
  const val=v=>String(v??'').trim()||'—';
- const total=items.reduce((n,i)=>n+Math.round(Number(i.amount)*100),0)/100;
  const fmt=v=>v?date(v):'—';
  const firstPageCapacity=3,continuationCapacity=5;
  const face=await new FontFace('SHContractSerif','url(https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/tinos/Tinos-Regular.ttf)').load();
@@ -132,7 +130,7 @@ export async function contractScheduleDocument(data,items){
   left.forEach((line,i)=>text(line,103,302+i*28,18,false,590));
   right.forEach((line,i)=>text(line,722,302+i*28,18,!line.endsWith('—'),575));
   text('Izba / Room: '+val(data.room_type)+' · '+val(data.room_number)+'   |   '+fmt(data.accommodation_from)+' – '+fmt(data.accommodation_to),75,685,23,true);
-  text('Celková suma / Total: '+moneyText(total)+'   |   VS: '+symbol,75,724,26,true);
+  text('Variabilný symbol / Payment reference: '+symbol,75,724,26,true);
   text('Správa pre prijímateľa / Payment note: '+val(data.student_name),75,759,20,true);
   }
   const firstTop=firstPage?793:75;

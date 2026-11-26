@@ -1078,7 +1078,7 @@ function templateCard(tenant,files,kind,title,staff){
    preview.onclick=async()=>{
     preview.disabled=true;status.textContent='';
     try{
-     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=20261126-register');
+     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=20261126-no-total');
      let attachment;
      if(kind==='rules_template'&&latest){
       const url=await fileLink(latest.id,tenant,true);
@@ -1418,7 +1418,7 @@ async function renderResidentDocuments(tenant,staff,own){
     prepare.onclick=async()=>{
      prepare.disabled=true;
      try{
-      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261126-register');
+      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261126-no-total');
       const [{data:answers,error},tenancies,details,approval,currentPeople]=await Promise.all([
        db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number,iban,nationality,telephone,parent_contact_email,school,preferred_room_type,student_submitted_at').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle(),
        workingKind==='contract_draft'?list('tenancies',{resident_id:person.id}):[],
@@ -2004,7 +2004,7 @@ async function renderPanel(){
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261126-advance-period');
+   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261126-no-total');
    const unifiedQR=tenant==='ae045243-98f0-4f22-a736-d33a92f9ba61';
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=20261120-first-due1');
@@ -2076,7 +2076,7 @@ async function renderPanel(){
        const [{data:answers,error},details,{fieldsForDocument},reviews]=await Promise.all([
         db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number,iban,nationality,telephone,parent_contact_email,school,preferred_room_type,student_submitted_at').eq('tenant_id',tenant).eq('resident_id',selectedId).maybeSingle(),
         list('resident_staff_details',{resident_id:selectedId}),
-        import('/student-house-portal/residence-document.js?v=20261126-register'),
+        import('/student-house-portal/residence-document.js?v=20261126-no-total'),
         list('resident_enquiry_reviews',{resident_id:selectedId})
        ]);
        if(error)throw error;
