@@ -191,7 +191,7 @@ function parkingPeriodEnd(start,n){
 function nextDay(date){
  const x=new Date(date+'T12:00:00Z');x.setUTCDate(x.getUTCDate()+1);return x.toISOString().slice(0,10);
 }
-function invoiceDraft(root,labels,data,lang,provider) {
+function invoiceDraft(root,labels,data,lang,provider,reserveNumber) {
  const [,,,,,,customer,plate,,,,close]=labels;
  const [,,,,,,contactEmail,contactPhone,startLabel,endLabel,,,contactNote]=words[lang]||words.sk;
  const [title,print,addressHint,documentNote]=({
@@ -208,7 +208,7 @@ function invoiceDraft(root,labels,data,lang,provider) {
  const fields=new Map();
  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
  for(const [label,value,type,required] of [
-  [customer,data.name,'text',true],[address,'','text',true],[plate,data.plate,'text',false],
+  [customer,data.name,'text',true],[address,data.address||'','text',true],[plate,data.plate,'text',false],
   [contactEmail,data.email,'email',false],[contactPhone,data.phone,'tel',false],
   [startLabel,data.startOn,'date',true],[endLabel,data.endOn,'date',true],
   [number,'','text',true],[issued,today,'date',true],[delivered,'','date',true],[due,'','date',true],
@@ -229,7 +229,10 @@ function invoiceDraft(root,labels,data,lang,provider) {
    input.placeholder=addressHint;
    input.pattern='.*[\\p{L}].*';
   }
-  if(label===number)input.placeholder=documentNote;
+  if(label===number){
+   input.placeholder=data.requestId?({sk:'Pridelí sa automaticky pri vytvorení',en:'Assigned automatically when created',ru:'Присваивается автоматически',uk:'Присвоюється автоматично'})[lang]:documentNote;
+   if(data.requestId){input.readOnly=true;input.required=false;}
+  }
   if(type==='number'){input.min='1';input.max='120';input.step='1';}
   fields.set(label,input);
   field.append(input);
@@ -253,6 +256,7 @@ function invoiceDraft(root,labels,data,lang,provider) {
  });
  fields.get(reference).pattern='[0-9]{1,10}';
  fields.get(reference).maxLength=10;
+ if(data.requestId)fields.get(reference).readOnly=true;
  const start=fields.get(startLabel),end=fields.get(endLabel);
  const pw=paymentWords[lang]||paymentWords.sk;
  if(data.mode==="monthly"&&data.startOn&&data.endOn&&Number.isInteger(Number(data.months))&&Number(data.months)>0){
@@ -285,6 +289,18 @@ function invoiceDraft(root,labels,data,lang,provider) {
   const paper=window.open('','_blank');
   if(!paper)return;
   paper.opener=null;
+  submit.disabled=true;
+  if(data.requestId){
+   try{
+    const assigned=await reserveNumber(data.requestId,start.value,end.value);
+    if(!/^PK\d{10}$/.test(assigned))throw Error('invalid_invoice_number');
+    fields.get(number).value=assigned;
+    fields.get(reference).value=assigned.slice(2);
+   }catch{
+    paper.close();submit.disabled=false;
+    feedback.textContent=({sk:'Číslo faktúry sa nepodarilo prideliť. Skús znova.',en:'Unable to assign invoice number. Try again.',ru:'Не удалось присвоить номер счёта.',uk:'Не вдалося присвоїти номер рахунку.'})[lang];return;
+   }
+  }
   paper.document.title=title;
   const doc=paper.document;
   const add=(tag,value,parent=doc.body)=>{
@@ -339,7 +355,7 @@ function invoiceDraft(root,labels,data,lang,provider) {
  root.append(dialog);
  dialog.showModal();
 }
-export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow, tenant) {
+export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow, tenant, reserveNumber) {
  const [inbox, form, empty, imported, name, plate, email, phone, from, to, amount, status, note] = words[lang] || words.sk;
 
  const copy=editWords[lang]||editWords.sk;
@@ -353,7 +369,7 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
   const bill=element('button',invoice);
   bill.type='button';
   bill.hidden=!provider;
-  bill.addEventListener('click',()=>invoiceDraft(root,labels,data(),lang,provider));
+  bill.addEventListener('click',()=>invoiceDraft(root,labels,data(),lang,provider,reserveNumber));
   const del=element('button',remove);
   del.type='button';
   del.addEventListener('click',async()=>{
@@ -385,14 +401,14 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  const pw=paymentWords[lang]||paymentWords.sk;
  if (requests.length) {
   const ordered = [...requests].sort((a,b) => b.created_at.localeCompare(a.created_at));
-  appendTable(root, [name,plate,email,phone,from,to,amount,pw.label,status,note,actions], ordered.map(request => [
+  appendTable(root, [name,plate,email,phone,({sk:'Trvalý pobyt',en:'Permanent address',ru:'Адрес проживания',uk:'Адреса проживання'})[lang],from,to,amount,pw.label,status,note,actions], ordered.map(request => [
    [request.first_name,request.last_name].filter(Boolean).join(' '),request.vehicle_registration,
-   request.email,request.telephone,request.start_on,request.end_on,request.total_eur,pw[paymentDetails(request.note).mode],request.status,paymentDetails(request.note).note
+   request.email,request.telephone,request.permanent_address||'—',request.start_on,request.end_on,request.total_eur,pw[paymentDetails(request.note).mode],request.status,paymentDetails(request.note).note
   ]),(row,index)=>{
    const request=ordered[index];
    return actionCell(row,request,'request',()=>({
     name:[request.first_name,request.last_name].filter(Boolean).join(' '),plate:request.vehicle_registration,
-    startOn:request.start_on,endOn:request.end_on,months:request.months,
+    requestId:request.id,address:request.permanent_address,startOn:request.start_on,endOn:request.end_on,months:request.months,
     email:request.email,phone:request.telephone,...paymentDetails(request.note)
    }));
   });

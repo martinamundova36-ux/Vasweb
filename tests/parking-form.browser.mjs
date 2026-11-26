@@ -23,9 +23,9 @@ try{
    assert.match(await f('grossLine').innerText(),/369/);
   }
   await f('first').fill('Synthetic');await f('last').fill('Test');await f('email').fill('synthetic@example.invalid');
-  await f('plate').fill('TEST123');await f('consent').check();await f('acknowledge').check();
+  await f('address').fill('Testovacia 1, 811 01 Bratislava, Slovensko');await f('plate').fill('TEST123');await f('consent').check();await f('acknowledge').check();
   await f('send').click();await page.locator('#status.success').waitFor();
-  assert.equal(payload.telephone,'+380501234567');assert.equal(payload.months,6);assert.match(payload.note,/^\[Platba: mesačne\]/);
+  assert.equal(payload.telephone,'+380501234567');assert.equal(payload.months,6);assert.equal(payload.permanent_address,'Testovacia 1, 811 01 Bratislava, Slovensko');assert.match(payload.note,/^\[Platba: mesačne\]/);
   await page.close();
  }
 }finally{await browser.close();}

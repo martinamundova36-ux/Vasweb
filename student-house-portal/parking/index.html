@@ -62,6 +62,7 @@ a{color:#175182}
 <div><label for="last" id="lastLabel">Priezvisko *</label><input id="last" name="family-name" maxlength="80" autocomplete="family-name" required></div>
 <div><label for="email" id="emailLabel">E-mail *</label><input id="email" type="email" name="email" maxlength="254" autocomplete="email" required></div>
 <div><label for="phone" id="phoneLabel">Telefón s predvoľbou</label><div class="phone-grid" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px"><select id="dial" autocomplete="tel-country-code" aria-label="Predvoľba krajiny"></select><input id="phone" type="tel" name="tel" maxlength="30" autocomplete="tel-national" placeholder="900 123 456" aria-describedby="phoneHelp"></div><small id="phoneHelp" class="note"></small></div>
+<div class="full"><label for="address" id="addressLabel">Adresa trvalého pobytu *</label><input id="address" name="street-address" autocomplete="street-address" maxlength="240" minlength="3" required placeholder="Ulica, číslo, PSČ, mesto, krajina"></div>
 <div class="full"><label for="plate" id="plateLabel">ŠPZ / EČV vozidla *</label><input id="plate" maxlength="30" required autocapitalize="characters" autocomplete="off" placeholder="BA123AB"></div>
 </div>
 </fieldset>
@@ -171,8 +172,9 @@ function update(){
  get("grossLine").textContent=words.gross+": "+(valid?euro(base+tax):"—");
  updatePayment();
 }
+const addressCopy={sk:['Adresa trvalého pobytu *','Ulica, číslo, PSČ, mesto, krajina'],en:['Permanent residence address *','Street, number, postal code, city, country'],ru:['Адрес постоянного проживания *','Улица, номер, индекс, город, страна'],uk:['Адреса постійного проживання *','Вулиця, номер, індекс, місто, країна']};
 function translate(){
- const t=texts[lang];
+ const t=texts[lang];get('addressLabel').textContent=addressCopy[lang][0];get('address').placeholder=addressCopy[lang][1];
  document.documentElement.lang=lang;document.title=t.heading+" | Student House Bratislava";
  get("lang").value=lang;get("back").href=pageUrls[lang];
  for(const id of ["heading","intro","langLabel","contactLegend","firstLabel","lastLabel","emailLabel","phoneLabel","plateLabel","periodLegend","startLabel","monthsLabel","endLabel","monthlyLabel","totalLabel","periodNotice","noteLabel","ackText","help"])get(id).textContent=t[id];
@@ -195,13 +197,13 @@ get("form").addEventListener("submit",async e=>{
  status.textContent="";status.className="";
  validatePhone();update();
  const months=Number(get("months").value),start_on=get("start").value,end_on=get("end").value;
- if(!form.checkValidity()||!end_on||months>36||months<1||!Number.isInteger(months)||
+ if(!form.checkValidity()||get("address").value.trim().length<3||!end_on||months>36||months<1||!Number.isInteger(months)||
     start_on<new Date().toISOString().slice(0,10)){
   status.textContent=t.invalid;status.className="error";form.reportValidity();return;
  }
  const payload={
   first_name:get("first").value.trim(),last_name:get("last").value.trim(),email:get("email").value.trim(),
-  telephone:phoneNumber(),vehicle_registration:get("plate").value.trim(),
+  permanent_address:get("address").value.trim(),telephone:phoneNumber(),vehicle_registration:get("plate").value.trim(),
   months,start_on,end_on,note:"[Platba: "+(get("paymentMode").value==="monthly"?"mesačne":"jednorazovo")+"]\n"+get("note").value.trim(),locale:lang,
   privacy_acknowledged:get("consent").checked&&get("acknowledge").checked,website:get("website").value
  };
