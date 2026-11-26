@@ -1817,7 +1817,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-first-payment');
+     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-admin-fee-100');
      const shown=await renderImportedExcel({root:container,db,tenant,lang,focus,list,onRefresh:()=>void refreshLiveView(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='rooms'&&isStaff(),onBack:()=>navigate('overview')});
      if(!shown||generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
@@ -2016,7 +2016,7 @@ async function renderPanel(){
    let importedPeople=[],importFailed=false;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-first-payment');
+     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-admin-fee-100');
      importedPeople=await listImportedStudents(db,tenant,approvedPeople);
     }catch{importFailed=true;}
    }
