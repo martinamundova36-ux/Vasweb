@@ -22,6 +22,42 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   for(const item of result.data||[])edits.set(item.sheet_order+':'+item.row_number+':'+item.column_number,item);
   if((result.data||[]).length<500)break;
  }
+
+ // Financial cells use the same validated schedule as the QR document. Never
+ // assign a resident by room alone (rooms can have multiple occupants).
+ const normalized=v=>String(v??'').trim().toLowerCase();
+ const financialRows=new Map();let financialError=false;
+ try{
+  const load=async table=>{const all=[];for(let start=0;;start+=500){const {data,error}=await db.from(table).select('*').eq('tenant_id',tenant).order('id').range(start,start+499);if(error)throw error;all.push(...(data||[]));if((data||[]).length<500)return all;}};
+  const [people,stays,charges,plans,items,details]=await Promise.all(['residents','tenancies','rent_charges','installment_plans','installment_items','resident_staff_details'].map(load));
+  const {buildStudentHouseSchedule}=await import('./installment-document.js?v=20261125-qr-vat1');
+  for(const sheet of sheets){
+   const header=sheet.payload.rows[0]?.[1]||[],emailIndex=header.findIndex(v=>normalized(v)==='email'),roomIndex=header.findIndex(v=>normalized(v)==='izba');
+   if(emailIndex<0||roomIndex<0)continue;
+   for(const [row,values] of sheet.payload.rows.slice(1)){
+    const cell=i=>edits.get(sheet.sheet_order+':'+row+':'+(i+1))?.value??values[i];
+    const email=normalized(cell(emailIndex));if(!email)continue;
+    const matches=people.filter(p=>p.active&&!p.archived_at&&normalized(p.email)===email&&normalized(p.verified_room_number)===normalized(cell(roomIndex)));
+    if(matches.length!==1)continue;
+    const p=matches[0],contracts=stays.filter(s=>s.resident_id===p.id&&s.starts_on===p.accommodation_from&&s.ends_on===p.accommodation_to),d=details.filter(x=>x.resident_id===p.id);
+    if(contracts.length!==1||d.length!==1)continue;
+    let schedule;
+    try{schedule=buildStudentHouseSchedule({accommodation_from:p.accommodation_from,accommodation_to:p.accommodation_to,monthly_rent:contracts[0].rent,deposit:d[0].deposit_eur,admin_fee:d[0].administration_fee_eur},charges,plans,items,p.id);}catch{continue;}
+    const sums=new Map();
+    for(const entry of schedule){const key=entry.kind==='rent'?entry.period:entry.kind;sums.set(key,(sums.get(key)||0)+Math.round(Number(entry.amount)*100));}
+    header.forEach((label,i)=>{
+     const h=normalized(label),m=h.match(/^(\d{2})\/(\d{2})$/);
+     const key=m?'20'+m[2]+'-'+m[1]:h==='depozit'?'deposit':/^admin\.\s*poplatok$/.test(h)?'administration_fee':null;
+     if(!key)return;
+     const period=key==='deposit'||key==='administration_fee'?String(p.accommodation_from).slice(0,7):key;
+     const months=header.map(v=>String(v??'').match(/^(\d{2})\/(\d{2})$/)).filter(Boolean).map(m=>'20'+m[2]+'-'+m[1]);
+     if(!months.includes(period)||(!sums.has(key)&&key!=='deposit'&&key!=='administration_fee'))return;
+     financialRows.set(sheet.sheet_order+':'+row+':'+(i+1),(sums.get(key)||0)/100);
+    });
+   }
+  }
+ }catch{financialError=true;}
+ if(!isCurrent())return true;
  const section=el('section');section.className='sh-imported-register';
  const style=el('style',`
  .sh-imported-register .import-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
@@ -45,7 +81,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  let selected=sheets.find(x=>x.sheet_name===(focus?.year===2027?'od 02 2027':'od 09 2026'))||sheets[0];
  if(focus?.room)search.value=focus.room;
  const tabButtons=new Map();
- const get=(sheet,row,i,value)=>edits.has(sheet.sheet_order+':'+row+':'+(i+1))?edits.get(sheet.sheet_order+':'+row+':'+(i+1)).value:value??'';
+ const get=(sheet,row,i,value)=>financialRows.has(sheet.sheet_order+':'+row+':'+(i+1))?financialRows.get(sheet.sheet_order+':'+row+':'+(i+1)):edits.has(sheet.sheet_order+':'+row+':'+(i+1))?edits.get(sheet.sheet_order+':'+row+':'+(i+1)).value:value??'';
  const noteFor=(sheet,row,i)=>edits.get(sheet.sheet_order+':'+row+':'+(i+1))?.note??sheet.payload.comments?.[col(i)+row]??'';
  const widthFor=sheet=>Math.max(...sheet.payload.rows.map(([,values])=>values.length));
  const valuesFor=(sheet,row,values)=>Array.from({length:widthFor(sheet)},(_,i)=>get(sheet,row,i,values[i]));
@@ -91,12 +127,14 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    shown++;const tr=body.insertRow();
    for(const i of visibleColumns){
     const cell=el('td'),n=noteFor(sheet,row,i),v=actual[i];
-    const control=writable?btn(v??'',()=>edit(sheet,row,i,values[i])):el('span',v??'');
+    const synced=financialRows.has(sheet.sheet_order+':'+row+':'+(i+1));
+    const control=writable&&!synced?btn(v??'',()=>edit(sheet,row,i,values[i])):el('span',v??'');
+    if(synced){control.title='Predpis zo splátkového kalendára / Scheduled amount';cell.style.boxShadow='inset 3px 0 #17643c';}
     control.className='import-cell';if(n){control.title=n;control.append(el('span',' •'));control.lastChild.className='import-comment';}
     cell.append(control);tr.append(cell);
    }
   }
   count.textContent=w[11]+': '+shown+' / '+Math.max(0,rows.length-1);scroll.replaceChildren(table);
  }
- section.append(style,el('h3',w[0]),tools,tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
+ section.append(style,el('h3',w[0]),tools,el('p',financialError?'Splátkové kalendáre sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':financialRows.size?'Zelené označenie: predpísané sumy zo splátkového kalendára (nie potvrdené úhrady).':'Žiadne zhodné overené splátkové kalendáre. Zobrazené sú pôvodné hodnoty.'),tabs,search,count,scroll);root.append(section);search.oninput=paint;paint();return true;
 }
