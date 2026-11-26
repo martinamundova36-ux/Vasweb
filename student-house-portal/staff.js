@@ -898,6 +898,12 @@ export async function renderStaffScreen(ctx) {
         if(!fullRent||!depositPresent||!adminPresent){
          documentFlow.append(el('p','danger',documentWording.missingRent));return;
         }
+        if(isStudentHouse(ctx.tenant)&&ctx.openInstallments&&ctx.isCurrent()&&documentFlow.isConnected){
+         const scheduleButton=el('button','btn-secondary',({sk:'Vygenerovať splátkový kalendár s QR kódmi',en:'Generate payment schedule with QR codes',ru:'Создать график платежей с QR-кодами',uk:'Створити графік платежів із QR-кодами'})[ctx.lang]||'Vygenerovať splátkový kalendár s QR kódmi');
+         scheduleButton.type='button';scheduleButton.onclick=()=>ctx.openInstallments(person.id);documentFlow.append(scheduleButton);
+         if(original&&contract.isConnected)contract.requestSubmit();
+         return;
+        }
         if(original&&ctx.isCurrent()&&contract.isConnected){contract.requestSubmit();return;}
         const descriptions={rent:documentWording.rent,deposit:documentWording.deposit,administration_fee:documentWording.admin};
         const items=charges.filter(x=>periods.includes(x.period)&&['rent','deposit','administration_fee'].includes(x.kind))
