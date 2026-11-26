@@ -1817,7 +1817,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-admin-fee-100');
+     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-advance-period');
      const shown=await renderImportedExcel({root:container,db,tenant,lang,focus,list,onRefresh:()=>void refreshLiveView(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='rooms'&&isStaff(),onBack:()=>navigate('overview')});
      if(!shown||generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
@@ -2005,7 +2005,7 @@ async function renderPanel(){
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261126-calendar-delivery');
+   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261126-advance-period');
    const unifiedQR=tenant==='ae045243-98f0-4f22-a736-d33a92f9ba61';
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=20261120-first-due1');
@@ -2016,7 +2016,7 @@ async function renderPanel(){
    let importedPeople=[],importFailed=false;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-admin-fee-100');
+     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-advance-period');
      importedPeople=await listImportedStudents(db,tenant,approvedPeople);
     }catch{importFailed=true;}
    }
@@ -2046,7 +2046,7 @@ async function renderPanel(){
     if(!student.value)return;
     const imported=importedById.get(student.value);
     if(imported){
-     advanceHost.append(make('strong','',imported.name+' · izba '+imported.room),make('p','muted','Obdobie a sumy sa načítajú z Excelu. Depozit, administratívny poplatok a prvé nájomné sú splatné do 3 dní od podpisu zmluvy. Ďalšie nájomné je splatné prvý deň príslušného mesiaca. Kód izby z Excelu sa použije ako číslo zmluvy aj variabilný symbol.'));
+     advanceHost.append(make('strong','',imported.name+' · izba '+imported.room),make('p','muted','Obdobie a sumy sa načítajú z Excelu. Depozit, administratívny poplatok a prvé nájomné sú splatné do 3 dní od podpisu zmluvy. Ďalšie nájomné je splatné prvý deň predchádzajúceho mesiaca. Kód izby z Excelu sa použije ako číslo zmluvy aj variabilný symbol.'));
      const open=make('button','btn-secondary','Otvoriť záznam v Exceli');open.type='button';
      open.onclick=()=>{pendingRoomFocus={sheet:imported.sheet,search:imported.email||imported.room};navigate('rooms');};
      advanceHost.append(open);

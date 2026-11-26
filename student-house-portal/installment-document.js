@@ -39,10 +39,11 @@ async function pdfDocument(plan,person,items,bank,images){
    c.fillStyle='#152d4d';c.font='25px sans-serif';
    const header=['Študent: '+(person.full_name||'—'),'Príjemca: '+bank.beneficiary,'IBAN: '+bank.iban,
     'Variabilný symbol: '+(bank.symbol||'—'),'Celková suma: '+money.format(total)];
+   if(person.from&&person.to)header.push('Obdobie ubytovania: '+date(person.from)+' – '+date(person.to));
    header.forEach((line,i)=>c.fillText(line,55,210+i*40,890));
   }
   for(let i=offset;i<Math.min(offset+capacity,items.length);i++){
-   const y=(firstPage?415:55)+(i-offset)*175;
+   const y=(firstPage?(person.from&&person.to?455:415):55)+(i-offset)*175;
    c.fillStyle='#eef3f9';c.fillRect(55,y,890,160);
    c.fillStyle='#152d4d';c.font='bold 28px sans-serif';
    c.fillText('Splátka '+(i+1)+' / '+items.length,75,y+43);
@@ -325,7 +326,7 @@ export function attachImportedInstallmentDocument(host,person,tenant,{findProfil
   generate.disabled=true;status.textContent='Pripravujem QR PDF…';result.replaceChildren();
   try{
    const images=await paymentImages(items,bank);
-   const file=await pdfDocument({title:'Splátkový kalendár'}, {full_name:person.name},items,bank,images);
+   const file=await pdfDocument({title:'Splátkový kalendár'}, {full_name:person.name,from:person.from,to:person.to},items,bank,images);
    if(run!==revision||!form.isConnected){status.textContent='';return;}
    const download=node('button','Stiahnuť PDF');download.type='button';
    download.onclick=()=>{

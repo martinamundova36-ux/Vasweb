@@ -1,3 +1,4 @@
+import {advanceRentDueDate} from './ledger.js';
 import {downloadWorkbook} from './excel.js?v=20261126-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
 import {buildStudentHouseSchedule} from './installment-document.js?v=20261126-register';
@@ -88,7 +89,7 @@ export async function listImportedStudents(db,tenant,profiles){
    for(let count=0;count<24&&month.toISOString().slice(0,7)<=to;count++){
     const period=month.toISOString().slice(0,7);
     const amount=months.has(period)?amountOf(months.get(period)):monthly;
-    if(amount>0)items.push({initial:count===0,...(count===0?{}:{due_on:period+'-01'}),amount,description:'Nájom za '+period+' · izba '+entry.room});
+    if(amount>0)items.push({initial:count===0,...(count===0?{}:{due_on:advanceRentDueDate(period)}),amount,description:'Nájom za '+period+' · izba '+entry.room});
     month.setUTCMonth(month.getUTCMonth()+1);
    }
   }
