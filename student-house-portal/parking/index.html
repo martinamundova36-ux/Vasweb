@@ -61,7 +61,7 @@ a{color:#175182}
 <div><label for="first" id="firstLabel">Meno *</label><input id="first" name="given-name" maxlength="80" autocomplete="given-name" required></div>
 <div><label for="last" id="lastLabel">Priezvisko *</label><input id="last" name="family-name" maxlength="80" autocomplete="family-name" required></div>
 <div><label for="email" id="emailLabel">E-mail *</label><input id="email" type="email" name="email" maxlength="254" autocomplete="email" required></div>
-<div><label for="phone" id="phoneLabel">Telefón s predvoľbou</label><input id="phone" type="tel" name="tel" maxlength="60" autocomplete="tel" placeholder="+421 ..."></div>
+<div><label for="phone" id="phoneLabel">Telefón s predvoľbou</label><div class="phone-grid" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px"><select id="dial" autocomplete="tel-country-code" aria-label="Predvoľba krajiny"></select><input id="phone" type="tel" name="tel" maxlength="30" autocomplete="tel-national" placeholder="900 123 456" aria-describedby="phoneHelp"></div><small id="phoneHelp" class="note"></small></div>
 <div class="full"><label for="plate" id="plateLabel">ŠPZ / EČV vozidla *</label><input id="plate" maxlength="30" required autocapitalize="characters" autocomplete="off" placeholder="BA123AB"></div>
 </div>
 </fieldset>
@@ -71,15 +71,15 @@ a{color:#175182}
 <div><label for="start" id="startLabel">Dátum začiatku *</label><input id="start" type="date" required></div>
 <div><label for="months" id="monthsLabel">Počet mesiacov *</label><input id="months" type="number" min="1" max="36" step="1" value="1" required></div>
 <div><label for="end" id="endLabel">Dátum ukončenia (automaticky)</label><input id="end" type="date" class="readonly" readonly aria-readonly="true"></div>
-<div><label for="monthly" id="monthlyLabel">Cena za mesiac</label><input id="monthly" class="readonly" readonly value="50 €" aria-readonly="true"></div>
+<div><label for="monthly" id="monthlyLabel">Cena za mesiac bez DPH</label><input id="monthly" class="readonly" readonly value="50 € bez DPH" aria-readonly="true"></div>
 </div>
-<div class="price"><small id="totalLabel">Celková cena za zvolený počet mesiacov</small><strong id="total">50 €</strong></div>
-<div class="notice" id="periodNotice">Príklad: od 24. 11. 2026 na 6 mesiacov → do 23. 5. 2027, spolu 300 €. Dátum ukončenia je posledný deň parkovania.</div>
+<div class="price"><small id="totalLabel">Celková cena bez DPH za zvolený počet mesiacov</small><strong id="total">50 € bez DPH</strong><small id="vatLine" style="margin-top:8px">DPH (23 %): 11,50 €</small><small id="grossLine" style="font-size:17px;color:#142b4d;margin-top:5px">Celkom s DPH: 61,50 €</small></div>
+<div class="notice" id="periodNotice">Príklad: od 24. 11. 2026 na 6 mesiacov → do 23. 5. 2027, spolu 300 € bez DPH. Dátum ukončenia je posledný deň parkovania.</div>
 </fieldset>
 <div class="full"><label for="note" id="noteLabel">Poznámka (nepovinné)</label><textarea id="note" maxlength="1000"></textarea></div>
 <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" autocomplete="off" tabindex="-1"></div>
 <label class="consent"><input type="checkbox" id="consent" required><span id="consentText">Oboznámil/a som sa s <a id="privacy" target="_blank" rel="noopener" href="https://studenthousebratislavanew.wordpress.com/gdpr/">informáciami o spracúvaní osobných údajov</a> a žiadam o posúdenie dlhodobého parkovania. *</span></label>
-<label class="consent"><input type="checkbox" id="acknowledge" required><span id="ackText">Rozumiem, že cena je 50 € za mesiac a žiadosť nie je záväznou rezerváciou ani platbou. Parkovacie miesto potvrdí recepcia. *</span></label>
+<label class="consent"><input type="checkbox" id="acknowledge" required><span id="ackText">Rozumiem, že cena je 50 € za mesiac bez DPH a žiadosť nie je záväznou rezerváciou ani platbou. Parkovacie miesto potvrdí recepcia. *</span></label>
 <p class="note" id="help">Odoslaná žiadosť sa zaeviduje a recepcia preverí dostupnosť parkovacieho miesta.</p>
 <div class="actions"><button id="send" type="submit">Odoslať žiadosť</button><span id="status" role="status" aria-live="polite"></span></div>
 </form>
@@ -91,15 +91,52 @@ a{color:#175182}
 "use strict";
 const get=id=>document.getElementById(id);
 const texts={
-sk:{heading:"Žiadosť o dlhodobé parkovanie",intro:"Vyplň dátum začiatku a počet mesiacov. Dátum ukončenia parkovania a celková cena sa vypočítajú automaticky.",langLabel:"Jazyk rozhrania",contactLegend:"Kontaktné údaje",firstLabel:"Meno *",lastLabel:"Priezvisko *",emailLabel:"E-mail *",phoneLabel:"Telefón s predvoľbou",plateLabel:"ŠPZ / EČV vozidla *",periodLegend:"Dĺžka a cena parkovania",startLabel:"Dátum začiatku *",monthsLabel:"Počet mesiacov *",endLabel:"Dátum ukončenia (automaticky)",monthlyLabel:"Cena za mesiac",totalLabel:"Celková cena za zvolený počet mesiacov",periodNotice:"Príklad: od 24. 11. 2026 na 6 mesiacov → do 23. 5. 2027, spolu 300 €. Dátum ukončenia je posledný deň parkovania.",noteLabel:"Poznámka (nepovinné)",gdprBefore:"Oboznámil/a som sa s ",gdprLink:"informáciami o spracúvaní osobných údajov",gdprAfter:" a žiadam o posúdenie dlhodobého parkovania. *",ackText:"Rozumiem, že cena je 50 € za mesiac a žiadosť nie je záväznou rezerváciou ani platbou. Parkovacie miesto potvrdí recepcia. *",help:"Odoslaná žiadosť sa zaeviduje a recepcia preverí dostupnosť parkovacieho miesta.",send:"Odoslať žiadosť",sending:"Odosielam…",success:"✓ Žiadosť bola zaevidovaná. Recepcia preverí dostupnosť parkovacieho miesta.",duplicate:"Žiadosť s rovnakým termínom už bola prijatá. Ďalšia sa nevytvorila.",invalid:"Skontroluj povinné údaje, dátum a počet mesiacov (1 až 36).",fail:"Žiadosť sa nepodarilo uložiť. Skús neskôr alebo kontaktuj recepciu.",limited:"Príliš veľa odoslaní. Skús to neskôr."},
-en:{heading:"Long-term parking request",intro:"Choose a start date and the number of months. The end date and total price are calculated automatically.",langLabel:"Interface language",contactLegend:"Contact information",firstLabel:"First name *",lastLabel:"Last name *",emailLabel:"Email *",phoneLabel:"Phone with country code",plateLabel:"Vehicle registration / licence plate *",periodLegend:"Parking duration and price",startLabel:"Start date *",monthsLabel:"Number of months *",endLabel:"End date (calculated automatically)",monthlyLabel:"Monthly price",totalLabel:"Total price for the selected duration",periodNotice:"Example: 24 November 2026 for 6 months → 23 May 2027, total €300. The end date is the final day of parking.",noteLabel:"Additional notes (optional)",gdprBefore:"I have read the ",gdprLink:"privacy information",gdprAfter:" and request an assessment of long-term parking availability. *",ackText:"I understand that parking costs €50 per month. This application is not a confirmed reservation or payment; reception must approve the parking space. *",help:"Your request will be recorded and reception will check availability.",send:"Send request",sending:"Sending…",success:"✓ Your request was recorded. Reception will check availability.",duplicate:"An identical parking request already exists. No duplicate was created.",invalid:"Check required fields, the start date and the number of months (1–36).",fail:"The request could not be saved. Please try later or contact reception.",limited:"Too many submissions. Please try again later."},
-ru:{heading:"Заявка на долгосрочную парковку",intro:"Укажите дату начала и количество месяцев. Дата окончания и общая стоимость рассчитываются автоматически.",langLabel:"Язык интерфейса",contactLegend:"Контактные данные",firstLabel:"Имя *",lastLabel:"Фамилия *",emailLabel:"Электронная почта *",phoneLabel:"Телефон с кодом страны",plateLabel:"Номер автомобиля *",periodLegend:"Срок и стоимость парковки",startLabel:"Дата начала *",monthsLabel:"Количество месяцев *",endLabel:"Дата окончания (автоматически)",monthlyLabel:"Стоимость в месяц",totalLabel:"Общая стоимость за выбранный срок",periodNotice:"Пример: с 24.11.2026 на 6 месяцев → по 23.05.2027, всего 300 €. Указанная дата окончания — последний день парковки.",noteLabel:"Примечание (необязательно)",gdprBefore:"Я ознакомился(-лась) с ",gdprLink:"информацией о защите персональных данных",gdprAfter:" и прошу рассмотреть заявку на долгосрочную парковку. *",ackText:"Я понимаю, что парковка стоит 50 € в месяц, а заявка не является бронированием или оплатой. Место подтверждает ресепшен. *",help:"Заявка будет зарегистрирована, ресепшен проверит наличие мест.",send:"Отправить заявку",sending:"Отправляем…",success:"✓ Заявка зарегистрирована. Ресепшен проверит наличие мест.",duplicate:"Такая заявка уже есть. Повторная не создана.",invalid:"Проверьте обязательные поля, дату и количество месяцев (1–36).",fail:"Не удалось сохранить заявку. Попробуйте позже или свяжитесь с ресепшеном.",limited:"Слишком много заявок. Повторите позже."},
-uk:{heading:"Заявка на довгострокове паркування",intro:"Укажіть дату початку й кількість місяців. Дата завершення та загальна вартість обчислюються автоматично.",langLabel:"Мова інтерфейсу",contactLegend:"Контактні дані",firstLabel:"Ім’я *",lastLabel:"Прізвище *",emailLabel:"Електронна пошта *",phoneLabel:"Телефон із кодом країни",plateLabel:"Номер автомобіля *",periodLegend:"Тривалість і вартість паркування",startLabel:"Дата початку *",monthsLabel:"Кількість місяців *",endLabel:"Дата завершення (автоматично)",monthlyLabel:"Вартість за місяць",totalLabel:"Загальна вартість за обраний період",periodNotice:"Приклад: з 24.11.2026 на 6 місяців → до 23.05.2027, разом 300 €. Дата завершення — останній день паркування.",noteLabel:"Примітка (необов’язково)",gdprBefore:"Я ознайомився(-лася) з ",gdprLink:"інформацією про захист персональних даних",gdprAfter:" і прошу розглянути заявку на довгострокове паркування. *",ackText:"Я розумію, що паркування коштує 50 € на місяць, а заявка не є бронюванням чи оплатою. Місце підтверджує рецепція. *",help:"Заявку буде зареєстровано, рецепція перевірить наявність місць.",send:"Надіслати заявку",sending:"Надсилаємо…",success:"✓ Заявку зареєстровано. Рецепція перевірить наявність місць.",duplicate:"Така заявка вже існує. Повторну не створено.",invalid:"Перевірте обов’язкові поля, дату та кількість місяців (1–36).",fail:"Не вдалося зберегти заявку. Спробуйте пізніше або зверніться до рецепції.",limited:"Забагато заявок. Спробуйте пізніше."}
+sk:{heading:"Žiadosť o dlhodobé parkovanie",intro:"Vyplň dátum začiatku a počet mesiacov. Dátum ukončenia parkovania a celková cena sa vypočítajú automaticky.",langLabel:"Jazyk rozhrania",contactLegend:"Kontaktné údaje",firstLabel:"Meno *",lastLabel:"Priezvisko *",emailLabel:"E-mail *",phoneLabel:"Telefón s predvoľbou",plateLabel:"ŠPZ / EČV vozidla *",periodLegend:"Dĺžka a cena parkovania",startLabel:"Dátum začiatku *",monthsLabel:"Počet mesiacov *",endLabel:"Dátum ukončenia (automaticky)",monthlyLabel:"Cena za mesiac bez DPH",totalLabel:"Celková cena bez DPH za zvolený počet mesiacov",periodNotice:"Príklad: od 24. 11. 2026 na 6 mesiacov → do 23. 5. 2027, spolu 300 € bez DPH. Dátum ukončenia je posledný deň parkovania.",noteLabel:"Poznámka (nepovinné)",gdprBefore:"Oboznámil/a som sa s ",gdprLink:"informáciami o spracúvaní osobných údajov",gdprAfter:" a žiadam o posúdenie dlhodobého parkovania. *",ackText:"Rozumiem, že cena je 50 € za mesiac bez DPH a žiadosť nie je záväznou rezerváciou ani platbou. Parkovacie miesto potvrdí recepcia. *",help:"Odoslaná žiadosť sa zaeviduje a recepcia preverí dostupnosť parkovacieho miesta.",send:"Odoslať žiadosť",sending:"Odosielam…",success:"✓ Žiadosť bola zaevidovaná. Recepcia preverí dostupnosť parkovacieho miesta.",duplicate:"Žiadosť s rovnakým termínom už bola prijatá. Ďalšia sa nevytvorila.",invalid:"Skontroluj povinné údaje, dátum a počet mesiacov (1 až 36).",fail:"Žiadosť sa nepodarilo uložiť. Skús neskôr alebo kontaktuj recepciu.",limited:"Príliš veľa odoslaní. Skús to neskôr."},
+en:{heading:"Long-term parking request",intro:"Choose a start date and the number of months. The end date and total price are calculated automatically.",langLabel:"Interface language",contactLegend:"Contact information",firstLabel:"First name *",lastLabel:"Last name *",emailLabel:"Email *",phoneLabel:"Phone with country code",plateLabel:"Vehicle registration / licence plate *",periodLegend:"Parking duration and price",startLabel:"Start date *",monthsLabel:"Number of months *",endLabel:"End date (calculated automatically)",monthlyLabel:"Monthly price excluding VAT",totalLabel:"Total price excluding VAT for the selected duration",periodNotice:"Example: 24 November 2026 for 6 months → 23 May 2027, total €300 excluding VAT. The end date is the final day of parking.",noteLabel:"Additional notes (optional)",gdprBefore:"I have read the ",gdprLink:"privacy information",gdprAfter:" and request an assessment of long-term parking availability. *",ackText:"I understand that parking costs €50 per month excluding VAT. This application is not a confirmed reservation or payment; reception must approve the parking space. *",help:"Your request will be recorded and reception will check availability.",send:"Send request",sending:"Sending…",success:"✓ Your request was recorded. Reception will check availability.",duplicate:"An identical parking request already exists. No duplicate was created.",invalid:"Check required fields, the start date and the number of months (1–36).",fail:"The request could not be saved. Please try later or contact reception.",limited:"Too many submissions. Please try again later."},
+ru:{heading:"Заявка на долгосрочную парковку",intro:"Укажите дату начала и количество месяцев. Дата окончания и общая стоимость рассчитываются автоматически.",langLabel:"Язык интерфейса",contactLegend:"Контактные данные",firstLabel:"Имя *",lastLabel:"Фамилия *",emailLabel:"Электронная почта *",phoneLabel:"Телефон с кодом страны",plateLabel:"Номер автомобиля *",periodLegend:"Срок и стоимость парковки",startLabel:"Дата начала *",monthsLabel:"Количество месяцев *",endLabel:"Дата окончания (автоматически)",monthlyLabel:"Стоимость в месяц без НДС",totalLabel:"Общая стоимость без НДС за выбранный срок",periodNotice:"Пример: с 24.11.2026 на 6 месяцев → по 23.05.2027, всего 300 € без НДС. Указанная дата окончания — последний день парковки.",noteLabel:"Примечание (необязательно)",gdprBefore:"Я ознакомился(-лась) с ",gdprLink:"информацией о защите персональных данных",gdprAfter:" и прошу рассмотреть заявку на долгосрочную парковку. *",ackText:"Я понимаю, что парковка стоит 50 € в месяц без НДС, а заявка не является бронированием или оплатой. Место подтверждает ресепшен. *",help:"Заявка будет зарегистрирована, ресепшен проверит наличие мест.",send:"Отправить заявку",sending:"Отправляем…",success:"✓ Заявка зарегистрирована. Ресепшен проверит наличие мест.",duplicate:"Такая заявка уже есть. Повторная не создана.",invalid:"Проверьте обязательные поля, дату и количество месяцев (1–36).",fail:"Не удалось сохранить заявку. Попробуйте позже или свяжитесь с ресепшеном.",limited:"Слишком много заявок. Повторите позже."},
+uk:{heading:"Заявка на довгострокове паркування",intro:"Укажіть дату початку й кількість місяців. Дата завершення та загальна вартість обчислюються автоматично.",langLabel:"Мова інтерфейсу",contactLegend:"Контактні дані",firstLabel:"Ім’я *",lastLabel:"Прізвище *",emailLabel:"Електронна пошта *",phoneLabel:"Телефон із кодом країни",plateLabel:"Номер автомобіля *",periodLegend:"Тривалість і вартість паркування",startLabel:"Дата початку *",monthsLabel:"Кількість місяців *",endLabel:"Дата завершення (автоматично)",monthlyLabel:"Вартість за місяць без ПДВ",totalLabel:"Загальна вартість без ПДВ за обраний період",periodNotice:"Приклад: з 24.11.2026 на 6 місяців → до 23.05.2027, разом 300 € без ПДВ. Дата завершення — останній день паркування.",noteLabel:"Примітка (необов’язково)",gdprBefore:"Я ознайомився(-лася) з ",gdprLink:"інформацією про захист персональних даних",gdprAfter:" і прошу розглянути заявку на довгострокове паркування. *",ackText:"Я розумію, що паркування коштує 50 € на місяць без ПДВ, а заявка не є бронюванням чи оплатою. Місце підтверджує рецепція. *",help:"Заявку буде зареєстровано, рецепція перевірить наявність місць.",send:"Надіслати заявку",sending:"Надсилаємо…",success:"✓ Заявку зареєстровано. Рецепція перевірить наявність місць.",duplicate:"Така заявка вже існує. Повторну не створено.",invalid:"Перевірте обов’язкові поля, дату та кількість місяців (1–36).",fail:"Не вдалося зберегти заявку. Спробуйте пізніше або зверніться до рецепції.",limited:"Забагато заявок. Спробуйте пізніше."}
 };
 const pageUrls={sk:"https://studenthousebratislavanew.wordpress.com/parkovanie/",en:"https://studenthousebratislavanew.wordpress.com/en/parking/",ru:"https://studenthousebratislavanew.wordpress.com/ru/parking/",uk:"https://studenthousebratislavanew.wordpress.com/ua/parking/"};
 const privacyUrls={sk:"https://studenthousebratislavanew.wordpress.com/gdpr/",en:"https://studenthousebratislavanew.wordpress.com/en/privacy-policy/",ru:"https://studenthousebratislavanew.wordpress.com/ru/privacy-policy/",uk:"https://studenthousebratislavanew.wordpress.com/ua/privacy-policy/"};
 const search=new URLSearchParams(location.search);
-let lang=["sk","en","ru","uk"].includes(search.get("lang"))?search.get("lang"):"sk";
+let lang=search.get("lang")==="ua"?"uk":["sk","en","ru","uk"].includes(search.get("lang"))?search.get("lang"):"sk";
+const dialing=Object.fromEntries("AF:93 AL:355 DZ:213 AS:1 AD:376 AO:244 AI:1 AG:1 AR:54 AM:374 AW:297 AU:61 AT:43 AZ:994 BS:1 BH:973 BD:880 BB:1 BY:375 BE:32 BZ:501 BJ:229 BM:1 BT:975 BO:591 BA:387 BW:267 BR:55 BN:673 BG:359 BF:226 BI:257 KH:855 CM:237 CA:1 CV:238 KY:1 CF:236 TD:235 CL:56 CN:86 CO:57 KM:269 CG:242 CD:243 CR:506 CI:225 HR:385 CU:53 CY:357 CZ:420 DK:45 DJ:253 DM:1 DO:1 EC:593 EG:20 SV:503 GQ:240 ER:291 EE:372 SZ:268 ET:251 FJ:679 FI:358 FR:33 GA:241 GM:220 GE:995 DE:49 GH:233 GI:350 GR:30 GL:299 GD:1 GT:502 GN:224 GW:245 GY:592 HT:509 HN:504 HK:852 HU:36 IS:354 IN:91 ID:62 IR:98 IQ:964 IE:353 IL:972 IT:39 JM:1 JP:81 JO:962 KZ:7 KE:254 KI:686 XK:383 KW:965 KG:996 LA:856 LV:371 LB:961 LS:266 LR:231 LY:218 LI:423 LT:370 LU:352 MO:853 MG:261 MW:265 MY:60 MV:960 ML:223 MT:356 MH:692 MR:222 MU:230 MX:52 FM:691 MD:373 MC:377 MN:976 ME:382 MA:212 MZ:258 MM:95 NA:264 NR:674 NP:977 NL:31 NZ:64 NI:505 NE:227 NG:234 KP:850 MK:389 NO:47 OM:968 PK:92 PW:680 PS:970 PA:507 PG:675 PY:595 PE:51 PH:63 PL:48 PT:351 PR:1 QA:974 RO:40 RU:7 RW:250 KN:1 LC:1 VC:1 WS:685 SM:378 ST:239 SA:966 SN:221 RS:381 SC:248 SL:232 SG:65 SK:421 SI:386 SB:677 SO:252 ZA:27 KR:82 SS:211 ES:34 LK:94 SD:249 SR:597 SE:46 CH:41 SY:963 TW:886 TJ:992 TZ:255 TH:66 TL:670 TG:228 TO:676 TT:1 TN:216 TR:90 TM:993 TV:688 UG:256 UA:380 AE:971 GB:44 US:1 UY:598 UZ:998 VU:678 VA:39 VE:58 VN:84 YE:967 ZM:260 ZW:263 AQ:672 AX:358 BL:590 BQ:599 CC:61 CK:682 CW:599 CX:61 EH:212 FK:500 FO:298 GF:594 GG:44 GP:590 GU:1 IM:44 IO:246 JE:44 MF:590 MP:1 MQ:596 MS:1 NC:687 NF:672 NU:683 PF:689 PM:508 PN:64 RE:262 SH:290 SJ:47 SX:1 TC:1 TK:690 VG:1 VI:1 WF:681 YT:262".split(' ').map(x=>x.split(':')));
+const localCopy={
+ sk:{country:"Predvoľba krajiny",phone:"Číslo bez medzinárodnej predvoľby",invalid:"Skontroluj telefónne číslo a predvoľbu.",net:"bez DPH",vat:"DPH (23 %)",gross:"Celkom s DPH"},
+ en:{country:"Country calling code",phone:"Number without international prefix",invalid:"Check your phone number and country code.",net:"excluding VAT",vat:"VAT (23%)",gross:"Total including VAT"},
+ ru:{country:"Код страны",phone:"Номер без международного кода",invalid:"Проверьте номер телефона и код страны.",net:"без НДС",vat:"НДС (23 %)",gross:"Всего с НДС"},
+ uk:{country:"Код країни",phone:"Номер без міжнародного коду",invalid:"Перевірте номер телефону та код країни.",net:"без ПДВ",vat:"ПДВ (23 %)",gross:"Разом з ПДВ"}
+};
+function populateDial(){
+ const el=get("dial"),previous=el.value||"SK",names=new Intl.DisplayNames([lang],{type:"region"});
+ const countries=Object.keys(dialing).map(code=>({code,name:names.of(code)})).sort((a,b)=>a.name.localeCompare(b.name,lang));
+ el.replaceChildren(...countries.map(x=>new Option(x.name+" (+"+dialing[x.code]+")",x.code)));
+ el.value=previous;el.setAttribute("aria-label",localCopy[lang].country);
+ get("phoneHelp").textContent=localCopy[lang].phone;
+}
+function phoneNumber(){
+ const raw=get("phone").value.trim();
+ if(!raw)return "";
+ const compact=raw.replace(/[\s().-]/g,"");
+ let number;
+ if(compact.startsWith("+"))number=compact;
+ else if(compact.startsWith("00"))number="+"+compact.slice(2);
+ else {
+  if(!/^\d+$/.test(compact)||!dialing[get("dial").value])return null;
+  const country=get("dial").value;
+  const national=["SK","GB","UA","DE","FR","AT","PL","HU","RO","NL","BE","CH"].includes(country)&&compact.startsWith("0")?compact.slice(1):compact;
+  number="+"+dialing[country]+national;
+ }
+ return /^\+[1-9]\d{6,14}$/.test(number)?number:null;
+}
+function validatePhone(){
+ get("phone").setCustomValidity(phoneNumber()===null?localCopy[lang].invalid:"");
+}
+get("phone").addEventListener("input",validatePhone);
+get("dial").addEventListener("change",validatePhone);
+function euro(cents){
+ return new Intl.NumberFormat(lang,{style:"currency",currency:"EUR",minimumFractionDigits:2}).format(cents/100);
+}
 function endDate(start,n){
  const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(start||"");
  if(!m||!Number.isInteger(n)||n<1||n>36)return "";
@@ -115,7 +152,11 @@ function update(){
  const n=Number(get("months").value);
  const end=endDate(get("start").value,n);
  get("end").value=end;
- get("total").textContent=Number.isInteger(n)&&n>=1&&n<=36?(n*50).toLocaleString(lang==="sk"?"sk-SK":lang==="en"?"en-GB":lang==="ru"?"ru-RU":"uk-UA")+" €":"—";
+ const valid=Number.isInteger(n)&&n>=1&&n<=36,words=localCopy[lang],base=n*5000,tax=Math.round(base*23/100);
+ get("monthly").value=euro(5000)+" "+words.net;
+ get("total").textContent=valid?euro(base)+" "+words.net:"—";
+ get("vatLine").textContent=words.vat+": "+(valid?euro(tax):"—");
+ get("grossLine").textContent=words.gross+": "+(valid?euro(base+tax):"—");
 }
 function translate(){
  const t=texts[lang];
@@ -125,7 +166,7 @@ function translate(){
  get("consentText").replaceChildren(document.createTextNode(t.gdprBefore),get("privacy"),document.createTextNode(t.gdprAfter));
  get("privacy").textContent=t.gdprLink;get("privacy").href=privacyUrls[lang];
  get("send").textContent=t.send;
- update();
+ populateDial();validatePhone();update();
 }
 get("start").addEventListener("change",update);
 get("months").addEventListener("input",update);
@@ -136,7 +177,7 @@ get("form").addEventListener("submit",async e=>{
  e.preventDefault();
  const form=e.currentTarget,t=texts[lang],status=get("status"),send=get("send");
  status.textContent="";status.className="";
- update();
+ validatePhone();update();
  const months=Number(get("months").value),start_on=get("start").value,end_on=get("end").value;
  if(!form.checkValidity()||!end_on||months>36||months<1||!Number.isInteger(months)||
     start_on<new Date().toISOString().slice(0,10)){
@@ -144,7 +185,7 @@ get("form").addEventListener("submit",async e=>{
  }
  const payload={
   first_name:get("first").value.trim(),last_name:get("last").value.trim(),email:get("email").value.trim(),
-  telephone:get("phone").value.trim(),vehicle_registration:get("plate").value.trim(),
+  telephone:phoneNumber(),vehicle_registration:get("plate").value.trim(),
   months,start_on,end_on,note:get("note").value.trim(),locale:lang,
   privacy_acknowledged:get("consent").checked&&get("acknowledge").checked,website:get("website").value
  };
@@ -156,7 +197,7 @@ get("form").addEventListener("submit",async e=>{
   const answer=await response.json();
   if(response.ok&&answer.ok){
    status.className="success";status.textContent=answer.duplicate?t.duplicate:t.success;
-   if(!answer.duplicate){form.reset();update();}
+   if(!answer.duplicate){form.reset();get("dial").value="SK";validatePhone();update();}
   }else{
    status.className="error";status.textContent=response.status===429?t.limited:t.fail;
   }
