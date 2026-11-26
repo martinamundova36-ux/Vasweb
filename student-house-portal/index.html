@@ -1816,7 +1816,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-addendum');
+     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-visible-addendum');
      const shown=await renderImportedExcel({root:container,db,tenant,lang,focus,list,onRefresh:()=>void refreshLiveView(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='rooms'&&isStaff(),onBack:()=>navigate('overview')});
      if(!shown||generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
@@ -2015,13 +2015,13 @@ async function renderPanel(){
    let importedPeople=[],importFailed=false,stayStatus;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261126-addendum');
+     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261126-visible-addendum');
      stayStatus=registerStayStatus;
      importedPeople=await listImportedStudents(db,tenant,approvedPeople);
     }catch{importFailed=true;}
    }
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachAccommodationAddendum}=staff&&unifiedQR?await import('/student-house-portal/accommodation-addendum.js'): {};
+   const {attachAccommodationAddendum}=staff&&unifiedQR?await import('/student-house-portal/accommodation-addendum.js?v=20261126-visible-addendum'): {};
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const student=make('select');
    approvedPeople.sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'));

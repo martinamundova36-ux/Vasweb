@@ -56,8 +56,14 @@ export function accommodationAddendum(data,provider){
 export function attachAccommodationAddendum(host,person,tenant){
  const provider=providerDetails(tenant);
  if(!provider||!person.name)return;
- const panel=document.createElement('details'),summary=document.createElement('summary'),form=document.createElement('form');
- summary.textContent='Vygenerovať dodatok';panel.append(summary,form);
+ const panel=document.createElement('dialog'),open=document.createElement('button'),title=document.createElement('h3'),form=document.createElement('form');
+ panel.style.cssText='width:min(560px,90vw);max-height:85vh;overflow:auto;padding:20px;border:1px solid #cbd8e8;border-radius:12px';
+ panel.setAttribute('aria-label','Vygenerovať dodatok');
+ open.type='button';open.textContent='Vygenerovať dodatok';
+ title.textContent='Dodatok k ubytovaniu · '+person.name;
+ panel.append(title,form);
+ open.addEventListener('click',()=>{document.body.append(panel);panel.showModal();});
+ panel.addEventListener('close',()=>panel.remove());
  const field=(caption,type,value,required=true)=>{
   const label=document.createElement('label'),input=document.createElement('input');
   label.textContent=caption;input.type=type;input.value=value??'';input.required=required;label.append(input);form.append(label);return input;
@@ -69,8 +75,9 @@ export function attachAccommodationAddendum(host,person,tenant){
  const address=field('Bydlisko ubytovaného','text',person.address,false);
  const from=field('Predĺženie od','date',''),to=field('Predĺženie do','date','');
  const rent=field('Mesačné nájomné (€)','number',person.rent);rent.min='0.01';rent.step='0.01';
- const submit=document.createElement('button'),status=document.createElement('p');
- submit.type='submit';submit.textContent='Stiahnuť dodatok (.docx)';status.setAttribute('role','status');form.append(submit,status);
+ const submit=document.createElement('button'),close=document.createElement('button'),status=document.createElement('p');
+ close.type='button';close.textContent='Zavrieť';close.addEventListener('click',()=>panel.close());
+ submit.type='submit';submit.textContent='Stiahnuť dodatok (.docx)';status.setAttribute('role','status');form.append(submit,close,status);
  form.addEventListener('submit',event=>{
   event.preventDefault();
   try{
@@ -80,5 +87,5 @@ export function attachAccommodationAddendum(host,person,tenant){
    setTimeout(()=>URL.revokeObjectURL(url),1000);status.textContent='Dodatok je pripravený.';
   }catch(error){status.textContent=error.message||'Dodatok sa nepodarilo vytvoriť.';}
  });
- host.append(panel);
+ host.append(open);
 }

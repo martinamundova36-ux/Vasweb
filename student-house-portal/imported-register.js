@@ -1,4 +1,4 @@
-import {attachAccommodationAddendum} from './accommodation-addendum.js';
+import {attachAccommodationAddendum} from './accommodation-addendum.js?v=20261126-visible-addendum';
 import {advanceRentDueDate} from './ledger.js';
 import {downloadWorkbook} from './excel.js?v=20261126-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
@@ -401,6 +401,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   const fromIndex=header.findIndex(v=>normalized(v)==='od'),toIndex=header.findIndex(v=>normalized(v)==='do');
   const hasStayDates=fromIndex>=0&&toIndex>=0;
   const indexOf=label=>header.findIndex(value=>normalized(value)===label);
+  const roomIndex=indexOf('izba');
   filterLabel.hidden=!hasStayDates;
   const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
   for(const i of visibleColumns){const cell=el('th',header[i]??'');cell.scope='col';head.append(cell);}
@@ -417,18 +418,21 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
     const control=writable&&!synced&&typeof row==='number'?btn(v??'',()=>edit(sheet,row,i,values[i])):el('span',v??'');
     if(synced){control.title='Údaj zo systému / Synchronized field';cell.style.boxShadow='inset 3px 0 #17643c';}
     control.className='import-cell';if(n){control.title=n;control.append(el('span',' •'));control.lastChild.className='import-comment';}
-    cell.append(control);tr.append(cell);
+    cell.append(control);
+    if(hasStayDates&&i===roomIndex){
+     const name=[actual[indexOf('meno')],actual[indexOf('priezvisko')]].map(v=>String(v??'').trim()).filter(Boolean).join(' ');
+     const contract=actual[indexOf('kód izby')]||actual[indexOf('číslo zmluvy')];
+     const resident=residentRows.get(cellKey(sheet,row,0));
+     const rent=resident?.stay?.rent??String(actual[indexOf('splátky')]??'').replace(',','.');
+     if(name)attachAccommodationAddendum(cell,{name,contract,room:v,roomType:actual[indexOf('typ izby')],email:actual[indexOf('email')],address:actual[indexOf('trvalé bydlisko')],rent},tenant);
+    }
+    tr.append(cell);
    }
    if(extraHeaders.has(sheet.sheet_order)){const cell=tr.insertCell(),key=cellKey(sheet,row,0),receipt=receipts.get(key),resident=residentRows.get(key);
      if(receipt)cell.append(btn('Evidovať platbu',()=>recordReceipt(receipt)));
      if(resident?.detail&&receipt?.charges.some(c=>c.kind==='rent'))cell.append(btn('Upraviť poplatky',()=>editVerifiedFees(resident)));
      if(resident?.stay)cell.append(btn('Opraviť nájomné',()=>correctMonthlyRent(resident)));
-     const name=[actual[indexOf('meno')],actual[indexOf('priezvisko')]].map(v=>String(v??'').trim()).filter(Boolean).join(' ');
-     const contract=actual[indexOf('číslo zmluvy')]||actual[indexOf('kód izby')];
-     if(name&&contract&&hasStayDates){
-      const rent=resident?.stay?.rent??String(actual[indexOf('splátky')]??'').replace(',','.');
-      attachAccommodationAddendum(cell,{name,contract,room:actual[indexOf('izba')],roomType:actual[indexOf('typ izby')],email:actual[indexOf('email')],address:actual[indexOf('trvalé bydlisko')],rent},tenant);
-     }
+
    }
   }
   count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
