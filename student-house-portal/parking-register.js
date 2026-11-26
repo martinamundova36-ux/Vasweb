@@ -38,10 +38,10 @@ const editWords = {
  uk:['Виберіть клітинку тестового запису для редагування.','Редагувати клітинку','Значення','Зберегти','Скасувати','Не вдалося зберегти. Спробуйте ще раз.']
 };
 const cellVatWords={
- sk:{basis:'Výpočet DPH',gross:'Bez prepočtu – ponechať zadanú sumu',net:'Pripočítať DPH (23 %)',netTotal:'Základ bez DPH',vat:'DPH 23 %',grossTotal:'Celkom s DPH',saved:'Suma na uloženie',hint:'Pri pripočítaní DPH sa zadaná suma zvýši o 23 %. Bez prepočtu zostane nezmenená.'},
- en:{basis:'VAT calculation',gross:'No conversion – keep entered amount',net:'Add VAT (23%)',netTotal:'Net amount',vat:'VAT 23%',grossTotal:'Total incl. VAT',saved:'Amount to save',hint:'Adding VAT increases the entered amount by 23%. No conversion keeps the amount unchanged.'},
- ru:{basis:'Расчёт НДС',gross:'Без пересчёта – сохранить сумму',net:'Добавить НДС (23 %)',netTotal:'Сумма без НДС',vat:'НДС 23 %',grossTotal:'Всего с НДС',saved:'Сумма для сохранения',hint:'При добавлении НДС введённая сумма увеличится на 23 %. Без пересчёта сумма не изменится.'},
- uk:{basis:'Розрахунок ПДВ',gross:'Без перерахунку – зберегти суму',net:'Додати ПДВ (23 %)',netTotal:'Сума без ПДВ',vat:'ПДВ 23 %',grossTotal:'Разом з ПДВ',saved:'Сума для збереження',hint:'При додаванні ПДВ введена сума збільшиться на 23 %. Без перерахунку сума не зміниться.'}
+ sk:{basis:'Výpočet DPH',gross:'Bez DPH / ponechať sumu',net:'S DPH – pripočítať 23 %',netTotal:'Základ bez DPH',vat:'DPH 23 %',grossTotal:'Celkom s DPH',saved:'Suma na uloženie',hint:'Po výbere S DPH sa hodnota automaticky zvýši o 23 %. Pre zmenu základu vyber Bez DPH. Uloží sa zobrazená hodnota.'},
+ en:{basis:'VAT calculation',gross:'Without VAT / keep amount',net:'Including VAT – add 23%',netTotal:'Net amount',vat:'VAT 23%',grossTotal:'Total incl. VAT',saved:'Amount to save',hint:'Selecting VAT increases the value by 23%. Switch back to edit the base. The displayed value is saved.'},
+ ru:{basis:'Расчёт НДС',gross:'Без НДС / сохранить сумму',net:'С НДС – добавить 23 %',netTotal:'Сумма без НДС',vat:'НДС 23 %',grossTotal:'Всего с НДС',saved:'Сумма для сохранения',hint:'При выборе НДС сумма увеличится на 23 %. Вернитесь к сумме без НДС для изменения базы. Сохраняется отображаемая сумма.'},
+ uk:{basis:'Розрахунок ПДВ',gross:'Без ПДВ / зберегти суму',net:'З ПДВ – додати 23 %',netTotal:'Сума без ПДВ',vat:'ПДВ 23 %',grossTotal:'Разом з ПДВ',saved:'Сума для збереження',hint:'При виборі ПДВ сума збільшиться на 23 %. Поверніться до суми без ПДВ для зміни бази. Зберігається відображена сума.'}
 };
 export function parkingVatAmounts(value,basis){
  const raw=String(value??'').trim();
@@ -73,6 +73,7 @@ function editCell(root, copy, heading, value, save, vatLang=null) {
  submit.type='submit';
  form.append(element('h3',title+' · '+heading),field);
  let basis=null;
+ let originalBase=null;
  if(vatLang){
   const w=cellVatWords[vatLang]||cellVatWords.sk;
   basis=element('select');basis.name='vatBasis';
@@ -82,7 +83,7 @@ function editCell(root, copy, heading, value, save, vatLang=null) {
   const preview=element('div');preview.setAttribute('aria-live','polite');preview.style.cssText='margin:12px 0;padding:12px;background:#edf3f9;border-radius:8px;line-height:1.6';
   const money=new Intl.NumberFormat(vatLang,{style:'currency',currency:'EUR'});
   const refresh=()=>{
-   const amounts=parkingVatAmounts(input.value,basis.value);
+   const amounts=parkingVatAmounts(basis.value==='net'?originalBase:input.value,basis.value);
    basis.disabled=!amounts;preview.replaceChildren();
    if(amounts){
     if(basis.value==='net'){for(const [label,key] of [[w.netTotal,'net'],[w.vat,'vat'],[w.grossTotal,'gross']])preview.append(element('div',label+': '+money.format(amounts[key]/100)));}
@@ -90,7 +91,20 @@ function editCell(root, copy, heading, value, save, vatLang=null) {
    }
    preview.append(element('small',w.hint));
   };
-  input.addEventListener('input',refresh);basis.addEventListener('change',refresh);
+  input.addEventListener('input',refresh);
+  basis.addEventListener('change',()=>{
+   if(basis.value==='net'){
+    const calculated=parkingVatAmounts(input.value,'net');
+    if(calculated){
+     originalBase=input.value;
+     input.value=(calculated.gross/100).toFixed(2).replace('.',vatLang==='en'?'.':',');
+     input.readOnly=true;
+    }else basis.value='gross';
+   }else if(originalBase!==null){
+    input.value=originalBase;originalBase=null;input.readOnly=false;
+   }
+   refresh();
+  });
   form.append(vatLabel,preview);refresh();
  }
  form.append(error,cancel,submit);
@@ -102,8 +116,8 @@ function editCell(root, copy, heading, value, save, vatLang=null) {
   submit.disabled=cancel.disabled=input.disabled=true;
   error.textContent='';
   try {
-   const amount=basis?parkingVatAmounts(input.value,basis.value):null;
-   await save(amount?String(amount.gross/100):input.value);
+   // The field already contains the final amount; never add VAT a second time.
+   await save(input.value);
    dialog.close();
   } catch {
    error.textContent=errorLabel;
