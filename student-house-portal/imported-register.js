@@ -99,7 +99,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
     // Never claim a free bed or overwrite an ambiguous imported record.
     const target=row??'resident:'+person.id;
     if(row===null){appended.push([target,[]]);appendRows.set(sheet.sheet_order,appended);}
-    residentRows.set(cellKey(sheet,target,0),{person,detail});
+    residentRows.set(cellKey(sheet,target,0),{person,detail,stay});
     const monthCharges=own.filter(c=>months.includes(c.period));
     const monthSchedule=schedule.filter(c=>months.includes(c.period));
     const paymentBalance=c=>chargeBalance(c,ownAllocations,[]).paid;
@@ -238,6 +238,35 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    }catch{status.textContent='Zmenu sa nepodarilo uložiť. Skontroluj úhrady alebo splátkové dohody a obnov evidenciu.';save.disabled=false;cancel.disabled=false;}
   };
  }
+ function correctMonthlyRent({person,stay}){
+  const dialog=el('dialog'),form=el('form'),status=el('p'),value=el('input');
+  form.dataset.liveDirty='true';
+  const label=el('label','Overené mesačné nájomné (€)');
+  value.type='number';value.required=true;value.min='0.01';value.max='100000';value.step='0.01';value.value=stay.rent;
+  label.append(value);
+  const cancel=btn(w[9],()=>dialog.close()),save=el('button','Potvrdiť zmenu nájomného');save.type='submit';
+  form.append(el('h3','Oprava zmluvného nájomného · '+person.full_name),
+   el('p','Zadaj schválenú sumu zmluvného nájomného. Oprava je dostupná pre kompletný kalendár bez úhrady alebo dohody k nájomnému.'),
+   label,status,cancel,save);
+  dialog.append(form);section.append(dialog);
+  dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.showModal();
+  form.onsubmit=async event=>{
+   event.preventDefault();
+   if(save.disabled||!isCurrent()||!form.reportValidity())return;
+   save.disabled=true;cancel.disabled=true;
+   try{
+    const amount=cents(value.value)/100;
+    const {data,error}=await db.from('tenancies').update({rent:amount}).eq('tenant_id',tenant).eq('resident_id',person.id).eq('id',stay.id).eq('rent',stay.rent).select('id');
+    if(error||data?.length!==1)throw Error(error?.message||'stale_tenancy');
+    delete form.dataset.liveDirty;dialog.close();onRefresh();
+   }catch(error){
+    status.textContent=error.message.includes('rent_has_payment_or_installment_plan')
+      ?'K nájomnému je priradená úhrada alebo splátková dohoda. Evidovaný kalendár vyžaduje individuálnu opravu.'
+      :'Nájomné sa nepodarilo aktualizovať. Obnov evidenciu a skontroluj úplnosť predpisov.';
+    save.disabled=false;cancel.disabled=false;
+   }
+  };
+ }
  function recordReceipt({person,charges}){
   const dialog=el('dialog'),form=el('form'),target=el('select'),value=el('input'),received=el('input'),method=el('select'),reference=el('input'),status=el('p');
   form.dataset.liveDirty='true';
@@ -296,7 +325,8 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    }
    if(extraHeaders.has(sheet.sheet_order)){const cell=tr.insertCell(),key=cellKey(sheet,row,0),receipt=receipts.get(key),resident=residentRows.get(key);
      if(receipt)cell.append(btn('Evidovať platbu',()=>recordReceipt(receipt)));
-     if(resident?.detail&&receipt?.charges.some(c=>c.kind==='rent'))cell.append(btn('Upraviť poplatky',()=>editVerifiedFees(resident)));}
+     if(resident?.detail&&receipt?.charges.some(c=>c.kind==='rent'))cell.append(btn('Upraviť poplatky',()=>editVerifiedFees(resident)));
+     if(resident?.stay)cell.append(btn('Opraviť nájomné',()=>correctMonthlyRent(resident)));}
   }
   count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
  }
