@@ -1,4 +1,4 @@
-import {paymentImages,studentHouseLogo} from './installment-document.js?v=parking-payment';
+import {paymentImages} from './installment-document.js?v=parking-payment';
 import {providerDetails} from './student-house-provider.js';
 import {downloadWorkbook} from './excel.js';
 const words = {
@@ -265,18 +265,11 @@ function appendWorkbookGrid(root, history, copy, saveCell, headers, rowActions,l
 }
 
 const actionWords={
- sk:['Akcie','Vymazať','Pripraviť faktúru','Natrvalo vymazať tento záznam?','Vymazanie zlyhalo.','Návrh faktúry – parkovanie','Odberateľ','EČV','Obdobie','Suma (€)','Tlačiť návrh','Zavrieť','Pracovný podklad k faktúre'],
- en:['Actions','Delete','Prepare invoice','Permanently delete this record?','Deletion failed.','Draft invoice – parking','Customer','Registration plate','Period','Amount (€)','Print draft','Close','Invoice working document'],
- ru:['Действия','Удалить','Подготовить счёт','Удалить эту запись навсегда?','Не удалось удалить запись.','Черновик счёта – парковка','Клиент','Номер автомобиля','Период','Сумма (€)','Печать черновика','Закрыть','Рабочий документ для счёта'],
- uk:['Дії','Видалити','Підготувати рахунок','Видалити цей запис назавжди?','Не вдалося видалити запис.','Чернетка рахунку – паркування','Клієнт','Номер авто','Період','Сума (€)','Друк чернетки','Закрити','Робочий документ для рахунку']
+ sk:['Akcie','Vymazať','Vygenerovať splátkový kalendár','Natrvalo vymazať tento záznam?','Vymazanie zlyhalo.','Zavrieť'],
+ en:['Actions','Delete','Generate payment schedule','Permanently delete this record?','Deletion failed.','Close'],
+ ru:['Действия','Удалить','Создать график платежей','Удалить эту запись навсегда?','Не удалось удалить запись.','Закрыть'],
+ uk:['Дії','Видалити','Створити графік платежів','Видалити цей запис назавжди?','Не вдалося видалити запис.','Закрити']
 };
-const billingWords={
- sk:['Dodávateľ','Fakturačná adresa','Číslo faktúry','Dátum vystavenia','Dátum dodania','Splatnosť','Počet mesiacov','Cena za mesiac bez DPH','Základ bez DPH','DPH (23 %)','Celkom s DPH','Variabilný symbol','Prenájom parkovacieho miesta'],
- en:['Supplier','Billing address','Invoice number','Issue date','Supply date','Due date','Months','Monthly price excl. VAT','Net amount','VAT (23%)','Total incl. VAT','Payment reference','Parking space rental'],
- ru:['Поставщик','Платёжный адрес','Номер счёта','Дата выставления','Дата оказания услуги','Срок оплаты','Месяцев','Цена за месяц без НДС','Сумма без НДС','НДС (23%)','Итого с НДС','Код платежа','Аренда парковочного места'],
- uk:['Постачальник','Платіжна адреса','Номер рахунку','Дата виставлення','Дата надання послуги','Строк оплати','Місяців','Ціна за місяць без ПДВ','Сума без ПДВ','ПДВ (23%)','Разом з ПДВ','Код платежу','Оренда паркомісця']
-};
-
 const paymentWords={
  sk:{label:'Spôsob úhrady',monthly:'Mesačne',full:'Jednorazovo',unknown:'Nezadaný',period:'Fakturovaný mesiac'},
  en:{label:'Payment frequency',monthly:'Monthly',full:'One payment',unknown:'Not specified',period:'Billing month'},
@@ -287,195 +280,92 @@ function paymentDetails(note){
  const raw=String(note??''),match=/^\[Platba: (mesačne|jednorazovo)\]\r?\n?/.exec(raw);
  return {mode:match?(match[1]==='mesačne'?'monthly':'full'):'unknown',note:match?raw.slice(match[0].length):raw};
 }
-function parkingPeriodEnd(start,n){
- const [y,m,d]=start.split('-').map(Number);
- const target=new Date(Date.UTC(y,m-1+n,1));
- const last=new Date(Date.UTC(target.getUTCFullYear(),target.getUTCMonth()+1,0)).getUTCDate();
- return new Date(Date.UTC(target.getUTCFullYear(),target.getUTCMonth(),d>last?last:d-1)).toISOString().slice(0,10);
-}
-function nextDay(date){
- const x=new Date(date+'T12:00:00Z');x.setUTCDate(x.getUTCDate()+1);return x.toISOString().slice(0,10);
-}
-function invoiceDraft(root,labels,data,lang,provider,reserveNumber) {
- const [,,,,,,customer,plate,,,,close]=labels;
- const [,,,,,,contactEmail,contactPhone,startLabel,endLabel,,,contactNote]=words[lang]||words.sk;
- const [title,print,addressHint,documentNote]=({
-  sk:['Faktúra za parkovanie','Tlačiť faktúru','Ulica, číslo, PSČ, mesto a krajina','Číslo prevzaté z účtovníctva'],
-  en:['Parking invoice','Print invoice','Street, number, postal code, city and country','Invoice number from accounting'],
-  ru:['Счёт за парковку','Печать счёта','Улица, дом, индекс, город и страна','Номер из бухгалтерии'],
-  uk:['Рахунок за паркування','Друк рахунку','Вулиця, номер, індекс, місто та країна','Номер із бухгалтерії']
- })[lang]||['Faktúra za parkovanie','Tlačiť faktúru','Ulica, číslo, PSČ, mesto a krajina','Číslo prevzaté z účtovníctva'];
- const [supplier,address,number,issued,delivered,due,months,unit,net,vat,total,reference,service]=billingWords[lang]||billingWords.sk;
- const supplierLines=[provider.name,provider.address,'IČO '+provider.companyId+' · DIČ '+provider.taxId+' · IČ DPH '+provider.vatId,provider.register,provider.bank,'SWIFT/BIC '+provider.bic];
- const dialog=element('dialog');
+function parkingSchedule(root,labels,data,lang,provider) {
+ const [title,generate,print,due,amount,reference,count,errorText]=({
+  sk:['Splátkový kalendár – parkovanie','Vygenerovať splátkový kalendár','Tlačiť / uložiť PDF','Splatnosť','Suma na úhradu (€)','Variabilný symbol (nepovinný)','Počet splátok','Platobné QR kódy sa nepodarilo vytvoriť.'],
+  en:['Parking payment schedule','Generate payment schedule','Print / save PDF','Due date','Amount due (€)','Payment reference (optional)','Number of installments','Could not generate payment QR codes.'],
+  ru:['График платежей за парковку','Создать график платежей','Печать / сохранить PDF','Срок оплаты','Сумма к оплате (€)','Код платежа (необязательно)','Количество платежей','Не удалось создать QR-коды.'],
+  uk:['Графік платежів за паркування','Створити графік платежів','Друк / зберегти PDF','Термін оплати','Сума до сплати (€)','Код платежу (необов’язково)','Кількість платежів','Не вдалося створити QR-коди.']
+ })[lang];
+ const dialog=element('dialog'),form=element('form'),rows=element('div'),preview=element('div');
  dialog.className='parking-edit-dialog';
- const form=element('form');
- const fields=new Map();
- const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
- for(const [label,value,type,required] of [
-  [customer,data.name,'text',true],[address,data.address||'','text',true],[plate,data.plate,'text',false],
-  [contactEmail,data.email,'email',false],[contactPhone,data.phone,'tel',false],
-  [startLabel,data.startOn,'date',true],[endLabel,data.endOn,'date',true],
-  [number,'','text',true],[issued,today,'date',true],[delivered,'','date',true],[due,'','date',true],
-  ['IČO','','text',false],['DIČ','','text',false],['IČ DPH','','text',false],[months,data.mode==='monthly'?1:data.months||1,'number',true],
-  ['IBAN',provider.iban,'text',false],[reference,'','text',false],[contactNote,data.note,'textarea',false]
- ]){
-  const field=element('label',label);
-  const input=element(type==='textarea'?'textarea':'input');
-  if(type==='textarea'){input.maxLength=1000;input.rows=3;}else input.type=type;
-  input.value=value??'';
-  input.required=required;
-  if(label==='IBAN')input.readOnly=true;
-  if(type==='text'){
-   input.maxLength=label===address?240:120;
-   if(required)input.pattern='.*\\S.*';
+ const field=(host,label,type)=>{
+  const wrapper=element('label',label),input=element('input');
+  input.type=type;wrapper.append(input);host.append(wrapper);return input;
+ };
+ const number=field(form,count,'number'),symbol=field(form,reference,'text');
+ number.min='1';number.max='36';number.step='1';number.required=true;
+ number.value=String(data.mode==='monthly'?Math.min(36,Number(data.months)||1):1);
+ symbol.pattern='[0-9]{1,10}';symbol.maxLength=10;
+ const close=element('button',labels[5]),submit=element('button',generate),status=element('p');
+ close.type='button';submit.type='submit';status.setAttribute('role','status');
+ close.addEventListener('click',()=>dialog.close());
+ let fields=[];
+ const rebuild=()=>{
+  const previous=fields.map(({date,value})=>[date.value,value.value]);
+  fields=[];rows.replaceChildren();preview.replaceChildren();
+  const size=number.valueAsNumber;
+  if(!Number.isInteger(size)||size<1||size>36)return;
+  for(let i=0;i<size;i++){
+   const date=field(rows,due+' '+(i+1),'date'),value=field(rows,amount+' '+(i+1),'number');
+   date.required=value.required=true;value.min='0.01';value.step='0.01';
+   if(previous[i])[date.value,value.value]=previous[i];
+   fields.push({date,value});
   }
-  if(label===address){
-   input.placeholder=addressHint;
-   input.pattern='.*[\\p{L}].*';
-  }
-  if(label===number){
-   input.placeholder=data.requestId?({sk:'Pridelí sa automaticky pri vytvorení',en:'Assigned automatically when created',ru:'Присваивается автоматически',uk:'Присвоюється автоматично'})[lang]:documentNote;
-   if(data.requestId){input.readOnly=true;input.required=false;}
-  }
-  if(type==='number'){input.min='1';input.max='120';input.step='1';}
-  fields.set(label,input);
-  field.append(input);
-  form.append(field);
- }
- const money=new Intl.NumberFormat(({sk:'sk-SK',en:'en-IE',ru:'ru-RU',uk:'uk-UA'})[lang]||'sk-SK',{style:'currency',currency:'EUR'});
- const totals=element('p');
- totals.setAttribute('aria-live','polite');
- function amounts(){
-  const base=5000*fields.get(months).valueAsNumber;
-  const tax=Math.round(base*23/100);
-  return [[net,base],[vat,tax],[total,base+tax]].map(([label,cents])=>[label,money.format(cents/100)]);
- }
- function updateTotals(){
-  const input=fields.get(months);
-  totals.textContent=input.value&&input.validity.valid?amounts().map(([label,value])=>label+' '+value).join(' · '):'';
- }
- fields.get(number).addEventListener('input',()=>{
-  const value=fields.get(number).value.trim();
-  fields.get(reference).value=/^\d{1,10}$/.test(value)?value:'';
- });
- fields.get(reference).pattern='[0-9]{1,10}';
- fields.get(reference).maxLength=10;
- if(data.requestId)fields.get(reference).readOnly=true;
- const start=fields.get(startLabel),end=fields.get(endLabel);
- const pw=paymentWords[lang]||paymentWords.sk;
- if(data.mode==="monthly"&&data.startOn&&data.endOn&&Number.isInteger(Number(data.months))&&Number(data.months)>0){
-  const periodLabel=element("label",pw.period),select=element("select");
-  for(let i=1;i<=Math.min(36,Number(data.months));i++){
-   const from=i===1?data.startOn:nextDay(parkingPeriodEnd(data.startOn,i-1));
-   const to=i===Number(data.months)?data.endOn:parkingPeriodEnd(data.startOn,i);
-   const option=element("option",from+" – "+to);option.value=String(i);option.dataset.from=from;option.dataset.to=to;select.append(option);
-  }
-  const choose=()=>{const o=select.selectedOptions[0];start.value=o.dataset.from;end.value=o.dataset.to;end.min=start.value;};
-  select.addEventListener("change",choose);periodLabel.append(select);form.prepend(periodLabel);choose();
-  fields.get(months).readOnly=true;start.readOnly=true;end.readOnly=true;
- }
-
- const constrainEnd=()=>{end.min=start.value;};
- start.addEventListener('input',constrainEnd);
- constrainEnd();
- fields.get(months).addEventListener('input',updateTotals);
- updateTotals();
- const cancel=element('button',close);
- cancel.type='button';
- cancel.addEventListener('click',()=>dialog.close());
- const submit=element('button',print);
- submit.type='submit';
- const feedback=element('p');
- feedback.setAttribute('role','alert');
- form.append(totals,feedback,submit,cancel);
+ };
+ number.addEventListener('input',rebuild);
+ form.addEventListener('input',()=>preview.replaceChildren());
+ form.append(rows,submit,close,status,preview);rebuild();
  form.addEventListener('submit',async event=>{
   event.preventDefault();
-  const paper=window.open('','_blank');
-  if(!paper)return;
-  paper.opener=null;
-  submit.disabled=true;
-  if(data.requestId){
-   try{
-    const assigned=await reserveNumber(data.requestId,start.value,end.value);
-    if(!/^PK\d{10}$/.test(assigned))throw Error('invalid_invoice_number');
-    fields.get(number).value=assigned;
-    fields.get(reference).value=assigned.slice(2);
-   }catch{
-    paper.close();submit.disabled=false;
-    feedback.textContent=({sk:'Číslo faktúry sa nepodarilo prideliť. Skús znova.',en:'Unable to assign invoice number. Try again.',ru:'Не удалось присвоить номер счёта.',uk:'Не вдалося присвоїти номер рахунку.'})[lang];return;
-   }
-  }
-  paper.document.title=title;
-  const doc=paper.document;
-  const add=(tag,value,parent=doc.body)=>{
-   const node=doc.createElement(tag);
-   node.textContent=value;
-   parent.append(node);
-   return node;
-  };
-  add('style','@page{size:A4;margin:16mm} body{font:11pt system-ui,sans-serif;color:#142b4d;max-width:760px;margin:12px auto;padding:8px;overflow-wrap:anywhere} h1{font-size:22pt;margin:0 0 5px} h2{font-size:13pt;margin:18px 0 6px} p{margin:4px 0} dl{display:grid;grid-template-columns:38% 1fr;gap:5px 10px;margin:8px 0 14px} dd{margin:0} .total{font-size:1.22em;font-weight:700;border-top:1px solid;padding-top:8px} @media print{body{margin:0;padding:0}}',doc.head);
-  const logo=add('img','');
-  logo.src=studentHouseLogo;
-  logo.alt='Student House Bratislava';
-  logo.style.cssText='display:block;width:220px;max-width:100%;margin-bottom:15px';
-  add('h1',title);
-  add('p',number+' '+fields.get(number).value.trim());
-  add('h2',supplier);
-  for(const line of supplierLines)add('p',line);
-  add('h2',service+' · Tomášikova 34');
-  const details=add('dl','');
-  for(const [label,input] of fields){
-   if(label===number||label===contactNote||!input.value.trim())continue;
-   add('dt',label,details);
-   const value=input.type==='date'?input.value.split('-').reverse().join('.'):input.value.trim();
-   add('dd',value,details);
-  }
-  const note=fields.get(contactNote).value.trim();
-  if(note){const paragraph=add('p',contactNote+' · '+note);paragraph.style.whiteSpace='pre-wrap';}
-  add('p',unit+' '+money.format(50));
-  for(const [label,value] of amounts())add('p',label+' '+value).className=label===total?'total':'';
-  submit.disabled=true;
-  feedback.textContent='';
+  if(submit.disabled||!form.reportValidity()||!fields.length)return;
+  const items=fields.map(({date,value})=>({due_on:date.value,amount:value.valueAsNumber}));
+  const bank={iban:provider.iban,beneficiary:provider.name,symbol:symbol.value,message:[data.name,data.plate].filter(Boolean).join(' ')};
+  submit.disabled=true;status.textContent='';preview.replaceChildren();
   try{
-   const baseCents=5000*fields.get(months).valueAsNumber;
-   const [image]=await paymentImages([{amount:(baseCents+Math.round(baseCents*23/100))/100,due_on:fields.get(due).value}],{
-    iban:provider.iban,beneficiary:provider.name,symbol:fields.get(reference).value,message:fields.get(number).value
+   const images=await paymentImages(items,bank);
+   if(!dialog.open)return;
+   const printButton=element('button',print);printButton.type='button';
+   printButton.onclick=()=>{
+    const paper=window.open('','_blank');if(!paper)return;
+    paper.opener=null;paper.document.title=title;
+    paper.document.body.append(preview.querySelector('article').cloneNode(true));
+    Promise.allSettled([...paper.document.images].map(img=>img.decode())).then(()=>paper.print());
+   };
+   const documentBody=element('article');
+   documentBody.append(element('h1',title),element('p',bank.message),element('p',provider.name+' · IBAN '+provider.iban));
+   if(bank.symbol)documentBody.append(element('p','VS '+bank.symbol));
+   const money=new Intl.NumberFormat(lang,{style:'currency',currency:'EUR'});
+   items.forEach((item,i)=>{
+    const section=element('section');section.style.breakInside='avoid';
+    const image=element('img');image.src=images[i];image.alt='PAY by square';image.width=140;
+    section.append(element('p',due+' '+item.due_on.split('-').reverse().join('.')+' · '+money.format(item.amount)),image);
+    documentBody.append(section);
    });
-   const qr=add('img','');
-   qr.src=image;
-   qr.alt='PAY by square';
-   qr.style.cssText='display:block;width:33mm;margin-top:8px';
-   await Promise.all([logo.decode(),qr.decode()]);
-   paper.print();
-  }catch{
-   paper.close();
-   feedback.textContent=({sk:'Platobný QR kód sa nepodarilo vytvoriť.',en:'Could not generate the payment QR code.',ru:'Не удалось создать платёжный QR-код.',uk:'Не вдалося створити платіжний QR-код.'})[lang];
-  }finally{
-   submit.disabled=false;
-  }
+   preview.append(documentBody,printButton);
+  }catch{status.textContent=errorText;}
+  finally{submit.disabled=false;}
  });
- dialog.append(element('h3',title),element('p',supplier+' · '+supplierLines[0]),element('p',unit+' '+money.format(50)),form);
+ dialog.append(element('h3',title),element('p',[data.name,data.plate,data.startOn,data.endOn].filter(Boolean).join(' · ')),form);
  dialog.addEventListener('close',()=>dialog.remove(),{once:true});
- root.append(dialog);
- dialog.showModal();
+ root.append(dialog);dialog.showModal();
 }
-export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow, tenant, reserveNumber, addToRegister, saveUnit) {
+export function renderParkingRegister(root, lang, requests, history, saveCell, deleteRow, tenant, addToRegister, saveUnit) {
  const [inbox, form, empty, imported, name, plate, email, phone, from, to, amount, status, note] = words[lang] || words.sk;
 
  const copy=editWords[lang]||editWords.sk;
  const year=({sk:'Rok',en:'Year',ru:'Год',uk:'Рік'})[lang]||'Rok';
  const labels=actionWords[lang]||actionWords.sk;
  const provider=providerDetails(tenant);
- const [actions,remove,invoice,confirmDelete,deleteError]=labels;
+ const [actions,remove,generateSchedule,confirmDelete,deleteError]=labels;
  const transfer=({sk:['Pridať do tabuľky','✓ Pridané do tabuľky','Pridanie zlyhalo. Skús znova.'],en:['Add to register','✓ Added to register','Could not add. Try again.'],ru:['Добавить в таблицу','✓ Добавлено в таблицу','Не удалось добавить. Повторите попытку.'],uk:['Додати до таблиці','✓ Додано до таблиці','Не вдалося додати. Спробуйте ще раз.']})[lang]||['Pridať do tabuľky','✓ Pridané do tabuľky','Pridanie zlyhalo. Skús znova.'];
  function actionCell(row,record,kind,data){
   const cell=element('td');
   cell.style.minWidth='185px';
-  const bill=element('button',invoice);
+  const bill=element('button',generateSchedule);
   bill.type='button';
   bill.hidden=!provider;
-  bill.addEventListener('click',()=>invoiceDraft(root,labels,data(),lang,provider,reserveNumber));
+  bill.addEventListener('click',()=>parkingSchedule(root,labels,data(),lang,provider));
   const del=element('button',remove);
   del.type='button';
   del.addEventListener('click',async()=>{
