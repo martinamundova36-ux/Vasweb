@@ -161,6 +161,23 @@ export async function contractScheduleDocument(data,items){
 }
 const recentAccounts=new Map();
 const beneficiaries=['Student House Bratislava','Gargallo s.r.o.'];
+function scheduleEmailButton(email,download, status){
+ const button=node('button','Poslať e-mailom');button.type='button';
+ const address=String(email??'').trim();
+ button.disabled=!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(address);
+ if(button.disabled)button.title='V evidencii chýba platný e-mail študenta.';
+ button.onclick=()=>{
+  const subject='Splátkový kalendár – Student House Bratislava';
+  const body='Dobrý deň,\n\nv prílohe Vám posielame splátkový kalendár.\n\nRecepcia Student House Bratislava';
+  download();
+  status.textContent='PDF sa stiahlo. Prilož ho k otvorenému e-mailu.';
+  const link=node('a');
+  link.href='mailto:'+encodeURIComponent(address)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  link.click();
+ };
+ return button;
+}
+
 export function attachInstallmentDocument(host,plan,person,items,{open=false,accountScope,contractNumber='',saveToProfile,scheduleData=null}={}){
  if(!person||!items.length)return;
  const officialProvider=providerDetails(String(accountScope||'').split(':')[0]);
@@ -228,7 +245,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
     const link=node('a');link.href=url;link.download=file.name;link.click();
    });
    const actions=node('div');actions.style.cssText='display:flex;flex-wrap:wrap;gap:10px;align-items:center';
-   actions.append(download);preview.replaceChildren(actions);
+   actions.append(download,scheduleEmailButton(person.email,()=>download.click(),status));preview.replaceChildren(actions);
    if(navigator.canShare?.({files:[file]})){
     const share=node('button','Zdieľať PDF');share.type='button';
     share.addEventListener('click',()=>navigator.share({files:[file],title:plan.title}).catch(error=>{if(error.name!=='AbortError')status.textContent='PDF sa nepodarilo zdieľať.';}));
@@ -279,7 +296,7 @@ export function attachInstallmentDocument(host,plan,person,items,{open=false,acc
  if(open)prepare();
  return panel;
 }
-export function attachImportedInstallmentDocument(host,person,tenant){
+export function attachImportedInstallmentDocument(host,person,tenant,{findProfile,saveToProfile}={}){
  const provider=providerDetails(tenant);
  const form=node('form'),rows=node('div'),status=node('p'),result=node('div');
  status.setAttribute('role','status');
@@ -315,7 +332,20 @@ export function attachImportedInstallmentDocument(host,person,tenant){
     const url=URL.createObjectURL(file),link=node('a');link.href=url;link.download=file.name;link.click();
     setTimeout(()=>URL.revokeObjectURL(url),1000);
    };
-   result.append(download);status.textContent='Splátkový kalendár je pripravený.';
+   const actions=node('div');actions.className='staff-actions';
+   const publish=node('button','Poslať študentovi do profilu');publish.type='button';
+   const profile=findProfile?.(person,bank.symbol);
+   publish.disabled=!profile||!saveToProfile;
+   publish.addEventListener('click',async()=>{
+    if(!window.confirm('Pridať kalendár do dokumentov študenta '+profile.full_name+'?'))return;
+    if(await saveToProfile(profile.id,file,publish)){
+     publish.disabled=true;status.textContent='✓ Kalendár je v dokumentoch študenta.';
+    }
+   });
+   actions.append(download,scheduleEmailButton(person.email,()=>download.click(),status),publish);
+   result.append(actions);
+   if(publish.disabled)result.append(node('p','Na uloženie PDF do profilu je potrebný schválený účet so zhodným e-mailom a číslom zmluvy.'));
+   status.textContent='Splátkový kalendár je pripravený.';
   }catch{status.textContent='QR PDF sa nepodarilo vytvoriť. Skontroluj údaje a skús znova.';}
   finally{generate.disabled=false;}
  });

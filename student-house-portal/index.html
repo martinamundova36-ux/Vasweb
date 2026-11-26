@@ -2004,7 +2004,7 @@ async function renderPanel(){
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261126-first-payment');
+   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261126-calendar-delivery');
    const unifiedQR=tenant==='ae045243-98f0-4f22-a736-d33a92f9ba61';
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=20261120-first-due1');
@@ -2049,7 +2049,15 @@ async function renderPanel(){
      const open=make('button','btn-secondary','Otvoriť záznam v Exceli');open.type='button';
      open.onclick=()=>{pendingRoomFocus={sheet:imported.sheet,search:imported.email||imported.room};navigate('rooms');};
      advanceHost.append(open);
-     attachImportedInstallmentDocument(advanceHost,imported,tenant);
+     attachImportedInstallmentDocument(advanceHost,imported,tenant,{
+      findProfile:(entry,symbol)=>{
+       const email=String(entry.email||'').trim().toLowerCase();
+       if(!email||!symbol||String(entry.contractNumber||'').replace(/\s/g,'')!==symbol)return null;
+       const matches=approvedPeople.filter(p=>String(p.email||'').trim().toLowerCase()===email&&String(p.verified_contract_number||'').replace(/\s/g,'')===symbol);
+       return matches.length===1?matches[0]:null;
+      },
+      saveToProfile:(residentId,pdf,button)=>sendFile(tenant,'schedule_draft',pdf,button,residentId)
+     });
      return;
     }
     const contracts=stays.filter(stay=>matches(stay.resident_id)).sort((a,b)=>String(b.starts_on).localeCompare(String(a.starts_on)));
