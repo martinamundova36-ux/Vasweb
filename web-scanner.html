@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="sk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b182d"><meta name="description" content="Bezplatná technická kontrola webu: výkon, SEO, prístupnosť a kontrolný zoznam zákonných povinností."><title>WEBU Web Scanner | Bezplatná kontrola webu</title><link rel="canonical" href="https://www.webu.sk/web-scanner.html"><style>
 :root{--navy:#0b182d;--gold:#f4c766;--ink:#17233a;--muted:#536278;--bg:#f3f6fb}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,sans-serif}a{color:inherit}header,footer,.hero{background:var(--navy);color:white}.wrap{max-width:1050px;margin:auto;padding:0 22px}nav{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:75px;flex-wrap:wrap}nav a{text-decoration:none;font-weight:700}.logo{font-size:30px;font-weight:900;letter-spacing:-2px}.logo span,.accent{color:var(--gold)}.hero{padding:58px 0 92px}.hero h1{font-size:clamp(35px,6vw,62px);line-height:1.1;max-width:800px;letter-spacing:-.045em;margin:10px 0 18px}.hero p{max-width:720px;color:#d5dfef}.kicker{font-size:13px;letter-spacing:.15em;font-weight:800;color:var(--gold)}main{padding-bottom:45px}.panel{background:white;border:1px solid #dce4ef;border-radius:22px;padding:clamp(18px,4vw,32px);margin:24px 0;box-shadow:0 10px 32px #0b182d0b}.scan{margin-top:-55px;position:relative}h2{line-height:1.25;margin:0 0 12px;font-size:clamp(22px,4vw,30px)}label{font-weight:700;display:block}input,select,button{font:inherit}input[type=text],select{width:100%;border:1px solid #9daabd;padding:13px;border-radius:10px;background:white;color:var(--ink)}.fields{display:grid;grid-template-columns:1fr 160px;gap:12px;margin:10px 0}.btn{display:inline-block;border:0;border-radius:30px;background:var(--gold);color:var(--navy);font-weight:800;padding:12px 22px;cursor:pointer;text-decoration:none}.btn:disabled{opacity:.65;cursor:wait}.muted{color:var(--muted);font-size:14px}.actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.metric{background:var(--bg);padding:15px;border-radius:14px;min-width:0}.metric strong{display:block;font-size:32px;line-height:1.3}.metric span{font-size:13px}.issues{padding-left:23px}.issues li{margin:10px 0}.check{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid #e3e8f0;font-weight:400}.check input{width:20px;height:20px;flex:none;margin-top:3px}footer{padding:25px 0;text-align:center}footer a{color:white}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #1262bb;outline-offset:3px}[hidden]{display:none!important}@media(max-width:620px){.fields{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:35px}nav{gap:10px}nav a{font-size:14px}.logo{font-size:28px}}
-</style><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="shortcut icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></head><body><header><nav class="wrap"><a class="logo" href="/">web<span>u</span></a><div class="actions"><a href="/sluzby.html">Služby</a><a href="/kontakt.html">Kontakt</a></div></nav></header><div class="hero"><div class="wrap"><div class="kicker">WEBU · WEB SCANNER</div><h1>Je váš web pripravený <span class="accent">na rok 2027?</span></h1><p>Zistite, ako si váš web vedie v oblasti rýchlosti, SEO, prístupnosti a technickej kvality. Získajte konkrétne odporúčania na zlepšenie.</p></div></div><main class="wrap"><section class="panel scan"><h2>Technický audit webu</h2><form id="scan"><div class="fields"><label>Adresa verejného webu<input id="url" type="text" inputmode="url" autocomplete="url" placeholder="www.peligrosa.sk" required maxlength="300"></label><label>Zariadenie<select id="strategy"><option value="mobile">Mobil</option><option value="desktop">Počítač</option></select></label></div><p class="muted">Zadajte adresu webu a vyberte zariadenie. Ak je dostupný výsledok merania, zobrazíme ho ihneď. Pri novom webe si môžete vyžiadať bezplatnú základnú kontrolu.</p><p class="muted">Odoslaním adresy spustíte kontrolu a WEBU dostane upozornenie s adresou webu, časom a typom zariadenia prostredníctvom Web3Forms. Neposielajte súkromné odkazy. <a href="/ochrana-osobnych-udajov.html">Ochrana osobných údajov</a>.</p><div class="actions"><button class="btn" id="run" type="submit">Skontrolovať web</button></div></form><p id="status" role="status" aria-live="polite"></p><p id="notifyStatus" class="muted" role="status" aria-live="polite"></p><button id="notifyRetry" type="button" class="btn" hidden>Zopakovať odoslanie upozornenia</button><div id="request" hidden class="panel" style="box-shadow:none;margin:16px 0"><h3>Vyžiadať kontrolu webu</h3><p>Pošlite nám adresu stránky. WEBU preverí možnosti technického zlepšenia a pripraví odporúčania.</p><a id="requestLink" class="btn" href="mailto:info@webu.sk">Pripraviť žiadosť e-mailom</a><p class="muted">Otvorí sa pripravená správa vo vašej e-mailovej aplikácii. Odošlete ju vy.</p></div><div id="result" hidden><h3 id="audited"></h3><div class="metrics" id="metrics"></div><h3>Odporúčania z technického testu</h3><ul class="issues" id="issues"></ul><p class="muted">Výsledok sa týka jednej testovanej stránky. Skóre prístupnosti ani SEO nepotvrdzuje úplný súlad so zákonom alebo normami.</p><button type="button" class="btn" id="save">Stiahnuť audit (PDF)</button></div></section>
+</style><link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"><link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png"><link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="shortcut icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"></head><body><header><nav class="wrap"><a class="logo" href="/">web<span>u</span></a><div class="actions"><a href="/sluzby.html">Služby</a><a href="/kontakt.html">Kontakt</a></div></nav></header><div class="hero"><div class="wrap"><div class="kicker">WEBU · WEB SCANNER</div><h1>Je váš web pripravený <span class="accent">na rok 2027?</span></h1><p>Zistite, ako si váš web vedie v oblasti rýchlosti, SEO, prístupnosti a technickej kvality. Získajte konkrétne odporúčania na zlepšenie.</p></div></div><main class="wrap"><section class="panel scan"><h2>Technický audit webu</h2><form id="scan"><div class="fields"><label>Adresa verejného webu<input id="url" type="text" inputmode="url" autocomplete="url" placeholder="www.peligrosa.sk" required maxlength="300"></label><label>Zariadenie<select id="strategy"><option value="mobile">Mobil</option><option value="desktop">Počítač</option></select></label></div><p class="muted">Zadajte verejnú adresu a vyberte zariadenie. Spustíme nové technické meranie a výsledok zobrazíme priamo tu. Meranie môže chvíľu trvať.</p><p class="muted">Zadaná verejná adresa a typ zariadenia sa odošlú službe Google PageSpeed Insights na technické meranie. WEBU dostane upozornenie o požiadavke prostredníctvom Web3Forms. Neposielajte súkromné odkazy. <a href="/ochrana-osobnych-udajov.html">Ochrana osobných údajov</a>.</p><div class="actions"><button class="btn" id="run" type="submit">Skontrolovať web</button></div></form><p id="status" role="status" aria-live="polite"></p><p id="notifyStatus" class="muted" role="status" aria-live="polite"></p><button id="notifyRetry" type="button" class="btn" hidden>Zopakovať odoslanie upozornenia</button><div id="request" hidden class="panel" style="box-shadow:none;margin:16px 0"><h3>Vyžiadať kontrolu webu</h3><p>Pošlite nám adresu stránky. WEBU preverí možnosti technického zlepšenia a pripraví odporúčania.</p><a id="requestLink" class="btn" href="mailto:info@webu.sk">Pripraviť žiadosť e-mailom</a><p class="muted">Otvorí sa pripravená správa vo vašej e-mailovej aplikácii. Odošlete ju vy.</p></div><div id="result" hidden><h3 id="audited"></h3><div class="metrics" id="metrics"></div><h3>Odporúčania z technického testu</h3><ul class="issues" id="issues"></ul><p class="muted">Výsledok sa týka jednej testovanej stránky. Skóre prístupnosti ani SEO nepotvrdzuje úplný súlad so zákonom alebo normami.</p><button type="button" class="btn" id="save">Stiahnuť audit (PDF)</button></div></section>
 <section class="panel"><h2>Kontrolný zoznam pre váš web</h2><p>Označte body, ktoré ste skutočne preverili. Nie všetky povinnosti sa vzťahujú na každý web.</p><div id="checks"><label class="check"><input type="checkbox">Identifikačné a kontaktné údaje prevádzkovateľa</label><label class="check"><input type="checkbox">Informácie o spracúvaní osobných údajov a zabezpečenie formulárov</label><label class="check"><input type="checkbox">Súhlas pred spustením nepovinných cookies a možnosť odmietnutia</label><label class="check"><input type="checkbox">Aktuálne obchodné podmienky a informácie o alternatívnom riešení sporov, ak sú povinné</label><label class="check"><input type="checkbox">Elektronická funkcia odstúpenia od zmluvy podľa § 20a, ak sa uplatňuje</label><label class="check"><input type="checkbox">Prístupnosť podľa pôsobnosti zákona č. 351/2022 Z. z.</label></div><p id="count" role="status">Preverené: 0 / 6</p><p class="muted">Zoznam nie je automatická kontrola obsahu ani úplný právny audit. <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2024/108" rel="noopener" target="_blank">Zákon o ochrane spotrebiteľa</a>.</p></section>
 <section class="panel"><h2>Potrebujete odstrániť zistené nedostatky?</h2><p>Požiadajte WEBU o individuálnu technickú kontrolu a návrh úprav.</p><a class="btn" id="contact" href="/kontakt.html">Kontaktovať WEBU</a></section></main><footer><div class="wrap">© WEBU · <a href="/ochrana-osobnych-udajov.html">Ochrana osobných údajov</a> · <a href="/">Domov</a></div></footer>
 <script>
@@ -28,31 +28,61 @@ function normalize(raw){let s=raw.trim();if(!/^[a-z][a-z0-9+.-]*:\/\//i.test(s))
 function requestAudit(url,device,message){status.textContent=message;$('request').hidden=false;const subject='Žiadosť o kontrolu webu – '+url.hostname;const body='Dobrý deň, prosím o základnú kontrolu webu.\n\nAdresa: '+url.href+'\nZariadenie: '+(device==='mobile'?'Mobil':'Počítač')+'\n\nĎakujem.';$('requestLink').href='mailto:info@webu.sk?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body)}
 function item(label,value){const d=document.createElement('div'),s=document.createElement('strong'),t=document.createElement('span');d.className='metric';s.textContent=value;t.textContent=label;d.append(s,t);$('metrics').append(d)}
 $('scan').addEventListener('submit',async e=>{
-  e.preventDefault();if(noticeBusy)return;result.hidden=true;$('request').hidden=true;report=null;let url;
+  e.preventDefault();if(run.disabled||noticeBusy)return;result.hidden=true;$('request').hidden=true;report=null;let url;
   try{url=normalize($('url').value)}catch(err){status.textContent=err.message;return}
   
   const device=$('strategy').value;
   lastNotice={url:url.href,device,time:new Date().toISOString()};void notify(lastNotice);
-  if(url.pathname!=='/'||url.protocol!=='https:'){requestAudit(url,device,'Pre túto stránku je potrebné individuálne meranie.');return}
- run.disabled=true;status.textContent='Načítavam posledné skutočné meranie…';
-  const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),12000);
-  try{
-    const response=await fetch(source+'?v='+Math.floor(Date.now()/60000),{cache:'no-store',credentials:'omit',signal:ctrl.signal});
-    if(!response.ok)throw Error('Meranie zatiaľ nie je dostupné. Nebudeme zobrazovať odhadované skóre.');
-    const data=await response.json(),r=data.reports?.find(x=>{try{return new URL(x.url).hostname.replace(/^www\./,'')===url.hostname.replace(/^www\./,'')&&x.device===device}catch{return false}});
-    if(!r||!Object.keys(names).every(k=>Number.isInteger(r.scores?.[k])&&r.scores[k]>=0&&r.scores[k]<=100)||!Number.isFinite(Date.parse(r.checkedAt))){requestAudit(url,device,'Pre tento web zatiaľ nie je dostupný výsledok.');return}
-    const date=new Date(r.checkedAt).toLocaleString('sk-SK',{timeZone:'Europe/Bratislava'});
-    $('audited').textContent=r.finalUrl+' · '+(device==='mobile'?'Mobil':'Počítač')+' · merané '+date;
-    $('metrics').replaceChildren();$('issues').replaceChildren();
-    const lines=['WEBU – technický audit',r.finalUrl,date,device];
-    for(const [k,n] of Object.entries(names)){const v=r.scores[k]+'/100';item(n,v);lines.push(n+': '+v)}
-    for(const [k,n] of Object.entries(metricNames)){if(r.metrics?.[k]){item(n,r.metrics[k]);lines.push(n+': '+r.metrics[k])}}
-    for(const issue of r.issues||[]){const li=document.createElement('li');li.textContent=issue.title+(issue.value?' — '+issue.value:'');$('issues').append(li);lines.push(li.textContent)}
-    if(!r.issues?.length){const li=document.createElement('li');li.textContent='Vo výbere automatických kontrol nebol zistený nedostatok.';$('issues').append(li)}
-    report={url:r.finalUrl,date,device,scores:r.scores,metrics:r.metrics||{},issues:r.issues||[]};result.hidden=false;status.textContent='Zobrazené posledné uložené meranie z '+date+'. Nejde o nové meranie v tomto okamihu.';
-  }catch(err){requestAudit(url,device,'Výsledok sa momentálne nepodarilo načítať. Môžete si vyžiadať kontrolu.')}finally{clearTimeout(timer);run.disabled=false}
-});
 
+ run.disabled=true;run.textContent='Analyzujem web…';status.textContent='Prebieha nové technické meranie. Výsledky zobrazíme priamo na tejto stránke.';
+ try{
+   let r,live=true,reason='';
+   try{r=await measure(url,device)}catch(err){live=false;reason=err.message;try{r=await stored(url,device)}catch(_){r=null}}
+   if(!r){requestAudit(url,device,reason||'Meranie sa momentálne nepodarilo. Skúste kontrolu zopakovať.');return}
+   render(r,live,reason);
+ }finally{run.disabled=false;run.textContent='Skontrolovať web'}
+});
+function valid(r){return r&&Object.keys(names).every(k=>Number.isInteger(r.scores?.[k])&&r.scores[k]>=0&&r.scores[k]<=100)&&Number.isFinite(Date.parse(r.checkedAt))}
+async function measure(url,device){
+ const p=new URLSearchParams({url:url.href,strategy:device,locale:'sk'});
+ for(const k of Object.keys(names))p.append('category',k);
+ const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),105000);
+ try{
+ const response=await fetch('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?'+p.toString(),{credentials:'omit',referrerPolicy:'no-referrer',signal:ctrl.signal});
+ if(response.status===429||response.status===403)throw Error('Meracia služba momentálne obmedzuje počet požiadaviek. Skúste kontrolu zopakovať neskôr.');
+ if(!response.ok)throw Error('Technické meranie sa nepodarilo. Skontrolujte dostupnosť zadanej adresy alebo skúste znova.');
+ const data=await response.json(),lh=data.lighthouseResult;
+ if(!lh||lh.runtimeError)throw Error('Web sa nepodarilo úplne načítať alebo zmerať. Skúste znova.');
+ const scores={},metrics={};
+ for(const k of Object.keys(names)){const v=lh.categories?.[k]?.score;if(typeof v!=='number'||!Number.isFinite(v)||v<0||v>1)throw Error('Meranie neposkytlo všetky požadované výsledky.');scores[k]=Math.round(v*100)}
+ for(const k of Object.keys(metricNames)){const v=lh.audits?.[k]?.displayValue;if(v)metrics[k]=String(v)}
+ const priority=new Set(['metricSavings','overallSavingsMs','overallSavingsBytes']);
+ const issues=Object.values(lh.audits||{}).filter(a=>typeof a.score==='number'&&a.score<0.9&&a.title&&['numeric','binary','metricSavings'].includes(a.scoreDisplayMode)&&!Object.keys(metricNames).includes(a.id)).sort((a,b)=>(priority.has(b.scoreDisplayMode)?1:0)-(priority.has(a.scoreDisplayMode)?1:0)||a.score-b.score).slice(0,20).map(a=>({title:String(a.title),value:a.displayValue?String(a.displayValue):''}));
+ const r={url:url.href,finalUrl:lh.finalDisplayedUrl||lh.finalUrl||url.href,device,checkedAt:lh.fetchTime||data.analysisUTCTimestamp||new Date().toISOString(),scores,metrics,issues};
+ if(!valid(r))throw Error('Meranie neposkytlo platné výsledky.');return r;
+ }catch(err){if(err.name==='AbortError')throw Error('Meranie prekročilo časový limit. Skúste znova.');if(err instanceof TypeError)throw Error('Meracia služba je momentálne nedostupná. Skúste znova.');throw err}
+ finally{clearTimeout(timer)}
+}
+async function stored(url,device){
+ const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),8000);
+ try{
+ const response=await fetch(source+'?v='+Math.floor(Date.now()/60000),{cache:'no-store',credentials:'omit',signal:ctrl.signal});
+ if(!response.ok)return null;
+ const data=await response.json(),r=data.reports?.find(x=>{try{return new URL(x.url).href===url.href&&x.device===device}catch{return false}});
+ return valid(r)?r:null;
+ }finally{clearTimeout(timer)}
+}
+function render(r,live,reason){
+ const date=new Date(r.checkedAt).toLocaleString('sk-SK',{timeZone:'Europe/Bratislava'}),device=r.device;
+ $('audited').textContent=r.finalUrl+' · '+(device==='mobile'?'Mobil':'Počítač')+' · merané '+date;
+ $('metrics').replaceChildren();$('issues').replaceChildren();
+ for(const [k,n] of Object.entries(names))item(n,r.scores[k]+'/100');
+ for(const [k,n] of Object.entries(metricNames))if(r.metrics?.[k])item(n,r.metrics[k]);
+ for(const issue of r.issues||[]){const li=document.createElement('li');li.textContent=issue.title+(issue.value?' — '+issue.value:'');$('issues').append(li)}
+ if(!r.issues?.length){const li=document.createElement('li');li.textContent='Vo výbere automatických kontrol nebol zistený nedostatok.';$('issues').append(li)}
+ report={url:r.finalUrl,date,device,scores:r.scores,metrics:r.metrics||{},issues:r.issues||[],live};result.hidden=false;
+ status.textContent=live?'Nové meranie bolo dokončené. PDF audit je pripravený na stiahnutie.':(reason?reason+' ':'')+'Zobrazené posledné uložené meranie z '+date+'. Nejde o nový test.';
+}
 function downloadAudit(r){
  const W=1240,H=1754,M=88,pages=[];
  let canvas,ctx,y;
@@ -77,7 +107,7 @@ function downloadAudit(r){
  const performance=r.scores.performance;
  const summary=performance>=90?'Výkon v tomto teste dosiahol dobré skóre.':performance>=50?'Výkon má priestor na zlepšenie.':'Výkon v tomto teste vyžaduje zvýšenú pozornosť.';
  y=para(summary+' Skóre 90–100: dobré; 50–89: potrebuje zlepšenie; 0–49: slabé.',M,y,W-2*M,27)+12;
- y=para('Ide o posledné uložené laboratórne meranie jednej stránky, nie o nový test v okamihu stiahnutia. Výsledok nepotvrdzuje úplný súlad s normami ani zákonmi.',M,y,W-2*M,25,muted)+20;
+ y=para(''+(r.live?'Nové laboratórne meranie jednej stránky.':'Posledné uložené laboratórne meranie jednej stránky, nie nový test.')+' Zdroj: Google PageSpeed Insights / Lighthouse. Výsledok nepotvrdzuje úplný súlad s normami ani zákonmi.',M,y,W-2*M,25,muted)+20;
  finish();start('Odporúčania na zlepšenie');
  const issues=r.issues.length?r.issues:[{title:'Vo výbere automatických kontrol nebol zistený nedostatok.'}];
  for(let i=0;i<issues.length;i++){const issue=issues[i],title=issue.title||'Technické zistenie',value=issue.value?String(issue.value):'';const h=lines(title,W-2*M-75,28,true).length*39+(value?lines(value,W-2*M-75,24).length*34+10:0)+43;ensure(h);text(String(i+1).padStart(2,'0'),M,y,26,'#966c1b',true);y=para(title,M+65,y,W-2*M-65,28,ink,true);if(value)y=para(value,M+65,y+3,W-2*M-65,24,muted);rect(M,y+9,W-2*M,1,'#dce4ef');y+=42}
