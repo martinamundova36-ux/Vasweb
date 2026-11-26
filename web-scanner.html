@@ -5,13 +5,13 @@
 <section class="panel"><h2>Kontrolný zoznam pre váš web</h2><p>Označte body, ktoré ste skutočne preverili. Nie všetky povinnosti sa vzťahujú na každý web.</p><div id="checks"><label class="check"><input type="checkbox">Identifikačné a kontaktné údaje prevádzkovateľa</label><label class="check"><input type="checkbox">Informácie o spracúvaní osobných údajov a zabezpečenie formulárov</label><label class="check"><input type="checkbox">Súhlas pred spustením nepovinných cookies a možnosť odmietnutia</label><label class="check"><input type="checkbox">Aktuálne obchodné podmienky a informácie o alternatívnom riešení sporov, ak sú povinné</label><label class="check"><input type="checkbox">Elektronická funkcia odstúpenia od zmluvy podľa § 20a, ak sa uplatňuje</label><label class="check"><input type="checkbox">Prístupnosť podľa pôsobnosti zákona č. 351/2022 Z. z.</label></div><p id="count" role="status">Preverené: 0 / 6</p><p class="muted">Zoznam nie je automatická kontrola obsahu ani úplný právny audit. <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2024/108" rel="noopener" target="_blank">Zákon o ochrane spotrebiteľa</a>.</p></section>
 <section class="panel"><h2>Potrebujete odstrániť zistené nedostatky?</h2><p>Požiadajte WEBU o individuálnu technickú kontrolu a návrh úprav.</p><a class="btn" id="contact" href="/kontakt.html">Kontaktovať WEBU</a></section></main><footer><div class="wrap">© WEBU · <a href="/ochrana-osobnych-udajov.html">Ochrana osobných údajov</a> · <a href="/">Domov</a></div></footer>
 <script>
-(()=>{'use strict';const $=id=>document.getElementById(id),status=$('status'),result=$('result'),run=$('run');let report=null, lastNotice=null, noticeBusy=false;
+(()=>{'use strict';const $=id=>document.getElementById(id),status=$('status'),result=$('result'),run=$('run');let report=null, lastNotice=null, noticeBusy=false;const noticeQueue=[];
 const source='/webu-scanner-reports/latest.json';
 const names={performance:'Výkon',accessibility:'Prístupnosť','best-practices':'Osvedčené postupy',seo:'SEO'};
 const metricNames={'first-contentful-paint':'Prvé vykreslenie (FCP)','largest-contentful-paint':'Najväčší prvok (LCP)','total-blocking-time':'Blokovanie (TBT)','cumulative-layout-shift':'Posun rozloženia (CLS)','speed-index':'Speed Index'};
 
 async function notify(entry){
- if(noticeBusy)return;
+ if(noticeBusy){noticeQueue.push(entry);return}
  noticeBusy=true;$('notifyRetry').hidden=true;$('notifyStatus').hidden=true;$('notifyStatus').textContent='';
  const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),15000);
  try{
@@ -20,7 +20,7 @@ async function notify(entry){
  const data=await res.json();if(!res.ok||!data.success)throw Error('notification failed');
  $('notifyStatus').hidden=true;
  }catch(e){$('notifyStatus').hidden=false;$('notifyStatus').textContent='Doručenie požiadavky sa nepodarilo potvrdiť.';$('notifyRetry').hidden=false}
- finally{clearTimeout(timer);noticeBusy=false;}
+ finally{clearTimeout(timer);noticeBusy=false;if(noticeQueue.length)void notify(noticeQueue.shift());}
 }
 $('notifyRetry').addEventListener('click',()=>{if(lastNotice)void notify(lastNotice)});
 
