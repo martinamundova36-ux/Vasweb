@@ -27,7 +27,12 @@ try {
   await pick('room','Mansard 2');await pick('roomUsage','shared');
   const months=await page.locator('#month option').evaluateAll(xs=>xs.map(x=>x.value).filter(Boolean));
   const start=months[0],other=months[1],arrival=start+'-15';
-  await pick('month',start);await pick('months','5');await set('arrival',arrival);
+  await pick('month',start);await pick('months','5');
+  const allowed=await page.locator('#arrival option').evaluateAll(xs=>xs.map(x=>x.value).filter(Boolean));
+  const [y,m]=start.split('-').map(Number);
+  assert.equal(allowed.length,new Date(Date.UTC(y,m,0)).getUTCDate());
+  assert.ok(allowed.every(x=>x.startsWith(start+'-')));
+  await pick('arrival',arrival);
   await page.locator('#gdpr').check();await page.locator('#nonbinding').check();
   const ids=['first','last','email','dial','phone','school','schoolOther','nationality','birth','gender','room','roomUsage','month','months','arrival'];
   const snapshot=async()=>Promise.all(ids.map(read));
@@ -39,6 +44,7 @@ try {
   await pick('months','5');assert.deepEqual(await snapshot(),original);
   await pick('month',other);assert.equal(await read('arrival'),arrival);
   assert.equal(await page.locator('#arrival').evaluate(el=>el.validity.valid),false);
+  assert.ok((await page.locator('#arrivalHelp').innerText()).length>20);
   await page.locator('#submit').click();assert.equal(attempts,0);
   assert.equal(await read('arrival'),arrival);assert.equal(await read('first'),'Synthetic');
   await pick('month',start);assert.deepEqual(await snapshot(),original);
