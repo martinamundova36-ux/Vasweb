@@ -465,7 +465,17 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  yearSelect.id='parking-register-year';
  const all=element('option',yearWords[1]);all.value='all';yearSelect.append(all);
  for(const y of years){const option=element('option',String(y));option.value=String(y);yearSelect.append(option);}
- const yearLabel=element('label',yearWords[0]);yearLabel.style.cssText='display:flex;align-items:center;gap:8px;white-space:nowrap';yearSelect.style.width='auto';yearLabel.append(yearSelect);
+ const yearLabel=element('div');yearLabel.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0';
+ const yearTitle=element('strong',yearWords[0]);yearLabel.append(yearTitle);
+ yearSelect.hidden=true;yearLabel.append(yearSelect);
+ const yearButtons=new Map();
+ for(const value of ['all',...years.map(String)]){
+  const tab=element('button',value==='all'?yearWords[1]:value);tab.type='button';
+  tab.style.cssText='padding:10px 16px;border:1px solid #142b4d;border-radius:8px;min-height:44px';
+  tab.addEventListener('click',()=>{yearSelect.value=value;paintLedger();});
+  yearButtons.set(value,tab);yearLabel.append(tab);
+ }
+ yearSelect.value='2027';
  root.append(element('p',copy[0]),element('p',(monthlyWords[lang]||monthlyWords.sk).hint));
  const search = element('input');
  search.type='search';
@@ -482,15 +492,20 @@ export function renderParkingRegister(root, lang, requests, history, saveCell, d
  });
  const ledger=element('div');
  const toolbar=element('div');toolbar.className='parking-toolbar';toolbar.style.cssText='display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px';
- toolbar.append(yearLabel,search,exportButton);
- root.append(toolbar,ledger);
+ toolbar.append(search,exportButton);
+ root.append(yearLabel,toolbar,ledger);
  function paintLedger(){
   const query=search.value.trim().toLocaleLowerCase();
   const selected=yearSelect.value;
+  for(const [key,tab] of yearButtons){
+   const active=key===selected;tab.setAttribute('aria-pressed',String(active));tab.style.background=active?'#142b4d':'#ffffff';tab.style.color=active?'#ffffff':'#142b4d';
+  }
   const matches=history.filter(record=>(selected==='all'||Number(record.year)===Number(selected))&&(!query||[record.entry,...record.months].some(value=>String(value??'').toLocaleLowerCase().includes(query))));
   ledger.replaceChildren();
+  if(selected!=='all')ledger.append(element('h4',yearWords[0]+' '+selected));
   if(!matches.length&&selected!=='all')ledger.append(element('p',yearWords[2]));
-  appendWorkbookGrid(ledger,matches.sort((a,b)=>Number(a.year)-Number(b.year)||a.source_row-b.source_row),copy,saveCell,[...headers.slice(0,3),actions,...headers.slice(3)],(row,record)=>actionCell(row,record,'history',()=>{
+  const visibleHeaders=selected==='all'?headers:[...headers.slice(0,3),...monthHeaders.map(m=>m+'/'+selected.slice(-2))];
+  appendWorkbookGrid(ledger,matches.sort((a,b)=>Number(a.year)-Number(b.year)||a.source_row-b.source_row),copy,saveCell,[...visibleHeaders.slice(0,3),actions,...visibleHeaders.slice(3)],(row,record)=>actionCell(row,record,'history',()=>{
    const [customer,registration]=parkingIdentity(record.entry);
    const request=requests.find(x=>x.id===record.request_id);
    return request?{name:customer,plate:registration,requestId:request.id,address:request.permanent_address,startOn:request.start_on,endOn:request.end_on,months:request.months,email:request.email,phone:request.telephone,...paymentDetails(request.note)}:{name:customer,plate:registration};
