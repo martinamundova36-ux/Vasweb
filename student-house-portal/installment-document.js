@@ -26,19 +26,22 @@ async function pdfDocument(plan,person,items,bank,images){
  const pdf=new jsPDF({format:'a4',compress:true});
  const [logo,...qrImages]=await Promise.all([studentHouseLogo,...images].map(src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src;})));
  const total=items.reduce((sum,item)=>sum+Math.round(Number(item.amount)*100),0)/100;
- for(let offset=0;offset<items.length;offset+=5){
-  if(offset)pdf.addPage();
+ for(let offset=0;offset<items.length;){
+  const firstPage=offset===0,capacity=firstPage?5:7;
+  if(!firstPage)pdf.addPage();
   const canvas=node('canvas');canvas.width=1000;canvas.height=1414;
   const c=canvas.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,1000,1414);
-  c.drawImage(logo,55,28,340,340*logo.height/logo.width);
-  c.fillStyle='#152d4d';c.fillRect(0,105,1000,55);c.fillStyle='#fff';c.font='bold 32px sans-serif';
-  c.fillText(plan.title||'Dohodnutý splátkový kalendár',55,143,890);
-  c.fillStyle='#152d4d';c.font='25px sans-serif';
-  const header=['Študent: '+(person.full_name||'—'),'Príjemca: '+bank.beneficiary,'IBAN: '+bank.iban,
-   'Variabilný symbol: '+(bank.symbol||'—'),'Celková suma: '+money.format(total)];
-  header.forEach((line,i)=>c.fillText(line,55,210+i*40,890));
-  for(let i=offset;i<Math.min(offset+5,items.length);i++){
-   const y=415+(i-offset)*175;
+  if(firstPage){
+   c.drawImage(logo,55,28,340,340*logo.height/logo.width);
+   c.fillStyle='#152d4d';c.fillRect(0,105,1000,55);c.fillStyle='#fff';c.font='bold 32px sans-serif';
+   c.fillText(plan.title||'Dohodnutý splátkový kalendár',55,143,890);
+   c.fillStyle='#152d4d';c.font='25px sans-serif';
+   const header=['Študent: '+(person.full_name||'—'),'Príjemca: '+bank.beneficiary,'IBAN: '+bank.iban,
+    'Variabilný symbol: '+(bank.symbol||'—'),'Celková suma: '+money.format(total)];
+   header.forEach((line,i)=>c.fillText(line,55,210+i*40,890));
+  }
+  for(let i=offset;i<Math.min(offset+capacity,items.length);i++){
+   const y=(firstPage?415:55)+(i-offset)*175;
    c.fillStyle='#eef3f9';c.fillRect(55,y,890,160);
    c.fillStyle='#152d4d';c.font='bold 28px sans-serif';
    c.fillText('Splátka '+(i+1)+' / '+items.length,75,y+43);
@@ -49,6 +52,7 @@ async function pdfDocument(plan,person,items,bank,images){
   }
   c.font='20px sans-serif';c.fillText('PAY by square · Pred potvrdením platby skontrolujte údaje.',55,1360,890);
   pdf.addImage(canvas,'PNG',0,0,210,297,undefined,'FAST');
+  offset+=capacity;
  }
  return new File([pdf.output('blob')],'splatkovy-kalendar.pdf',{type:'application/pdf'});
 }
