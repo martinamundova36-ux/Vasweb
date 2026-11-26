@@ -2070,9 +2070,12 @@ async function renderPanel(){
     student.dispatchEvent(new Event('change'));
    });
    container.append(labeled('Vyber študenta',student));
-   const generatorActions=make('div','staff-actions');
+   const generatorActions=make('div','staff-actions'),addendumAction=make('div');
+   const addendumHint=make('p','muted','Najprv vyber študenta, ktorému chceš pripraviť dodatok.');
+   addendumHint.setAttribute('role','status');addendumHint.hidden=true;
+   if(attachAccommodationAddendum)generatorActions.append(addendumAction);
    for(const [title,target] of [['Schváliť registráciu a vytvoriť predpisy','registrations'],['Schváliť dotazník a pripraviť dokumenty','questionnaires'],['Správa dokumentov','documents']]){const action=make('button','btn-secondary',title);action.type='button';action.onclick=()=>navigate(target);generatorActions.append(action);}
-   container.append(generatorActions);
+   container.append(generatorActions,addendumHint);
    if(importFailed)container.append(make('p','danger','Študentov z Excelu sa nepodarilo načítať. Obnov stránku.'));
    if(!approvedPeople.length&&!importedPeople.length&&!importFailed)container.append(make('p','muted','V evidencii zatiaľ nie sú dostupní študenti.'));
    const matches=id=>Boolean(student.value&&id===student.value);
@@ -2080,14 +2083,22 @@ async function renderPanel(){
    container.append(advanceHost);
    function showAdvance(){
     advanceHost.replaceChildren();advanceHost.classList.toggle('hide',!student.value);
-    if(!student.value)return;
+    addendumAction.replaceChildren();addendumHint.hidden=true;
+    if(!student.value){
+     if(attachAccommodationAddendum){
+      const button=make('button','','Vygenerovať dodatok');button.type='button';
+      button.onclick=()=>{addendumHint.hidden=false;student.focus();};
+      addendumAction.append(button);
+     }
+     return;
+    }
     const imported=importedById.get(student.value);
     if(imported){
      advanceHost.append(make('strong','',imported.name+' · izba '+imported.room),make('p','muted','Obdobie a sumy sa načítajú z Excelu. Depozit, administratívny poplatok a prvé nájomné sú splatné do 3 dní od podpisu zmluvy. Ďalšie nájomné je splatné prvý deň predchádzajúceho mesiaca. Kód izby z Excelu sa použije ako číslo zmluvy aj variabilný symbol.'));
      const open=make('button','btn-secondary','Otvoriť záznam v Exceli');open.type='button';
      open.onclick=()=>{pendingRoomFocus={sheet:imported.sheet,search:imported.email||imported.room};navigate('rooms');};
      advanceHost.append(open);
-     attachAccommodationAddendum?.(advanceHost,{name:imported.name,email:imported.email,room:imported.room,roomType:imported.roomType,contract:imported.contractNumber,rent:imported.monthly},tenant);
+     attachAccommodationAddendum?.(addendumAction,{name:imported.name,email:imported.email,room:imported.room,roomType:imported.roomType,contract:imported.contractNumber,rent:imported.monthly},tenant);
      attachImportedInstallmentDocument(advanceHost,imported,tenant,{
       findProfile:(entry,symbol)=>{
        const email=String(entry.email||'').trim().toLowerCase();
@@ -2102,7 +2113,7 @@ async function renderPanel(){
     const contracts=stays.filter(stay=>matches(stay.resident_id)).sort((a,b)=>String(b.starts_on).localeCompare(String(a.starts_on)));
     advanceHost.append(make('strong','','Kalendár nájomného plateného vopred'));
     const person=peopleById[student.value];
-    if(person)attachAccommodationAddendum?.(advanceHost,{name:person.full_name,email:person.email,room:person.verified_room_number,roomType:roomCatalog.find(r=>String(r.name)===String(person.verified_room_number))?.category,contract:person.verified_contract_number,rent:contracts[0]?.rent},tenant);
+    if(person)attachAccommodationAddendum?.(addendumAction,{name:person.full_name,email:person.email,room:person.verified_room_number,roomType:roomCatalog.find(r=>String(r.name)===String(person.verified_room_number))?.category,contract:person.verified_contract_number,rent:contracts[0]?.rent},tenant);
     if(!contracts.length){advanceHost.append(make('p','muted','Pre študenta chýba evidovaný nájomný vzťah.'));return;}
     const contract=selector(contracts,'id',stay=>day(stay.starts_on)+' – '+day(stay.ends_on)+' · '+money(stay.rent));
     const firstDue=dateInput(),preview=make('div','data-list');
