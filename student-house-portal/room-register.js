@@ -409,7 +409,7 @@ export async function renderExcelRegister(ctx){
  const storageIndex=index=>index<19?index:index>=19+monthCount()?index+12-monthCount():index;
  function displayColumns(record){
   const template=selectedTemplate();
-  if(!template)return headings.map((label,index)=>({label,index}));
+  if(!template)return headings.map((label,index)=>({label,index})).filter(column=>column.index!==14);
   const layout=record&&template.rooms[record.group.room.name]?.rows[record.entry.bedIndex-1];
   const occupied=record?.entry.person?1:'';
   const base=[0,1,2,...Array(9).fill(null),null,4,5,7,6,8,9,11,12,13,14,null,15,
@@ -420,7 +420,7 @@ export async function renderExcelRegister(ctx){
    ...base.map((index,column)=>({index,label:template.headers[column][0],headerColor:template.headers[column][1],
     color:layout?.[3]?.[column],value:column===0||column===2||index===null?custom[column]??(column===23&&record?.entry.person&&plans.some(p=>charges.some(c=>c.id===p.charge_id&&c.resident_id===record.entry.person.id))?'✓':''):undefined})),
    ...[10,...headings.slice(19+monthCount()).map((_,index)=>19+monthCount()+index)].map(index=>({index,label:headings[index]}))
-  ];
+  ].filter(column=>column.index!==14);
  }
  const fee=(entry,key)=>entry.detail?.[key]===null||entry.detail?.[key]===undefined?'—':formatMoney(entry.detail[key],ctx.lang);
  const lineValues=(group,entry)=>{
@@ -625,7 +625,7 @@ export async function renderExcelRegister(ctx){
     }
    }
    tr.append(action);
-   if(selectedTemplate()){
+   {
     const cells=Array.from(tr.cells);
     tr.replaceChildren(...displayColumns(record).map(({index,value,color})=>{
      const td=index===null?cell(value):cells[index];
@@ -654,8 +654,6 @@ export async function renderExcelRegister(ctx){
   const instructions=el('p','small',w.editHelp);
   form.append(instructions,labelA,el('p','small',w.nationalityHelp),labelB,el('p','small',w.feeHint));
   const feeInputs={};
-  const accessLabel=el('label','',w.code),access=el('input');access.type='password';access.maxLength=60;access.autocomplete='off';access.value=entry.detail?.room_code||'';
-  const show=button('👁',()=>{access.type=access.type==='password'?'text':'password';});show.title=w.code;accessLabel.append(access,show);form.append(accessLabel);
   for(const [key,label] of [['deposit_eur',w.deposit],['refrigerator_fee_eur',w.fridge],['verification_fee_eur',w.verification],['administration_fee_eur',w.administration]]){
    const input=el('input');input.type='number';input.min='0';input.max='100000';input.step='0.01';
    // Never overwrite an explicitly verified fee with the default when editing Excel.
@@ -675,8 +673,7 @@ export async function renderExcelRegister(ctx){
   host.replaceChildren(form);
   form.addEventListener('submit',async e=>{
    e.preventDefault();if(!ctx.isCurrent())return;save.disabled=true;cancel.disabled=true;notice.textContent='';
-   const newEntry={tenant_id:ctx.tenant,resident_id:person.id,nationality:nationality.value.trim()||null,actual_arrival_on:arrival.value||null,
-      room_code:access.value.trim()||null};
+   const newEntry={tenant_id:ctx.tenant,resident_id:person.id,nationality:nationality.value.trim()||null,actual_arrival_on:arrival.value||null};
    for(const [key,input] of Object.entries(feeInputs)){
     if(input.value&&(!Number.isFinite(Number(input.value))||Number(input.value)<0||Number(input.value)>100000)){notice.textContent=w.saveError;save.disabled=false;cancel.disabled=false;return;}
     newEntry[key]=input.value===''?null:Number(input.value);

@@ -559,14 +559,12 @@ export async function renderStaffScreen(ctx) {
   actions.append(el('h4','',t.title));
   if(![5,10,12].includes(duration)){actions.append(el('p','danger',t.missing));return;}
   const arrivalCopy=({sk:['Skutočný príchod','Vyplň iba ak študent už prišiel. Inak nechaj prázdne; dátum doplníš v jeho profile alebo Exceli.'],en:['Actual arrival','Enter only if the student has already arrived. Otherwise leave empty and record it later in their profile or Excel register.'],ru:['Фактический заезд','Укажите только после фактического прибытия. Иначе оставьте пустым и заполните позже в профиле или реестре.'],uk:['Фактичне прибуття','Вкажіть лише після прибуття. Інакше залиште порожнім і заповніть пізніше у профілі або реєстрі.']})[ctx.lang];
-  const form=el('form','staff-form registration-approval-form'),contract=el('input'),room=el('select'),rent=el('input'),due=el('input'),firstDue=el('input'),actualArrival=el('input'),roomCode=el('input'),deposit=el('input'),adminFee=el('input');
+  const form=el('form','staff-form registration-approval-form'),contract=el('input'),room=el('select'),rent=el('input'),due=el('input'),firstDue=el('input'),actualArrival=el('input'),deposit=el('input'),adminFee=el('input');
   actualArrival.type='date';actualArrival.max=new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Bratislava'});actualArrival.value='';
-  contract.type='text';contract.required=true;contract.minLength=5;contract.maxLength=100;contract.value=person.contract_number||'';
+  contract.type='text';contract.required=true;contract.minLength=5;contract.maxLength=60;contract.value=person.contract_number||'';
   const blank=el('option','',t.choose);blank.value='';room.append(blank);
   for(const r of [...roomCatalog].sort((a,b)=>String(a.name).localeCompare(String(b.name),'sk',{numeric:true}))){const o=el('option','',r.name+' · '+r.category+' ('+r.capacity+')');o.value=r.name;room.append(o);}
   room.required=true;room.value=roomCatalog.some(r=>r.name===person.room_number)?person.room_number:'';
-  roomCode.type='password';roomCode.required=true;roomCode.minLength=1;roomCode.maxLength=60;roomCode.autocomplete='off';
-  roomCode.setAttribute('aria-label',({sk:'Kód izby',en:'Room access code',ru:'Код комнаты',uk:'Код кімнати'})[ctx.lang]);
   deposit.type='number';deposit.required=true;deposit.min='0';deposit.max='100000';deposit.step='0.01';
   adminFee.type='number';adminFee.required=true;adminFee.min='0';adminFee.max='100000';adminFee.step='0.01';adminFee.value='100.00';
   let depositEdited=false;
@@ -586,9 +584,8 @@ export async function renderStaffScreen(ctx) {
     en:{code:'Room access code (reception)',show:'Show code',deposit:'Deposit amount (€)',admin:'Administration fee (€)',first:'Initial payment: rent + deposit + administration fee'},
     ru:{code:'Код комнаты (ресепшен)',show:'Показать код',deposit:'Депозит (€)',admin:'Административный сбор (€)',first:'Первый платёж: аренда + депозит + сбор'},
     uk:{code:'Код кімнати (рецепція)',show:'Показати код',deposit:'Депозит (€)',admin:'Адміністративний збір (€)',first:'Перший платіж: оренда + депозит + збір'}})[ctx.lang];
-  for(const [label,input] of [[t.contract,contract],[t.room,room],[fees.code,roomCode],[t.rent,rent],[fees.deposit,deposit],[fees.admin,adminFee],[t.due,due],[t.first,firstDue]]){
+  for(const [label,input] of [[({sk:'Číslo zmluvy / variabilný symbol',en:'Contract number / payment reference',ru:'Номер договора / платёжный идентификатор',uk:'Номер договору / платіжний ідентифікатор'})[ctx.lang],contract],[t.room,room],[t.rent,rent],[fees.deposit,deposit],[fees.admin,adminFee],[t.due,due],[t.first,firstDue]]){
    const l=el('label','',label);l.append(input);
-   if(input===roomCode){const eye=el('button','btn-secondary',fees.show);eye.type='button';eye.onclick=()=>{roomCode.type=roomCode.type==='password'?'text':'password';};l.append(eye);}
    form.append(l);
   }
   const preview=el('details','staff-form'),summary=el('summary','',t.preview+' ('+duration+')'),rowsHost=el('div');preview.append(summary,rowsHost);
@@ -611,12 +608,12 @@ export async function renderStaffScreen(ctx) {
   form.append(el('p','mini-note',t.full),total,preview,error,approve);
   form.addEventListener('submit',e=>{
    e.preventDefault();if(!form.reportValidity())return;
-   if(contract.value.trim().length<5||!roomCatalog.some(r=>r.name===room.value)||!roomCode.value.trim()){error.textContent=t.invalid;return;}
+   if(contract.value.trim().length<5||!roomCatalog.some(r=>r.name===room.value)){error.textContent=t.invalid;return;}
    if(!Number.isFinite(Number(deposit.value))||!Number.isFinite(Number(adminFee.value))){error.textContent=t.invalid;return;}
    if(contractConflict({...person,contract_number:contract.value.trim()})){error.textContent=t.conflict;return;}
    void decide(person,true,actions,approve,{verified_assignment:{
     contract_number:contract.value.trim(),room_number:room.value,accommodation_from:from,accommodation_to:to,
-    actual_arrival_on:actualArrival.value||null,room_code:roomCode.value.trim(),
+    actual_arrival_on:actualArrival.value||null,room_code:contract.value.trim(),
     deposit_eur:Number(deposit.value).toFixed(2),administration_fee_eur:Number(adminFee.value).toFixed(2)
    },verified_monthly_rent:Number(rent.value),verified_due_day:Number(due.value),verified_schedule:schedule()});
   });
@@ -643,7 +640,7 @@ export async function renderStaffScreen(ctx) {
    if(!ctx.isCurrent())return;
    if(response.error||(approve?!response.data?.ok:!response.data?.length)){
     const code=await failureCode(response.error,response.data);
-    message.textContent=['room_code_required','verified_fees_required','invalid_verified_fees'].includes(code)?({sk:'Doplň kód izby, depozit a administratívny poplatok.',en:'Provide room code, deposit and administration fee.',ru:'Заполните код комнаты, депозит и административный сбор.',uk:'Заповніть код кімнати, депозит та адміністративний збір.'})[ctx.lang]:code==='invalid_actual_arrival'?(({sk:'Skutočný príchod nesmie byť v budúcnosti.',en:'Actual arrival cannot be in the future.',ru:'Фактический заезд не может быть в будущем.',uk:'Фактичне прибуття не може бути в майбутньому.'})[ctx.lang]):code==='verified_assignment_required'?(ctx.lang==='en'?'Complete and verify contract, room and stay dates.':'Doplň overené číslo zmluvy, izbu a termín pobytu.'):['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending','approval_conflict','reception_assignment_required'].includes(code)?w.conflict:saveError;
+    message.textContent=['room_code_required','verified_fees_required','invalid_verified_fees'].includes(code)?({sk:'Doplň číslo zmluvy, depozit a administratívny poplatok.',en:'Provide contract number, deposit and administration fee.',ru:'Заполните номер договора, депозит и административный сбор.',uk:'Заповніть номер договору, депозит та адміністративний збір.'})[ctx.lang]:code==='invalid_actual_arrival'?(({sk:'Skutočný príchod nesmie byť v budúcnosti.',en:'Actual arrival cannot be in the future.',ru:'Фактический заезд не может быть в будущем.',uk:'Фактичне прибуття не може бути в майбутньому.'})[ctx.lang]):code==='verified_assignment_required'?(ctx.lang==='en'?'Complete and verify contract, room and stay dates.':'Doplň overené číslo zmluvy, izbu a termín pobytu.'):['over_email_send_rate_limit','over_request_rate_limit'].includes(code)?w.rate:['invitation_failed','password_email_failed'].includes(code)?w.emailFailed:['membership_exists','registration_not_pending','approval_conflict','reception_assignment_required'].includes(code)?w.conflict:saveError;
     status(message.textContent,true);
     return;
    }
@@ -735,10 +732,7 @@ export async function renderStaffScreen(ctx) {
      ru:['Аренда за месяц','Депозит','Административный сбор','Код комнаты','Показать код','Скрыть код','Дополнить в реестре'],
      uk:['Місячна оренда','Депозит','Адміністративний збір','Код кімнати','Показати код','Приховати код','Доповнити в реєстрі']})[ctx.lang];
    report.append(field(labels[0],toMoney(rentRecord?.rent)),field(labels[1],toMoney(record?.deposit_eur)),field(labels[2],toMoney(record?.administration_fee_eur)));
-   const access=el('div'),code=el('span','readonly-value',record?.room_code?'••••••':missingVerified),toggle=button(labels[4],()=>{const hidden=code.textContent==='••••••';code.textContent=hidden?record.room_code:'••••••';toggle.textContent=hidden?labels[5]:labels[4];});
-   access.append(el('dt','',labels[3]),code);
-   if(record?.room_code)access.append(toggle);
-   report.append(access);staffFacts.append(report);
+   staffFacts.append(report);
    if(typeof ctx.openRooms==='function')staffFacts.append(button(labels[6],()=>ctx.openRooms(person.verified_room_number,person.accommodation_from)));
   }catch{if(ctx.isCurrent())staffFacts.append(el('p','danger',w.fileFailed));}
   const arrivalWords=({sk:['Skutočný príchod','Zatiaľ nepotvrdený','Uložiť skutočný príchod','✓ Skutočný príchod uložený','Dátum sa nepodarilo načítať alebo uložiť.'],en:['Actual arrival','Not yet confirmed','Save actual arrival','✓ Actual arrival saved','Unable to load or save date.'],ru:['Фактический заезд','Не подтверждён','Сохранить дату заезда','✓ Дата заезда сохранена','Не удалось загрузить или сохранить дату.'],uk:['Фактичне прибуття','Не підтверджено','Зберегти дату прибуття','✓ Дату прибуття збережено','Не вдалося завантажити або зберегти дату.']})[ctx.lang];
@@ -827,10 +821,10 @@ export async function renderStaffScreen(ctx) {
       enquiryBox.append(actions,documentFlow);
       let documentFlowStarted=false;
       const documentWording=({
-       sk:{heading:'Krok 5 – Zmluva a splátkový kalendár',need:'Pred vytvorením dokumentov musí recepcia doplniť kód izby, depozit, administratívny poplatok a schválené nájomné. Skontroluj Excel evidenciu.',provider:'Ubytovateľ – presný právny názov',conditions:'Schválené platobné podmienky zmluvy',contract:'Vytvoriť pracovnú ubytovaciu zmluvu',contractReady:'✓ Pracovná zmluva je uložená v dokumentoch študenta.',contractFail:'Zmluvu sa nepodarilo pripraviť alebo uložiť.',missingRent:'Splátkový kalendár ešte neobsahuje všetky mesiace alebo overené poplatky. Doplň predpisy v evidencii.',description:'Dokumenty vytvára až recepcia po schválení dotazníka. Pracovná zmluva vyžaduje kontrolu a schválenú právnu predlohu.',rent:'Nájom',deposit:'Depozit',admin:'Administratívny poplatok'},
-       en:{heading:'Step 5 – Contract and payment schedule',need:'Reception must first verify room code, deposit, administration fee and rent. Check the room register.',provider:'Landlord – exact legal name',conditions:'Approved contract payment terms',contract:'Create working accommodation contract',contractReady:'✓ Draft contract saved to the student’s documents.',contractFail:'Could not prepare or save the contract.',missingRent:'The schedule is missing some months or verified fees. Reconcile the register first.',description:'Reception prepares these documents after approving the questionnaire. The draft contract needs approved legal wording.',rent:'Rent',deposit:'Deposit',admin:'Administration fee'},
-       ru:{heading:'Шаг 5 – Договор и график платежей',need:'Ресепшен должен проверить код комнаты, депозит, административный сбор и аренду.',provider:'Арендодатель – юридическое название',conditions:'Утверждённые условия оплаты',contract:'Создать рабочий проект договора',contractReady:'✓ Проект договора сохранён в документах студента.',contractFail:'Не удалось создать или сохранить договор.',missingRent:'Не хватает начислений или месяцев. Проверьте реестр.',description:'Ресепшен готовит документы после одобрения анкеты. Проект договора требует утверждённого текста.',rent:'Аренда',deposit:'Депозит',admin:'Административный сбор'},
-       uk:{heading:'Крок 5 – Договір і графік платежів',need:'Рецепція має перевірити код кімнати, депозит, адміністративний збір і оренду.',provider:'Орендодавець – юридична назва',conditions:'Затверджені умови оплати',contract:'Створити робочий проєкт договору',contractReady:'✓ Проєкт договору збережено в документах студента.',contractFail:'Не вдалося підготувати чи зберегти договір.',missingRent:'Бракує нарахувань або місяців. Перевірте реєстр.',description:'Рецепція готує документи після схвалення анкети. Проєкт договору потребує затвердженого тексту.',rent:'Оренда',deposit:'Депозит',admin:'Адміністративний збір'}
+       sk:{heading:'Krok 5 – Zmluva a splátkový kalendár',need:'Pred vytvorením dokumentov musí recepcia doplniť číslo zmluvy, depozit, administratívny poplatok a schválené nájomné. Skontroluj Excel evidenciu.',provider:'Ubytovateľ – presný právny názov',conditions:'Schválené platobné podmienky zmluvy',contract:'Vytvoriť pracovnú ubytovaciu zmluvu',contractReady:'✓ Pracovná zmluva je uložená v dokumentoch študenta.',contractFail:'Zmluvu sa nepodarilo pripraviť alebo uložiť.',missingRent:'Splátkový kalendár ešte neobsahuje všetky mesiace alebo overené poplatky. Doplň predpisy v evidencii.',description:'Dokumenty vytvára až recepcia po schválení dotazníka. Pracovná zmluva vyžaduje kontrolu a schválenú právnu predlohu.',rent:'Nájom',deposit:'Depozit',admin:'Administratívny poplatok'},
+       en:{heading:'Step 5 – Contract and payment schedule',need:'Reception must first verify contract number, deposit, administration fee and rent. Check the room register.',provider:'Landlord – exact legal name',conditions:'Approved contract payment terms',contract:'Create working accommodation contract',contractReady:'✓ Draft contract saved to the student’s documents.',contractFail:'Could not prepare or save the contract.',missingRent:'The schedule is missing some months or verified fees. Reconcile the register first.',description:'Reception prepares these documents after approving the questionnaire. The draft contract needs approved legal wording.',rent:'Rent',deposit:'Deposit',admin:'Administration fee'},
+       ru:{heading:'Шаг 5 – Договор и график платежей',need:'Ресепшен должен проверить номер договора, депозит, административный сбор и аренду.',provider:'Арендодатель – юридическое название',conditions:'Утверждённые условия оплаты',contract:'Создать рабочий проект договора',contractReady:'✓ Проект договора сохранён в документах студента.',contractFail:'Не удалось создать или сохранить договор.',missingRent:'Не хватает начислений или месяцев. Проверьте реестр.',description:'Ресепшен готовит документы после одобрения анкеты. Проект договора требует утверждённого текста.',rent:'Аренда',deposit:'Депозит',admin:'Административный сбор'},
+       uk:{heading:'Крок 5 – Договір і графік платежів',need:'Рецепція має перевірити номер договору, депозит, адміністративний збір і оренду.',provider:'Орендодавець – юридична назва',conditions:'Затверджені умови оплати',contract:'Створити робочий проєкт договору',contractReady:'✓ Проєкт договору збережено в документах студента.',contractFail:'Не вдалося підготувати чи зберегти договір.',missingRent:'Бракує нарахувань або місяців. Перевірте реєстр.',description:'Рецепція готує документи після схвалення анкети. Проєкт договору потребує затвердженого тексту.',rent:'Оренда',deposit:'Депозит',admin:'Адміністративний збір'}
       })[ctx.lang];
       async function prepareDocumentFlow(){
        if(documentFlowStarted||!ctx.isCurrent()||!documentFlow.isConnected)return;
@@ -848,7 +842,7 @@ export async function renderStaffScreen(ctx) {
         if(staffResult.error||staysResult.error||billsResult.error)throw Error('unavailable');
         if(!ctx.isCurrent()||!documentFlow.isConnected)return;
         const verified=staffResult.data,stay=(staysResult.data||[]).find(t=>t.starts_on===person.accommodation_from)||(staysResult.data||[])[0];
-        if(!verified?.room_code||verified.deposit_eur==null||verified.administration_fee_eur==null||!stay?.rent||!person.verified_contract_number){
+        if(!verified||verified.deposit_eur==null||verified.administration_fee_eur==null||!stay?.rent||!person.verified_contract_number){
          documentFlow.append(el('p','danger',documentWording.need));return;
         }
         const contract=el('form','staff-form');

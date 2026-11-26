@@ -104,7 +104,7 @@ export async function renderStudentEnquiry(ctx){
   [({sk:"Ubytovanie od",en:"Accommodation from",ru:"Проживание с",uk:"Проживання з"})[ctx.lang],formatDate(ctx.resident.accommodation_from)],
   [({sk:"Ubytovanie do",en:"Accommodation to",ru:"Проживание до",uk:"Проживання до"})[ctx.lang],formatDate(ctx.resident.accommodation_to)]
  ])identity.append(n('p','',title+': '+String(value||'—')));
- identity.append(n('p','muted',({sk:"Depozit, kód izby, poplatky a mesačný splátkový kalendár spravuje recepcia. Overené platby uvidíš v záložke Platby.",en:"Deposit, room access code, fees and monthly payment schedule are maintained by reception. You can see verified payments in the Payments section.",ru:"Депозит, код доступа, сборы и график платежей ведёт ресепшен. Подтверждённые платежи доступны в разделе «Платежи».",uk:"Депозит, код доступу, збори та графік платежів веде рецепція. Підтверджені платежі доступні в розділі «Платежі»."})[ctx.lang]));
+ identity.append(n('p','muted',({sk:"Depozit, číslo zmluvy, poplatky a mesačný splátkový kalendár spravuje recepcia. Overené platby uvidíš v záložke Platby.",en:"Deposit, contract number, fees and monthly payment schedule are maintained by reception. You can see verified payments in the Payments section.",ru:"Депозит, номер договора, сборы и график платежей ведёт ресепшен. Подтверждённые платежи доступны в разделе «Платежи».",uk:"Депозит, номер договору, збори та графік платежів веде рецепція. Підтверджені платежі доступні в розділі «Платежі»."})[ctx.lang]));
 
  const receptionWords=({
   sk:{title:'Údaje potvrdené recepciou',code:'Kód izby',codeShow:'Zobraziť kód izby',codeHide:'Skryť kód izby',deposit:'Depozit',administration:'Administratívny poplatok',rent:'Mesačný nájom',missing:'Zatiaľ nepotvrdené recepciou',duration:'Dĺžka pobytu'},
@@ -128,18 +128,7 @@ export async function renderStudentEnquiry(ctx){
    [receptionWords.deposit,verifiedError?receptionWords.missing:amount(verified?.deposit_eur)],
    [receptionWords.administration,verifiedError?receptionWords.missing:amount(verified?.administration_fee_eur)]])
   verifiedGrid.append(n('dt','',label),n('dd','readonly-value',value));
- const codeWrapper=n('div','enquiry-identity');
- codeWrapper.append(n('strong','',receptionWords.code));
- const codeValue=n('input');
- codeValue.type='password';codeValue.readOnly=true;
- codeValue.value=verified?.room_code||'';
- codeValue.placeholder=receptionWords.missing;
- const toggle=n('button','btn-secondary',receptionWords.codeShow);toggle.type='button';
- toggle.addEventListener('click',()=>{
-  codeValue.type=codeValue.type==='password'?'text':'password';
-  toggle.textContent=codeValue.type==='password'?receptionWords.codeShow:receptionWords.codeHide;
- });
- codeWrapper.append(codeValue,toggle);receptionCard.append(codeWrapper);
+
 
  const grid=n('div','enquiry-grid'),fields={};
  const add=(key,label,type='text',maxLength=200)=>{
