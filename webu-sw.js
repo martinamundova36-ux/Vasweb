@@ -1,5 +1,5 @@
 /* WEBU public-site PWA only. No private portals, forms or authenticated requests are cached. */
-const CACHE='webu-public-pwa-v2-20261117';
+const CACHE='webu-public-pwa-v3-20261126';
 const PRECACHE=['/','/index.html','/index-en.html','/offline.html','/favicon-192.png','/favicon-512.png','/webu-app.js'];
 const EXCLUDED=/^\/(?:student-house-portal|android-studenthouse|supabase|ukazky)(?:\/|$)/i;
 const PUBLIC_ASSET=/^\/(?:favicon-(?:192|512)\.png|webu-app\.js|offline\.html)$/i;
@@ -17,6 +17,7 @@ self.addEventListener('fetch',event=>{
   const req=event.request,url=new URL(req.url);
   if(req.method!=='GET'||url.origin!==self.location.origin||EXCLUDED.test(url.pathname)||req.headers.has('authorization'))return;
   if(req.mode==='navigate'){
+    if(url.pathname==='/web-scanner.html'){event.respondWith(fetch(req,{cache:'no-store'}));return;}
     if(!(/\/$|\.html$/i.test(url.pathname)))return;
     event.respondWith((async()=>{
       try{
