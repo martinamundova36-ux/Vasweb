@@ -1,4 +1,4 @@
-import {paymentImages} from './installment-document.js?v=parking-payment';
+import {paymentImages,studentHouseLogo} from './installment-document.js?v=parking-payment';
 import {providerDetails} from './student-house-provider.js';
 import {downloadWorkbook} from './excel.js';
 const words = {
@@ -300,10 +300,10 @@ function parkingScheduleItems(records){
 
 function parkingSchedule(root,labels,data,lang,provider) {
  const [title,generate,print,due,reference,count,errorText]=({
-  sk:['Splátkový kalendár – parkovanie','Vygenerovať splátkový kalendár','Tlačiť / uložiť PDF','Splatnosť','Variabilný symbol (nepovinný)','Počet splátok','Platobné QR kódy sa nepodarilo vytvoriť.'],
-  en:['Parking payment schedule','Generate payment schedule','Print / save PDF','Due date','Payment reference (optional)','Number of installments','Could not generate payment QR codes.'],
-  ru:['График платежей за парковку','Создать график платежей','Печать / сохранить PDF','Срок оплаты','Код платежа (необязательно)','Количество платежей','Не удалось создать QR-коды.'],
-  uk:['Графік платежів за паркування','Створити графік платежів','Друк / зберегти PDF','Термін оплати','Код платежу (необов’язково)','Кількість платежів','Не вдалося створити QR-коди.']
+  sk:['Platobný rozpis – parkovanie','Vygenerovať splátkový kalendár','Tlačiť / uložiť PDF','Splatnosť','Variabilný symbol (nepovinný)','Počet splátok','Platobné QR kódy sa nepodarilo vytvoriť.'],
+  en:['Parking payment breakdown','Generate payment schedule','Print / save PDF','Due date','Payment reference (optional)','Number of installments','Could not generate payment QR codes.'],
+  ru:['Платёжная ведомость за парковку','Создать график платежей','Печать / сохранить PDF','Срок оплаты','Код платежа (необязательно)','Количество платежей','Не удалось создать QR-коды.'],
+  uk:['Платіжний розпис за паркування','Створити графік платежів','Друк / зберегти PDF','Термін оплати','Код платежу (необов’язково)','Кількість платежів','Не вдалося створити QR-коди.']
  })[lang];
  const dialog=element('dialog'),form=element('form'),rows=element('div'),preview=element('div');
  dialog.className='parking-edit-dialog';
@@ -338,18 +338,43 @@ function parkingSchedule(root,labels,data,lang,provider) {
    printButton.onclick=()=>{
     const paper=window.open('','_blank');if(!paper)return;
     paper.opener=null;paper.document.title=title;
-    paper.document.body.append(preview.querySelector('article').cloneNode(true));
+    const style=paper.document.createElement('style');
+    style.textContent='@page{size:A4;margin:14mm}body{font:11pt system-ui,sans-serif;color:#142b4d;max-width:800px;margin:auto}h1{border-bottom:2px solid #142b4d;padding-bottom:8px}h2{font-size:13pt}p{margin:4px 0}.parking-payment-parties{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;break-inside:avoid}.parking-payment-parties section{border:1px solid #ccd9e8;padding:10px;overflow-wrap:anywhere}.parking-payment-parties h2{margin-top:0}table{width:100%;border-collapse:collapse}thead{display:table-header-group}tr{break-inside:avoid}th,td{border:1px solid #ccd9e8;text-align:left;padding:7px}th{background:#edf3f9}td img{display:block}';
+    paper.document.head.append(style);
+    paper.document.body.append(documentBody.cloneNode(true));
     Promise.allSettled([...paper.document.images].map(img=>img.decode())).then(()=>paper.print());
    };
+   const [recipient,customer,plateLabel,issued,period,amount,grandTotal,note]=({
+    sk:['Príjemca platby','Zákazník','EČV','Dátum vyhotovenia','Obdobie parkovania','Suma na úhradu','Spolu podľa rozpisu','Platobný podklad k parkovaniu. Nepotvrdzuje prijatie úhrady.'],
+    en:['Payment recipient','Customer','Registration plate','Prepared on','Parking period','Amount due','Schedule total','Parking payment instructions. This document does not confirm receipt of payment.'],
+    ru:['Получатель платежа','Клиент','Номер автомобиля','Дата составления','Период парковки','Сумма к оплате','Всего по графику','Платёжные реквизиты за парковку. Документ не подтверждает получение оплаты.'],
+    uk:['Отримувач платежу','Клієнт','Номер автомобіля','Дата складання','Період паркування','Сума до сплати','Разом за розписом','Платіжні реквізити за паркування. Документ не підтверджує отримання оплати.']
+   })[lang];
    const documentBody=element('article');
-   documentBody.append(element('h1',title),element('p',bank.message),element('p',provider.name+' · IBAN '+provider.iban));
-   if(bank.symbol)documentBody.append(element('p','VS '+bank.symbol));
+   documentBody.className='parking-payment-document';
+   const logo=element('img');logo.src=studentHouseLogo;logo.alt='Student House Bratislava';logo.width=210;
+   const dateText=value=>value.split('-').reverse().join('.');
+   const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+   documentBody.append(logo,element('h1',title),element('p',issued+' · '+dateText(today)));
+   const parties=element('div');parties.className='parking-payment-parties';
+   const company=element('section'),payer=element('section');
+   company.append(element('h2',recipient));
+   for(const line of [provider.name,provider.address,'IČO '+provider.companyId+' · DIČ '+provider.taxId,'IČ DPH '+provider.vatId,provider.bank,'IBAN '+provider.iban,'SWIFT/BIC '+provider.bic])
+    company.append(element('p',line));
+   payer.append(element('h2',customer),element('p',data.name));
+   for(const line of [data.address,data.plate&&plateLabel+' · '+data.plate,data.startOn&&data.endOn&&period+' · '+dateText(data.startOn)+' – '+dateText(data.endOn),bank.symbol&&'VS '+bank.symbol])
+    if(line)payer.append(element('p',line));
+   parties.append(company,payer);documentBody.append(parties);
+   const table=element('table'),head=table.createTHead().insertRow(),body=table.createTBody();
+   for(const label of [due,amount,'PAY by square']){const cell=element('th',label);cell.scope='col';head.append(cell);}
    items.forEach((item,i)=>{
-    const section=element('section');section.style.breakInside='avoid';
-    const image=element('img');image.src=images[i];image.alt='PAY by square';image.width=140;
-    section.append(element('p',due+' '+item.due_on.split('-').reverse().join('.')+' · '+money.format(item.amount)),image);
-    documentBody.append(section);
+    const row=body.insertRow();
+    const image=element('img');image.src=images[i];image.alt='PAY by square';image.width=105;
+    const qr=element('td');qr.append(image);
+    row.append(element('td',dateText(item.due_on)),element('td',money.format(item.amount)),qr);
    });
+   const total=items.reduce((sum,item)=>sum+Math.round(item.amount*100),0)/100;
+   documentBody.append(table,element('h2',grandTotal+' · '+money.format(total)),element('p',note));
    preview.append(documentBody,printButton);
   }catch{status.textContent=errorText;}
   finally{submit.disabled=false;}
