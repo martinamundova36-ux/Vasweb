@@ -1817,7 +1817,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-excel-calendar');
+     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261126-room-code');
      const shown=await renderImportedExcel({root:container,db,tenant,lang,focus,list,onRefresh:()=>void refreshLiveView(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='rooms'&&isStaff(),onBack:()=>navigate('overview')});
      if(!shown||generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
@@ -2016,7 +2016,7 @@ async function renderPanel(){
    let importedPeople=[],importFailed=false;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-excel-calendar');
+     const {listImportedStudents}=await import('/student-house-portal/imported-register.js?v=20261126-room-code');
      importedPeople=await listImportedStudents(db,tenant,approvedPeople);
     }catch{importFailed=true;}
    }
@@ -2046,7 +2046,7 @@ async function renderPanel(){
     if(!student.value)return;
     const imported=importedById.get(student.value);
     if(imported){
-     advanceHost.append(make('strong','',imported.name+' · izba '+imported.room),make('p','muted','Obdobie a sumy sa načítajú z Excelu. Každá splátka je splatná prvý deň príslušného mesiaca. Ak v Exceli chýba číslo zmluvy, doplň ho podľa zmluvy.'));
+     advanceHost.append(make('strong','',imported.name+' · izba '+imported.room),make('p','muted','Obdobie a sumy sa načítajú z Excelu. Každá splátka je splatná prvý deň príslušného mesiaca. Kód izby z Excelu sa použije ako číslo zmluvy aj variabilný symbol.'));
      const open=make('button','btn-secondary','Otvoriť záznam v Exceli');open.type='button';
      open.onclick=()=>{pendingRoomFocus={sheet:imported.sheet,search:imported.email||imported.room};navigate('rooms');};
      advanceHost.append(open);

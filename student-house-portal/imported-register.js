@@ -65,7 +65,7 @@ export async function listImportedStudents(db,tenant,profiles){
    if(!first||!last||!/^\d/.test(room)||/\b(personál|personal|staff|recepcia|zamestnanec)\b/i.test(name))continue;
    const key=identity(name,email,room);
    if(verified.has(key))continue;
-   const from=get('od'),to=get('do'),contractNumber=get('číslo zmluvy');
+   const from=get('od'),to=get('do'),contractNumber=get('kód izby')||get('číslo zmluvy');
    if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,monthly:null,months:new Map()});
    const entry=entries.get(key);
    if((entry.from&&from&&entry.from!==from)||(entry.to&&to&&entry.to!==to))continue;
