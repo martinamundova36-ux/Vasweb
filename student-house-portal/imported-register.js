@@ -4,6 +4,12 @@ import {downloadWorkbook} from './excel.js?v=20261126-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
 import {buildStudentHouseSchedule} from './installment-document.js?v=20261126-register';
 const normalized=value=>String(value??'').trim().toLowerCase().normalize('NFC').replace(/\s+/g,' ');
+const searchText=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLocaleLowerCase().trim().replace(/\s+/g,' ');
+const matchesRegisterName=(query,first,last)=>{
+ const terms=searchText(query).split(' ').filter(Boolean);
+ const name=searchText([first,last].filter(Boolean).join(' '));
+ return terms.length>0&&name.length>0&&terms.every(term=>name.includes(term));
+};
 const roomNumber=value=>{
  const text=normalized(value);
  const match=text.match(/^(\d{1,4})([a-z])?(?: \d{1,2}(?: ?([a-z]))?)?$/);
@@ -18,10 +24,10 @@ const fees=new Map([['depozit','deposit'],['admin. poplatok','administration_fee
 const addendumColumns=['Dodatok č.','Dodatok od','Dodatok do','Nájomné podľa dodatku'];
 const extraColumns=['Číslo zmluvy','Dátum narodenia','Trvalé bydlisko','Číslo OP alebo pasu','Kontakt rodiča','Vysoká škola','IBAN študenta','Dĺžka pobytu (mesiace)','Skutočný príchod','Dodatočná chladnička','Stav registrácie','Stav dotazníka','Dátum odoslania dotazníka','Stav dokumentov','Aktivácia profilu','Preferovaný typ izby','Interné poznámky recepcie','Predpísané v období (€)','Priradené úhrady v období (€)','Zostáva uhradiť v období (€)','Nedoplatok po splatnosti (€)','Nepriradené prijaté platby (€)','Splatnosti a úhrady v období','Stav kalendára'];
 const words={
- sk:['Excel evidencia ubytovania','Späť do administrácie','','Hľadať v tabuľke','Stiahnuť Excel','Upraviť bunku','Hodnota','Poznámka','Uložiť','Zrušiť','Uloženie zlyhalo.','Riadkov','Importovaná evidencia'],
- en:['Accommodation register','Back to administration','','Search register','Download Excel','Edit cell','Value','Note','Save','Cancel','Could not save.','Rows','Imported register'],
- ru:['Реестр проживания','Назад в администрацию','','Поиск','Скачать Excel','Изменить ячейку','Значение','Примечание','Сохранить','Отмена','Не удалось сохранить.','Строк','Импортированный реестр'],
- uk:['Реєстр проживання','Назад до адміністрації','','Пошук','Завантажити Excel','Редагувати клітинку','Значення','Примітка','Зберегти','Скасувати','Не вдалося зберегти.','Рядків','Імпортований реєстр']
+ sk:['Excel evidencia ubytovania','Späť do administrácie','','Hľadať podľa mena, priezviska alebo izby','Stiahnuť Excel','Upraviť bunku','Hodnota','Poznámka','Uložiť','Zrušiť','Uloženie zlyhalo.','Riadkov','Importovaná evidencia'],
+ en:['Accommodation register','Back to administration','','Search by first name, surname or room','Download Excel','Edit cell','Value','Note','Save','Cancel','Could not save.','Rows','Imported register'],
+ ru:['Реестр проживания','Назад в администрацию','','Поиск по имени, фамилии или комнате','Скачать Excel','Изменить ячейку','Значение','Примечание','Сохранить','Отмена','Не удалось сохранить.','Строк','Импортированный реестр'],
+ uk:['Реєстр проживання','Назад до адміністрації','','Пошук за ім’ям, прізвищем або кімнатою','Завантажити Excel','Редагувати клітинку','Значення','Примітка','Зберегти','Скасувати','Не вдалося зберегти.','Рядків','Імпортований реєстр']
 };
 const el=(tag,text)=>{const x=document.createElement(tag);if(text!==undefined&&text!==null)x.textContent=String(text);return x;};
 const btn=(text,fn)=>{const x=el('button',text);x.type='button';x.onclick=fn;return x;};
@@ -417,14 +423,14 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  }
  function paint(){
   for(const [id,t] of tabButtons){const active=id===selected.sheet_order;t.setAttribute('aria-pressed',String(active));t.style.background=active?'#142b4d':'#ffffff';t.style.color=active?'#ffffff':'#142b4d';t.style.border='1px solid #142b4d';}
-  const sheet=selected,rows=recordsFor(sheet),q=search.value.trim().toLocaleLowerCase();
+  const sheet=selected,rows=recordsFor(sheet),q=searchText(search.value);
   section.dataset.sheet=sheet.sheet_name;
   const table=el('table'),head=table.createTHead().insertRow(),body=table.createTBody();
   const header=headersFor(sheet),visibleColumns=columnsFor(sheet);
   const fromIndex=header.findIndex(v=>normalized(v)==='od'),toIndex=header.findIndex(v=>normalized(v)==='do');
   const hasStayDates=fromIndex>=0&&toIndex>=0;
   const indexOf=label=>header.findIndex(value=>normalized(value)===label);
-  const roomIndex=indexOf('izba');
+  const roomIndex=indexOf('izba'),firstIndex=indexOf('meno'),lastIndex=indexOf('priezvisko');
   filterLabel.hidden=!hasStayDates;
   const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
   for(const i of visibleColumns){const cell=el('th',header[i]??'');cell.scope='col';head.append(cell);}
@@ -433,7 +439,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   for(const [row,values] of rows){
    const actual=valuesFor(sheet,row,values);
    if(hasStayDates&&stayFilter.value!=='all'&&registerStayStatus(actual[fromIndex],actual[indexOf('dodatok do')]||actual[toIndex],today)!==stayFilter.value)continue;
-   if(q&&!actual.some((v,i)=>String(v??'').toLocaleLowerCase().includes(q)||noteFor(sheet,row,i).toLocaleLowerCase().includes(q)))continue;
+   if(q&&!matchesRegisterName(q,actual[firstIndex],actual[lastIndex])&&!actual.some((v,i)=>searchText(v).includes(q)||searchText(noteFor(sheet,row,i)).includes(q)))continue;
    shown++;const tr=body.insertRow();
    for(const i of visibleColumns){
     const cell=el('td'),n=noteFor(sheet,row,i),v=actual[i];
