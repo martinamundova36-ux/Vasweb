@@ -13,6 +13,27 @@ const paragraph=(text,{bold=false,center=false,size=22}={})=>`<w:p><w:pPr><w:spa
 const widths=[1300,1580,1200,1180,620,1050,1250,1740];
 const table=rows=>`<w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders>${['top','left','bottom','right','insideH','insideV'].map(edge=>`<w:${edge} w:val="single" w:sz="4" w:color="A8B8C9"/>`).join('')}</w:tblBorders></w:tblPr><w:tblGrid>${widths.map(width=>`<w:gridCol w:w="${width}"/>`).join('')}</w:tblGrid>${rows.map((row,i)=>`<w:tr><w:trPr><w:cantSplit/>${i===0?'<w:tblHeader/>':''}</w:trPr>${row.map((text,column)=>`<w:tc><w:tcPr><w:tcW w:w="${widths[column]}" w:type="dxa"/></w:tcPr>${paragraph(text,{bold:i===0,size:18})}</w:tc>`).join('')}</w:tr>`).join('')}</w:tbl>`;
 
+const slovakNationalities=new Map([
+ ['ruská',['russian','russia','russian federation','ru','rus','русский','русская','российская']],
+ ['ukrajinská',['ukrainian','ukraine','ua','ukr','українець','українка','українська']],
+ ['slovenská',['slovak','slovakian','slovakia','slovak republic','sk','svk']],
+ ['česká',['czech','czechia','czech republic','cz','cze']],
+ ['bieloruská',['belarusian','belarus','by','blr']],
+ ['poľská',['polish','poland','pl','pol']],
+ ['maďarská',['hungarian','hungary','hu','hun']],
+ ['rumunská',['romanian','romania','ro','rou']],
+ ['srbská',['serbian','serbia','rs','srb']],
+ ['nemecká',['german','germany','de','deu']],
+ ['indická',['indian','india','in','ind']],
+ ['čínska',['chinese','china','cn','chn']],
+ ['vietnamská',['vietnamese','vietnam','vn','vnm']],
+ ['turecká',['turkish','turkey','türkiye','tr','tur']]
+].flatMap(([label,aliases])=>aliases.map(alias=>[alias,label])));
+const slovakNationality=value=>{
+ const text=String(value??'').trim();
+ return slovakNationalities.get(text.normalize('NFC').toLowerCase().replace(/\s+/g,' '))??text;
+};
+
 function partiesTable(data,provider){
  const nameParts=data.name.trim().split(/\s+/);
  const firstName=data.firstName||nameParts.shift();
@@ -25,7 +46,7 @@ function partiesTable(data,provider){
   ],'(ďalej len ako „ubytovateľ“)'],
   ['Ubytovaný:',[
    ['Meno:',firstName],['Priezvisko:',lastName],['Bydlisko:',data.address],
-   ['Dátum narodenia:',data.birth],['Národnosť:',data.nationality],['Číslo OP/pasu:',data.identity],
+   ['Dátum narodenia:',data.birth],['Národnosť:',slovakNationality(data.nationality)],['Číslo OP/pasu:',data.identity],
    ['Kontakt:',data.phone],['E-mail:',data.email],['Kontakt na rodiča:',data.parent],
    ['Škola:',data.school],['IBAN:',data.iban]
   ],'(ďalej len ako „ubytovaný“)']
@@ -265,7 +286,7 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  const roomType=field('Typ izby','text',officialRoomName(person.roomType));
  const address=field('Bydlisko ubytovaného','text',person.address);
  const extra={};
- for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného (nepovinné)']])extra[key]=field(label,['email','parent'].includes(key)?'email':'text',person[key],key!=='iban');
+ for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného (nepovinné)']])extra[key]=field(label,['email','parent'].includes(key)?'email':'text',key==='nationality'?slovakNationality(person[key]):person[key],key!=='iban');
  const rent=field('Mesačné nájomné (€)','number',person.addendumRent??person.rent);rent.min='0.01';rent.step='0.01';
  const save=document.createElement('button'),download=document.createElement('button');
  const email=document.createElement('button'),close=document.createElement('button'),status=document.createElement('p');

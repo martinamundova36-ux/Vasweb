@@ -1,4 +1,4 @@
-import {attachAccommodationAddendum} from './accommodation-addendum.js?v=20261127-addendum-register';
+import {attachAccommodationAddendum} from './accommodation-addendum.js?v=20261127-sk-addendum';
 import {advanceRentDueDate} from './ledger.js';
 import {downloadWorkbook} from './excel.js?v=20261127-addendum-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
