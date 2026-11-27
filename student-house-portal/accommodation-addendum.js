@@ -262,10 +262,10 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  const number=field('Číslo dodatku','number',person.addendumNumber||'1');number.min='1';number.step='1';
  const contract=field('Číslo pôvodnej zmluvy / VS','text',person.contract);
  const room=field('Izba','text',person.room);
- const roomType=field('Typ izby','text',officialRoomName(person.roomType),false);
- const address=field('Bydlisko ubytovaného','text',person.address,false);
+ const roomType=field('Typ izby','text',officialRoomName(person.roomType));
+ const address=field('Bydlisko ubytovaného','text',person.address);
  const extra={};
- for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného']])extra[key]=field(label,'text',person[key],false);
+ for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného']])extra[key]=field(label,['email','parent'].includes(key)?'email':'text',person[key]);
  const rent=field('Mesačné nájomné (€)','number',person.addendumRent??person.rent);rent.min='0.01';rent.step='0.01';
  const save=document.createElement('button'),download=document.createElement('button');
  const email=document.createElement('button'),close=document.createElement('button'),status=document.createElement('p');
@@ -277,7 +277,9 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  save.disabled=!person.saveAddendum;
  if(save.disabled)status.textContent='K profilu chýba jednoznačne prepojený zapisovateľný riadok Excelu.';
  async function run(writeToExcel,prepareEmail=false){
-  if(download.disabled||!form.reportValidity()||!end)return;
+  if(download.disabled)return;
+  for(const input of form.querySelectorAll('input[type=text],input[type=email]'))input.value=input.value.trim();
+  if(!form.reportValidity()||!end)return;
   const recipient=extra.email.value.trim();
   if(prepareEmail&&!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(recipient)){
    status.textContent='Doplň platný e-mail študenta.';extra.email.focus();return;
