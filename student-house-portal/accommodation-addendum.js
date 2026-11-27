@@ -1,3 +1,4 @@
+import {paymentImages} from './installment-document.js?v=20261126-register';
 import {zip} from './excel.js?v=addendum';
 import {advanceRentDueDate} from './ledger.js';
 import {providerDetails,normalizeContractSymbol} from './student-house-provider.js';
@@ -11,25 +12,29 @@ const paragraph=(text,{bold=false,center=false,size=22}={})=>`<w:p><w:pPr><w:spa
 const widths=[1300,1580,1200,1180,620,1050,1250,1740];
 const table=rows=>`<w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders>${['top','left','bottom','right','insideH','insideV'].map(edge=>`<w:${edge} w:val="single" w:sz="4" w:color="A8B8C9"/>`).join('')}</w:tblBorders></w:tblPr><w:tblGrid>${widths.map(width=>`<w:gridCol w:w="${width}"/>`).join('')}</w:tblGrid>${rows.map((row,i)=>`<w:tr><w:trPr><w:cantSplit/>${i===0?'<w:tblHeader/>':''}</w:trPr>${row.map((text,column)=>`<w:tc><w:tcPr><w:tcW w:w="${widths[column]}" w:type="dxa"/></w:tcPr>${paragraph(text,{bold:i===0,size:18})}</w:tc>`).join('')}</w:tr>`).join('')}</w:tbl>`;
 
-function addendumXml(data,provider){
+function addendumXml(data,provider,items=[]){
  const symbol=normalizeContractSymbol(data.contract);
  const validDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value)&&new Date(value+'T12:00:00Z').toISOString().slice(0,10)===value;
  if(!symbol||!validDate(data.from)||!validDate(data.to)||data.from>data.to||!Number.isFinite(data.rent)||data.rent<=0||!data.name.trim()||!data.room.trim())throw Error('Skontroluj číslo zmluvy, obdobie, izbu a mesačnú sumu.');
  const month=new Date(data.from.slice(0,7)+'-01T12:00:00Z');
+ items.push({initial:true,amount:100});
  const rows=[['Dátum dodania / Supply day','Splatnosť / Due date','Variabilný symbol','Základ dane','DPH','Suma','Za mesiac','Účel platby'],
   ['Deň prijatia platby','Do 3 dní od podpisu dodatku',symbol,money.format(100),'',money.format(100),'','Administratívny poplatok']];
  for(let i=0;month.toISOString().slice(0,7)<=data.to.slice(0,7);i++){
   if(i>=24)throw Error('Skontroluj dĺžku predĺženia.');
-  const due=date(advanceRentDueDate(month.toISOString().slice(0,7)));
+  const dueOn=advanceRentDueDate(month.toISOString().slice(0,7));
+  items.push({due_on:dueOn,amount:data.rent});
+  const due=date(dueOn);
   rows.push([due,due,symbol,money.format(data.rent),'0 %',money.format(data.rent),monthName.format(month),'Splátka nájmu']);
   month.setUTCMonth(month.getUTCMonth()+1);
  }
  const heading=text=>paragraph(text,{bold:true,center:true});
  const paragraphs=[
   paragraph('Dodatok č. '+data.number,{bold:true,center:true,size:30}),
-  heading('k zmluve o ubytovaní č. '+symbol),
+  heading('k zmluve o ubytovaní č. '+data.contract.trim()),
   paragraph('Uzatvorenej v zmysle ust. § 754 a nasl. Občianskeho zákonníka v platnom znení',{center:true}),
-  heading('Článok č. I · Zmluvné strany'),
+  paragraph('(ďalej len „Dodatok k zmluve“)',{center:true}),
+  heading('Článok č. I'),heading('Zmluvné strany'),
   paragraph('Ubytovateľ',{bold:true}),
   paragraph(provider.name+' · '+provider.address),
   paragraph('IČO '+provider.companyId+' · DIČ '+provider.taxId+' · IČ DPH '+provider.vatId),
@@ -38,7 +43,7 @@ function addendumXml(data,provider){
   paragraph('Ubytovaný',{bold:true}),paragraph(data.name),
   ...[['Bydlisko',data.address],['Dátum narodenia',data.birth],['Národnosť',data.nationality],['Číslo OP/pasu',data.identity],['Kontakt',data.phone],['E-mail',data.email],['Kontakt na rodiča',data.parent],['Škola',data.school],['IBAN ubytovaného',data.iban]].map(([label,value])=>paragraph(label+': '+(value||'—'))),
   paragraph('Zmluvné strany sa dohodli, že týmto dodatkom sa mení nasledovné:'),
-  heading('Článok č. III · Predmet zmluvy'),
+  heading('Článok č. III'),heading('Predmet zmluvy'),
   paragraph('Zmluvné strany sa dohodli, že doba ubytovania sa predlžuje na izbe '+[data.roomType,data.room].filter(Boolean).join(', ')+' na dobu od '+date(data.from)+' do '+date(data.to)+'.'),
   heading('Splátkový kalendár'),table(rows),
   paragraph('Tento dodatok je vyhotovený v dvoch vyhotoveniach, z ktorých ubytovateľ obdrží jedno vyhotovenie a ubytovaný jedno vyhotovenie. Dodatok je platný dňom jeho podpisu oboma zmluvnými stranami.'),
@@ -63,8 +68,15 @@ export function nextAddendumStart(end){
 }
 
 async function addendumPdf(data,provider){
- const source=new DOMParser().parseFromString(addendumXml(data,provider),'application/xml');
- const {jsPDF}=await import('https://esm.sh/jspdf@3.0.4');
+ const items=[];
+ const source=new DOMParser().parseFromString(addendumXml(data,provider,items),'application/xml');
+ const [images,{jsPDF}]=await Promise.all([
+  paymentImages(items,{iban:provider.iban,beneficiary:provider.name,symbol:normalizeContractSymbol(data.contract),message:data.name}),
+  import('https://esm.sh/jspdf@3.0.4')
+ ]);
+ const qrImages=await Promise.all(images.map(src=>new Promise((resolve,reject)=>{
+  const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=src;
+ })));
  const pdf=new jsPDF({format:'a4',compress:true});
  const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=1697;
  const ctx=canvas.getContext('2d'),margin=65,width=1070;
@@ -94,16 +106,24 @@ async function addendumPdf(data,provider){
   }
   if(part.localName==='tbl'){
    ctx.textAlign='left';ctx.font='19px sans-serif';ctx.strokeStyle='#a8b8c9';
-   const columnWidths=widths.map(n=>n*width/widths.reduce((total,value)=>total+value,0));
-   for(const row of part.getElementsByTagNameNS(ns,'tr')){
+   const qrWidth=140;
+   const columnWidths=widths.map(n=>n*(width-qrWidth)/widths.reduce((total,value)=>total+value,0));
+   for(const [index,row] of Array.from(part.getElementsByTagNameNS(ns,'tr')).entries()){
     const cells=Array.from(row.getElementsByTagNameNS(ns,'tc')).map((cell,i)=>wrap(contents(cell),columnWidths[i]-14));
-    const height=Math.max(...cells.map(lines=>lines.length))*23+12;
+    const height=Math.max(index===0?0:qrWidth,Math.max(...cells.map(lines=>lines.length))*23+12);
     space(height);let x=margin;
     cells.forEach((lines,i)=>{
      ctx.strokeRect(x,y,columnWidths[i],height);
      lines.forEach((line,n)=>ctx.fillText(line,x+7,y+22+n*23,columnWidths[i]-14));
      x+=columnWidths[i];
     });
+    ctx.strokeRect(x,y,qrWidth,height);
+    if(index===0)ctx.fillText('QR platba',x+7,y+22);
+    else{
+     ctx.imageSmoothingEnabled=false;
+     ctx.drawImage(qrImages[index-1],x+6,y+6,128,128);
+     ctx.imageSmoothingEnabled=true;
+    }
     y+=height;
    }
    y+=15;
@@ -159,7 +179,7 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  const rent=field('Mesačné nájomné (€)','number',person.addendumRent??person.rent);rent.min='0.01';rent.step='0.01';
  const submit=document.createElement('button'),close=document.createElement('button'),status=document.createElement('p');
  close.type='button';close.textContent='Zavrieť';close.addEventListener('click',()=>panel.close());
- submit.type='submit';submit.textContent=person.saveAddendum?'Zapísať dodatok do Excelu a stiahnuť PDF':'Stiahnuť dodatok (PDF)';status.setAttribute('role','status');form.append(submit,close,status);
+ submit.type='submit';submit.textContent=person.saveAddendum?'Zapísať a stiahnuť':'Stiahnuť dodatok (PDF)';status.setAttribute('role','status');form.append(submit,close,status);
  if(!person.saveAddendum)status.textContent='K profilu chýba jednoznačne prepojený zapisovateľný riadok Excelu. PDF sa dá stiahnuť samostatne.';
  form.addEventListener('submit',async event=>{
   event.preventDefault();
