@@ -143,7 +143,7 @@ export async function addendumPdf(data,provider){
     for(const x of [margin,second]){ctx.moveTo(x,y+125);ctx.lineTo(x+390,y+125);}
     ctx.stroke();ctx.font='24px Calibri, Carlito, Arial, sans-serif';
     ctx.fillText(provider.name,margin,y+158,445);
-    ctx.fillText('konateľ',margin,y+187,445);
+    ctx.fillText(addendumRepresentative,margin,y+187,445);
     ctx.fillText(data.name,second,y+158,445);
     y+=200;
    }
