@@ -325,7 +325,12 @@ button.staff-archive-danger:hover{background:#831b24!important;color:#fff}
 <label for="regParent" id="labParent">E-mail rodiča alebo kontaktnej osoby</label><input id="regParent" type="email" maxlength="254" required>
 <label for="regIban" id="labIban">IBAN</label><input id="regIban" maxlength="80" required>
 <label for="regFridge" id="labFridge">Prinesieš si vlastnú chladničku?</label><select id="regFridge" required><option value="">Vyber</option><option value="yes">Áno</option><option value="no">Nie</option></select>
-<label for="regPhoto" id="labPhoto">Profilová fotografia</label><input id="regPhoto" type="file" accept="image/*" required>
+<div class="enquiry-photo" style="grid-column:1/-1">
+<label for="regPhoto" id="labPhoto">Profilová fotografia</label><input id="regPhoto" type="file" accept="image/*" aria-describedby="regPhotoHelp" required>
+<p id="regPhotoHelp" class="mini-note">Vyber fotku z galérie telefónu alebo z počítača.</p>
+<img id="regPhotoPreview" hidden alt="" style="max-width:160px;max-height:200px;object-fit:contain">
+<p id="regPhotoStatus" class="mini-note" role="status"></p>
+</div>
 </div></fieldset>
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
 <p id="regMonthNotice" role="note" style="padding:14px 16px;background:#eaf1f9;color:#142b4d;border-left:4px solid #e8a68e;border-radius:10px;font-weight:600;line-height:1.6">DÔLEŽITÉ: Ubytovanie sa počíta od 1. dňa mesiaca. Aj pri neskoršom príchode sa platí celý mesiac. Dátum príchodu vyplň osobitne.</p>
@@ -572,6 +577,8 @@ function translateRegister(){
  ['regPersonalTitle','regIntro','labAddress','labIdentity','labParent','labFridge','labPhoto'].forEach((id,i)=>$(id).textContent=profileCopy[i]);
  $('regFridge').options[0].textContent=newLabels[1];$('regFridge').options[1].textContent=profileCopy[7];$('regFridge').options[2].textContent=profileCopy[8];
  $('regStaffOnly').textContent=profileCopy[9];
+ $('regPhotoHelp').textContent=({sk:'Vyber fotku z galérie telefónu alebo z počítača.',en:'Choose a photo from your phone gallery or computer.',ru:'Выберите фото из галереи телефона или с компьютера.',uk:'Виберіть фото з галереї телефона або з комп’ютера.'})[lang];
+ $('regPhotoPreview').alt=profileCopy[6];
  updateRoomPreferenceOptions();
  for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",labFirst:"first",labLast:"last",labEmail:"email",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
 }
@@ -614,6 +621,34 @@ function normalizeBirthDate(value){
 $("regBirth").addEventListener("input",e=>{
  const digits=e.target.value.replace(/\D/g,'').slice(0,8);
  e.target.value=digits.slice(0,2)+(digits.length>2?'.'+digits.slice(2,4):'')+(digits.length>4?'.'+digits.slice(4):'');
+});
+let registrationPhotoUrl=null;
+function clearRegistrationPhotoPreview(){
+ if(registrationPhotoUrl)URL.revokeObjectURL(registrationPhotoUrl);
+ registrationPhotoUrl=null;
+ $('regPhoto').setCustomValidity('');
+ $('regPhotoPreview').hidden=true;
+ $('regPhotoPreview').removeAttribute('src');
+ $('regPhotoStatus').textContent='';
+}
+$('regForm').addEventListener('reset',clearRegistrationPhotoPreview);
+$('regPhoto').addEventListener('change',async event=>{
+ clearRegistrationPhotoPreview();
+ const input=event.currentTarget,file=input.files[0];
+ input.setCustomValidity('');
+ if(!file)return;
+ try{
+  const photo=await prepareProfilePhoto(file);
+  if(input.files[0]!==file)return;
+  registrationPhotoUrl=URL.createObjectURL(photo);
+  $('regPhotoPreview').src=registrationPhotoUrl;
+  $('regPhotoPreview').hidden=false;
+  $('regPhotoStatus').textContent=file.name;
+ }catch{
+  if(input.files[0]!==file)return;
+  input.setCustomValidity(photoMessage('invalid'));
+  $('regPhotoStatus').textContent=photoMessage('invalid');
+ }
 });
 $("regForm").addEventListener("invalid",e=>{
  const field=e.target,msg=$("regMessage");
