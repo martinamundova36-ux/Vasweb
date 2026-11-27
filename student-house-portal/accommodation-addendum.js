@@ -268,16 +268,23 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného']])extra[key]=field(label,'text',person[key],false);
  const rent=field('Mesačné nájomné (€)','number',person.addendumRent??person.rent);rent.min='0.01';rent.step='0.01';
  const save=document.createElement('button'),download=document.createElement('button');
- const close=document.createElement('button'),status=document.createElement('p');
- save.type=download.type=close.type='button';
+ const email=document.createElement('button'),close=document.createElement('button'),status=document.createElement('p');
+ save.type=download.type=email.type=close.type='button';
+ email.textContent='Poslať e-mailom';
  save.textContent='Zapísať dodatok';download.textContent='Stiahnuť dodatok';close.textContent='Zavrieť';
  close.addEventListener('click',()=>panel.close());
- status.setAttribute('role','status');form.append(save,download,close,status);
+ status.setAttribute('role','status');form.append(save,download,email,close,status);
  save.disabled=!person.saveAddendum;
  if(save.disabled)status.textContent='K profilu chýba jednoznačne prepojený zapisovateľný riadok Excelu.';
- async function run(writeToExcel){
+ async function run(writeToExcel,prepareEmail=false){
   if(download.disabled||!form.reportValidity()||!end)return;
-  save.disabled=download.disabled=close.disabled=true;
+  const recipient=extra.email.value.trim();
+  if(prepareEmail&&!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(recipient)){
+   status.textContent='Doplň platný e-mail študenta.';extra.email.focus();return;
+  }
+  const mailTab=prepareEmail?window.open('about:blank','_blank'):null;
+  if(mailTab)mailTab.opener=null;
+  save.disabled=download.disabled=email.disabled=close.disabled=true;
   status.textContent=writeToExcel?'Zapisujem dodatok do Excelu…':'Pripravujem PDF dodatku…';
   try{
    const details=Object.fromEntries(Object.entries(extra).map(([key,input])=>[key,input.value]));
@@ -292,13 +299,26 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
     link.href=url;link.download='Dodatok-'+data.number+'-'+normalizeContractSymbol(data.contract)+'.pdf';link.click();
     setTimeout(()=>URL.revokeObjectURL(url),1000);
     status.textContent='PDF dodatku je pripravené.';
+    if(prepareEmail){
+     const compose=new URL('https://mail.google.com/mail/');
+     compose.search=new URLSearchParams({view:'cm',fs:'1',to:recipient,
+      su:'Dodatok k zmluve o ubytovaní – Student House Bratislava',
+      body:'Dobrý deň,\n\nv prílohe Vám posielame dodatok k zmluve o ubytovaní.\n\nRecepcia Student House Bratislava'}).toString();
+     status.replaceChildren('Prilož stiahnuté PDF k rozpísanému e-mailu v Gmaile.');
+     if(mailTab)mailTab.location.replace(compose.href);
+     else{
+      const draft=document.createElement('a');draft.href=compose.href;draft.target='_blank';draft.rel='noopener noreferrer';
+      draft.textContent='Otvoriť rozpísaný e-mail';status.append(' ',draft);
+     }
+    }
    }
-  }catch(error){status.textContent=error.message||'Akciu sa nepodarilo dokončiť.';}
-  finally{save.disabled=!person.saveAddendum;download.disabled=close.disabled=false;}
+  }catch(error){mailTab?.close();status.textContent=error.message||'Akciu sa nepodarilo dokončiť.';}
+  finally{save.disabled=!person.saveAddendum;download.disabled=email.disabled=close.disabled=false;}
  }
  form.addEventListener('submit',event=>event.preventDefault());
  save.addEventListener('click',()=>void run(true));
  download.addEventListener('click',()=>void run(false));
+ email.addEventListener('click',()=>void run(false,true));
  if(!trigger)host.append(open);
  if(show)openPanel();
 }
