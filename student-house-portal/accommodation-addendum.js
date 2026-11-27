@@ -265,7 +265,7 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  const roomType=field('Typ izby','text',officialRoomName(person.roomType));
  const address=field('Bydlisko ubytovaného','text',person.address);
  const extra={};
- for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného']])extra[key]=field(label,['email','parent'].includes(key)?'email':'text',person[key]);
+ for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného (nepovinné)']])extra[key]=field(label,['email','parent'].includes(key)?'email':'text',person[key],key!=='iban');
  const rent=field('Mesačné nájomné (€)','number',person.addendumRent??person.rent);rent.min='0.01';rent.step='0.01';
  const save=document.createElement('button'),download=document.createElement('button');
  const email=document.createElement('button'),close=document.createElement('button'),status=document.createElement('p');
