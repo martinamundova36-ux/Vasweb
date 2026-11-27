@@ -4016,6 +4016,70 @@
         "1280": "e654af506235eff26d948d670d6d744bb1d3747dc749910dabcfa673bbddeb08",
         "social": "4e7083c2c1a64477b11abed34b0e673173a5c2e64c81757168c26b2a23c920b8"
       }
+    },
+    {
+      "id": "commons-b883dd1cc5a454",
+      "provider": "Wikimedia Commons",
+      "provider_id": "109798522",
+      "source_page": "https://commons.wikimedia.org/wiki/File:A_grocery_store_bus_in_western_Finland_(interior_2).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/A_grocery_store_bus_in_western_Finland_%28interior_2%29.jpg/1920px-A_grocery_store_bus_in_western_Finland_%28interior_2%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Veikk0.ma",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-27",
+      "original_sha256": "533aea9780cdfe5d03229d6fad010fdb6d1e788b8e357c2d80a977ab34d8fcb9",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Interiér maloobchodnej predajne",
+        "en": "Retail store interior"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-b883dd1cc5a454-640.webp",
+        "1280": "/assets/journal/commons-b883dd1cc5a454-1280.webp",
+        "social": "/assets/journal/commons-b883dd1cc5a454-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "a053fbc67e872c48ce872479e0e97186cef8e18917bae490739e4f4845e68b8c",
+        "1280": "34ac5ba783d61952dda048095013ade3bed363418218186c446d0612aa994611",
+        "social": "e348d350d789f2ab48710a4d2fd4b2440e5261bf2278a546dcc7d29334bf643d"
+      }
+    },
+    {
+      "id": "commons-07f68d30f0137c",
+      "provider": "Wikimedia Commons",
+      "provider_id": "109798519",
+      "source_page": "https://commons.wikimedia.org/wiki/File:A_grocery_store_bus_in_western_Finland_(interior_3).jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/A_grocery_store_bus_in_western_Finland_%28interior_3%29.jpg/1920px-A_grocery_store_bus_in_western_Finland_%28interior_3%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "creator": "Veikk0.ma",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-27",
+      "original_sha256": "6d4811b97527c5f363ad0dcdcdb44dacb8f55dbf7a0b646d35da2c3d71eaac6b",
+      "topics": [
+        "retail"
+      ],
+      "alt": {
+        "sk": "Interiér maloobchodnej predajne",
+        "en": "Retail store interior"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-07f68d30f0137c-640.webp",
+        "1280": "/assets/journal/commons-07f68d30f0137c-1280.webp",
+        "social": "/assets/journal/commons-07f68d30f0137c-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "fd0bcb4d74c2672818f6db7ce115fd3fa0e45e2df882e05b9615d246898c01a7",
+        "1280": "f79b66e0ae654104043e2aa6fd1795ccadba27e1aa0dc54c49376c7e59eabda8",
+        "social": "8f2fdebe3779652809fb826eea098fe8f68c0642e6f26768204f8e8a951f15f6"
+      }
     }
   ],
   "assignments": {
@@ -4135,6 +4199,8 @@
     "blog-journal-employee-well-being-and-organisational-sustainability-of-commercial-banks.html": "commons-3d59963f80badd",
     "blog-journal-product-life-cycle-management-based-on-the-integration-of-commodity.html": "commons-ed94e7b0bd8772",
     "blog-journal-pohoda-zamestnancov-a-udrzatelnost-komercnych-bank-v-nigerii.html": "commons-d5ee41b36426ea",
-    "blog-journal-integracia-komoditnej-vedy-marketingu-a-predaja-v-riadeni-zivotneho-cyklu.html": "commons-e5d6291900a462"
+    "blog-journal-integracia-komoditnej-vedy-marketingu-a-predaja-v-riadeni-zivotneho-cyklu.html": "commons-e5d6291900a462",
+    "blog-journal-e-commerce-participation-factor-allocation-efficiency-and-upward-class.html": "commons-b883dd1cc5a454",
+    "blog-journal-digitalny-obchod-ako-nastroj-ekonomickej-mobility-vidieckych-domacnosti.html": "commons-07f68d30f0137c"
   }
 }

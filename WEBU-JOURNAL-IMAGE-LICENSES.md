@@ -231,3 +231,7 @@ Fotografie nie sú generované AI. Zatiaľ sa načítavajú priamo z externého 
 - commons-d5ee41b36426ea: [Usrdewiki](https://commons.wikimedia.org/wiki/File:Seguimiento_Diario_de_Ventas_de_la_Soluci%C3%B3n_Past2Future_Business_Intelligence.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
 
 - commons-e5d6291900a462: [Mister rf](https://commons.wikimedia.org/wiki/File:Metalmate_Calculator_02.jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-b883dd1cc5a454: [Veikk0.ma](https://commons.wikimedia.org/wiki/File:A_grocery_store_bus_in_western_Finland_(interior_2).jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.
+
+- commons-07f68d30f0137c: [Veikk0.ma](https://commons.wikimedia.org/wiki/File:A_grocery_store_bus_in_western_Finland_(interior_3).jpg), licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0); automaticky prevzaté ako ilustračná fotografia.

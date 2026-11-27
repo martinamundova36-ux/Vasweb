@@ -1,0 +1,146 @@
+{
+  "doi": "10.1108/ccij-03-2026-0082",
+  "title": "The limits of the business case: pragmatic and moral framing effects in corporate digital responsibility communication",
+  "authors": [
+    "Alexandra Schwinges",
+    "Britta C. Brugman"
+  ],
+  "publisher": "Emerald",
+  "venue": "Corporate Communications: An International Journal",
+  "source_date": "2026-11-27",
+  "type": "journal-article",
+  "url": "https://doi.org/10.1108/ccij-03-2026-0082",
+  "abstract_available": true,
+  "abstract_words": 243,
+  "selection_keywords": [
+    "artificial intelligence",
+    "business"
+  ],
+  "verified_at": "2026-11-27",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-27",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-27",
+    "source_url": "https://doi.org/10.1108/ccij-03-2026-0082",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-27",
+    "content_sha256": "1e62da3320c70d0805c6c0f0ed2e927d0a1e330458d2c19fec2bef5c319b1dbc",
+    "languages": {
+      "sk": {
+        "title": "Limity biznis modelu v digitálnej zodpovednosti: Pragmatické verzus morálne rámcovanie",
+        "description": "Výskum analyzuje, ako podniky komunikujú digitálnu zodpovednosť a či pragmatický prístup neoslabuje vnímanie ich morálnej legitimity u verejnosti.",
+        "lead": "V ére rýchleho technologického pokroku čelia firmy výzve, ako autenticky komunikovať digitálnu zodpovednosť. Táto štúdia skúma, či je pre podnikateľov výhodnejšie voliť pragmatický alebo morálny tón pri vysvetľovaní svojich digitálnych aktivít. Podľa abstraktu výsledky naznačujú, že stratégia komunikácie môže zásadne ovplyvniť to, ako verejnosť vníma integritu a spoločenskú zodpovednosť firmy v digitálnom priestore.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Strategická komunikácia firiem v oblasti digitálnej zodpovednosti (CDR) sa stáva čoraz komplexnejšou. S rastúcimi nárokmi na ochranu súkromia a etické využívanie umelej inteligencie musia podniky prehodnotiť, ako o týchto témach informujú svojich klientov a verejnosť. Táto štúdia sa zameriava na to, či tradičné modely spoločenskej zodpovednosti (CSR) postačujú, alebo či si digitálna oblasť vyžaduje úplne odlišné komunikačné rámce.",
+              "Autorky Alexandra Schwinges a Britta C. Brugman analyzujú, ako rôzne spôsoby prezentácie informácií ovplyvňujú vnímanie dôveryhodnosti a legitimity podnikov. V kontexte digitálnej transformácie je kľúčové pochopiť, či snaha o pragmatické zdôvodnenie digitálnych aktivít neprináša nečakané riziká. Štúdia poskytuje teoretický základ pre pochopenie rozdielov medzi vnímaním klasickej CSR a modernej digitálnej zodpovednosti, čo je pre súčasných lídrov v biznise kriticky dôležitá téma."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Podľa abstraktu sa výskum zameral na testovanie dvoch odlišných komunikačných rámcov: morálneho a pragmatického. Morálne rámcovanie kladie dôraz na normatívne hodnoty a spoločenský prínos, zatiaľ čo pragmatické rámcovanie sa sústreďuje na vlastný záujem firmy a obchodné výhody. Cieľom bolo zistiť, ako tieto prístupy formujú vnímanie legitimity a riziko obvinení z tzv. „washingu“, teda neúprimnej komunikácie, v rámci digitálnej aj klasickej spoločenskej zodpovednosti.",
+              "Výskumníčky uskutočnili dva predregistrované experimenty, aby preskúmali vnímanie sociálnej zodpovednosti a morálnej legitimity. V druhom experimente sa navyše zamerali na rolu valencie rámca, teda či je informácia podaná pozitívne alebo negatívne. Štúdia sa snaží vyplniť medzeru v literatúre, ktorá sa doteraz zameriavala skôr na konceptuálne definície než na empirické testovanie komunikačných stratégií v digitálnom prostredí, čím poskytuje cenný vhľad do dynamiky firemnej komunikácie."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu existuje medzi vnímaním digitálnej zodpovednosti (CDR) a klasickej spoločenskej zodpovednosti (CSR) výrazný rozdiel v neprospech CDR. Digitálne aktivity firiem boli vnímané ako menej spoločensky zodpovedné a menej morálne legitímne než tradičné CSR iniciatívy. Toto zistenie naznačuje, že verejnosť pristupuje k digitálnym záväzkom firiem s vyššou mierou skepsy, čo môže komplikovať snahu podnikov o budovanie dôvery v digitálnom veku.",
+              "Prekvapivým zistením je, že pragmatické rámcovanie, ktoré sa v iných kontextoch javí ako efektívne, v prípade CDR znižuje vnímanú sociálnu zodpovednosť a morálnu legitimitu. Podľa abstraktu je tento negatívny efekt pragmatizmu v digitálnej komunikácii dokonca silnejší než pri klasickej CSR. Výsledky naznačujú, že pragmatický prístup môže paradoxne prehlbovať priepasť v dôvere medzi firmou a verejnosťou, pričom tento efekt bol konzistentný bez ohľadu na valenciu použitého rámca."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Metodika štúdie pozostávala z dvoch experimentov. Prvý experiment (N = 393) analyzoval vplyv morálnych a pragmatických rámcov na vnímanie legitimity. Druhý experiment (N = 403) rozšíril skúmanie o vplyv valencie rámca v špecifickom kontexte CDR. Podľa abstraktu ide o predregistrované experimenty, čo zvyšuje metodologickú transparentnosť, avšak rozsah a zloženie vzorky nie sú v abstrakte detailne špecifikované, čo obmedzuje možnosť zovšeobecnenia na všetky typy podnikov.",
+              "Je dôležité zdôrazniť, že abstrakt neposkytuje informácie o demografickom zložení respondentov ani o konkrétnych odvetviach, v ktorých firmy pôsobili. Bez prístupu k plnému textu nie je možné posúdiť, či boli výsledky ovplyvnené špecifickými kultúrnymi faktormi alebo typom digitálnych technológií. Tieto limity znamenajú, že podnikatelia by mali k výsledkom pristupovať ako k teoretickému podnetu, nie ako k univerzálne platnému návodu pre každú situáciu alebo trh."
+            ]
+          },
+          {
+            "heading": "Čo si z výskumu môže odniesť podnikateľ",
+            "paragraphs": [
+              "Podnikatelia by mali zvážiť, že prílišný dôraz na obchodné výhody v digitálnej komunikácii môže byť kontraproduktívny. Ak firma komunikuje digitálnu zodpovednosť výlučne cez prizmu efektivity alebo zisku, riskuje, že verejnosť bude jej snahy vnímať ako neúprimné. Namiesto toho sa zdá byť vhodnejšie integrovať do komunikácie morálne aspekty, ktoré zdôrazňujú zodpovednosť voči spoločnosti, čo podľa abstraktu pomáha lepšie budovať morálnu legitimitu.",
+              "Napríklad, ak firma zavádza nový systém ochrany osobných údajov, namiesto zdôrazňovania „úspory nákladov na právne spory“ (pragmatický rámec) by mohla komunikovať „ochranu digitálnych práv a dôstojnosti zákazníkov“ (morálny rámec). Podnikateľ by mal následne sledovať spätnú väzbu od klientov a merať, či tento posun v komunikácii vedie k vyššej miere dôvery. Je však nutné pamätať na to, že tento prístup je založený na experimentálnych zisteniach, ktoré nemusia platiť v každom odvetví."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Štúdia prináša dôležitý pohľad na výzvy, ktorým firmy čelia pri komunikácii digitálnej zodpovednosti. Podľa abstraktu je zrejmé, že digitálna oblasť je vnímaná odlišne od tradičnej spoločenskej zodpovednosti, čo vyžaduje citlivejší komunikačný prístup. Pragmatické rámcovanie, hoci je v biznise bežné, môže v digitálnom kontexte viesť k oslabeniu vnímanej legitimity, čo by mali manažéri pri tvorbe svojich stratégií brať do úvahy.",
+              "Výskum zdôrazňuje potrebu strategickej komunikácie, ktorá dokáže vyvážiť obchodné záujmy s morálnymi hodnotami. Hoci abstrakt naznačuje jasné trendy, pre hlbšie pochopenie mechanizmov v pozadí by bolo potrebné analyzovať plný text štúdie. Pre lídrov v biznise zostáva kľúčovým ponaučením, že v digitálnom veku nie je dôveryhodnosť len otázkou technológií, ale predovšetkým otázkou spôsobu, akým firma komunikuje svoje hodnoty a zodpovednosť voči spoločnosti."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "The Limits of the Business Case: Pragmatic vs. Moral Framing in Digital Responsibility",
+        "description": "This research examines how businesses communicate digital responsibility and whether pragmatic framing risks undermining perceived moral legitimacy.",
+        "lead": "In an era of rapid technological change, firms face the challenge of authentically communicating digital responsibility. This study investigates whether it is more effective for entrepreneurs to use pragmatic or moral framing when explaining their digital initiatives. According to the abstract, communication strategy significantly impacts how the public perceives a company's integrity and social responsibility within the digital landscape.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "Strategic communication regarding Corporate Digital Responsibility (CDR) is becoming increasingly complex. With rising demands for data privacy and ethical artificial intelligence, businesses must rethink how they inform clients and the public about these sensitive topics. This study explores whether traditional Corporate Social Responsibility (CSR) frameworks are sufficient or if the digital domain requires entirely new strategic communication approaches to maintain public trust and corporate credibility.",
+              "Authors Alexandra Schwinges and Britta C. Brugman analyze how different presentation styles influence perceptions of corporate legitimacy. In the context of digital transformation, it is critical to understand whether the tendency to justify digital activities through pragmatic business logic carries unexpected risks. The study provides a theoretical foundation for understanding the differences between perceptions of classic CSR and modern digital responsibility, which is a vital topic for contemporary business leaders."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "According to the abstract, the research tested two distinct communication frames: moral and pragmatic. Moral framing highlights normative values and societal benefits, while pragmatic framing focuses on self-interested business considerations. The goal was to determine how these approaches shape perceptions of legitimacy and the risk of being perceived as engaging in \"washing\"—insincere communication—within both digital and traditional social responsibility contexts.",
+              "The researchers conducted two preregistered experiments to examine perceptions of social responsibility and moral legitimacy. In the second experiment, they additionally investigated the role of frame valence, specifically whether positive or negative information delivery alters outcomes. The study aims to fill a gap in literature that previously focused more on conceptual definitions than on empirical testing of communication strategies in digital environments, providing valuable insights into the dynamics of corporate communication."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, there is a notable perception gap between CDR and CSR, with CDR eliciting lower perceived social responsibility and moral legitimacy than traditional CSR. This finding suggests that the public approaches corporate digital commitments with a higher degree of skepticism, which may complicate efforts to build trust in the digital age. The results indicate that digital initiatives are not automatically viewed with the same level of approval as traditional social responsibility programs.",
+              "A counterintuitive finding is that pragmatic framing, which is often effective in other business contexts, actually decreases perceived social responsibility and moral legitimacy in the case of CDR. According to the abstract, this negative effect of pragmatism is even stronger in digital communication than in CSR communication. The results suggest that a pragmatic approach may paradoxically widen the trust gap between the firm and the public, an effect that remained consistent regardless of the frame valence used."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The study's methodology consisted of two experiments. The first experiment (N = 393) analyzed the impact of moral and pragmatic frames on legitimacy perceptions. The second experiment (N = 403) expanded the investigation to include the role of frame valence in the specific context of CDR. According to the abstract, these were preregistered experiments, which increases methodological transparency, though the scope and composition of the sample are not detailed in the abstract, limiting generalizability.",
+              "It is important to note that the abstract does not provide information regarding the demographic composition of respondents or the specific industries in which the firms operated. Without access to the full text, it is impossible to assess whether the results were influenced by specific cultural factors or the type of digital technologies involved. These limitations mean that entrepreneurs should treat these results as a theoretical prompt rather than a universally applicable guide for every situation or market."
+            ]
+          },
+          {
+            "heading": "Business relevance and limitations",
+            "paragraphs": [
+              "Entrepreneurs should consider that an excessive focus on business benefits in digital communication may be counterproductive. If a firm communicates digital responsibility solely through the lens of efficiency or profit, it risks being perceived as insincere by the public. Instead, it appears more effective to integrate moral aspects into communication that emphasize responsibility toward society, which, according to the abstract, helps in building stronger moral legitimacy.",
+              "For example, if a company implements a new data privacy system, instead of emphasizing \"cost savings on legal disputes\" (a pragmatic frame), it could communicate the \"protection of digital rights and customer dignity\" (a moral frame). An entrepreneur should then monitor client feedback and measure whether this shift in communication leads to higher trust levels. It is necessary to remember that this approach is based on experimental findings that may not hold true across every sector."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study provides an important perspective on the challenges firms face when communicating digital responsibility. According to the abstract, it is clear that the digital domain is perceived differently than traditional social responsibility, requiring a more sensitive communication approach. Pragmatic framing, while common in business, may lead to a weakening of perceived legitimacy in the digital context, which managers should take into account when developing their strategies.",
+              "The research highlights the need for strategic communication that balances business interests with moral values. Although the abstract indicates clear trends, a deeper understanding of the underlying mechanisms would require an analysis of the full text. For business leaders, the key takeaway remains that in the digital age, credibility is not just a matter of technology, but primarily a matter of how a firm communicates its values and responsibility toward society."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.1108/ccij-03-2026-0082",
+        "apa7": "Alexandra Schwinges, Britta C. Brugman (2026). The limits of the business case: pragmatic and moral framing effects in corporate digital responsibility communication. Corporate Communications: An International Journal. https://doi.org/10.1108/ccij-03-2026-0082",
+        "access": "abstract"
+      }
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.61784/wjebr3137",
+  "generated_on": "2026-11-27",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Digitálny obchod ako nástroj ekonomickej mobility vidieckych domácností",
+      "description": "Analýza vplyvu e-commerce na príjmovú mobilitu vidieckych domácností v Číne na základe dát z rokov 2010 – 2020.",
+      "lead": "Táto štúdia skúma, či účasť v digitálnom obchode dokáže reálne zmeniť ekonomické postavenie vidieckych domácností. Na základe dát z rokov 2010 až 2020 autori analyzujú, či e-commerce funguje ako nástroj na zvyšovanie príjmov a profesijný rast. Výskum prináša pohľad na mechanizmy, akými digitálne technológie ovplyvňujú alokáciu zdrojov a sociálnu mobilitu v rozvojovom kontexte.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Otázka, či digitálne technológie dokážu zásadne zmeniť ekonomickú situáciu vidieckych oblastí, je kľúčovou témou diskusií o inkluzívnom raste. Podľa abstraktu sa táto štúdia zameriava na to, či e-commerce slúži len ako doplnkový zdroj príjmov, alebo či dokáže aktívne podporiť vzostupnú mobilitu domácností v rozvojových krajinách.",
+            "Výskum sa opiera o dáta z rozsiahleho projektu China Family Panel Studies, pričom analyzuje šesť vĺn zberu dát v období rokov 2010 až 2020. Cieľom je pochopiť, či účasť v online predaji vedie k reálnemu zlepšeniu životnej úrovne a profesijnému postupu hláv domácností v sledovanom čínskom prostredí."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Štúdia definuje účasť v e-commerce ako situáciu, kedy ktorýkoľvek člen domácnosti využíva internet na podnikanie alebo prevádzkuje online predaj. Podľa abstraktu sa výskumníci zamerali na meranie vzostupnej mobility prostredníctvom zmien v príjmových kvintiloch domácností a profesijného rastu hláv rodín v rámci jednotlivých vĺn zberu dát.",
+            "Okrem priameho vplyvu na príjmy skúmala štúdia aj mechanizmy, cez ktoré tento proces prebieha. Autori sa zamerali na to, či e-commerce reálne mení alokáciu práce smerom k nepoľnohospodárskym aktivitám, či podporuje prenájom poľnohospodárskej pôdy a či zlepšuje prístup domácností k formálnym úverovým nástrojom v rámci vidieckej ekonomiky."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Podľa abstraktu výsledky využívajúce metódu fixných efektov naznačujú, že účasť v e-commerce významne zvyšuje pravdepodobnosť vzostupnej mobility. Tieto zistenia ostávajú robustné aj po použití inštrumentálnych premenných, ako je interakcia medzi členitosťou terénu dediny a národným rastom online maloobchodu, čo naznačuje, že digitálne kanály môžu byť efektívnym nástrojom ekonomického rastu.",
+            "Analýza mechanizmov ukazuje, že približne jedna tretina celkového efektu mobility je spôsobená práve zmenami v alokácii faktorov, ako sú presun pracovnej sily mimo poľnohospodárstvo a lepší prístup ku kapitálu. Heterogénna analýza navyše odhalila, že najväčšie zisky zaznamenali domácnosti v najnižších príjmových kvintiloch, čo naznačuje potenciál e-commerce ako inkluzívneho rebríka mobility, ak sú odstránené bariéry vstupu."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Výskum využíva národne reprezentatívne panelové dáta z projektu China Family Panel Studies (CFPS). Metodika zahŕňa dvojcestné fixné efekty a inštrumentálne premenné na riešenie endogenity. Podľa abstraktu boli výsledky overené aj pomocou metódy párovania podľa skóre náchylnosti a alternatívnych mier mobility, čo zvyšuje dôveryhodnosť zistených asociácií v rámci sledovaného vzoru.",
+            "Je dôležité poznamenať, že abstrakt neposkytuje informácie o presnej veľkosti vzorky ani o špecifických demografických charakteristikách, ktoré by mohli ovplyvniť generalizovateľnosť výsledkov mimo čínskeho vidieka. Keďže ide o observačnú štúdiu, nemožno bez ďalšieho skúmania plne vylúčiť vplyv iných skrytých premenných, ktoré by mohli korelovať s účasťou v e-commerce aj s mobilitou domácností."
+          ]
+        },
+        {
+          "heading": "Čo si z výskumu môže odniesť podnikateľ",
+          "paragraphs": [
+            "Podnikatelia pôsobiaci v oblastiach s nižšou kúpnou silou môžu v týchto zisteniach vidieť príležitosť na budovanie distribučných sietí, ktoré integrujú vidieckych producentov do širšieho trhu. Napríklad, ak firma vyvíja platformu pre mikro-podnikateľov, môže merať, či poskytnutie prístupu k digitálnym úverovým nástrojom priamo koreluje s objemom predaja u jej najmenších dodávateľov.",
+            "Tento prístup však vyžaduje opatrnosť, pretože štúdia sa zameriava na špecifické vidiecke prostredie v Číne. Podnikateľ by mal zvážiť, či sú bariéry vstupu na jeho cieľový trh porovnateľné s tými, ktoré sú opísané v štúdii. Bez analýzy lokálnych podmienok, infraštruktúry a prístupu k technológiám nie je možné automaticky predpokladať, že rovnaké mechanizmy mobility budú fungovať aj v iných ekonomických kontextoch."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Štúdia poskytuje empirický pohľad na úlohu e-commerce pri podpore ekonomickej mobility vidieckych domácností. Podľa abstraktu digitálne obchodovanie funguje ako katalyzátor pre efektívnejšiu alokáciu práce a kapitálu, čo vedie k zlepšeniu príjmovej situácie najmä u sociálne slabších skupín.",
+            "Hoci výsledky naznačujú pozitívny vplyv, ich aplikácia v praxi závisí od odstránenia bariér vstupu a špecifických podmienok daného regiónu. Pre tvorcov politík a podnikateľov zostáva kľúčovou výzvou zabezpečiť, aby digitálne nástroje boli dostupné a využiteľné pre všetky vrstvy obyvateľstva, čím sa podporí udržateľný a inkluzívny ekonomický rast."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Digital Commerce as a Tool for Rural Household Economic Mobility",
+      "description": "An analysis of how e-commerce participation impacts income mobility in rural Chinese households using data from 2010–2020.",
+      "lead": "This study investigates whether digital commerce can fundamentally reshape the economic standing of rural households. Drawing on data from 2010 to 2020, the research examines if e-commerce participation promotes upward mobility through improved factor allocation. It provides insights into how digital adoption influences labor shifts and capital access in a developing economy context.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "The question of whether digital commerce can significantly alter the economic position of rural households is central to debates on inclusive growth. According to the abstract, this study examines whether e-commerce acts merely as a supplementary income source or if it actively promotes upward class mobility for households in developing countries.",
+            "The research utilizes nationally representative panel data from the China Family Panel Studies, covering six waves between 2010 and 2020. The objective is to determine if participation in online sales leads to tangible improvements in living standards and occupational upgrading for household heads within the observed Chinese rural context."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "The study defines e-commerce participation as any household member using the internet for business or operating online sales. According to the abstract, researchers measured upward mobility by tracking movements across household income quintiles and occupational class upgrades for household heads across multiple waves of the survey data.",
+            "Beyond direct income effects, the study analyzed the mechanisms through which these changes occur. Specifically, the researchers investigated whether e-commerce participation reallocates household labor toward nonfarm activities, encourages the transfer-out of farmland, and improves access to formal credit instruments within the rural economy, thereby facilitating broader economic shifts."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "According to the abstract, two-way fixed-effects estimates indicate that e-commerce participation significantly increases the probability of upward mobility. These results remain robust after instrumental-variable estimation, which exploited the interaction between village terrain ruggedness and national online retail growth, suggesting that digital channels serve as a meaningful driver of economic progress.",
+            "The mechanism analysis reveals that approximately one-third of the total effect is accounted for by the reallocation of labor and improved access to capital. Furthermore, heterogeneity analysis shows that households in the bottom income quintiles experienced the largest gains, indicating that e-commerce can act as an inclusive ladder for mobility, provided that entry barriers are lowered."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The research employs nationally representative panel data from the China Family Panel Studies (CFPS). The methodology utilizes two-way fixed-effects models and instrumental variables to address endogeneity. According to the abstract, findings were further verified using propensity score matching and alternative mobility measures, which strengthens the credibility of the observed associations within the study's specific sample.",
+            "It is important to note that the abstract does not provide specific sample sizes or detailed demographic breakdowns, which limits the generalizability of these findings to regions outside of rural China. As this is an observational study, one cannot fully exclude the influence of unobserved confounding variables that might correlate with both e-commerce participation and household mobility without further investigation."
+          ]
+        },
+        {
+          "heading": "Business relevance and limitations",
+          "paragraphs": [
+            "Entrepreneurs operating in markets with lower purchasing power may find these findings relevant for designing distribution networks that integrate rural producers into broader markets. For example, a company developing a platform for micro-entrepreneurs could measure whether providing access to digital credit tools correlates with increased sales volume among its smallest suppliers, while accounting for local infrastructure constraints.",
+            "However, this application requires caution, as the study focuses on a specific rural context in China. Entrepreneurs should evaluate whether the entry barriers in their target market are comparable to those described in the study. Without assessing local conditions, infrastructure, and technology access, one cannot assume that the same mobility mechanisms will function effectively in different economic settings."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The study provides an empirical perspective on the role of e-commerce in supporting the economic mobility of rural households. According to the abstract, digital trading acts as a catalyst for more efficient labor and capital allocation, leading to improved income outcomes, particularly for lower-income groups.",
+            "While the results suggest a positive impact, their practical application depends on the removal of entry barriers and the specific conditions of the region in question. For policymakers and entrepreneurs, the challenge remains to ensure that digital tools are accessible and usable across all population segments to foster sustainable and inclusive economic growth."
+          ]
+        }
+      ]
+    }
+  }
+}
