@@ -49,17 +49,20 @@ Deno.serve(async(request:Request)=>{
  if(!tenantId)return new Response(JSON.stringify({error:"origin_forbidden"}),{status:403,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}});
  if(request.method==="OPTIONS")return new Response(null,{status:204,headers:cors(origin)});
  if(request.method!=="POST") return safeResponse({error:"method_not_allowed"},405,origin);
- if(Number(request.headers.get("content-length")||"0")>8192) return safeResponse({error:"payload_too_large"},413,origin);
+ const multipart=(request.headers.get("content-type")||"").toLowerCase().startsWith("multipart/form-data;");
+ if(Number(request.headers.get("content-length")||"0")>(multipart?3100000:8192)) return safeResponse({error:"payload_too_large"},413,origin);
  try {
-  if(!(request.headers.get("content-type")||"").toLowerCase().includes("application/json"))
+  if(!multipart&&!(request.headers.get("content-type")||"").toLowerCase().includes("application/json"))
     return safeResponse({error:"json_required"},415,origin);
-  const body=await request.json();
+  const form=multipart?await request.formData():null;
+  const application=form?.get("application");
+  if(form&&(typeof application!=="string"||application.length>8192))return safeResponse({error:"invalid_request"},400,origin);
+  const body=form?JSON.parse(application as string):await request.json();
   if(!body || typeof body!=="object")return safeResponse({error:"invalid_request"},400,origin);
   if(body.website) return safeResponse({ok:true},200,origin);
   const first_name=asText(body.first_name,80);
   const last_name=asText(body.last_name,80);
   const email=asText(body.email,254).toLowerCase();
-  const room_number=asText(body.room_number,30);
   // Contract numbers and verified room assignments are written by reception only.
   // Ignore any attempted contract_number in public submissions.
   const accommodation_from=asText(body.accommodation_from,10);
@@ -82,10 +85,10 @@ Deno.serve(async(request:Request)=>{
   if(accommodation_from.slice(8)!=='01'||!computedEnd||accommodation_to!==computedEnd||!isDate(arrival)||arrival<accommodation_from||arrival.slice(0,7)!==accommodation_from.slice(0,7)){
    return safeResponse({error:'invalid_stay_dates'},400,origin);
   }
-  const genderValid=['','male','female','other'].includes(gender);
+  const genderValid=['male','female','other'].includes(gender);
   const parentValid=!parent_contact_email||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(parent_contact_email);
   if(![true,"true"].includes(body.privacy_acknowledged) || first_name.length<1 || last_name.length<1 ||
-    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !genderValid || !parentValid ||
+    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !genderValid || !parentValid || !telephone || !nationality || !school || !date_of_birth || !preferred_room_type ||
     (date_of_birth&&(!isDate(date_of_birth)||date_of_birth>new Date().toISOString().slice(0,10))) ||
     (arrival&&(!isDate(arrival)||arrival>accommodation_to)) ||
     !isDate(accommodation_from)||!isDate(accommodation_to)||accommodation_to<=accommodation_from) {
@@ -93,6 +96,19 @@ Deno.serve(async(request:Request)=>{
   }
   const wantsPassword=Object.hasOwn(body,'password');
   if(wantsPassword&&(typeof body.password!=='string'||body.password.length<12||body.password.length>200||body.password!==body.password_confirmation||!telephone||!nationality||!date_of_birth||!preferred_room_type||!arrival))return safeResponse({error:'invalid_fields'},400,origin);
+  const identity_document_number=asText(body.identity_document_number,100);
+  const iban=asText(body.iban,80);
+  let photo:File|null=null;
+  if(form){
+   const upload=form.get("photo");
+   if(!wantsPassword||permanent_address.length<5||identity_document_number.length<4||!parent_contact_email||school.length<2||nationality.length<2||telephone.length<6||!iban||!gender||typeof body.own_refrigerator!=="boolean"||!(upload instanceof File)||upload.size<8||upload.size>3000000)
+    return safeResponse({error:"invalid_fields"},400,origin);
+   const signature=new Uint8Array(await upload.slice(0,8).arrayBuffer());
+   const jpeg=signature[0]===255&&signature[1]===216&&signature[2]===255;
+   const png=signature.every((value,index)=>value===[137,80,78,71,13,10,26,10][index]);
+   if(!((jpeg&&upload.type==="image/jpeg")||(png&&upload.type==="image/png")))return safeResponse({error:"invalid_photo"},400,origin);
+   photo=upload;
+  }
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("cf-connecting-ip") || "unidentified";
   const secretKey=await crypto.subtle.importKey("raw",encoder.encode(SECRET),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
   const signature=await crypto.subtle.sign("HMAC",secretKey,encoder.encode(forwarded));
@@ -120,7 +136,18 @@ Deno.serve(async(request:Request)=>{
    }
    newUserId=account.user.id;
   }
-  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,room_number,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival,preferred_duration_months:duration}});
+  const bucket=client.storage.from("residence-portal-files");
+  const path=photo&&newUserId?"photos/"+tenantId+"/"+newUserId+"/"+crypto.randomUUID()+(photo.type==="image/png"?".png":".jpg"):null;
+  if(path&&photo){
+   const {error:uploadError}=await bucket.upload(path,photo,{contentType:photo.type,cacheControl:"60",upsert:false});
+   if(uploadError){
+    if(newUserId)await client.auth.admin.deleteUser(newUserId);
+    return safeResponse({error:"temporarily_unavailable"},503,origin);
+   }
+  }
+  const {data:created,error:registrationError}=await client.rpc('residence_submit_registration',{p_tenant:tenantId,p_data:{first_name,last_name,email,accommodation_from,accommodation_to,permanent_address,nationality,telephone,gender,date_of_birth,school,parent_contact_email,preferred_room_type,expected_arrival:arrival,preferred_duration_months:duration,...(path&&photo?{identity_document_number,iban,own_refrigerator:body.own_refrigerator,photo_path:path,photo_type:photo.type,photo_size:photo.size,photo_user_id:newUserId}:{})}});
+  if(path&&(registrationError||!created?.id||created.existing===true))await bucket.remove([path]);
+  if(created?.existing===true&&newUserId)await client.auth.admin.deleteUser(newUserId);
   if(registrationError||!created?.id){
    console.error('registration_transaction_failed',registrationError?.code);
    if(newUserId){const {error:cleanupError}=await client.auth.admin.deleteUser(newUserId);if(cleanupError)console.error('registration_auth_cleanup_failed',cleanupError.code);}

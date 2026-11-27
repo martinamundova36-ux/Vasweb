@@ -320,7 +320,13 @@ button.staff-archive-danger:hover{background:#831b24!important;color:#fff}
 <label for="regNationality" id="labNationality">Štátna príslušnosť</label><input id="regNationality" maxlength="80" required>
 <label for="regGender" id="labGender">Pohlavie</label><select id="regGender" required><option value="">Vyber</option><option value="female">Žena</option><option value="male">Muž</option><option value="other">Iné</option></select>
 <label for="regSchool" id="labSchool">Vysoká škola / univerzita</label><input id="regSchool" maxlength="250" required list="regSchoolList"><datalist id="regSchoolList"><option value="Univerzita Komenského v Bratislave"></option><option value="Slovenská technická univerzita v Bratislave"></option><option value="Ekonomická univerzita v Bratislave"></option><option value="Slovenská zdravotnícka univerzita"></option><option value="Vysoká škola múzických umení"></option><option value="Vysoká škola výtvarných umení"></option><option value="Paneurópska vysoká škola"></option><option value="Vysoká škola manažmentu"></option><option value="Akadémia Policajného zboru"></option></datalist>
-</div><p class="muted">Ďalšie údaje a fotografiu doplníš po schválení recepciou.</p></fieldset>
+<label for="regAddress" id="labAddress">Adresa trvalého bydliska</label><textarea id="regAddress" autocomplete="street-address" maxlength="500" required></textarea>
+<label for="regIdentity" id="labIdentity">Číslo OP alebo pasu</label><input id="regIdentity" maxlength="100" required>
+<label for="regParent" id="labParent">E-mail rodiča alebo kontaktnej osoby</label><input id="regParent" type="email" maxlength="254" required>
+<label for="regIban" id="labIban">IBAN</label><input id="regIban" maxlength="80" required>
+<label for="regFridge" id="labFridge">Prinesieš si vlastnú chladničku?</label><select id="regFridge" required><option value="">Vyber</option><option value="yes">Áno</option><option value="no">Nie</option></select>
+<label for="regPhoto" id="labPhoto">Profilová fotografia</label><input id="regPhoto" type="file" accept="image/*" required>
+</div></fieldset>
 <fieldset class="reg-section"><legend id="regStayTitle">Požiadavka na ubytovanie</legend>
 <p id="regMonthNotice" role="note" style="padding:14px 16px;background:#eaf1f9;color:#142b4d;border-left:4px solid #e8a68e;border-radius:10px;font-weight:600;line-height:1.6">DÔLEŽITÉ: Ubytovanie sa počíta od 1. dňa mesiaca. Aj pri neskoršom príchode sa platí celý mesiac. Dátum príchodu vyplň osobitne.</p>
 <div class="reg-fields">
@@ -331,7 +337,7 @@ button.staff-archive-danger:hover{background:#831b24!important;color:#fff}
 <label for="regTo" id="labTo">Ubytovanie do</label><input id="regTo" type="date" readonly aria-describedby="regStayRule"><p id="regStayRule" class="mini-note" style="grid-column:1/-1">Prvý mesiac sa platí celý, aj pri príchode v priebehu mesiaca. Odchod je posledný deň posledného plateného mesiaca.</p>
 <label for="regArrival" id="labArrival">Predpokladaný príchod</label><input id="regArrival" type="date" required>
 </div>
-<p id="regStaffOnly" class="mini-note">Číslo ubytovacej zmluvy, konečné pridelenie izby, depozit, poplatky a mesačný platobný kalendár doplní výhradne recepcia Student House Bratislava. Po schválení si nahráš fotografiu a doplníš osobný dotazník.</p>
+<p id="regStaffOnly" class="mini-note">Číslo ubytovacej zmluvy, konečné pridelenie izby, depozit, poplatky a mesačný platobný kalendár doplní výhradne recepcia Student House Bratislava.</p>
 </fieldset>
 
 <label for="regPassword" id="regPasswordLabel">Heslo (minimálne 12 znakov)</label><div class="password-field register-password-field"><input id="regPassword" type="password" autocomplete="new-password" minlength="12" maxlength="200" required><button type="button" id="regPasswordEye" class="field-eye" aria-label="Zobraziť heslo" aria-controls="regPassword" aria-pressed="false">👁</button></div>
@@ -557,8 +563,17 @@ function translateRegister(){
  $('labGender').textContent=newLabels[0];$('regGender').options[0].textContent=newLabels[1];['female','male','other'].forEach((key,i)=>$('regGender').options[i+1].textContent=ext[key]);$('labSchool').textContent=newLabels[2];$('labOccupancy').textContent=newLabels[3];$('regOccupancy').options[0].textContent=newLabels[1];$('regOccupancy').options[1].textContent=newLabels[4];$('regOccupancy').options[2].textContent=newLabels[5];
  const regLabels={sk:['Dátum narodenia','Štátna príslušnosť','Heslo (minimálne 12 znakov)','Potvrdiť heslo'],en:['Date of birth','Nationality','Password (at least 12 characters)','Confirm password'],ru:['Дата рождения','Гражданство','Пароль (не менее 12 символов)','Подтвердите пароль'],uk:['Дата народження','Громадянство','Пароль (не менше 12 символів)','Підтвердьте пароль']}[lang]||[];
  ['labBirth','labNationality','regPasswordLabel','regPasswordConfirmLabel'].forEach((id,i)=>$(id).textContent=regLabels[i]);
+ const profileCopy=({
+ sk:['Osobný dotazník a fotografia','Vyplň celý dotazník, prilož fotografiu a odošli žiadosť na schválenie.','Adresa trvalého bydliska','Číslo OP alebo pasu','E-mail rodiča alebo kontaktnej osoby','Prinesieš si vlastnú chladničku?','Profilová fotografia','Áno','Nie','Izbu, číslo zmluvy, depozit, poplatky a splátkový kalendár doplní recepcia.'],
+ en:['Personal questionnaire and photo','Complete the questionnaire, add a photo and submit your application for approval.','Permanent address','ID card or passport number','Parent or emergency contact email','Will you bring your own refrigerator?','Profile photo','Yes','No','Reception assigns the room and adds the contract number, deposit, fees and payment schedule.'],
+ ru:['Анкета и фотография','Заполните анкету, добавьте фотографию и отправьте заявку на рассмотрение.','Постоянный адрес','Номер удостоверения личности или паспорта','Электронная почта родителя или контактного лица','Вы привезёте свой холодильник?','Фотография профиля','Да','Нет','Ресепшен назначает комнату и добавляет номер договора, депозит, сборы и график платежей.'],
+ uk:['Анкета та фотографія','Заповніть анкету, додайте фотографію та надішліть заявку на розгляд.','Постійна адреса','Номер посвідчення особи або паспорта','Електронна пошта одного з батьків або контактної особи','Ви привезете власний холодильник?','Фотографія профілю','Так','Ні','Рецепція призначає кімнату та додає номер договору, депозит, збори й графік платежів.']
+ })[lang];
+ ['regPersonalTitle','regIntro','labAddress','labIdentity','labParent','labFridge','labPhoto'].forEach((id,i)=>$(id).textContent=profileCopy[i]);
+ $('regFridge').options[0].textContent=newLabels[1];$('regFridge').options[1].textContent=profileCopy[7];$('regFridge').options[2].textContent=profileCopy[8];
+ $('regStaffOnly').textContent=profileCopy[9];
  updateRoomPreferenceOptions();
- for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",regIntro:"intro",labFirst:"first",labLast:"last",labEmail:"email",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
+ for(const [id,k] of Object.entries({openRegistration:"open",regTitle:"title",labFirst:"first",labLast:"last",labEmail:"email",labFrom:"from",labTo:"to",regPrivacyText:"privacy",regSend:"send",regBack:"back"}))$(id).textContent=k==='room'?ext.room:r[k];
 }
 let regOpen=false;
 function setRegistration(on){
@@ -573,8 +588,8 @@ $("regBack").addEventListener("click",()=>setRegistration(false));
 $("pendingBack").addEventListener("click",()=>setRegistration(false));
 // Auth stores the password; residence access stays closed until reception approval.
 const REG_SUBMITTED={
- sk:'Žiadosť je uložená a čaká na schválenie recepciou. Po schválení sa prihlás svojím e-mailom a heslom. Výzva na osobný dotazník sa zobrazí priamo v Studenthouse.',
- en:'Your application is awaiting reception approval. After approval, sign in with the email and password chosen during registration to continue the questionnaire inside Studenthouse.',
+ sk:'Žiadosť je uložená a čaká na schválenie recepciou. Po schválení sa prihlás svojím e-mailom a heslom.',
+ en:'Your application is awaiting reception approval. After approval, sign in with the email and password chosen during registration.',
  ru:'Заявка успешно отправлена и сохранена. Она ожидает подтверждения ресепшеном. Инструкции придут по электронной почте.',
  uk:'Заявку успішно надіслано та збережено. Вона очікує схвалення рецепцією. Інструкції надійдуть електронною поштою.'
 };
@@ -618,14 +633,21 @@ $("regForm").addEventListener("submit",async e=>{
   room_number:'',preferred_room_type:$("regRoomType").value+' / '+($("regOccupancy").value==='private'?'Celá izba':'Zdieľaná izba'),
   telephone:$("regPhone").value.trim(),nationality:$("regNationality").value.trim(),gender:$("regGender").value,date_of_birth,
   password:$("regPassword").value,password_confirmation:$("regPasswordConfirm").value,
-  permanent_address:'',school:$("regSchool").value.trim(),parent_contact_email:'',
+  permanent_address:$("regAddress").value.trim(),school:$("regSchool").value.trim(),
+  parent_contact_email:$("regParent").value.trim(),identity_document_number:$("regIdentity").value.trim(),
+  iban:$("regIban").value.trim(),own_refrigerator:$("regFridge").value==='yes',
   expected_arrival:$("regArrival").value,
   accommodation_from:from,accommodation_to:to,preferred_duration_months:Number($("regDuration").value),privacy_acknowledged:$("regPrivacy").checked,website:$("regWebsite").value
  };
  btn.disabled=true;
  try{
+  let photo;
+  try{photo=await prepareProfilePhoto($('regPhoto').files[0]);}
+  catch{msg.style.color="#a32c30";msg.textContent=photoMessage('invalid');return;}
+  const registrationBody=new FormData();
+  registrationBody.append('application',JSON.stringify(payload));registrationBody.append('photo',photo);
   const response=await fetch("https://ydqchayscxntqdkzkynv.supabase.co/functions/v1/register-student",{
-   method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store"
+   method:"POST",body:registrationBody,cache:"no-store"
   });
   const body=await response.json();
   if(response.ok&&body.ok&&(body.already_registered===true||response.status!==201)){
