@@ -728,17 +728,18 @@ export async function renderStaffScreen(ctx) {
   const missingVerified=({sk:'Recepcia ešte nepotvrdila',en:'Not yet verified by reception',ru:'Ещё не подтверждено',uk:'Ще не підтверджено'})[ctx.lang];
   staffFacts.append(el('h4','section-subtitle',verifiedTitle));
   results.append(staffFacts);
+  const excelDetails=import('./imported-register.js?v=20261127-excel-arrival').then(async ({listImportedStudents})=>{
+     const entries=await listImportedStudents(ctx.db,ctx.tenant,[person],{includeVerified:true});
+     const matches=entries.filter(entry=>entry.linked&&entry.from===person.accommodation_from);
+     return matches.length===1?matches[0]:null;
+    }).catch(()=>null);
   try{
    const [{data:record,error},{data:stays,error:stayError},excel]=await Promise.all([
     ctx.db.from('resident_staff_details')
      .select('room_code,deposit_eur,administration_fee_eur')
      .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle(),
     ctx.db.from('tenancies').select('rent,starts_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id),
-    import('./imported-register.js?v=20261127-excel-fees').then(async ({listImportedStudents})=>{
-     const entries=await listImportedStudents(ctx.db,ctx.tenant,[person],{includeVerified:true});
-     const matches=entries.filter(entry=>entry.linked&&entry.from===person.accommodation_from);
-     return matches.length===1?matches[0]:null;
-    }).catch(()=>null)
+    excelDetails
    ]);
    if(!ctx.isCurrent()||!staffFacts.isConnected)return;
    if(error||stayError)throw Error('staff_details_unavailable');
@@ -770,7 +771,7 @@ export async function renderStaffScreen(ctx) {
    const {data,error}=await ctx.db.from('resident_staff_details').select('actual_arrival_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle();
    if(error)throw error;
    if(!ctx.isCurrent()||!arrivalForm.isConnected)return;
-   arrivalInput.value=data?.actual_arrival_on||'';arrivalNotice.textContent=arrivalInput.value?ctx.day(arrivalInput.value):arrivalWords[1];arrivalInput.disabled=false;arrivalSave.disabled=false;
+   arrivalInput.value=data?.actual_arrival_on||(await excelDetails)?.actualArrival||'';arrivalNotice.textContent=arrivalInput.value?ctx.day(arrivalInput.value):arrivalWords[1];arrivalInput.disabled=false;arrivalSave.disabled=false;
   }catch{arrivalNotice.textContent=arrivalWords[4];}
   arrivalForm.addEventListener('submit',async e=>{
    e.preventDefault();if(!ctx.isCurrent()||arrivalSave.disabled||!arrivalForm.reportValidity())return;
