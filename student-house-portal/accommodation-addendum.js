@@ -296,7 +296,10 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
    }else{
     const blob=await addendumPdf(data,provider);
     const url=URL.createObjectURL(blob),link=document.createElement('a');
-    link.href=url;link.download='Dodatok-'+data.number+'-'+normalizeContractSymbol(data.contract)+'.pdf';link.click();
+    const studentName=data.name.trim().replace(/[^\p{L}\p{M}\p{N}]+/gu,'-').replace(/^-+|-+$/g,'').slice(0,120);
+    link.href=url;
+    link.download='Dodatok-'+data.number+'-'+(studentName||normalizeContractSymbol(data.contract))+'.pdf';
+    link.click();
     setTimeout(()=>URL.revokeObjectURL(url),1000);
     status.textContent='PDF dodatku je pripravené.';
     if(prepareEmail){
