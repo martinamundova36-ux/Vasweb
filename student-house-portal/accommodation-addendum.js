@@ -162,7 +162,7 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
     end='';
   if(from.value&&[5,10,12].includes(months)){
    const [year,month]=from.value.split('-').map(Number);
-   end=new Date(Date.UTC(year,month-1+months,0)).toISOString().slice(0,10);
+   end=new Date(Date.UTC(year,month-1+months,months===12?-4:0)).toISOString().slice(0,10);
   }
   endDate.value=end?date(end):'—';
  }
