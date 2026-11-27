@@ -4,7 +4,7 @@ import {downloadWorkbook} from './excel.js?v=20261126-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
 import {buildStudentHouseSchedule} from './installment-document.js?v=20261126-register';
 const normalized=value=>String(value??'').trim().toLowerCase().normalize('NFC').replace(/\s+/g,' ');
-const searchText=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLocaleLowerCase().trim().replace(/\s+/g,' ');
+const searchText=value=>String(value??'').normalize('NFD').replace(/[\p{M}\p{Cf}]/gu,'').toLocaleLowerCase().trim().replace(/\s+/g,' ');
 // Names may have alternate Latin transliterations (Kyrylo/Kyrilo) or a minor typo.
 const nameVariant=value=>searchText(value).replace(/y/g,'i');
 const oneNameEdit=(a,b)=>{
@@ -298,8 +298,20 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  });
  stayFilter.value=focus?.status||'all';
  const filterBar=el('div');filterBar.className='import-toolbar';filterBar.append(filterLabel,search);
- const nameResults=el('div');nameResults.className='import-name-results';nameResults.hidden=true;nameResults.setAttribute('aria-live','polite');
- const nameWords=({sk:['Výsledky podľa mena vo všetkých semestroch','Žiadne meno v evidencii','Izba'],en:['Name matches across all semesters','No matching name in the register','Room'],ru:['Результаты поиска по имени во всех семестрах','Имя не найдено','Комната'],uk:['Результати пошуку за ім’ям у всіх семестрах','Ім’я не знайдено','Кімната']})[lang]||['Výsledky podľa mena vo všetkých semestroch','Žiadne meno v evidencii','Izba'];
+ const results=el('div');results.className='import-name-results';results.hidden=true;results.setAttribute('aria-live','polite');
+ const searchMessages={
+  sk:['Výsledky vo všetkých semestroch','Žiadne záznamy','Izba','Vymazať vyhľadávanie','Meno, priezvisko, izba, e-mail alebo číslo zmluvy'],
+  en:['Results across all semesters','No records found','Room','Clear search','Name, room, email or contract number'],
+  ru:['Результаты по всем семестрам','Записи не найдены','Комната','Очистить поиск','Имя, фамилия, комната, e-mail или номер договора'],
+  uk:['Результати за всіма семестрами','Записів не знайдено','Кімната','Очистити пошук','Ім’я, прізвище, кімната, e-mail або номер договору']
+ };
+ const searchLabels=searchMessages[lang]||searchMessages.sk;
+ search.placeholder=searchLabels[4]||words.sk[3];
+ search.setAttribute('aria-label',search.placeholder);
+ const clear=btn(searchLabels[3]||'Vymazať vyhľadávanie',()=>{
+  search.value='';stayFilter.value='all';paint();search.focus();
+ });
+ filterBar.append(clear);
  const count=el('p');count.setAttribute('aria-live','polite');
  const scroll=el('div');scroll.className='import-scroll room-register-scroll';scroll.tabIndex=0;
  let selected=sheets.find(x=>x.sheet_name===focus?.sheet)||sheets.find(x=>x.sheet_name===(focus?.year===2027?'od 02 2027':'od 09 2026'))||sheets[0];
@@ -439,31 +451,42 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    }catch{status.textContent='Platba sa neuložila. Skontroluj referenciu a aktuálny zostatok.';save.disabled=false;cancel.disabled=false;}
   };
  }
- function findNameRows(query){
-  if(!query||!/[\p{L}]/u.test(query))return [];
-  const hits=[];
+ function findRows(query){
+  const hits=new Map();
+  if(!query)return hits;
   for(const sheet of sheets){
-   const headers=headersFor(sheet),index=label=>headers.findIndex(v=>searchText(v)===label);
-   const first=index('meno'),last=index('priezvisko'),room=index('izba');
-   if(first<0||last<0||room<0)continue;
+   const headers=headersFor(sheet).map(searchText);
+   const first=headers.indexOf('meno'),last=headers.indexOf('priezvisko'),room=headers.indexOf('izba');
+   const identifiers=headers.flatMap((label,i)=>/^(izba|c(islo)?\.? izby|e[ -]?mail|kod izby|c(islo)?\.? zmluvy)$/.test(label)?[i]:[]);
+   const matchesName=values=>matchesRegisterName(query,values[first],values[last]);
    for(const [row,values] of recordsFor(sheet)){
-    const a=get(sheet,row,first,values[first]),b=get(sheet,row,last,values[last]);
-    if(matchesRegisterName(query,a,b))hits.push({sheet,row,name:[a,b].filter(Boolean).join(' '),room:get(sheet,row,room,values[room])});
+    const actual=valuesFor(sheet,row,values);
+    const imported=headers.map((_,i)=>edits.has(cellKey(sheet,row,i))?edits.get(cellKey(sheet,row,i)).value:values[i]);
+    const name=[actual[first],actual[last]].filter(Boolean).join(' ');
+    if(!name)continue;
+    if(matchesName(actual)||matchesName(imported)||identifiers.some(i=>searchText(actual[i]).includes(query)||searchText(imported[i]).includes(query))){
+     hits.set(cellKey(sheet,row,0),{sheet,row,name,room:actual[room]});
+    }
    }
   }
   return hits;
  }
- function paintNameResults(query,hits){
-  nameResults.replaceChildren();nameResults.hidden=!query||!/[\p{L}]/u.test(query);
-  if(nameResults.hidden)return;
-  nameResults.append(el('strong',nameWords[0]+': '+hits.length));
-  if(!hits.length){nameResults.append(el('p',nameWords[1]));return;}
-  for(const hit of hits){const action=btn(hit.name+' · '+nameWords[2]+' '+hit.room+' · '+hit.sheet.sheet_name,()=>{selected=hit.sheet;stayFilter.value='all';paint();});nameResults.append(action);}
+ function paintResults(query,hits){
+  results.replaceChildren();results.hidden=!query;clear.disabled=!query&&stayFilter.value==='all';
+  if(results.hidden)return;
+  results.append(el('strong',searchLabels[0]+': '+hits.size));
+  if(!hits.size){results.append(el('p',searchLabels[1]));return;}
+  for(const hit of hits.values()){
+   const action=btn(hit.name+' · '+searchLabels[2]+' '+(hit.room||'—')+' · '+hit.sheet.sheet_name,()=>{
+    selected=hit.sheet;stayFilter.value='all';paint(hit.row);
+   });
+   results.append(action);
+  }
  }
- function paint(){
+ function paint(focusedRow){
   for(const [id,t] of tabButtons){const active=id===selected.sheet_order;t.setAttribute('aria-pressed',String(active));t.style.background=active?'#142b4d':'#ffffff';t.style.color=active?'#ffffff':'#142b4d';t.style.border='1px solid #142b4d';}
-  const q=searchText(search.value),nameHits=findNameRows(q);
-  paintNameResults(q,nameHits);
+  const q=searchText(search.value),hits=findRows(q);
+  paintResults(q,hits);
   const sheet=selected,rows=recordsFor(sheet);
   section.dataset.sheet=sheet.sheet_name;
   const table=el('table'),head=table.createTHead().insertRow(),body=table.createTBody();
@@ -471,17 +494,18 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   const fromIndex=header.findIndex(v=>normalized(v)==='od'),toIndex=header.findIndex(v=>normalized(v)==='do');
   const hasStayDates=fromIndex>=0&&toIndex>=0;
   const indexOf=label=>header.findIndex(value=>normalized(value)===label);
-  const roomIndex=indexOf('izba'),firstIndex=indexOf('meno'),lastIndex=indexOf('priezvisko');
+  const roomIndex=indexOf('izba');
   filterLabel.hidden=!hasStayDates;
   const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
   for(const i of visibleColumns){const cell=el('th',header[i]??'');cell.scope='col';head.append(cell);}
   if(extraHeaders.has(sheet.sheet_order))head.append(el('th','Finančná evidencia'));
-  let shown=0;
+  let shown=0,target;
   for(const [row,values] of rows){
    const actual=valuesFor(sheet,row,values);
    if(hasStayDates&&stayFilter.value!=='all'&&registerStayStatus(actual[fromIndex],actual[indexOf('dodatok do')]||actual[toIndex],today)!==stayFilter.value)continue;
-   if(q&&!nameHits.some(hit=>hit.sheet.sheet_order===sheet.sheet_order&&hit.row===row)&&!matchesRegisterName(q,actual[firstIndex],actual[lastIndex])&&!actual.some((v,i)=>searchText(v).includes(q)||searchText(noteFor(sheet,row,i)).includes(q)))continue;
+   if(q&&!hits.has(cellKey(sheet,row,0))&&!actual.some((v,i)=>searchText(v).includes(q)||searchText(noteFor(sheet,row,i)).includes(q)))continue;
    shown++;const tr=body.insertRow();
+   if(row===focusedRow){target=tr;tr.tabIndex=-1;tr.style.outline='2px solid #17643c';tr.style.outlineOffset='-2px';}
    for(const i of visibleColumns){
     const cell=el('td'),n=noteFor(sheet,row,i),v=actual[i];
     const synced=syncedCells.has(cellKey(sheet,row,i));
@@ -511,6 +535,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    }
   }
   count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
+  if(target){target.focus({preventScroll:true});(target.cells[roomIndex]??target).scrollIntoView({block:'center',inline:'nearest'});}
  }
- section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Záznamy bez jednoznačnej zhody v importe sa zobrazujú samostatne. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,filterBar,nameResults,count,scroll);root.append(section);const searchChanged=()=>{const hits=findNameRows(searchText(search.value));if(hits.length&&!hits.some(hit=>hit.sheet.sheet_order===selected.sheet_order)){selected=hits.find(hit=>hit.sheet.sheet_name==='od 09 2026')?.sheet??hits[0].sheet;}paint();};search.addEventListener('input',searchChanged);search.addEventListener('change',searchChanged);stayFilter.onchange=paint;paint();return true;
+ section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Záznamy bez jednoznačnej zhody v importe sa zobrazujú samostatne. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,filterBar,results,count,scroll);root.append(section);const searchChanged=()=>paint();search.addEventListener('input',searchChanged);stayFilter.onchange=searchChanged;paint();return true;
 }
