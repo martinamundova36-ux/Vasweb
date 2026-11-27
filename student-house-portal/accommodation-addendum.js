@@ -177,26 +177,38 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  }
  from.addEventListener('input',updateEnd);duration.addEventListener('change',updateEnd);updateEnd();
  const rent=field('Mesačné nájomné (€)','number',person.addendumRent??person.rent);rent.min='0.01';rent.step='0.01';
- const submit=document.createElement('button'),close=document.createElement('button'),status=document.createElement('p');
- close.type='button';close.textContent='Zavrieť';close.addEventListener('click',()=>panel.close());
- submit.type='submit';submit.textContent=person.saveAddendum?'Zapísať a stiahnuť':'Stiahnuť dodatok (PDF)';status.setAttribute('role','status');form.append(submit,close,status);
- if(!person.saveAddendum)status.textContent='K profilu chýba jednoznačne prepojený zapisovateľný riadok Excelu. PDF sa dá stiahnuť samostatne.';
- form.addEventListener('submit',async event=>{
-  event.preventDefault();
-  if(submit.disabled||!form.reportValidity()||!to.value)return;
-  submit.disabled=true;close.disabled=true;status.textContent='Pripravujem dodatok…';
+ const save=document.createElement('button'),download=document.createElement('button');
+ const close=document.createElement('button'),status=document.createElement('p');
+ save.type=download.type=close.type='button';
+ save.textContent='Zapísať do Excelu';download.textContent='Stiahnuť PDF';close.textContent='Zavrieť';
+ close.addEventListener('click',()=>panel.close());
+ status.setAttribute('role','status');form.append(save,download,close,status);
+ save.disabled=!person.saveAddendum;
+ if(save.disabled)status.textContent='K profilu chýba jednoznačne prepojený zapisovateľný riadok Excelu.';
+ async function run(writeToExcel){
+  if(download.disabled||!form.reportValidity()||!to.value)return;
+  save.disabled=download.disabled=close.disabled=true;
+  status.textContent=writeToExcel?'Zapisujem dodatok do Excelu…':'Pripravujem PDF dodatku…';
   try{
    const details=Object.fromEntries(Object.entries(extra).map(([key,input])=>[key,input.value]));
    const data={...person,...details,number:number.value,contract:contract.value,room:room.value,roomType:roomType.value,address:address.value,from:from.value,to:to.value,rent:rent.valueAsNumber};
-   const blob=await addendumPdf(data,provider);
-   if(person.saveAddendum)await person.saveAddendum(data);
-   const url=URL.createObjectURL(blob),link=document.createElement('a');
-   link.href=url;link.download='Dodatok-'+number.value+'-'+normalizeContractSymbol(contract.value)+'.pdf';link.click();
-   setTimeout(()=>URL.revokeObjectURL(url),1000);
-   status.textContent=person.saveAddendum?'Dodatok je zapísaný v Exceli. PDF je pripravené.':'PDF dodatku je pripravené.';
-  }catch(error){status.textContent=error.message||'Dodatok sa nepodarilo vytvoriť.';}
-  finally{submit.disabled=false;close.disabled=false;}
- });
+   if(writeToExcel){
+    addendumXml(data,provider);
+    await person.saveAddendum(data);
+    status.textContent='Dodatok je zapísaný v Exceli.';
+   }else{
+    const blob=await addendumPdf(data,provider);
+    const url=URL.createObjectURL(blob),link=document.createElement('a');
+    link.href=url;link.download='Dodatok-'+data.number+'-'+normalizeContractSymbol(data.contract)+'.pdf';link.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    status.textContent='PDF dodatku je pripravené.';
+   }
+  }catch(error){status.textContent=error.message||'Akciu sa nepodarilo dokončiť.';}
+  finally{save.disabled=!person.saveAddendum;download.disabled=close.disabled=false;}
+ }
+ form.addEventListener('submit',event=>event.preventDefault());
+ save.addEventListener('click',()=>void run(true));
+ download.addEventListener('click',()=>void run(false));
  if(!trigger)host.append(open);
  if(show)openPanel();
 }
