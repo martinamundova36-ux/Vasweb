@@ -3,6 +3,7 @@ import {zip} from './excel.js?v=addendum';
 import {advanceRentDueDate} from './ledger.js';
 import {providerDetails,normalizeContractSymbol,officialRoomName} from './student-house-provider.js?v=20261127-official-room-names';
 
+const addendumRepresentative='Ing. Ján Blaško – konateľ';
 const ns='http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const xml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]));
 const date=value=>value.split('-').reverse().join('.');
@@ -20,7 +21,7 @@ function partiesTable(data,provider){
   ['Ubytovateľ:',[
    ['Meno:',provider.name],['So sídlom:',provider.address],['IČO:',provider.companyId],
    ['DIČ:',provider.taxId],['IČ DPH:',provider.vatId],['Zapísaná:',provider.register],
-   ['Zastúpená:',provider.representatives],['Banka:',provider.bank],['IBAN:',provider.iban],['SWIFT (BIC):',provider.bic]
+   ['Zastúpená:',addendumRepresentative],['Banka:',provider.bank],['IBAN:',provider.iban],['SWIFT (BIC):',provider.bic]
   ],'(ďalej len ako „ubytovateľ“)'],
   ['Ubytovaný:',[
    ['Meno:',firstName],['Priezvisko:',lastName],['Bydlisko:',data.address],
@@ -58,19 +59,14 @@ function addendumXml(data,provider,items=[]){
   paragraph('(ďalej len „Dodatok k zmluve“)',{center:true}),
   heading('Článok č. I'),heading('Zmluvné strany'),
   partiesTable(data,provider),
-  paragraph('Článok II – Predmet dodatku',{bold:true}),
   paragraph('Zmluvné strany sa dohodli, že týmto dodatkom sa mení nasledovné:'),
-  paragraph('Článok III – Doba ubytovania',{bold:true}),
+  heading('Článok č. III'),heading('Predmet zmluvy'),
   paragraph('Dobu ubytovania si ubytovaný predlžuje na izbe '+[officialRoomName(data.roomType), 'č. '+data.room].filter(Boolean).join(', ')+' na dobu od '+date(data.from)+' do '+date(data.to)+'.'),
-  paragraph('Článok IV – Cena a platobné podmienky',{bold:true}),
-  paragraph('Mesačné nájomné: '+money.format(data.rent)+'. Administratívny poplatok: '+money.format(100)+', splatný do 3 dní od podpisu dodatku.'),
-  paragraph('Dátumy splatnosti a platobné údaje sú uvedené v splátkovom kalendári nižšie.'),
-  paragraph('Článok V – Záverečné ustanovenia',{bold:true}),
+  table(rows),
   paragraph('Tento Dodatok je vyhotovený v dvoch vyhotoveniach, z ktorých ubytovateľ obdrží jedno vyhotovenie a ubytovaný jedno vyhotovenie. Dodatok je platný dňom jeho podpisu oboma zmluvnými stranami.'),
   paragraph('Ostatné ustanovenia zmluvy o ubytovaní, ktoré nie sú týmto dodatkom upravené, zostávajú v platnosti bez zmeny.'),
   paragraph('Zmluvné strany prehlasujú, že si dodatok prečítali, jeho obsahu porozumeli, že bol uzavretý po vzájomnom súhlase.'),
-  paragraph('V Bratislave, dňa: ____________________'),
-  heading('Splátkový kalendár'),table(rows)
+  paragraph('V Bratislave, dňa: ____________________')
  ];
  return `<w:document xmlns:w="${ns}"><w:body>${paragraphs.join('')}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="900" w:right="900" w:bottom="900" w:left="900"/></w:sectPr></w:body></w:document>`;
 }
@@ -141,8 +137,8 @@ export async function addendumPdf(data,provider){
     ctx.strokeStyle='#000';ctx.beginPath();
     for(const x of [margin,second]){ctx.moveTo(x,y+125);ctx.lineTo(x+390,y+125);}
     ctx.stroke();ctx.font='24px Calibri, Carlito, Arial, sans-serif';
-    ctx.fillText(provider.representatives,margin,y+158,445);ctx.fillText(data.name,second,y+158,445);
-    y+=190;flush();
+    ctx.fillText(addendumRepresentative,margin,y+158,445);ctx.fillText(data.name,second,y+158,445);
+    y+=190;
    }
   }
   if(part.localName==='tbl'&&part.getElementsByTagNameNS(ns,'tblCaption').length){
@@ -200,6 +196,7 @@ export async function addendumPdf(data,provider){
     }else ctx.fillText('QR platba',x+7,y+24);
     y+=height;
    }
+   space(rowHeight(header)+Math.max(qrWidth,rowHeight(cellsFor(scheduleRows[1]))));
    drawScheduleRow(header,rowHeight(header));
    for(const [index,row] of scheduleRows.slice(1).entries()){
     const cells=cellsFor(row),height=Math.max(qrWidth,rowHeight(cells));

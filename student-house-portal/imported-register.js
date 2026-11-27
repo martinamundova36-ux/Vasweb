@@ -1,8 +1,8 @@
-import {attachAccommodationAddendum} from './accommodation-addendum.js?v=20261127-addendum-column-spacing';
+import {attachAccommodationAddendum} from './accommodation-addendum.js?v=20261127-addendum-original-articles';
 import {advanceRentDueDate} from './ledger.js';
 import {downloadWorkbook} from './excel.js?v=20261126-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
-import {buildStudentHouseSchedule} from './installment-document.js?v=20261127-addendum-column-spacing';
+import {buildStudentHouseSchedule} from './installment-document.js?v=20261127-addendum-original-articles';
 const normalized=value=>String(value??'').trim().toLowerCase().normalize('NFC').replace(/\s+/g,' ');
 const searchText=value=>String(value??'').normalize('NFD').replace(/[\p{M}\p{Cf}]/gu,'').toLocaleLowerCase().trim().replace(/\s+/g,' ');
 // Names may have alternate Latin transliterations (Kyrylo/Kyrilo) or a minor typo.
