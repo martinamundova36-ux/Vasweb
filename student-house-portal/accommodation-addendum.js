@@ -66,9 +66,9 @@ function addendumXml(data,provider,items=[]){
   heading('Článok č. III'),heading('Predmet zmluvy'),
   paragraph('Dobu ubytovania si ubytovaný predlžuje na izbe '+[officialRoomName(data.roomType), 'č. '+roomLabel].filter(Boolean).join(', ')+' na dobu od '+date(data.from)+' do '+date(data.to)+'.'),
   table(rows),
-  paragraph('Tento Dodatok je vyhotovený v dvoch vyhotoveniach, z ktorých ubytovateľ obdrží jedno vyhotovenie a ubytovaný jedno vyhotovenie. Dodatok je platný dňom jeho podpisu oboma zmluvnými stranami.'),
-  paragraph('Ostatné ustanovenia zmluvy o ubytovaní, ktoré nie sú týmto dodatkom upravené, zostávajú v platnosti bez zmeny.'),
-  paragraph('Zmluvné strany prehlasujú, že si dodatok prečítali, jeho obsahu porozumeli, že bol uzavretý po vzájomnom súhlase.'),
+  paragraph('1. Tento Dodatok je vyhotovený v dvoch vyhotoveniach, z ktorých ubytovateľ obdrží jedno vyhotovenie a ubytovaný jedno vyhotovenie. Dodatok je platný dňom jeho podpisu oboma zmluvnými stranami.'),
+  paragraph('2. Ostatné ustanovenia zmluvy o ubytovaní, ktoré nie sú týmto dodatkom upravené, zostávajú v platnosti bez zmeny.'),
+  paragraph('3. Zmluvné strany prehlasujú, že si dodatok prečítali, jeho obsahu porozumeli, že bol uzavretý po vzájomnom súhlase.'),
   paragraph('V Bratislave, dňa: ____________________')
  ];
  return `<w:document xmlns:w="${ns}"><w:body>${paragraphs.join('')}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="900" w:right="900" w:bottom="900" w:left="900"/></w:sectPr></w:body></w:document>`;
@@ -129,20 +129,23 @@ export async function addendumPdf(data,provider){
    ctx.font=font;ctx.textAlign=center?'center':'left';
    const lines=wrap(content,width),step=Math.round(size*1.16);
    const signature=content.startsWith('V Bratislave, dňa:');
-   space(lines.length*step+(signature?197:bold?105:12));
+   space(lines.length*step+(signature?240:bold?105:12));
    ctx.font=font;ctx.textAlign=center?'center':'left';
+   if(signature)y+=24;
    if(bold&&!center)y+=10;
    for(const line of lines){ctx.fillText(line,center?canvas.width/2:margin,y+step-7,width);y+=step;}
    y+=4;
    if(signature){
     ctx.textAlign='left';ctx.font='bold 26px Calibri, Carlito, Arial, sans-serif';
     const second=margin+width/2+40;
-    ctx.fillText('Za ubytovateľa',margin,y+35);ctx.fillText('Ubytovaný',second,y+35);
+    ctx.fillText('Ubytovateľ',margin,y+35);ctx.fillText('Ubytovaný',second,y+35);
     ctx.strokeStyle='#000';ctx.beginPath();
     for(const x of [margin,second]){ctx.moveTo(x,y+125);ctx.lineTo(x+390,y+125);}
     ctx.stroke();ctx.font='24px Calibri, Carlito, Arial, sans-serif';
-    ctx.fillText(addendumRepresentative,margin,y+158,445);ctx.fillText(data.name,second,y+158,445);
-    y+=190;
+    ctx.fillText(provider.name,margin,y+158,445);
+    ctx.fillText('konateľ',margin,y+187,445);
+    ctx.fillText(data.name,second,y+158,445);
+    y+=200;
    }
   }
   if(part.localName==='tbl'&&part.getElementsByTagNameNS(ns,'tblCaption').length){
