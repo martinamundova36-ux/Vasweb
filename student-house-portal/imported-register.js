@@ -382,7 +382,9 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   const read=label=>values[header.findIndex(value=>normalized(value)===label)];
   return {from:read('od'),to:effectiveEnd(read('do'),read('dodatok do')),extensionFrom:read('dodatok od'),extensionTo:read('dodatok do'),originalTo:read('do')};
  }
- function rentState(month,original,receipt,stay,today){
+ function rentState(month,original,receipt,stay,today,edited,note){
+  const cashReceipt=importedPayment(edited)&&/^Uhradené v hotovosti \d{2}\.\d{2}\.\d{4} · faktúra \d+ · nájom (\d{2})\/(\d{4})$/i.exec(note??'');
+  if(cashReceipt&&month===cashReceipt[2]+'-'+cashReceipt[1])return 'paid';
   const charges=receipt?.charges.filter(charge=>charge.kind==='rent'&&String(charge.period).slice(0,7)===month)??[];
   if(importedPayment(original)||(charges.length&&charges.every(charge=>charge.remaining<=0)))return 'paid';
   const includes=(from,to)=>isoDate(from)&&isoDate(to)&&from.slice(0,7)<=month&&month<=to.slice(0,7);
@@ -395,7 +397,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    const actual=valuesFor(sheet,row,values),stay=rowStay(headers,actual),receipt=receipts.get(cellKey(sheet,row,0));
    return columns.map((i,exportIndex)=>{
     const ref=col(exportIndex)+(position+2),month=monthFor(headers[i]);
-    if(month)cellColors.set(ref,rentColors[rentState(month,values[i],receipt,stay,today)]);
+    if(month)cellColors.set(ref,rentColors[rentState(month,values[i],receipt,stay,today,actual[i],noteFor(sheet,row,i))]);
     else if(syncedCells.has(cellKey(sheet,row,i)))automaticCells.add(ref);
     return normalized(headers[i])==='do'?stay.to:actual[i];
    });
@@ -578,7 +580,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
     const synced=syncedCells.has(cellKey(sheet,row,i))&&!(month&&importedPayment(values[i]));
     const control=writable&&!synced&&typeof row==='number'?btn(v??'',()=>edit(sheet,row,i,values[i])):el('span',v??'');
     if(month){
-     const state=rentState(month,values[i],receipt,stay,today);
+     const state=rentState(month,values[i],receipt,stay,today,v,n);
      cell.style.backgroundColor=rentColors[state];control.title=rentLabels[state];
     }else if(synced){control.title='Údaj zo systému / Synchronized field';cell.style.boxShadow='inset 3px 0 #17643c';}
     control.className='import-cell';if(n){control.title=month?control.title+' · '+n:n;control.append(el('span',' •'));control.lastChild.className='import-comment';}
