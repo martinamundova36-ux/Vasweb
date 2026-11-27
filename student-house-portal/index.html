@@ -1,4 +1,4 @@
-<!doctype html><html lang="sk"><head><meta name="student-house-build" content="20261127-addendum-original-articles"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Student House Bratislava | Študentská zóna</title><meta name="description" content="Oficiálna študentská zóna Student House Bratislava. Ubytovanie, dokumenty a služby na jednom mieste."><meta property="og:type" content="website"><meta property="og:site_name" content="Student House Bratislava"><meta property="og:title" content="Student House Bratislava"><meta property="og:description" content="Študentská zóna Student House Bratislava. Ubytovanie a služby na jednom mieste."><meta property="og:url" content="https://www.webu.sk/student-house-portal/"><meta property="og:image" content="https://www.webu.sk/student-house-portal/icons/icon-512.png"><meta property="og:image:width" content="512"><meta property="og:image:height" content="512"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Student House Bratislava"><meta name="twitter:description" content="Študentská zóna Student House Bratislava."><meta name="twitter:image" content="https://www.webu.sk/student-house-portal/icons/icon-512.png"><meta name="theme-color" content="#142b4d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Student House Bratislava"><meta name="application-name" content="Student House Bratislava"><link rel="manifest" href="/student-house-portal/manifest.webmanifest">
+<!doctype html><html lang="sk"><head><meta name="student-house-build" content="20261127-addendum-template-text"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Student House Bratislava | Študentská zóna</title><meta name="description" content="Oficiálna študentská zóna Student House Bratislava. Ubytovanie, dokumenty a služby na jednom mieste."><meta property="og:type" content="website"><meta property="og:site_name" content="Student House Bratislava"><meta property="og:title" content="Student House Bratislava"><meta property="og:description" content="Študentská zóna Student House Bratislava. Ubytovanie a služby na jednom mieste."><meta property="og:url" content="https://www.webu.sk/student-house-portal/"><meta property="og:image" content="https://www.webu.sk/student-house-portal/icons/icon-512.png"><meta property="og:image:width" content="512"><meta property="og:image:height" content="512"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Student House Bratislava"><meta name="twitter:description" content="Študentská zóna Student House Bratislava."><meta name="twitter:image" content="https://www.webu.sk/student-house-portal/icons/icon-512.png"><meta name="theme-color" content="#142b4d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Student House Bratislava"><meta name="application-name" content="Student House Bratislava"><link rel="manifest" href="/student-house-portal/manifest.webmanifest">
 <style>*{box-sizing:border-box}body{margin:0;color:#142b4d;background:#f4f7fb;font:16px system-ui,Arial}.wrap{display:grid;grid-template-columns:38% 62%;min-height:100vh}.hero{background:#142b4d;color:white;padding:55px 40px;display:flex;flex-direction:column;justify-content:space-between}.hero h1{font-size:clamp(34px,4vw,60px);line-height:1.08}.hero p{color:#b9c9df}
 .hero-photo-frame{display:block;width:100%;max-width:720px;margin:22px 0 18px;border-radius:18px;overflow:hidden;box-shadow:0 18px 42px rgba(4,13,32,.30);border:1px solid rgba(255,255,255,.22);background:#21466d}
 .hero-photo{display:block;width:100%;height:auto;aspect-ratio:1842/854;object-fit:cover;object-position:center}
@@ -1135,7 +1135,7 @@ function templateCard(tenant,files,kind,title,staff){
    preview.onclick=async()=>{
     preview.disabled=true;status.textContent='';
     try{
-     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=20261127-addendum-original-articles');
+     const {workingDocument}=await import('/student-house-portal/residence-document.js?v=20261127-addendum-template-text');
      let attachment;
      if(kind==='rules_template'&&latest){
       const url=await fileLink(latest.id,tenant,true);
@@ -1343,7 +1343,7 @@ async function renderResidentDocuments(tenant,staff,own){
   const submissions=files.filter(x=>x.active&&['signed_contract','signed_rules','signed_gdpr','signed_schedule','signed_certificate','signed_deposit'].includes(x.kind))
     .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));
   if(!submissions.length)empty();
-  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261127-addendum-original-articles'),list('residents')]);
+  const [{reviewCopy},people]=await Promise.all([import('/student-house-portal/staff.js?v=20261127-addendum-template-text'),list('residents')]);
   const [saving,,,,,approved,returned,scheduleApproved,saveError]=reviewCopy[lang]||reviewCopy.en;
   for(const x of submissions){
    const name=people.find(p=>p.id===x.resident_id)?.full_name||x.user_id;
@@ -1480,7 +1480,7 @@ async function renderResidentDocuments(tenant,staff,own){
     prepare.onclick=async()=>{
      prepare.disabled=true;
      try{
-      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261127-addendum-original-articles');
+      const {workingDocument,fieldsForDocument,missingDocumentFields,mapPdfField,documentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261127-addendum-template-text');
       const [{data:answers,error},tenancies,details,approval,currentPeople]=await Promise.all([
        db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number,iban,nationality,telephone,parent_contact_email,school,preferred_room_type,student_submitted_at').eq('tenant_id',tenant).eq('resident_id',person.id).maybeSingle(),
        workingKind==='contract_draft'?list('tenancies',{resident_id:person.id}):[],
@@ -1863,7 +1863,7 @@ async function renderPanel(){
   if(staff&&['registrations','residents','questionnaires'].includes(tab)){
    const section=tab,role=member.role;
    heading(label(section),role==='org_admin'?(lang==='en'?'Student House Bratislava administrator':'Správca Student House Bratislava'):(lang==='en'?'Student House Bratislava reception':'Recepcia Student House Bratislava'));
-   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261127-addendum-original-articles');
+   const {renderStaffScreen}=await import('/student-house-portal/staff.js?v=20261127-addendum-template-text');
    if(generation!==renderGeneration||member?.tenant_id!==tenant)return;
    const root=make('div'),notice=make('div');notice.setAttribute('role','status');notice.setAttribute('aria-live','polite');container.append(root);
    await renderStaffScreen({root,notice,db,tenant,userId:user.id,role,section:section==='questionnaires'?'residents':section,questionnaireMode:section==='questionnaires',lang,day,list,fileLink,importedRoomType:(id)=>importedRoomType(tenant,id),success:label('success'),refresh:()=>renderPanel(),
@@ -1878,7 +1878,7 @@ async function renderPanel(){
    const rooms=await list('rooms');
    if(staff){
      const focus=pendingRoomFocus;pendingRoomFocus=null;
-     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261127-addendum-original-articles');
+     const {renderImportedExcel}=await import('/student-house-portal/imported-register.js?v=20261127-addendum-template-text');
      const shown=await renderImportedExcel({root:container,db,tenant,lang,focus,list,onRefresh:()=>void refreshLiveView(),isCurrent:()=>generation===renderGeneration&&member?.tenant_id===tenant&&tab==='rooms'&&isStaff(),onBack:()=>navigate('overview')});
      if(!shown||generation!==renderGeneration)return;
      const form=make('form','staff-form');form.append(make('strong','',lang==='en'?'Add room':'Pridať izbu'));
@@ -2066,7 +2066,7 @@ async function renderPanel(){
    ]);
    const peopleById=Object.fromEntries(people.map(p=>[p.id,p]));
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261127-addendum-original-articles');
+   const {attachInstallmentDocument,buildStudentHouseSchedule,attachImportedInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261127-addendum-template-text');
    const unifiedQR=tenant==='ae045243-98f0-4f22-a736-d33a92f9ba61';
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const {advanceSchedule,applyAgreedRentSplits}=await import('/student-house-portal/advance-rent.js?v=20261120-first-due1');
@@ -2077,14 +2077,14 @@ async function renderPanel(){
    let importedPeople=[],linkedImports=[],importFailed=false,stayStatus;
    if(staff&&unifiedQR){
     try{
-     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261127-addendum-original-articles');
+     const {listImportedStudents,registerStayStatus}=await import('/student-house-portal/imported-register.js?v=20261127-addendum-template-text');
      stayStatus=registerStayStatus;
      const records=await listImportedStudents(db,tenant,approvedPeople,{includeVerified:true});
      importedPeople=records.filter(p=>!p.linked);linkedImports=records.filter(p=>p.linked);
     }catch{importFailed=true;}
    }
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
-   const {attachAccommodationAddendum}=staff&&unifiedQR?await import('/student-house-portal/accommodation-addendum.js?v=20261127-addendum-original-articles'): {};
+   const {attachAccommodationAddendum}=staff&&unifiedQR?await import('/student-house-portal/accommodation-addendum.js?v=20261127-addendum-template-text'): {};
    if(generation!==renderGeneration||member?.tenant_id!==tenant||tab!=='installments')return;
    const student=make('select');
    approvedPeople.sort((a,b)=>String(a.full_name||'').localeCompare(String(b.full_name||''),'sk'));
@@ -2191,7 +2191,7 @@ async function renderPanel(){
        const [{data:answers,error},details,{fieldsForDocument},reviews]=await Promise.all([
         db.from('resident_enquiries').select('permanent_address,date_of_birth,identity_document_number,iban,nationality,telephone,parent_contact_email,school,preferred_room_type,student_submitted_at').eq('tenant_id',tenant).eq('resident_id',selectedId).maybeSingle(),
         list('resident_staff_details',{resident_id:selectedId}),
-        import('/student-house-portal/residence-document.js?v=20261127-addendum-original-articles'),
+        import('/student-house-portal/residence-document.js?v=20261127-addendum-template-text'),
         list('resident_enquiry_reviews',{resident_id:selectedId})
        ]);
        if(error)throw error;

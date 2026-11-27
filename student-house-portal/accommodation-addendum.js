@@ -8,7 +8,7 @@ const ns='http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const xml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]));
 const date=value=>value.split('-').reverse().join('.');
 const money=new Intl.NumberFormat('sk-SK',{style:'currency',currency:'EUR'});
-const monthName=new Intl.DateTimeFormat('sk-SK',{month:'long',year:'numeric',timeZone:'UTC'});
+const monthName=new Intl.DateTimeFormat('sk-SK',{month:'long',timeZone:'UTC'});
 const paragraph=(text,{bold=false,center=false,size=22}={})=>`<w:p><w:pPr><w:spacing w:after="100"/>${center?'<w:jc w:val="center"/>':''}</w:pPr><w:r><w:rPr>${bold?'<w:b/>':''}<w:sz w:val="${size}"/></w:rPr><w:t xml:space="preserve">${xml(text)}</w:t></w:r></w:p>`;
 const widths=[1300,1580,1200,1180,620,1050,1250,1740];
 const table=rows=>`<w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders>${['top','left','bottom','right','insideH','insideV'].map(edge=>`<w:${edge} w:val="single" w:sz="4" w:color="A8B8C9"/>`).join('')}</w:tblBorders></w:tblPr><w:tblGrid>${widths.map(width=>`<w:gridCol w:w="${width}"/>`).join('')}</w:tblGrid>${rows.map((row,i)=>`<w:tr><w:trPr><w:cantSplit/>${i===0?'<w:tblHeader/>':''}</w:trPr>${row.map((text,column)=>`<w:tc><w:tcPr><w:tcW w:w="${widths[column]}" w:type="dxa"/></w:tcPr>${paragraph(text,{bold:i===0,size:18})}</w:tc>`).join('')}</w:tr>`).join('')}</w:tbl>`;
@@ -41,27 +41,30 @@ function addendumXml(data,provider,items=[]){
  if(!symbol||!validDate(data.from)||!validDate(data.to)||data.from>data.to||!Number.isFinite(data.rent)||data.rent<=0||!data.name.trim()||!data.room.trim())throw Error('Skontroluj číslo zmluvy, obdobie, izbu a mesačnú sumu.');
  const month=new Date(data.from.slice(0,7)+'-01T12:00:00Z');
  items.push({initial:true,amount:100});
- const rows=[['Dátum dodania / Supply day','Splatnosť / Due date','Variabilný symbol','Základ dane','DPH','Suma','Za mesiac','Účel platby'],
-  ['Deň prijatia platby','Do 3 dní od podpisu dodatku',symbol,money.format(100),'',money.format(100),'','Administratívny poplatok']];
+ const contractLabel=data.contract.trim();
+ const roomLabel=data.room.trim().replace(/^(\d+)\s+\d+$/, '$1');
+ const rows=[['Dátum dodania /\nSupply day','Dátum splatnosti /\nDue date','Variabilný symbol /\nVariable symbol','Základ dane /\nBase amount','Daň / VAT','Celková suma /\nTotal amount','Za mesiac /\nFor month','Účel platby /\nPurpose of payment'],
+  ['Deň prijatia platby /\nDay of receiving payment','Do 3 dní od podpisu zmluvy /\n3 day from signing',contractLabel,money.format(100),'',money.format(100),'','Administratívny poplatok /\nAdministrative fee']];
  for(let i=0;month.toISOString().slice(0,7)<=data.to.slice(0,7);i++){
   if(i>=24)throw Error('Skontroluj dĺžku predĺženia.');
   const dueOn=advanceRentDueDate(month.toISOString().slice(0,7));
   items.push({due_on:dueOn,amount:data.rent});
   const due=date(dueOn);
-  rows.push([due,due,symbol,money.format(data.rent),'0 %',money.format(data.rent),monthName.format(month),'Splátka nájmu']);
+  const period=monthName.format(month);
+  rows.push([due,due,contractLabel,money.format(data.rent),'0%',money.format(data.rent),period[0].toUpperCase()+period.slice(1),'Splátka nájmu /\nRent payment']);
   month.setUTCMonth(month.getUTCMonth()+1);
  }
  const heading=text=>paragraph(text,{bold:true,center:true});
  const paragraphs=[
-  paragraph('DODATOK č. '+data.number,{bold:true,center:true,size:28}),
-  heading('k ubytovacej zmluve č. '+data.contract.trim()),
+  paragraph('Dodatok č. '+data.number,{bold:true,center:true,size:24}),
+  paragraph('k zmluve o ubytovaní č. '+contractLabel,{bold:true,center:true,size:24}),
   paragraph('Uzatvorenej v zmysle ust. § 754 a nasl. Občianskeho zákonníka v platnom znení',{center:true}),
   paragraph('(ďalej len „Dodatok k zmluve“)',{center:true}),
   heading('Článok č. I'),heading('Zmluvné strany'),
   partiesTable(data,provider),
-  paragraph('Zmluvné strany sa dohodli, že týmto dodatkom sa mení nasledovné:'),
+  paragraph('Zmluvné strany sa dohodli, že týmto dodatkom sa mení nasledovné:',{center:true}),
   heading('Článok č. III'),heading('Predmet zmluvy'),
-  paragraph('Dobu ubytovania si ubytovaný predlžuje na izbe '+[officialRoomName(data.roomType), 'č. '+data.room].filter(Boolean).join(', ')+' na dobu od '+date(data.from)+' do '+date(data.to)+'.'),
+  paragraph('Dobu ubytovania si ubytovaný predlžuje na izbe '+[officialRoomName(data.roomType), 'č. '+roomLabel].filter(Boolean).join(', ')+' na dobu od '+date(data.from)+' do '+date(data.to)+'.'),
   table(rows),
   paragraph('Tento Dodatok je vyhotovený v dvoch vyhotoveniach, z ktorých ubytovateľ obdrží jedno vyhotovenie a ubytovaný jedno vyhotovenie. Dodatok je platný dňom jeho podpisu oboma zmluvnými stranami.'),
   paragraph('Ostatné ustanovenia zmluvy o ubytovaní, ktoré nie sú týmto dodatkom upravené, zostávajú v platnosti bez zmeny.'),
@@ -105,6 +108,7 @@ export async function addendumPdf(data,provider){
  const flush=()=>{if(!first)pdf.addPage();pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,210,297,undefined,'FAST');first=false;clear();};
  const space=height=>{if(y+height>canvas.height-margin)flush();};
  const wrap=(value,max)=>{
+  if(value.includes('\n'))return value.split('\n').flatMap(line=>wrap(line,max));
   const lines=[''];
   for(const word of value.trim().split(/\s+/)){
    if(lines.at(-1)&&ctx.measureText(lines.at(-1)+' '+word).width>max)lines.push(word);

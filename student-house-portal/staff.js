@@ -701,7 +701,7 @@ export async function renderStaffScreen(ctx) {
    openAddendum.disabled=true;
    try{
    const [excel,{attachAccommodationAddendum},{data:stays},{data:answers}]=await Promise.all([
-    excelDetails,import('./accommodation-addendum.js?v=20261127-addendum-original-articles'),
+    excelDetails,import('./accommodation-addendum.js?v=20261127-addendum-template-text'),
     ctx.db.from('tenancies').select('rent,starts_on,ends_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id),
     ctx.db.from('resident_enquiries').select('permanent_address,date_of_birth,nationality,identity_document_number,telephone,parent_contact_email,school,iban')
      .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle()
@@ -754,7 +754,7 @@ export async function renderStaffScreen(ctx) {
   const missingVerified=({sk:'Recepcia ešte nepotvrdila',en:'Not yet verified by reception',ru:'Ещё не подтверждено',uk:'Ще не підтверджено'})[ctx.lang];
   staffFacts.append(el('h4','section-subtitle',verifiedTitle));
   results.append(staffFacts);
-  const excelDetails=import('./imported-register.js?v=20261127-addendum-original-articles').then(async ({listImportedStudents})=>{
+  const excelDetails=import('./imported-register.js?v=20261127-addendum-template-text').then(async ({listImportedStudents})=>{
      const entries=await listImportedStudents(ctx.db,ctx.tenant,[person],{includeVerified:true});
      const matches=entries.filter(entry=>entry.linked&&entry.from===person.accommodation_from);
      return matches.length===1?matches[0]:null;
@@ -913,7 +913,7 @@ export async function renderStaffScreen(ctx) {
          event.preventDefault();if(!ctx.isCurrent()||!contract.reportValidity())return;
          create.disabled=true;contractStatus.textContent='';
          try{
-          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261127-addendum-original-articles');
+          const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261127-addendum-template-text');
           const assignedRoom=(await ctx.list('rooms')).find(r=>String(r.name)===String(person.verified_room_number));
           const data=fieldsForDocument('contract_draft',person,enquiry,{...stay,room_type:(await ctx.importedRoomType?.(person.id))||assignedRoom?.category||''},verified,{
            provider:provider.value.trim(),payment_terms:terms.value.trim()
@@ -964,7 +964,7 @@ export async function renderStaffScreen(ctx) {
          .sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on))||String(a.period).localeCompare(String(b.period))||
           ['rent','deposit','administration_fee'].indexOf(a.kind)-['rent','deposit','administration_fee'].indexOf(b.kind))
          .map(x=>({due_on:x.due_on,amount:Number(x.amount),description:descriptions[x.kind]+(x.kind==='rent'?' '+x.period:'')}));
-        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261127-addendum-original-articles');
+        const {attachInstallmentDocument}=await import('/student-house-portal/installment-document.js?v=20261127-addendum-template-text');
         if(!ctx.isCurrent()||!documentFlow.isConnected)return;
         const symbol=normalizeContractSymbol(person.verified_contract_number)||(!isStudentHouse(ctx.tenant)?normalizeContractSymbol(verified.room_code):'');
         attachInstallmentDocument(documentFlow,{title:'Splátkový kalendár – Student House Bratislava'},person,items,{
