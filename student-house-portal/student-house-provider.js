@@ -15,3 +15,19 @@ export const normalizeContractSymbol=value=>{const digits=String(value??'').trim
 
 // Article II: property owner, not the recipient of accommodation payments.
 export const STUDENT_HOUSE_PROPERTY_OWNER=Object.freeze({name:'Dorsino s.r.o.',address:'Tomášikova 34, 821 01 Bratislava',companyId:'46430245',taxId:'2820011568',vatId:'SK2820011568',register:'Mestský súd BA III, oddiel Sro, vložka č. 78133/B',leaseDate:'2014-09-10'});
+
+const officialRoomNames=new Map([
+ ['š2','Standard 2'],['s2','Standard 2'],['standard2','Standard 2'],
+ ['d2','Deluxe 2'],['deluxe2','Deluxe 2'],
+ ['d2v','Deluxe 2V'],['deluxe2v','Deluxe 2V'],
+ ['sui2','Suite 2'],['suite2','Suite 2'],
+ ['m1','Mansard 1'],['mansard1','Mansard 1'],['manzard1','Mansard 1'],
+ ['m2','Mansard 2'],['mansard2','Mansard 2'],['manzard2','Mansard 2'],
+ ['š1+1','Standard 1+1'],['s1+1','Standard 1+1'],['standard1+1','Standard 1+1'],
+ ['š2+1','Standard 2+1'],['s2+1','Standard 2+1'],['standard2+1','Standard 2+1'],
+ ['š2+2','Standard 2+2'],['s2+2','Standard 2+2'],['standard2+2','Standard 2+2'],['bezokna','Izba bez okna']
+]);
+export function officialRoomName(value){
+ const text=String(value??'').trim();
+ return officialRoomNames.get(text.toLowerCase().replace(/\s+/g,''))??text;
+}

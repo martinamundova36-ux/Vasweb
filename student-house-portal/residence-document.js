@@ -1,4 +1,4 @@
-import {providerText} from './student-house-provider.js';
+import {providerText,officialRoomName} from './student-house-provider.js?v=20261127-official-room-names';
 const core = ['student_name', 'room_number', 'contract_number'];
 const stay = [...core, 'accommodation_from', 'accommodation_to'];
 export const documentFields = {
@@ -31,14 +31,14 @@ export function fieldsForDocument(kind, person, enquiry, tenancy, staff, extras 
   student_name:person.full_name,room_number:person.verified_room_number,contract_number:person.verified_contract_number,
   accommodation_from:person.accommodation_from,accommodation_to:person.accommodation_to,
   birth_date:enquiry?.date_of_birth,address:enquiry?.permanent_address,
-  nationality:enquiry?.nationality,telephone:enquiry?.telephone,email:person.email,parent_email:enquiry?.parent_contact_email,school:enquiry?.school,room_type:tenancy?.room_type,student_iban:enquiry?.iban,
+  nationality:enquiry?.nationality,telephone:enquiry?.telephone,email:person.email,parent_email:enquiry?.parent_contact_email,school:enquiry?.school,room_type:officialRoomName(tenancy?.room_type),student_iban:enquiry?.iban,
   provider:providerText(person.tenant_id),
   ...(kind==='contract_draft'?{passport_number:enquiry?.identity_document_number}:{}),
   ...(kind==='deposit_template'?{refund_iban:enquiry?.iban}:{}),
   monthly_rent:tenancy?.rent,deposit:staff?.deposit_eur,admin_fee:staff?.administration_fee_eur,
   refrigerator_fee:staff?.refrigerator_fee_eur,verification_fee:staff?.verification_fee_eur,
   ...Object.fromEntries(Object.entries(extras).filter(([key,value])=>key!=='provider'||String(value??'').trim())),
-  ...(providerText(person.tenant_id)?{provider:providerText(person.tenant_id)}:{})
+  ...(providerText(person.tenant_id)?{provider:providerText(person.tenant_id),room_type:officialRoomName(extras.room_type||tenancy?.room_type)}:{})
  };
 }
 const present = value => value != null && String(value).trim() !== '';
@@ -108,7 +108,7 @@ export async function fillOriginalStudentHouseContract({attachment,data,charges,
  }
  // Preserve pages 1–7 of the signed-contract layout; page 8 is blank, pages 9–10 are the old annex.
  // Build the new annex from the verified charges, not from the example student's figures.
- const {contractScheduleDocument,buildStudentHouseSchedule}=await import('./installment-document.js?v=20261126-no-total');
+ const {contractScheduleDocument,buildStudentHouseSchedule}=await import('./installment-document.js?v=20261127-formal-addendum');
  const schedule=buildStudentHouseSchedule(data,charges,plans,items,person.id);
  const annex=await contractScheduleDocument({...data,first_name:values.first_name,last_name:values.last_name},schedule);
  // Remove annex form fields before dropping its pages, to avoid dangling PDF widgets.

@@ -1,7 +1,7 @@
 import {paymentImages} from './installment-document.js?v=20261126-register';
 import {zip} from './excel.js?v=addendum';
 import {advanceRentDueDate} from './ledger.js';
-import {providerDetails,normalizeContractSymbol} from './student-house-provider.js';
+import {providerDetails,normalizeContractSymbol,officialRoomName} from './student-house-provider.js?v=20261127-official-room-names';
 
 const ns='http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const xml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]));
@@ -30,26 +30,30 @@ function addendumXml(data,provider,items=[]){
  }
  const heading=text=>paragraph(text,{bold:true,center:true});
  const paragraphs=[
-  paragraph('Dodatok č. '+data.number,{bold:true,center:true,size:30}),
-  heading('k zmluve o ubytovaní č. '+data.contract.trim()),
+  paragraph('DODATOK č. '+data.number,{bold:true,center:true,size:28}),
+  heading('k ubytovacej zmluve č. '+data.contract.trim()),
   paragraph('Uzatvorenej v zmysle ust. § 754 a nasl. Občianskeho zákonníka v platnom znení',{center:true}),
   paragraph('(ďalej len „Dodatok k zmluve“)',{center:true}),
-  heading('Článok č. I'),heading('Zmluvné strany'),
-  paragraph('Ubytovateľ',{bold:true}),
+  paragraph('UBYTOVATEĽ',{bold:true}),
   paragraph(provider.name+' · '+provider.address),
-  paragraph('IČO '+provider.companyId+' · DIČ '+provider.taxId+' · IČ DPH '+provider.vatId),
-  paragraph(provider.register),paragraph('Zastúpená: '+provider.representatives),
+  paragraph('IČO: '+provider.companyId+'   DIČ: '+provider.taxId+'   IČ DPH: '+provider.vatId),
+  paragraph(provider.register),paragraph('Zastúpenie: '+provider.representatives),
   paragraph(provider.bank+' · IBAN '+provider.iban+' · SWIFT/BIC '+provider.bic),
-  paragraph('Ubytovaný',{bold:true}),paragraph(data.name),
-  ...[['Bydlisko',data.address],['Dátum narodenia',data.birth],['Národnosť',data.nationality],['Číslo OP/pasu',data.identity],['Kontakt',data.phone],['E-mail',data.email],['Kontakt na rodiča',data.parent],['Škola',data.school],['IBAN ubytovaného',data.iban]].map(([label,value])=>paragraph(label+': '+(value||'—'))),
+  paragraph('UBYTOVANÝ',{bold:true}),paragraph(data.name),
+  ...[['Dátum narodenia',data.birth],['Adresa trvalého pobytu',data.address],['Národnosť',data.nationality],['Číslo OP/pasu',data.identity],['Kontakt',data.phone],['E-mail',data.email],['Kontakt na rodiča',data.parent],['Škola',data.school],['IBAN ubytovaného',data.iban]].filter(([,value])=>value).map(([label,value])=>paragraph(label+': '+value)),
+  paragraph('Článok I – Predmet dodatku',{bold:true}),
   paragraph('Zmluvné strany sa dohodli, že týmto dodatkom sa mení nasledovné:'),
-  heading('Článok č. III'),heading('Predmet zmluvy'),
-  paragraph('Zmluvné strany sa dohodli, že doba ubytovania sa predlžuje na izbe '+[data.roomType,data.room].filter(Boolean).join(', ')+' na dobu od '+date(data.from)+' do '+date(data.to)+'.'),
-  heading('Splátkový kalendár'),table(rows),
-  paragraph('Tento dodatok je vyhotovený v dvoch vyhotoveniach, z ktorých ubytovateľ obdrží jedno vyhotovenie a ubytovaný jedno vyhotovenie. Dodatok je platný dňom jeho podpisu oboma zmluvnými stranami.'),
+  paragraph('Článok II – Doba ubytovania',{bold:true}),
+  paragraph('Dobu ubytovania si ubytovaný predlžuje na izbe '+[officialRoomName(data.roomType), 'č. '+data.room].filter(Boolean).join(', ')+' na dobu od '+date(data.from)+' do '+date(data.to)+'.'),
+  paragraph('Článok III – Cena a platobné podmienky',{bold:true}),
+  paragraph('Mesačné nájomné: '+money.format(data.rent)+'. Administratívny poplatok: '+money.format(100)+', splatný do 3 dní od podpisu dodatku.'),
+  paragraph('Dátumy splatnosti a platobné údaje sú uvedené v splátkovom kalendári nižšie.'),
+  paragraph('Článok IV – Záverečné ustanovenia',{bold:true}),
+  paragraph('Tento Dodatok je vyhotovený v dvoch vyhotoveniach, z ktorých ubytovateľ obdrží jedno vyhotovenie a ubytovaný jedno vyhotovenie. Dodatok je platný dňom jeho podpisu oboma zmluvnými stranami.'),
   paragraph('Ostatné ustanovenia zmluvy o ubytovaní, ktoré nie sú týmto dodatkom upravené, zostávajú v platnosti bez zmeny.'),
-  paragraph('Zmluvné strany prehlasujú, že si dodatok prečítali, jeho obsahu porozumeli a uzavreli ho po vzájomnom súhlase.'),
-  paragraph('V Bratislave, dňa ____________________'),paragraph('Ubytovateľ ____________________       Ubytovaný ____________________')
+  paragraph('Zmluvné strany prehlasujú, že si dodatok prečítali, jeho obsahu porozumeli, že bol uzavretý po vzájomnom súhlase.'),
+  paragraph('V Bratislave, dňa: ____________________'),
+  heading('Splátkový kalendár'),table(rows)
  ];
  return `<w:document xmlns:w="${ns}"><w:body>${paragraphs.join('')}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="900" w:right="900" w:bottom="900" w:left="900"/></w:sectPr></w:body></w:document>`;
 }
@@ -67,7 +71,7 @@ export function nextAddendumStart(end){
  return new Date(Date.UTC(Number(end.slice(0,4)),Number(end.slice(5,7)),1)).toISOString().slice(0,10);
 }
 
-async function addendumPdf(data,provider){
+export async function addendumPdf(data,provider){
  const items=[];
  const source=new DOMParser().parseFromString(addendumXml(data,provider,items),'application/xml');
  const [images,{jsPDF}]=await Promise.all([
@@ -79,9 +83,12 @@ async function addendumPdf(data,provider){
  })));
  const pdf=new jsPDF({format:'a4',compress:true});
  const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=1697;
- const ctx=canvas.getContext('2d'),margin=65,width=1070;
+ const ctx=canvas.getContext('2d'),margin=86,width=1028;
+ const logo=new Image();
+ logo.src=new URL('./student-house-document-logo.png',import.meta.url).href;
+ await logo.decode();
  let y,first=true;
- const clear=()=>{ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#142b4d';y=margin;};
+ const clear=()=>{ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#000';y=margin;};
  const flush=()=>{if(!first)pdf.addPage();pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,210,297,undefined,'FAST');first=false;clear();};
  const space=height=>{if(y+height>canvas.height-margin)flush();};
  const wrap=(value,max)=>{
@@ -94,37 +101,65 @@ async function addendumPdf(data,provider){
  };
  const contents=part=>Array.from(part.getElementsByTagNameNS(ns,'t')).map(e=>e.textContent).join('');
  clear();
+ const logoWidth=345,logoHeight=logoWidth*logo.naturalHeight/logo.naturalWidth;
+ ctx.drawImage(logo,margin,y,logoWidth,logoHeight);y+=logoHeight+25;
  for(const part of source.getElementsByTagNameNS(ns,'body')[0].children){
   if(part.localName==='p'){
    const bold=part.getElementsByTagNameNS(ns,'b').length>0;
    const center=part.getElementsByTagNameNS(ns,'jc').length>0;
-   ctx.font=(bold?'bold ':'')+'22px sans-serif';ctx.textAlign=center?'center':'left';
-   const lines=wrap(contents(part),width);
-   space(lines.length*27+10);
-   for(const line of lines){ctx.fillText(line,center?canvas.width/2:margin,y+22,width);y+=27;}
-   y+=8;
+   const content=contents(part),size=Number(part.getElementsByTagNameNS(ns,'sz')[0]?.getAttributeNS(ns,'val')||22);
+   const font=(bold?'bold ':'')+Math.round(size*1.03)+'px Calibri, Carlito, Arial, sans-serif';
+   ctx.font=font;ctx.textAlign=center?'center':'left';
+   const lines=wrap(content,width),step=Math.round(size*1.16);
+   const signature=content.startsWith('V Bratislave, dňa:');
+   space(lines.length*step+(signature?197:bold?105:12));
+   ctx.font=font;ctx.textAlign=center?'center':'left';
+   if(bold&&!center)y+=10;
+   for(const line of lines){ctx.fillText(line,center?canvas.width/2:margin,y+step-7,width);y+=step;}
+   y+=4;
+   if(signature){
+    ctx.textAlign='left';ctx.font='bold 26px Calibri, Carlito, Arial, sans-serif';
+    const second=margin+width/2+40;
+    ctx.fillText('Za ubytovateľa',margin,y+35);ctx.fillText('Ubytovaný',second,y+35);
+    ctx.strokeStyle='#000';ctx.beginPath();
+    for(const x of [margin,second]){ctx.moveTo(x,y+125);ctx.lineTo(x+390,y+125);}
+    ctx.stroke();ctx.font='24px Calibri, Carlito, Arial, sans-serif';
+    ctx.fillText(provider.representatives,margin,y+158,445);ctx.fillText(data.name,second,y+158,445);
+    y+=190;flush();
+   }
   }
   if(part.localName==='tbl'){
-   ctx.textAlign='left';ctx.font='19px sans-serif';ctx.strokeStyle='#a8b8c9';
+   ctx.textAlign='left';ctx.font='20px Calibri, Carlito, Arial, sans-serif';ctx.strokeStyle='#000';
    const qrWidth=140;
    const columnWidths=widths.map(n=>n*(width-qrWidth)/widths.reduce((total,value)=>total+value,0));
-   for(const [index,row] of Array.from(part.getElementsByTagNameNS(ns,'tr')).entries()){
-    const cells=Array.from(row.getElementsByTagNameNS(ns,'tc')).map((cell,i)=>wrap(contents(cell),columnWidths[i]-14));
-    const height=Math.max(index===0?0:qrWidth,Math.max(...cells.map(lines=>lines.length))*23+12);
-    space(height);let x=margin;
+   const scheduleRows=Array.from(part.getElementsByTagNameNS(ns,'tr'));
+   const cellsFor=row=>Array.from(row.getElementsByTagNameNS(ns,'tc')).map((cell,i)=>wrap(contents(cell),columnWidths[i]-14));
+   const header=cellsFor(scheduleRows[0]);
+   const rowHeight=cells=>Math.max(...cells.map(lines=>lines.length))*24+16;
+   function drawScheduleRow(cells,height,qr){
+    ctx.textAlign='left';ctx.strokeStyle='#000';
+    let x=margin;
     cells.forEach((lines,i)=>{
      ctx.strokeRect(x,y,columnWidths[i],height);
-     lines.forEach((line,n)=>ctx.fillText(line,x+7,y+22+n*23,columnWidths[i]-14));
+     lines.forEach((line,n)=>ctx.fillText(line,x+7,y+24+n*24,columnWidths[i]-14));
      x+=columnWidths[i];
     });
     ctx.strokeRect(x,y,qrWidth,height);
-    if(index===0)ctx.fillText('QR platba',x+7,y+22);
-    else{
+    if(qr){
      ctx.imageSmoothingEnabled=false;
-     ctx.drawImage(qrImages[index-1],x+6,y+6,128,128);
+     ctx.drawImage(qr,x+6,y+6,128,128);
      ctx.imageSmoothingEnabled=true;
-    }
+    }else ctx.fillText('QR platba',x+7,y+24);
     y+=height;
+   }
+   drawScheduleRow(header,rowHeight(header));
+   for(const [index,row] of scheduleRows.slice(1).entries()){
+    const cells=cellsFor(row),height=Math.max(qrWidth,rowHeight(cells));
+    if(y+height>canvas.height-margin){
+     flush();
+     drawScheduleRow(header,rowHeight(header));
+    }
+    drawScheduleRow(cells,height,qrImages[index]);
    }
    y+=15;
   }
@@ -175,7 +210,7 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  const number=field('Číslo dodatku','number',person.addendumNumber||'1');number.min='1';number.step='1';
  const contract=field('Číslo pôvodnej zmluvy / VS','text',person.contract);
  const room=field('Izba','text',person.room);
- const roomType=field('Typ izby','text',person.roomType,false);
+ const roomType=field('Typ izby','text',officialRoomName(person.roomType),false);
  const address=field('Bydlisko ubytovaného','text',person.address,false);
  const extra={};
  for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného']])extra[key]=field(label,'text',person[key],false);
@@ -183,7 +218,7 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  const save=document.createElement('button'),download=document.createElement('button');
  const close=document.createElement('button'),status=document.createElement('p');
  save.type=download.type=close.type='button';
- save.textContent='Zapísať do Excelu';download.textContent='Stiahnuť PDF';close.textContent='Zavrieť';
+ save.textContent='Zapísať dodatok';download.textContent='Stiahnuť dodatok';close.textContent='Zavrieť';
  close.addEventListener('click',()=>panel.close());
  status.setAttribute('role','status');form.append(save,download,close,status);
  save.disabled=!person.saveAddendum;
