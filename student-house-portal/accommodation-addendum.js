@@ -146,25 +146,32 @@ export async function addendumPdf(data,provider){
    }
   }
   if(part.localName==='tbl'&&part.getElementsByTagNameNS(ns,'tblCaption').length){
-   const half=width/2,padding=11,labelWidth=158,step=23;
+   const half=width/2,padding=15,labelWidth=195,gap=16,step=25;
    const regular='21px Calibri, Carlito, Arial, sans-serif',bold='bold '+regular;
+   const valueWidth=half-padding*2-labelWidth-gap;
    ctx.font=regular;ctx.textAlign='left';
    const cells=Array.from(part.getElementsByTagNameNS(ns,'tc'),cell=>
     Array.from(cell.getElementsByTagNameNS(ns,'p'),p=>{
      const [label,value]=Array.from(p.getElementsByTagNameNS(ns,'t'),node=>node.textContent);
-     return {label,lines:value===undefined?[]:wrap(value,half-labelWidth-padding*2),bold:value===undefined||label==='Meno:'||label==='Priezvisko:'};
+     const bold=value===undefined||label==='Meno:'||label==='Priezvisko:';
+     ctx.font=bold? 'bold '+regular:regular;
+     const lines=value===undefined?[]:wrap(value,valueWidth);
+     ctx.font=regular;
+     const labels=value===undefined?[label]:wrap(label,labelWidth);
+     return {labels,lines,bold,height:Math.max(labels.length,lines.length)*step};
     }));
-   const height=Math.max(...cells.map(rows=>rows.reduce((sum,row)=>sum+Math.max(1,row.lines.length)*step,0)))+padding*2;
+   const height=Math.max(...cells.map(rows=>rows.reduce((sum,row)=>sum+row.height,0)))+padding*2;
    space(height+14);ctx.strokeStyle='#000';ctx.strokeRect(margin,y,width,height);
    ctx.beginPath();ctx.moveTo(margin+half,y);ctx.lineTo(margin+half,y+height);ctx.stroke();
    cells.forEach((rows,i)=>{
     const x=margin+i*half+padding;
     let top=y+padding;
     for(const row of rows){
-     ctx.font=row.lines.length?regular:bold;ctx.fillText(row.label,x,top+18,half-padding*2);
+     ctx.font=row.lines.length?regular:bold;
+     row.labels.forEach((line,j)=>ctx.fillText(line,x,top+18+j*step,row.lines.length?labelWidth:half-padding*2));
      ctx.font=row.bold?bold:regular;
-     row.lines.forEach((line,j)=>ctx.fillText(line,x+labelWidth,top+18+j*step,half-labelWidth-padding*2));
-     top+=Math.max(1,row.lines.length)*step;
+     row.lines.forEach((line,j)=>ctx.fillText(line,x+labelWidth+gap,top+18+j*step,valueWidth));
+     top+=row.height;
     }
    });
    y+=height+14;continue;
