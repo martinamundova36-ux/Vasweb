@@ -1003,20 +1003,6 @@ export async function renderStaffScreen(ctx) {
     }
 
    }
-   if(typeof ctx.uploadPrivateDocument==='function'){
-    const title=ctx.lang==='en'?'Upload completed paper questionnaire (PDF/JPG/PNG)':'Nahrať vyplnený papierový dotazník (PDF/JPG/PNG)';
-    const uploadForm=el('form','staff-form');
-    const input=el('input');input.type='file';input.accept='application/pdf,image/jpeg,image/png';input.required=true;input.setAttribute('aria-label',title);
-    const submit=el('button','',ctx.lang==='en'?'Attach to student':'Priložiť k študentovi');submit.type='submit';
-    uploadForm.append(el('strong','',title),input,submit);
-    uploadForm.addEventListener('submit',async event=>{
-      event.preventDefault();
-      if(!input.files?.length||!ctx.isCurrent())return;
-      const ok=await ctx.uploadPrivateDocument(person.id,input.files[0],submit);
-      if(ok&&ctx.isCurrent()){status(ctx.success);input.value='';}
-    });
-    enquiryBox.append(uploadForm);
-   }
   }catch(error){if(ctx.isCurrent())enquiryBox.append(el('p','danger',w.failed));}
   results.append(el('h4','section-subtitle',w.files));
   const filesRoot=el('div','data-list', '…');results.append(filesRoot);
