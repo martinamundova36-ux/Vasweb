@@ -5,10 +5,24 @@ import {chargeBalance, cents, installmentBalances} from './ledger.js';
 import {buildStudentHouseSchedule} from './installment-document.js?v=20261126-register';
 const normalized=value=>String(value??'').trim().toLowerCase().normalize('NFC').replace(/\s+/g,' ');
 const searchText=value=>String(value??'').normalize('NFD').replace(/\p{M}/gu,'').toLocaleLowerCase().trim().replace(/\s+/g,' ');
+// Names may have alternate Latin transliterations (Kyrylo/Kyrilo) or a minor typo.
+const nameVariant=value=>searchText(value).replace(/y/g,'i');
+const oneNameEdit=(a,b)=>{
+ if(a.length<5||b.length<5||Math.abs(a.length-b.length)>1)return false;
+ if(a===b)return true;
+ if(a.length===b.length){
+  const diff=[];for(let i=0;i<a.length;i++)if(a[i]!==b[i])diff.push(i);
+  return diff.length===1||(diff.length===2&&diff[1]===diff[0]+1&&a[diff[0]]===b[diff[1]]&&a[diff[1]]===b[diff[0]]);
+ }
+ const longer=a.length>b.length?a:b,shorter=a.length>b.length?b:a;
+ let i=0;while(i<shorter.length&&longer[i]===shorter[i])i++;
+ return longer.slice(0,i)+longer.slice(i+1)===shorter;
+};
 const matchesRegisterName=(query,first,last)=>{
- const terms=searchText(query).split(' ').filter(Boolean);
- const name=searchText([first,last].filter(Boolean).join(' '));
- return terms.length>0&&name.length>0&&terms.every(term=>name.includes(term));
+ const terms=nameVariant(query).split(' ').filter(Boolean);
+ const name=nameVariant([first,last].filter(Boolean).join(' '));
+ const words=name.split(' ').filter(Boolean);
+ return terms.length>0&&words.length>0&&terms.every(term=>name.includes(term)||words.some(word=>oneNameEdit(term,word)));
 };
 const roomNumber=value=>{
  const text=normalized(value);
