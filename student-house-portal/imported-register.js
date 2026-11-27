@@ -269,6 +269,8 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  const style=el('style',`
  .sh-imported-register .import-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
  .sh-imported-register .import-toolbar input{flex:1 1 14rem}
+ .sh-imported-register .import-name-results:not([hidden]){padding:12px 16px;margin:8px 0;border:1px solid #cbd8e8;border-radius:10px;background:#f4f8fd}
+ .sh-imported-register .import-name-results button{display:block;margin:6px 0;background:#fff;color:#142b4d;border:1px solid #cbd8e8;max-width:100%;white-space:normal;text-align:left}
  .sh-imported-register .import-scroll{width:100%;max-height:72vh;overflow:auto;border:1px solid #cbd8e8;border-radius:10px}
  .sh-imported-register table{width:max-content;min-width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
  .sh-imported-register th,.sh-imported-register td{min-width:80px;padding:8px 12px;border-right:1px solid #d5e1ef;border-bottom:1px solid #d5e1ef;white-space:pre-wrap;max-width:370px;overflow-wrap:anywhere;vertical-align:middle}
@@ -296,6 +298,8 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  });
  stayFilter.value=focus?.status||'all';
  const filterBar=el('div');filterBar.className='import-toolbar';filterBar.append(filterLabel,search);
+ const nameResults=el('div');nameResults.className='import-name-results';nameResults.hidden=true;nameResults.setAttribute('aria-live','polite');
+ const nameWords=({sk:['Výsledky podľa mena vo všetkých semestroch','Žiadne meno v evidencii','Izba'],en:['Name matches across all semesters','No matching name in the register','Room'],ru:['Результаты поиска по имени во всех семестрах','Имя не найдено','Комната'],uk:['Результати пошуку за ім’ям у всіх семестрах','Ім’я не знайдено','Кімната']})[lang]||['Výsledky podľa mena vo všetkých semestroch','Žiadne meno v evidencii','Izba'];
  const count=el('p');count.setAttribute('aria-live','polite');
  const scroll=el('div');scroll.className='import-scroll room-register-scroll';scroll.tabIndex=0;
  let selected=sheets.find(x=>x.sheet_name===focus?.sheet)||sheets.find(x=>x.sheet_name===(focus?.year===2027?'od 02 2027':'od 09 2026'))||sheets[0];
@@ -435,9 +439,32 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
    }catch{status.textContent='Platba sa neuložila. Skontroluj referenciu a aktuálny zostatok.';save.disabled=false;cancel.disabled=false;}
   };
  }
+ function findNameRows(query){
+  if(!query||!/[\p{L}]/u.test(query))return [];
+  const hits=[];
+  for(const sheet of sheets){
+   const headers=headersFor(sheet),index=label=>headers.findIndex(v=>searchText(v)===label);
+   const first=index('meno'),last=index('priezvisko'),room=index('izba');
+   if(first<0||last<0||room<0)continue;
+   for(const [row,values] of recordsFor(sheet)){
+    const a=get(sheet,row,first,values[first]),b=get(sheet,row,last,values[last]);
+    if(matchesRegisterName(query,a,b))hits.push({sheet,row,name:[a,b].filter(Boolean).join(' '),room:get(sheet,row,room,values[room])});
+   }
+  }
+  return hits;
+ }
+ function paintNameResults(query,hits){
+  nameResults.replaceChildren();nameResults.hidden=!query||!/[\p{L}]/u.test(query);
+  if(nameResults.hidden)return;
+  nameResults.append(el('strong',nameWords[0]+': '+hits.length));
+  if(!hits.length){nameResults.append(el('p',nameWords[1]));return;}
+  for(const hit of hits){const action=btn(hit.name+' · '+nameWords[2]+' '+hit.room+' · '+hit.sheet.sheet_name,()=>{selected=hit.sheet;stayFilter.value='all';paint();});nameResults.append(action);}
+ }
  function paint(){
   for(const [id,t] of tabButtons){const active=id===selected.sheet_order;t.setAttribute('aria-pressed',String(active));t.style.background=active?'#142b4d':'#ffffff';t.style.color=active?'#ffffff':'#142b4d';t.style.border='1px solid #142b4d';}
-  const sheet=selected,rows=recordsFor(sheet),q=searchText(search.value);
+  const q=searchText(search.value),nameHits=findNameRows(q);
+  paintNameResults(q,nameHits);
+  const sheet=selected,rows=recordsFor(sheet);
   section.dataset.sheet=sheet.sheet_name;
   const table=el('table'),head=table.createTHead().insertRow(),body=table.createTBody();
   const header=headersFor(sheet),visibleColumns=columnsFor(sheet);
@@ -453,7 +480,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   for(const [row,values] of rows){
    const actual=valuesFor(sheet,row,values);
    if(hasStayDates&&stayFilter.value!=='all'&&registerStayStatus(actual[fromIndex],actual[indexOf('dodatok do')]||actual[toIndex],today)!==stayFilter.value)continue;
-   if(q&&!matchesRegisterName(q,actual[firstIndex],actual[lastIndex])&&!actual.some((v,i)=>searchText(v).includes(q)||searchText(noteFor(sheet,row,i)).includes(q)))continue;
+   if(q&&!nameHits.some(hit=>hit.sheet.sheet_order===sheet.sheet_order&&hit.row===row)&&!matchesRegisterName(q,actual[firstIndex],actual[lastIndex])&&!actual.some((v,i)=>searchText(v).includes(q)||searchText(noteFor(sheet,row,i)).includes(q)))continue;
    shown++;const tr=body.insertRow();
    for(const i of visibleColumns){
     const cell=el('td'),n=noteFor(sheet,row,i),v=actual[i];
@@ -485,5 +512,5 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   }
   count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
  }
- section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Záznamy bez jednoznačnej zhody v importe sa zobrazujú samostatne. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,filterBar,count,scroll);root.append(section);search.oninput=paint;stayFilter.onchange=paint;paint();return true;
+ section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Záznamy bez jednoznačnej zhody v importe sa zobrazujú samostatne. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,filterBar,nameResults,count,scroll);root.append(section);const searchChanged=()=>{const hits=findNameRows(searchText(search.value));if(hits.length&&!hits.some(hit=>hit.sheet.sheet_order===selected.sheet_order)){selected=hits.find(hit=>hit.sheet.sheet_name==='od 09 2026')?.sheet??hits[0].sheet;}paint();};search.addEventListener('input',searchChanged);search.addEventListener('change',searchChanged);stayFilter.onchange=paint;paint();return true;
 }
