@@ -84,7 +84,8 @@ Deno.serve(async req => {
       if(!isMultipart)return fail(origin,400,"multipart_required");
       const kind=get("kind");
       if(!uploads.has(kind))return fail(origin,400,"invalid_kind");
-      if((templates.has(kind)||assignedByReception.has(kind))&&!staff)return fail(origin,403,"staff_only");
+      const staffPhoto=kind==="profile_photo"&&Boolean(get("resident_id"));
+      if((templates.has(kind)||assignedByReception.has(kind)||staffPhoto)&&!staff)return fail(origin,403,"staff_only");
       const file=body.get("file");
       if(!(file instanceof File)||file.size===0)return fail(origin,400,"file_required");
       const max=kind==="profile_photo"?3000000:6000000;
@@ -96,7 +97,7 @@ Deno.serve(async req => {
       const bytes=new Uint8Array(await file.arrayBuffer());
       const actual=detectMime(bytes);
       if(!actual||actual!==file.type)return fail(origin,400,"file_signature_invalid");
-      const receiverIsAssigned=assignedByReception.has(kind);
+      const receiverIsAssigned=assignedByReception.has(kind)||staffPhoto;
       const recipientId=receiverIsAssigned?get("resident_id"):"";
       if(receiverIsAssigned&&!UUID.test(recipientId))return fail(origin,400,"resident_required");
       const {data:resident,error:residentError}=templates.has(kind)?{data:null,error:null}:await client.from("residents")
@@ -133,7 +134,7 @@ Deno.serve(async req => {
       const previousIds:string[]=[];
       if(isSingle){
         let query=admin.from("residence_portal_files").select("id").eq("tenant_id",tenant).eq("kind",kind).eq("active",true);
-        if(kind==="profile_photo")query=query.eq("user_id",user.id);
+        if(kind==="profile_photo")query=query.eq("user_id",ownerId);
         if(assignedByReception.has(kind))query=query.eq("resident_id",person!.id);
         const {data:old,error:oldReadError}=await query;
         if(oldReadError){await admin.storage.from(BUCKET).remove([objectPath]);return fail(origin,503,"save_failed");}

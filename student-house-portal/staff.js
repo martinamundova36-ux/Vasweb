@@ -695,6 +695,19 @@ export async function renderStaffScreen(ctx) {
   filters.hidden=true;count.hidden=true;results.className='staff-profile';results.replaceChildren(button(w.back,()=>{if(questionnaireMode){ctx.refresh();return;}filters.hidden=false;count.hidden=false;results.className='staff-directory';paint();}));
   results.append(el('h3','',person.full_name));
   results.append(residentPhotoView(person,false));
+  if(typeof ctx.uploadPrivateDocument==='function'){
+   const title=({sk:'Nahrať profilovú fotografiu',en:'Upload profile photo',ru:'Загрузить фото профиля',uk:'Завантажити фото профілю'})[ctx.lang]||'Nahrať profilovú fotografiu';
+   const photoForm=el('form','staff-form'),photoInput=el('input'),photoButton=el('button','',title);
+   photoInput.type='file';photoInput.accept='image/jpeg,image/png';photoInput.required=true;
+   photoInput.setAttribute('aria-label',title);photoButton.type='submit';
+   photoForm.append(photoInput,photoButton);results.append(photoForm);
+   photoForm.addEventListener('submit',async event=>{
+    event.preventDefault();
+    const file=photoInput.files?.[0];
+    if(!file||photoButton.disabled||!ctx.isCurrent())return;
+    if(await ctx.uploadPrivateDocument(person.id,file,photoButton,'profile_photo'))ctx.refresh();
+   });
+  }
   const details=el('dl','identity-fields');
   details.append(field(w.email,person.email),field(w.room,person.verified_room_number||w.noRoom),field(w.contract,person.verified_contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(verifiedWords.months,months?String(months)+' '+verifiedWords.monthWord:'—'),field(verifiedWords.roomType,assignedRoom?.category||'—'),field(w.state,person.active?w.activeOne:w.inactiveOne));results.append(details);
   const form=el('form','staff-form'),room=el('input');room.value=person.verified_room_number||'';room.maxLength=30;room.setAttribute('aria-label',w.room);
