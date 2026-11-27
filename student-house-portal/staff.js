@@ -701,7 +701,7 @@ export async function renderStaffScreen(ctx) {
    openAddendum.disabled=true;
    try{
    const [excel,{attachAccommodationAddendum},{data:stays},{data:answers}]=await Promise.all([
-    excelDetails,import('./accommodation-addendum.js?v=20261127-addendum-actions'),
+    excelDetails,import('./accommodation-addendum.js?v=20261127-addendum-period'),
     ctx.db.from('tenancies').select('rent,starts_on,ends_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id),
     ctx.db.from('resident_enquiries').select('permanent_address,date_of_birth,nationality,identity_document_number,telephone,parent_contact_email,school,iban')
      .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle()
@@ -754,7 +754,7 @@ export async function renderStaffScreen(ctx) {
   const missingVerified=({sk:'Recepcia ešte nepotvrdila',en:'Not yet verified by reception',ru:'Ещё не подтверждено',uk:'Ще не підтверджено'})[ctx.lang];
   staffFacts.append(el('h4','section-subtitle',verifiedTitle));
   results.append(staffFacts);
-  const excelDetails=import('./imported-register.js?v=20261127-addendum-actions').then(async ({listImportedStudents})=>{
+  const excelDetails=import('./imported-register.js?v=20261127-addendum-period').then(async ({listImportedStudents})=>{
      const entries=await listImportedStudents(ctx.db,ctx.tenant,[person],{includeVerified:true});
      const matches=entries.filter(entry=>entry.linked&&entry.from===person.accommodation_from);
      return matches.length===1?matches[0]:null;
