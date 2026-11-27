@@ -240,14 +240,14 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  const duration=document.createElement('select'),durationLabel=document.createElement('label');
  durationLabel.textContent='Na koľko mesiacov';duration.required=true;durationLabel.append(duration);form.append(durationLabel);
  duration.add(new Option('Vyber dĺžku pobytu',''));
- for(const months of [5,10,12])duration.add(new Option(months+' mesiacov',String(months)));
+ for(let months=1;months<=24;months++)duration.add(new Option(String(months),String(months)));
  const endDate=document.createElement('output');
  const endLabel=document.createElement('p');endLabel.append('Vypočítaný koniec pobytu: ',endDate);form.append(endLabel);
  let end='';
  function updateEnd(){
   const months=Number(duration.value);
     end='';
-  if(from.value&&[5,10,12].includes(months)){
+  if(from.value&&Number.isInteger(months)&&months>=1&&months<=24){
    const [year,month]=from.value.split('-').map(Number);
    end=new Date(Date.UTC(year,month-1+months,months===12?-4:0)).toISOString().slice(0,10);
   }
