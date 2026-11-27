@@ -113,16 +113,17 @@ async function addendumPdf(data,provider){
  return pdf.output('blob');
 }
 
-export function attachAccommodationAddendum(host,person,tenant){
+export function attachAccommodationAddendum(host,person,tenant,{trigger,show=false}={}){
  const provider=providerDetails(tenant);
  if(!provider||!person.name)return;
- const panel=document.createElement('dialog'),open=document.createElement('button'),title=document.createElement('h3'),form=document.createElement('form');
+ const panel=document.createElement('dialog'),open=trigger||document.createElement('button'),title=document.createElement('h3'),form=document.createElement('form');
  panel.style.cssText='width:min(560px,90vw);max-height:85vh;overflow:auto;padding:20px;border:1px solid #cbd8e8;border-radius:12px';
  panel.setAttribute('aria-label','Vygenerovať dodatok');
  open.type='button';open.textContent='Vygenerovať dodatok';
  title.textContent='Dodatok k ubytovaniu · '+person.name;
  panel.append(title,form);
- open.addEventListener('click',()=>{document.body.append(panel);panel.showModal();});
+ const openPanel=()=>{document.body.append(panel);panel.showModal();};
+ if(!trigger)open.addEventListener('click',openPanel);
  panel.addEventListener('close',()=>panel.remove());
  const field=(caption,type,value,required=true)=>{
   const label=document.createElement('label'),input=document.createElement('input');
@@ -176,5 +177,6 @@ export function attachAccommodationAddendum(host,person,tenant){
   }catch(error){status.textContent=error.message||'Dodatok sa nepodarilo vytvoriť.';}
   finally{submit.disabled=false;close.disabled=false;}
  });
- host.append(open);
+ if(!trigger)host.append(open);
+ if(show)openPanel();
 }
