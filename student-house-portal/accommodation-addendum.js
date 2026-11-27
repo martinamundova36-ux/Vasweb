@@ -157,8 +157,6 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  const endDate=document.createElement('output');
  const endLabel=document.createElement('p');endLabel.append('Vypočítaný koniec pobytu: ',endDate);form.append(endLabel);
  let end='';
- const earliest=nextAddendumStart(person.originalEnd);
- if(earliest&&!person.addendumFrom)from.min=earliest;
  function updateEnd(){
   const months=Number(duration.value);
     end='';
