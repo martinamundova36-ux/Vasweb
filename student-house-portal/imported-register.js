@@ -112,9 +112,10 @@ export async function listImportedStudents(db,tenant,profiles,{includeVerified=f
    const from=get('od'),to=get('do'),contractNumber=get('kód izby')||get('číslo zmluvy');
    const key=stayKey(identity(name,email,room),from);
    if(verified.has(key)&&!includeVerified)continue;
-   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,roomType:get('typ izby'),linked:verified.has(key),...(writable?addendumBinding(db,tenant,sha,sheet,row,edits):{}),monthly:null,deposit:null,months:new Map()});
+   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,roomType:get('typ izby')||get('typ'),linked:verified.has(key),...(writable?addendumBinding(db,tenant,sha,sheet,row,edits):{}),monthly:null,deposit:null,months:new Map()});
    const entry=entries.get(key);
    if((entry.from&&from&&entry.from!==from)||(entry.to&&to&&entry.to!==to))continue;
+   entry.roomType||=get('typ izby')||get('typ');
    entry.from||=from;entry.to||=to;entry.contractNumber||=contractNumber;
    entry.monthly??=amountOf(get('splátky'));
    entry.deposit??=amountOf(get('depozit'));
@@ -259,6 +260,11 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
      const entries=monthCharges.filter(c=>month?c.kind==='rent'&&c.period===month:kind&&c.kind===kind);
      const confirmedFee=kind&&months.includes(from)&&detail?.[feeFields[kind]];
      const value=entries.length===1?Number(entries[0].amount):confirmedFee===0||confirmedFee==='0.00'?0:data[key];
+     if(['typ','typ izby'].includes(key)&&row!==null){
+      const original=matches[0][1];
+      const importedType=raw(row,original,'typ izby')||raw(row,original,'typ');
+      if(String(importedType??'').trim())return;
+     }
      if(value!==null&&value!==undefined&&value!=='')syncedCells.set(cellKey(sheet,target,i),value);
     });
    }
@@ -522,7 +528,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
       const binding=writable?addendumBinding(db,tenant,sha,sheet,row,edits):{};
       const stored=binding.saveAddendum;
       if(stored)binding.saveAddendum=async data=>{await stored(data);paint();};
-      attachAccommodationAddendum(cell,{...binding,name,contract,room:String(v||''),roomType:actual[indexOf('typ izby')],email:actual[indexOf('email')],address:actual[indexOf('trvalé bydlisko')],birth:actual[indexOf('dátum narodenia')],nationality:actual[indexOf('národnosť')],identity:actual[indexOf('číslo op alebo pasu')],phone:actual[indexOf('tel.č.')],parent:actual[indexOf('kontakt rodiča')],school:actual[indexOf('vysoká škola')],iban:actual[indexOf('iban študenta')],originalEnd:actual[toIndex],rent},tenant);
+      attachAccommodationAddendum(cell,{...binding,name,contract,room:String(v||''),roomType:actual[indexOf('typ izby')]||actual[indexOf('typ')],email:actual[indexOf('email')],address:actual[indexOf('trvalé bydlisko')],birth:actual[indexOf('dátum narodenia')],nationality:actual[indexOf('národnosť')],identity:actual[indexOf('číslo op alebo pasu')],phone:actual[indexOf('tel.č.')],parent:actual[indexOf('kontakt rodiča')],school:actual[indexOf('vysoká škola')],iban:actual[indexOf('iban študenta')],originalEnd:actual[toIndex],rent},tenant);
      }
     }
     tr.append(cell);

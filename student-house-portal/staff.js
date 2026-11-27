@@ -682,7 +682,7 @@ export async function renderStaffScreen(ctx) {
  }
  async function profile(person){
   if(!ctx.isCurrent())return;
-  const roomCatalog=await ctx.list('rooms').catch(()=>[]);
+  const [roomCatalog,excelRoomType]=await Promise.all([ctx.list('rooms').catch(()=>[]),ctx.importedRoomType?.(person.id)]);
   if(!ctx.isCurrent())return;
   const assignedRoom=roomCatalog.find(x=>String(x.name||'').trim()===String(person.verified_room_number||'').trim());
   const months=stayPeriods(person.accommodation_from,person.accommodation_to).length;
@@ -709,7 +709,7 @@ export async function renderStaffScreen(ctx) {
    });
   }
   const details=el('dl','identity-fields');
-  details.append(field(w.email,person.email),field(w.room,person.verified_room_number||w.noRoom),field(w.contract,person.verified_contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(verifiedWords.months,months?String(months)+' '+verifiedWords.monthWord:'—'),field(verifiedWords.roomType,assignedRoom?.category||'—'),field(w.state,person.active?w.activeOne:w.inactiveOne));results.append(details);
+  details.append(field(w.email,person.email),field(w.room,person.verified_room_number||w.noRoom),field(w.contract,person.verified_contract_number),field(w.period,ctx.day(person.accommodation_from)+' – '+ctx.day(person.accommodation_to)),field(verifiedWords.months,months?String(months)+' '+verifiedWords.monthWord:'—'),field(verifiedWords.roomType,excelRoomType||assignedRoom?.category||'—'),field(w.state,person.active?w.activeOne:w.inactiveOne));results.append(details);
   const form=el('form','staff-form'),room=el('input');room.value=person.verified_room_number||'';room.maxLength=30;room.setAttribute('aria-label',w.room);
   const save=button(w.save,()=>{},'');save.type='submit';const lab=el('label','',w.room);lab.append(room);form.append(lab,save);
   form.addEventListener('submit',async event=>{
@@ -874,7 +874,7 @@ export async function renderStaffScreen(ctx) {
          try{
           const {workingDocument,fieldsForDocument,missingDocumentFields,fillOriginalStudentHouseContract}=await import('/student-house-portal/residence-document.js?v=20261125-qr-vat1');
           const assignedRoom=(await ctx.list('rooms')).find(r=>String(r.name)===String(person.verified_room_number));
-          const data=fieldsForDocument('contract_draft',person,enquiry,{...stay,room_type:assignedRoom?.category||''},verified,{
+          const data=fieldsForDocument('contract_draft',person,enquiry,{...stay,room_type:(await ctx.importedRoomType?.(person.id))||assignedRoom?.category||''},verified,{
            provider:provider.value.trim(),payment_terms:terms.value.trim()
           });
           let file;
