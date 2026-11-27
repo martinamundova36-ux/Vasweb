@@ -1,6 +1,6 @@
-import {attachAccommodationAddendum} from './accommodation-addendum.js?v=20261127-addendum-month-options';
+import {attachAccommodationAddendum} from './accommodation-addendum.js?v=20261127-addendum-register';
 import {advanceRentDueDate} from './ledger.js';
-import {downloadWorkbook} from './excel.js?v=20261126-register';
+import {downloadWorkbook} from './excel.js?v=20261127-addendum-register';
 import {chargeBalance, cents, installmentBalances} from './ledger.js';
 import {buildStudentHouseSchedule} from './installment-document.js?v=20261127-addendum-month-options';
 const normalized=value=>String(value??'').trim().toLowerCase().normalize('NFC').replace(/\s+/g,' ');
@@ -33,6 +33,12 @@ const monthFor=value=>{
  const match=normalized(value).match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
  return match?'20'+match[2]+'-'+match[1]:null;
 };
+const currentDate=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+const isoDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value??'')?value:'';
+const effectiveEnd=(original,extension)=>isoDate(extension)>isoDate(original)?extension:original;
+const importedPayment=value=>/^\d+(?:[.,]\d{1,2})?$/.test(String(value??'').trim())&&Number(String(value).replace(',','.'))>0;
+const rentColors={paid:'#bfdbfe',due:'#fecaca',covered:'#bbf7d0',vacant:'#ffffff'};
+const rentLabels={paid:'Nájom zaplatený',due:'Nájom treba zaplatiť',covered:'Ubytovanie · pred splatnosťou',vacant:'Mimo obdobia ubytovania'};
 const feeFields={deposit:'deposit_eur',administration_fee:'administration_fee_eur',refrigerator_fee:'refrigerator_fee_eur',verification_fee:'verification_fee_eur'};
 const fees=new Map([['depozit','deposit'],['admin. poplatok','administration_fee'],['poplatok chladnička','refrigerator_fee'],['overovací poplatok','verification_fee']]);
 const addendumColumns=['Dodatok č.','Dodatok od','Dodatok do','Nájomné podľa dodatku'];
@@ -68,15 +74,42 @@ function importHeaders(sheet){
  return [...Array.from({length:width},(_,i)=>header[i]),...[...fees.keys(),...extraColumns,...addendumColumns].filter(label=>!header.some(v=>normalized(v)===normalized(label)))];
 }
 
-function addendumBinding(db,tenant,sha,sheet,row,edits){
+function addendumBinding(db,tenant,sha,sheet,row,edits,sheets){
  if(typeof row!=='number'||!sha)return {};
- const columns=addendumColumns.map(label=>importHeaders(sheet).indexOf(label)+1);
- const read=column=>edits.get(sheet.sheet_order+':'+row+':'+column)?.value;
+ const key=(source,record,column)=>source.sheet_order+':'+record+':'+column;
+ const columnsFor=source=>addendumColumns.map(label=>importHeaders(source).findIndex(value=>normalized(value)===normalized(label))+1);
+ const columns=columnsFor(sheet);
+ const read=column=>edits.get(key(sheet,row,column))?.value;
+ const stayIdentity=(source,record,values,header)=>{
+  const readField=label=>{
+   const index=header.findIndex(value=>normalized(value)===label);
+   const edited=edits.get(key(source,record,index+1));
+   return normalized(edited?edited.value:values[index]);
+  };
+  const parts=['meno','priezvisko','email','izba','od'].map(readField);
+  parts.push((readField('kód izby')||readField('číslo zmluvy')).replace(/\s/g,''));
+  return parts.every(Boolean)?JSON.stringify(parts):'';
+ };
  return {
   addendumNumber:read(columns[0]),addendumFrom:read(columns[1]),addendumTo:read(columns[2]),addendumRent:read(columns[3]),
   async saveAddendum(data){
    const values=[Number(data.number),data.from,data.to,data.rent];
-   const changes=columns.map((column_number,i)=>({tenant_id:tenant,source_sha:sha,sheet_order:sheet.sheet_order,row_number:row,column_number,value:values[i],note:''}));
+   const changes=[];
+   const add=(source,record,targetColumns)=>targetColumns.forEach((column_number,i)=>{
+    const note=edits.get(key(source,record,column_number))?.note??source.payload.comments?.[col(column_number-1)+record]??'';
+    changes.push({tenant_id:tenant,source_sha:sha,sheet_order:source.sheet_order,row_number:record,column_number,value:values[i],note});
+   });
+   add(sheet,row,columns);
+   const original=sheet.payload.rows.find(([record])=>record===row);
+   const identity=original&&stayIdentity(sheet,row,original[1],sheet.payload.rows[0][1]);
+   if(identity){
+    for(const source of sheets){
+     const header=source.payload.rows[0]?.[1]||[];
+     if(source===sheet||!header.some(monthFor))continue;
+     const matches=source.payload.rows.slice(1).filter(([record,cells])=>stayIdentity(source,record,cells,header)===identity);
+     if(matches.length===1)add(source,matches[0][0],columnsFor(source));
+    }
+   }
    const {error}=await db.from('student_house_excel_import_edits').upsert(changes,{onConflict:'tenant_id,source_sha,sheet_order,row_number,column_number'});
    if(error)throw Error('Dodatok sa do evidencie nepodarilo zapísať.');
    for(const item of changes)edits.set(item.sheet_order+':'+item.row_number+':'+item.column_number,item);
@@ -112,7 +145,7 @@ export async function listImportedStudents(db,tenant,profiles,{includeVerified=f
    const from=get('od'),to=get('do'),contractNumber=get('kód izby')||get('číslo zmluvy');
    const key=stayKey(identity(name,email,room),from);
    if(verified.has(key)&&!includeVerified)continue;
-   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,roomType:get('typ izby')||get('typ'),linked:verified.has(key),...(writable?addendumBinding(db,tenant,sha,sheet,row,edits):{}),monthly:null,deposit:null,administrationFee:null,paymentStatus:'',months:new Map()});
+   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,roomType:get('typ izby')||get('typ'),linked:verified.has(key),...(writable?addendumBinding(db,tenant,sha,sheet,row,edits,sheets):{}),monthly:null,deposit:null,administrationFee:null,paymentStatus:'',months:new Map()});
    const entry=entries.get(key);
    if((entry.from&&from&&entry.from!==from)||(entry.to&&to&&entry.to!==to))continue;
    const arrival=get('skutočný príchod')||get('príchod');
@@ -178,7 +211,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   const emailCounts=new Map();
   for(const p of people.filter(p=>p.active&&!p.archived_at)){const email=normalized(p.email);emailCounts.set(email,(emailCounts.get(email)||0)+1);}
   const reversed=new Set(reversals.map(x=>x.payment_id));
-  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+  const today=currentDate();
   for(const person of people.filter(p=>p.active&&!p.archived_at)){
    const requests=registrations.filter(r=>normalized(r.email)===normalized(person.email)&&r.contract_number===person.verified_contract_number&&['approved','invited'].includes(r.status));
    const request=requests.length===1?requests[0]:null;
@@ -327,7 +360,11 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  let selected=sheets.find(x=>x.sheet_name===focus?.sheet)||sheets.find(x=>x.sheet_name===(focus?.year===2027?'od 02 2027':'od 09 2026'))||sheets[0];
  search.value=focus?.search??focus?.room??'';
  const tabButtons=new Map();
- const get=(sheet,row,i,value)=>syncedCells.get(cellKey(sheet,row,i))??(edits.has(cellKey(sheet,row,i))?edits.get(cellKey(sheet,row,i)).value:value??'');
+ const get=(sheet,row,i,value)=>{
+  const key=cellKey(sheet,row,i),edit=edits.get(key);
+  if(monthFor(sheet.payload.rows[0][1][i])&&importedPayment(value))return edit?edit.value:value;
+  return syncedCells.get(key)??(edit?edit.value:value??'');
+ };
  const noteFor=(sheet,row,i)=>edits.get(cellKey(sheet,row,i))?.note??sheet.payload.comments?.[col(i)+row]??'';
  const valuesFor=(sheet,row,values)=>Array.from({length:baseWidth(sheet)+(extraHeaders.get(sheet.sheet_order)?.length||0)},(_,i)=>get(sheet,row,i,values[i]));
  const headersFor=sheet=>[...Array.from({length:baseWidth(sheet)},(_,i)=>sheet.payload.rows[0][1][i]),...(extraHeaders.get(sheet.sheet_order)||[])];
@@ -338,13 +375,29 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  };
  const recordsFor=sheet=>[...sheet.payload.rows.slice(1),...(appendRows.get(sheet.sheet_order)||[])];
  const noteRows=()=>sheets.flatMap(sheet=>Object.entries(sheet.payload.comments||{}).map(([ref,note])=>[sheet.sheet_name,ref,note]));
+ function rowStay(header,values){
+  const read=label=>values[header.findIndex(value=>normalized(value)===label)];
+  return {from:read('od'),to:effectiveEnd(read('do'),read('dodatok do')),extensionFrom:read('dodatok od'),extensionTo:read('dodatok do'),originalTo:read('do')};
+ }
+ function rentState(month,original,receipt,stay,today){
+  const charges=receipt?.charges.filter(charge=>charge.kind==='rent'&&String(charge.period).slice(0,7)===month)??[];
+  if(importedPayment(original)||(charges.length&&charges.every(charge=>charge.remaining<=0)))return 'paid';
+  const includes=(from,to)=>isoDate(from)&&isoDate(to)&&from.slice(0,7)<=month&&month<=to.slice(0,7);
+  if(!includes(stay.from,stay.originalTo)&&!includes(stay.extensionFrom,stay.extensionTo))return 'vacant';
+  return today>=month+'-01'?'due':'covered';
+ }
  function exportSheet(sheet){
-  const columns=columnsFor(sheet),headers=headersFor(sheet),records=recordsFor(sheet),automaticCells=new Set();
-  const rows=records.map(([row,values],position)=>columns.map((i,exportIndex)=>{
-   if(syncedCells.has(cellKey(sheet,row,i)))automaticCells.add(col(exportIndex)+(position+2));
-   return get(sheet,row,i,values[i]);
-  }));
-  return {name:sheet.sheet_name,rows:[columns.map(i=>headers[i]),...rows],automaticCells};
+  const columns=columnsFor(sheet),headers=headersFor(sheet),records=recordsFor(sheet),automaticCells=new Set(),cellColors=new Map(),today=currentDate();
+  const rows=records.map(([row,values],position)=>{
+   const actual=valuesFor(sheet,row,values),stay=rowStay(headers,actual),receipt=receipts.get(cellKey(sheet,row,0));
+   return columns.map((i,exportIndex)=>{
+    const ref=col(exportIndex)+(position+2),month=monthFor(headers[i]);
+    if(month)cellColors.set(ref,rentColors[rentState(month,values[i],receipt,stay,today)]);
+    else if(syncedCells.has(cellKey(sheet,row,i)))automaticCells.add(ref);
+    return normalized(headers[i])==='do'?stay.to:actual[i];
+   });
+  });
+  return {name:sheet.sheet_name,rows:[columns.map(i=>headers[i]),...rows],automaticCells,cellColors};
  }
  tools.append(btn(w[4],()=>downloadWorkbook('Student-House-evidencia',[
   ...sheets.map(exportSheet),
@@ -429,7 +482,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  function recordReceipt({person,charges}){
   const dialog=el('dialog'),form=el('form'),target=el('select'),value=el('input'),received=el('input'),method=el('select'),reference=el('input'),status=el('p');
   form.dataset.liveDirty='true';
-  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+  const today=currentDate();
   const open=charges.filter(c=>c.remaining>0).sort((a,b)=>a.due_on.localeCompare(b.due_on));
   for(const c of open)target.append(new Option(c.period+' · '+c.kind+' · zostáva '+(c.remaining/100).toFixed(2)+' €',c.id));
   target.append(new Option('Prijatá platba bez priradenia',''));
@@ -506,22 +559,26 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   const indexOf=label=>header.findIndex(value=>normalized(value)===label);
   const roomIndex=indexOf('izba');
   filterLabel.hidden=!hasStayDates;
-  const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Bratislava'}).format(new Date());
+  const today=currentDate();
   for(const i of visibleColumns){const cell=el('th',header[i]??'');cell.scope='col';head.append(cell);}
   if(extraHeaders.has(sheet.sheet_order))head.append(el('th','Finančná evidencia'));
   let shown=0,target;
   for(const [row,values] of rows){
    const actual=valuesFor(sheet,row,values);
-   if(hasStayDates&&stayFilter.value!=='all'&&registerStayStatus(actual[fromIndex],actual[indexOf('dodatok do')]||actual[toIndex],today)!==stayFilter.value)continue;
+   const stay=rowStay(header,actual),receipt=receipts.get(cellKey(sheet,row,0));
+   if(hasStayDates&&stayFilter.value!=='all'&&registerStayStatus(stay.from,stay.to,today)!==stayFilter.value)continue;
    if(q&&!hits.has(cellKey(sheet,row,0))&&!actual.some((v,i)=>searchText(v).includes(q)||searchText(noteFor(sheet,row,i)).includes(q)))continue;
    shown++;const tr=body.insertRow();
    if(row===focusedRow){target=tr;tr.tabIndex=-1;tr.style.outline='2px solid #17643c';tr.style.outlineOffset='-2px';}
    for(const i of visibleColumns){
-    const cell=el('td'),n=noteFor(sheet,row,i),v=actual[i];
-    const synced=syncedCells.has(cellKey(sheet,row,i));
+    const cell=el('td'),n=noteFor(sheet,row,i),v=i===toIndex?stay.to:actual[i],month=monthFor(header[i]);
+    const synced=syncedCells.has(cellKey(sheet,row,i))&&!(month&&importedPayment(values[i]));
     const control=writable&&!synced&&typeof row==='number'?btn(v??'',()=>edit(sheet,row,i,values[i])):el('span',v??'');
-    if(synced){control.title='Údaj zo systému / Synchronized field';cell.style.boxShadow='inset 3px 0 #17643c';}
-    control.className='import-cell';if(n){control.title=n;control.append(el('span',' •'));control.lastChild.className='import-comment';}
+    if(month){
+     const state=rentState(month,values[i],receipt,stay,today);
+     cell.style.backgroundColor=rentColors[state];control.title=rentLabels[state];
+    }else if(synced){control.title='Údaj zo systému / Synchronized field';cell.style.boxShadow='inset 3px 0 #17643c';}
+    control.className='import-cell';if(n){control.title=month?control.title+' · '+n:n;control.append(el('span',' •'));control.lastChild.className='import-comment';}
     cell.append(control);
     if(hasStayDates&&i===roomIndex){
      const name=[actual[indexOf('meno')],actual[indexOf('priezvisko')]].map(v=>String(v??'').trim()).filter(Boolean).join(' ');
@@ -529,7 +586,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
      const resident=residentRows.get(cellKey(sheet,row,0));
      const rent=resident?.stay?.rent??String(actual[indexOf('splátky')]??'').replace(',','.');
      if(name){
-      const binding=writable?addendumBinding(db,tenant,sha,sheet,row,edits):{};
+      const binding=writable?addendumBinding(db,tenant,sha,sheet,row,edits,sheets):{};
       const stored=binding.saveAddendum;
       if(stored)binding.saveAddendum=async data=>{await stored(data);paint();};
       attachAccommodationAddendum(cell,{...binding,name,contract,room:String(v||''),roomType:actual[indexOf('typ izby')]||actual[indexOf('typ')],email:actual[indexOf('email')],address:actual[indexOf('trvalé bydlisko')],birth:actual[indexOf('dátum narodenia')],nationality:actual[indexOf('národnosť')],identity:actual[indexOf('číslo op alebo pasu')],phone:actual[indexOf('tel.č.')],parent:actual[indexOf('kontakt rodiča')],school:actual[indexOf('vysoká škola')],iban:actual[indexOf('iban študenta')],originalEnd:actual[toIndex],rent},tenant);
@@ -537,7 +594,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
     }
     tr.append(cell);
    }
-   if(extraHeaders.has(sheet.sheet_order)){const cell=tr.insertCell(),key=cellKey(sheet,row,0),receipt=receipts.get(key),resident=residentRows.get(key);
+   if(extraHeaders.has(sheet.sheet_order)){const cell=tr.insertCell(),resident=residentRows.get(cellKey(sheet,row,0));
      if(receipt)cell.append(btn('Evidovať platbu',()=>recordReceipt(receipt)));
      if(resident?.detail&&receipt?.charges.some(c=>c.kind==='rent'))cell.append(btn('Upraviť poplatky',()=>editVerifiedFees(resident)));
      if(resident?.stay)cell.append(btn('Opraviť nájomné',()=>correctMonthlyRent(resident)));
@@ -547,5 +604,5 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
   count.textContent=w[11]+': '+shown+' / '+rows.length;scroll.replaceChildren(table);
   if(target){target.focus({preventScroll:true});(target.cells[roomIndex]??target).scrollIntoView({block:'center',inline:'nearest'});}
  }
- section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Zelené označenie: údaje zo systému. Mesačné bunky zobrazujú predpisy. Záznamy bez jednoznačnej zhody v importe sa zobrazujú samostatne. Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),tabs,filterBar,results,count,scroll);root.append(section);const searchChanged=()=>paint();search.addEventListener('input',searchChanged);stayFilter.onchange=searchChanged;paint();return true;
+ section.append(style,el('h3',w[0]),tools,el('p',syncError?'Údaje zo systému sa nepodarilo načítať. Zobrazené sú pôvodné hodnoty.':syncedCells.size?'Kalendáre na kontrolu: '+missingCalendars+'.':'Evidencia zatiaľ nemá overené údaje študentov zo systému.'),el('p','Modrá – zaplatené · Červená – treba zaplatiť · Zelená – ubytovanie pred splatnosťou · Biela – mimo obdobia ubytovania'),tabs,filterBar,results,count,scroll);root.append(section);const searchChanged=()=>paint();search.addEventListener('input',searchChanged);stayFilter.onchange=searchChanged;paint();return true;
 }

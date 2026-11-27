@@ -279,7 +279,12 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
  async function run(writeToExcel,prepareEmail=false){
   if(download.disabled)return;
   for(const input of form.querySelectorAll('input[type=text],input[type=email]'))input.value=input.value.trim();
-  if(!form.reportValidity()||!end)return;
+  status.textContent='';
+  const valid=writeToExcel?[from,duration,number,rent].every(input=>input.reportValidity()):form.reportValidity();
+  if(!valid||!end){
+   status.textContent=writeToExcel?'Skontroluj dátum začiatku, dĺžku, číslo dodatku a nájomné.':'Doplň povinné údaje dodatku.';
+   return;
+  }
   const recipient=extra.email.value.trim();
   if(prepareEmail&&!/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(recipient)){
    status.textContent='Doplň platný e-mail študenta.';extra.email.focus();return;
@@ -292,7 +297,6 @@ export function attachAccommodationAddendum(host,person,tenant,{trigger,show=fal
    const details=Object.fromEntries(Object.entries(extra).map(([key,input])=>[key,input.value]));
    const data={...person,...details,number:number.value,contract:contract.value,room:room.value,roomType:roomType.value,address:address.value,from:from.value,to:end,rent:rent.valueAsNumber};
    if(writeToExcel){
-    addendumXml(data,provider);
     await person.saveAddendum(data);
     status.textContent='Dodatok je zapísaný v Exceli.';
    }else{
