@@ -213,7 +213,7 @@ export async function addendumPdf(data,provider){
     }
     drawScheduleRow(cells,height,qrImages[index]);
    }
-   y+=15;
+   y+=30;
   }
  }
  flush();
