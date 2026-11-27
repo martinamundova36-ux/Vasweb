@@ -315,11 +315,14 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
  .sh-imported-register .import-name-results:not([hidden]){padding:12px 16px;margin:8px 0;border:1px solid #cbd8e8;border-radius:10px;background:#f4f8fd}
  .sh-imported-register .import-name-results button{display:block;margin:6px 0;background:#fff;color:#142b4d;border:1px solid #cbd8e8;max-width:100%;white-space:normal;text-align:left}
  .sh-imported-register .import-scroll{width:100%;max-height:72vh;overflow:auto;border:1px solid #cbd8e8;border-radius:10px}
- .sh-imported-register table{width:max-content;min-width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
- .sh-imported-register th,.sh-imported-register td{min-width:80px;padding:8px 12px;border-right:1px solid #d5e1ef;border-bottom:1px solid #d5e1ef;white-space:pre-wrap;max-width:370px;overflow-wrap:anywhere;vertical-align:middle}
- .sh-imported-register th{background:#c5dfb4;position:sticky;top:0;z-index:2;color:#142b4d}
+ .sh-imported-register table{width:max-content;min-width:100%;border-collapse:separate;border-spacing:0;font-size:12px;line-height:1.35}
+ .sh-imported-register th,.sh-imported-register td{min-width:44px;padding:3px 6px;border-right:1px solid #d5e1ef;border-bottom:1px solid #d5e1ef;white-space:pre-wrap;max-width:200px;overflow-wrap:anywhere;vertical-align:middle}
+ .sh-imported-register th{max-width:115px;background:#c5dfb4;position:sticky;top:0;z-index:2;color:#142b4d}
  .sh-imported-register tbody tr:nth-child(odd) td{background:#e2efda}
- .sh-imported-register .import-cell{background:transparent;color:#142b4d;font:inherit;border:0;border-radius:0;padding:3px;min-height:28px;text-align:left;white-space:pre-wrap;overflow-wrap:anywhere;width:100%}
+ .sh-imported-register .import-cell{background:transparent;color:#142b4d;font:inherit;border:0;border-radius:0;padding:2px 0;min-height:22px;text-align:left;white-space:pre-wrap;overflow-wrap:anywhere;width:100%}
+ .sh-imported-register td>button:not(.import-cell){padding:3px 7px;min-height:24px;border-radius:5px;font-size:11px;line-height:1.3}
+ .sh-imported-register .import-room{white-space:nowrap}
+ .sh-imported-register .import-room>.import-cell{width:auto;margin-right:5px}
  .sh-imported-register .import-cell:focus-visible{outline:2px solid #17643c}
  .sh-imported-register .import-comment{color:#a52134;font-weight:bold;margin-left:5px}
  .sh-imported-register dialog{width:min(520px,92vw);border:1px solid #a6b5c6;border-radius:12px;padding:20px}
@@ -581,6 +584,7 @@ export async function renderImportedExcel({root,db,tenant,lang,isCurrent,onBack,
     control.className='import-cell';if(n){control.title=month?control.title+' · '+n:n;control.append(el('span',' •'));control.lastChild.className='import-comment';}
     cell.append(control);
     if(hasStayDates&&i===roomIndex){
+     cell.classList.add("import-room");
      const name=[actual[indexOf('meno')],actual[indexOf('priezvisko')]].map(v=>String(v??'').trim()).filter(Boolean).join(' ');
      const contract=actual[indexOf('kód izby')]||actual[indexOf('číslo zmluvy')];
      const resident=residentRows.get(cellKey(sheet,row,0));
