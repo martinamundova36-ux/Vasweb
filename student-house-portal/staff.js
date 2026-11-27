@@ -729,11 +729,16 @@ export async function renderStaffScreen(ctx) {
   staffFacts.append(el('h4','section-subtitle',verifiedTitle));
   results.append(staffFacts);
   try{
-   const [{data:record,error},{data:stays,error:stayError}]=await Promise.all([
+   const [{data:record,error},{data:stays,error:stayError},excel]=await Promise.all([
     ctx.db.from('resident_staff_details')
      .select('room_code,deposit_eur,administration_fee_eur')
      .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle(),
-    ctx.db.from('tenancies').select('rent,starts_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id)
+    ctx.db.from('tenancies').select('rent,starts_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id),
+    import('./imported-register.js?v=20261127-excel-fees').then(async ({listImportedStudents})=>{
+     const entries=await listImportedStudents(ctx.db,ctx.tenant,[person],{includeVerified:true});
+     const matches=entries.filter(entry=>entry.linked&&entry.from===person.accommodation_from);
+     return matches.length===1?matches[0]:null;
+    }).catch(()=>null)
    ]);
    if(!ctx.isCurrent()||!staffFacts.isConnected)return;
    if(error||stayError)throw Error('staff_details_unavailable');
@@ -744,7 +749,16 @@ export async function renderStaffScreen(ctx) {
      en:['Monthly rent','Deposit','Administration fee','Room code','Show code','Hide code','Edit in room register'],
      ru:['Аренда за месяц','Депозит','Административный сбор','Код комнаты','Показать код','Скрыть код','Дополнить в реестре'],
      uk:['Місячна оренда','Депозит','Адміністративний збір','Код кімнати','Показати код','Приховати код','Доповнити в реєстрі']})[ctx.lang];
-   report.append(field(labels[0],toMoney(rentRecord?.rent)),field(labels[1],toMoney(record?.deposit_eur)),field(labels[2],toMoney(record?.administration_fee_eur)));
+   report.append(
+    field(verifiedWords.roomType,excelRoomType||assignedRoom?.category||'—'),
+    field(labels[0],toMoney(rentRecord?.rent??excel?.monthly)),
+    field(labels[1],toMoney(record?.deposit_eur??excel?.deposit)),
+    field(labels[2],toMoney(record?.administration_fee_eur??excel?.administrationFee))
+   );
+   if(excel?.paymentStatus){
+    const paymentLabel=({sk:'Úhrada podľa Excelu',en:'Payment in Excel',ru:'Оплата по Excel',uk:'Оплата за Excel'})[ctx.lang];
+    report.append(field(paymentLabel,excel.paymentStatus));
+   }
    staffFacts.append(report);
    if(typeof ctx.openRooms==='function')staffFacts.append(button(labels[6],()=>ctx.openRooms(person.verified_room_number,person.accommodation_from)));
   }catch{if(ctx.isCurrent())staffFacts.append(el('p','danger',w.fileFailed));}

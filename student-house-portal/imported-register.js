@@ -112,13 +112,15 @@ export async function listImportedStudents(db,tenant,profiles,{includeVerified=f
    const from=get('od'),to=get('do'),contractNumber=get('kód izby')||get('číslo zmluvy');
    const key=stayKey(identity(name,email,room),from);
    if(verified.has(key)&&!includeVerified)continue;
-   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,roomType:get('typ izby')||get('typ'),linked:verified.has(key),...(writable?addendumBinding(db,tenant,sha,sheet,row,edits):{}),monthly:null,deposit:null,months:new Map()});
+   if(!entries.has(key))entries.set(key,{id:'excel:'+sheet.sheet_order+':'+row,name,room,email,sheet:sheet.sheet_name,from,to,contractNumber,roomType:get('typ izby')||get('typ'),linked:verified.has(key),...(writable?addendumBinding(db,tenant,sha,sheet,row,edits):{}),monthly:null,deposit:null,administrationFee:null,paymentStatus:'',months:new Map()});
    const entry=entries.get(key);
    if((entry.from&&from&&entry.from!==from)||(entry.to&&to&&entry.to!==to))continue;
    entry.roomType||=get('typ izby')||get('typ');
    entry.from||=from;entry.to||=to;entry.contractNumber||=contractNumber;
    entry.monthly??=amountOf(get('splátky'));
    entry.deposit??=amountOf(get('depozit'));
+   entry.administrationFee??=amountOf(get('admin. poplatok'));
+   entry.paymentStatus||=get('stav platby')||get('uhradené')||get('zaplatené');
    header.forEach((label,i)=>{
     const month=monthFor(label),value=cell(i);
     if(month&&value&&!entry.months.has(month))entry.months.set(month,value);
@@ -140,7 +142,7 @@ export async function listImportedStudents(db,tenant,profiles,{includeVerified=f
    }
   }
   const missingFees=deposit===null?['Depozit']:[];
-  return {...entry,monthly,items,missingFees};
+  return {...entry,monthly,deposit,items,missingFees};
  }).sort((a,b)=>a.name.localeCompare(b.name,'sk')||a.room.localeCompare(b.room,'sk'));
 }
 
