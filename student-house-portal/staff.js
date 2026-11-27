@@ -728,7 +728,7 @@ export async function renderStaffScreen(ctx) {
   const missingVerified=({sk:'Recepcia ešte nepotvrdila',en:'Not yet verified by reception',ru:'Ещё не подтверждено',uk:'Ще не підтверджено'})[ctx.lang];
   staffFacts.append(el('h4','section-subtitle',verifiedTitle));
   results.append(staffFacts);
-  const excelDetails=import('./imported-register.js?v=20261127-excel-arrival').then(async ({listImportedStudents})=>{
+  const excelDetails=import('./imported-register.js?v=20261127-profile-addendum').then(async ({listImportedStudents})=>{
      const entries=await listImportedStudents(ctx.db,ctx.tenant,[person],{includeVerified:true});
      const matches=entries.filter(entry=>entry.linked&&entry.from===person.accommodation_from);
      return matches.length===1?matches[0]:null;
@@ -782,6 +782,27 @@ export async function renderStaffScreen(ctx) {
     arrivalInput.value=data.actual_arrival_on||'';arrivalNotice.textContent=arrivalWords[3]+(arrivalInput.value?' · '+ctx.day(arrivalInput.value):' · '+arrivalWords[1]);arrivalNotice.classList.add('staff-approval-success');
    }catch{arrivalNotice.textContent=arrivalWords[4];arrivalNotice.classList.remove('staff-approval-success');}finally{arrivalSave.disabled=false;}
   });
+  const addendumHost=el('div','staff-actions');
+  results.append(addendumHost);
+  const loadAddendum=async ()=>{
+   const [excel,{attachAccommodationAddendum},{data:stays},{data:answers}]=await Promise.all([
+    excelDetails,import('./accommodation-addendum.js?v=20261127-profile-addendum'),
+    ctx.db.from('tenancies').select('rent,starts_on,ends_on').eq('tenant_id',ctx.tenant).eq('resident_id',person.id),
+    ctx.db.from('resident_enquiries').select('permanent_address,date_of_birth,nationality,identity_document_number,telephone,parent_contact_email,school,iban')
+     .eq('tenant_id',ctx.tenant).eq('resident_id',person.id).maybeSingle()
+   ]);
+   if(!ctx.isCurrent()||!addendumHost.isConnected)return;
+   const stay=stays?.find(item=>item.starts_on===person.accommodation_from&&item.ends_on===person.accommodation_to);
+   attachAccommodationAddendum(addendumHost,{
+    ...excel,name:person.full_name,email:person.email,contract:person.verified_contract_number||excel?.contractNumber,
+    room:person.verified_room_number||excel?.room,roomType:excelRoomType||assignedRoom?.category||excel?.roomType,
+    originalEnd:person.accommodation_to||excel?.to,rent:stay?.rent??excel?.monthly,
+    address:answers?.permanent_address,birth:answers?.date_of_birth?ctx.day(answers.date_of_birth):'',
+    nationality:answers?.nationality,identity:answers?.identity_document_number,
+    phone:answers?.telephone,parent:answers?.parent_contact_email,school:answers?.school,iban:answers?.iban
+   },ctx.tenant);
+  };
+  void loadAddendum().catch(()=>{if(ctx.isCurrent()&&addendumHost.isConnected)addendumHost.textContent='Dodatok sa nepodarilo načítať.';});
   const enquiryTitle=({sk:'Osobný dotazník študenta',en:'Student personal questionnaire',ru:'Анкета студента',uk:'Анкета студента'})[ctx.lang]||'Osobný dotazník študenta';
   const enquiryBox=el('section','data-card');
   enquiryBox.append(el('h4','section-subtitle',enquiryTitle));

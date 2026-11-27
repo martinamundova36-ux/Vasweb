@@ -37,6 +37,7 @@ function addendumXml(data,provider){
   paragraph(provider.bank+' · IBAN '+provider.iban+' · SWIFT/BIC '+provider.bic),
   paragraph('Ubytovaný',{bold:true}),paragraph(data.name),
   ...[['Bydlisko',data.address],['Dátum narodenia',data.birth],['Národnosť',data.nationality],['Číslo OP/pasu',data.identity],['Kontakt',data.phone],['E-mail',data.email],['Kontakt na rodiča',data.parent],['Škola',data.school],['IBAN ubytovaného',data.iban]].map(([label,value])=>paragraph(label+': '+(value||'—'))),
+  paragraph('Zmluvné strany sa dohodli, že týmto dodatkom sa mení nasledovné:'),
   heading('Článok č. III · Predmet zmluvy'),
   paragraph('Zmluvné strany sa dohodli, že doba ubytovania sa predlžuje na izbe '+[data.roomType,data.room].filter(Boolean).join(', ')+' na dobu od '+date(data.from)+' do '+date(data.to)+'.'),
   heading('Splátkový kalendár'),table(rows),
@@ -134,9 +135,26 @@ export function attachAccommodationAddendum(host,person,tenant){
  const address=field('Bydlisko ubytovaného','text',person.address,false);
  const extra={};
  for(const [key,label] of [['birth','Dátum narodenia'],['nationality','Národnosť'],['identity','Číslo OP/pasu'],['phone','Kontakt'],['email','E-mail'],['parent','Kontakt na rodiča'],['school','Škola'],['iban','IBAN ubytovaného']])extra[key]=field(label,'text',person[key],false);
- const from=field('Predĺženie od','date',person.addendumFrom||nextAddendumStart(person.originalEnd)),to=field('Predĺženie do','date',person.addendumTo);
+ const from=field('Predĺženie od','date',person.addendumFrom||nextAddendumStart(person.originalEnd));
+ const duration=document.createElement('select'),durationLabel=document.createElement('label');
+ durationLabel.textContent='Dĺžka predĺženia';duration.required=true;durationLabel.append(duration);form.append(durationLabel);
+ duration.add(new Option('Vyber dĺžku pobytu',''));
+ for(const months of [5,10,12])duration.add(new Option(months+' mesiacov',String(months)));
+ const to=field('Predĺženie do','date','',false);to.readOnly=true;
  const earliest=nextAddendumStart(person.originalEnd);
- if(earliest)from.min=earliest;
+ if(earliest&&!person.addendumFrom)from.min=earliest;
+ function updateEnd(){
+  const months=Number(duration.value);
+  if(!from.value||![5,10,12].includes(months)){to.value='';return;}
+  const [year,month]=from.value.split('-').map(Number);
+  to.value=new Date(Date.UTC(year,month-1+months,0)).toISOString().slice(0,10);
+ }
+ if(person.addendumFrom&&person.addendumTo){
+  const [startYear,startMonth]=person.addendumFrom.split('-').map(Number);
+  const [endYear,endMonth]=person.addendumTo.split('-').map(Number);
+  duration.value=String((endYear-startYear)*12+endMonth-startMonth+1);
+ }
+ from.addEventListener('input',updateEnd);duration.addEventListener('change',updateEnd);updateEnd();
  const rent=field('Mesačné nájomné (€)','number',person.addendumRent??person.rent);rent.min='0.01';rent.step='0.01';
  const submit=document.createElement('button'),close=document.createElement('button'),status=document.createElement('p');
  close.type='button';close.textContent='Zavrieť';close.addEventListener('click',()=>panel.close());
@@ -144,7 +162,7 @@ export function attachAccommodationAddendum(host,person,tenant){
  if(!person.saveAddendum)status.textContent='K profilu chýba jednoznačne prepojený zapisovateľný riadok Excelu. PDF sa dá stiahnuť samostatne.';
  form.addEventListener('submit',async event=>{
   event.preventDefault();
-  if(submit.disabled||!form.reportValidity())return;
+  if(submit.disabled||!form.reportValidity()||!to.value)return;
   submit.disabled=true;close.disabled=true;status.textContent='Pripravujem dodatok…';
   try{
    const details=Object.fromEntries(Object.entries(extra).map(([key,input])=>[key,input.value]));
