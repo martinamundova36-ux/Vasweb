@@ -1,0 +1,146 @@
+{
+  "doi": "10.70267/fer.v3n7.4855",
+  "title": "Regional FinTech and Corporate Innovation",
+  "authors": [
+    "Yaohui Li"
+  ],
+  "publisher": "Zeus Press",
+  "venue": "Financial Economics Research",
+  "source_date": "2026-11-28",
+  "type": "journal-article",
+  "url": "https://doi.org/10.70267/fer.v3n7.4855",
+  "abstract_available": true,
+  "abstract_words": 193,
+  "selection_keywords": [
+    "enterprise",
+    "financial",
+    "innovation"
+  ],
+  "verified_at": "2026-11-28",
+  "full_text_reviewed": false,
+  "source": "Crossref REST API",
+  "content_kind": "bibliographic overview, not scientific analysis",
+  "drafted_at": "2026-11-28",
+  "scientific_review_status": "needs_editorial_review",
+  "scientific_review_note": "Bibliographic metadata and abstract selection only. Full text, sample, methodology, statistical interpretation and bilingual claims require documented editorial source comparison.",
+  "image_status": "needs_image",
+  "image_note": "needs_image: no unused, relevant licensed photograph from Pexels/Commons",
+  "editorial": {
+    "status": "automated_abstract_editorial",
+    "generated_by": "gemini_from_abstract",
+    "generated_at": "2026-11-28",
+    "source_url": "https://doi.org/10.70267/fer.v3n7.4855",
+    "source_scope": "verified_crossref_abstract_only",
+    "review_level": "abstract_only",
+    "reviewed_at": "2026-11-28",
+    "content_sha256": "85435845032d3272c069dce95e68ffaf73bea7c1a20841ff5c199f05e10732ff",
+    "languages": {
+      "sk": {
+        "title": "Regionálny FinTech a podnikové inovácie",
+        "description": "Analýza vplyvu regionálneho rozvoja finančných technológií na inovačnú výkonnosť čínskych kótovaných spoločností v rokoch 2011 až 2022.",
+        "lead": "Táto štúdia skúma vzťah medzi rozvojom regionálneho sektora finančných technológií a inovačnou aktivitou podnikov. Na základe údajov z čínskych akciových trhov autori analyzujú, či digitálna finančná infraštruktúra podporuje patentovú činnosť firiem. Výsledky ponúkajú dôležitý pohľad na prepojenie medzi dostupnosťou finančných služieb a schopnosťou podnikov inovovať v dynamickom prostredí, pričom zdôrazňujú potrebu rozlišovať medzi kvantitou a kvalitou inovácií.",
+        "sections": [
+          {
+            "heading": "Úvod",
+            "paragraphs": [
+              "Inovácie podnikov predstavujú základný pilier pre dosahovanie dlhodobej konkurencieschopnosti a kvalitatívneho rozvoja v globálnej ekonomike. V súčasnosti sa čoraz viac pozornosti venuje úlohe finančných technológií, známych ako FinTech, pri podpore týchto procesov. Táto štúdia sa zameriava na pochopenie toho, ako regionálne podmienky v oblasti digitálnych financií ovplyvňujú inovačné výstupy spoločností, a poskytuje empirické dôkazy o tom, či dostupnosť týchto služieb skutočne vedie k vyššej miere inovačnej aktivity.",
+              "Výskum sa opiera o dáta z čínskeho trhu, ktorý je známy rýchlou adopciou digitálnych finančných riešení. Autori sa snažia identifikovať, či existuje priama súvislosť medzi úrovňou rozvoja FinTechu v danej lokalite a počtom patentových prihlášok podaných kótovanými spoločnosťami. Tento prístup umožňuje lepšie pochopiť, ako digitálna infraštruktúra formuje podnikateľské prostredie a aké sú limity tohto vplyvu pri hodnotení inovačnej výkonnosti firiem v rôznych regiónoch."
+            ]
+          },
+          {
+            "heading": "Čo skúmala štúdia",
+            "paragraphs": [
+              "Štúdia analyzovala vzťah medzi regionálnym indexom FinTechu a inovačnou výkonnosťou nefinančných spoločností kótovaných na burzách v Šanghaji a Šen-čene. Podľa abstraktu výskum pokrýva obdobie rokov 2011 až 2022. Hlavným cieľom bolo zistiť, či existuje štatisticky významná korelácia medzi úrovňou regionálneho digitálneho finančného rozvoja a celkovým počtom podaných patentových prihlášok, pričom sa zohľadnili aj špecifické finančné charakteristiky firiem a štruktúry ich podnikového riadenia.",
+              "Výskumný dizajn sa zameral na párovanie každoročných registrovaných adries podnikov s regionálnymi indexmi FinTechu. Podľa abstraktu autori využili model fixných efektov podniku a roka, aby eliminovali vplyv časovo nemenných charakteristík firiem. Skúmanie sa sústredilo na tri typy patentov, pričom sa osobitne hodnotili aj prihlášky vynálezov. Cieľom bolo poskytnúť empirický základ pre rozlíšenie medzi kvantitatívnym nárastom inovácií a ich skutočnou kvalitou v kontexte dostupnosti finančných informácií a služieb."
+            ]
+          },
+          {
+            "heading": "Hlavné zistenia a význam",
+            "paragraphs": [
+              "Podľa abstraktu existuje významná pozitívna korelácia medzi rozvojom regionálneho FinTechu a celkovým počtom podaných patentových prihlášok. Tento záver zostáva robustný aj po zahrnutí premenných týkajúcich sa finančných charakteristík a správy spoločností. Zistenia naznačujú, že digitálna finančná infraštruktúra môže uľahčiť prístup k zdrojom potrebným pre inovačné projekty, čo sa následne odráža v štatistikách patentovej aktivity. Tento vzťah je kľúčový pre pochopenie toho, ako regionálne ekosystémy ovplyvňujú inovačné správanie firiem.",
+              "Na druhej strane, štúdia prináša aj dôležité obmedzenia. Podľa abstraktu nebola preukázaná významná podpora pre prihlášky vynálezov ani pre oneskorený ukazovateľ FinTechu o jedno obdobie. To znamená, že vplyv FinTechu nemusí byť okamžitý a nemusí sa rovnako prejavovať pri všetkých typoch inovácií. Tieto výsledky zdôrazňujú potrebu opatrnosti pri interpretácii inovačnej podpory zo strany FinTechu a naznačujú, že kvalita inovácií, meraná napríklad cez patenty na vynálezy, si vyžaduje komplexnejšie hodnotenie než len prostý počet podaných prihlášok."
+            ]
+          },
+          {
+            "heading": "Metodika a limity",
+            "paragraphs": [
+              "Metodika štúdie je založená na kvantitatívnej analýze panelových dát kótovaných spoločností v Číne. Podľa abstraktu boli použité dáta za obdobie 2011 až 2022, pričom sa aplikoval model fixných efektov na úrovni podniku a roka. Tento prístup je vhodný na kontrolu individuálnych špecifík firiem, avšak štúdia je obmedzená na nefinančné spoločnosti. Zistenia teda nemožno automaticky zovšeobecňovať na iné odvetvia alebo iné geografické oblasti s odlišnou úrovňou rozvoja digitálnych finančných trhov.",
+              "Dôležitým limitom je, že štúdia identifikuje asociácie, nie nevyhnutne kauzálne vzťahy. Podľa abstraktu zostáva otázne, či FinTech priamo spôsobuje inováciu, alebo či inovatívne firmy jednoducho sídlia v regiónoch s lepšou digitálnou infraštruktúrou. Navyše, absencia významných výsledkov pri patentoch na vynálezy naznačuje, že meranie inovácií iba cez počet prihlášok môže byť zavádzajúce. Bez prístupu k úplnému textu nie je možné posúdiť, aké ďalšie premenné mohli ovplyvniť výsledky alebo aké boli konkrétne definície použitých indexov."
+            ]
+          },
+          {
+            "heading": "Čo si z výskumu môže odniesť podnikateľ",
+            "paragraphs": [
+              "Podnikatelia by mali vnímať regionálnu dostupnosť digitálnych finančných služieb ako faktor, ktorý môže ovplyvniť administratívnu a finančnú podporu inovačných procesov. Podľa abstraktu však FinTech nie je univerzálnym riešením pre všetky typy inovácií. Pri hodnotení inovačnej stratégie firmy je nevyhnutné rozlišovať medzi kvantitou patentov a ich skutočnou technologickou hodnotou. Spoliehanie sa na jednoduché metriky, ako je celkový počet prihlášok, môže viesť k skreslenému obrazu o skutočnej inovačnej sile podniku.",
+              "Napríklad, ak firma zvažuje expanziu do regiónu s vysokým indexom FinTechu, mala by si overiť, či táto infraštruktúra skutočne znižuje náklady na financovanie výskumu a vývoja. Podnikateľ môže merať efektivitu inovácií sledovaním pomeru medzi počtom podaných prihlášok a počtom schválených patentov na vynálezy. Treba však pamätať na to, že regionálne podmienky sú len jedným z mnohých faktorov a výsledky štúdie z čínskeho trhu nemusia platiť v iných ekonomických prostrediach s odlišnými regulačnými rámcami."
+            ]
+          },
+          {
+            "heading": "Záver",
+            "paragraphs": [
+              "Štúdia poskytuje cenný pohľad na vzťah medzi regionálnym rozvojom finančných technológií a inovačnou aktivitou kótovaných spoločností. Podľa abstraktu existuje pozitívna korelácia s celkovým počtom patentových prihlášok, čo naznačuje, že digitálne finančné služby môžu zohrávať podpornú úlohu v inovačnom procese. Zároveň však výskum upozorňuje na limity tohto vplyvu, najmä pri komplexnejších typoch inovácií, ako sú patenty na vynálezy, kde sa významný efekt nepotvrdil.",
+              "Pre podnikateľov a manažérov z toho vyplýva potreba kritického prístupu pri hodnotení inovačnej výkonnosti. Je nevyhnutné kombinovať rôzne ukazovatele a neuspokojiť sa s jednoduchými štatistikami. Budúce úsilie v oblasti inovácií by sa malo zamerať na kvalitatívne aspekty a lepšie pochopenie toho, ako digitálne finančné nástroje skutočne prispievajú k tvorbe hodnoty. Štúdia slúži ako dôležitý referenčný bod pre ďalšie skúmanie komplexného vzťahu medzi technológiami, financiami a podnikovým rastom."
+            ]
+          }
+        ]
+      },
+      "en": {
+        "title": "Regional FinTech and Corporate Innovation",
+        "description": "An analysis of how regional financial technology development impacts the innovation output of listed companies from 2011 to 2022.",
+        "lead": "This study investigates the relationship between regional financial technology development and corporate innovation. Using data from Chinese stock exchanges, the author examines whether digital financial infrastructure fosters patent activity. The findings offer insights into the link between financial service accessibility and innovation, while highlighting the necessity of distinguishing between the quantity and quality of innovation outputs in a business context.",
+        "sections": [
+          {
+            "heading": "Introduction",
+            "paragraphs": [
+              "Corporate innovation serves as a fundamental pillar for achieving long-term competitiveness and high-quality development in the modern economy. Increasingly, attention is shifting toward the role of financial technologies, or FinTech, in facilitating these processes. This study aims to understand how regional conditions in digital finance influence the innovation output of companies, providing empirical evidence on whether the availability of such services translates into enhanced innovation activity within the corporate sector.",
+              "The research utilizes data from the Chinese market, known for its rapid adoption of digital financial solutions. The author seeks to identify whether a direct correlation exists between the level of FinTech development in a specific region and the volume of patent applications filed by listed companies. This approach helps clarify how digital infrastructure shapes the business environment and identifies the boundaries of this influence when evaluating corporate innovation performance across different regions."
+            ]
+          },
+          {
+            "heading": "What the study examined",
+            "paragraphs": [
+              "The study analyzed the relationship between a regional FinTech index and the innovation performance of non-financial companies listed on the Shanghai and Shenzhen stock exchanges. According to the abstract, the research covers the period from 2011 to 2022. The primary objective was to determine if a statistically significant correlation exists between regional digital financial development and the total number of patent applications, while controlling for specific financial characteristics and corporate governance variables.",
+              "The research design focused on matching annual registered enterprise addresses with regional FinTech indices. According to the abstract, the author adopted an enterprise and year fixed effect model to account for time-invariant firm characteristics. The study focused on three types of patents, while specifically evaluating invention patent applications separately. The goal was to provide an empirical basis for distinguishing between quantitative increases in innovation and their actual quality in the context of financial information and service availability."
+            ]
+          },
+          {
+            "heading": "Findings and interpretation",
+            "paragraphs": [
+              "According to the abstract, there is a significant positive correlation between regional FinTech development and the total number of patent applications. This conclusion remains robust even after including variables related to financial characteristics and corporate governance. These findings suggest that digital financial infrastructure may facilitate access to resources required for innovation projects, which is subsequently reflected in patent activity statistics. This relationship is crucial for understanding how regional ecosystems influence the innovation behavior of firms.",
+              "Conversely, the study also highlights important limitations. According to the abstract, the application of invention patents and the lagging one-period FinTech indicator did not receive significant support. This implies that the impact of FinTech may not be immediate and may not manifest equally across all types of innovation. These results emphasize the need for caution when interpreting the innovation support role of FinTech and suggest that innovation quality requires more complex evaluation than simple counts of applications."
+            ]
+          },
+          {
+            "heading": "Methodology and limitations",
+            "paragraphs": [
+              "The methodology is based on a quantitative analysis of panel data from listed companies in China. According to the abstract, data from 2011 to 2022 were used, applying an enterprise and year fixed effect model. This approach is suitable for controlling individual firm specifics, but the study is limited to non-financial companies. Therefore, the findings cannot be automatically generalized to other sectors or geographic regions with different levels of digital financial market development.",
+              "A significant limitation is that the study identifies associations, not necessarily causal relationships. According to the abstract, it remains unclear whether FinTech directly causes innovation or if innovative firms simply reside in regions with better digital infrastructure. Furthermore, the lack of significant results for invention patents suggests that measuring innovation solely through application counts may be misleading. Without access to the full text, one cannot assess what other variables might have influenced the results or the specific definitions of the indices used."
+            ]
+          },
+          {
+            "heading": "Business relevance and limitations",
+            "paragraphs": [
+              "Entrepreneurs should view regional access to digital financial services as a factor that may influence the administrative and financial support of innovation processes. According to the abstract, however, FinTech is not a universal solution for all types of innovation. When evaluating a firm's innovation strategy, it is essential to distinguish between the quantity of patents and their actual technological value. Relying on simple metrics, such as total application counts, may lead to a distorted view of a firm's true innovation power.",
+              "For example, if a company is considering expansion into a region with a high FinTech index, it should verify whether this infrastructure truly reduces the costs of financing research and development. An entrepreneur can measure innovation efficiency by tracking the ratio between the number of applications and the number of granted invention patents. However, remember that regional conditions are only one of many factors, and results from the Chinese market may not apply in other economic environments with different regulatory frameworks."
+            ]
+          },
+          {
+            "heading": "Conclusion",
+            "paragraphs": [
+              "The study provides valuable insights into the relationship between regional financial technology development and the innovation activity of listed companies. According to the abstract, a positive correlation exists with the total number of patent applications, suggesting that digital financial services may play a supporting role in the innovation process. At the same time, the research points to the limitations of this influence, especially regarding more complex types of innovation, such as invention patents, where no significant effect was confirmed.",
+              "For entrepreneurs and managers, this implies a need for a critical approach when evaluating innovation performance. It is essential to combine various indicators and not settle for simple statistics. Future innovation efforts should focus on qualitative aspects and a better understanding of how digital financial tools truly contribute to value creation. The study serves as an important reference point for further exploration of the complex relationship between technology, finance, and corporate growth."
+            ]
+          }
+        ]
+      }
+    },
+    "references": [
+      {
+        "id": "doi-source",
+        "url": "https://doi.org/10.70267/fer.v3n7.4855",
+        "apa7": "Yaohui Li (2026). Regional FinTech and Corporate Innovation. Financial Economics Research. https://doi.org/10.70267/fer.v3n7.4855",
+        "access": "abstract"
+      }
+    ]
+  }
+}

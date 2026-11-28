@@ -1,0 +1,118 @@
+{
+  "schema": "webu-abstract-manuscript-v1",
+  "source_doi": "10.62710/tbah3b43",
+  "generated_on": "2026-11-28",
+  "abstract_scope": "crossref_abstract_only",
+  "languages": {
+    "sk": {
+      "title": "Vzťah medzi zodpovedným vedením, finančnou gramotnosťou a udržateľným správaním študentov",
+      "description": "Tento výskum analyzuje vplyv zodpovedného vedenia a finančnej gramotnosti na udržateľné finančné správanie študentov aktivistov v Indonézii.",
+      "lead": "Tento výskum sa zameriava na analýzu faktorov ovplyvňujúcich udržateľné finančné správanie vysokoškolských študentov. Podľa abstraktu štúdia skúma vzťahy medzi zodpovedným vedením, finančnou gramotnosťou a finančnou sebaefektívnosťou. Poznatky poukazujú na dôležitosť správneho rozhodovania mládeže v rozvíjajúcich sa krajinách.",
+      "sections": [
+        {
+          "heading": "Úvod",
+          "paragraphs": [
+            "Správa osobných financií predstavuje kľúčovú výzvu pre mladú generáciu, najmä pre študentov zapojených do aktivistických organizácií. Podľa abstraktu sa vysoká úroveň teoretických vedomostí často nepremieňa na racionálne, dlhodobo orientované rozhodnutia. Tento nesúlad vyžaduje podrobnejšie preskúmanie faktorov, ktoré formujú udržateľné finančné správanie v špecifických demografických skupinách.",
+            "Autori Aisyah Sulistiyani a Arum Pujiastuti zamerali svoju pozornosť na študentov v Indonézii. Podľa abstraktu sa štúdia snaží pochopiť, ako rôzne formy vedenia a individuálne schopnosti ovplyvňujú finančné návyky. Výskum reaguje na potrebu podpory cieľov udržateľného rozvoja prostredníctvom zodpovedného prístupu k hospodáreniu s finančnými prostriedkami.",
+            "Publikovaná práca prináša kvantitatívny pohľad na problematiku, ktorá má význam pre akademickú obec aj tvorcov politík. Podľa dostupných informácií z abstraktového textu ide o snahu prepojiť organizačné správanie s osobnými financiami. Získané poznatky majú pomôcť pri vytváraní účinnejších vzdelávacích programov zameraných na mládež."
+          ]
+        },
+        {
+          "heading": "Čo skúmala štúdia",
+          "paragraphs": [
+            "Predmetom skúmania bol vplyv zodpovedného vedenia a finančnej gramotnosti na udržateľné finančné správanie študentov. Podľa abstraktu vedci testovali priame účinky týchto premenných a zároveň overovali mediačnú úlohu finančnej sebaefektívnosti. Cieľom bolo zistiť, do akej miery uvedené faktory prispievajú k zodpovednejšiemu nakladaniu s peniazmi v študentskom prostredí.",
+            "Štúdia sa detailne zamerala na špecifickú vzorku 226 študentov aktívnych v organizáciách zo šiestich univerzít vo Východnej Jáve. Podľa abstraktu boli dáta zbierané pomocou dotazníkov s Likertovou škálou a objektívnych testov finančných vedomostí. Tento prístup umožnil autorom získať kvantitatívne podklady na analýzu zložitých vzťahov medzi skúmanými aspektmi.",
+            "Výskumný dizajn zahŕňal modelovanie štruktúrnych rovníc pomocou metódy Partial Least Squares, konkrétne prostredníctvom softvéru SmartPLS 4. Podľa abstraktu sa sledovali priame aj nepriame vplyvy prostredníctvom štatistických testov, pričom sa vyhodnocovali koeficienty beta a t-štatistiky. Tieto metódy poskytli rámec na posúdenie sily a významnosti predpokladaných hypotéz v modeli."
+          ]
+        },
+        {
+          "heading": "Hlavné zistenia a význam",
+          "paragraphs": [
+            "Výsledky výskumu podľa abstraktu preukázali, že zodpovedné vedenie, finančná gramotnosť a finančná sebaefektívnosť majú pozitívny a štatisticky významný vplyv na udržateľné finančné správanie. Autori uvádzajú konkrétne hodnoty pre priame účinky, kde napríklad finančná gramotnosť vykazuje silný vzťah k výslednému správaniu. Tieto zistení poukazujú na komplexnú povahu finančného rozhodovania.",
+            "Okrem priamych vplyvov štúdia podľa abstraktu potvrdila aj existenciu čiastočnej mediácie prostredníctvom finančnej sebaefektívnosti. Zodpovedné vedenie a finančná gramotnosť takisto preukázali pozitívny vplyv na samotnú sebaefektívnosť. Celkový koeficient determinácie R² dosiahol hodnotu šesťdesiat percent a päť stotín, čo naznačuje značnú vysvetľovaciu schopnosť modelu.",
+            "Uvedené závery podľa abstraktu naznačujú, že prepojenie organizačného vedenia a finančných znalostí vytvára silný základ pre praktické programy. Autori zdôrazňujú, že zistenia podporujú dosahovanie cieľov udržateľného rozvoja, konkrétne v oblasti zodpovednej spotreby a výroby. Interpretácia však vychádza výhradne z dostupného textu abstraktu."
+          ]
+        },
+        {
+          "heading": "Metodika a limity",
+          "paragraphs": [
+            "Metodologický prístup stál na kvantitatívnej eksplanatórnej štúdii s využitím primárnych dát z dotazníkov a testov. Podľa abstraktu bol výber respondentov realizovaný prostredníctvom účelového vzorkovania, čo obmedzuje generalizáciu na celú populáciu študentov. Analýza dát prebehla prostredníctvom pokročilého modelovania štruktúrnych rovníc v programe SmartPLS 4.",
+            "Hlavným limitom dostupných informácií je absencia plného textu štúdie, čo neumožňuje overiť podrobnosti o konštrukcii dotazníkov a priebehu zberu dát. Podľa abstraktu sa výskum obmedzuje na špecifickú skupinu aktivistických študentov v jednom regióne Indonézie. Kauzálne závery preto nemožno bezvýhradne generalizovať na iné kultúrne alebo ekonomické prostredie.",
+            "Pozorované vzťahy v štúdii predstavujú štatistické asociácie a korelácie, ktoré samy o sebe nepreukazujú jednostrannú kauzalitu. Podľa abstraktu síce model vykazuje vysoký koeficient determinácie, no existujú aj ďalšie nepreskúmané premenné, ktoré mohli ovplyvniť výsledky. Čitateľ musí brať do úvahy tieto metodické ohraničenia pri posudzovaní záverov."
+          ]
+        },
+        {
+          "heading": "Čo si z výskumu môže odniesť podnikateľ",
+          "paragraphs": [
+            "Podnikatelia a manažéri môžu zistenia interpretovať s veľkou opatrnosťou, pretože štúdia sa nezameriava na komerčné prostredie, ale na študentov. Podľa abstraktu však práca ukazuje, že vzdelávanie a podpora sebaistoty zvyšujú zodpovedné správanie. Pre firmy to môže znamenať dôležitosť podpory finančnej gramotnosti v rámci firemných vzdelávacích aktivít.",
+            "Napríklad v prostredí firemných inkubátorov alebo školiacich programov pre mladých zamestnancov môže manažment otestovať, či zavedenie mentoringu zameraného na zodpovedné riadenie ovplyvniť ich rozhodovanie. Je potrebné merať zmeny v chápaní financií a sledovať úroveň sebaistoty účastníkov. Tento postup sa však výrazne líši od podmienok na univerzite a vyžaduje vlastné overenie v praxi.",
+            "Aplikovateľnosť poznatkov v bežnej firemnej praxi je obmedzená odlišnou povahou motivácie študentov a zamestnancov. Podľa dostupných údajov ide o akademický výskum, ktorý neposkytuje priamy návod na riadenie podniku. Manažéri by mali brať do úvahy špecifický kontext vzorky a vyhnúť sa unáhleným záverom pre komerčné stratégie."
+          ]
+        },
+        {
+          "heading": "Záver",
+          "paragraphs": [
+            "Predložená štúdia poskytuje zaujímavý pohľad na väzby medzi vedením, gramotnosťou a finančným správaním mladých ľudí. Podľa abstraktu sa autorom podarilo preukázať významné priame aj nepriame vplyvy v skúmanej vzorke. Tieto výsledky obohacujú súčasné poznatky o finančnom rozhodovaní v rozvíjajúcich sa krajinách.",
+            "Napriek zaujímavým štatistickým výsledkom je nutné vnímať prácu v kontexte jej metodických obmedzení a chýbajúceho plného textu. Podľa abstraktu sú závery platné primárne pre špecifickú skupinu indonézskych študentov. Ďalší výskum by mal overiť tieto zmluvné vzťahy aj v iných populáciách a odlišných prostrediach.",
+            "Celkovo štúdia poukazuje na potrebu rozvíjať nielen teoretické vedomosti, ale aj sebaistotu a zodpovedné vedenie. Podľa abstraktu to prispieva k udržateľnému rozvoju a lepšiemu plánovaniu budúcnosti. Pre odbornú verejnosť ide o podnetný materiál na premýšľanie o vzdelávacích programoch."
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "The Relationship Between Responsible Leadership, Financial Literacy, and Sustainable Financial Behavior Among Student Activists",
+      "description": "This study analyzes the impact of responsible leadership and financial literacy on sustainable financial behavior among student activists in Indonesia.",
+      "lead": "This research focuses on analyzing the factors influencing sustainable financial behavior among university students. According to the abstract, the study examines the relationships between responsible leadership, financial literacy, and financial self-efficacy. The findings highlight the importance of proper decision-making among youth in developing economies.",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Personal financial management represents a critical challenge for the younger generation, especially students involved in activist organizations. According to the abstract, high levels of theoretical understanding often fail to translate into rational, long-term oriented decisions. This discrepancy requires a more detailed examination of the factors shaping sustainable financial behavior within specific demographic groups.",
+            "Authors Aisyah Sulistiyani and Arum Pujiastuti directed their attention toward students in Indonesia. According to the abstract, the study seeks to understand how various forms of leadership and individual capabilities influence financial habits. The research responds to the need for supporting sustainable development goals through responsible approaches to fund management.",
+            "The published work offers a quantitative perspective on an issue relevant to both academia and policymakers. According to available abstract information, this represents an effort to connect organizational behavior with personal finances. The obtained insights aim to assist in designing more effective educational programs targeted at youth."
+          ]
+        },
+        {
+          "heading": "What the study examined",
+          "paragraphs": [
+            "The subject of investigation was the impact of responsible leadership and financial literacy on sustainable financial behavior among students. According to the abstract, the researchers tested the direct effects of these variables while also verifying the mediating role of financial self-efficacy. The objective was to determine the extent to which these factors contribute to more responsible money management in a student environment.",
+            "The study focused in detail on a specific sample of 226 active organization students from six universities in East Java. According to the abstract, data were gathered using Likert-scale questionnaires and objective financial knowledge tests. This approach allowed the authors to obtain quantitative foundations for analyzing complex relationships among the investigated aspects.",
+            "The research design involved structural equation modeling utilizing the Partial Least Squares method, specifically via SmartPLS 4 software. According to the abstract, direct and indirect effects were tracked through statistical tests, evaluating beta coefficients and t-statistics. These methods provided a framework to assess the strength and significance of hypothesized relationships within the model."
+          ]
+        },
+        {
+          "heading": "Findings and interpretation",
+          "paragraphs": [
+            "The research results according to the abstract demonstrated that responsible leadership, financial literacy, and financial self-efficacy exert positive and statistically significant effects on sustainable financial behavior. The authors report specific values for direct effects, where financial literacy, for example, displays a strong relationship with the resulting behavior. These findings indicate the complex nature of financial decision-making.",
+            "Beyond direct impacts, the study according to the abstract also confirmed the presence of partial mediation through financial self-efficacy. Responsible leadership and financial literacy likewise showed positive effects on self-efficacy itself. The overall coefficient of determination reached sixty point five percent, suggesting a substantial explanatory capacity of the model.",
+            "The stated conclusions according to the abstract imply that combining organizational leadership and financial knowledge forms a strong foundation for practical programs. The authors emphasize that the findings support the achievement of sustainable development goals, specifically regarding responsible consumption and production. However, interpretation stems exclusively from the available abstract text."
+          ]
+        },
+        {
+          "heading": "Methodology and limitations",
+          "paragraphs": [
+            "The methodological approach relied on a quantitative explanatory study utilizing primary data from questionnaires and tests. According to the abstract, respondent selection was carried out through purposive sampling, which limits generalizability to the broader student population. Data analysis was conducted using advanced structural equation modeling in the SmartPLS 4 program.",
+            "A major limitation of the available information is the absence of the full-text study, preventing verification of questionnaire construction details and data collection procedures. According to the abstract, the research is restricted to a specific group of activist students in a single region of Indonesia. Consequently, causal conclusions cannot be unconditionally generalized to other cultural or economic settings.",
+            "The observed relationships in the study represent statistical associations and correlations that do not inherently prove unidirectional causality. According to the abstract, while the model exhibits a high coefficient of determination, other unexplored variables could have influenced the results. The reader must take these methodological boundaries into account when assessing the conclusions."
+          ]
+        },
+        {
+          "heading": "Business relevance and limitations",
+          "paragraphs": [
+            "Entrepreneurs and managers can interpret the findings with great caution, as the study focuses on students rather than a commercial environment. According to the abstract, however, the work shows that education and self-confidence support responsible behavior. For firms, this may highlight the importance of supporting financial literacy within corporate training activities.",
+            "For example, in corporate incubator settings or training programs for young employees, management could test whether introducing mentoring focused on responsible leadership influences employee decision-making. It is necessary to measure changes in financial understanding and monitor participants' self-confidence levels. This procedure differs significantly from university conditions and requires independent validation in practice.",
+            "The applicability of insights to ordinary business practice is limited by the differing nature of student versus employee motivation. According to available data, this is academic research that does not provide a direct managerial playbook for running a business. Managers should consider the specific sample context and avoid hasty conclusions for commercial strategies."
+          ]
+        },
+        {
+          "heading": "Conclusion",
+          "paragraphs": [
+            "The presented study provides an interesting perspective on the links between leadership, literacy, and financial behavior among young people. According to the abstract, the authors successfully demonstrated significant direct and indirect effects within the studied sample. These results enrich current knowledge regarding financial decision-making in developing nations.",
+            "Despite interesting statistical results, viewing the work within the context of its methodological limitations and missing full text is essential. According to the abstract, conclusions apply primarily to a specific group of Indonesian students. Further research should verify these relationships across other populations and distinct environments.",
+            "Overall, the study highlights the need to develop not only theoretical knowledge but also self-confidence and responsible leadership. According to the abstract, this contributes to sustainable development and better future planning. For the professional community, this serves as stimulating material for reflecting on educational programs."
+          ]
+        }
+      ]
+    }
+  }
+}

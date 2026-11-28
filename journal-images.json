@@ -4080,6 +4080,70 @@
         "1280": "f79b66e0ae654104043e2aa6fd1795ccadba27e1aa0dc54c49376c7e59eabda8",
         "social": "8f2fdebe3779652809fb826eea098fe8f68c0642e6f26768204f8e8a951f15f6"
       }
+    },
+    {
+      "id": "commons-6a04a36068588d",
+      "provider": "Wikimedia Commons",
+      "provider_id": "97567589",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ventas_por_Zonas_de_Ventas_de_la_Soluci%C3%B3n_Past2Future_Business_Intelligence.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/Ventas_por_Zonas_de_Ventas_de_la_Soluci%C3%B3n_Past2Future_Business_Intelligence.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Usrdewiki",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-28",
+      "original_sha256": "02708331ca33bb6123563de5967ccaf82b6c51d228bd5081d9d586c625c27416",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Analytická práca s dátami na počítači",
+        "en": "Data analysis on a computer"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-6a04a36068588d-640.webp",
+        "1280": "/assets/journal/commons-6a04a36068588d-1280.webp",
+        "social": "/assets/journal/commons-6a04a36068588d-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "ab50936c414496b8dcf2683da6aa395d07b614c2285444cfd56dbf3e6bf91607",
+        "1280": "a48cb4f49ca7166fe976a16830f99fe4956dfe3187e6661b0defcdb3cda620f6",
+        "social": "6cef2eb6bedb51413ac9c71f2a1c1a744347862dc020e36a00bba2489881d126"
+      }
+    },
+    {
+      "id": "commons-62e4a5a16960e6",
+      "provider": "Wikimedia Commons",
+      "provider_id": "128096116",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Dendrogram-decorated.png",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/b/be/Dendrogram-decorated.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "creator": "Volkdentoklin",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "commercial_use_verified_at": "2026-11-28",
+      "original_sha256": "94ffa159d885514c9a75ee3caddfef7cb65f8ac6c14b844d7f0dab5e0655363d",
+      "topics": [
+        "data"
+      ],
+      "alt": {
+        "sk": "Analytická práca s dátami na počítači",
+        "en": "Data analysis on a computer"
+      },
+      "width": 1280,
+      "height": 720,
+      "files": {
+        "640": "/assets/journal/commons-62e4a5a16960e6-640.webp",
+        "1280": "/assets/journal/commons-62e4a5a16960e6-1280.webp",
+        "social": "/assets/journal/commons-62e4a5a16960e6-social.jpg"
+      },
+      "illustrative": true,
+      "optimized_sha256": {
+        "640": "d4115294bd4a7476bad55c02c387d0a07d16fbe8b2f204a596c870fbfd3a05d2",
+        "1280": "81addc1f1c6514799cd2ff10b01f2b07700c7f08473115d427d6784ad813c2c2",
+        "social": "6526f4e681f36b355260a71f4b2b063a63fe2ca8c180a4ac0f784a9470cd6837"
+      }
     }
   ],
   "assignments": {
@@ -4201,6 +4265,8 @@
     "blog-journal-pohoda-zamestnancov-a-udrzatelnost-komercnych-bank-v-nigerii.html": "commons-d5ee41b36426ea",
     "blog-journal-integracia-komoditnej-vedy-marketingu-a-predaja-v-riadeni-zivotneho-cyklu.html": "commons-e5d6291900a462",
     "blog-journal-e-commerce-participation-factor-allocation-efficiency-and-upward-class.html": "commons-b883dd1cc5a454",
-    "blog-journal-digitalny-obchod-ako-nastroj-ekonomickej-mobility-vidieckych-domacnosti.html": "commons-07f68d30f0137c"
+    "blog-journal-digitalny-obchod-ako-nastroj-ekonomickej-mobility-vidieckych-domacnosti.html": "commons-07f68d30f0137c",
+    "blog-journal-pengaruh-responsible-leadership-dan-financial-literacy-terhadap.html": "commons-6a04a36068588d",
+    "blog-journal-vztah-medzi-zodpovednym-vedenim-financnou-gramotnostou-a-udrzatelnym.html": "commons-62e4a5a16960e6"
   }
 }
